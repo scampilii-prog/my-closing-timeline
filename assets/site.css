@@ -148,3 +148,17 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 #transaction-details .mct-mini-pro a{color:#80551b}
 @media(max-width:850px){#transaction-details .mct-transaction-columns{grid-template-columns:1fr}#transaction-details .mct-transaction-offers{grid-template-columns:1fr 1fr;grid-template-rows:auto}}
 @media(max-width:560px){#transaction-details .mct-transaction-columns{padding:16px!important}#transaction-details .mct-transaction-main .transaction-fields{grid-template-columns:1fr}#transaction-details .mct-transaction-offers{grid-template-columns:1fr}}
+
+.mct-pro-page .mct-pro-hero-card{display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:4px solid #bc9858;background:#fffcf6}
+.mct-pro-kicker{font-weight:800;font-size:11px;letter-spacing:.13em;color:#947137}
+.mct-pro-hero-card h2{font-size:40px;color:#785526}
+.mct-pro-hero-card h2 small{font-size:15px;color:#6b7c87}
+.mct-pro-hero-card p{line-height:1.8}
+.mct-pro-icon{font-size:45px;color:#a88041}
+.mct-pro-warning{background:#fff2da;border-left:4px solid #b48e54;padding:12px;border-radius:6px}
+.mct-pro-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:19px}
+.mct-pro-outline{background:white!important;color:#24445b!important;border:1px solid #aebec9!important}
+.mct-pro-payment{background:#f4f8fa}
+.mct-payment-placeholder{display:flex;align-items:center;gap:14px;background:white;padding:18px;border:1px dashed #aebec9;border-radius:10px}
+.mct-payment-placeholder>span{font-size:25px}
+@media(max-width:680px){.mct-pro-page .mct-pro-hero-card{grid-template-columns:1fr}.mct-pro-icon{display:none}.mct-pro-hero-card h2{font-size:32px}}
