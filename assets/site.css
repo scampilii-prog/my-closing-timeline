@@ -15,3 +15,17 @@ footer a:hover{color:#e4cd91}.credit{font-weight:700;color:#e2c889}
 header{position:sticky;top:0;z-index:50;box-shadow:0 2px 9px #0d253b1a}
 html{scroll-padding-top:90px}
 @media(max-width:640px){.mct-resource-grid{grid-template-columns:1fr}.mct-resource-card{padding:16px}}
+
+/* Statewide association finder */
+.mct-board-directory{border-top:3px solid #b9975d}
+.mct-board-directory>.eyebrow{font-size:10px;letter-spacing:.15em;color:#9d773b;font-weight:800}
+.mct-board-directory p{font-size:13px;color:#4d6579}
+.mct-board-label{display:block;font-size:12px;color:#23485e;font-weight:800;margin:17px 0 7px}
+#board-search{width:100%;border:1px solid #a8c0cf;border-radius:9px;background:#fff;padding:13px 14px;font:500 14px Manrope,Arial,sans-serif;color:#18394d}
+#board-search:focus{outline:2px solid #c6a16c;outline-offset:2px}
+.mct-board-list{list-style:none;padding:0;margin:15px 0 20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.mct-board-list li{font-size:12px;line-height:1.55;padding:10px 13px;background:#f4f8fa;border-left:3px solid #c6a16c;border-radius:7px;color:#29485a}
+.mct-board-list li[hidden]{display:none}
+header .inner nav{align-items:center;row-gap:5px}
+header .inner nav a{white-space:nowrap}
+@media(max-width:680px){.mct-board-list{grid-template-columns:1fr}header .inner nav{gap:9px}}
