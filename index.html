@@ -123,7 +123,7 @@ function parseDate(value){const v=String(value||'').trim();if(/^\d{4}-\d{2}-\d{2
 function sortAll(){
  const normal=$('timeline-reminder-rows'),personal=$('mct-extra-reminder-rows');
  if(!normal||!personal)return;
- const all=[...normal.querySelectorAll('tr'),...personal.querySelectorAll('tr')];
+ const all=[...normal.querySelectorAll('tr:not([data-personal-id])'),...personal.querySelectorAll('tr')];
  all.sort((a,b)=>parseDate(a.cells[2]?.textContent).localeCompare(parseDate(b.cells[2]?.textContent)));
  const frag=document.createDocumentFragment();for(const tr of all)frag.appendChild(tr);
  normal.replaceChildren(frag);personal.replaceChildren();
