@@ -118,3 +118,14 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 .mct-inline-offer span+span{background:#fff8e9;border-left-color:#c69a50;color:#765420}
 .mct-inline-offer b{font-weight:800}
 @media(max-width:680px){.mct-inline-offer{grid-template-columns:1fr}}
+
+/* Make transaction details the focal point of the free planner. */
+#transaction-details.transaction-card{border:1px solid #d5e1e8!important;border-top:5px solid #bf9655!important;border-radius:14px!important;background:#fff!important;box-shadow:0 9px 28px rgba(22,47,67,.10)!important;overflow:hidden!important}
+#transaction-details>h2{margin:-1px -1px 0!important;padding:18px 23px!important;background:linear-gradient(110deg,#17374d,#24536a)!important;color:#fff!important;font-size:22px!important;line-height:1.35!important;letter-spacing:-.025em!important}
+#transaction-details>h2 .mct-step-marker{color:#f3d49b!important;font-size:11px!important;letter-spacing:.11em!important}
+#transaction-details>p{margin:16px 22px 16px!important;color:#526f82!important}
+#transaction-details .mct-inline-offer{margin:18px 21px 0!important}
+#transaction-details .transaction-fields{padding:0 21px 23px!important}
+#transaction-details .transaction-fields label{font-weight:700!important;color:#26465b!important}
+#transaction-details .transaction-fields input:focus,#transaction-details .transaction-fields select:focus{outline:2px solid #c3a06b!important;outline-offset:2px!important}
+@media(max-width:640px){#transaction-details>h2{padding:15px 17px!important;font-size:19px!important}#transaction-details>p{margin:13px 16px!important}#transaction-details .transaction-fields{padding:0 16px 19px!important}#transaction-details .mct-inline-offer{margin:14px 16px 0!important}}
