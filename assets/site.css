@@ -29,3 +29,17 @@ html{scroll-padding-top:90px}
 header .inner nav{align-items:center;row-gap:5px}
 header .inner nav a{white-space:nowrap}
 @media(max-width:680px){.mct-board-list{grid-template-columns:1fr}header .inner nav{gap:9px}}
+
+/* Expandable statewide association cards */
+.mct-board-list li{padding:0!important;overflow:hidden}
+.mct-board-detail summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:700;color:#244a61;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mct-board-detail summary::-webkit-details-marker{display:none}
+.mct-board-detail summary:hover,.mct-board-detail[open] summary{background:#e7f0f5}
+.mct-board-detail summary:focus-visible{outline:2px solid #9a7438;outline-offset:-3px}
+.mct-board-chevron{font-size:20px;color:#a18043;transition:transform .2s}
+.mct-board-detail[open] .mct-board-chevron{transform:rotate(180deg)}
+.mct-board-info{padding:2px 14px 15px;background:#fff;border-top:1px solid #e2ebf0}
+.mct-board-info p{font-size:12px!important;line-height:1.65;margin:11px 0!important}
+.mct-board-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mct-board-actions a{padding:8px 11px;border:1px solid #c4a16d;border-radius:7px;background:#fff8eb;text-decoration:none;font-size:11px;font-weight:800;color:#725226}
+.mct-board-actions a:hover{background:#f0dfbd}
