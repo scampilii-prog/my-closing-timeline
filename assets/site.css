@@ -110,3 +110,11 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 
 /* Build Timeline starts at pricing choices, without hiding them behind sticky header */
 #timeline{scroll-margin-top:95px}
+
+/* Compact pricing reminder at the editable form without distracting from work */
+#transaction-details{scroll-margin-top:91px}
+.mct-inline-offer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 20px}
+.mct-inline-offer span{border-radius:8px;padding:11px 14px;background:#f1f8fb;border-left:4px solid #568da7;color:#25465c;font-size:12px;line-height:1.55}
+.mct-inline-offer span+span{background:#fff8e9;border-left-color:#c69a50;color:#765420}
+.mct-inline-offer b{font-weight:800}
+@media(max-width:680px){.mct-inline-offer{grid-template-columns:1fr}}
