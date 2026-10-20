@@ -77,3 +77,12 @@ header .inner nav a{white-space:nowrap}
 nav .nav-build{border:1px solid rgba(229,199,144,.65);padding:6px 10px;border-radius:7px;color:#ffdf9a!important}
 nav .nav-current{color:#e9ce8e!important;text-decoration:underline;text-underline-offset:6px}
 @media(max-width:640px){.mct-guide-stage-body{padding:15px}.mct-guide-num{width:36px;height:36px}.mct-guide-stage>summary{gap:10px;padding:12px}}
+
+/* Uniform navigation on all secondary pages. Prevent header/menu overlap. */
+header .inner{max-width:1140px;margin:auto;padding:16px 20px;display:flex;align-items:center;gap:22px;justify-content:space-between;flex-wrap:nowrap}
+header .inner nav{display:flex;gap:clamp(7px,1vw,14px);align-items:center;justify-content:flex-end;flex-wrap:wrap;min-width:0}
+header .inner nav a{display:inline-flex;align-items:center;padding:7px 1px;font-size:11px;line-height:1.45;white-space:nowrap;border:0;background:none;border-radius:0;text-decoration:none;color:#fff}
+header .inner nav a[aria-current=page]{color:#f0d390;text-decoration:underline;text-underline-offset:6px}
+header .inner nav a:hover{color:#f4d99e}
+header .inner .brand{flex:0 0 auto;font-size:19px}
+@media(max-width:980px){header .inner{flex-wrap:wrap;justify-content:center;gap:7px}header .inner nav{justify-content:center;gap:8px 13px}header .inner nav a{font-size:11px}}
