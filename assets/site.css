@@ -129,3 +129,22 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 #transaction-details .transaction-fields label{font-weight:700!important;color:#26465b!important}
 #transaction-details .transaction-fields input:focus,#transaction-details .transaction-fields select:focus{outline:2px solid #c3a06b!important;outline-offset:2px!important}
 @media(max-width:640px){#transaction-details>h2{padding:15px 17px!important;font-size:19px!important}#transaction-details>p{margin:13px 16px!important}#transaction-details .transaction-fields{padding:0 16px 19px!important}#transaction-details .mct-inline-offer{margin:14px 16px 0!important}}
+
+/* Transaction details: workable form and compact commercial sidebar */
+#transaction-details .mct-transaction-columns{display:grid;grid-template-columns:minmax(0,7fr) minmax(220px,3fr);gap:20px;padding:20px 22px 23px;align-items:stretch}
+#transaction-details .mct-transaction-main{min-width:0}
+#transaction-details .mct-transaction-main>p{color:#5b7180;font-size:13px;margin:0 0 17px}
+#transaction-details .mct-transaction-main .transaction-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:0!important}
+#transaction-details .mct-transaction-main .transaction-fields label{min-width:0;font-size:12px}
+#transaction-details .mct-transaction-main .transaction-fields input,#transaction-details .mct-transaction-main .transaction-fields select{width:100%;box-sizing:border-box}
+#transaction-details .mct-transaction-offers{display:grid;grid-template-rows:1fr 1fr;gap:12px}
+#transaction-details .mct-transaction-offers>div{padding:15px 16px;border-radius:10px;border:1px solid #d4e5ec;background:#f3f9fb;border-left:4px solid #5c93ad;display:flex;flex-direction:column;align-items:flex-start}
+#transaction-details .mct-transaction-offers>.mct-mini-pro{background:#fff9ef;border-color:#e8d7ba;border-left-color:#bc9758}
+#transaction-details .mct-transaction-offers strong{font-size:15px;color:#21465d}
+#transaction-details .mct-mini-pro strong{color:#815b22}
+#transaction-details .mct-transaction-offers em{font-size:11px;color:#946f35;font-style:normal;font-weight:700}
+#transaction-details .mct-transaction-offers p{font-size:12px;line-height:1.55;color:#587082;margin:8px 0 11px}
+#transaction-details .mct-transaction-offers a{margin-top:auto;font-size:11px;font-weight:800;color:#1f566f;text-underline-offset:3px}
+#transaction-details .mct-mini-pro a{color:#80551b}
+@media(max-width:850px){#transaction-details .mct-transaction-columns{grid-template-columns:1fr}#transaction-details .mct-transaction-offers{grid-template-columns:1fr 1fr;grid-template-rows:auto}}
+@media(max-width:560px){#transaction-details .mct-transaction-columns{padding:16px!important}#transaction-details .mct-transaction-main .transaction-fields{grid-template-columns:1fr}#transaction-details .mct-transaction-offers{grid-template-columns:1fr}}
