@@ -269,3 +269,13 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 
 /* Consistent sizing for all three task action buttons */
 #contract-deadline-planner .mct-add-task-area > button{box-sizing:border-box!important;min-height:40px!important;padding:10px 16px!important;font-family:Manrope,Arial,sans-serif!important;font-size:12px!important;font-weight:750!important;line-height:18px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important}
+
+/* Unified guided builder card, matching the existing Live Preview panel */
+#contract-deadline-planner .fc-simple-form{background:#fffdfa!important;border:1px solid #d4bc8b!important;border-radius:14px!important;overflow:hidden!important;box-shadow:0 2px 8px rgba(28,57,76,.05)!important;padding:0 18px 20px!important;min-width:0!important}
+#contract-deadline-planner .mct-build-header{background:#173b52;color:#fff;margin:0 -18px 18px;padding:19px 22px 21px;text-align:left}
+#contract-deadline-planner .mct-build-kicker{font:800 11px/1.4 Manrope,Arial,sans-serif;color:#e3c587;letter-spacing:.11em;margin-bottom:7px}
+#contract-deadline-planner .mct-build-header h3{font:800 clamp(19px,2vw,25px)/1.3 Manrope,Arial,sans-serif!important;color:#fff!important;margin:0 0 8px!important;letter-spacing:-.02em}
+#contract-deadline-planner .mct-build-header p{font:500 12px/1.7 Manrope,Arial,sans-serif;color:#e5edf2;margin:0;max-width:480px}
+#contract-deadline-planner .mct-unified-transaction-fields{margin-top:0!important}
+#contract-deadline-planner .fc-simple-form .fc-date-start{margin-top:16px!important}
+@media(max-width:700px){#contract-deadline-planner .fc-simple-form{padding:0 12px 17px!important}#contract-deadline-planner .mct-build-header{margin:0 -12px 15px;padding:17px}}
