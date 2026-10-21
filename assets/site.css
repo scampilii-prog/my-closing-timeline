@@ -247,3 +247,12 @@ html body .mct-unified-header .mct-header-inner{width:calc(100% - 40px)!importan
  html body main.wrap{width:calc(100% - 32px)!important;max-width:1480px!important;padding:32px clamp(18px,2.2vw,32px) 65px!important}
  html body .mct-unified-header .mct-header-inner{width:calc(100% - 32px)!important;max-width:1480px!important}
 }
+
+/* Clear, accessible desktop header */
+@media(min-width:901px){
+ html body .mct-unified-header .mct-header-inner{min-height:88px!important;padding:19px 26px!important;gap:24px!important}
+ html body .mct-unified-header .mct-brand{font-size:28px!important;letter-spacing:-.03em!important}
+ html body .mct-unified-header nav a{font-size:14px!important;line-height:1.5!important}
+ html body .mct-unified-header nav{gap:clamp(13px,1.4vw,22px)!important}
+ html body .mct-unified-header #mct-language{font-size:14px!important}
+}
