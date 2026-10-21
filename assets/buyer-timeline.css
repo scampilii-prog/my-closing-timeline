@@ -260,3 +260,9 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 #contract-deadline-planner #mct-contract-price{background:#fffaf0!important;border:1px solid #d8ba80!important;color:#664a24!important;font-weight:700!important}
 @media(max-width:1100px){#contract-deadline-planner .fc-editor-toolbar{flex-wrap:wrap!important}#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates{width:100%!important;flex-basis:100%!important}}
 @media(max-width:500px){#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates{grid-template-columns:1fr 1fr!important}#contract-deadline-planner .fc-editor-toolbar .mct-contract-price-label{grid-column:1/-1}}
+
+/* Emphasize the important date instructions without visual clutter */
+#contract-deadline-planner .fc-date-start{background:linear-gradient(105deg,#fff0cc 0%,#fff7e5 100%)!important;border:2px solid #bd913c!important;border-left:7px solid #a97924!important;border-radius:10px!important;box-shadow:0 4px 15px rgba(123,82,21,.16)!important;color:#3b331e!important;font-weight:750!important;font-size:13px!important;line-height:1.7!important;padding:15px 18px!important;margin-bottom:17px!important}
+#contract-deadline-planner .mct-add-task-area{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;flex-wrap:wrap!important}
+#contract-deadline-planner .mct-add-task-area #deadline-reset{background:#fff4f1!important;color:#9b3947!important;border:1px solid #c98b92!important;font-weight:750!important}
+#contract-deadline-planner .mct-add-task-area #deadline-reset:hover{background:#fbe0df!important}
