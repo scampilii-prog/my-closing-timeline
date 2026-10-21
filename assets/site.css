@@ -308,25 +308,17 @@ html body main.wrap{font-size:17px!important}
 html body main.wrap p,html body main.wrap li,html body main.wrap td,html body main.wrap label{font-size:16px;line-height:1.7}
 html body main.wrap button,html body main.wrap input,html body main.wrap select{font-size:15px}
 
-/* 2026-10-21: Unified secondary-page layout. Approved Home is reference. */
-@media (min-width:701px) {
- html body > header.mct-unified-header > .mct-header-inner,
- html body > section.hero,
- html body > main.wrap {
-   box-sizing:border-box!important;
-   width:min(944px,calc(100vw - 36px))!important;
-   min-width:0!important;
-   max-width:944px!important;
-   margin-left:auto!important;
-   margin-right:auto!important;
-   transform:none!important;
-   zoom:1!important;
- }
- html body > header.mct-unified-header > .mct-header-inner {
-   min-height:70px!important;padding:12px 0!important;justify-content:space-between!important;
-   flex-wrap:nowrap!important;
- }
- html body > section.hero {min-height:220px!important;padding:54px 28px!important}
- html body > main.wrap {padding:22px 18px 65px!important}
-}
-html body > header.mct-unified-header{position:sticky!important;top:0!important;z-index:9999!important}
+/* Inner pages only: Home is intentionally untouched.
+   One desktop frame shared by header, hero and content. */
+:root{--mct-inner-frame:1440px}
+html body:has(> main.wrap) > header.mct-unified-header{position:sticky!important;top:0!important;z-index:9999!important;background:#10283e!important}
+html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:var(--mct-inner-frame)!important;min-height:108px!important;padding:18px 0!important;margin-inline:auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;flex-wrap:nowrap!important}
+html body:has(> main.wrap) > header.mct-unified-header .mct-brand{font-size:clamp(23px,1.9vw,29px)!important;white-space:nowrap!important;flex-shrink:0!important;margin:0!important}
+html body:has(> main.wrap) > header.mct-unified-header nav{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:clamp(9px,.85vw,16px)!important;flex-wrap:nowrap!important;margin:0 0 0 auto!important}
+html body:has(> main.wrap) > header.mct-unified-header nav a{font-size:clamp(12px,1vw,15px)!important;white-space:nowrap!important}
+html body:has(> main.wrap) > header.mct-unified-header .mct-header-tools{flex-shrink:0!important}
+html body:has(> main.wrap) > section.hero,html body:has(> main.wrap) > main.wrap{box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:var(--mct-inner-frame)!important;margin-left:auto!important;margin-right:auto!important;transform:none!important}
+html body:has(> main.wrap) > section.hero{min-height:265px!important;padding:60px clamp(24px,3vw,48px)!important;text-align:left!important}
+html body:has(> main.wrap) > main.wrap{padding:35px clamp(16px,2vw,32px) 65px!important}
+@media(max-width:1100px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{flex-wrap:wrap!important;justify-content:center!important;gap:12px!important}html body:has(> main.wrap) > header.mct-unified-header nav{margin:0!important;flex-wrap:wrap!important;justify-content:center!important}}
+@media(max-width:700px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner,html body:has(> main.wrap) > section.hero,html body:has(> main.wrap) > main.wrap{width:calc(100% - 24px)!important}html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{min-height:78px!important;padding:12px 0!important}html body:has(> main.wrap) > section.hero{min-height:0!important;padding:32px 18px!important}html body:has(> main.wrap) > main.wrap{padding:22px 12px 45px!important}}
