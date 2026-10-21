@@ -709,3 +709,6 @@ html body.mct-subpage > header.mct-unified-header .mct-header-tools{
 }
 html body.mct-subpage > header.mct-unified-header nav{display:flex!important;justify-content:center!important;flex-wrap:wrap!important}
 }
+
+/* One Google font everywhere on interior pages. Typography family only. */
+html body.mct-subpage,html body.mct-subpage *,html body.mct-subpage *::before,html body.mct-subpage *::after{font-family:Roboto,Arial,sans-serif!important}
