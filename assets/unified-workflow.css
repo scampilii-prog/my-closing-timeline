@@ -61,3 +61,12 @@ footer .inner{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}footer
 .dashboard-note{font-size:13px!important;color:#5b7382;margin-top:15px}
 @media(max-width:700px){.dashboard-inputs{grid-template-columns:1fr}.daily-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media print{.mct-unified-header,.intro,.daily-add,.mct-back-top,footer{display:none!important}.workspace{margin:0!important;width:100%!important}.daily-table-scroll{overflow:visible}.daily-table{min-width:0;font-size:11px}.section{border:0!important}.home-like-panel{box-shadow:none!important}}
+
+/* Unified desktop layout proportions, aligned to the Home working panel. */
+@media(min-width:1001px){
+.mct-header-inner{width:min(1180px,calc(100% - 40px));max-width:1180px;min-height:94px;flex-wrap:nowrap}
+.mct-unified-header nav{flex-wrap:nowrap}
+.mct-photo-hero-content,.workspace{width:min(944px,calc(100% - 36px));max-width:944px}
+}
+.intro.mct-photo-hero{min-height:460px;background-position:center;background-size:cover}
+.home-like-panel{border:1px solid #d8b77e}
