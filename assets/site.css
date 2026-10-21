@@ -195,3 +195,9 @@ html{scroll-padding-top:0}
 .mct-featured-top{font:800 10px/1.2 Manrope,Arial,sans-serif;letter-spacing:.15em;background:#21435b;color:#fff;padding:5px 16px 4px;border-radius:7px 7px 0 0}
 .mct-featured-bottom{font:800 12px/1.2 Manrope,Arial,sans-serif;letter-spacing:.045em;background:#c7a16a;color:#19354a;padding:7px 18px;border-radius:6px}
 @media(max-width:600px){.mct-featured-ribbon{top:-13px;right:10px;transform:rotate(2deg)}.mct-featured-bottom{font-size:10px;padding:6px 12px}}
+
+/* Featured FREE badge: larger and visually distinct from PRO gold */
+.mct-featured-ribbon{top:-24px!important;right:17px!important;transform:rotate(4deg)!important;filter:drop-shadow(0 5px 5px rgba(15,45,58,.19))!important}
+.mct-featured-top{background:#145e68!important;color:#fff!important;font-size:13px!important;letter-spacing:.12em!important;padding:8px 24px 6px!important;border-radius:9px 9px 0 0!important}
+.mct-featured-bottom{background:#d8f1ee!important;color:#15525b!important;border:2px solid #419d9d!important;font-size:16px!important;letter-spacing:.035em!important;padding:10px 22px!important;border-radius:8px!important}
+@media(max-width:600px){.mct-featured-ribbon{top:-15px!important;right:8px!important;transform:rotate(2deg)!important}.mct-featured-top{font-size:10px!important;padding:6px 15px 5px!important}.mct-featured-bottom{font-size:12px!important;padding:7px 12px!important}}
