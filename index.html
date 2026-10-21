@@ -549,4 +549,42 @@ document.addEventListener('DOMContentLoaded',function(){
  for(const el of [checklist,personal,contract].filter(Boolean))new MutationObserver(schedule).observe(el,{childList:true,subtree:true,characterData:true});
  for(const id of ['deadline-effective','deadline-closing','mct-extra-add','mct-extra-sort'])document.getElementById(id)?.addEventListener('change',schedule);
  refresh();
-});})();</script><button type="button" id="mct-back-top" class="mct-back-top" hidden aria-label="Back to top"><span aria-hidden="true">↑</span> Back to Top</button><script src="assets/navigation-extras.js?v=20261020-i18n4" defer></script><script>document.getElementById("mct-contract-price")?.addEventListener("blur",function(){const v=Number(this.value.replace(/[^\d.]/g,""));if(this.value.trim()&&Number.isFinite(v))this.value=v.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2});});</script></body></html>
+});})();</script><button type="button" id="mct-back-top" class="mct-back-top" hidden aria-label="Back to top"><span aria-hidden="true">↑</span> Back to Top</button><script src="assets/navigation-extras.js?v=20261020-i18n4" defer></script><script>document.getElementById("mct-contract-price")?.addEventListener("blur",function(){const v=Number(this.value.replace(/[^\d.]/g,""));if(this.value.trim()&&Number.isFinite(v))this.value=v.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2});});</script><style id="mct-hero-matches-planner-width-20261021">
+/* Photo banner and white timeline panel are one aligned visual column. */
+html body .intro.mct-photo-hero{
+ box-sizing:border-box!important;
+ width:var(--mct-panel-width,calc(100% - 32px))!important;
+ max-width:100%!important;
+ margin-left:var(--mct-panel-left,auto)!important;
+ margin-right:0!important;
+ overflow:hidden!important;
+}
+html body .intro.mct-photo-hero>.mct-photo-hero-content{
+ box-sizing:border-box!important;
+ width:100%!important;max-width:100%!important;flex:1 1 auto!important;
+ margin:0!important;
+ padding:0 24px!important;
+ text-align:left!important;
+}
+@media(max-width:700px){
+ html body .intro.mct-photo-hero{margin-left:auto!important;margin-right:auto!important}
+ html body .intro.mct-photo-hero>.mct-photo-hero-content{padding:0 12px!important}
+}
+</style>
+<script id="mct-hero-matches-planner-width-20261021-sync">
+(function(){
+ const hero=document.querySelector('.intro.mct-photo-hero');
+ const panel=document.getElementById('contract-deadline-planner');
+ if(!hero||!panel)return;
+ function align(){
+  const r=panel.getBoundingClientRect();
+  if(!r.width)return;
+  hero.style.setProperty('--mct-panel-width',r.width+'px');
+  hero.style.setProperty('--mct-panel-left',Math.max(0,r.left)+'px');
+ }
+ align();
+ window.addEventListener('load',align);
+ window.addEventListener('resize',align,{passive:true});
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(align).observe(panel);
+})();
+</script></body></html>
