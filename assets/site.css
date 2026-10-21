@@ -307,3 +307,26 @@ html body main.wrap button,html body main.wrap select,html body main.wrap input{
 html body main.wrap{font-size:17px!important}
 html body main.wrap p,html body main.wrap li,html body main.wrap td,html body main.wrap label{font-size:16px;line-height:1.7}
 html body main.wrap button,html body main.wrap input,html body main.wrap select{font-size:15px}
+
+/* 2026-10-21: Unified secondary-page layout. Approved Home is reference. */
+@media (min-width:701px) {
+ html body > header.mct-unified-header > .mct-header-inner,
+ html body > section.hero,
+ html body > main.wrap {
+   box-sizing:border-box!important;
+   width:min(944px,calc(100vw - 36px))!important;
+   min-width:0!important;
+   max-width:944px!important;
+   margin-left:auto!important;
+   margin-right:auto!important;
+   transform:none!important;
+   zoom:1!important;
+ }
+ html body > header.mct-unified-header > .mct-header-inner {
+   min-height:70px!important;padding:12px 0!important;justify-content:space-between!important;
+   flex-wrap:nowrap!important;
+ }
+ html body > section.hero {min-height:220px!important;padding:54px 28px!important}
+ html body > main.wrap {padding:22px 18px 65px!important}
+}
+html body > header.mct-unified-header{position:sticky!important;top:0!important;z-index:9999!important}
