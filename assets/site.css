@@ -322,3 +322,32 @@ html body:has(> main.wrap) > section.hero{min-height:265px!important;padding:60p
 html body:has(> main.wrap) > main.wrap{padding:35px clamp(16px,2vw,32px) 65px!important}
 @media(max-width:1100px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{flex-wrap:wrap!important;justify-content:center!important;gap:12px!important}html body:has(> main.wrap) > header.mct-unified-header nav{margin:0!important;flex-wrap:wrap!important;justify-content:center!important}}
 @media(max-width:700px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner,html body:has(> main.wrap) > section.hero,html body:has(> main.wrap) > main.wrap{width:calc(100% - 24px)!important}html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{min-height:78px!important;padding:12px 0!important}html body:has(> main.wrap) > section.hero{min-height:0!important;padding:32px 18px!important}html body:has(> main.wrap) > main.wrap{padding:22px 12px 45px!important}}
+
+
+/* Consistent photo mastheads for interior pages only: never changes Home. */
+html body:has(> main.wrap) > section.hero.mct-inner-photo-hero{
+ width:100%!important;max-width:none!important;margin:0!important;
+ min-height:450px!important;box-sizing:border-box!important;
+ padding:65px max(28px,calc((100vw - 1380px)/2)) 125px!important;
+ display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;
+ background-color:#173649!important;
+ background-image:linear-gradient(90deg,rgba(13,35,53,.96) 0%,rgba(13,35,53,.86) 28%,rgba(13,35,53,.42) 62%,rgba(13,35,53,.10) 100%),var(--mct-inner-photo)!important;
+ background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;
+ color:#fff!important;text-align:left!important;border-top:0!important;
+}
+html body:has(> main.wrap) > section.hero.mct-inner-photo-hero .eyebrow{
+ font:800 12px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:.17em!important;color:#e7c58f!important;
+}
+html body:has(> main.wrap) > section.hero.mct-inner-photo-hero h1{
+ font-family:Georgia,serif!important;font-size:clamp(42px,4vw,66px)!important;line-height:1.12!important;font-weight:700!important;color:#fff!important;
+ margin:12px 0 15px!important;max-width:850px!important;
+}
+html body:has(> main.wrap) > section.hero.mct-inner-photo-hero p{
+ font:500 clamp(16px,1.35vw,20px)/1.6 Manrope,Arial,sans-serif!important;color:#f3f6f7!important;max-width:750px!important;margin:0!important;
+}
+@media(max-width:700px){
+ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero{
+ min-height:450px!important;padding:65px 22px 125px!important;background-position:60% center!important;
+ }
+ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero h1{font-size:clamp(36px,8vw,50px)!important}
+}
