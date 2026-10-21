@@ -14,3 +14,10 @@ html body > section.hero h1{font-family:Georgia,serif!important;font-size:clamp(
 html body > main.wrap{position:relative!important;z-index:2!important;margin-top:-38px!important;padding:16px 16px 60px!important}
 @media(max-width:1020px){html body > header.mct-unified-header > .mct-header-inner{grid-template-columns:minmax(0,1fr) auto!important;row-gap:11px!important}html body > header.mct-unified-header nav{grid-row:2!important;grid-column:1/-1!important;justify-content:center!important}html body > header.mct-unified-header .mct-header-tools{grid-column:2!important;grid-row:1!important}}
 @media(max-width:700px){html body > section.hero.mct-inner-photo-hero,html body > section.hero.mct-closing-photo-hero{min-height:430px!important;padding:44px 18px 98px!important}html body > main.wrap{margin-top:-25px!important;padding:12px 2px 50px!important}html body > header.mct-unified-header nav a{font-size:11px!important}}
+
+/* Image layers belong to this single stylesheet, not the conflicting legacy one. */
+html body > section.hero.mct-inner-photo-hero{
+ background-color:#153249!important;
+ background-image:linear-gradient(90deg,rgba(12,34,52,.95) 0%,rgba(12,34,52,.78) 36%,rgba(12,34,52,.18) 100%),var(--mct-inner-photo)!important;
+ background-repeat:no-repeat!important;
+}
