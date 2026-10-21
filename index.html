@@ -204,21 +204,28 @@ document.addEventListener('DOMContentLoaded',function(){
  function refresh(){
   const now=new Date();now.setHours(12,0,0,0);
   const today=dateKey(now),d=new Date(now);d.setDate(d.getDate()+1);const tomorrow=dateKey(d);
-  const dueToday=[],dueTomorrow=[],seen=new Set();
-  function add(name,date,button){if(!button||!name||!(date===today||date===tomorrow))return;const sig=name+'|'+date;if(seen.has(sig))return;seen.add(sig);(date===today?dueToday:dueTomorrow).push({name,button})}
-  for(const body of [personal,checklist].filter(Boolean)){
+  const dueToday=[],dueTomorrow=[];
+  function add(name,date,button){if(!button||!name||!(date===today||date===tomorrow))return;(date===today?dueToday:dueTomorrow).push({name,button})}
+  // Read actual rendered checklist rows, including administrative and custom reminders.
+  for(const body of [checklist,personal].filter(Boolean)){
    for(const row of body.querySelectorAll('tr')){
-    if(row.cells.length<8)continue;
-    const button=row.cells[7].querySelector('button');
+    const cells=row.querySelectorAll('td');
+    if(cells.length<8)continue;
+    const button=cells[7].querySelector('button');
     if(!button||button.getAttribute('aria-checked')==='true'||button.getAttribute('aria-pressed')==='true')continue;
-    add(row.cells[0].textContent.replace(/×/g,'').trim(),parse(row.cells[2].textContent),button);
+    const dateCell=cells[2];
+    const input=dateCell.querySelector('input[type="date"]');
+    const date=parse(input?.value||dateCell.querySelector('[data-reminder-date]')?.textContent||dateCell.textContent);
+    const name=cells[0].textContent.replace(/×/g,'').trim();
+    add(name,date,button);
    }
   }
+  // Read live contractual dates, but do not duplicate the same item from a checklist row.
   for(const li of contract.querySelectorAll('li.is-dated:not(.fc-key-date)')){
    const button=li.querySelector('[data-done-task]');if(!button||button.getAttribute('aria-checked')==='true')continue;
    const name=li.querySelector('.fc-simple-event')?.childNodes[0]?.textContent?.trim()||'Contract task';
    const date=parse(li.querySelector('strong')?.textContent||'');
-   add(name,date,button);
+   if(![...dueToday,...dueTomorrow].some(item=>item.name===name&&item.button===button))add(name,date,button);
   }
   function renderGroup(title,arr,kind){return '<div class="mct-due-section"><h4 class="mct-due-'+kind+'">'+title+' <span>'+arr.length+'</span></h4>'+(arr.length?arr.map((r,i)=>'<div class="mct-tomorrow-row"><strong>'+esc(r.name)+'</strong><button type="button" data-due="'+kind+'" data-index="'+i+'" title="Mark Done" aria-label="Mark '+esc(r.name)+' Done">□</button></div>').join(''):'<p class="mct-tomorrow-empty">No pending tasks.</p>')+'</div>'}
   host.innerHTML=renderGroup('Due Today',dueToday,'today')+renderGroup('Tomorrow',dueTomorrow,'tomorrow');
