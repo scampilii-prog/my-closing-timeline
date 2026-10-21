@@ -266,3 +266,6 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 #contract-deadline-planner .mct-add-task-area{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;flex-wrap:wrap!important}
 #contract-deadline-planner .mct-add-task-area #deadline-reset{background:#fff4f1!important;color:#9b3947!important;border:1px solid #c98b92!important;font-weight:750!important}
 #contract-deadline-planner .mct-add-task-area #deadline-reset:hover{background:#fbe0df!important}
+
+/* Consistent sizing for all three task action buttons */
+#contract-deadline-planner .mct-add-task-area > button{box-sizing:border-box!important;min-height:40px!important;padding:10px 16px!important;font-family:Manrope,Arial,sans-serif!important;font-size:12px!important;font-weight:750!important;line-height:18px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important}
