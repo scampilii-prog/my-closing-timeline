@@ -514,6 +514,24 @@ html body .intro.mct-photo-hero > .mct-photo-hero-content{
 /* Only enlarge brand and menu text; layout and hero unchanged. */
 @media(min-width:1151px){html body header.mct-unified-header .mct-brand{font-size:30px!important}html body header.mct-unified-header nav a{font-size:17px!important}}
 @media(min-width:701px) and (max-width:1150px){html body header.mct-unified-header .mct-brand{font-size:26px!important}html body header.mct-unified-header nav a{font-size:15px!important}}
+
+/* Readability only: larger planner text, preserving geometry and behavior. */
+@media(min-width:701px){
+html body #contract-deadline-planner{font-size:16px!important}
+html body #contract-deadline-planner p,
+html body #contract-deadline-planner label,
+html body #contract-deadline-planner li,
+html body #contract-deadline-planner td,
+html body #contract-deadline-planner th,
+html body #contract-deadline-planner input,
+html body #contract-deadline-planner select,
+html body #contract-deadline-planner button{font-size:clamp(13px,1vw,16px)!important}
+html body #contract-deadline-planner small,
+html body #contract-deadline-planner .muted{font-size:13px!important}
+html body #contract-deadline-planner h2{font-size:clamp(23px,2vw,29px)!important}
+html body #contract-deadline-planner h3{font-size:clamp(19px,1.55vw,24px)!important}
+html body header.mct-unified-header nav a{font-size:clamp(14px,1.05vw,17px)!important}
+}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
