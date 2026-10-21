@@ -167,3 +167,13 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 html{scroll-padding-top:0}
 #transaction-details{scroll-margin-top:64px!important}
 @media(max-width:1080px){#transaction-details{scroll-margin-top:105px!important}}
+
+/* One clearly identified starting point: no duplicate date forms. */
+.mct-timeline-anchor{height:0;scroll-margin-top:70px}
+.mct-unified-transaction-fields{background:#f7fafb;border:1px solid #d7e4eb;border-left:4px solid #c49a55;border-radius:10px;padding:14px;margin-bottom:16px}
+.mct-unified-fields-title{font-size:11px;font-weight:800;letter-spacing:.11em;color:#a47b3a;margin-bottom:11px}
+.mct-unified-fields-title span{font-size:15px;letter-spacing:0;color:#1c4157;margin-left:8px}
+.mct-unified-fields-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mct-unified-fields-grid label{display:block;color:#2d5064;font-size:11px;font-weight:700}
+.mct-unified-fields-grid input,.mct-unified-fields-grid select{display:block;box-sizing:border-box;width:100%;margin-top:5px;padding:8px 10px;min-height:36px;border:1px solid #c7d8e2;border-radius:6px;background:#fff;color:#24465c;font-family:inherit}
+@media(max-width:650px){.mct-unified-fields-grid{grid-template-columns:1fr}.mct-unified-fields-title span{display:block;margin:4px 0 0}}
