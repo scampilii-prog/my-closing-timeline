@@ -238,3 +238,9 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 #contract-deadline-planner .fc-shared-date-3{--shared-bg:#e9def4;--shared-border:#a183ba;--shared-text:#654580}
 #contract-deadline-planner .fc-shared-date-4{--shared-bg:#f7dfe5;--shared-border:#bc8494;--shared-text:#813e55}
 #contract-deadline-planner .fc-shared-date-5{--shared-bg:#e3e8ec;--shared-border:#8a9aa8;--shared-text:#405769}
+
+/* Custom task edits directly in the task selector's own row */
+.fc-custom-inline{display:flex;align-items:stretch;gap:6px;width:100%}
+.fc-custom-inline input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #9eb5c7;background:#fff;color:#183b51;border-radius:6px;padding:9px 10px;font:inherit}
+.fc-custom-inline input:focus{outline:2px solid #a9cbd9;outline-offset:1px}
+.fc-custom-change{flex:0 0 auto;border:1px solid #c7d7df;border-radius:6px;background:#f2f7f9;color:#28516a;padding:0 8px;font-size:11px;font-weight:700;cursor:pointer}
