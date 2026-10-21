@@ -188,3 +188,10 @@ html{scroll-padding-top:0}
 .mct-compact-plans span{color:#526e7b;font-size:12px;line-height:1.6}
 .mct-compact-plans a{color:#805824;font-size:12px;font-weight:800;white-space:nowrap;text-underline-offset:3px}
 @media(max-width:730px){.mct-compact-plans{grid-template-columns:1fr}}
+
+/* Quiet editorial offer ribbon: real free feature, no artificial promotion */
+.mct-free-choice{position:relative}
+.mct-featured-ribbon{position:absolute;top:-18px;right:16px;display:flex;flex-direction:column;align-items:center;transform:rotate(4deg);filter:drop-shadow(0 3px 3px rgba(18,42,59,.12));z-index:2;pointer-events:none}
+.mct-featured-top{font:800 10px/1.2 Manrope,Arial,sans-serif;letter-spacing:.15em;background:#21435b;color:#fff;padding:5px 16px 4px;border-radius:7px 7px 0 0}
+.mct-featured-bottom{font:800 12px/1.2 Manrope,Arial,sans-serif;letter-spacing:.045em;background:#c7a16a;color:#19354a;padding:7px 18px;border-radius:6px}
+@media(max-width:600px){.mct-featured-ribbon{top:-13px;right:10px;transform:rotate(2deg)}.mct-featured-bottom{font-size:10px;padding:6px 12px}}
