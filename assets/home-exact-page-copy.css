@@ -639,3 +639,73 @@ body.mct-subpage .mct-sub-content .mct-guide-num{display:inline-grid;place-items
 body.mct-subpage .mct-sub-content .mct-guide-checklist label{display:flex;gap:10px}
 body.mct-subpage .mct-sub-content .notice{padding:13px;background:#fff4e2;border-left:3px solid #c5a36d}
 @media(max-width:700px){body.mct-subpage .mct-sub-content .grid,body.mct-subpage .mct-sub-content .mct-resource-grid,body.mct-subpage .mct-sub-content .mct-board-list{grid-template-columns:1fr}}
+
+/* FIX: secondary-page header grid, hero alignment and guide checklist; Home untouched. */
+@media(min-width:1051px){
+html body.mct-subpage > header.mct-unified-header > .mct-header-inner{
+ width:min(1180px,calc(100% - 48px))!important;max-width:1180px!important;
+ margin:0 auto!important;min-height:94px!important;padding:12px 0!important;
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:18px!important;
+ position:relative!important;transform:none!important;
+}
+html body.mct-subpage > header.mct-unified-header .mct-brand{
+ position:static!important;display:inline-flex!important;flex:0 0 auto!important;
+ grid-column:auto!important;grid-row:auto!important;min-width:0!important;
+ width:auto!important;max-width:none!important;margin:0!important;
+ font:800 25px/1.15 Manrope,Arial,sans-serif!important;
+}
+html body.mct-subpage > header.mct-unified-header nav{
+ position:static!important;display:flex!important;flex:0 1 auto!important;
+ grid-column:auto!important;grid-row:auto!important;margin:0 0 0 auto!important;
+ padding:0!important;min-width:0!important;max-width:none!important;
+ align-items:center!important;justify-content:flex-end!important;
+ flex-wrap:nowrap!important;gap:clamp(8px,.8vw,14px)!important;transform:none!important;
+}
+html body.mct-subpage > header.mct-unified-header nav a{
+ font:800 clamp(12px,.85vw,14px)/1.4 Manrope,Arial,sans-serif!important;
+ white-space:nowrap!important;
+}
+html body.mct-subpage > header.mct-unified-header .mct-header-tools{
+ position:static!important;grid-column:auto!important;grid-row:auto!important;
+ flex:0 0 auto!important;margin:0!important;transform:none!important;
+}
+}
+html body.mct-subpage .intro.mct-photo-hero > .mct-photo-hero-content{
+ box-sizing:border-box!important;width:min(944px,calc(100% - 48px))!important;
+ max-width:944px!important;flex:0 1 944px!important;
+ margin-left:auto!important;margin-right:auto!important;
+ padding-left:0!important;padding-right:0!important;text-align:left!important;
+}
+html body.mct-subpage .mct-sub-content .mct-guide-stage summary{display:flex!important;align-items:center!important;gap:12px!important}
+html body.mct-subpage .mct-sub-content .mct-guide-stage-body{display:block!important}
+html body.mct-subpage .mct-sub-content .mct-guide-checklist{display:block!important;list-style:none!important;margin:0!important;padding:0!important}
+html body.mct-subpage .mct-sub-content .mct-guide-checklist li{
+ display:list-item!important;width:100%!important;height:auto!important;min-height:0!important;
+ margin:0!important;padding:10px 0!important;
+}
+html body.mct-subpage .mct-sub-content .mct-guide-checklist label{
+ display:flex!important;flex-direction:row!important;align-items:flex-start!important;
+ justify-content:flex-start!important;gap:10px!important;width:100%!important;
+ height:auto!important;min-height:0!important;font-size:15px!important;
+}
+html body.mct-subpage .mct-sub-content .mct-guide-checklist input[type=checkbox]{
+ appearance:auto!important;-webkit-appearance:checkbox!important;
+ display:inline-block!important;position:static!important;
+ flex:0 0 16px!important;width:16px!important;height:16px!important;
+ min-width:16px!important;min-height:16px!important;margin:4px 0 0!important;
+ padding:0!important;transform:none!important;float:none!important;
+}
+@media(max-width:1050px){
+html body.mct-subpage > header.mct-unified-header > .mct-header-inner{
+ width:calc(100% - 28px)!important;display:flex!important;position:relative!important;
+ flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;
+ padding:12px 0!important;gap:11px!important
+}
+html body.mct-subpage > header.mct-unified-header .mct-brand,
+html body.mct-subpage > header.mct-unified-header nav,
+html body.mct-subpage > header.mct-unified-header .mct-header-tools{
+ position:static!important;transform:none!important;grid-column:auto!important;grid-row:auto!important;
+}
+html body.mct-subpage > header.mct-unified-header nav{display:flex!important;justify-content:center!important;flex-wrap:wrap!important}
+}
