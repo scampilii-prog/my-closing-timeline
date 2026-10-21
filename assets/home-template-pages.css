@@ -5,10 +5,10 @@
 button,input,select,textarea{font-family:Manrope,Arial,sans-serif}a{color:#235b7b}
 .mct-unified-header{width:100%;background:#10283e;border-bottom:2px solid #bba16c;position:sticky;top:0;z-index:500;color:#fff}
 .mct-header-inner{width:min(1180px,calc(100% - 40px));min-height:88px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.mct-brand{font:800 clamp(20px,1.55vw,26px)/1.15 Manrope,Arial,sans-serif;display:inline-flex;align-items:center;white-space:nowrap;gap:9px;text-decoration:none!important;color:#e8c68f!important;flex-shrink:0;letter-spacing:-.04em}
-.mct-brand-icon{height:40px;width:40px}.mct-brand-timeline{color:#50d3d1}.mct-brand-domain{color:white;font-size:.57em}
-.mct-unified-header nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(7px,.7vw,13px);margin-left:auto;flex-wrap:wrap}
-.mct-unified-header nav a{color:#fff;font:800 clamp(11px,.82vw,14px)/1.5 Manrope,Arial,sans-serif;text-decoration:none;white-space:nowrap}.mct-unified-header nav a[aria-current]{color:#edcb8c;text-decoration:underline;text-underline-offset:5px}
+.mct-brand{font:800 clamp(23px,1.75vw,28px)/1.15 Manrope,Arial,sans-serif;display:inline-flex;align-items:center;white-space:nowrap;gap:9px;text-decoration:none!important;color:#e8c68f!important;flex-shrink:0;letter-spacing:-.04em}
+.mct-brand-icon{height:43px;width:43px}.mct-brand-timeline{color:#50d3d1}.mct-brand-domain{color:white;font-size:.57em}
+.mct-unified-header nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(7px,.65vw,12px);margin-left:auto;flex-wrap:wrap}
+.mct-unified-header nav a{color:#fff;font:800 clamp(13px,.95vw,16px)/1.5 Manrope,Arial,sans-serif;text-decoration:none;white-space:nowrap}.mct-unified-header nav a[aria-current]{color:#edcb8c;text-decoration:underline;text-underline-offset:5px}
 .mct-lang-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 #mct-language{background:#203c51;color:#fff;border:1px solid #7894a9;border-radius:6px;padding:9px 12px;font-size:13px;font-weight:800}
 .page-hero{height:420px;min-height:420px;width:100%;margin:0;background-image:linear-gradient(90deg,rgba(12,33,51,.95) 0%,rgba(12,33,51,.68) 46%,rgba(12,33,51,.08) 100%),var(--page-photo);background-size:cover;background-position:center center;display:flex;align-items:center;color:#fff}
@@ -32,3 +32,6 @@ footer{background:var(--navy);color:#e3eaf0;text-align:center;padding:26px 18px;
 .mct-back-top{position:fixed;bottom:20px;left:18px;z-index:300;background:#fff;border:1px solid #d5e1e7;border-radius:24px;padding:10px 14px;font:800 12px Manrope,Arial;box-shadow:0 4px 12px #10283e26;cursor:pointer}
 @media(max-width:1000px){.mct-header-inner{flex-wrap:wrap;justify-content:center;padding:13px 0}.mct-unified-header nav{margin-left:0;justify-content:center}}
 @media(max-width:700px){.grid,.mct-resource-grid,.mct-board-list{grid-template-columns:1fr}.page-hero{height:400px;min-height:400px}.page-hero-inner{padding-bottom:38px}.page-hero h1{font-size:40px}.section{padding:18px}}
+
+/* Google Manrope consistently in header controls and all links. */
+.mct-unified-header,.mct-unified-header *,#mct-language{font-family:Manrope,Arial,sans-serif!important}
