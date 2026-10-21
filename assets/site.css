@@ -228,3 +228,16 @@ body .intro p{display:block!important;max-width:680px!important;margin:0 auto!im
 html body main.wrap{width:calc(100% - 40px)!important;max-width:var(--mct-content-width)!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
 html body .mct-unified-header .mct-header-inner{width:calc(100% - 40px)!important;max-width:var(--mct-content-width)!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
 @media(max-width:700px){html body main.wrap{width:calc(100% - 20px)!important;padding:22px 12px 45px!important}html body .mct-unified-header .mct-header-inner{width:100%!important}}
+
+/* Restore readable unified header proportions */
+@media(min-width:901px){
+ html body .mct-unified-header .mct-header-inner{min-height:76px!important;padding:17px 22px!important;gap:22px!important;flex-wrap:nowrap!important;justify-content:space-between!important}
+ html body .mct-unified-header .mct-brand{font-size:25px!important;line-height:1.25!important;letter-spacing:-.035em!important}
+ html body .mct-unified-header nav{gap:clamp(12px,1.1vw,20px)!important}
+ html body .mct-unified-header nav a{font-size:13px!important;line-height:1.5!important;font-weight:750!important}
+ html body .mct-unified-header #mct-language{font-size:13px!important;padding:8px 10px!important}
+}
+@media(min-width:701px) and (max-width:900px){
+ html body .mct-unified-header .mct-brand{font-size:22px!important}
+ html body .mct-unified-header nav a{font-size:12px!important}
+}
