@@ -29,31 +29,49 @@ const copyButton=document.getElementById('timeline-copy-text-button'),selectButt
 function timelineDraftLabel(){return (!$('deadline-effective').value||!$('deadline-closing').value||rows.some(r=>r.status!=='na'&&r.status!=='done'&&!r.override&&r.days===''))?'Some dates to be confirmed':'Dates entered from contract'}
 function generalNotes(){return $('deadline-general-notes').value.trim()}function email(){viewEmailPreview()}
 function timelinePicture(){
- const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),data=collect();
- const W=1040,L=30,R=1010,taskX=148,daysX=770,dateX=965;
+ const rows=collect(),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ const W=1100,left=24,right=W-24,labelX=158,daysX=805,dateX=1042;
  canvas.width=W;
- function wrap(text,maxWidth,font){ctx.font=font;let line='',out=[];for(const word of String(text||'').split(/\s+/)){const next=line?(line+' '+word):word;if(ctx.measureText(next).width>maxWidth&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out.length?out:['']}
- const items=data.map(r=>{const lines=wrap(r.name,560,'600 25px Arial');return {r,lines,height:Math.max(65,lines.length*31+24)}});
- const notes=generalNotes()?wrap('Notes: '+generalNotes(),W-100,'21px Arial'):[];
- canvas.height=190+items.reduce((sum,x)=>sum+x.height,0)+notes.length*28+45;
- ctx.fillStyle='#fffdfa';ctx.fillRect(0,0,W,canvas.height);
- ctx.strokeStyle='#c4a368';ctx.lineWidth=2;ctx.strokeRect(2,2,W-4,canvas.height-4);
- ctx.fillStyle='#193448';ctx.fillRect(3,3,W-6,94);
- ctx.fillStyle='#fff';ctx.font='600 39px Georgia,serif';ctx.fillText('Closing Timeline',35,62);
- ctx.fillStyle='#e2c487';ctx.font='italic 36px Georgia,serif';ctx.fillText('Summary',407,62);
- ctx.fillStyle='#98743d';ctx.font='700 17px Arial';ctx.fillText('#',58,146);ctx.fillText('TASK / MILESTONE',taskX,146);
- ctx.textAlign='center';ctx.fillText('DAYS',daysX,146);
- ctx.textAlign='right';ctx.fillText('DUE DATE',dateX,146);ctx.textAlign='left';
- let y=161;
- items.forEach((x,i)=>{const {r,lines,height}=x;const key=r.kind!=='task';
- if(key){ctx.fillStyle=r.kind==='closing'?'#f8eaf0':'#ecf3f7';ctx.fillRect(L,y,R-L,height)}
- ctx.strokeStyle='#e4e5e4';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,y+height);ctx.lineTo(R,y+height);ctx.stroke();
- ctx.strokeStyle='#bc9b60';ctx.lineWidth=2;ctx.beginPath();ctx.arc(65,y+height/2,18,0,2*Math.PI);ctx.stroke();
- ctx.fillStyle='#28475e';ctx.textAlign='center';ctx.font='700 18px Arial';ctx.fillText(key?'–':String(r.taskNumber||i),65,y+height/2+6);ctx.textAlign='left';
- ctx.fillStyle='#28475e';ctx.font=(key?'700':'600')+' 25px Arial';lines.forEach((line,j)=>ctx.fillText(line,taskX,y+height/2-(lines.length-1)*15+j*31+8));
- ctx.textAlign='center';ctx.font='700 23px Arial';ctx.fillText(String(r.days!==''&&r.days!==undefined?r.days:'—'),daysX,y+height/2+8);
- ctx.textAlign='right';ctx.fillStyle=r.date?'#254d49':'#98743d';ctx.fillText(r.date?timelineShortDate(r.date):'Pending',dateX,y+height/2+8);ctx.textAlign='left';y+=height});
- if(notes.length){y+=25;ctx.fillStyle='#617484';ctx.font='21px Arial';notes.forEach((line,i)=>ctx.fillText(line,35,y+i*28))}
+ let lang='en';try{lang=localStorage.getItem('mct-language')||'en'}catch(e){}
+ const labels={
+ en:['Closing Timeline','Summary','TASK / MILESTONE','DAYS','DUE DATE','Pending','Notes'],
+ es:['Cronograma de cierre','Resumen','TAREA / ETAPA','DÍAS','VENCIMIENTO','Pendiente','Notas'],
+ it:['Calendario di chiusura','Riepilogo','ATTIVITÀ / SCADENZA','GIORNI','DATA LIMITE','Da definire','Note'],
+ pt:['Cronograma de fechamento','Resumo','TAREFA / ETAPA','DIAS','VENCIMENTO','Pendente','Notas']
+ }[lang]||['Closing Timeline','Summary','TASK / MILESTONE','DAYS','DUE DATE','Pending','Notes'];
+ const wrap=(value,max,font)=>{ctx.font=font;const out=[];let line='';for(const word of String(value||'').split(/\s+/)){let next=line?line+' '+word:word;if(ctx.measureText(next).width>max&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out.length?out:['']};
+ const items=rows.map(r=>{const lines=wrap(r.name,570,'600 27px Arial');return {r,lines,h:Math.max(85,lines.length*36+42)}});
+ const note=generalNotes()?wrap(labels[6]+': '+generalNotes(),W-110,'21px Arial'):[];
+ canvas.height=187+items.reduce((sum,x)=>sum+x.h,0)+(note.length?note.length*30+28:0)+28;
+ const rounded=(x,y,w,h,rad)=>{ctx.beginPath();ctx.roundRect(x,y,w,h,rad)};
+ ctx.fillStyle='#fffdfa';rounded(2,2,W-4,canvas.height-4,19);ctx.fill();
+ ctx.save();rounded(2,2,W-4,canvas.height-4,19);ctx.clip();
+ ctx.fillStyle='#193248';ctx.fillRect(2,2,W-4,105);
+ ctx.strokeStyle='#e0c48b';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(49,79);ctx.lineTo(49,43);ctx.lineTo(73,23);ctx.lineTo(97,43);ctx.lineTo(97,79);ctx.stroke();
+ ctx.fillStyle='#e0c48b';ctx.fillRect(67,52,8,8);ctx.fillRect(79,52,8,8);ctx.fillRect(67,64,8,8);ctx.fillRect(79,64,8,8);
+ ctx.beginPath();ctx.moveTo(119,25);ctx.lineTo(119,83);ctx.stroke();
+ ctx.fillStyle='#fefefe';ctx.font='600 40px Georgia,serif';ctx.fillText(labels[0],149,69);
+ const titleWidth=ctx.measureText(labels[0]).width;ctx.fillStyle='#e4c68e';ctx.font='italic 37px Georgia,serif';ctx.fillText(labels[1],Math.min(915,166+titleWidth),69);
+ ctx.fillStyle='#9d7f4a';ctx.font='700 18px Arial';ctx.fillText('#',66,154);ctx.fillText(labels[2],labelX,154);
+ ctx.textAlign='center';ctx.fillText(labels[3],daysX,154);ctx.textAlign='right';ctx.fillText(labels[4],dateX,154);ctx.textAlign='left';
+ let y=176;
+ items.forEach(({r,lines,h},i)=>{
+  const key=r.kind!=='task',closing=r.kind==='closing',cy=y+h/2;
+  if(key){ctx.fillStyle=closing?'#f8eaf0':'#eaf1f4';rounded(left,y+2,right-left,h-4,11);ctx.fill()}
+  else if(i%2===0){ctx.fillStyle='#fbfaf7';ctx.fillRect(left,y,right-left,h)}
+  ctx.strokeStyle='#e1e5e7';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(labelX-18,y+h);ctx.lineTo(right-12,y+h);ctx.stroke();
+  ctx.strokeStyle='#bba06a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(74,cy,21,0,Math.PI*2);ctx.stroke();
+  if(i<items.length-1){ctx.beginPath();ctx.moveTo(74,cy+21);ctx.lineTo(74,y+h+items[i+1].h/2-21);ctx.stroke()}
+  ctx.fillStyle='#263f53';ctx.font='700 22px Arial';ctx.textAlign='center';ctx.fillText(key?'–':String(r.taskNumber||i),74,cy+8);ctx.textAlign='left';
+  ctx.fillStyle='#203e54';ctx.font=(key?'700':'600')+' 27px Arial';
+  lines.forEach((line,n)=>ctx.fillText(line,labelX,cy-(lines.length-1)*18+n*36+9));
+  ctx.font='700 26px Arial';ctx.textAlign='center';ctx.fillText(String(r.days!==''&&r.days!==undefined?r.days:'—'),daysX,cy+9);
+  ctx.textAlign='right';ctx.fillStyle='#244962';ctx.fillText(r.date?timelineShortDate(r.date):labels[5],dateX,cy+9);ctx.textAlign='left';
+  y+=h;
+ });
+ if(note.length){y+=25;ctx.fillStyle='#587081';ctx.font='21px Arial';note.forEach((line,i)=>ctx.fillText(line,39,y+i*30))}
+ ctx.restore();ctx.strokeStyle='#c2a36e';ctx.lineWidth=2;rounded(2,2,W-4,canvas.height-4,19);ctx.stroke();
  return canvas;
 }
 function emailPicture(){const source=timelinePicture(),small=document.createElement('canvas');const longest=collect().reduce((n,r)=>Math.max(n,String(r.name||'').length),0);const width=longest>52?620:longest>34?570:520;small.width=width;small.height=Math.round(source.height*width/source.width);small.getContext('2d').drawImage(source,0,0,small.width,small.height);return small}
