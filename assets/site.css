@@ -241,3 +241,9 @@ html body .mct-unified-header .mct-header-inner{width:calc(100% - 40px)!importan
  html body .mct-unified-header .mct-brand{font-size:22px!important}
  html body .mct-unified-header nav a{font-size:12px!important}
 }
+
+/* Wide, consistent content canvas — no fixed narrow desktop column */
+@media(min-width:901px){
+ html body main.wrap{width:calc(100% - 32px)!important;max-width:1480px!important;padding:32px clamp(18px,2.2vw,32px) 65px!important}
+ html body .mct-unified-header .mct-header-inner{width:calc(100% - 32px)!important;max-width:1480px!important}
+}
