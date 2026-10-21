@@ -251,3 +251,12 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 .fc-task-extra-disclosure>.mct-compact-task-settings select{min-height:34px;width:100%}
 .fc-task-extra-disclosure>.fc-task-guidance-disclosure,.fc-task-extra-disclosure>.fc-task-notes-disclosure{margin:4px 2px}
 @media(max-width:600px){.fc-task-extra-disclosure>.mct-compact-task-settings{grid-template-columns:1fr}}
+
+/* Clear introductory instruction frame; compact dates with transaction price */
+#contract-deadline-planner .fc-date-start{border:2px solid #c3a064!important;border-left:5px solid #b88d45!important;background:#fff8e9!important;border-radius:8px!important;box-shadow:0 3px 12px rgba(95,65,20,.09)!important;color:#4c3c24!important;padding:13px 15px!important}
+#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates{flex:1 1 auto!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr)!important;gap:9px!important;align-items:end!important}
+#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates input{min-width:0!important;width:100%!important}
+#contract-deadline-planner .mct-contract-price-label{color:#8a642f!important}
+#contract-deadline-planner #mct-contract-price{background:#fffaf0!important;border:1px solid #d8ba80!important;color:#664a24!important;font-weight:700!important}
+@media(max-width:1100px){#contract-deadline-planner .fc-editor-toolbar{flex-wrap:wrap!important}#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates{width:100%!important;flex-basis:100%!important}}
+@media(max-width:500px){#contract-deadline-planner .fc-editor-toolbar .fc-simple-dates{grid-template-columns:1fr 1fr!important}#contract-deadline-planner .fc-editor-toolbar .mct-contract-price-label{grid-column:1/-1}}
