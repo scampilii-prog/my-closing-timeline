@@ -34,3 +34,30 @@ footer .inner{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}footer
 .mct-back-top{position:fixed;bottom:20px;left:17px;z-index:300;border:1px solid #d2dfe5;border-radius:25px;padding:10px 14px;background:white;color:#153a51;font-weight:800;cursor:pointer}
 @media(max-width:1000px){.mct-header-inner{flex-wrap:wrap;justify-content:center;padding:13px 0}.mct-unified-header nav{margin:0;justify-content:center}}
 @media(max-width:700px){.grid,.mct-resource-grid{grid-template-columns:1fr}.intro.mct-photo-hero{min-height:405px}.mct-photo-hero-content{padding-bottom:35px}.home-like-panel{padding:10px}.section{padding:18px}.mct-photo-hero h1{font-size:40px}}
+
+/* Daily transactions workspace */
+.dashboard-kicker{letter-spacing:.16em;font-size:12px;font-weight:800;color:#b48a51}
+.dashboard-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.dashboard-inputs label{display:flex;flex-direction:column;gap:6px;font-weight:800;font-size:14px}
+.dashboard-inputs input,.dashboard-inputs select,.daily-add input{width:100%;border:1px solid #c8d7df;border-radius:7px;padding:11px;background:white;color:#19384d;font-size:15px}
+.daily-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:15px 0 22px}
+.daily-stat{background:#f0f6f8;border:1px solid #d8e6ea;padding:13px 8px;border-radius:9px;text-align:center;display:flex;flex-direction:column}
+.daily-stat strong{font-size:28px;line-height:1.3}.daily-stat span{font-size:12px;font-weight:700}
+.daily-table-scroll{max-width:100%;overflow-x:auto;border:1px solid #d8e4e9;border-radius:9px}
+.daily-table{border-collapse:collapse;width:100%;min-width:840px;font-size:14px}
+.daily-table th{background:#173b52;color:white;font-size:12px;text-align:left;padding:12px 9px;white-space:nowrap}
+.daily-table td{border-bottom:1px solid #e4edf0;padding:10px 9px;vertical-align:middle}
+.daily-table tbody tr:nth-child(even){background:#f8fafb}
+.daily-table input[type=number]{max-width:82px}.daily-table input[type=date]{min-width:145px}
+.daily-table input[type=number],.daily-table input[type=date]{font-size:13px;padding:7px;border:1px solid #cbdbe3;border-radius:5px;background:white}
+.daily-table input[type=checkbox]{height:17px;width:17px;accent-color:#16707f}
+.daily-status{display:inline-block;padding:4px 8px;border-radius:12px;font-size:12px;font-weight:800;white-space:nowrap;background:#e9f0f4}
+.status-today,.status-overdue{background:#ffded5;color:#8f381c}
+.status-next{background:#fff0c5;color:#6a521a}
+.status-done{background:#d9f2e4;color:#15633e}
+.daily-remove{border:0;background:transparent;font-size:22px;color:#8a4c45;cursor:pointer}
+.daily-add{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.daily-add input{flex:1 1 260px}
+.daily-add .secondary{background:#eef5f8!important;color:#173b52!important;border:1px solid #c9dae3}
+.dashboard-note{font-size:13px!important;color:#5b7382;margin-top:15px}
+@media(max-width:700px){.dashboard-inputs{grid-template-columns:1fr}.daily-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media print{.mct-unified-header,.intro,.daily-add,.mct-back-top,footer{display:none!important}.workspace{margin:0!important;width:100%!important}.daily-table-scroll{overflow:visible}.daily-table{min-width:0;font-size:11px}.section{border:0!important}.home-like-panel{box-shadow:none!important}}
