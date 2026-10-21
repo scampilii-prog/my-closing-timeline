@@ -562,6 +562,26 @@ html body #contract-deadline-planner .fc-reminder-scroll table input[type="check
 
 /* Single Google font throughout Home, including hero heading. */
 html body,html body *,html body *::before,html body *::after{font-family:Roboto,Arial,sans-serif!important}
+
+/* HOME READABILITY FIX — specifically the three hero benefits, contract editor, and reminders table. */
+@media(min-width:701px){
+html body .mct-hero-benefits{gap:clamp(16px,2vw,34px)!important;align-items:center!important}
+html body .mct-hero-benefits>span{font-size:clamp(16px,1.15vw,19px)!important;line-height:1.4!important;font-weight:750!important;display:inline-flex!important;align-items:center!important;gap:11px!important}
+html body .mct-hero-benefits>span>b{font-size:23px!important;min-width:44px!important;width:44px!important;height:44px!important;display:inline-flex!important;justify-content:center!important;align-items:center!important;flex-shrink:0!important}
+html body #contract-deadline-planner .mct-unified-transaction-fields label,
+html body #contract-deadline-planner .mct-unified-transaction-fields input,
+html body #contract-deadline-planner .mct-unified-transaction-fields select,
+html body #contract-deadline-planner .fc-simple-task-controls label,
+html body #contract-deadline-planner .fc-simple-task-controls input,
+html body #contract-deadline-planner .fc-simple-task-controls select,
+html body #contract-deadline-planner .fc-reminder-scroll table td,
+html body #contract-deadline-planner .fc-reminder-scroll table td input,
+html body #contract-deadline-planner .fc-reminder-scroll table td select,
+html body #contract-deadline-planner .fc-reminder-scroll table td button{font-size:15px!important;line-height:1.5!important}
+html body #contract-deadline-planner .fc-reminder-scroll table th{font-size:14px!important;line-height:1.45!important}
+html body #contract-deadline-planner .mct-unified-fields-title{font-size:15px!important}
+}
+@media(max-width:700px){html body .mct-hero-benefits>span{font-size:15px!important;line-height:1.4!important}}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
