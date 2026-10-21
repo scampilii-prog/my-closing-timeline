@@ -205,4 +205,4 @@ document.addEventListener('DOMContentLoaded',function(){
  for(const el of [checklist,personal,contract].filter(Boolean))new MutationObserver(schedule).observe(el,{childList:true,subtree:true,characterData:true});
  for(const id of ['deadline-effective','deadline-closing','mct-extra-add','mct-extra-sort'])document.getElementById(id)?.addEventListener('change',schedule);
  refresh();
-});})();</script><script id="mct-active-navigation">(function(){function sync(){const nav=document.querySelector('.mct-unified-header nav');if(!nav)return;const home=nav.querySelector('a[href="index.html"]'),build=nav.querySelector('a[href="#transaction-details"]');if(!home||!build)return;home.removeAttribute('aria-current');build.removeAttribute('aria-current');(location.hash==='#timeline'||location.hash==='#transaction-details'?build:home).setAttribute('aria-current','page')}addEventListener('hashchange',sync);addEventListener('DOMContentLoaded',sync);})();</script></body></html>
+});})();</script></body></html>
