@@ -495,6 +495,21 @@ html body .intro.mct-photo-hero>.mct-photo-hero-content{
  html body .intro.mct-photo-hero{margin-left:auto!important;margin-right:auto!important}
  html body .intro.mct-photo-hero>.mct-photo-hero-content{padding:0 12px!important}
 }
+
+/* Full-bleed Home photograph, preserve text at original planner-aligned X position. */
+html body .intro.mct-photo-hero{
+ width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
+}
+html body .intro.mct-photo-hero > .mct-photo-hero-content{
+ box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+ margin:0!important;padding-left:calc(var(--mct-panel-left,0px) + 24px)!important;
+ padding-right:24px!important;
+}
+@media(max-width:700px){
+ html body .intro.mct-photo-hero > .mct-photo-hero-content{
+  padding-left:calc(var(--mct-panel-left,0px) + 12px)!important;padding-right:12px!important;
+ }
+}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
