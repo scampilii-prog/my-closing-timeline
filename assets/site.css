@@ -351,3 +351,38 @@ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero p{
  }
  html body:has(> main.wrap) > section.hero.mct-inner-photo-hero h1{font-size:clamp(36px,8vw,50px)!important}
 }
+
+
+/* Website 3 — use Home's 944px centered visual frame for all 7 inner pages. */
+@media(min-width:701px){
+ html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner,
+ html body:has(> main.wrap) > section.hero,
+ html body:has(> main.wrap) > main.wrap{
+   box-sizing:border-box!important;
+   width:calc(100% - 36px)!important;
+   max-width:944px!important;
+   margin-left:auto!important;margin-right:auto!important;
+ }
+ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero,
+ html body:has(> main.wrap) > section.hero.mct-closing-photo-hero{
+   width:calc(100% - 36px)!important;max-width:944px!important;
+   min-height:450px!important;
+   padding:55px 26px 110px!important;
+ }
+ html body:has(> main.wrap) > main.wrap{
+   position:relative!important;z-index:2!important;
+   margin-top:-42px!important;
+   padding:16px 16px 65px!important;
+ }
+ html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{
+   min-height:108px!important;padding:16px 0!important;
+ }
+}
+@media(max-width:700px){
+ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero,
+ html body:has(> main.wrap) > section.hero.mct-closing-photo-hero{
+   width:calc(100% - 24px)!important;max-width:none!important;
+   min-height:450px!important;padding:55px 18px 110px!important;margin-inline:auto!important;
+ }
+ html body:has(> main.wrap) > main.wrap{position:relative!important;z-index:2!important;margin-top:-30px!important}
+}
