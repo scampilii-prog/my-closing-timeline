@@ -20,7 +20,7 @@ $('note').textContent='This is a temporary browser session. Nothing is saved to 
 function load(){rows.length=0;for(const name of templates[$('role').value])rows.push({id:++serial,name,days:'',date:'',done:false});refresh()}
 $('role').addEventListener('change',load);$('effective').addEventListener('change',refresh);$('filter').addEventListener('change',refresh);
 $('tasks').addEventListener('change',e=>{let id=e.target.dataset.check;if(id){const row=rows.find(x=>x.id===Number(id));if(row)row.done=e.target.checked;refresh();return}id=e.target.dataset.date;if(id){const row=rows.find(x=>x.id===Number(id));if(row)row.date=e.target.value;refresh();}});
-$('tasks').addEventListener('input',e=>{let id=e.target.dataset.days;if(id){const row=rows.find(x=>x.id===Number(id));if(row){row.days=e.target.value;row.date=''}refresh()}});
+$('tasks').addEventListener('change',e=>{let id=e.target.dataset.days;if(id){const row=rows.find(x=>x.id===Number(id));if(row){row.days=e.target.value;row.date=''}refresh()}});
 $('tasks').addEventListener('click',e=>{const id=e.target.dataset.remove;if(id){const i=rows.findIndex(x=>x.id===Number(id));if(i>=0)rows.splice(i,1);refresh()}});
 $('addtask').addEventListener('click',()=>{const v=$('newtask').value.trim();if(!v)return;rows.push({id:++serial,name:v,days:'',date:'',done:false});$('newtask').value='';refresh()});
 $('printtasks').addEventListener('click',()=>window.print());load();
