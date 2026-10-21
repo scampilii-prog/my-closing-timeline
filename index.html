@@ -532,6 +532,33 @@ html body #contract-deadline-planner h2{font-size:clamp(23px,2vw,29px)!important
 html body #contract-deadline-planner h3{font-size:clamp(19px,1.55vw,24px)!important}
 html body header.mct-unified-header nav a{font-size:clamp(14px,1.05vw,17px)!important}
 }
+
+/* Accessibility typography: contract input cards and 8-column reminder table only. */
+html body header.mct-unified-header,
+html body header.mct-unified-header *,
+html body header.mct-unified-header a,
+html body header.mct-unified-header select{font-family:Manrope,Arial,sans-serif!important}
+html body #contract-deadline-planner .mct-unified-transaction-fields,
+html body #contract-deadline-planner .mct-unified-transaction-fields *,
+html body #contract-deadline-planner .fc-simple-task-controls,
+html body #contract-deadline-planner .fc-simple-task-controls *,
+html body #contract-deadline-planner .mct-add-task-area,
+html body #contract-deadline-planner .mct-add-task-area *,
+html body #contract-deadline-planner .mct-task-hint,
+html body #contract-deadline-planner .fc-reminder-scroll,
+html body #contract-deadline-planner .fc-reminder-scroll table,
+html body #contract-deadline-planner .fc-reminder-scroll table th,
+html body #contract-deadline-planner .fc-reminder-scroll table td,
+html body #contract-deadline-planner .fc-reminder-scroll table input,
+html body #contract-deadline-planner .fc-reminder-scroll table select,
+html body #contract-deadline-planner .fc-reminder-scroll table button{
+ font-family:Manrope,Arial,sans-serif!important;
+ font-size:14px!important;
+ line-height:1.5!important;
+}
+html body #contract-deadline-planner .fc-reminder-scroll table th{font-size:13px!important;font-weight:800!important}
+html body #contract-deadline-planner .fc-reminder-scroll table td{font-size:14px!important}
+html body #contract-deadline-planner .fc-reminder-scroll table input[type="checkbox"]{font-size:initial!important}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
