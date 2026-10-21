@@ -244,3 +244,10 @@ html body #contract-deadline-planner .fc-simple-task>details.fc-task-notes-discl
 .fc-custom-inline input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #9eb5c7;background:#fff;color:#183b51;border-radius:6px;padding:9px 10px;font:inherit}
 .fc-custom-inline input:focus{outline:2px solid #a9cbd9;outline-offset:1px}
 .fc-custom-change{flex:0 0 auto;border:1px solid #c7d7df;border-radius:6px;background:#f2f7f9;color:#28516a;padding:0 8px;font-size:11px;font-weight:700;cursor:pointer}
+
+/* Keep advanced controls short: one disclosure, no redundant inner accordion. */
+.fc-task-extra-disclosure>.mct-compact-task-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px;padding:10px 4px 4px}
+.fc-task-extra-disclosure>.mct-compact-task-settings label{font-size:11px;min-width:0}
+.fc-task-extra-disclosure>.mct-compact-task-settings select{min-height:34px;width:100%}
+.fc-task-extra-disclosure>.fc-task-guidance-disclosure,.fc-task-extra-disclosure>.fc-task-notes-disclosure{margin:4px 2px}
+@media(max-width:600px){.fc-task-extra-disclosure>.mct-compact-task-settings{grid-template-columns:1fr}}
