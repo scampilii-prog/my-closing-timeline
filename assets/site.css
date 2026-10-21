@@ -307,47 +307,70 @@ html body main.wrap button,html body main.wrap select,html body main.wrap input{
 html body main.wrap{font-size:17px!important}
 html body main.wrap p,html body main.wrap li,html body main.wrap td,html body main.wrap label{font-size:16px;line-height:1.7}
 html body main.wrap button,html body main.wrap input,html body main.wrap select{font-size:15px}
-
-/* Inner pages only: Home is intentionally untouched.
-   One desktop frame shared by header, hero and content. */
-:root{--mct-inner-frame:1440px}
-html body:has(> main.wrap) > header.mct-unified-header{position:sticky!important;top:0!important;z-index:9999!important;background:#10283e!important}
-html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:var(--mct-inner-frame)!important;min-height:108px!important;padding:18px 0!important;margin-inline:auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;flex-wrap:nowrap!important}
-html body:has(> main.wrap) > header.mct-unified-header .mct-brand{font-size:clamp(23px,1.9vw,29px)!important;white-space:nowrap!important;flex-shrink:0!important;margin:0!important}
-html body:has(> main.wrap) > header.mct-unified-header nav{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:clamp(9px,.85vw,16px)!important;flex-wrap:nowrap!important;margin:0 0 0 auto!important}
-html body:has(> main.wrap) > header.mct-unified-header nav a{font-size:clamp(12px,1vw,15px)!important;white-space:nowrap!important}
-html body:has(> main.wrap) > header.mct-unified-header .mct-header-tools{flex-shrink:0!important}
-html body:has(> main.wrap) > section.hero,html body:has(> main.wrap) > main.wrap{box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:var(--mct-inner-frame)!important;margin-left:auto!important;margin-right:auto!important;transform:none!important}
-html body:has(> main.wrap) > section.hero{min-height:265px!important;padding:60px clamp(24px,3vw,48px)!important;text-align:left!important}
-html body:has(> main.wrap) > main.wrap{padding:35px clamp(16px,2vw,32px) 65px!important}
-@media(max-width:1100px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{flex-wrap:wrap!important;justify-content:center!important;gap:12px!important}html body:has(> main.wrap) > header.mct-unified-header nav{margin:0!important;flex-wrap:wrap!important;justify-content:center!important}}
-@media(max-width:700px){html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner,html body:has(> main.wrap) > section.hero,html body:has(> main.wrap) > main.wrap{width:calc(100% - 24px)!important}html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{min-height:78px!important;padding:12px 0!important}html body:has(> main.wrap) > section.hero{min-height:0!important;padding:32px 18px!important}html body:has(> main.wrap) > main.wrap{padding:22px 12px 45px!important}}
-
-
-/* Consistent photo mastheads for interior pages only: never changes Home. */
-html body:has(> main.wrap) > section.hero.mct-inner-photo-hero{
- width:100%!important;max-width:none!important;margin:0!important;
- min-height:450px!important;box-sizing:border-box!important;
- padding:65px max(28px,calc((100vw - 1380px)/2)) 125px!important;
- display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;
- background-color:#173649!important;
- background-image:linear-gradient(90deg,rgba(13,35,53,.96) 0%,rgba(13,35,53,.86) 28%,rgba(13,35,53,.42) 62%,rgba(13,35,53,.10) 100%),var(--mct-inner-photo)!important;
- background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;
- color:#fff!important;text-align:left!important;border-top:0!important;
+/* Unified interior layout, v8. Scoped to pages with main.wrap. Home is untouched. */
+html body:has(> main.wrap){--inner-width:1120px}
+html body:has(> main.wrap) > header.mct-unified-header{
+ position:sticky!important;top:0!important;z-index:9999!important;width:100%!important;
+ background:#10283e!important;border-bottom:2px solid #c6a66e!important
 }
-html body:has(> main.wrap) > section.hero.mct-inner-photo-hero .eyebrow{
- font:800 12px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:.17em!important;color:#e7c58f!important;
+html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{
+ box-sizing:border-box!important;width:calc(100% - 40px)!important;max-width:var(--inner-width)!important;
+ min-height:96px!important;margin:0 auto!important;padding:15px 0!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ flex-flow:row nowrap!important;gap:20px!important
 }
-html body:has(> main.wrap) > section.hero.mct-inner-photo-hero h1{
- font-family:Georgia,serif!important;font-size:clamp(42px,4vw,66px)!important;line-height:1.12!important;font-weight:700!important;color:#fff!important;
- margin:12px 0 15px!important;max-width:850px!important;
+html body:has(> main.wrap) > header.mct-unified-header .mct-brand{
+ display:inline-flex!important;align-items:center!important;gap:9px!important;
+ flex:0 0 auto!important;margin:0!important;font:800 23px/1.2 Manrope,Arial,sans-serif!important;
+ white-space:nowrap!important
 }
-html body:has(> main.wrap) > section.hero.mct-inner-photo-hero p{
- font:500 clamp(16px,1.35vw,20px)/1.6 Manrope,Arial,sans-serif!important;color:#f3f6f7!important;max-width:750px!important;margin:0!important;
+html body:has(> main.wrap) > header.mct-unified-header .mct-brand-icon{width:36px!important;height:36px!important;min-width:36px!important}
+html body:has(> main.wrap) > header.mct-unified-header nav{
+ display:flex!important;flex:0 1 auto!important;align-items:center!important;justify-content:flex-end!important;
+ flex-wrap:wrap!important;column-gap:13px!important;row-gap:7px!important;min-width:0!important;
+ margin:0 0 0 auto!important;padding:0!important
+}
+html body:has(> main.wrap) > header.mct-unified-header nav a{
+ font:750 13px/1.45 Manrope,Arial,sans-serif!important;white-space:nowrap!important
+}
+html body:has(> main.wrap) > header.mct-unified-header .mct-header-tools{flex:0 0 auto!important}
+html body:has(> main.wrap) > section.hero,
+html body:has(> main.wrap) > main.wrap{
+ box-sizing:border-box!important;width:calc(100% - 40px)!important;max-width:var(--inner-width)!important;
+ margin-left:auto!important;margin-right:auto!important;transform:none!important;zoom:1!important
+}
+html body:has(> main.wrap) > section.hero.mct-inner-photo-hero,
+html body:has(> main.wrap) > section.hero.mct-closing-photo-hero{
+ min-height:450px!important;padding:55px 30px 120px!important;
+ display:flex!important;flex-flow:column nowrap!important;align-items:flex-start!important;justify-content:center!important;
+ background-size:cover!important;background-position:center!important;
+ text-align:left!important;color:#fff!important
+}
+html body:has(> main.wrap) > section.hero h1,
+html body:has(> main.wrap) > section.hero p,
+html body:has(> main.wrap) > section.hero .eyebrow{
+ text-align:left!important;max-width:790px!important;margin-left:0!important;margin-right:0!important
+}
+html body:has(> main.wrap) > main.wrap{
+ position:relative!important;z-index:2!important;margin-top:-42px!important;
+ padding:18px 0 65px!important
+}
+@media(max-width:1100px){
+ html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner{
+  flex-wrap:wrap!important;justify-content:center!important;row-gap:12px!important
+ }
+ html body:has(> main.wrap) > header.mct-unified-header nav{
+  flex-basis:100%!important;order:3!important;margin:0!important;justify-content:center!important
+ }
+ html body:has(> main.wrap) > header.mct-unified-header .mct-header-tools{order:2!important}
+ html body:has(> main.wrap) > header.mct-unified-header .mct-brand{order:1!important}
 }
 @media(max-width:700px){
- html body:has(> main.wrap) > section.hero.mct-inner-photo-hero{
- min-height:450px!important;padding:65px 22px 125px!important;background-position:60% center!important;
- }
- html body:has(> main.wrap) > section.hero.mct-inner-photo-hero h1{font-size:clamp(36px,8vw,50px)!important}
+ html body:has(> main.wrap) > header.mct-unified-header > .mct-header-inner,
+ html body:has(> main.wrap) > section.hero,
+ html body:has(> main.wrap) > main.wrap{width:calc(100% - 24px)!important}
+ html body:has(> main.wrap) > header.mct-unified-header nav a{font-size:12px!important}
+ html body:has(> main.wrap) > section.hero.mct-inner-photo-hero,
+ html body:has(> main.wrap) > section.hero.mct-closing-photo-hero{padding:45px 18px 100px!important;min-height:420px!important}
+ html body:has(> main.wrap) > main.wrap{margin-top:-28px!important}
 }
