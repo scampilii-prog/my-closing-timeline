@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const today=dateKey(now),d=new Date(now);d.setDate(d.getDate()+1);const tomorrow=dateKey(d);
   const dueToday=[],dueTomorrow=[],seen=new Set();
   function add(name,date,button){if(!button||!name||!(date===today||date===tomorrow))return;const sig=name+'|'+date;if(seen.has(sig))return;seen.add(sig);(date===today?dueToday:dueTomorrow).push({name,button})}
-  for(const body of [personal].filter(Boolean)){
+  for(const body of [personal,checklist].filter(Boolean)){
    for(const row of body.querySelectorAll('tr')){
     if(row.cells.length<8)continue;
     const button=row.cells[7].querySelector('button');
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded',function(){
   host.innerHTML=renderGroup('Due Today',dueToday,'today')+renderGroup('Tomorrow',dueTomorrow,'tomorrow');
   host.querySelectorAll('[data-due]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.due==='today'?dueToday:dueTomorrow;const item=a[Number(btn.dataset.index)];if(item){item.button.click();queueMicrotask(refresh)}}));
   subtitle.textContent='Live deadlines · '+today.slice(5).replace('-','/')+' and tomorrow';
-  counter.textContent='Shows contractual deadlines from Your Timeline and your personal reminders. Administrative checklist tasks remain in the full checklist below.';
+  counter.textContent='Shows contractual deadlines from Your Timeline and your personal reminders. Includes contract tasks, administrative checklist items, and personal reminders due today or tomorrow.';
  }
  let queued=false;function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;refresh()})}
  for(const el of [checklist,personal,contract].filter(Boolean))new MutationObserver(schedule).observe(el,{childList:true,subtree:true,characterData:true});
