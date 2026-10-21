@@ -791,7 +791,9 @@ document.addEventListener('DOMContentLoaded',function(){
  const group=document.createElement('div');group.className='mct-moved-contract-tasks';
  const label=document.createElement('h3');label.textContent='Contract tasks & deadlines';group.append(label);
  for(const el of [heading,rows,actions,hint,editorOptions])if(el)group.append(el);
- lower.prepend(group);
+ const dates=document.querySelector('#contract-deadline-planner .fc-simple-dates');
+ const upperEditor=dates?.closest('.fc-editor-toolbar')?.parentElement;
+ if(upperEditor&&upperEditor.contains(dates)){const toolbar=dates.closest('.fc-editor-toolbar');toolbar.insertAdjacentElement('afterend',group)}else{lower.prepend(group)}
  preview.append(today);
 });
 </script></body></html>
