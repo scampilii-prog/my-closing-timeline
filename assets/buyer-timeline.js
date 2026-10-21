@@ -35,7 +35,7 @@ function timelinePicture(){
  const notes=generalNotes()?wrap('Notes: '+generalNotes(),1144,'24px Arial'):[];
  canvas.height=352+items.reduce((sum,x)=>sum+x.height+10,0)+notes.length*33+(notes.length?48:0)+28;
  ctx.fillStyle='#fcfaf6';ctx.fillRect(0,0,1264,canvas.height);ctx.strokeStyle='#c6a76e';ctx.lineWidth=2;ctx.strokeRect(2,2,1260,canvas.height-4);
- ctx.fillStyle='#153c50';ctx.fillRect(3,3,1258,202);ctx.fillStyle='#e5c895';ctx.font='700 23px Arial';ctx.fillText('LIVE PREVIEW',45,79);ctx.fillStyle='#fff';ctx.font='700 52px Arial';ctx.fillText('Your timeline',45,151);
+ ctx.fillStyle='#153c50';ctx.fillRect(3,3,1258,202);ctx.fillStyle='#e5c895';ctx.font='700 23px Arial';ctx.fillText('LIVE PREVIEW',45,79);ctx.fillStyle='#fff';ctx.font='700 52px Arial';ctx.fillText('Closing Timeline Summary',45,151);
  ctx.fillStyle='#607b8c';ctx.font='28px Arial';ctx.fillText(data.filter(x=>x.date&&x.status!=='na').length+' of '+data.length+' dates entered',44,270);
  ctx.fillStyle='#97733d';ctx.font='700 25px Arial';ctx.fillText('#',44,326);ctx.fillText('Task / milestone',110,326);ctx.textAlign='center';ctx.fillText('Days',870,326);ctx.textAlign='right';ctx.fillText('Due date',1203,326);ctx.textAlign='left';
  let y=352;
@@ -48,7 +48,7 @@ function timelinePicture(){
  if(notes.length){y+=25;ctx.fillStyle='#607b8c';ctx.font='24px Arial';notes.forEach((t,i)=>ctx.fillText(t,44,y+i*33))}
  return canvas;
 }
-function emailPicture(){const source=timelinePicture(),small=document.createElement('canvas');small.width=660;small.height=Math.round(source.height*660/source.width);small.getContext('2d').drawImage(source,0,0,small.width,small.height);return small}
+function emailPicture(){const source=timelinePicture(),small=document.createElement('canvas');const longest=collect().reduce((n,r)=>Math.max(n,String(r.name||'').length),0);const width=longest>52?620:longest>34?570:520;small.width=width;small.height=Math.round(source.height*width/source.width);small.getContext('2d').drawImage(source,0,0,small.width,small.height);return small}
 function downloadPicture(){const a=document.createElement('a');a.href=emailPicture().toDataURL('image/png');a.download='Buyer-Closing-Timeline.png';document.body.appendChild(a);a.click();a.remove()}
 function timelineFeedback(text){$('closing-email-feedback').textContent=text;const preview=$('timeline-email-feedback');if(preview)preview.textContent=text}
 function copyPicture(){
@@ -81,14 +81,14 @@ function viewPicture(){
 }
 function viewEmailPreview(){
  let dialog=$('timeline-email-dialog');if(!dialog){dialog=document.createElement('dialog');dialog.id='timeline-email-dialog';dialog.setAttribute('aria-labelledby','timeline-email-title');dialog.innerHTML='<button type="button" class="fc-picture-close" aria-label="Return to timeline">×</button><h3 id="timeline-email-title">Your email</h3><div class="fc-email-preview-body"></div><p id="timeline-email-feedback" role="status" style="font:500 12px/1.7 Arial;color:#527184">Open in Mail, then paste the timeline before your signature. Your signature follows your Mail settings.</p><div class="fc-email-preview-actions"><button type="button" data-open-mail>Open in Mail</button><button type="button" data-download-email>Download complete email</button><button type="button" data-copy-email-image>Copy image for Mail</button></div>';document.body.appendChild(dialog);wireTimelineModal(dialog);dialog.querySelector('[data-open-mail]').addEventListener('click',openInMail);dialog.querySelector('[data-download-email]').addEventListener('click',exportFormattedEmail);dialog.querySelector('[data-copy-email-image]').addEventListener('click',copyPicture)}
- dialog.querySelector('.fc-email-preview-body').innerHTML=buyerAgentNotice()+'<img class="fc-email-inline-picture" src="'+timelinePicture().toDataURL('image/png')+'" width="660" alt="Your complete closing timeline">'+buyerAgentClosing();openTimelineModal(dialog);
+ const previewImage=emailPicture();dialog.querySelector('.fc-email-preview-body').innerHTML=buyerAgentNotice()+'<img class="fc-email-inline-picture" src="'+previewImage.toDataURL('image/png')+'" width="'+previewImage.width+'" style="display:block;max-width:100%;height:auto" alt="Closing Timeline Summary">'+buyerAgentClosing();openTimelineModal(dialog);
 }
 function exportFormattedEmail(){
  const recipient=$('deadline-email').value.trim();
  if(recipient&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)){alert('Enter a valid email address or leave it blank.');return}
- const png=emailPicture().toDataURL('image/png').split(',')[1];
+ const exportedImage=emailPicture(),png=exportedImage.toDataURL('image/png').split(',')[1];
  const id=Date.now().toString(16),related='fc-related-'+id,alt='fc-alternative-'+id,cid='buyer-timeline-'+id+'@floridacostiera.com';
- const html='<!doctype html><html><head><meta charset="utf-8"></head><body style="font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#18374b">'+buyerAgentNotice()+'<p><img src="cid:'+cid+'" width="660" style="display:block;width:660px;max-width:100%;height:auto" alt="Buyer Closing Timeline"></p>'+buyerAgentClosing()+'</body></html>';
+ const html='<!doctype html><html><head><meta charset="utf-8"></head><body style="font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#18374b">'+buyerAgentNotice()+'<p><img src="cid:'+cid+'" width="'+exportedImage.width+'" style="display:block;width:'+exportedImage.width+'px;max-width:100%;height:auto" alt="Closing Timeline Summary"></p>'+buyerAgentClosing()+'</body></html>';
  function b64(value){const bytes=new TextEncoder().encode(value);let text='';for(let i=0;i<bytes.length;i+=8192)text+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(text).replace(/.{1,76}/g,'$&\r\n').trim()}
  const mime=['To: '+recipient,'Subject: Closing Timeline and Contract Deadlines','X-Unsent: 1','MIME-Version: 1.0','Content-Type: multipart/related; boundary="'+related+'"','','--'+related,'Content-Type: multipart/alternative; boundary="'+alt+'"','','--'+alt,'Content-Type: text/plain; charset="UTF-8"','Content-Transfer-Encoding: base64','',b64(plainTimeline()+'\n\n'+collect().map(x=>x.name+' — '+(x.date?timelineShortDate(x.date):'To be confirmed')).join('\n')),'--'+alt,'Content-Type: text/html; charset="UTF-8"','Content-Transfer-Encoding: base64','',b64(html),'--'+alt+'--','--'+related,'Content-Type: image/png; name="Buyer-Closing-Timeline.png"','Content-Transfer-Encoding: base64','Content-ID: <'+cid+'>','Content-Disposition: inline; filename="Buyer-Closing-Timeline.png"','',png.replace(/.{1,76}/g,'$&\r\n').trim(),'--'+related+'--',''].join('\r\n');
  const blob=new Blob([mime],{type:'message/rfc822'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Closing-Timeline-Email-Draft.eml';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),12000);
