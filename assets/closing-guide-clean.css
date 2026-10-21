@@ -1,21 +1,36 @@
-/* Clean Closing Guide layout, matched to Home's approved centered 944px panel.
-   This file is loaded last and only by Closing Guide. */
-:root{--guide-frame:944px}
-html,body{margin:0!important;padding:0!important}
-body{font-family:Manrope,Arial,sans-serif!important;background:#f6f8fa!important}
-html body > header.mct-unified-header{width:100%!important;position:sticky!important;top:0!important;z-index:5000!important;background:#10283e!important;border-bottom:2px solid #c6a66e!important}
-html body > header.mct-unified-header > .mct-header-inner{width:min(var(--guide-frame),calc(100% - 32px))!important;max-width:var(--guide-frame)!important;min-height:92px!important;margin:0 auto!important;padding:12px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;flex-wrap:nowrap!important;box-sizing:border-box!important}
-html body > header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;flex:0 0 auto!important;gap:8px!important;white-space:nowrap!important;font:800 23px/1.2 Manrope,Arial,sans-serif!important;margin:0!important}
-html body > header.mct-unified-header .mct-brand-icon{width:36px!important;height:36px!important;min-width:36px!important}
-html body > header.mct-unified-header nav{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:0 1 auto!important;flex-wrap:wrap!important;gap:7px 11px!important;margin:0 0 0 auto!important;min-width:0!important}
-html body > header.mct-unified-header nav a{font:750 12px/1.45 Manrope,Arial,sans-serif!important;white-space:nowrap!important}
-html body > header.mct-unified-header .mct-header-tools{flex:0 0 auto!important;margin:0!important}
-html body > section.hero.guide-photo{width:min(var(--guide-frame),calc(100% - 32px))!important;max-width:var(--guide-frame)!important;box-sizing:border-box!important;min-height:450px!important;margin:0 auto!important;padding:54px 24px 112px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;text-align:left!important;background:linear-gradient(90deg,rgba(12,34,52,.95),rgba(12,34,52,.58) 56%,rgba(12,34,52,.08)),url('https://images.pexels.com/photos/8962686/pexels-photo-8962686.jpeg?auto=compress&cs=tinysrgb&w=1920') center center/cover no-repeat!important;color:white!important}
-html body > section.hero.guide-photo .eyebrow{font-size:12px!important;font-weight:800!important;letter-spacing:.17em!important;color:#e7c58f!important}
-html body > section.hero.guide-photo h1{font:700 clamp(42px,4.5vw,59px)/1.12 Georgia,serif!important;color:white!important;text-align:left!important;margin:12px 0!important}
-html body > section.hero.guide-photo p{font:500 clamp(15px,1.2vw,19px)/1.6 Manrope,Arial,sans-serif!important;color:#f3f6f7!important;text-align:left!important;max-width:710px!important;margin:0!important}
-html body > main.wrap{box-sizing:border-box!important;width:min(var(--guide-frame),calc(100% - 32px))!important;max-width:var(--guide-frame)!important;margin:-42px auto 0!important;padding:0 0 65px!important;position:relative!important;z-index:2!important;transform:none!important;zoom:1!important}
-html body > main.wrap > .section{box-sizing:border-box!important;width:100%!important;margin:0 0 18px!important;padding:clamp(20px,2.3vw,28px)!important}
-html body > main.wrap .mct-guide-stages,html body > main.wrap .mct-resource-grid{max-width:100%!important}
-@media(max-width:960px){html body > header.mct-unified-header > .mct-header-inner{flex-wrap:wrap!important;justify-content:center!important;gap:10px!important;padding:12px 0!important}html body > header.mct-unified-header nav{margin:0!important;justify-content:center!important}html body > header.mct-unified-header .mct-brand{font-size:21px!important}}
-@media(max-width:700px){html body > section.hero.guide-photo{min-height:430px!important;padding:50px 18px 100px!important}html body > main.wrap{margin-top:-28px!important}html body > header.mct-unified-header nav a{font-size:11px!important}}
+/* Closing Guide rebuilt independently. No legacy site.css. Home remains untouched. */
+:root{--navy:#10283e;--gold:#e2be7d;--teal:#4ad0d0;--ink:#183448;--line:#dbe5e9;--frame:944px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:115px}body{margin:0;background:#f6f8fa;color:var(--ink);font:15px/1.7 Manrope,Arial,sans-serif}
+a{color:#246082}a:hover{text-decoration:underline}
+.mct-unified-header{background:var(--navy);border-bottom:2px solid #b9a071;color:white;position:sticky;top:0;z-index:1000;width:100%}
+.mct-header-inner{width:min(var(--frame),calc(100% - 32px));min-height:92px;margin:auto;display:flex;align-items:center;gap:17px}
+.mct-brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none!important;color:#e5c895!important;font-weight:800;font-size:21px;letter-spacing:-.04em;white-space:nowrap;flex-shrink:0}
+.mct-brand-icon{width:36px;height:36px}.mct-brand-timeline{color:#4bd0ce}.mct-brand-domain{color:white;font-size:.55em;letter-spacing:0;margin-left:2px}
+.mct-unified-header nav{display:flex;align-items:center;justify-content:flex-end;gap:11px;flex-wrap:wrap;margin-left:auto}
+.mct-unified-header nav a{color:white;text-decoration:none;font-size:11px;font-weight:800;white-space:nowrap}.mct-unified-header nav a[aria-current]{color:#e8c88e;text-decoration:underline;text-underline-offset:5px}
+.mct-header-tools{flex-shrink:0}.mct-lang-label{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+#mct-language{border:1px solid #7f9aa8;background:#213e52;color:white;border-radius:6px;padding:10px;font:700 12px Manrope,Arial}
+.hero.guide-photo{width:min(var(--frame),calc(100% - 32px));margin:0 auto;min-height:450px;padding:56px 26px 112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;background:linear-gradient(90deg,rgba(13,36,53,.95),rgba(13,36,53,.65) 58%,rgba(13,36,53,.05)),url('https://images.pexels.com/photos/8962686/pexels-photo-8962686.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover no-repeat;color:white}
+.hero .eyebrow,.mct-guide-eyebrow,.mct-resources-heading>span{font-size:10px;letter-spacing:.17em;font-weight:800;color:#c99c55}
+.hero .eyebrow{color:#efcc90;font-size:11px}
+.hero h1{font:700 clamp(39px,4vw,59px)/1.12 Georgia,serif;margin:12px 0;color:white}.hero p{font-size:17px;max-width:640px;margin:0;color:#f1f6f9}
+main.wrap{width:min(var(--frame),calc(100% - 32px));margin:-42px auto 0;padding:0 0 55px;position:relative;z-index:2}
+.section{background:white;border:1px solid var(--line);border-radius:13px;padding:clamp(20px,2.5vw,28px);margin:0 0 18px;box-shadow:0 8px 25px #10283e07}
+.section h2{font-size:clamp(22px,2.2vw,30px);color:var(--navy);line-height:1.28;margin:4px 0 13px}.section h3{color:var(--navy);font-size:18px;margin:0 0 12px}
+.section p{margin:9px 0 15px}.muted{color:#60798a}.btn,.mct-guide-build{display:inline-flex;align-items:center;background:var(--navy);color:white!important;text-decoration:none!important;border-radius:7px;padding:10px 14px;font-size:12px;font-weight:800}
+.mct-guide-outline{background:white;color:var(--navy)!important;border:1px solid #bbced7}
+.mct-guide-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.mct-guide-stage{border:1px solid #dce5e9;border-left:3px solid #bd9a61;border-radius:8px;overflow:hidden;margin:12px 0;background:#fff}
+.mct-guide-stage summary{list-style:none;display:flex;align-items:center;gap:14px;cursor:pointer;background:#f3f7f8;padding:16px}.mct-guide-stage summary::-webkit-details-marker{display:none}
+.mct-guide-num{border-radius:50%;min-width:35px;height:35px;display:grid;place-items:center;background:#173a50;color:#fff;font-size:12px;font-weight:800}
+.mct-guide-stage summary strong{display:block;color:#173a50;font-size:15px}.mct-guide-stage summary small{display:block;color:#60798a;font-size:11px}
+.mct-guide-arrow{margin-left:auto;color:#b08b49;font-size:18px}.mct-guide-stage[open] .mct-guide-arrow{transform:rotate(180deg)}
+.mct-guide-stage-body{padding:19px}.mct-guide-checklist{padding:0;list-style:none;margin:0 0 14px}.mct-guide-checklist li{border-bottom:1px solid #ecf0f2;padding:9px 0}.mct-guide-checklist label{display:flex;gap:11px;align-items:start;cursor:pointer}.mct-guide-checklist input{margin-top:6px;accent-color:#1a6873}
+.mct-guide-note,.mct-guide-watch,.notice{padding:13px;border-radius:7px;background:#edf6f7;margin:11px 0;font-size:13px}.mct-guide-watch,.notice{background:#fff6e6}.notice{border-left:4px solid #c5a064}
+.mct-guide-build{margin-top:10px}
+.mct-guide-scenarios details,.mct-guide-questions details{border:1px solid var(--line);border-radius:8px;padding:13px 16px;margin:10px 0}.mct-guide-scenarios summary,.mct-guide-questions summary{cursor:pointer;font-weight:800}
+.mct-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.mct-resource-card{border:1px solid #dce5e9;border-radius:10px;padding:17px;background:#f9fbfc}.mct-resource-card h3{font-size:16px}.mct-resource-card p{font-size:13px}.resource-link{font-weight:800;font-size:13px}
+footer{background:var(--navy);color:#e2eaf0;padding:28px 20px;font-size:12px;text-align:center}footer .inner{max-width:1050px;margin:auto;display:flex;justify-content:center;gap:15px;flex-wrap:wrap}footer a{color:#e6ca92}
+.mct-back-top{position:fixed;bottom:20px;left:18px;background:white;color:var(--navy);border:1px solid #c8d8e2;border-radius:30px;padding:10px 14px;box-shadow:0 4px 16px #10283e20;font:800 12px Manrope;cursor:pointer;z-index:100}
+@media(max-width:800px){.mct-header-inner{flex-wrap:wrap;justify-content:center;padding:12px 0}.mct-unified-header nav{margin:0;justify-content:center}.mct-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.mct-resource-grid{grid-template-columns:1fr}.hero.guide-photo{min-height:420px;padding:45px 20px 100px}.mct-header-inner{gap:10px}.mct-brand{font-size:20px}.mct-unified-header nav{gap:9px}}
