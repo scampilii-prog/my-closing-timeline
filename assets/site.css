@@ -201,3 +201,12 @@ html{scroll-padding-top:0}
 .mct-featured-top{background:#145e68!important;color:#fff!important;font-size:13px!important;letter-spacing:.12em!important;padding:8px 24px 6px!important;border-radius:9px 9px 0 0!important}
 .mct-featured-bottom{background:#d8f1ee!important;color:#15525b!important;border:2px solid #419d9d!important;font-size:16px!important;letter-spacing:.035em!important;padding:10px 22px!important;border-radius:8px!important}
 @media(max-width:600px){.mct-featured-ribbon{top:-15px!important;right:8px!important;transform:rotate(2deg)!important}.mct-featured-top{font-size:10px!important;padding:6px 15px 5px!important}.mct-featured-bottom{font-size:12px!important;padding:7px 12px!important}}
+
+/* Shared language selector and left Back to Top */
+.mct-unified-header .mct-header-tools{display:flex;align-items:center;gap:8px;flex:none}
+.mct-unified-header .mct-lang-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.mct-unified-header #mct-language{background:#203c52;color:#fff;border:1px solid #8ea7b8;border-radius:7px;padding:7px 8px;font:700 12px Manrope,Arial,sans-serif;cursor:pointer}
+.mct-back-top{position:fixed;left:18px;bottom:22px;z-index:80;background:#fff;color:#16364b;border:1px solid #cddce3;border-radius:25px;box-shadow:0 4px 15px #132f3e29;padding:10px 14px;font:800 12px Manrope,Arial,sans-serif;cursor:pointer}
+.mct-back-top span{color:#111;font-size:19px;vertical-align:middle;margin-right:4px}
+.mct-back-top[hidden]{display:none!important}
+@media(max-width:650px){.mct-back-top{left:10px;bottom:12px;padding:8px 11px}.mct-unified-header #mct-language{font-size:11px}}
