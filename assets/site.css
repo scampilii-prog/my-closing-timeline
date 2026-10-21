@@ -162,3 +162,8 @@ header .inner .brand{flex:0 0 auto;font-size:19px}
 .mct-payment-placeholder{display:flex;align-items:center;gap:14px;background:white;padding:18px;border:1px dashed #aebec9;border-radius:10px}
 .mct-payment-placeholder>span{font-size:25px}
 @media(max-width:680px){.mct-pro-page .mct-pro-hero-card{grid-template-columns:1fr}.mct-pro-icon{display:none}.mct-pro-hero-card h2{font-size:32px}}
+
+/* Anchor places the top edge of Step 1 directly beneath the sticky menu. */
+html{scroll-padding-top:0}
+#transaction-details{scroll-margin-top:64px!important}
+@media(max-width:1080px){#transaction-details{scroll-margin-top:105px!important}}
