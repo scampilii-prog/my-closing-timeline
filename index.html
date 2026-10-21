@@ -653,6 +653,26 @@ html body #contract-deadline-planner .fc-reminder-scroll table th{font-size:16px
 html body #contract-deadline-planner .fc-reminder-scroll table td,
 html body #contract-deadline-planner .fc-reminder-scroll table td *{font-size:16px!important;line-height:1.5!important}
 }
+
+/* Final desktop header override: previous 944px wrapper was squeezing the brand and menu. */
+@media(min-width:1101px){
+html body header.mct-unified-header .mct-header-inner{
+width:calc(100% - 64px)!important;max-width:1280px!important;
+margin-inline:auto!important;padding-inline:0!important;
+display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;
+align-items:center!important;gap:28px!important
+}
+html body header.mct-unified-header .mct-brand{
+font-size:clamp(28px,1.75vw,34px)!important;font-weight:800!important;
+line-height:1.2!important;gap:13px!important;flex-shrink:0!important
+}
+html body header.mct-unified-header .mct-brand .mct-brand-icon{
+width:46px!important;height:46px!important;min-width:46px!important
+}
+html body header.mct-unified-header nav{display:flex!important;gap:clamp(14px,1.25vw,24px)!important;align-items:center!important;flex-wrap:nowrap!important}
+html body header.mct-unified-header nav a{font-size:clamp(16px,1vw,19px)!important;font-weight:750!important;white-space:nowrap!important}
+html body header.mct-unified-header .mct-header-tools select{font-size:17px!important}
+}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
