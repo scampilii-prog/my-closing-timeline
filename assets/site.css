@@ -256,3 +256,12 @@ html body .mct-unified-header .mct-header-inner{width:calc(100% - 40px)!importan
  html body .mct-unified-header nav{gap:clamp(13px,1.4vw,22px)!important}
  html body .mct-unified-header #mct-language{font-size:14px!important}
 }
+
+/* Readable typography baseline across every page */
+html body{font-size:16px!important;line-height:1.65!important}
+html body main.wrap p,html body main.wrap li,html body main.wrap label,html body main.wrap td{font-size:15px;line-height:1.65}
+html body main.wrap h1{font-size:clamp(29px,3vw,42px)}
+html body main.wrap h2{font-size:clamp(23px,2.2vw,31px)}
+html body main.wrap h3{font-size:clamp(19px,1.7vw,25px)}
+html body main.wrap button,html body main.wrap select,html body main.wrap input{font-size:14px}
+@media(min-width:901px){html body .mct-unified-header .mct-brand{font-size:27px!important}html body .mct-unified-header nav a{font-size:14px!important}}
