@@ -673,6 +673,19 @@ html body header.mct-unified-header nav{display:flex!important;gap:clamp(14px,1.
 html body header.mct-unified-header nav a{font-size:clamp(16px,1vw,19px)!important;font-weight:750!important;white-space:nowrap!important}
 html body header.mct-unified-header .mct-header-tools select{font-size:17px!important}
 }
+
+/* HOME header: logo closer to left edge; navigation and language closer to right edge. */
+@media(min-width:1101px){
+html body header.mct-unified-header .mct-header-inner{
+box-sizing:border-box!important;width:calc(100% - 70px)!important;max-width:none!important;
+margin-left:35px!important;margin-right:35px!important;
+display:flex!important;align-items:center!important;justify-content:space-between!important;
+grid-template-columns:none!important;gap:20px!important
+}
+html body header.mct-unified-header .mct-brand{margin-right:auto!important}
+html body header.mct-unified-header nav{margin-left:auto!important;margin-right:0!important}
+html body header.mct-unified-header .mct-header-tools{margin-left:12px!important;margin-right:0!important}
+}
 </style>
 <script id="mct-hero-matches-planner-width-20261021-sync">
 (function(){
