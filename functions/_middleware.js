@@ -23,8 +23,11 @@ export async function onRequest(context) {
   const path = new URL(context.request.url).pathname;
   if (!pathPattern.test(path)) return context.next();
   const secret = context.env.PERSONAL_PRACTICE_PASSWORD;
-  if (typeof secret !== "string" || secret.length < 16) {
-    return deny(503, "Private page unavailable until its password is configured.");
+  if (typeof secret !== "string") {
+    return deny(503, "Private page unavailable: password secret is missing from Production.");
+  }
+  if (secret.length < 12) {
+    return deny(503, "Private page unavailable: password must contain at least 12 characters.");
   }
   const header = context.request.headers.get("Authorization") || "";
   if (!header.startsWith("Basic ")) return deny(401, "Authentication required.");
