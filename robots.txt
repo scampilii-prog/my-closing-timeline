@@ -1,3 +1,4 @@
 User-agent: *
 Disallow: /personal-sabatino
 Disallow: /personal-sabatino.html
+# Redeploy after configuring private practice secret
