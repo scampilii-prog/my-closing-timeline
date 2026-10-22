@@ -28,7 +28,10 @@ export async function onRequest(context){
  }
  if(req.method==="POST"){
   const origin=req.headers.get("Origin");
-  if(origin!==url.origin)return page("<h1>Forbidden</h1>",403);
+  const originHost=(()=>{try{return new URL(origin).hostname.toLowerCase()}catch{return ""}})();
+  const allowedOrigins=new Set(["myclosingtimeline.com","www.myclosingtimeline.com","my-closing-timeline.pages.dev"]);
+  const requestHost=(req.headers.get("Host")||"").toLowerCase().split(":")[0];
+  if(!originHost || !allowedOrigins.has(originHost) || (allowedOrigins.has(requestHost) && originHost!==requestHost))return page("<h1>Forbidden</h1><p>Open Admin Console in a fresh tab and sign in again.</p>",403);
   const type=req.headers.get("Content-Type")||"";
   if(!type.startsWith("application/x-www-form-urlencoded"))return page("<h1>Invalid request</h1>",415);
   const fields=await req.formData();
