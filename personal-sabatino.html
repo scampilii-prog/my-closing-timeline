@@ -1326,16 +1326,31 @@ function read(){try{const v=JSON.parse(localStorage.getItem(key)||"[]");return A
 function write(v){localStorage.setItem(key,JSON.stringify(v))}
 function refresh(){const select=$("mct-checkpoint-select");if(!select)return;const old=select.value;select.innerHTML='<option value="">Choose a saved test</option>';read().forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=x.title;select.appendChild(o)});select.value=old}
 function inputs(){return [...document.querySelectorAll("#contract-deadline-planner input,#contract-deadline-planner select,#contract-deadline-planner textarea")].filter(e=>e.id!=="mct-checkpoint-select")}
-function capture(){return inputs().map((e,i)=>({i,id:e.id||"",type:e.type||"",value:e.value,checked:!!e.checked}))}
+function capture(){return inputs().filter(e=>!e.closest("#timeline-reminder-rows")).map((e,i)=>({i,id:e.id||"",type:e.type||"",value:e.value,checked:!!e.checked}))}
+function captureRows(){const body=$("timeline-reminder-rows");return [...(body?.querySelectorAll("tr")||[])].map(tr=>({index:Number(tr.querySelector("[data-reminder-name]")?.dataset.reminderName),name:tr.querySelector("[data-reminder-name]")?.value||"",days:tr.querySelector("[data-reminder]")?.value||"0",date:tr.querySelector("[data-reminder-override]")?.value||"",done:tr.querySelector("[data-done-reminder]")?.getAttribute("aria-checked")==="true"})).filter(r=>Number.isFinite(r.index)).sort((a,b)=>a.index-b.index)}
 $("mct-save-checkpoint")?.addEventListener("click",()=>{
-try{const now=new Date();const id=String(now.getTime());const saved=read();saved.unshift({id,title:"Practice snapshot — "+now.toLocaleString(),fields:capture()});write(saved.slice(0,15));refresh();$("mct-checkpoint-select").value=id;msg("Test saved locally in this browser. Up to 15 checkpoints are retained.")}catch{msg("Browser storage unavailable; no snapshot saved.")}
+try{const now=new Date();const id=String(now.getTime());const saved=read();saved.unshift({id,title:"Practice snapshot — "+now.toLocaleString(),fields:capture(),tasks:captureRows(),schema:2});write(saved.slice(0,15));refresh();$("mct-checkpoint-select").value=id;msg("Test saved locally in this browser. Up to 15 checkpoints are retained.")}catch{msg("Browser storage unavailable; no snapshot saved.")}
 });
 $("mct-restore-checkpoint")?.addEventListener("click",()=>{
  const x=read().find(r=>r.id===$("mct-checkpoint-select")?.value);if(!x){msg("Choose a saved test.");return}
  if(!confirm("Restore this practice snapshot? This will replace the current visible form values. Save the current test first if you need it."))return;
- const elements=inputs();let restored=0;
+ const elements=inputs().filter(e=>!e.closest("#timeline-reminder-rows"));let restored=0;
  (x.fields||[]).forEach(field=>{const el=field.id?document.getElementById(field.id):elements[field.i];if(!el||!elements.includes(el))return;if(field.type==="checkbox"||field.type==="radio")el.checked=!!field.checked;else el.value=field.value;el.dispatchEvent(new Event("input",{bubbles:true}));el.dispatchEvent(new Event("change",{bubbles:true}));restored++});
- msg("Restored "+restored+" form fields. Review dates and dynamic task rows; this early test does not yet restore added/deleted rows.");
+ if(x.schema!==2||!Array.isArray(x.tasks)){msg("Restored form values. Older snapshots do not include full task row backups.");return}
+ const taskNodes=()=>[...($("timeline-reminder-rows")?.querySelectorAll("[data-reminder-name]")||[])];
+ try{
+  while(taskNodes().length>x.tasks.length){const last=Math.max(...taskNodes().map(n=>Number(n.dataset.reminderName)));const del=$("timeline-reminder-rows").querySelector('[data-reminder-delete="'+last+'"]');if(!del)break;del.click()}
+  while(taskNodes().length<x.tasks.length){const add=$("mct-add-checklist-task");if(!add)break;const before=taskNodes().length;add.click();if(taskNodes().length===before)break}
+  for(let i=0;i<x.tasks.length;i++){
+   const task=x.tasks[i],get=attr=>$("timeline-reminder-rows")?.querySelector('['+attr+'="'+i+'"]');
+   const name=get("data-reminder-name");if(name){name.value=task.name;name.dispatchEvent(new Event("change",{bubbles:true}))}
+   const days=get("data-reminder");if(days){days.value=task.days;days.dispatchEvent(new Event("change",{bubbles:true}))}
+   const date=get("data-reminder-override");if(date){date.value=task.date;date.dispatchEvent(new Event("change",{bubbles:true}))}
+   const done=get("data-done-reminder");if(done&&((done.getAttribute("aria-checked")==="true")!==!!task.done))done.click();
+  }
+  msg("Restored "+restored+" fields and "+x.tasks.length+" Step 3 tasks. Please review dates and status.");
+ }catch(e){msg("Partial restore. Please review all task rows and dates.")}
+
 });
 $("mct-delete-checkpoint")?.addEventListener("click",()=>{
  const id=$("mct-checkpoint-select")?.value;if(!id){msg("Choose a saved test.");return}if(!confirm("Delete this local test checkpoint?"))return;
