@@ -1,0 +1,12 @@
+/* One authoritative header for Home, Free Timeline, Workspace, Pricing and Contact. */
+@media (min-width:1101px){
+html body header.mct-unified-header{position:sticky!important;top:0!important;z-index:9999!important;box-sizing:border-box!important;width:100%!important;height:108px!important;min-height:108px!important;background:#102b43!important;border-bottom:2px solid #bd9d68!important}
+html body header.mct-unified-header>.mct-header-inner{box-sizing:border-box!important;display:flex!important;grid-template-columns:none!important;width:calc(100% - 70px)!important;max-width:none!important;height:106px!important;min-height:106px!important;margin:0 35px!important;padding:17px 0!important;gap:20px!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important}
+html body header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;flex-shrink:0!important;white-space:nowrap!important;margin-right:auto!important;font:800 clamp(28px,1.75vw,34px)/1.2 Manrope,Arial,sans-serif!important;gap:13px!important}
+html body header.mct-unified-header .mct-brand .mct-brand-icon{width:46px!important;height:46px!important;min-width:46px!important}
+html body header.mct-unified-header nav{display:flex!important;grid-column:auto!important;grid-row:auto!important;order:0!important;flex:0 0 auto!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:nowrap!important;gap:clamp(14px,1.25vw,24px)!important;margin-left:auto!important;margin-right:0!important}
+html body header.mct-unified-header nav a{font:750 clamp(16px,1vw,19px)/1.5 Manrope,Arial,sans-serif!important;white-space:nowrap!important}
+html body header.mct-unified-header .mct-header-tools{grid-column:auto!important;grid-row:auto!important;order:0!important;flex-shrink:0!important;margin-left:12px!important;margin-right:0!important}
+html body header.mct-unified-header .mct-header-tools select{font-size:17px!important}
+}
+html body header.mct-unified-header nav a[aria-current="page"]{color:#edc983!important;text-decoration:underline!important;text-underline-offset:5px!important}
