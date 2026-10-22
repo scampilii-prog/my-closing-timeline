@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /personal-sabatino
+Disallow: /personal-sabatino.html
