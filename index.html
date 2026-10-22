@@ -549,7 +549,7 @@ html body #contract-deadline-planner .mct-tomorrow-panel>.mct-tomorrow-title{bac
 html body #contract-deadline-planner .mct-tomorrow-panel>.mct-tomorrow-subdate{margin:0 -14px 12px!important;padding:11px 16px!important;background:#fffaf1!important}
 </style><style id="mct-two-column-checklist-daily-fix">
 @media(min-width:801px){
-html body #contract-deadline-planner .fc-simple-main{align-items:start!important}
+html body #contract-deadline-planner .fc-simple-layout{align-items:start!important}
 html body #contract-deadline-planner .mct-right-column{min-width:0!important;display:flex!important;flex-direction:column!important;gap:22px!important}
 html body #contract-deadline-planner .mct-right-column>.fc-simple-result{width:100%!important;box-sizing:border-box!important;flex:none!important}
 html body #contract-deadline-planner .mct-right-column>.mct-tomorrow-panel{width:100%!important;margin:0!important;flex:none!important}
@@ -895,7 +895,7 @@ document.addEventListener('DOMContentLoaded',function(){
  if(upperEditor&&upperEditor.contains(dates)){const toolbar=dates.closest('.fc-editor-toolbar');toolbar.insertAdjacentElement('afterend',group)}else{lower.prepend(group)}
  const rightColumn=document.createElement('div');rightColumn.className='mct-right-column';preview.parentNode.insertBefore(rightColumn,preview);rightColumn.append(preview,today);
  const checklist=document.querySelector('#contract-deadline-planner .fc-complementary-tasks');
- const editor=document.querySelector('#contract-deadline-planner .fc-simple-editor');
+ const editor=document.querySelector('#contract-deadline-planner .fc-simple-form');
  if(checklist&&editor){
  const compact=document.createElement('div');compact.className='mct-left-checklist';
  for(const node of [checklist.querySelector('.deadline-eyebrow'),checklist.querySelector('#complementary-title'),checklist.querySelector('.mct-section-purpose'),checklist.querySelector('.mct-done-help'),checklist.querySelector('.mct-reminder-pair')])if(node)compact.append(node);
