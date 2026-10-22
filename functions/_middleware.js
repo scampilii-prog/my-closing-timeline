@@ -30,6 +30,7 @@ export async function onRequest(context){
   const type=req.headers.get("Content-Type")||"";
   if(!type.startsWith("application/x-www-form-urlencoded"))return page("<h1>Invalid request</h1>",415);
   const fields=await req.formData();
+  if(fields.get("action")==="logout" && authenticated)return redirect("/personal-sabatino.html",cookieName+"=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict");
   const csrf=String(fields.get("csrf")||"");
   const [issued,signature]=csrf.split(".");
   if(!issued||!signature||!/^\d+$/.test(issued)||current-Number(issued)>900000||Number(issued)>current+60000||!equal(signature,await sign(secret,"csrf:"+issued)))return page("<h1>Session expired</h1><p>Open Admin Console again to sign in.</p>",403);
