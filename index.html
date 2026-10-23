@@ -1293,4 +1293,26 @@ html body header.mct-unified-header nav{margin-left:auto!important;margin-right:
 html body header.mct-unified-header .mct-header-tools{margin-left:12px!important;margin-right:0!important}
 }
 </style>
-<link rel="stylesheet" href="assets/header-shared.css?v=20261022-single-header-v1"><script id="mct-fixed-header-calibration">(()=>{const update=()=>{const h=document.querySelector('header.mct-unified-header');if(h)document.documentElement.style.setProperty('--mct-fixed-header-height',Math.ceil(h.getBoundingClientRect().height)+'px')};document.addEventListener('DOMContentLoaded',update);window.addEventListener('resize',update);update()})();</script></body></html>
+<link rel="stylesheet" href="assets/header-shared.css?v=20261022-single-header-v1"><style id="mct-home-layout-canonical-20261023">
+/* HOME-specific final layout rules. The shared header markup is unchanged. */
+html,html body{margin:0!important;max-width:100%!important;overflow-x:clip!important}
+html body{padding-top:0!important}
+html body header.mct-unified-header{position:fixed!important;inset:0 0 auto 0!important;margin:0!important;transform:none!important;z-index:999999!important;width:100%!important}
+html body #mct-fixed-header-spacer{display:block!important;width:100%!important;height:var(--mct-fixed-header-height,108px)!important;min-height:0!important;margin:0!important;padding:0!important;background:transparent!important;flex:none!important}
+html body main.mct-home-final{margin-top:0!important;max-width:100%!important;overflow:visible!important}
+html body .mct-home-opening{max-width:100%!important;box-sizing:border-box!important}
+html body .mct-home-opening .mct-luxury-timeline{width:100%!important;max-width:520px!important;min-width:0!important}
+html body .mct-luxury-column-head,html body .mct-luxury-row{grid-template-columns:31px minmax(0,1fr) 34px 74px!important;gap:7px!important}
+html body .mct-luxury-column-head{font-size:10px!important;letter-spacing:0!important}
+html body .mct-luxury-row{min-height:44px!important}
+html body .mct-luxury-task{font:750 12.5px/1.32 Manrope,Arial,sans-serif!important;letter-spacing:0!important;overflow-wrap:break-word!important}
+html body .mct-luxury-days{font:800 13px/1.3 Manrope,Arial,sans-serif!important}
+html body .mct-luxury-date{font:750 12px/1.3 Manrope,Arial,sans-serif!important}
+html body .mct-luxury-caption{font:400 italic 9px/1.35 Manrope,Arial,sans-serif!important;background:transparent!important;padding:7px 12px 9px!important;color:#75818b!important}
+html body .mct-home-reminders .mct-reminder-row{font-size:13px!important}
+html body .mct-home-final .mct-pro-preview .mct-showcase-table th{font-size:11px!important}
+html body .mct-home-final .mct-pro-preview .mct-showcase-table td{font-size:12px!important}
+html body .mct-home-final .mct-pro-preview .mct-pro-strip{font-size:12px!important}
+@media(max-width:1100px){html body .mct-home-opening{grid-template-columns:1fr!important}html body .mct-home-opening .mct-luxury-timeline{justify-self:center!important;margin-inline:auto!important}}
+@media(max-width:600px){html body .mct-home-opening{padding-inline:14px!important}html body .mct-luxury-column-head,html body .mct-luxury-row{grid-template-columns:26px minmax(0,1fr) 26px 65px!important;gap:4px!important}html body .mct-luxury-task{font-size:10px!important}html body .mct-luxury-date{font-size:10px!important}html body .mct-luxury-days{font-size:11px!important}html body .mct-luxury-column-head{font-size:8px!important}html body .mct-luxury-row{min-height:43px!important}}
+</style><script id="mct-fixed-header-calibration">(()=>{const update=()=>{const h=document.querySelector('header.mct-unified-header');if(!h)return;const height=Math.ceil(h.getBoundingClientRect().height);if(height>0)document.documentElement.style.setProperty('--mct-fixed-header-height',height+'px')};document.addEventListener('DOMContentLoaded',()=>{update();if('ResizeObserver'in window){const h=document.querySelector('header.mct-unified-header');if(h)new ResizeObserver(update).observe(h)}document.fonts?.ready.then(update)});window.addEventListener('resize',update);update()})();</script></body></html>
