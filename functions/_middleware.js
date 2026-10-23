@@ -14,6 +14,7 @@ function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=3600
 const redirect=(to,cookie)=>new Response(null,{status:303,headers:{...common,Location:to,...(cookie?{"Set-Cookie":cookie}:{})}});
 export async function onRequest(context){
  const req=context.request,url=new URL(req.url);
+ if(/^\/workspace(?:\.html|\/)?$/i.test(url.pathname))return new Response(null,{status:302,headers:{Location:"/personal-sabatino.html","Cache-Control":"no-store","X-Robots-Tag":"noindex"}});
  if(!protectedPath.test(url.pathname))return context.next();
  const secret=context.env.PERSONAL_PRACTICE_PASSWORD;
  if(typeof secret!=="string"||secret.length<12)return page("<h1>Private access unavailable</h1><p>Configure the administrator password in Cloudflare Production (minimum 12 characters).</p>",503);
