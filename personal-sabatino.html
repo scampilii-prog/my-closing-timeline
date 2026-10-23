@@ -1588,4 +1588,40 @@ const shortcuts=[
 ];
 for(const item of shortcuts){const button=document.createElement('button');button.type='button';button.id=item.button;button.textContent=item.text;button.addEventListener('click',()=>{const target=document.getElementById(item.id);if(!target)return;if(item.id==='mct-save-checkpoint'){target.click();return}target.scrollIntoView({behavior:'smooth',block:'center'});if(item.id==='mct-practice-text')target.focus({preventScroll:true})});controls.appendChild(button)}
 });
+</script><style id="mct-admin-practice-only-final-20261023">
+/* Keep original operative elements in DOM; hide secondary material on private exercise page. */
+#contract-deadline-planner .mct-practice-summary,
+#contract-deadline-planner .mct-version-policy,
+#contract-deadline-planner .mct-local-checkpoints,
+#mct-practice-notes,
+#mct-local-checkpoints,
+.mct-version-policy,
+.mct-practice-summary,
+.mct-practice-banner,
+.mct-pro-showcase,
+.mct-pro-dialog,
+#pro-reminders,
+#understanding-closing,
+#pricing,
+#contract-deadline-planner .mct-practice-email-results,
+#contract-deadline-planner .mct-email-practice,
+#contract-deadline-planner .mct-contract-email-practice,
+#contract-deadline-planner .mct-email-results,
+.mct-admin-test-template-reference,
+.mct-admin-reference-banner{display:none!important}
+#mct-master-dashboard-controls .mct-admin-mode-selector{display:none!important}
+#mct-master-dashboard-controls .mct-master-heading p{display:none!important}
+#mct-master-dashboard-controls .mct-master-feedback{display:none!important}
+#mct-master-dashboard-controls .mct-master-actions button#mct-admin-notes-shortcut,
+#mct-master-dashboard-controls .mct-master-actions button#mct-admin-restore-shortcut{display:none!important}
+body main.workspace{padding-top:12px!important;padding-bottom:25px!important}
+#mct-five-results{margin-top:13px!important}
+</style><script id="mct-admin-practice-hide-extras">
+document.addEventListener('DOMContentLoaded',()=>{
+ const phrases=['Contract Timeline · Results for Email (Practice)','ADMIN TEST TEMPLATE · Reference'];
+ for(const label of phrases){
+  const elements=Array.from(document.querySelectorAll('section,article,aside,div')).filter(e=>e.children.length<25 && e.textContent?.trim().startsWith(label));
+  for(const e of elements){if(e.closest('#mct-five-results'))continue;const direct=[...e.children].some(child=>child.textContent?.trim().startsWith(label));if(direct){e.style.display='none';break}}
+ }
+});
 </script></body></html>
