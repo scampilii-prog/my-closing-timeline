@@ -1557,4 +1557,35 @@ refresh();
 #mct-five-results .mct-result-lines .mct-mini-table{width:100%!important}
 #mct-five-results .mct-result-lines .mct-mini-table tbody tr{display:table-row!important}
 #mct-five-results .mct-result-card h5{margin:0!important}
-</style></body></html>
+</style><style id="mct-admin-test-console-clean-20261023">
+/* PRIVATE TEST CONSOLE: conceal marketing only. Keep all Step forms, data nodes and test actions intact. */
+body>.mct-photo-hero,body>.intro.mct-photo-hero,body>.mct-practice-banner,
+#pro-reminders,#understanding-closing,#pricing,
+#contract-deadline-planner .mct-pro-showcase,
+#contract-deadline-planner .mct-pro-dialog,
+.mct-version-policy,#mct-site-footer{display:none!important}
+body>.mct-unified-header nav[aria-label="Primary navigation"]{display:none!important}
+body>.mct-unified-header .mct-auth-link{display:none!important}
+body main.workspace{padding-top:18px!important}
+#mct-master-dashboard-controls{margin-top:0!important}
+#mct-master-dashboard-controls .mct-five-top{margin:0!important}
+#mct-master-dashboard-controls .mct-admin-mode-selector a[href="free-timeline.html"]{display:none!important}
+#mct-master-dashboard-controls .mct-master-heading>div>span{letter-spacing:.12em}
+#mct-master-dashboard-controls .mct-master-heading p{max-width:940px}
+#mct-five-results .mct-five-top p{max-width:900px}
+#mct-local-checkpoints,#mct-practice-notes{scroll-margin-top:140px!important}
+#contract-deadline-planner{scroll-margin-top:145px!important}
+body .mct-unified-header{position:sticky!important;top:0!important;z-index:1000!important}
+</style><script id="mct-admin-test-console-actions-20261023">
+document.addEventListener('DOMContentLoaded',()=>{
+const controls=document.querySelector('#mct-master-dashboard-controls .mct-master-actions');
+if(!controls||document.getElementById('mct-admin-save-test-shortcut'))return;
+const shortcuts=[
+ {text:'Save Test Checkpoint',id:'mct-save-checkpoint',button:'mct-admin-save-test-shortcut'},
+ {text:'Restore Test',id:'mct-checkpoint-select',button:'mct-admin-restore-shortcut'},
+ {text:'Testing Notes',id:'mct-practice-text',button:'mct-admin-notes-shortcut'},
+ {text:'Compare 5 Reports',id:'mct-five-results',button:'mct-admin-report-shortcut'}
+];
+for(const item of shortcuts){const button=document.createElement('button');button.type='button';button.id=item.button;button.textContent=item.text;button.addEventListener('click',()=>{const target=document.getElementById(item.id);if(!target)return;if(item.id==='mct-save-checkpoint'){target.click();return}target.scrollIntoView({behavior:'smooth',block:'center'});if(item.id==='mct-practice-text')target.focus({preventScroll:true})});controls.appendChild(button)}
+});
+</script></body></html>
