@@ -1323,4 +1323,47 @@ html body .mct-home-final .mct-pro-preview .mct-showcase-table td{font-size:12px
 html body .mct-home-final .mct-pro-preview .mct-pro-strip{font-size:12px!important}
 @media(max-width:1100px){html body .mct-home-opening{grid-template-columns:1fr!important}html body .mct-home-opening .mct-luxury-timeline{justify-self:center!important;margin-inline:auto!important}}
 @media(max-width:600px){html body .mct-home-opening{padding-inline:14px!important}html body .mct-luxury-column-head,html body .mct-luxury-row{grid-template-columns:26px minmax(0,1fr) 26px 65px!important;gap:4px!important}html body .mct-luxury-task{font-size:10px!important}html body .mct-luxury-date{font-size:10px!important}html body .mct-luxury-days{font-size:11px!important}html body .mct-luxury-column-head{font-size:8px!important}html body .mct-luxury-row{min-height:43px!important}}
-</style><script id="mct-fixed-header-calibration">(()=>{const update=()=>{const h=document.querySelector('header.mct-unified-header');if(!h)return;const height=Math.ceil(h.getBoundingClientRect().height);if(height>0)document.documentElement.style.setProperty('--mct-fixed-header-height',height+'px')};document.addEventListener('DOMContentLoaded',()=>{update();if('ResizeObserver'in window){const h=document.querySelector('header.mct-unified-header');if(h)new ResizeObserver(update).observe(h)}document.fonts?.ready.then(update)});window.addEventListener('resize',update);update()})();</script></body></html>
+</style><script id="mct-fixed-header-calibration">(()=>{const update=()=>{const h=document.querySelector('header.mct-unified-header');if(!h)return;const height=Math.ceil(h.getBoundingClientRect().height);if(height>0)document.documentElement.style.setProperty('--mct-fixed-header-height',height+'px')};document.addEventListener('DOMContentLoaded',()=>{update();if('ResizeObserver'in window){const h=document.querySelector('header.mct-unified-header');if(h)new ResizeObserver(update).observe(h)}document.fonts?.ready.then(update)});window.addEventListener('resize',update);update()})();</script><style id="mct-home-visual-corrections-20261023">
+/* Last-in-cascade: approved HOME only, distinct photography, elegant notes and live rows. */
+html body .mct-home-opening{
+ background-image:linear-gradient(90deg,rgba(8,28,46,.82) 0%,rgba(10,32,48,.57) 37%,rgba(12,39,54,.16) 73%,rgba(12,39,54,.03) 100%),url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=88")!important;
+ background-position:center center!important;background-size:cover!important;
+}
+html body .mct-home-opening .mct-luxury-caption{
+ display:block!important;margin:0!important;border:0!important;box-shadow:none!important;
+ background:transparent!important;padding:7px 13px 10px!important;
+ font:400 italic 9px/1.35 Manrope,Arial,sans-serif!important;
+ letter-spacing:0!important;color:#748291!important;
+}
+html body .mct-home-reminders .mct-reminder-row{
+ display:grid!important;grid-template-columns:75px 100px minmax(0,1fr) auto!important;
+ align-items:center!important;gap:10px!important;min-height:48px!important;
+ padding:12px 11px!important;border-bottom:1px solid #e4ebef!important;
+ font:500 12px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body .mct-home-reminders .mct-reminder-row strong{font-size:12px!important}
+html body .mct-home-reminders .mct-reminder-row .mct-reminder-date{font-size:11px!important}
+html body .mct-home-reminders .mct-reminder-row span{font-size:11px!important;line-height:1.45!important;min-width:0!important}
+html body .mct-home-reminders .mct-reminder-row b{
+ justify-self:end!important;white-space:nowrap!important;
+ font-size:10px!important;padding:5px 7px!important;
+}
+html body .mct-home-reminders>small{
+ display:block!important;margin:0!important;padding:10px 12px 11px!important;
+ background:transparent!important;border:0!important;box-shadow:none!important;
+ font:400 italic 10px/1.5 Manrope,Arial,sans-serif!important;
+ color:#71808b!important;
+}
+@media(max-width:780px){
+ html body .mct-home-reminders .mct-reminder-row{
+ grid-template-columns:70px 90px minmax(0,1fr)!important;gap:8px!important;
+ }
+ html body .mct-home-reminders .mct-reminder-row b{grid-column:3;justify-self:start!important}
+}
+@media(max-width:480px){
+ html body .mct-home-reminders .mct-reminder-row{grid-template-columns:62px minmax(0,1fr)!important}
+ html body .mct-home-reminders .mct-reminder-row .mct-reminder-date{grid-column:2}
+ html body .mct-home-reminders .mct-reminder-row span{grid-column:1/-1}
+ html body .mct-home-reminders .mct-reminder-row b{grid-column:1/-1}
+}
+</style></body></html>
