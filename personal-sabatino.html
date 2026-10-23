@@ -1467,7 +1467,7 @@ pro.addEventListener('click',()=>apply('pro'));free.addEventListener('click',()=
 </style><script id="mct-five-results-script">
 document.addEventListener('DOMContentLoaded',()=>{
 const section=document.getElementById('mct-five-results');if(!section)return;
-const $=id=>document.getElementById(id), clean=t=>String(t||'').trim(), esc=t=>clean(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id), clean=t=>String(t||'').trim(), esc=t=>clean(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}):'—';
 const today=new Date(),iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const named=()=>Array.from($('deadline-editor-rows')?.querySelectorAll('.fc-simple-task')||[]).map((e,i)=>({name:clean(e.querySelector('[data-field="custom"]')?.value||e.querySelector('.mct-fixed-task-name')?.textContent||'Custom milestone'),days:clean(e.querySelector('[data-field="days"]')?.value),date:e.querySelector('input[data-calculated-date]')?.value||'',status:'Pending',num:i+1})).filter(r=>r.name);
