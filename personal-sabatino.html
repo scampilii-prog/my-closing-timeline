@@ -1467,33 +1467,21 @@ pro.addEventListener('click',()=>apply('pro'));free.addEventListener('click',()=
 </style><script id="mct-five-results-script">
 document.addEventListener('DOMContentLoaded',()=>{
 const section=document.getElementById('mct-five-results');if(!section)return;
-const get=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const rows=id=>[...(get(id)?.querySelectorAll('li, tr')||[])].filter(x=>x.textContent.trim());
-const render=(key,data,empty)=>{const node=section.querySelector('[data-mct-preview="'+key+'"]');if(node)node.innerHTML=data.length?data.slice(0,6).map(v=>'<div class="mct-preview-row">'+esc(v)+'</div>').join('')+(data.length>6?'<div>+ '+(data.length-6)+' additional rows</div>':''):'<div>'+esc(empty)+'</div>'};
-const taskRows=()=>[...(get('deadline-editor-rows')?.querySelectorAll('.fc-simple-task')||[])];
-const refresh=()=>{
- const contract=rows('timeline-live-list').map(x=>x.innerText.trim()).filter(Boolean);
- const contractDisplay=contract.length?contract:['No contractual tasks entered yet.'];
- render('pro-summary',contractDisplay,'No contract milestones yet');render('free-summary',contractDisplay,'No contract milestones yet');
- const all=rows('mct-tomorrow-list').map(x=>x.innerText.trim()).filter(Boolean);
- const count=taskRows().length;
- const contractDates=taskRows().map(x=>{const n=x.querySelector('input[data-name],input[data-task-name],.fc-task-label')?.value||x.querySelector('.fc-task-label')?.textContent||'';return n.trim()}).filter(Boolean);
- const personal=rows('timeline-reminder-rows').concat(rows('mct-extra-reminder-rows')).map(x=>x.innerText.trim()).filter(Boolean);
- const now=new Date();now.setHours(0,0,0,0);const next=new Date(now);next.setDate(now.getDate()+1);
- const dateText=dt=>dt.toISOString().slice(0,10);
- const shortDate=dt=>dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
- const chosenDates=[...(get('deadline-editor-rows')?.querySelectorAll('input[type=date]')||[])].map(x=>({dt:x.value,text:x.closest('.fc-simple-task')?.innerText.trim().slice(0,120)||'Contract milestone'})).filter(x=>x.dt===dateText(now)||x.dt===dateText(next));
- const freeDaily=chosenDates.map(x=>(x.dt===dateText(now)?'Due Today':'Tomorrow')+' · '+shortDate(new Date(x.dt+'T12:00:00'))+' · '+x.text);
- const previewFree=freeDaily.length?freeDaily:['Contract deadlines for today and tomorrow will appear when dates are entered.'];
- render('free-daily',previewFree,'No contractual deadlines');
- const proDaily=all.length?all:freeDaily;
- render('pro-daily',proDaily,'No upcoming results');render('pro-followups',personal,'No Step 3 follow-ups yet');
-};
-section.querySelectorAll('[data-mct-jump]').forEach(b=>b.addEventListener('click',()=>{const t=get(b.dataset.mctJump);if(t)t.scrollIntoView({behavior:'smooth',block:'center'})}));
-get('mct-review-refresh')?.addEventListener('click',refresh);
-const observer=new MutationObserver(()=>{if(section.dataset.refreshing==='1')return;section.dataset.refreshing='1';requestAnimationFrame(()=>{refresh();section.dataset.refreshing='0'})});
-['timeline-live-list','mct-tomorrow-list','timeline-reminder-rows','mct-extra-reminder-rows','deadline-editor-rows'].forEach(id=>{const el=get(id);if(el)observer.observe(el,{childList:true,subtree:true,characterData:true})});
-get('mct-review-export')?.addEventListener('click',()=>{refresh();const timestamp=new Date().toISOString();const snapshot={exportedAt:timestamp,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,notice:'Working-session review only. Not a transaction backup.',views:{}};section.querySelectorAll('[data-mct-preview]').forEach(el=>snapshot.views[el.dataset.mctPreview]=el.innerText.trim());const data=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'});const url=URL.createObjectURL(data),a=document.createElement('a');a.href=url;a.download='MCT-master-review-'+timestamp.slice(0,19).replace(/:/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);const label=new Date(timestamp).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});section.querySelectorAll('[data-mct-stamp]').forEach(el=>el.textContent='Last exported review: '+label+' ('+Intl.DateTimeFormat().resolvedOptions().timeZone+').');get('mct-review-status').textContent='Review snapshot downloaded on '+label+'. This does not save the editable transaction or change the website.'});
+const $=id=>document.getElementById(id), clean=t=>String(t||'').trim(), esc=t=>clean(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;':'&quot;',"'":'&#39;'}[c]));
+const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}):'—';
+const today=new Date(),iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+const named=()=>Array.from($('deadline-editor-rows')?.querySelectorAll('.fc-simple-task')||[]).map((e,i)=>({name:clean(e.querySelector('[data-field="custom"]')?.value||e.querySelector('.mct-fixed-task-name')?.textContent||'Custom milestone'),days:clean(e.querySelector('[data-field="days"]')?.value),date:e.querySelector('input[data-calculated-date]')?.value||'',status:'Pending',num:i+1})).filter(r=>r.name);
+const privateTasks=()=>Array.from(document.querySelectorAll('#timeline-reminder-rows tr,#mct-extra-reminder-rows tr')).map((e,i)=>({name:clean(e.querySelector('input[data-reminder-name]')?.value||e.querySelector('input[type=text]')?.value||e.querySelector('td')?.textContent||'Follow-up'),date:e.querySelector('input[type=date]')?.value||'',status:clean(e.querySelector('[data-reminder-status]')?.textContent)||'Pending',num:i+1,done:e.querySelector('[aria-checked=true]')!==null})).filter(r=>r.name&&!/^DELETE/i.test(r.name));
+const summary=(key,items)=>{const el=section.querySelector('[data-mct-preview="'+key+'"]');if(!el)return;const head='<table class="mct-mini-table mct-mini-summary"><thead><tr><th>#</th><th>Task / Milestone</th><th>Days</th><th>Due Date</th></tr></thead><tbody>';const effective=$('deadline-effective')?.value||'';const closing=$('deadline-closing')?.value||'';let rr=[{num:'—',name:'Effective date',days:'0',date:effective},...items,{num:'—',name:'Closing date',days:'—',date:closing}];el.innerHTML=head+rr.map((r,i)=>'<tr class="'+(i===0?'mct-effective':i===rr.length-1?'mct-closing':'')+'"><td><span class="mct-step-number">'+esc(r.num)+'</span></td><td>'+esc(r.name)+'</td><td>'+esc(r.days||'—')+'</td><td>'+fmt(r.date)+'</td></tr>').join('')+'</tbody></table><p class="mct-mini-note">* Dates and deadlines must follow the signed contract.</p>'};
+const follow=items=>{const el=section.querySelector('[data-mct-preview="pro-followups"]');if(!el)return;el.innerHTML='<div class="mct-follow-intro">40 suggested tasks · Editable working checklist</div><table class="mct-mini-table mct-mini-follow"><thead><tr><th>#</th><th>Follow-Up Task</th><th>Due Date</th><th>Status</th></tr></thead><tbody>'+items.slice(0,12).map(r=>'<tr><td>'+r.num+'</td><td>'+esc(r.name)+'</td><td>'+fmt(r.date)+'</td><td><span class="mct-status-chip">'+esc(r.done?'Completed':r.status)+'</span></td></tr>').join('')+'</tbody></table>'+(items.length>12?'<p class="mct-mini-note">Showing 12 of '+items.length+' working tasks. Open Step 3 for the complete checklist.</p>':'')};
+const daily=(key,items)=>{const el=section.querySelector('[data-mct-preview="'+key+'"]');if(!el)return;let a=iso(new Date()),t=new Date();t.setDate(t.getDate()+1);let b=iso(t),groups=[[a,'Due Today','mct-due-now'],[b,'Tomorrow','mct-due-next']];el.innerHTML='<div class="mct-daily-intro">Live deadlines · '+esc(new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}))+'</div>'+groups.map(([d,label,cl])=>{let matches=items.filter(r=>r.date===d&&!r.done);return '<div class="mct-daily-band '+cl+'"><strong>'+label+'</strong><b>'+matches.length+'</b></div>'+(matches.length?matches.map(r=>'<div class="mct-daily-item"><strong>'+fmt(r.date)+'</strong><span>'+esc(r.name)+'</span></div>').join(''):'<p class="mct-daily-empty">No pending tasks.</p>')}).join('')};
+const refresh=()=>{let contract=named(),personal=privateTasks();summary('pro-summary',contract);summary('free-summary',contract);daily('free-daily',contract);daily('pro-daily',contract.concat(personal));follow(personal)};
+section.querySelectorAll('[data-mct-jump]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.mctJump)?.scrollIntoView({behavior:'smooth',block:'center'})));
+$('mct-review-refresh')?.addEventListener('click',refresh);
+let scheduled=false;const observer=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;refresh()})});
+['deadline-editor-rows','timeline-reminder-rows','mct-extra-reminder-rows'].forEach(id=>{let e=$(id);if(e)observer.observe(e,{childList:true,subtree:true,characterData:true})});
+document.querySelector('#contract-deadline-planner')?.addEventListener('input',()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;refresh()})},true);
+$('mct-review-export')?.addEventListener('click',()=>{refresh();const stamp=new Date(),time=stamp.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'}),data={exportedAt:stamp.toISOString(),note:'Review snapshot, not a saved editable transaction.',contract:named(),personal:privateTasks()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='MCT-review-'+stamp.toISOString().slice(0,19).replace(/:/g,'-')+'.json';a.click();URL.revokeObjectURL(url);section.querySelectorAll('[data-mct-stamp]').forEach(el=>el.textContent='Last exported review: '+time+'.');$('mct-review-status').textContent='Review downloaded '+time+'. This is not permanent account storage.'});
 refresh();
 });
 </script><style id="mct-five-approved-table-appearance-20261023">
@@ -1514,4 +1502,32 @@ refresh();
 #mct-five-results .mct-result-card:nth-child(2) .mct-preview-row:nth-child(even){background:#f8edc9!important;border-radius:7px!important;padding:7px!important;color:#775d21!important}
 #mct-five-results .mct-result-card button{margin:0!important;align-self:stretch!important;padding:13px!important;background:#fff!important;border-top:1px solid #e3e9ed!important;color:#1e5578!important;text-align:left!important;font:800 12px/1.4 Manrope,Arial,sans-serif!important}
 #mct-five-results .mct-result-card button:hover{background:#f6f2e9!important}
+</style><style id="mct-five-actual-tables-20261023">
+#mct-five-results .mct-result-cards,#mct-five-results .mct-free-result-cards{display:grid!important;grid-template-columns:1fr!important;gap:20px!important}
+#mct-five-results .mct-result-card{width:100%!important;min-width:0!important;border:2px solid #cba15b!important;border-radius:16px!important;box-shadow:0 8px 24px #193f5410!important}
+#mct-five-results .mct-result-card h5{min-height:0!important;padding:19px 22px!important;background:#193c53!important;border:0!important;color:white!important;font-size:23px!important;font-weight:800!important}
+#mct-five-results .mct-result-lines{padding:18px 19px!important;min-height:0!important;background:#fff!important;color:#23465b!important;font-size:13px!important}
+#mct-five-results .mct-mini-table{width:100%!important;border-collapse:collapse!important;table-layout:fixed!important}
+#mct-five-results .mct-mini-table th{text-transform:uppercase!important;letter-spacing:.045em!important;color:#a87b39!important;background:#fbf9f3!important;border-bottom:1px solid #d6dfdf!important;font:800 12px/1.3 Manrope,Arial,sans-serif!important;padding:12px!important;text-align:left!important}
+#mct-five-results .mct-mini-table td{border-bottom:1px solid #e4e8e9!important;padding:12px!important;vertical-align:middle!important;color:#24445a!important;font:650 13px/1.45 Manrope,Arial,sans-serif!important;overflow-wrap:anywhere}
+#mct-five-results .mct-mini-table td:first-child,#mct-five-results .mct-mini-table th:first-child{width:50px}
+#mct-five-results .mct-mini-table td:nth-child(3),#mct-five-results .mct-mini-table th:nth-child(3){width:92px}
+#mct-five-results .mct-mini-table td:last-child,#mct-five-results .mct-mini-table th:last-child{width:115px}
+#mct-five-results .mct-step-number{border:1.6px solid #c99d59;border-radius:50%;width:28px;height:28px;display:inline-flex;justify-content:center;align-items:center;color:#163d52}
+#mct-five-results .mct-mini-summary .mct-effective{background:#eaf2fc!important}
+#mct-five-results .mct-mini-summary .mct-closing{background:#faeaf0!important}
+#mct-five-results .mct-mini-note{font:italic 11px/1.55 Manrope,Arial,sans-serif;color:#788593;padding:8px 0 0}
+#mct-five-results .mct-daily-intro{font-size:13px;margin-bottom:18px;color:#5c7182}
+#mct-five-results .mct-daily-band{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-radius:12px;margin:15px 0 6px;font:800 20px/1.2 Manrope,Arial,sans-serif}
+#mct-five-results .mct-due-now{color:#9c4a1e;background:#fae4d0}
+#mct-five-results .mct-due-next{color:#80611d;background:#f8edc9}
+#mct-five-results .mct-daily-item{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;padding:10px 8px;border-bottom:1px solid #e5e3dc}
+#mct-five-results .mct-daily-empty{margin:12px 0 20px;color:#75889a}
+#mct-five-results .mct-mini-follow th{background:#f5f8fa!important;color:#637583!important}
+#mct-five-results .mct-mini-follow tbody tr:nth-child(even){background:#f7fafb}
+#mct-five-results .mct-mini-follow th:nth-child(3),#mct-five-results .mct-mini-follow td:nth-child(3){width:140px}
+#mct-five-results .mct-mini-follow th:last-child,#mct-five-results .mct-mini-follow td:last-child{width:150px}
+#mct-five-results .mct-follow-intro{background:#f7f0e5;color:#855b2b;padding:12px 15px;font-weight:750}
+#mct-five-results .mct-status-chip{display:inline-block;padding:6px 10px;background:#e8eff3;border-radius:30px;font-size:11px!important}
+@media(max-width:680px){#mct-five-results .mct-result-card h5{font-size:18px!important}#mct-five-results .mct-result-lines{overflow-x:auto}#mct-five-results .mct-mini-table{min-width:530px!important}}
 </style></body></html>
