@@ -1279,4 +1279,13 @@ document.addEventListener('DOMContentLoaded',function(){
  const rightColumn=document.createElement('div');rightColumn.className='mct-right-column';preview.parentNode.insertBefore(rightColumn,preview);rightColumn.append(preview,today);
  /* Checklist stays in its full-width section; legacy reminder form remains hidden for compatible event handlers. */
 });
-</script><script id="mct-pro-tour-script">(function(){const open=document.getElementById('mct-pro-open'),modal=document.getElementById('mct-pro-dialog'),close=document.getElementById('mct-pro-close');if(!open||!modal||!close)return;open.addEventListener('click',()=>{if(typeof modal.showModal==='function')modal.showModal();else modal.setAttribute('open','')});close.addEventListener('click',()=>modal.close?.());modal.addEventListener('click',event=>{if(event.target===modal)modal.close?.()})})();</script><link rel="stylesheet" href="assets/header-shared.css?v=20261022-single-header-v1"></body></html>
+</script><script id="mct-pro-tour-script">(function(){const open=document.getElementById('mct-pro-open'),modal=document.getElementById('mct-pro-dialog'),close=document.getElementById('mct-pro-close');if(!open||!modal||!close)return;open.addEventListener('click',()=>{if(typeof modal.showModal==='function')modal.showModal();else modal.setAttribute('open','')});close.addEventListener('click',()=>modal.close?.());modal.addEventListener('click',event=>{if(event.target===modal)modal.close?.()})})();</script><link rel="stylesheet" href="assets/header-shared.css?v=20261022-single-header-v1"><style id="mct-free-pro-feature-gate-20261023">
+/* Same contract planner as the master; Free shows Steps 1–2 only.
+   PRO Step 3 reminders, private follow-up rows and related results stay hidden. */
+html body #contract-deadline-planner>.fc-complementary-tasks,
+html body #contract-deadline-planner .fc-complementary-tasks,
+html body #daily-followup,
+html body #pro-reminders{display:none!important}
+html body #contract-deadline-planner .fc-simple-result,
+html body #contract-deadline-planner #timeline-live-list{visibility:visible!important}
+</style></body></html>
