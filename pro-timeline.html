@@ -1379,4 +1379,31 @@ html body #contract-deadline-planner #complementary-title{scroll-margin-top:140p
 #mct-pro-login-notice a,#mct-pro-login-notice button{display:inline-block;border:1px solid #173e55;border-radius:8px;padding:11px 17px;font:750 12px Manrope,Arial,sans-serif;text-decoration:none;cursor:pointer}
 #mct-pro-login-notice a{background:#173e55;color:#fff}
 #mct-pro-login-notice button{background:#fff;color:#173e55}
-</style><script id="mct-pro-login-notice-script">document.addEventListener('DOMContentLoaded',()=>{const dialog=document.getElementById('mct-pro-login-notice'),button=document.getElementById('mct-pro-preview-continue');if(!dialog||!button)return;dialog.style.display='flex';button.focus();button.addEventListener('click',()=>{dialog.style.display='none'});});</script></body></html>
+</style><script id="mct-pro-login-notice-script">document.addEventListener('DOMContentLoaded',()=>{const dialog=document.getElementById('mct-pro-login-notice'),button=document.getElementById('mct-pro-preview-continue');if(!dialog||!button)return;dialog.style.display='flex';button.focus();button.addEventListener('click',()=>{dialog.style.display='none'});});</script><style id="mct-pro-readonly-demo-20261023">
+/* Public PRO page: demonstration only until server-side subscriptions exist. */
+body.mct-pro-demo-readonly #contract-deadline-planner input,
+body.mct-pro-demo-readonly #contract-deadline-planner select,
+body.mct-pro-demo-readonly #contract-deadline-planner textarea,
+body.mct-pro-demo-readonly #contract-deadline-planner button,
+body.mct-pro-demo-readonly #pro-followup-results button{pointer-events:none!important}
+body.mct-pro-demo-readonly #contract-deadline-planner input,
+body.mct-pro-demo-readonly #contract-deadline-planner select,
+body.mct-pro-demo-readonly #contract-deadline-planner textarea{opacity:.83}
+#mct-pro-readonly-banner{background:#fff5dd;border:1px solid #d2ad73;border-radius:12px;padding:15px 18px;margin:20px auto;max-width:1180px;color:#244157;font:600 13px/1.6 Manrope,Arial,sans-serif}
+#mct-pro-readonly-banner strong{color:#8c5822}
+</style><script id="mct-pro-readonly-demo-script">
+document.addEventListener('DOMContentLoaded',()=>{
+document.body.classList.add('mct-pro-demo-readonly');
+const planner=document.getElementById('contract-deadline-planner');
+if(!planner)return;
+const banner=document.createElement('div');banner.id='mct-pro-readonly-banner';banner.innerHTML='<strong>PRO TIMELINE · READ-ONLY PREVIEW</strong> — Explore Steps 1, 2 and 3 and the three results. Editing, saving, exporting, accounts and payments are not available in this demonstration.';
+planner.parentNode.insertBefore(banner,planner);
+const lock=()=>planner.querySelectorAll('input,select,textarea,button').forEach(el=>{el.disabled=true;el.setAttribute('aria-disabled','true');if(el.matches('input,textarea'))el.readOnly=true});
+lock();
+new MutationObserver(lock).observe(planner,{subtree:true,childList:true});
+planner.addEventListener('click',e=>{if(e.target.closest('button,input,select,textarea,[contenteditable]')){e.preventDefault();e.stopImmediatePropagation()}},true);
+planner.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation()},true);
+planner.addEventListener('beforeinput',e=>{e.preventDefault();e.stopImmediatePropagation()},true);
+document.querySelectorAll('#pro-followup-results button').forEach(b=>b.disabled=true);
+});
+</script></body></html>
