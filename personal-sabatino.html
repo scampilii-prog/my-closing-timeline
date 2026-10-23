@@ -1496,4 +1496,22 @@ const observer=new MutationObserver(()=>{if(section.dataset.refreshing==='1')ret
 get('mct-review-export')?.addEventListener('click',()=>{refresh();const timestamp=new Date().toISOString();const snapshot={exportedAt:timestamp,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,notice:'Working-session review only. Not a transaction backup.',views:{}};section.querySelectorAll('[data-mct-preview]').forEach(el=>snapshot.views[el.dataset.mctPreview]=el.innerText.trim());const data=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'});const url=URL.createObjectURL(data),a=document.createElement('a');a.href=url;a.download='MCT-master-review-'+timestamp.slice(0,19).replace(/:/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);const label=new Date(timestamp).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});section.querySelectorAll('[data-mct-stamp]').forEach(el=>el.textContent='Last exported review: '+label+' ('+Intl.DateTimeFormat().resolvedOptions().timeZone+').');get('mct-review-status').textContent='Review snapshot downloaded on '+label+'. This does not save the editable transaction or change the website.'});
 refresh();
 });
-</script></body></html>
+</script><style id="mct-five-approved-table-appearance-20261023">
+/* Reuse the already-approved Summary, Today & Tomorrow, and Follow-Up Tasks visual language. */
+#mct-five-results .mct-result-group{background:#fffdf8!important;border:1px solid #d0aa67!important;border-radius:15px!important}
+#mct-five-results .mct-result-cards{align-items:stretch!important}
+#mct-five-results .mct-result-card{padding:0!important;overflow:hidden!important;gap:0!important;border:1.5px solid #cba56b!important;border-radius:13px!important;background:#fff!important;box-shadow:0 4px 16px #13354c0b!important}
+#mct-five-results .mct-result-card h5{display:block!important;margin:0!important;padding:15px 13px!important;min-height:58px!important;background:#1c3c53!important;color:#fff!important;font:750 16px/1.3 Manrope,Arial,sans-serif!important}
+#mct-five-results .mct-result-card:nth-child(1) h5{background:#213b55!important;border-bottom:3px solid #d1a560!important}
+#mct-five-results .mct-result-card:nth-child(2) h5{background:#193b50!important;color:#fff!important}
+#mct-five-results .mct-result-card:nth-child(3) h5{background:linear-gradient(115deg,#112f45,#24475b)!important;border-bottom:2px solid #d5b47b!important}
+#mct-five-results .mct-result-lines{padding:13px!important;background:#fffcf5!important;min-height:145px!important;font:500 11px/1.55 Manrope,Arial,sans-serif!important;color:#31536a!important}
+#mct-five-results .mct-result-card:first-child .mct-result-lines{background:#fff!important}
+#mct-five-results .mct-result-card:nth-child(2) .mct-result-lines{background:#fef9ef!important}
+#mct-five-results .mct-result-card:nth-child(3) .mct-result-lines{background:#f9fbfc!important}
+#mct-five-results .mct-result-lines .mct-preview-row{padding:7px 0!important;border-bottom:1px solid #e3e5e6!important}
+#mct-five-results .mct-result-card:nth-child(2) .mct-preview-row:nth-child(odd){background:#fbe9d5!important;border-radius:7px!important;padding:7px!important;color:#854d29!important}
+#mct-five-results .mct-result-card:nth-child(2) .mct-preview-row:nth-child(even){background:#f8edc9!important;border-radius:7px!important;padding:7px!important;color:#775d21!important}
+#mct-five-results .mct-result-card button{margin:0!important;align-self:stretch!important;padding:13px!important;background:#fff!important;border-top:1px solid #e3e9ed!important;color:#1e5578!important;text-align:left!important;font:800 12px/1.4 Manrope,Arial,sans-serif!important}
+#mct-five-results .mct-result-card button:hover{background:#f6f2e9!important}
+</style></body></html>
