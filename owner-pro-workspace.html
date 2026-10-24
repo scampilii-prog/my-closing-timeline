@@ -1424,7 +1424,7 @@ bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
 let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
 if(!project){label.textContent='PRO Preview · Select a registered project';return}
 label.textContent=project.name+' · PRO Workspace (practice)';
-const fill=()=>{for(const [id,date] of [['deadline-effective',project.effective],['deadline-closing',project.closing]]){const el=document.getElementById(id);if(el&&el.value!==date){el.value=date;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}}};fill();setTimeout(fill,500);
+const fill=()=>{const fields=[['deadline-effective',project.effective],['deadline-closing',project.closing],['property-address',project.address],['client-name',project.side==='Seller'?(project.sellerName||''):(project.buyerName||'')],['agent-name',localStorage.getItem('mct_realtor_test_agent_name_v1')||''],['transaction-side',project.side],['mct-contract-price',project.price]];for(const [id,value] of fields){const el=document.getElementById(id);if(el&&value!=null&&String(value).trim()!==''&&el.value!==String(value)){el.value=String(value);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}}};fill();setTimeout(fill,500);
 const sources=[document.getElementById('timeline-live-list'),document.getElementById('mct-tomorrow-list'),document.getElementById('pro-followup-results-body')];
 const memo=['','',''];
 const create=(tag,cl,text)=>{const n=document.createElement(tag);if(cl)n.className=cl;if(text!==undefined)n.textContent=text;return n};
@@ -1492,4 +1492,4 @@ html body .mct-step3-observations{background:#fffcf6!important;border:1px solid 
 html body .mct-step3-observations .mct-obs-intro{background:#eaf1f4!important;border-left:5px solid #caa367!important;padding:15px 18px!important;border-radius:7px!important;margin-bottom:14px!important}
 html body .mct-obs-disclaimer{font-size:11px!important;line-height:1.5!important}
 html body .fc-simple-result{overflow:hidden!important}
-</style></body></html>
+</style><style id="mct-workspace-fixed-results-20261024">html{scroll-padding-top:370px}.mct-owner-bar{position:sticky!important;top:0!important;z-index:100001!important;min-height:54px!important}.mct-owner-strip{position:sticky!important;top:54px!important;z-index:99999!important;padding-top:4px!important;padding-bottom:6px!important;gap:10px!important}.mct-owner-result{max-height:240px!important;min-height:205px!important}.mct-owner-strip.mct-results-expanded .mct-owner-result{max-height:62vh!important}@media(max-width:760px){.mct-owner-strip{top:70px!important}.mct-owner-result{max-height:160px!important;min-height:110px!important}html{scroll-padding-top:280px}}</style></body></html>
