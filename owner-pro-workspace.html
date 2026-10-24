@@ -1443,7 +1443,46 @@ toggle.addEventListener('click',()=>{strip.classList.remove('mct-manual-size');s
 bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
 let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
 if(!project){label.textContent='PRO Preview · Select a registered project';return}
-label.textContent=project.name+' · PRO Workspace (practice)';const summary=document.getElementById('mct-owner-registered-summary');if(summary){const mk=(name,value)=>{const card=document.createElement('div');const title=document.createElement('small');title.textContent=name;const detail=document.createElement('strong');detail.textContent=value||'Not entered';card.append(title,detail);return card};summary.replaceChildren(mk('Project',project.name),mk('Property',project.address),mk('Seller(s)',project.sellerName),mk('Buyer(s)',project.buyerName),mk('Effective Date',project.effective),mk('Closing Date',project.closing),mk('Closing Company',project.closingCompany),mk('Representation',project.side));}
+label.textContent=project.name+' · PRO Workspace (practice)';
+
+const detailBar=document.createElement('section');detailBar.className='mct-registered-closing-banner';detailBar.setAttribute('aria-label','Registered contract details');
+const heading=document.createElement('div');heading.className='mct-registered-heading';
+const headingText=document.createElement('div');const kicker=document.createElement('small');kicker.textContent='REGISTERED CLOSING · READ-ONLY CONTRACT SNAPSHOT';
+const headingTitle=document.createElement('h2');headingTitle.textContent=project.name||'Registered Closing';headingText.append(kicker,headingTitle);
+const actions=document.createElement('div');actions.className='mct-registered-actions';
+const status=document.createElement('span');status.className='mct-closing-status';
+const cancelBtn=document.createElement('button');cancelBtn.type='button';cancelBtn.className='mct-cancel-closing-btn';cancelBtn.textContent='Record Cancellation';
+actions.append(status,cancelBtn);heading.append(headingText,actions);detailBar.append(heading);
+const detailGrid=document.createElement('div');detailGrid.className='mct-contract-snapshot-grid';
+const vals=[['Project',project.name],['Property',project.address],['Seller(s)',project.sellerName],['Buyer(s)',project.buyerName],['Effective Date',project.effective],['Closing Date',project.closing],['Purchase Price',project.price],['Closing Company',project.closingCompany],['Representation',project.side],['Realtor',localStorage.getItem('mct_realtor_test_agent_name_v1')||document.getElementById('agent-name')?.value]];
+for(const [key,value] of vals){const item=document.createElement('div');const k=document.createElement('small');k.textContent=key;const v=document.createElement('strong');v.textContent=value==null||String(value).trim()===''?'Not entered':String(value);item.append(k,v);detailGrid.append(item)}detailBar.append(detailGrid);
+const recordKey='mct_private_closing_cancel_record_'+pid;
+let record=null;try{record=JSON.parse(localStorage.getItem(recordKey)||'null')}catch{}
+const note=document.createElement('p');note.className='mct-cancel-record-note';detailBar.append(note);
+function reflectCancellation(){
+ const cancelled=!!record?.cancelled;status.textContent=cancelled?'Cancellation recorded':'In Progress';status.classList.toggle('cancelled',cancelled);
+ cancelBtn.textContent=cancelled?'Reopen Cancellation Record':'Record Cancellation';
+ note.textContent=cancelled?'Cancellation record (practice only): '+(record.reason||'Not stated')+(record.note?' — '+record.note:'')+' · '+(record.date||''):'Contract details are shown exactly as registered. No dates may be changed from this PRO follow-up view.';
+}
+cancelBtn.addEventListener('click',()=>{
+ const dialog=document.createElement('dialog');dialog.className='mct-cancel-dialog';
+ const h=document.createElement('h3');h.textContent=record?.cancelled?'Update Cancellation Record':'Record Contract Cancellation';
+ const p=document.createElement('p');p.textContent='Record the reported reason and observations. This does not legally cancel an executed contract, notify parties, or delete the registered closing.';
+ const reason=document.createElement('select');const choices=['Buyer deposit not received','Inspection contingency','Financing contingency','Association / condominium issue','Mutual release','Other / See observations'];
+ for(const item of choices){const opt=document.createElement('option');opt.textContent=item;opt.value=item;reason.append(opt)}
+ if(record?.reason&&choices.includes(record.reason))reason.value=record.reason;
+ const notes=document.createElement('textarea');notes.rows=4;notes.placeholder='Observations, relevant contract provision and notices (if applicable)';notes.value=record?.note||'';
+ const foot=document.createElement('div');foot.className='mct-dialog-footer';const back=document.createElement('button');back.textContent='Back';back.type='button';back.onclick=()=>dialog.close();
+ const save=document.createElement('button');save.textContent='Save Cancellation Record';save.type='button';save.onclick=()=>{
+  if(!notes.value.trim()){notes.focus();return}
+  if(!confirm('Record this closing as cancelled in this browser-only practice view? This does not send notices or cancel the signed agreement.'))return;
+  record={cancelled:true,reason:reason.value,note:notes.value.trim(),date:new Date().toLocaleString()};localStorage.setItem(recordKey,JSON.stringify(record));reflectCancellation();dialog.close();
+ };
+ const resume=document.createElement('button');resume.type='button';resume.textContent='Restore In Progress';resume.onclick=()=>{if(!confirm('Restore this practice closing to In Progress?'))return;record=null;localStorage.removeItem(recordKey);reflectCancellation();dialog.close()};
+ foot.append(back);if(record?.cancelled)foot.append(resume);foot.append(save);
+ dialog.append(h,p,reason,notes,foot);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();
+});reflectCancellation();strip.after(detailBar);
+const summary=document.getElementById('mct-owner-registered-summary');if(summary){const mk=(name,value)=>{const card=document.createElement('div');const title=document.createElement('small');title.textContent=name;const detail=document.createElement('strong');detail.textContent=value||'Not entered';card.append(title,detail);return card};summary.replaceChildren(mk('Project',project.name),mk('Property',project.address),mk('Seller(s)',project.sellerName),mk('Buyer(s)',project.buyerName),mk('Effective Date',project.effective),mk('Closing Date',project.closing),mk('Closing Company',project.closingCompany),mk('Representation',project.side));}
 const fill=()=>{const fields=[['deadline-effective',project.effective],['deadline-closing',project.closing],['property-address',project.address],['client-name',project.side==='Seller'?(project.sellerName||''):(project.buyerName||'')],['agent-name',localStorage.getItem('mct_realtor_test_agent_name_v1')||''],['transaction-side',project.side],['mct-contract-price',project.price]];for(const [id,value] of fields){const el=document.getElementById(id);if(el&&value!=null&&String(value).trim()!==''&&el.value!==String(value)){el.value=String(value);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}}};fill();setTimeout(fill,500);
 const sources=[document.getElementById('timeline-live-list'),document.getElementById('mct-tomorrow-list'),document.getElementById('pro-followup-results-body')];
 const memo=['','',''];
@@ -1692,4 +1731,19 @@ html body .fc-simple-result{overflow:hidden!important}
 .mct-owner-result-0 .mct-email-actions button,.mct-owner-result-2 .mct-follow-export-actions button{box-sizing:border-box!important;min-width:0!important;min-height:43px!important;height:43px!important;padding:6px 5px!important;font:900 clamp(11px,1vw,14px)/1.16 Manrope,Arial,sans-serif!important;letter-spacing:-.025em!important;text-align:center!important;white-space:normal!important;border-radius:8px!important}
 .mct-owner-result-0 .mct-email-actions .mct-copy-timeline,.mct-owner-result-0 .mct-email-actions .mct-compose-agent-email,.mct-owner-result-2 .mct-follow-export-actions button:not(:last-child){background:#173c57!important;color:#fff7e7!important;border:1.5px solid #e5ba6b!important}
 .mct-owner-result-0 .mct-email-actions .mct-download-complete-email,.mct-owner-result-2 .mct-follow-export-actions button:last-child{background:#f2d9a8!important;color:#17364e!important;border:1.5px solid #c99745!important}
+</style><style id="mct-registered-follow-up-only-20261024">
+#contract-deadline-planner>.fc-simple-layout,#contract-deadline-planner>.mct-step-one,#contract-deadline-planner>.mct-section-intro{display:none!important}
+#contract-deadline-planner>.fc-complementary-tasks{display:block!important}
+.mct-registered-closing-banner{margin:12px clamp(15px,2.5vw,44px) 5px;padding:18px 22px;background:#fffdf8;border:1.5px solid #cda663;border-radius:12px;color:#173b52;box-shadow:0 3px 14px rgba(21,55,77,.07)}
+.mct-registered-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:13px}
+.mct-registered-heading small{font:900 11px Manrope,Arial;letter-spacing:.09em;color:#a57530}.mct-registered-heading h2{margin:5px 0 0;font:800 23px Manrope,Arial}
+.mct-registered-actions{display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+.mct-closing-status{font:850 12px Manrope,Arial;background:#e9f5eb;color:#25683f;padding:9px 12px;border-radius:8px}.mct-closing-status.cancelled{background:#ffe6e4;color:#9b2d2b}
+.mct-cancel-closing-btn{background:#fff2e5;border:1.5px solid #bf7b57;color:#863f25;padding:10px 14px;border-radius:8px;font:850 12px Manrope,Arial;cursor:pointer}
+.mct-contract-snapshot-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.mct-contract-snapshot-grid>div{border:1px solid #dae2e5;border-radius:8px;background:#f7fafb;padding:9px 11px;min-width:0;overflow-wrap:anywhere}
+.mct-contract-snapshot-grid small{display:block;color:#667f8d;font:800 10px Manrope,Arial;margin-bottom:4px}.mct-contract-snapshot-grid strong{display:block;font:850 12px/1.4 Manrope,Arial}
+.mct-cancel-record-note{font:600 11px/1.5 Manrope,Arial;color:#61798a;margin:10px 0 0}
+.mct-cancel-dialog{max-width:min(540px,90vw);width:100%;border:1px solid #c5a467;border-radius:13px;padding:25px;background:#fffdf8;color:#173b52}.mct-cancel-dialog::backdrop{background:rgba(6,28,44,.6)}.mct-cancel-dialog h3{margin:0 0 10px;font:800 22px Manrope,Arial}.mct-cancel-dialog p{font:500 13px/1.5 Manrope,Arial}.mct-cancel-dialog select,.mct-cancel-dialog textarea{display:block;box-sizing:border-box;width:100%;margin:10px 0;padding:12px;border:1px solid #b9cbd4;border-radius:7px;font:600 13px Manrope,Arial}.mct-dialog-footer{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.mct-dialog-footer button{padding:10px;border:1px solid #c8a165;border-radius:7px;background:#173b52;color:#fff;cursor:pointer}
+@media(max-width:1100px){.mct-contract-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.mct-contract-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></body></html>
