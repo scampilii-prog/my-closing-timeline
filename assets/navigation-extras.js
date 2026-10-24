@@ -35,3 +35,5 @@ if(select){select.addEventListener('change',()=>{try{localStorage.setItem('mct-l
 const observer=new MutationObserver(changes=>{if(busy||language==='en')return;for(const change of changes){if(change.type==='childList')for(const n of change.addedNodes){if(n.nodeType===1||n.nodeType===3)visit(n)}else if(change.type==='characterData')visit(change.target.parentElement||document.body)}});observer.observe(document.body,{subtree:true,childList:true,characterData:true});
 const back=document.querySelector('#mct-back-top');if(back){function show(){back.hidden=window.scrollY<8}back.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));window.addEventListener('scroll',show,{passive:true});show()}
 })();
+/* mct-global-date-input-activation */
+(function(){document.addEventListener('click',function(event){const field=event.target&&event.target.closest&&event.target.closest('input[type="date"]');if(!field||typeof field.showPicker!=='function')return;try{field.showPicker()}catch(_error){}},true)})();
