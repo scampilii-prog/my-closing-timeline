@@ -1439,13 +1439,13 @@ if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
  const timelineText=()=>{
   const rows=[...body[0].querySelectorAll('.mct-mini-row:not(.mct-mini-table-head)')];
   if(!rows.length)return '';
-  return 'BUYER CLOSING TIMELINE\\n# | Task / Milestone | Days | Due Date\\n'+rows.map((row,i)=>{
+  return 'BUYER CLOSING TIMELINE\n# | Task / Milestone | Days | Due Date\n'+rows.map((row,i)=>{
    const name=row.querySelector('.mct-task-name')?.textContent?.trim()||'Milestone';
    const detail=row.querySelector('.mct-task-detail')?.textContent?.trim()||'';
    const days=row.querySelector('.mct-contract-days')?.textContent?.trim()||'—';
    const date=row.querySelector('.mct-contract-date')?.textContent?.trim()||'—';
    return (i+1)+' | '+name+(detail?' — '+detail:'')+' | '+days+' | '+date;
-  }).join('\\n');
+  }).join('\n');
  };
  copy.onclick=async()=>{
   const content=timelineText();if(!content){copy.textContent='Set contract dates first';setTimeout(()=>copy.textContent='▣ Copy Timeline for Email',2200);return}
@@ -1460,7 +1460,7 @@ if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
   const timeline=timelineText();
   if(!timeline){email.textContent='Set contract dates first';setTimeout(()=>email.textContent='✉ Open Buyer Agent Email',2500);return}
   const greeting='Dear Buyer’s Agent,';
-  const content=[greeting,'','Congratulations on reaching an agreement! Thank you for your cooperation throughout the negotiations. I look forward to a smooth and successful closing.','','Attached are the executed contract and accompanying documents accepted by the Seller.','','Please also find the Buyer Closing Timeline below for your reference. Kindly review it with your client and let me know promptly of any potential deadline concerns.','','Please verify all dates against the executed contract and any amendments.','',timeline,'','Best regards,','Sabatino Campilii','REALTOR® | LoKation® Real Estate'].join('\\n');
+  const content=[greeting,'','Congratulations on reaching an agreement! Thank you for your cooperation throughout the negotiations. I look forward to a smooth and successful closing.','','Attached are the executed contract and accompanying documents accepted by the Seller.','','Please also find the Buyer Closing Timeline below for your reference. Kindly review it with your client and let me know promptly of any potential deadline concerns.','','Please verify all dates against the executed contract and any amendments.','',timeline,'','Best regards,','Sabatino Campilii','REALTOR® | LoKation® Real Estate'].join('\n');
   const url='mailto:?subject='+encodeURIComponent('Executed Contract and Buyer Closing Timeline')+'&body='+encodeURIComponent(content);
   window.location.href=url;
  };
