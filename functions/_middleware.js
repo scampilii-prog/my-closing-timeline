@@ -10,7 +10,7 @@ const sign = async (secret,data) => {const k=await crypto.subtle.importKey("raw"
 const equal = (a,b)=>{if(a.length!==b.length)return false;let x=0;for(let i=0;i<a.length;i++)x|=a.charCodeAt(i)^b.charCodeAt(i);return x===0};
 const cookieName="mct_private_session";
 
-function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Strict";}
+function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax";}
 const redirect=(to,cookie)=>new Response(null,{status:303,headers:{...common,Location:to,...(cookie?{"Set-Cookie":cookie}:{})}});
 export async function onRequest(context){
  const req=context.request,url=new URL(req.url);
@@ -35,7 +35,7 @@ export async function onRequest(context){
   const type=req.headers.get("Content-Type")||"";
   if(!type.startsWith("application/x-www-form-urlencoded"))return page("<h1>Invalid request</h1>",415);
   const fields=await req.formData();
-  if(fields.get("action")==="logout")return redirect("/?signed_out=1",cookieName+"=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict");
+  if(fields.get("action")==="logout")return redirect("/?signed_out=1",cookieName+"=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax");
   const csrf=String(fields.get("csrf")||"");
   const [issued,signature]=csrf.split(".");
   if(!issued||!signature||!/^\d+$/.test(issued)||current-Number(issued)>900000||Number(issued)>current+60000||!equal(signature,await sign(secret,"csrf:"+issued)))return page("<h1>Session expired</h1><p>Open Admin Console again to sign in.</p>",403);
