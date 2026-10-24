@@ -1451,7 +1451,7 @@ const create=(tag,cl,text)=>{const n=document.createElement(tag);if(cl)n.classNa
 if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
  const buttons=document.createElement('div');buttons.className='mct-email-actions';
  const copy=document.createElement('button');copy.type='button';copy.className='mct-copy-timeline';copy.textContent='▣ Copy Timeline for Email';
- const email=document.createElement('button');email.type='button';email.className='mct-compose-agent-email';email.textContent='✉ Open Buyer Agent Email';
+ const email=document.createElement('button');email.type='button';email.className='mct-compose-agent-email';email.textContent='✉ Congratulations Email';
  const timelineRows=()=>[...body[0].querySelectorAll('.mct-mini-row:not(.mct-mini-table-head)')].map((row,i)=>({
    number:row.querySelector('.mct-contract-number')?.textContent?.trim()||String(i+1),
    name:row.querySelector('.mct-task-name')?.textContent?.trim()||'Milestone',
@@ -1499,7 +1499,7 @@ if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
    finally{copy.disabled=false;setTimeout(()=>copy.textContent=label,3500)}
  };
  email.onclick=()=>{
-   if(!timelineRows().length){email.textContent='Set contract dates first';setTimeout(()=>email.textContent='✉ Open Buyer Agent Email',2400);return}
+   if(!timelineRows().length){email.textContent='Set contract dates first';setTimeout(()=>email.textContent='✉ Congratulations Email',2400);return}
    const senderName=(document.getElementById('agent-name')?.value||localStorage.getItem('mct_realtor_test_agent_name_v1')||'').trim();
    const content=["Dear Buyer’s Agent,","","Congratulations on reaching an agreement! I appreciate your cooperation throughout the negotiations. I look forward to a smooth and successful closing.","","Attached are the executed contract and accompanying documents, which the Seller has accepted.","","Please also find the Buyer Closing Timeline below for your reference. Kindly review it with your client and let me know promptly of any potential deadline concerns.","","Please verify all dates against the executed contract and any amendments.","","Please see the Closing Timeline Summary table below.","","[Attach table here — paste the copied timeline image]","","Best regards,",senderName||"[Realtor name]","REALTOR® | LoKation® Real Estate"].join("\n");
    window.location.href='mailto:?subject='+encodeURIComponent('Accepted Contract & Buyer Closing Timeline')+'&body='+encodeURIComponent(content);
