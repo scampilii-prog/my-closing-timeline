@@ -1486,7 +1486,7 @@ if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
      c.textAlign='center';c.fillText(r.days,602,y+29);c.fillText(r.date,699,y+29);c.textAlign='left';
      c.strokeStyle='#e3e7e8';c.beginPath();c.moveTo(14,y+height);c.lineTo(width-14,y+height);c.stroke();y+=height;
    });
-   return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG failed')),'image/png'));
+   const emailWidth=560;const emailCanvas=document.createElement('canvas');emailCanvas.width=emailWidth;emailCanvas.height=Math.round(h*emailWidth/width);const emailCtx=emailCanvas.getContext('2d');emailCtx.imageSmoothingEnabled=true;emailCtx.imageSmoothingQuality='high';emailCtx.drawImage(canvas,0,0,emailCanvas.width,emailCanvas.height);return await new Promise((resolve,reject)=>emailCanvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG failed')),'image/png'));
  };
  copy.onclick=async()=>{
    const label='▣ Copy Timeline for Email';copy.disabled=true;copy.textContent='Preparing image…';
