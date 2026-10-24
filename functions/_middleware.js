@@ -1,5 +1,5 @@
 // Personal practice authentication at the edge. Never place the secret in client code.
-const protectedPath = /^\/(?:personal-sabatino|realtor-private-test)(?:\.html|\/)?$/i;
+const protectedPath = /^\/(?:personal-sabatino|realtor-private-test|owner-pro-workspace)(?:\.html|\/)?$/i;
 const encoder = new TextEncoder();
 const common = {"Cache-Control":"private, no-store","X-Robots-Tag":"noindex, nofollow, noarchive, nosnippet","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff"};
 const page = (body,status=200,extra={}) => new Response(body,{status,headers:{...common,"Content-Type":"text/html; charset=utf-8","Content-Security-Policy":"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",...extra}});
