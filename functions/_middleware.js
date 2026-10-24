@@ -1,5 +1,5 @@
 // Personal practice authentication at the edge. Never place the secret in client code.
-const protectedPath = /^\/personal-sabatino(?:\.html|\/)?$/i;
+const protectedPath = /^\/(?:personal-sabatino|realtor-private-test)(?:\.html|\/)?$/i;
 const encoder = new TextEncoder();
 const common = {"Cache-Control":"private, no-store","X-Robots-Tag":"noindex, nofollow, noarchive, nosnippet","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff"};
 const page = (body,status=200,extra={}) => new Response(body,{status,headers:{...common,"Content-Type":"text/html; charset=utf-8","Content-Security-Policy":"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",...extra}});
@@ -41,7 +41,7 @@ export async function onRequest(context){
    return login("Incorrect username or password.",String(current)+"."+await sign(secret,"csrf:"+current));
   }
   const exp=String(current+3600000),token=exp+"."+await sign(secret,exp);
-  return redirect("/personal-sabatino.html",cookieHeader(token));
+  return redirect(url.pathname.toLowerCase().includes("realtor-private-test")?"/realtor-private-test.html":"/personal-sabatino.html",cookieHeader(token));
  }
  if(req.method!=="GET"&&req.method!=="HEAD")return page("<h1>Method not allowed</h1>",405);
  if(!authenticated)return login("",String(current)+"."+await sign(secret,"csrf:"+current));
