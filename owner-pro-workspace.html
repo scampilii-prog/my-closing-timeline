@@ -1436,33 +1436,56 @@ if(copyHeader&&!copyHeader.querySelector('.mct-copy-timeline')){
  const buttons=document.createElement('div');buttons.className='mct-email-actions';
  const copy=document.createElement('button');copy.type='button';copy.className='mct-copy-timeline';copy.textContent='▣ Copy Timeline for Email';
  const email=document.createElement('button');email.type='button';email.className='mct-compose-agent-email';email.textContent='✉ Open Buyer Agent Email';
- const timelineText=()=>{
-  const rows=[...body[0].querySelectorAll('.mct-mini-row:not(.mct-mini-table-head)')];
-  if(!rows.length)return '';
-  return 'BUYER CLOSING TIMELINE\n# | Task / Milestone | Days | Due Date\n'+rows.map((row,i)=>{
-   const name=row.querySelector('.mct-task-name')?.textContent?.trim()||'Milestone';
-   const detail=row.querySelector('.mct-task-detail')?.textContent?.trim()||'';
-   const days=row.querySelector('.mct-contract-days')?.textContent?.trim()||'—';
-   const date=row.querySelector('.mct-contract-date')?.textContent?.trim()||'—';
-   return (i+1)+' | '+name+(detail?' — '+detail:'')+' | '+days+' | '+date;
-  }).join('\n');
+ const timelineRows=()=>[...body[0].querySelectorAll('.mct-mini-row:not(.mct-mini-table-head)')].map((row,i)=>({
+   number:row.querySelector('.mct-contract-number')?.textContent?.trim()||String(i+1),
+   name:row.querySelector('.mct-task-name')?.textContent?.trim()||'Milestone',
+   detail:row.querySelector('.mct-task-detail')?.textContent?.trim()||'',
+   days:row.querySelector('.mct-contract-days')?.textContent?.trim()||'—',
+   date:row.querySelector('.mct-contract-date')?.textContent?.trim()||'—',
+   kind:row.classList.contains('mct-effective-row')?'effective':row.classList.contains('mct-close-row')?'closing':'normal'
+ }));
+ const makeTimelineImage=async()=>{
+   const rows=timelineRows();if(!rows.length)throw Error('No calculated timeline');
+   const width=760, scale=1.5, pad=22;
+   const measure=document.createElement('canvas').getContext('2d');measure.font='700 17px Manrope,Arial,sans-serif';
+   const wrap=(value,max)=>{const out=[];let line='';for(const word of String(value).split(/\s+/)){const next=line?line+' '+word:word;if(measure.measureText(next).width>max&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out};
+   const normalized=rows.map(r=>({...r,lines:wrap(r.name+(r.detail?' — '+r.detail:''),435)}));
+   const rowHeights=normalized.map(r=>Math.max(51,r.lines.length*21+22));
+   const h=74+40+rowHeights.reduce((x,y)=>x+y,0)+20;
+   const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(h*scale);
+   const c=canvas.getContext('2d');c.scale(scale,scale);
+   c.fillStyle='#fffdf9';c.fillRect(0,0,width,h);
+   c.fillStyle='#193b52';c.fillRect(0,0,width,74);
+   c.fillStyle='#fff7e9';c.font='bold 27px Georgia,serif';c.fillText('Closing Timeline Summary',pad,46);
+   c.fillStyle='#f2e6d4';c.fillRect(0,74,width,40);
+   c.fillStyle='#805a2c';c.font='800 12px Manrope,Arial,sans-serif';
+   c.fillText('#',pad,99);c.fillText('TASK / MILESTONE',73,99);c.fillText('DAYS',586,99);c.fillText('DUE DATE',655,99);
+   let y=114;
+   normalized.forEach((r,i)=>{
+     const height=rowHeights[i];
+     c.fillStyle=r.kind==='effective'?'#eaf3f8':r.kind==='closing'?'#fbeaf0':i%2?'#fffdfa':'#f6f8f8';c.fillRect(10,y,width-20,height);
+     c.fillStyle='#173b52';c.font='700 16px Manrope,Arial,sans-serif';
+     c.fillText(r.number,pad,y+29);
+     r.lines.forEach((line,k)=>c.fillText(line,73,y+27+21*k));
+     c.textAlign='center';c.fillText(r.days,602,y+29);c.fillText(r.date,699,y+29);c.textAlign='left';
+     c.strokeStyle='#e3e7e8';c.beginPath();c.moveTo(14,y+height);c.lineTo(width-14,y+height);c.stroke();y+=height;
+   });
+   return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG failed')),'image/png'));
  };
  copy.onclick=async()=>{
-  const content=timelineText();if(!content){copy.textContent='Set contract dates first';setTimeout(()=>copy.textContent='▣ Copy Timeline for Email',2200);return}
-  let ok=false;
-  try{await navigator.clipboard.writeText(content);ok=true}catch{
-   const ta=document.createElement('textarea');ta.value=content;document.body.append(ta);ta.select();ok=document.execCommand('copy');ta.remove();
-  }
-  copy.textContent=ok?'✓ Timeline Copied':'Copy unavailable';
-  setTimeout(()=>copy.textContent='▣ Copy Timeline for Email',2400);
+   const label='▣ Copy Timeline for Email';copy.disabled=true;copy.textContent='Preparing image…';
+   try{
+     const blob=await makeTimelineImage();
+     if(!navigator.clipboard?.write||typeof ClipboardItem==='undefined')throw Error('Image clipboard unavailable');
+     await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+     copy.textContent='✓ Image Copied — Paste in Email';
+   }catch(err){copy.textContent='Image copy unavailable — use Chrome';}
+   finally{copy.disabled=false;setTimeout(()=>copy.textContent=label,3500)}
  };
  email.onclick=()=>{
-  const timeline=timelineText();
-  if(!timeline){email.textContent='Set contract dates first';setTimeout(()=>email.textContent='✉ Open Buyer Agent Email',2500);return}
-  const greeting='Dear Buyer’s Agent,';
-  const content=[greeting,'','Congratulations on reaching an agreement! Thank you for your cooperation throughout the negotiations. I look forward to a smooth and successful closing.','','Attached are the executed contract and accompanying documents accepted by the Seller.','','Please also find the Buyer Closing Timeline below for your reference. Kindly review it with your client and let me know promptly of any potential deadline concerns.','','Please verify all dates against the executed contract and any amendments.','',timeline,'','Best regards,','Sabatino Campilii','REALTOR® | LoKation® Real Estate'].join('\n');
-  const url='mailto:?subject='+encodeURIComponent('Executed Contract and Buyer Closing Timeline')+'&body='+encodeURIComponent(content);
-  window.location.href=url;
+   if(!timelineRows().length){email.textContent='Set contract dates first';setTimeout(()=>email.textContent='✉ Open Buyer Agent Email',2400);return}
+   const content=['Dear Buyer’s Agent,','','Congratulations on reaching an agreement! Thank you for your cooperation throughout the negotiations. I look forward to a smooth and successful closing.','','Attached are the executed contract and accompanying documents accepted by the Seller.','','Please also find the Buyer Closing Timeline below for your reference. Kindly review it with your client and let me know promptly of any potential deadline concerns.','','Please see the following Closing Timeline Summary table below.','','[Attach table here — paste the copied timeline image]','','Please verify all dates against the executed contract and any amendments.','','Best regards,','Sabatino Campilii','REALTOR® | LoKation® Real Estate'].join('\n');
+   window.location.href='mailto:?subject='+encodeURIComponent('Accepted Contract & Buyer Closing Timeline')+'&body='+encodeURIComponent(content);
  };
  buttons.append(copy,email);copyHeader.append(buttons);
 }
