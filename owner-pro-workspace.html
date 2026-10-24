@@ -1433,7 +1433,7 @@ const bar=document.createElement('div');bar.className='mct-owner-bar';
 const back=document.createElement('a');back.href='/realtor-private-test.html';back.textContent='← My Closings';
 const label=document.createElement('span');label.textContent='My PRO Closing Workspace · Private Test';bar.append(back,label);document.body.prepend(bar);
 const strip=document.createElement('section');strip.className='mct-owner-strip';strip.setAttribute('aria-label','Live closing results');
-const names=['Closing Timeline Summary','Today & Tomorrow','Follow-Up Tasks'],body=[];
+const names=['⌂  |  Closing Timeline Summary','▦  Today & Tomorrow','☷  Follow Tasks'],body=[];
 names.forEach((name,i)=>{const card=document.createElement('article');card.className='mct-owner-result mct-owner-result-'+i;const header=document.createElement('div');header.className='mct-owner-card-header';header.textContent=name;const panel=document.createElement('div');panel.className='mct-owner-card-body';panel.textContent=i===0?'Contract milestones will appear when dates are calculated.':i===1?'Live deadlines will appear as tasks are scheduled.':'Your follow-up tasks will appear here.';card.append(header,panel);strip.append(card);body.push(panel)});
 bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
 let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
@@ -1449,4 +1449,22 @@ function update(){
  const follow=sources[2];if(follow){const sig=(follow.innerText||follow.textContent||'').trim();if(sig!==memo[2]){memo[2]=sig;const panel=body[2];panel.replaceChildren();if(follow.children.length){const clone=follow.cloneNode(true);clone.removeAttribute('id');clone.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));clone.querySelectorAll('input,button,select,textarea').forEach(x=>x.remove());panel.append(clone)}else panel.append(create('p','',sig||'Your follow-up tasks will appear here'))}}
 }
 sources.forEach(el=>{if(el)new MutationObserver(update).observe(el,{childList:true,subtree:true,characterData:true})});update();setInterval(update,1500);
-});</script></body></html>
+});</script><style id="mct-approved-three-card-refinement">
+.mct-owner-strip{gap:13px!important;background:#f7f8f7!important;padding-top:17px!important;padding-bottom:17px!important}
+.mct-owner-result{border:1.5px solid #c5a265!important;border-radius:15px!important;background:#fffefa!important;box-shadow:0 6px 22px rgba(21,47,65,.13)!important;max-height:440px!important;min-height:305px!important}
+.mct-owner-card-header{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(19px,1.8vw,29px)!important;font-weight:700!important;line-height:1.18!important;letter-spacing:-.01em;background:#173b52!important;color:#fff!important;padding:19px 20px!important;min-height:75px;display:flex;align-items:center}
+.mct-owner-result-0 .mct-owner-card-header{color:#f6ebd7!important}
+.mct-owner-result-1 .mct-owner-card-header{background:#183d50!important}
+.mct-owner-result-2 .mct-owner-card-header{background:#21465a!important}
+.mct-owner-card-body{padding:14px!important;font-size:13px!important;line-height:1.5!important}
+.mct-mini-table-head{color:#a27a39!important;font-weight:800!important;letter-spacing:.035em}
+.mct-mini-row{border-bottom:1px solid #e7e6df!important;padding:9px 6px!important;color:#173b52!important}
+.mct-mini-row:nth-child(even){background:#edf4f7!important;border-radius:7px}
+.mct-owner-result-1 .mct-mini-date{font-size:13px!important;color:#60798a!important;padding:0 4px 10px}
+.mct-owner-result-1 .mct-owner-card-body #mct-tomorrow-list{background:#fffdf8!important}
+.mct-owner-result-2 table{width:100%!important;border-collapse:collapse!important}
+.mct-owner-result-2 table th{background:#faf4e8!important;color:#916b35!important;text-align:left!important}
+.mct-owner-result-2 table tr:nth-child(even){background:#f5f8f9!important}
+.mct-owner-result-2 table td{border-bottom:1px solid #e1e9ee!important}
+@media(min-width:1200px){.mct-owner-result{max-height:510px!important;min-height:350px!important}}
+</style></body></html>
