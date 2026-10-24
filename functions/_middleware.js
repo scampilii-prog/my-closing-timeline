@@ -10,7 +10,7 @@ const sign = async (secret,data) => {const k=await crypto.subtle.importKey("raw"
 const equal = (a,b)=>{if(a.length!==b.length)return false;let x=0;for(let i=0;i<a.length;i++)x|=a.charCodeAt(i)^b.charCodeAt(i);return x===0};
 const cookieName="mct_private_session";
 const expiredCookie=cookieName+"=; Path=/personal-sabatino; Max-Age=0; HttpOnly; Secure; SameSite=Strict";
-function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=3600; HttpOnly; Secure; SameSite=Strict";}
+function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Strict";}
 const redirect=(to,cookie)=>new Response(null,{status:303,headers:{...common,Location:to,...(cookie?{"Set-Cookie":cookie}:{})}});
 export async function onRequest(context){
  const req=context.request,url=new URL(req.url);
@@ -25,7 +25,7 @@ export async function onRequest(context){
  let authenticated=false;
  if(parts.length===2&&/^\d+$/.test(parts[0])) {
   const expiry=Number(parts[0]);
-  if(expiry>current&&expiry<current+3600000+60000)authenticated=equal(parts[1],await sign(secret,parts[0]));
+  if(expiry>current&&expiry<current+2592000000+60000)authenticated=equal(parts[1],await sign(secret,parts[0]));
  }
  if(req.method==="POST"){
   const type=req.headers.get("Content-Type")||"";
@@ -40,7 +40,7 @@ export async function onRequest(context){
   if(user!=="sabatino"||!equal(await sign(secret,pass),await sign(secret,secret))) {
    return login("Incorrect username or password.",String(current)+"."+await sign(secret,"csrf:"+current));
   }
-  const exp=String(current+3600000),token=exp+"."+await sign(secret,exp);
+  const exp=String(current+2592000000),token=exp+"."+await sign(secret,exp);
   return redirect(url.pathname.toLowerCase().includes("realtor-private-test")?"/realtor-private-test.html":"/personal-sabatino.html",cookieHeader(token));
  }
  if(req.method!=="GET"&&req.method!=="HEAD")return page("<h1>Method not allowed</h1>",405);
