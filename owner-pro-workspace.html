@@ -1424,6 +1424,22 @@ const label=document.createElement('span');label.textContent='My PRO Closing Wor
 const strip=document.createElement('section');strip.className='mct-owner-strip';strip.setAttribute('aria-label','Live closing results');
 const names=['⌂  |  Closing Timeline Summary','▦  Today & Tomorrow','☷  Follow Tasks'],body=[];
 names.forEach((name,i)=>{const card=document.createElement('article');card.className='mct-owner-result mct-owner-result-'+i;const header=document.createElement('div');header.className='mct-owner-card-header';header.textContent=name;const panel=document.createElement('div');panel.className='mct-owner-card-body';panel.textContent=i===0?'Contract milestones will appear when dates are calculated.':i===1?'Live deadlines will appear as tasks are scheduled.':'Your follow-up tasks will appear here.';card.append(header,panel);strip.append(card);body.push(panel)});
+const resizeGrip=document.createElement('div');
+resizeGrip.className='mct-owner-resize-grip';
+resizeGrip.setAttribute('role','separator');
+resizeGrip.setAttribute('aria-label','Drag to change height of the three results panels');
+resizeGrip.setAttribute('aria-orientation','horizontal');
+resizeGrip.setAttribute('tabindex','0');
+resizeGrip.title='Drag up or down to resize all three result panels';
+const resizeMark=document.createElement('span');resizeMark.className='mct-owner-resize-mark';resizeMark.textContent='⋮⋮  Drag to resize panels  ⋮⋮';resizeGrip.append(resizeMark);strip.append(resizeGrip);
+let resizeStart=null;
+const setManualHeight=(h)=>{const value=Math.round(Math.max(175,Math.min(window.innerHeight-175,h)));strip.style.setProperty('--mct-manual-panel-height',value+'px');strip.classList.add('mct-manual-size');resizeGrip.setAttribute('aria-valuenow',String(value))};
+resizeGrip.addEventListener('pointerdown',ev=>{if(ev.button!==0)return;ev.preventDefault();const card=strip.querySelector('.mct-owner-result');if(!card)return;resizeStart={y:ev.clientY,h:card.getBoundingClientRect().height};resizeGrip.setPointerCapture(ev.pointerId);strip.classList.add('mct-is-resizing')});
+resizeGrip.addEventListener('pointermove',ev=>{if(!resizeStart)return;setManualHeight(resizeStart.h+ev.clientY-resizeStart.y)});
+const endResize=()=>{resizeStart=null;strip.classList.remove('mct-is-resizing')};
+resizeGrip.addEventListener('pointerup',endResize);resizeGrip.addEventListener('pointercancel',endResize);resizeGrip.addEventListener('lostpointercapture',endResize);
+resizeGrip.addEventListener('keydown',ev=>{if(!['ArrowUp','ArrowDown','Home','End'].includes(ev.key))return;ev.preventDefault();const current=strip.querySelector('.mct-owner-result')?.getBoundingClientRect().height||340;setManualHeight(ev.key==='Home'?175:ev.key==='End'?window.innerHeight-175:current+(ev.key==='ArrowUp'?-30:30))});
+toggle.addEventListener('click',()=>{strip.classList.remove('mct-manual-size');strip.style.removeProperty('--mct-manual-panel-height')});
 bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
 let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
 if(!project){label.textContent='PRO Preview · Select a registered project';return}
@@ -1605,4 +1621,12 @@ html body .fc-simple-result{overflow:hidden!important}
  font:900 11px/1.35 Manrope,Arial,sans-serif!important;letter-spacing:.025em!important;
 }
 .mct-owner-result-1 .mct-today-column-head>span:last-child{text-align:right!important}
+</style><style id="mct-owner-interactive-height-resize-20261024">
+.mct-owner-strip{position:sticky!important;padding-bottom:24px!important}
+.mct-owner-strip.mct-manual-size .mct-owner-result{height:var(--mct-manual-panel-height)!important;min-height:0!important;max-height:none!important;overflow:auto!important}
+.mct-owner-strip .mct-owner-resize-grip{position:absolute;bottom:1px;left:17%;right:17%;height:20px;display:flex;align-items:center;justify-content:center;z-index:6;cursor:ns-resize;touch-action:none;user-select:none;background:transparent;outline-offset:-2px}
+.mct-owner-strip .mct-owner-resize-mark{display:block!important;background:#183b53!important;color:#f5dfae!important;border:1px solid #c59b56;border-radius:7px 7px 0 0;padding:2px 15px;font:800 10px/14px Manrope,Arial,sans-serif!important;letter-spacing:.04em;pointer-events:none}
+.mct-owner-strip .mct-owner-resize-grip:hover .mct-owner-resize-mark,.mct-owner-strip.mct-is-resizing .mct-owner-resize-mark{background:#315e7e!important;color:#fff!important}
+.mct-owner-strip.mct-is-resizing,.mct-owner-strip.mct-is-resizing *{user-select:none!important}
+@media(max-width:900px){.mct-owner-strip .mct-owner-resize-grip{left:5%;right:5%}}
 </style></body></html>
