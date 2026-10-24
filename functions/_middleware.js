@@ -9,7 +9,7 @@ const b64 = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-").repl
 const sign = async (secret,data) => {const k=await crypto.subtle.importKey("raw",encoder.encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]);return b64(new Uint8Array(await crypto.subtle.sign("HMAC",k,encoder.encode(data))))};
 const equal = (a,b)=>{if(a.length!==b.length)return false;let x=0;for(let i=0;i<a.length;i++)x|=a.charCodeAt(i)^b.charCodeAt(i);return x===0};
 const cookieName="mct_private_session";
-const expiredCookie=cookieName+"=; Path=/personal-sabatino; Max-Age=0; HttpOnly; Secure; SameSite=Strict";
+
 function cookieHeader(token){return cookieName+"="+token+"; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Strict";}
 const redirect=(to,cookie)=>new Response(null,{status:303,headers:{...common,Location:to,...(cookie?{"Set-Cookie":cookie}:{})}});
 export async function onRequest(context){
@@ -39,13 +39,13 @@ export async function onRequest(context){
   const csrf=String(fields.get("csrf")||"");
   const [issued,signature]=csrf.split(".");
   if(!issued||!signature||!/^\d+$/.test(issued)||current-Number(issued)>900000||Number(issued)>current+60000||!equal(signature,await sign(secret,"csrf:"+issued)))return page("<h1>Session expired</h1><p>Open Admin Console again to sign in.</p>",403);
-  if(fields.get("action")==="logout")return redirect("/personal-sabatino.html",cookieName+"=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict");
+ 
   const user=String(fields.get("username")||""),pass=String(fields.get("password")||"");
   if(user!=="sabatino"||!equal(await sign(secret,pass),await sign(secret,secret))) {
    return login("Incorrect username or password.",String(current)+"."+await sign(secret,"csrf:"+current));
   }
   const exp=String(current+2592000000),token=exp+"."+await sign(secret,exp);
-  return redirect(url.pathname.toLowerCase().includes("realtor-private-test")?"/realtor-private-test.html":"/personal-sabatino.html",cookieHeader(token));
+  return redirect(url.pathname,cookieHeader(token));
  }
  if(req.method!=="GET"&&req.method!=="HEAD")return page("<h1>Method not allowed</h1>",405);
  if(!authenticated)return login("",String(current)+"."+await sign(secret,"csrf:"+current));
