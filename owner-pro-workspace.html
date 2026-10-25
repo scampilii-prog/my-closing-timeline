@@ -1468,7 +1468,7 @@ const registeredHeading=document.createElement('div');registeredHeading.classNam
 const stepOneCards=document.createElement('div');stepOneCards.className='mct-registered-four-cards';detailBar.append(stepOneCards);
 groupDefinitions.forEach(([name,keys])=>{const sec=document.createElement('section');sec.className='mct-registered-data-section';const title=document.createElement('h3');title.textContent=name;sec.append(title);const grid=document.createElement('div');grid.className='mct-contract-snapshot-grid'+(name==='KEY CONTRACT DATES'?' mct-date-group':'');keys.forEach(key=>{const card=labelMap.get(key);if(card){grid.append(card)}});sec.append(grid);stepOneCards.append(sec)});
 
-if(Array.isArray(project.contractMilestones)&&project.contractMilestones.length){const milestoneBox=document.createElement('section');milestoneBox.className='mct-saved-contract-milestones';const mh=document.createElement('h3');mh.textContent='Step 2 · Registered Contract Deadlines';milestoneBox.append(mh);const table=document.createElement('div');table.className='mct-saved-milestone-table';const hdr=document.createElement('div');hdr.className='mct-saved-milestone-row head';['#','Task / Milestone','Days','Due Date'].forEach(x=>{const el=document.createElement('span');el.textContent=x;hdr.append(el)});table.append(hdr);project.contractMilestones.forEach((m,i)=>{const row=document.createElement('div');row.className='mct-saved-milestone-row';[String(i+1),m.name||'—',m.days==null?'—':String(m.days),m.dueDate||m.date||'—'].forEach(x=>{const el=document.createElement('span');el.textContent=x;row.append(el)});table.append(row)});milestoneBox.append(table);milestoneBox.classList.add('mct-registration-step2-side');const foot=document.createElement('p');foot.textContent='Saved at registration · Read only';milestoneBox.append(foot);detailBar.append(milestoneBox)}
+if(Array.isArray(project.contractMilestones)&&project.contractMilestones.length){const milestoneBox=document.createElement('section');milestoneBox.className='mct-saved-contract-milestones';const mh=document.createElement('h3');mh.innerHTML='<span class="mct-step2-number">2</span><strong>STEP 2 · REGISTERED CONTRACT DEADLINES</strong>';milestoneBox.append(mh);const table=document.createElement('div');table.className='mct-saved-milestone-table';const hdr=document.createElement('div');hdr.className='mct-saved-milestone-row head';['#','Task / Milestone','Days','Due Date'].forEach(x=>{const el=document.createElement('span');el.textContent=x;hdr.append(el)});table.append(hdr);project.contractMilestones.forEach((m,i)=>{const row=document.createElement('div');row.className='mct-saved-milestone-row';[String(i+1),m.name||'—',m.days==null?'—':String(m.days),m.dueDate||m.date||'—'].forEach(x=>{const el=document.createElement('span');el.textContent=x;row.append(el)});table.append(row)});milestoneBox.append(table);milestoneBox.classList.add('mct-registration-step2-side');const foot=document.createElement('p');foot.textContent='Saved at registration · Read only';milestoneBox.append(foot);detailBar.append(milestoneBox)}
 const recordKey='mct_private_closing_cancel_record_'+pid;
 let record=null;try{record=JSON.parse(localStorage.getItem(recordKey)||'null')}catch{}
 const note=document.createElement('p');note.className='mct-cancel-record-note';detailBar.append(note);
@@ -1991,4 +1991,24 @@ body:has(.mct-registered-closing-banner) .mct-registered-four-cards .mct-contrac
 body:has(.mct-registered-closing-banner) .mct-registration-step2-side{grid-column:2!important;grid-row:2/span 2!important;height:100%!important;align-self:stretch!important;box-sizing:border-box!important}
 body:has(.mct-registered-closing-banner) .mct-cancel-record-note{grid-column:1/-1!important;grid-row:4!important}
 }
+</style><style id="mct-twin-equal-step-headings-20261024">
+body:has(.mct-registered-closing-banner) .mct-registered-step-heading,
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side>h3{
+box-sizing:border-box!important;display:flex!important;align-items:center!important;gap:12px!important;
+min-height:58px!important;margin:0 0 10px!important;padding:11px 15px!important;
+background:#e9f1f5!important;border-left:5px solid #c49b59!important;
+border-top:0!important;border-right:0!important;border-bottom:0!important;border-radius:9px!important;
+color:#153b52!important;font:900 clamp(15px,1.22vw,20px)/1.3 Manrope,Arial,sans-serif!important;letter-spacing:0!important;
+}
+body:has(.mct-registered-closing-banner) .mct-registered-step-heading strong,
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side>h3 strong{
+color:#153b52!important;font:inherit!important;white-space:normal!important}
+body:has(.mct-registered-closing-banner) .mct-registered-step-heading>span:first-child,
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side>h3 .mct-step2-number{
+display:inline-grid!important;place-items:center!important;flex:0 0 31px!important;width:31px!important;height:31px!important;
+box-sizing:border-box!important;background:#f3dba7!important;border:2px solid #1c4963!important;border-radius:50%!important;
+color:#173b52!important;font:900 17px/1 Manrope,Arial,sans-serif!important;
+}
+body:has(.mct-registered-closing-banner) .mct-registered-step-heading small{margin-left:auto!important;font-size:10px!important;white-space:nowrap!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side{padding:13px!important}
 </style></body></html>
