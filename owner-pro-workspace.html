@@ -2110,4 +2110,16 @@ body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr:hover{back
 body:has(.mct-registered-closing-banner) .fc-reminder-scroll input:not([type=checkbox]),body:has(.mct-registered-closing-banner) .fc-reminder-scroll select{background:#fff!important;border:1px solid #cedde5!important;border-radius:8px!important;min-height:35px!important;color:#173b52!important;font-weight:750!important;box-shadow:0 1px 3px rgba(15,45,60,.035)!important}
 body:has(.mct-registered-closing-banner) .fc-reminder-scroll button{border-radius:7px!important}
 @media(max-width:800px){body:has(.mct-registered-closing-banner) #contract-deadline-planner{padding:9px!important}body:has(.mct-registered-closing-banner) .fc-complementary-tasks{padding:12px!important}}
-</style></body></html>
+</style><style id="mct-soft-step3-equal-date-colors-20261024">
+body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date] td{background:var(--mct-date-tint)!important}
+body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date] td:first-child{box-shadow:inset 4px 0 var(--mct-date-accent)!important}
+body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date] td:nth-child(4){color:#173b52!important;font-weight:900!important}
+body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date]:hover td{filter:brightness(.98)!important}
+</style><script id="mct-soft-step3-same-date-shading-20261024">(()=>{'use strict';
+const palette=[['#f0f6fa','#689bb8'],['#f1f7ed','#84a878'],['#fff6e8','#d5ae6d'],['#f8f0f5','#b58aa5'],['#f1f1fa','#999ac6'],['#eaf7f4','#6ba69b'],['#fff2ed','#c6957c']];
+const getDate=row=>{const cell=row.cells?.[3];if(!cell)return '';const input=cell.querySelector('input');let value=(input?.value||cell.textContent||'').trim();const iso=value.match(/\b(\d{4}-\d\d-\d\d)\b/);if(iso)return iso[1];const us=value.match(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/);return us?us[3]+'-'+us[1].padStart(2,'0')+'-'+us[2].padStart(2,'0'):''};
+let updating=false;
+const apply=()=>{if(updating)return;updating=true;try{document.querySelectorAll('.fc-reminder-scroll tbody').forEach(tbody=>{const rows=[...tbody.rows];const dates=[...new Set(rows.map(getDate).filter(Boolean))].sort();rows.forEach(row=>{const date=getDate(row);if(!date){row.removeAttribute('data-mct-color-date');return}const index=dates.indexOf(date)%palette.length;const [bg,edge]=palette[index];if(row.dataset.mctColorDate!==date){row.dataset.mctColorDate=date;row.style.setProperty('--mct-date-tint',bg);row.style.setProperty('--mct-date-accent',edge)}})})}finally{updating=false}};
+const init=()=>{apply();document.querySelectorAll('.fc-reminder-scroll tbody').forEach(tbody=>{new MutationObserver(apply).observe(tbody,{childList:true,subtree:true})});document.addEventListener('change',event=>{if(event.target.closest?.('.fc-reminder-scroll'))apply()})};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script></body></html>
