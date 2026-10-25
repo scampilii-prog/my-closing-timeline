@@ -1441,7 +1441,16 @@ resizeGrip.addEventListener('pointerup',endResize);resizeGrip.addEventListener('
 resizeGrip.addEventListener('keydown',ev=>{if(!['ArrowUp','ArrowDown','Home','End'].includes(ev.key))return;ev.preventDefault();const current=strip.querySelector('.mct-owner-result')?.getBoundingClientRect().height||340;setManualHeight(ev.key==='Home'?175:ev.key==='End'?window.innerHeight-175:current+(ev.key==='ArrowUp'?-30:30))});
 toggle.addEventListener('click',()=>{strip.classList.remove('mct-manual-size');strip.style.removeProperty('--mct-manual-panel-height')});
 bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
-let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
+let project=null;
+try{
+ const projects=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]');
+ const lastId=sessionStorage.getItem('mct_pro_last_project_id');
+ project=projects.find(p=>p.id===pid)||(!pid&&projects.find(p=>p.id===lastId))||(!pid&&projects.length===1?projects[0]:null);
+ if(project){
+  sessionStorage.setItem('mct_pro_last_project_id',project.id);
+  if(pid!==project.id){const url=new URL(location.href);url.searchParams.set('project',project.id);history.replaceState(history.state,'',url.pathname+url.search+url.hash)}
+ }
+}catch{}
 if(!project){label.textContent='PRO Preview · Select a registered project';return}
 label.textContent=project.name+' · PRO Workspace (practice)';
 const originalHeading=document.getElementById('deadline-planner-title');if(originalHeading){originalHeading.innerHTML='Registered Contract Milestones <small class="mct-step-marker">READ-ONLY · FROM REGISTRATION</small>';}
