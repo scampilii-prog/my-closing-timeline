@@ -1573,7 +1573,7 @@ function update(){
    const table=create('div','mct-mini-table');
    const head=create('div','mct-mini-contract mct-mini-table-head');
    ['#','TASK / MILESTONE','DAYS','DUE DATE'].forEach(x=>head.append(create('span','',x)));table.append(head);
-   const pretty=(v)=>{if(!v)return '—';const m=String(v).match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);return m?m[2]+'/'+m[3]+'/'+m[1]:String(v)};
+   const pretty=(v)=>{if(!v)return '—';const parts=String(v).split('-');return parts.length===3&&parts[0].length===4?parts[1]+'/'+parts[2]+'/'+parts[0]:String(v)};
    const add=(no,name,days,date,kind)=>{const line=create('div','mct-mini-row mct-mini-contract'+(kind?' '+kind:''));const label=create('span','mct-contract-title');label.append(create('strong','mct-task-name',name));line.append(create('span','mct-contract-number',no),label,create('span','mct-contract-days',days==null?'—':String(days)),create('span','mct-contract-date',pretty(date)));table.append(line)};
    add('—','Effective Date','0',project.effective,'mct-effective-row');
    milestones.forEach((m,i)=>add(String(i+1),String(m.name),m.days,m.dueDate||m.date,''));
