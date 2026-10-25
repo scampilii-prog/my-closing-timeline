@@ -1444,6 +1444,7 @@ bar.after(strip);document.getElementById('mct-pro-login-notice')?.remove();
 let project=null;try{project=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]').find(p=>p.id===pid)}catch{}
 if(!project){label.textContent='PRO Preview · Select a registered project';return}
 label.textContent=project.name+' · PRO Workspace (practice)';
+const originalHeading=document.getElementById('deadline-planner-title');if(originalHeading){originalHeading.innerHTML='Registered Contract Milestones <small class="mct-step-marker">READ-ONLY · FROM REGISTRATION</small>';}
 
 const detailBar=document.createElement('section');detailBar.className='mct-registered-closing-banner';detailBar.setAttribute('aria-label','Registered contract details');
 const heading=document.createElement('div');heading.className='mct-registered-heading';
@@ -1454,7 +1455,7 @@ const status=document.createElement('span');status.className='mct-closing-status
 const cancelBtn=document.createElement('button');cancelBtn.type='button';cancelBtn.className='mct-cancel-closing-btn';cancelBtn.textContent='Record Cancellation';
 actions.append(status,cancelBtn);heading.append(headingText,actions);detailBar.append(heading);
 const detailGrid=document.createElement('div');detailGrid.className='mct-contract-snapshot-grid';
-const vals=[['Project',project.name],['Property',project.address],['Seller(s)',project.sellerName],['Buyer(s)',project.buyerName],['Effective Date',project.effective],['Closing Date',project.closing],['Purchase Price',project.price],['Closing Company',project.closingCompany],['Representation',project.side],['Realtor',localStorage.getItem('mct_realtor_test_agent_name_v1')||document.getElementById('agent-name')?.value]];
+const vals=[['Project',project.name],['Property',project.address],['Seller(s)',project.sellerName],['Buyer(s)',project.buyerName],['Effective Date',project.effective],['Closing Date',project.closing],['Purchase Price',project.price],['Closing Company',project.closingCompany],['Closing Contact',project.closingContact],['Closing Phone',project.closingPhone],['Closing Email',project.closingEmail],['Closing Address',project.closingAddress],['MLS #',project.mls],['Time Zone',project.timezone],['Closing Notes',project.notes],['Representation',project.side],['Realtor',localStorage.getItem('mct_realtor_test_agent_name_v1')||document.getElementById('agent-name')?.value]];
 for(const [key,value] of vals){const item=document.createElement('div');const k=document.createElement('small');k.textContent=key;const v=document.createElement('strong');v.textContent=value==null||String(value).trim()===''?'Not entered':String(value);item.append(k,v);detailGrid.append(item)}detailBar.append(detailGrid);
 const recordKey='mct_private_closing_cancel_record_'+pid;
 let record=null;try{record=JSON.parse(localStorage.getItem(recordKey)||'null')}catch{}
