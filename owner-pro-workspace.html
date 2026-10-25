@@ -1460,9 +1460,8 @@ for(const [key,value] of vals){const item=document.createElement('div');const k=
 const groupDefinitions=[
  ['PROJECT & PROPERTY',['Project','Property','MLS #','Purchase Price','Representation','Time Zone']],
  ['CONTRACT PARTIES',['Seller(s)','Buyer(s)','Realtor']],
- ['CLOSING COMPANY & CONTACT',['Closing Company','Closing Contact','Closing Phone','Closing Email','Closing Address']],
- ['KEY CONTRACT DATES',['Effective Date','Closing Date']],
- ['CLOSING NOTES',['Closing Notes']]
+ ['CLOSING COMPANY & CONTACT',['Closing Company','Closing Contact','Closing Phone','Closing Email','Closing Address','Closing Notes']],
+ ['KEY CONTRACT DATES',['Effective Date','Closing Date']]
 ];
 const allCells=[...detailGrid.children];const labelMap=new Map(allCells.map(cell=>[cell.querySelector('small')?.textContent,cell]));
 const registeredHeading=document.createElement('div');registeredHeading.className='mct-registered-step-heading';registeredHeading.innerHTML='<span>1</span><strong>STEP 1 · REGISTERED TRANSACTION DETAILS</strong><small>Saved at registration · Read only</small>';detailBar.append(registeredHeading);
