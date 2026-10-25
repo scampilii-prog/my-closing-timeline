@@ -1497,7 +1497,7 @@ cancelBtn.addEventListener('click',()=>{
 });reflectCancellation();bar.after(detailBar);detailBar.after(strip);
 const sharePanel=document.createElement('section');sharePanel.className='mct-registered-share-panel';
 sharePanel.innerHTML='<div class="mct-share-panel-head"><small>AFTER REGISTRATION · SEND TO YOUR CLIENT</small><h2>Send Closing Timeline Summary</h2><p>Your registered contract milestones are ready to share. Review all dates against the signed contract before sending.</p></div><div class="mct-share-panel-buttons"><button type="button" class="mct-share-copy">▣ Copy for Email</button><button type="button" class="mct-share-compose">✉ Congratulations Email</button><button type="button" class="mct-share-download">↓ Download Email</button></div><p class="mct-share-panel-foot">The original Step 1 and Step 2 information remains read-only. Continue to Step 3 below.</p>';
-detailBar.after(sharePanel);
+const targetStep2=detailBar.querySelector('.mct-registration-step2-side');if(targetStep2){targetStep2.append(sharePanel)}else{detailBar.after(sharePanel)}
 const registeredRows=()=>[{name:'Effective Date',days:0,date:project.effective},...(Array.isArray(project.contractMilestones)?project.contractMilestones.map(m=>({name:String(m.name||''),days:m.days,date:m.dueDate||m.date})):[]),{name:'Closing Date',days:'—',date:project.closing}];
 const registeredText=()=>['CLOSING TIMELINE SUMMARY',project.name||'',project.address||'','',...registeredRows().map((r,i)=>(i===0||i===registeredRows().length-1?'':' '+i+'. ')+r.name+'  |  '+(r.days??'—')+' days  |  '+(r.date||'Pending')),'','Please verify all contract deadlines and notice requirements against the signed agreement.'].join('\n');
 const messageText=()=>['Congratulations on the accepted contract!','','Please find the Closing Timeline Summary below for your reference. Kindly review all deadlines and let me know immediately if you have any questions.','',registeredText(),'','Best regards'];
@@ -2036,4 +2036,11 @@ font:900 21px/1 Manrope,Arial,sans-serif!important
 }
 @media(max-width:1100px){body:has(.mct-registered-closing-banner) .mct-registered-four-cards,
 body:has(.mct-registered-closing-banner) .mct-registration-step2-side{border:2px solid #c59a5b!important;border-radius:12px!important;padding:9px!important}}
+</style><style id="mct-share-inside-step2-20261024">
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side>.mct-registered-share-panel{box-sizing:border-box!important;display:block!important;position:static!important;width:100%!important;max-width:none!important;margin:18px 0 0!important;border:1px solid #d0ab70!important;border-radius:10px!important;background:#fffdf8!important;box-shadow:none!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side .mct-share-panel-head{padding:12px!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side .mct-share-panel-head h2{font-size:16px!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side .mct-share-panel-buttons{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;padding:11px!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side .mct-share-panel-buttons button{min-height:48px!important;font-size:15px!important}
+body:has(.mct-registered-closing-banner) .mct-registration-step2-side .mct-share-panel-foot{margin:0 11px 11px!important}
 </style></body></html>
