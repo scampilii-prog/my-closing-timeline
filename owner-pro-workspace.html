@@ -1456,7 +1456,18 @@ const cancelBtn=document.createElement('button');cancelBtn.type='button';cancelB
 actions.append(status,cancelBtn);heading.append(headingText,actions);detailBar.append(heading);
 const detailGrid=document.createElement('div');detailGrid.className='mct-contract-snapshot-grid';
 const vals=[['Project',project.name],['Property',project.address],['Seller(s)',project.sellerName],['Buyer(s)',project.buyerName],['Effective Date',project.effective],['Closing Date',project.closing],['Purchase Price',project.price],['Closing Company',project.closingCompany],['Closing Contact',project.closingContact],['Closing Phone',project.closingPhone],['Closing Email',project.closingEmail],['Closing Address',project.closingAddress],['MLS #',project.mls],['Time Zone',project.timezone],['Closing Notes',project.notes],['Representation',project.side],['Realtor',localStorage.getItem('mct_realtor_test_agent_name_v1')||document.getElementById('agent-name')?.value]];
-for(const [key,value] of vals){const item=document.createElement('div');const k=document.createElement('small');k.textContent=key;const v=document.createElement('strong');v.textContent=value==null||String(value).trim()===''?'Not entered':String(value);item.append(k,v);detailGrid.append(item)}detailBar.append(detailGrid);
+for(const [key,value] of vals){const item=document.createElement('div');const k=document.createElement('small');k.textContent=key;const v=document.createElement('strong');v.textContent=value==null||String(value).trim()===''?'Not entered':String(value);item.append(k,v);detailGrid.append(item)}
+const groupDefinitions=[
+ ['PROJECT & PROPERTY',['Project','Property','MLS #','Purchase Price','Representation','Time Zone']],
+ ['CONTRACT PARTIES',['Seller(s)','Buyer(s)','Realtor']],
+ ['CLOSING COMPANY & CONTACT',['Closing Company','Closing Contact','Closing Phone','Closing Email','Closing Address']],
+ ['KEY CONTRACT DATES',['Effective Date','Closing Date']],
+ ['CLOSING NOTES',['Closing Notes']]
+];
+const allCells=[...detailGrid.children];const labelMap=new Map(allCells.map(cell=>[cell.querySelector('small')?.textContent,cell]));
+const registeredHeading=document.createElement('div');registeredHeading.className='mct-registered-step-heading';registeredHeading.innerHTML='<span>1</span><strong>STEP 1 · REGISTERED TRANSACTION DETAILS</strong><small>Saved at registration · Read only</small>';detailBar.append(registeredHeading);
+groupDefinitions.forEach(([name,keys])=>{const sec=document.createElement('section');sec.className='mct-registered-data-section';const title=document.createElement('h3');title.textContent=name;sec.append(title);const grid=document.createElement('div');grid.className='mct-contract-snapshot-grid'+(name==='KEY CONTRACT DATES'?' mct-date-group':'');keys.forEach(key=>{const card=labelMap.get(key);if(card){card.classList.add('mct-snapshot-'+key.toLowerCase().replace(/[^a-z]+/g,'-'));grid.append(card)}});sec.append(grid);detailBar.append(sec)});
+
 if(Array.isArray(project.contractMilestones)&&project.contractMilestones.length){const milestoneBox=document.createElement('section');milestoneBox.className='mct-saved-contract-milestones';const mh=document.createElement('h3');mh.textContent='Step 2 · Registered Contract Deadlines';milestoneBox.append(mh);const table=document.createElement('div');table.className='mct-saved-milestone-table';const hdr=document.createElement('div');hdr.className='mct-saved-milestone-row head';['#','Task / Milestone','Days','Due Date'].forEach(x=>{const el=document.createElement('span');el.textContent=x;hdr.append(el)});table.append(hdr);project.contractMilestones.forEach((m,i)=>{const row=document.createElement('div');row.className='mct-saved-milestone-row';[String(i+1),m.name||'—',m.days==null?'—':String(m.days),m.dueDate||m.date||'—'].forEach(x=>{const el=document.createElement('span');el.textContent=x;row.append(el)});table.append(row)});milestoneBox.append(table);const foot=document.createElement('p');foot.textContent='Saved at registration · Read only';milestoneBox.append(foot);detailBar.append(milestoneBox)}
 const recordKey='mct_private_closing_cancel_record_'+pid;
 let record=null;try{record=JSON.parse(localStorage.getItem(recordKey)||'null')}catch{}
@@ -1785,4 +1796,18 @@ body:has(.mct-registered-closing-banner) #contract-deadline-planner>.fc-compleme
 body:has(.mct-registered-closing-banner) .fc-complementary-tasks,body:has(.mct-registered-closing-banner) .mct-step3-observations{box-sizing:border-box!important}
 @media(max-width:950px){body:has(.mct-registered-closing-banner) .mct-contract-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:600px){body:has(.mct-registered-closing-banner) .mct-registered-closing-banner,body:has(.mct-registered-closing-banner) .mct-owner-strip,body:has(.mct-registered-closing-banner) #contract-deadline-planner{width:calc(100% - 20px)!important;margin-left:10px!important;margin-right:10px!important}body:has(.mct-registered-closing-banner) .mct-contract-snapshot-grid{grid-template-columns:1fr!important}}
+</style><style id="mct-matched-registration-sections-20261024">
+body:has(.mct-registered-closing-banner) .mct-registered-closing-banner{background:#fff!important;padding:24px!important;border:1px solid #dce4e8!important;max-width:1160px!important;width:calc(100% - 44px)!important;margin:22px auto 14px!important}
+.mct-registered-step-heading{display:flex;align-items:center;gap:12px;margin:18px 0 15px;padding:12px 14px;background:#eff4f7;border-left:4px solid #be995a;border-radius:8px;color:#163b51;font:850 14px Manrope,Arial,sans-serif;flex-wrap:wrap}
+.mct-registered-step-heading>span{height:26px;width:26px;display:inline-grid;place-items:center;border:2px solid #17415c;border-radius:50%;background:#f6d9a0}
+.mct-registered-step-heading small{margin-left:auto;color:#657b86;font-weight:750}
+.mct-registered-data-section{margin:14px 0 22px;background:#fff!important;border:1px solid #d9e4ea;border-radius:12px;overflow:hidden}
+.mct-registered-data-section>h3{margin:0!important;background:#eaf2f6!important;border-left:4px solid #cca15a!important;color:#163b51!important;padding:13px 16px!important;font:900 13px Manrope,Arial,sans-serif!important;letter-spacing:.05em}
+body:has(.mct-registered-closing-banner) .mct-registered-data-section .mct-contract-snapshot-grid{padding:14px;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px}
+body:has(.mct-registered-closing-banner) .mct-registered-data-section .mct-contract-snapshot-grid>div{background:#f8fbfc!important;border:1px solid #d7e2e9!important;border-radius:8px!important;padding:12px 14px!important}
+body:has(.mct-registered-closing-banner) .mct-registered-data-section .mct-date-group>div:first-child{background:#e8f3ee!important;border-color:#d5e8db!important}
+body:has(.mct-registered-closing-banner) .mct-registered-data-section .mct-date-group>div:nth-child(2){background:#faedf3!important;border-color:#f0dae4!important}
+body:has(.mct-registered-closing-banner) .mct-saved-contract-milestones{background:#fbf8ef!important;border:1px solid #e9d6af!important;border-radius:12px!important;margin-top:20px!important}
+body:has(.mct-registered-closing-banner) .mct-saved-contract-milestones h3{background:#f2e2c5;color:#153b51;padding:12px 14px;border-left:4px solid #b88e49;border-radius:6px}
+@media(max-width:650px){body:has(.mct-registered-closing-banner) .mct-registered-data-section .mct-contract-snapshot-grid{grid-template-columns:1fr!important}.mct-registered-step-heading small{margin-left:0}}
 </style></body></html>
