@@ -2115,6 +2115,22 @@ body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-c
 body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date] td:first-child{box-shadow:inset 4px 0 var(--mct-date-accent)!important}
 body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date] td:nth-child(4){color:#173b52!important;font-weight:900!important}
 body:has(.mct-registered-closing-banner) .fc-reminder-scroll tbody tr[data-mct-color-date]:hover td{filter:brightness(.98)!important}
+</style><style id="mct-step3-refined-pro-panel-website7">
+/* Website 7: presentation only; Step 1, Step 2 and live task logic remain unchanged. */
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks{border-color:#d8e3e9!important;border-radius:16px!important;background:#fff!important;box-shadow:0 8px 24px rgba(20,51,72,.055)!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks>.deadline-eyebrow{background:#f0f5f7!important;color:#8a6c48!important;border-top-color:#cdb68e!important;letter-spacing:.12em!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks>#complementary-title{background:#f0f5f7!important;color:#203f55!important;border-bottom-color:#dde8ec!important;font-weight:850!important;letter-spacing:-.03em!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks>.mct-section-purpose{color:#566f7e!important;line-height:1.6!important;font-size:14px!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .mct-step-three-label{background:#f2f6f8!important;color:#26475c!important;border:1px solid #dce6ea!important;border-left:4px solid #c5aa7d!important;box-shadow:none!important;padding:13px 15px!important;letter-spacing:.018em!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .mct-extra-reminder,body:has(.mct-registered-closing-banner) .fc-complementary-tasks .mct-tomorrow-panel{border:1px solid #dfe8ec!important;border-radius:12px!important;box-shadow:0 3px 12px rgba(28,60,79,.035)!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .mct-alert-legend{background:#f8fafb!important;border:1px solid #e1e9ed!important;border-radius:10px!important;padding:11px 14px!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .fc-reminder-scroll{border:1px solid #dce7ed!important;border-radius:12px!important;box-shadow:0 3px 14px rgba(28,60,79,.035)!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .fc-reminder-scroll thead th{background:#edf3f6!important;color:#28495f!important;border-bottom:2px solid #c7b48f!important;font-weight:850!important;letter-spacing:.012em!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .fc-reminder-scroll tbody td{border-bottom-color:#e3ebef!important;color:#29495d!important;line-height:1.45!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .fc-reminder-scroll tbody tr[data-mct-color-date] td{background:var(--mct-date-tint)!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks .fc-reminder-scroll tbody tr[data-mct-color-date] td:first-child{box-shadow:inset 4px 0 var(--mct-date-accent)!important}
+body:has(.mct-registered-closing-banner) .fc-complementary-tasks input:not([type=checkbox]),body:has(.mct-registered-closing-banner) .fc-complementary-tasks select{border-radius:8px!important}
+@media(max-width:700px){body:has(.mct-registered-closing-banner) .fc-complementary-tasks>#complementary-title{font-size:21px!important}}
 </style><script id="mct-soft-step3-same-date-shading-20261024">(()=>{'use strict';
 const palette=[['#f0f6fa','#689bb8'],['#f1f7ed','#84a878'],['#fff6e8','#d5ae6d'],['#f8f0f5','#b58aa5'],['#f1f1fa','#999ac6'],['#eaf7f4','#6ba69b'],['#fff2ed','#c6957c']];
 const getDate=row=>{const cell=row.cells?.[3];if(!cell)return '';const input=cell.querySelector('input');let value=(input?.value||cell.textContent||'').trim();const iso=value.match(/\b(\d{4}-\d\d-\d\d)\b/);if(iso)return iso[1];const us=value.match(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/);return us?us[3]+'-'+us[1].padStart(2,'0')+'-'+us[2].padStart(2,'0'):''};
