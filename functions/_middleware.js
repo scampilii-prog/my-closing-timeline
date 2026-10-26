@@ -1,5 +1,5 @@
 // My Closing Timeline — single private authentication gateway.
-const protectedRoute=/^\/(?:personal-sabatino|realtor-private-test|owner-pro-workspace)(?:\.html|\/)?$/i;
+const protectedRoute=/^\/(?:personal-sabatino|realtor-private-test|owner-pro-workspace|admin-gift-codes)(?:\.html|\/)?$/i;
 const enc=new TextEncoder(),cookieName="mct_owner_session_v2",lifetime=30*24*60*60*1000;
 const baseHeaders={"Cache-Control":"private, no-store","X-Robots-Tag":"noindex, nofollow, noarchive, nosnippet","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff"};
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
