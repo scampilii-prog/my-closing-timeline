@@ -86,3 +86,14 @@ CREATE TABLE IF NOT EXISTS closing_events (
  details TEXT NOT NULL,
  created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+CREATE TABLE IF NOT EXISTS auth_attempts (
+ rate_key TEXT PRIMARY KEY,
+ attempts INTEGER NOT NULL DEFAULT 0,
+ expires_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_auth_expires ON auth_attempts(expires_at);
+CREATE TABLE IF NOT EXISTS password_resets (
+ token_hash TEXT PRIMARY KEY,
+ user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+ expires_at INTEGER NOT NULL
+);
