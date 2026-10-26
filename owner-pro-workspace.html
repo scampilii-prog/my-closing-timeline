@@ -1451,7 +1451,7 @@ try{
   if(pid!==project.id){const url=new URL(location.href);url.searchParams.set('project',project.id);history.replaceState(history.state,'',url.pathname+url.search+url.hash)}
  }
 }catch{}
-if(!project){label.textContent='PRO Preview · Select a registered project';return}
+if(!project){label.textContent='PRO Preview · No closing selected';const n=document.createElement('div');n.id='mct-pro-start-unified';n.style.cssText='max-width:1120px;margin:20px auto;padding:20px;border:1px solid #d6b477;border-radius:12px;background:#fffaf1;color:#173b52;font:600 14px/1.6 Manrope,Arial,sans-serif';n.innerHTML='<strong style="font-size:18px">Start with your closing registration</strong><p style="margin:8px 0 14px">This workspace displays an existing registered closing. To test the complete PRO customer experience, first create a fictitious closing, then open its PRO Workspace. Do not enter real customer data.</p><a href="/realtor-private-test.html?view=client" style="display:inline-block;background:#173b52;color:#fff;text-decoration:none;border-radius:7px;padding:10px 15px;font-weight:800">Open PRO Customer Preview →</a>';strip.after(n);return}
 label.textContent=project.name+' · PRO Workspace (practice)';
 const originalHeading=document.getElementById('deadline-planner-title');if(originalHeading){originalHeading.innerHTML='Registered Contract Milestones <small class="mct-step-marker">READ-ONLY · FROM REGISTRATION</small>';}
 
