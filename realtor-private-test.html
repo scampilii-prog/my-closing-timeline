@@ -345,6 +345,23 @@ box-shadow:none!important;max-width:100%!important}
 #regForm .mct-pro-date-start-frame #mct-pro-date-confirm{font-size:11px!important;line-height:1.4!important;color:#9a542e!important;flex:1!important}
 #regForm .mct-pro-date-start-frame #mct-pro-start-action{position:static!important;grid-column:auto!important;grid-row:auto!important;justify-self:auto!important;flex:0 0 auto!important}
 @media(max-width:620px){#regForm .mct-pro-start .mct-pro-start-fields>.mct-pro-date-start-frame{grid-template-columns:1fr!important}#regForm .mct-pro-date-start-frame>.mct-pro-original{grid-row:2!important}#regForm .mct-pro-date-start-frame>.mct-pro-start-control{grid-row:3!important}}
+</style><style id="mct-four-adjustments-20261025">
+#regForm .mct-pro-start .mct-pro-start-note{margin:8px 0 0!important;font-size:11px!important;line-height:1.5!important}
+#regForm .mct-pro-date-start-frame .mct-pro-start-note{grid-column:1/-1!important;grid-row:3!important;align-self:start!important}
+#regForm>.mct-closing-change-section{margin-top:0!important;padding:9px 11px!important;min-height:0!important}
+#regForm>.mct-closing-change-section .mct-closing-change-row{gap:8px!important}
+#regForm>.mct-closing-change-section .mct-new-date-panel .mct-new-date-field{min-height:105px!important;padding:9px!important}
+#regForm>.mct-contract-deadline-registration>#mct-cancel-contract-panel{margin-top:13px!important}
+#mct-live-deadlines-registration{border:2px solid #cda25b;border-radius:13px;overflow:hidden;background:#fffaf2;margin:12px 0 15px}
+#mct-live-deadlines-registration .live-head{background:#193e54;color:#fff;padding:14px 19px}
+#mct-live-deadlines-registration .live-head strong{font-size:17px}
+#mct-live-deadlines-registration .live-head small{display:block;color:#edc17b;letter-spacing:.07em;font-weight:850}
+#mct-live-deadlines-registration .live-body{padding:12px 17px}
+#mct-live-deadlines-registration .live-group{background:#f8e5d1;color:#934519;border-radius:9px;padding:7px 12px;font-weight:900;display:flex;justify-content:space-between;margin:6px 0}
+#mct-live-deadlines-registration .live-group.tomorrow{background:#f8eecb;color:#78601e}
+#mct-live-deadlines-registration .live-task{padding:8px 7px;border-bottom:1px solid #eadfce;color:#173b52;font-size:12px}
+#mct-live-deadlines-registration .live-task b{display:inline-block;width:80px}
+#mct-live-deadlines-registration .live-empty{padding:7px 6px;color:#587284;font-size:12px}
 </style></head><body>
 <header><div class="bar"><a class="brand" href="/" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span>Timeline</span><span class="mct-brand-domain">.com</span></span></a><div><strong>Realtor Test Account</strong> &nbsp; <a class="link" href="/personal-sabatino.html">Admin Console ↗</a></div></div></header>
 <main><div class="eyebrow">PRIVATE OWNER TEST · CUSTOMER VIEW</div><h1>My Closings — Realtor Practice</h1><section class="realtor-profile-card" aria-label="Realtor test profile"><div class="realtor-profile-intro"><span class="eyebrow">REALTOR PROFILE · PRIVATE TEST</span><div class="realtor-profile-name">Realtor Preview 001</div><p class="sub">Explore the customer experience using fictional properties and dates. Profile details are saved in this browser for testing.</p></div><div class="realtor-company-stack"><label class="profile-state-label">Brokerage Company <span class="profile-optional">Optional</span><input id="realtorBrokerage" maxlength="120" placeholder="Enter your brokerage name" autocomplete="organization"></label><label class="profile-state-label">State <input id="realtorState" list="usStatesMct" placeholder="Select or type your state" autocomplete="off"></label><datalist id="usStatesMct"><option value="Alabama"><option value="Alaska"><option value="Arizona"><option value="Arkansas"><option value="California"><option value="Colorado"><option value="Connecticut"><option value="Delaware"><option value="Florida"><option value="Georgia"><option value="Hawaii"><option value="Idaho"><option value="Illinois"><option value="Indiana"><option value="Iowa"><option value="Kansas"><option value="Kentucky"><option value="Louisiana"><option value="Maine"><option value="Maryland"><option value="Massachusetts"><option value="Michigan"><option value="Minnesota"><option value="Mississippi"><option value="Missouri"><option value="Montana"><option value="Nebraska"><option value="Nevada"><option value="New Hampshire"><option value="New Jersey"><option value="New Mexico"><option value="New York"><option value="North Carolina"><option value="North Dakota"><option value="Ohio"><option value="Oklahoma"><option value="Oregon"><option value="Pennsylvania"><option value="Rhode Island"><option value="South Carolina"><option value="South Dakota"><option value="Tennessee"><option value="Texas"><option value="Utah"><option value="Vermont"><option value="Virginia"><option value="Washington"><option value="West Virginia"><option value="Wisconsin"><option value="Wyoming"><option value="District of Columbia"></datalist></div></section>
@@ -586,4 +603,16 @@ if(mail[0]){mail[0].style.setProperty('background','#173f58','important');mail[0
 if(mail[1]){mail[1].style.setProperty('background','#e6c78c','important');mail[1].style.setProperty('color','#173b52','important')}
 }
 document.addEventListener('DOMContentLoaded',apply);
-})();</script></body></html>
+})();</script><script id="mct-four-adjustments-live-20261025">document.addEventListener('DOMContentLoaded',()=>{
+const form=document.getElementById('regForm'),dateFrame=form?.querySelector('.mct-pro-date-start-frame'),note=form?.querySelector('.mct-pro-start-note');if(dateFrame&&note)dateFrame.appendChild(note);
+if(!form||document.getElementById('mct-live-deadlines-registration'))return;
+const live=document.createElement('section');live.id='mct-live-deadlines-registration';
+live.innerHTML='<div class="live-head"><small>LIVE DEADLINES · ACTIVE TRANSACTION</small><strong>Today & Tomorrow</strong></div><div class="live-body"><div class="live-group">Due Today <span id="mct-live-count-today">0</span></div><div id="mct-live-today"></div><div class="live-group tomorrow">Tomorrow <span id="mct-live-count-tomorrow">0</span></div><div id="mct-live-tomorrow"></div></div>';
+form.after(live);
+const iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+const draw=()=>{const id=localStorage.getItem('mct_private_last_project_v1');let projects=[];try{projects=JSON.parse(localStorage.getItem('mct_private_owner_realtor_preview_v1')||'[]')}catch{}const p=projects.find(x=>x.id===id&&!x.deleted);live.style.display=p?'block':'none';if(!p)return;const now=new Date(),today=iso(now);now.setDate(now.getDate()+1);const tomorrow=iso(now);
+const inputs=[...document.querySelectorAll('#mct-register-task-rows > *')];let tasks=inputs.map(r=>{const v=[...r.querySelectorAll('input')],name=v.find(x=>x.type==='text')?.value||'',date=v.find(x=>x.type==='date')?.value||'';return {name,date}}).filter(x=>x.name&&x.date);
+if(!tasks.length)tasks=(p.contractMilestones||[]).map(x=>({name:x.name||x.title||'',date:x.dueDate||x.date||''}));
+for(const [day,target,counter] of [[today,'mct-live-today','mct-live-count-today'],[tomorrow,'mct-live-tomorrow','mct-live-count-tomorrow']]){const found=tasks.filter(x=>x.date===day),box=document.getElementById(target);box.replaceChildren();document.getElementById(counter).textContent=String(found.length);if(!found.length){const e=document.createElement('div');e.className='live-empty';e.textContent='No contract deadlines scheduled.';box.append(e)}else found.forEach(t=>{const row=document.createElement('div');row.className='live-task';const b=document.createElement('b');b.textContent=day.slice(5);row.append(b,document.createTextNode(t.name));box.append(row)})}};
+form.addEventListener('input',draw);form.addEventListener('change',draw);document.addEventListener('click',()=>setTimeout(draw,0));draw();
+});</script></body></html>
