@@ -41,6 +41,7 @@ export async function onRequest(context){
   const items=await db.prepare("SELECT id,name,address,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
   return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results});
  }
+ if(req.method==="GET"&&route==="admin/codes"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const rows=await db.prepare("SELECT id,credits,max_uses,uses,expires_at,restricted_email,active,created_at FROM promo_codes ORDER BY created_at DESC LIMIT 100").all();return reply({ok:true,codes:rows.results})}
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
  if(route==="forgot"){
@@ -84,6 +85,7 @@ export async function onRequest(context){
   if(!row.verified)return error("Verify your email before signing in",403);
   return reply({ok:true},200,{"Set-Cookie":await newSession(db,row.id)});
  }
+ if(route==="admin/codes/disable"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const id=String(body.id||"");if(!/^[0-9a-f-]{36}$/.test(id))return error("Invalid code ID");await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(id).run();return reply({ok:true})}
  if(route==="admin/code"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
   const credits=Number(body.credits),uses=Number(body.max_uses||1),exp=body.expires_at?Date.parse(body.expires_at):NaN,email=String(body.email||"").trim().toLowerCase();
