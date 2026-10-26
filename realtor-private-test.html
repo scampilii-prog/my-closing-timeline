@@ -553,4 +553,22 @@ date.addEventListener('input',update);reason.addEventListener('input',update);
 back.addEventListener('click',reset);
 button.addEventListener('click',()=>{const p=current();if(!p){msg.textContent='Start and save a closing first.';return}if(!date.value||!reason.value.trim()){msg.textContent='Enter both the cancellation date and reason.';return}if(!pending){pending=true;button.textContent='Confirm Cancellation';back.hidden=false;msg.textContent='Are you sure? Click Confirm Cancellation a second time to record this as cancelled. This does not send a legal notice.';return}const arr=projects(),item=arr.find(x=>x.id===p.id);if(!item)return;item.contractCancellation={date:date.value,reason:reason.value.trim(),recordedAt:new Date().toISOString()};item.status='cancelled';for(const st of [localStorage,sessionStorage])try{st.setItem(key,JSON.stringify(arr));st.setItem(key+'_safety',JSON.stringify(arr))}catch{}pending=false;show()});
 document.addEventListener('DOMContentLoaded',show);
-})();</script><script id="mct-cancellation-inline-after-tasks-20261025">document.addEventListener('DOMContentLoaded',()=>{const section=document.querySelector('#regForm>.mct-contract-deadline-registration'),cancel=document.getElementById('mct-cancel-contract-panel');if(section&&cancel&&cancel.parentElement!==section)section.appendChild(cancel)});</script></body></html>
+})();</script><script id="mct-cancellation-inline-after-tasks-20261025">document.addEventListener('DOMContentLoaded',()=>{const section=document.querySelector('#regForm>.mct-contract-deadline-registration'),cancel=document.getElementById('mct-cancel-contract-panel');if(section&&cancel&&cancel.parentElement!==section)section.appendChild(cancel)});</script><script id="mct-five-button-hard-unify-20261025">(function(){
+function apply(){const specs=[
+['#regForm #mct-pro-start-action','145px'],
+['#regForm #mct-add-closing-note','145px'],
+['#regForm #mct-accept-closing-date','180px'],
+['#regForm .mct-register-task-actions .mct-mail-action','190px']];
+for(const [selector,width] of specs)document.querySelectorAll(selector).forEach(b=>{
+const set=(k,v)=>b.style.setProperty(k,v,'important');
+set('box-sizing','border-box');set('display','inline-flex');set('align-items','center');set('justify-content','center');
+set('height','46px');set('min-height','46px');set('max-height','46px');
+set('width',width);set('min-width',width);set('max-width',width);
+set('padding','8px 12px');set('border-radius','9px');set('font-family','Manrope, Arial, sans-serif');set('font-size','13px');set('font-weight','800');set('line-height','1.2');set('text-align','center');set('white-space','normal');
+});
+const mail=document.querySelectorAll('#regForm .mct-register-task-actions .mct-mail-action');
+if(mail[0]){mail[0].style.setProperty('background','#173f58','important');mail[0].style.setProperty('color','#fff','important')}
+if(mail[1]){mail[1].style.setProperty('background','#e6c78c','important');mail[1].style.setProperty('color','#173b52','important')}
+}
+document.addEventListener('DOMContentLoaded',apply);
+})();</script></body></html>
