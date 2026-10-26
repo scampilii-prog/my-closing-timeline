@@ -15,6 +15,7 @@ const plans={single:{credits:1,amount:2000,price:"price_1UUv1MClAoCQ0RPCP6IcwrTK
 const emailOK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
 const isoDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||""))return false;const d=new Date(s+"T00:00:00Z");return !Number.isNaN(d.valueOf())&&d.toISOString().slice(0,10)===s};
 async function pbkdf(password,salt){const key=await crypto.subtle.importKey("raw",E.encode(password),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:E.encode(salt),iterations:210000},key,256);return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function permit(db,kind,value,max,windowSeconds){const key=await digest(kind+":"+value);const previous=await db.prepare("SELECT attempts,expires_at FROM auth_attempts WHERE rate_key=?").bind(key).first();if(previous&&previous.expires_at>now()&&previous.attempts>=max)return false;await db.prepare("INSERT INTO auth_attempts(rate_key,attempts,expires_at) VALUES(?,1,?) ON CONFLICT(rate_key) DO UPDATE SET attempts=CASE WHEN expires_at<=? THEN 1 ELSE attempts+1 END,expires_at=CASE WHEN expires_at<=? THEN excluded.expires_at ELSE expires_at END").bind(key,now()+windowSeconds,now(),now()).run();return true}
 async function getAuth(req,db){const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));if(!cookie)return null;const token=cookie.slice(cookieName.length+1);if(!/^[A-Za-z0-9_-]{40,60}$/.test(token))return null;return db.prepare("SELECT u.id,u.email,u.full_name,u.verified,u.credits FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>?").bind(await digest(token),now()).first()}
 async function newSession(db,userId){const token=random();await db.prepare("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES (?,?,?)").bind(await digest(token),userId,now()+2592000).run();return sessionCookie(token)}
 async function parseBody(req){if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))throw Error("Expected JSON");if(Number(req.headers.get("Content-Length")||0)>10000)throw Error("Request too large");return await req.json()}
@@ -42,6 +43,23 @@ export async function onRequest(context){
  }
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
+ if(route==="forgot"){
+  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Password recovery email is not yet configured",503);
+  const email=String(body.email||"").trim().toLowerCase();if(!emailOK(email))return error("Invalid email");
+  if(!await permit(db,"forgot",req.headers.get("CF-Connecting-IP")||"unknown",5,3600))return error("Too many requests. Try again later.",429);
+  const user=await db.prepare("SELECT id FROM users WHERE email=? AND verified=1").bind(email).first();
+  if(user){const token=random();await db.prepare("INSERT INTO password_resets(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),user.id,now()+1800).run();
+   const link=url.origin+"/pro-get-started.html?reset="+encodeURIComponent(token);const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:"Bearer "+env.RESEND_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({from:env.MCT_FROM_EMAIL,to:[email],subject:"Reset your My Closing Timeline password",html:"<p>Use this one-time link to reset your password:</p><p><a href=\""+link+"\">Reset Password</a></p><p>This link expires in 30 minutes. Ignore this message if you did not request it.</p>"})});if(!response.ok)return error("Recovery email is temporarily unavailable",503)}
+  return reply({ok:true,message:"If the email belongs to an active account, recovery instructions were sent."});
+ }
+ if(route==="reset"){
+  const token=String(body.token||""),password=String(body.password||"");
+  if(token.length<32||password.length<12||password.length>128)return error("Invalid or expired reset request");
+  const hash=await digest(token),row=await db.prepare("SELECT user_id FROM password_resets WHERE token_hash=? AND expires_at>?").bind(hash,now()).first();if(!row)return error("Reset link expired or was used",410);
+  const salt=random(20),passHash=await pbkdf(password,salt);
+  await db.batch([db.prepare("UPDATE users SET password_salt=?,password_hash=? WHERE id=?").bind(salt,passHash,row.user_id),db.prepare("DELETE FROM sessions WHERE user_id=?").bind(row.user_id),db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(row.user_id)]);
+  return reply({ok:true,message:"Password updated. Please sign in."},200,{"Set-Cookie":clearCookie()});
+ }
  if(route==="logout"){
   const found=(req.headers.get("Cookie")||"").split(";").map(s=>s.trim()).find(s=>s.startsWith(cookieName+"="));
   if(found)await db.prepare("DELETE FROM sessions WHERE token_hash=?").bind(await digest(found.slice(cookieName.length+1))).run();
@@ -52,7 +70,7 @@ export async function onRequest(context){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email verification is not yet configured",503);
   const name=String(body.name||"").trim().slice(0,120),email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
   if(name.length<2||!emailOK(email)||password.length<12||password.length>128)return error("Enter your name, valid email and a password of at least 12 characters");
-  const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
+  if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",5,3600))return error("Too many registration attempts. Try again later.",429);const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
   const id=guid(),salt=random(20),hash=await pbkdf(password,salt),token=random(32);
   await db.batch([db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400)]);
   try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
@@ -60,7 +78,7 @@ export async function onRequest(context){
   return reply({ok:true,message:"Check your email for a verification link."},201);
  }
  if(route==="login"){
-  const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");if(!emailOK(email)||password.length>128)return error("Invalid credentials",401);
+  const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");if(!emailOK(email)||password.length>128)return error("Invalid credentials",401);if(!await permit(db,"login",email,8,900))return error("Too many sign-in attempts. Try again later.",429);
   const row=await db.prepare("SELECT id,password_salt,password_hash,verified FROM users WHERE email=?").bind(email).first();
   if(!row||!safeEq(await pbkdf(password,row.password_salt),row.password_hash))return error("Invalid credentials",401);
   if(!row.verified)return error("Verify your email before signing in",403);
@@ -74,7 +92,7 @@ export async function onRequest(context){
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
  if(route==="promo/check"||route==="promo/redeem"){
-  const code=String(body.code||"").trim().toUpperCase();
+  const code=String(body.code||"").trim().toUpperCase();if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
   const row=await db.prepare("SELECT id,credits FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) AND (restricted_email IS NULL OR restricted_email=?)").bind(await digest(code),now(),user.email).first();
   if(!row)return error("Code is invalid, expired or fully used",404);
