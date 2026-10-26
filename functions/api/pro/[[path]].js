@@ -129,7 +129,7 @@ export async function onRequest(context){
  if(match){
   const id=match[1],act=match[2],closing=await db.prepare("SELECT * FROM closings WHERE id=? AND user_id=?").bind(id,user.id).first();
   if(!closing)return error("Closing not found",404);
-  if(act==="details"){const tasks=await db.prepare("SELECT id,title,due_date,status FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();return reply({ok:true,closing,tasks:tasks.results})}
+  if(act==="details"){const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();return reply({ok:true,closing,tasks:tasks.results})}
   if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
   if(act==="change-date"){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
@@ -157,14 +157,14 @@ export async function onRequest(context){
   if(act==="tasks/add"){
    const title=String(body.title||"").trim().slice(0,150),date=String(body.date||"");
    if(!title||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Enter a task with a current or future due date");
-   await db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,title,date).run();return reply({ok:true},201);
+   await db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date,auto_shift) VALUES(?,?,?,?,?,?)").bind(guid(),id,user.id,title,date,body.relative===true?1:0).run();return reply({ok:true},201);
   }
   if(act==="tasks/update"){
    const task=await db.prepare("SELECT * FROM follow_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(body.task_id,id,user.id).first();
    if(!task)return error("Task not found",404);
    if(task.due_date<new Date().toISOString().slice(0,10))return error("Expired tasks are locked",409);
    const title=String(body.title||task.title).trim().slice(0,150),date=String(body.date||task.due_date),status=body.done===true?"done":body.done===false?"pending":task.status;
-   if(!title||!isoDate(date))return error("Invalid task");
+   if(!title||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Invalid task or past due date");
    await db.prepare("UPDATE follow_tasks SET title=?,due_date=?,status=? WHERE id=? AND user_id=?").bind(title,date,status,task.id,user.id).run();return reply({ok:true});
   }
  }
