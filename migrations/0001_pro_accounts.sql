@@ -1,5 +1,3 @@
--- My Closing Timeline PRO: Cloudflare D1 schema. Apply to a new D1 database before enabling accounts.
--- Cloudflare D1 automatically enforces foreign keys.
 CREATE TABLE IF NOT EXISTS users (
  id TEXT PRIMARY KEY,
  email TEXT NOT NULL UNIQUE,
