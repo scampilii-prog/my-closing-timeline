@@ -186,8 +186,9 @@ export async function onRequest(context){
  if(route==="promo/check"||route==="promo/redeem"){
   const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
-  const row=await db.prepare("SELECT id,credits FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) AND (restricted_email IS NULL OR restricted_email=?)").bind(await digest(code),now(),user.email).first();
-  if(!row)return error("Code is invalid, expired or fully used",404);
+  const row=await db.prepare("SELECT id,credits,restricted_email FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?)").bind(await digest(code),now()).first();
+  if(!row)return error("This private gift code has expired, has already been redeemed or is not available. Please contact the sender for a new invitation.",404);
+  if(row.restricted_email&&row.restricted_email!==user.email)return error("This private gift is restricted to a different email address. Sign out and register or sign in with the email that received the invitation.",403);
   if(route==="promo/check")return reply({ok:true,credits:row.credits,total:0});
   const id=guid();const q=[
    db.prepare("INSERT INTO promo_redemptions(id,code_id,user_id) SELECT ?,id,? FROM promo_codes WHERE id=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) AND NOT EXISTS(SELECT 1 FROM promo_redemptions WHERE code_id=? AND user_id=?)").bind(id,user.id,row.id,now(),row.id,user.id),
