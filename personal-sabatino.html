@@ -1032,7 +1032,7 @@ min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!import
   <label>Expiration <small>(optional)</small><input name="expires_at" type="date"></label>
   <button id="mct-private-gift-generate" type="submit">Generate Private Gift Code</button>
  </form>
- <div id="mct-private-gift-result" class="mct-gift-live-result" role="status" aria-live="polite">Generate a code and copy your invitation before leaving. The full code is only shown once.</div>
+ <div id="mct-private-gift-result" class="mct-gift-live-result" role="status" aria-live="polite">Generate a code and copy your invitation before leaving. The full code is only shown once.</div><section id="mct-gift-email-preview" hidden aria-label="Branded gift invitation preview" style="margin-top:15px;border:1px solid #cfdde4;border-radius:11px;background:#edf3f6;padding:13px"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px"><strong style="font-size:13px">Branded Gift Invitation · Preview</strong><button type="button" id="mct-gift-preview-hide" style="padding:6px 10px;background:#e6eff1;color:#164156;border-color:#c5d5da">Close Preview</button></div><div id="mct-gift-email-preview-body" style="background:white;border-radius:9px;border:1px solid #d8e2e6;overflow:hidden"></div><p style="font-size:11px;margin-top:9px">The real email includes clickable blue links, a redeem button, and the My Closing Timeline brand. Email apps may load images differently.</p></section>
  <div class="mct-gift-live-bar"><strong>Unused Codes Available</strong><button type="button" id="mct-private-gift-refresh">Refresh List</button></div>
  <div id="mct-private-gift-list" aria-live="polite">Loading private gift list…</div>
  <p class="mct-gift-live-small">Redeemed, expired and disabled codes are automatically removed from this available list. Their secure records remain stored to prevent reuse. <a href="/admin-gift-codes.html">Open the full Gift Code Manager →</a></p>
@@ -1735,6 +1735,35 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
   const body="Hello,\n\nI'd like to invite you to try My Closing Timeline PRO with one complimentary Closing Credit.\n\nYOUR PRIVATE GIFT CODE: "+code+"\n\n1. Visit https://myclosingtimeline.com/pro-get-started.html#mct-gift-panel\n2. Register and verify your email"+(email?" ("+email+")":"")+", or sign in if you already have an account.\n3. Under PRIVATE GIFT, enter your code and select Check Gift, then Redeem My FREE Credit.\n4. Open My PRO Workspace to start your closing.\n\nNo credit card or payment is required. Your code can be redeemed only once.\n\nBest regards,\nMy Closing Timeline";
   return {subject,body}
  };
+
+ const invitationPreview=(code,email)=>{
+  const escape=value=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const link="https://myclosingtimeline.com/pro-get-started.html#mct-gift-panel";
+  const workspace="https://myclosingtimeline.com/my-closings.html";
+  const restricted=email?" Please register using <strong>"+escape(email)+"</strong>.":"";
+  return '<div style="background:#102d44;padding:18px 20px;border-bottom:3px solid #d2ae75;display:flex;gap:12px;align-items:center">'+
+   '<img src="https://myclosingtimeline.com/favicon.svg" width="42" height="42" alt="My Closing Timeline icon" style="border-radius:8px">'+
+   '<strong style="color:#fff;font-size:20px">MyClosing<span style="color:#75d4d4">Timeline</span><span style="color:#eed2a2;font-size:12px">.com</span></strong></div>'+
+   '<div style="padding:23px 24px;color:#183b52;font-family:Arial,Helvetica,sans-serif">'+
+   '<div style="font-size:10px;letter-spacing:2px;color:#9d733b;font-weight:800">A PERSONAL INVITATION</div>'+
+   '<h2 style="font-size:25px;line-height:1.25;color:#163c55;margin:11px 0">A complimentary PRO Closing Credit, just for you.</h2>'+
+   '<p style="font-size:14px;line-height:1.7">Hello,<br>I’d like to invite you to experience <strong>My Closing Timeline PRO</strong> with <strong>1 FREE Closing Credit</strong>.</p>'+
+   '<div style="padding:15px;border:1px solid #b7d9ca;border-radius:9px;background:#effaf5;text-align:center"><small style="font-weight:900;color:#216b57">YOUR PRIVATE GIFT CODE</small><div style="font-weight:900;font-size:17px;letter-spacing:.01em;color:#145d4b;word-break:break-word">'+escape(code)+'</div><small>1 Closing Credit · Single-use invitation</small></div>'+
+   '<p style="text-align:center;margin:20px 0"><a href="'+link+'" target="_blank" rel="noopener" style="padding:13px 18px;background:#156f81;color:#fff;text-decoration:none;border-radius:8px;display:inline-block;font-weight:900">Redeem Your Free Closing Credit</a></p>'+
+   '<h3 style="font-size:16px;margin:18px 0 8px">Your next steps</h3>'+
+   '<p style="font-size:13px;line-height:1.7"><strong>01.</strong> Select <a href="'+link+'" target="_blank" rel="noopener" style="color:#116ba0;font-weight:800">Redeem Your Free Closing Credit</a>.<br>'+
+   '<strong>02.</strong> Create an account and verify your email, or sign in.'+restricted+'<br>'+
+   '<strong>03.</strong> Under <strong>PRIVATE GIFT</strong>, choose <strong>Check Gift</strong>, then <strong>Redeem My FREE Credit</strong>.<br>'+
+   '<strong>04.</strong> Open <a href="'+workspace+'" target="_blank" rel="noopener" style="color:#116ba0;font-weight:800">My PRO Workspace</a> to start your closing.</p>'+
+   '<p style="font-size:13px;font-weight:700;color:#256453">No credit card or payment is required.</p></div>'+
+   '<div style="border-top:1px solid #e3ebed;padding:13px 20px;color:#7e9097;font-size:10px;text-align:center">MyClosingTimeline.com · Private, single-use invitation</div>';
+ };
+ const previewInvite=(code,email)=>{
+  $("mct-gift-email-preview-body").innerHTML=invitationPreview(code,email);
+  $("mct-gift-email-preview").hidden=false;
+  $("mct-gift-email-preview").scrollIntoView({behavior:"smooth",block:"nearest"});
+ };
+ $("mct-gift-preview-hide").onclick=()=>{$("mct-gift-email-preview").hidden=true};
  const copy=async (value,button)=>{
   try{await navigator.clipboard.writeText(value);if(button){const before=button.textContent;button.textContent="Copied ✓";setTimeout(()=>button.textContent=before,1700)}}
   catch(_){result.append(document.createTextNode(" Copy failed. Select the text and copy it manually."))}
@@ -1781,7 +1810,25 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
    const code=document.createElement("div");code.className="mct-gift-live-code";code.textContent=data.code;
    const info=document.createElement("p");info.textContent="Copy this code or invitation now. It is shown in full only once. The recipient must use it with the invited email when restricted.";
    const tools=document.createElement("div");tools.className="mct-gift-live-tools";
-   const actions=[["Copy Code",()=>copy(data.code,actions[0].button)],["Copy Invitation",()=>copy("Subject: "+draft.subject+"\n\n"+draft.body,actions[1].button)],["Open in Mail",()=>{window.location.href="mailto:"+encodeURIComponent(email)+"?subject="+encodeURIComponent(draft.subject)+"&body="+encodeURIComponent(draft.body)}]];
+   const actions=[
+    ["Preview Email",()=>previewInvite(data.code,email)],
+    ["Copy Code",()=>copy(data.code,actions[1].button)],
+    ["Copy Text Invitation",()=>copy("Subject: "+draft.subject+"\n\n"+draft.body,actions[2].button)],
+    ["Open Text Draft",()=>{window.location.href="mailto:"+encodeURIComponent(email)+"?subject="+encodeURIComponent(draft.subject)+"&body="+encodeURIComponent(draft.body)}],
+    ["Send Branded Email",async()=>{
+      if(!email){result.append(document.createTextNode(" Enter a recipient email before creating a gift if you want to send it directly. Otherwise use Copy Text Invitation."));return}
+      if(!confirm("Send the branded gift invitation to "+email+"? You can preview it first. This will send an actual email, not a draft."))return;
+      const button=actions[4].button;button.disabled=true;button.textContent="Sending…";
+      try{
+        const response=await fetch("/api/pro/admin/gift/send",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:data.code,email})});
+        const payload=await response.json();
+        if(!response.ok)throw Error(payload.error||"Invitation could not be sent");
+        button.textContent="Email Submitted ✓";
+        button.style.background="#177057";button.style.borderColor="#177057";
+        result.append(document.createTextNode(" Branded invitation submitted for delivery to "+email+"."));
+      }catch(e){button.textContent="Send Branded Email";button.disabled=false;result.append(document.createTextNode(" "+e.message))}
+    }]
+   ];
    for(const action of actions){const btn=document.createElement("button");btn.type="button";btn.textContent=action[0];btn.addEventListener("click",action[1]);action.button=btn;tools.append(btn)}
    result.append(title,code,info,tools);
    await refresh();
