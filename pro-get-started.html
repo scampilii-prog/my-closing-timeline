@@ -12,7 +12,13 @@ body>header.mct-unified-header nav a:hover{color:#53d1ce}
 html{scroll-padding-top:118px}
 @media(max-width:900px){body>header.mct-unified-header .mct-header-inner{padding:13px 0;justify-content:center;min-height:90px}body>header.mct-unified-header nav{justify-content:center;gap:10px 17px}}
 @media(max-width:520px){body>header.mct-unified-header .mct-brand{font-size:21px!important;gap:8px}body>header.mct-unified-header .mct-brand .mct-brand-icon{width:37px;height:37px}body>header.mct-unified-header nav a{font-size:12px}}
-</style><link rel="stylesheet" href="/assets/mct-brand-canonical.css?v=20261027"></head><body><header class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand mct-canonical-brand" href="/index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="46" height="46"><span class="mct-brand-name">MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/free-timeline.html">Free Timeline</a><a href="/pro-get-started.html" aria-current="page">PRO Timeline</a><a href="/pricing.html">Plans &amp; Pricing</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header><main><section class="hero"><span class="eyebrow">REALTOR PRO · SIMPLE CHECKOUT</span><h1>Choose. Pay. Start Your Closing.</h1><p>Everything in one place. Select your closing credits, sign in or register, and continue to secure checkout when available.</p></section><section id="mct-verified-welcome" class="mct-welcome" hidden aria-live="polite">
+</style><link rel="stylesheet" href="/assets/mct-brand-canonical.css?v=20261027"><style id="mct-auto-gift-style-20261027">
+#mct-gift-panel.mct-invited-gift{border:2px solid #71b69b!important;background:#f1faf5!important;box-shadow:0 5px 19px #18695216}
+#mct-gift-panel.mct-invited-gift .mct-coupon-heading strong{color:#196c50}
+#mct-gift-panel .mct-gift-workspace-cta{display:inline-flex;margin:13px 0 2px;padding:13px 18px;min-height:46px;border:1px solid #1e765e;background:#1e765e;color:white!important;font:850 14px/1.35 Manrope,Arial,sans-serif;text-decoration:none;border-radius:8px}
+#mct-gift-panel .mct-gift-workspace-cta[hidden]{display:none!important}
+#mct-gift-panel .mct-coupon-feedback[data-result="success"]{font-weight:800;font-size:13px;line-height:1.55}
+</style></head><body><header class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand mct-canonical-brand" href="/index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="46" height="46"><span class="mct-brand-name">MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/free-timeline.html">Free Timeline</a><a href="/pro-get-started.html" aria-current="page">PRO Timeline</a><a href="/pricing.html">Plans &amp; Pricing</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header><main><section class="hero"><span class="eyebrow">REALTOR PRO · SIMPLE CHECKOUT</span><h1>Choose. Pay. Start Your Closing.</h1><p>Everything in one place. Select your closing credits, sign in or register, and continue to secure checkout when available.</p></section><section id="mct-verified-welcome" class="mct-welcome" hidden aria-live="polite">
  <span class="mct-welcome-eyebrow">YOUR ACCOUNT IS VERIFIED</span>
  <h2 id="mct-verified-title">Welcome to My Closing Timeline PRO!</h2>
  <p>Your private account is ready. Go directly to your PRO workspace to view your closings and account details.</p>
@@ -33,6 +39,7 @@ html{scroll-padding-top:118px}
 <div class="mct-coupon-input-row"><input type="text" id="mct-code" placeholder="Enter the personal code you received" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64" aria-describedby="mct-gift-status"><button type="button" class="btn mct-gift-check-button" id="mct-gift-check">Check Gift</button></div>
 <p id="mct-gift-status" class="mct-coupon-feedback" role="status" aria-live="polite">Only invited customers receive a private gift code. Register or sign in with the invited email to redeem it.</p>
 <button type="button" class="btn mct-redeem-button" id="mct-free-redeem" hidden>Redeem My FREE Credit · No Card Needed</button>
+<a class="btn mct-gift-workspace-cta" id="mct-gift-start-work" href="/my-closings.html" hidden>Open My PRO Workspace · Start Your Closing →</a>
 </section></div><div><div class="eyebrow">2 · YOUR ACCOUNT &amp; PAYMENT</div><h3 style="font-size:18px;margin:9px 0 6px">One account. All your closings.</h3><p style="font-size:13px">New customers will register once; returning Realtors will sign in. Secure Stripe payment follows and each verified purchase adds credits to that account.</p><section id="mct-account" style="margin:12px 0 16px;border:1px solid #d7e3e8;border-radius:9px;padding:13px;background:#fbfdfd">
 <div id="mct-logged-out"><div style="display:flex;gap:9px;margin-bottom:12px"><button type="button" class="btn" id="mct-tab-login">Sign In</button><button type="button" class="btn" id="mct-tab-register">Create Account</button></div>
 <form id="mct-login-form"><label>Email<input name="email" type="email" autocomplete="email" required style="width:100%;padding:10px;margin:4px 0 9px;border:1px solid #c3d5dc;border-radius:7px;font:inherit"></label><label>Password<input name="password" type="password" autocomplete="current-password" required style="width:100%;padding:10px;margin:4px 0 9px;border:1px solid #c3d5dc;border-radius:7px;font:inherit"></label><button type="submit" class="btn">Sign In Securely</button></form>
@@ -56,6 +63,71 @@ if(["single","pack2","pack5"].includes(selectedFromPricing)){
 if(offerFromPricing==="LAUNCH90")document.getElementById("mct-launch-input").value="LAUNCH90";
 const plans={single:{name:"1 Closing Credit",regular:"$29.90",launch:"$19.90"},pack2:{name:"2 Closing Credits",regular:"$59.80",launch:"$34.90"},pack5:{name:"5 Closing Credits",regular:"$149.50",launch:"$84.90"}};
 const $=id=>document.getElementById(id);let account=null,ready={};
+
+const giftStorageKey="mct-pending-private-gift-v1";
+const giftPattern=/^MCT-[A-Z0-9_-]{12,60}$/;
+let giftAttemptedFor="";
+function savedGift(){
+ try{const v=JSON.parse(localStorage.getItem(giftStorageKey)||"null");
+  if(v&&giftPattern.test(String(v.code||""))&&Number(v.expires)>Date.now())return v.code;
+  localStorage.removeItem(giftStorageKey);
+ }catch(_){try{localStorage.removeItem(giftStorageKey)}catch(__){}}
+ return "";
+}
+function clearSavedGift(){try{localStorage.removeItem(giftStorageKey)}catch(_){}}
+function initializeGiftFromInvitation(){
+ let code="";
+ const fragment=location.hash.slice(1);
+ if(fragment.startsWith("gift=")){
+  code=(new URLSearchParams(fragment).get("gift")||"").trim().toUpperCase();
+  if(giftPattern.test(code)){
+   try{localStorage.setItem(giftStorageKey,JSON.stringify({code,expires:Date.now()+86400000}))}catch(_){}
+   // Clear the private code from the visible browser URL after it is captured.
+   history.replaceState(null,"",location.pathname+location.search+"#mct-gift-panel");
+  }else code="";
+ }
+ const pending=code||savedGift();
+ if(!pending)return false;
+ $("mct-code").value=pending;
+ $("mct-gift-panel").classList.add("mct-invited-gift");
+ $("mct-gift-status").dataset.result="success";
+ $("mct-gift-status").textContent="Your private FREE gift code has been filled in automatically. Create your account and verify your email, or sign in with the invited email. Your credit will then be added automatically. No payment is needed.";
+ if(fragment.startsWith("gift=")){
+  $("mct-gift-panel").scrollIntoView({block:"center"});
+ }
+ return true;
+}
+async function automaticallyApplySavedGift(){
+ const code=savedGift();
+ if(!account||!account.email||!code)return;
+ const attempt=account.email+"|"+code;
+ if(giftAttemptedFor===attempt)return;
+ giftAttemptedFor=attempt;
+ const status=$("mct-gift-status");
+ status.dataset.result="";
+ status.textContent="Account verified. Applying your private FREE Closing Credit…";
+ try{
+  const result=await api("promo/redeem","POST",{code});
+  clearSavedGift();
+  $("mct-code").value="";
+  $("mct-free-redeem").hidden=true;
+  $("mct-gift-start-work").hidden=false;
+  const latest=await api("me");
+  if(latest.authenticated&&latest.user){
+   account=latest.user;
+   $("mct-balance").textContent=account.credits+" available PRO closing credit"+(account.credits===1?"":"s");
+   $("mct-verified-credits").textContent=account.credits+" PRO closing credit(s) ready to use in your workspace.";
+   $("mct-account-next-step").textContent="Your complimentary credit is saved to your account. Select Open My PRO Workspace, then + Start New Closing to use one credit.";
+  }
+  status.dataset.result="success";
+  status.textContent="SUCCESS! "+result.credits_added+" FREE PRO Closing Credit has been added and saved to your account. You may start a closing now or return later. No payment required.";
+  setStatus("Your complimentary PRO Closing Credit is active. Open My PRO Workspace to start.", "success");
+ }catch(e){
+  status.dataset.result="error";
+  status.textContent="Your gift code is ready, but could not be applied automatically: "+e.message+". Check that you are signed in with the invited email. You can also select Check Gift below.";
+ }
+}
+
 const setStatus=(msg,type="")=>{const el=$("mct-account-status");el.textContent=msg;el.dataset.result=type};
 async function api(path,method="GET",data){const res=await fetch("/api/pro/"+path,{method,credentials:"same-origin",headers:data?{"Content-Type":"application/json"}:{},body:data?JSON.stringify(data):undefined});let answer={};try{answer=await res.json()}catch(_){}if(!res.ok)throw Error(answer.error||"Service not available");return answer}
 function pickPlan(){
@@ -93,7 +165,7 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
  $("mct-verified-welcome").hidden=true;
  setStatus(ready.database?"Sign in or create your account to continue.":"Customer accounts are not active until Cloudflare D1 is configured.");
 }
-refreshButtons()}catch(e){setStatus("Secure account services are being configured.");refreshButtons()}}
+refreshButtons();if(account)await automaticallyApplySavedGift()}catch(e){setStatus("Secure account services are being configured.");refreshButtons()}}
 function showTab(tab){$("mct-login-form").hidden=tab!=="login";$("mct-register-form").hidden=tab!=="register";for(const name of ["login","register"]){const b=$("mct-tab-"+name);const active=name===tab;b.classList.toggle("is-active",active);b.setAttribute("aria-pressed",String(active));}setStatus(tab==="register"?"Create your account using a valid email.":"Sign in to continue.")}
 $("mct-tab-login").onclick=()=>showTab("login");
 $("mct-tab-register").onclick=()=>showTab("register");$("mct-forgot-toggle").onclick=()=>{$("mct-forgot-form").hidden=false;$("mct-login-form").hidden=true};$("mct-forgot-form").onsubmit=async e=>{e.preventDefault();try{const r=await api("forgot","POST",Object.fromEntries(new FormData(e.target)));setStatus(r.message);e.target.hidden=true}catch(err){setStatus(err.message)}};$("mct-reset-form").onsubmit=async e=>{e.preventDefault();try{const token=new URLSearchParams(location.search).get("reset");const r=await api("reset","POST",{token,password:new FormData(e.target).get("password")});setStatus(r.message);e.target.hidden=true;$("mct-login-form").hidden=false;history.replaceState({},"","/pro-get-started.html")}catch(err){setStatus(err.message)}};if(new URLSearchParams(location.search).get("reset")){$("mct-login-form").hidden=true;$("mct-reset-form").hidden=false;}
@@ -156,7 +228,7 @@ $("mct-free-redeem").onclick=async()=>{
  const button=$("mct-free-redeem");button.disabled=true;
  try{
   const v=await api("promo/redeem","POST",{code});
-  button.hidden=true;$("mct-code").value="";
+  button.hidden=true;$("mct-code").value="";clearSavedGift();$("mct-gift-start-work").hidden=false;
   $("mct-gift-status").dataset.result="success";
   $("mct-gift-status").textContent="Success! "+v.credits_added+" free closing credit(s) added to your account. Open My Closings to start. No payment required.";
   await refreshAccount();
@@ -184,5 +256,5 @@ document.querySelectorAll('#mct-account input[type="password"]').forEach((input,
  });
  wrapper.appendChild(button);
 });
-pickPlan();showTab("login");refreshAccount();
+const cameWithGift=initializeGiftFromInvitation();pickPlan();showTab(cameWithGift?"register":"login");refreshAccount();
 </script></body></html>
