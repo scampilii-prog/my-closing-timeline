@@ -44,6 +44,7 @@ export async function onRequest(context){
  if(req.method==="GET"&&route==="admin/codes"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const rows=await db.prepare("SELECT id,credits,max_uses,uses,expires_at,restricted_email,active,created_at FROM promo_codes ORDER BY created_at DESC LIMIT 100").all();return reply({ok:true,codes:rows.results})}
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
+ const body=await parseBody(req);
  if(route==="forgot"){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Password recovery email is not yet configured",503);
   const email=String(body.email||"").trim().toLowerCase();if(!emailOK(email))return error("Invalid email");
@@ -66,7 +67,7 @@ export async function onRequest(context){
   if(found)await db.prepare("DELETE FROM sessions WHERE token_hash=?").bind(await digest(found.slice(cookieName.length+1))).run();
   return reply({ok:true},200,{"Set-Cookie":clearCookie()});
  }
- const body=await parseBody(req);
+
  if(route==="register"){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email verification is not yet configured",503);
   const name=String(body.name||"").trim().slice(0,120),email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
@@ -169,5 +170,5 @@ export async function onRequest(context){
   }
  }
  return error("Not found",404);
- }catch(e){if(String(e).includes("UNIQUE constraint"))return error("Already exists or was already used",409);return error("Request could not be completed. Please try again.",500)}
+ }catch(e){const message=e instanceof Error?e.message:String(e);console.error("MyClosingTimeline PRO request failed",{route,errorType:e?.name||"Unknown",detail:message.slice(0,350)});if(message.includes("UNIQUE constraint"))return error("Already exists or was already used",409);return error("Request could not be completed. Please try again.",500)}
 }
