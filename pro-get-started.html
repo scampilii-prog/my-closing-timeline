@@ -328,5 +328,12 @@ document.querySelectorAll('#mct-account input[type="password"]').forEach((input,
  });
  wrapper.appendChild(button);
 });
-const cameWithGift=initializeGiftFromInvitation();pickPlan();showTab(cameWithGift?"register":"login");refreshAccount();
+const cameWithGift=initializeGiftFromInvitation();
+const requestedAuth=(new URLSearchParams(location.search).get("auth")||"").toLowerCase();
+pickPlan();
+showTab(cameWithGift||requestedAuth==="register"||location.hash==="#register"?"register":"login");
+refreshAccount();
+if(!cameWithGift&&(requestedAuth==="register"||requestedAuth==="login"||location.hash==="#register")){
+ requestAnimationFrame(()=>document.getElementById("mct-account")?.scrollIntoView({block:"center"}));
+}
 </script></body></html>
