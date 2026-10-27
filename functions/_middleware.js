@@ -14,6 +14,26 @@ const redirect=(destination,headers={})=>new Response(null,{status:303,headers:{
 export async function onRequest(context){
  const req=context.request,url=new URL(req.url);
  if((url.pathname==="/"||url.pathname==="/index.html")&&(req.method==="GET"||req.method==="HEAD")){
+  // The owner can preview the actual Home using the existing signed 30-day
+  // admin session. Anonymous visitors keep the original Coming Soon screen.
+  const ownerSecret=context.env.PERSONAL_PRACTICE_PASSWORD;
+  if(typeof ownerSecret==="string"&&ownerSecret.length>=12){
+   const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));
+   const ownerToken=cookie?.slice(cookieName.length+1)||"";
+   const signed=/^v2\.(\d+)\.([A-Za-z0-9_-]+)$/.exec(ownerToken);
+   if(signed){
+    const expires=Number(signed[1]);
+    const current=Date.now();
+    if(Number.isSafeInteger(expires)&&expires>current&&expires<=current+lifetime+60000&&
+       equal(signed[2],await mac(ownerSecret,"v2."+signed[1]))){
+     const response=await context.next();
+     const headers=new Headers(response.headers);
+     for(const [key,value] of Object.entries(baseHeaders))headers.set(key,value);
+     headers.set("Content-Security-Policy","frame-ancestors 'none'");
+     return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
+    }
+   }
+  }
   return page(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>My Closing Timeline — Coming Soon</title><style>*{box-sizing:border-box}body{background:#10283e;color:#f4f5f4;margin:0;min-height:100vh;display:grid;place-items:center;font-family:Arial,sans-serif;padding:24px}.panel{width:min(730px,100%);text-align:center;border:1px solid #caa96e;border-radius:18px;padding:clamp(32px,6vw,74px) 28px;background:#173b52;box-shadow:0 22px 70px #071a2a55}.brand{font-weight:800;font-size:clamp(24px,4vw,38px);color:#fff}.brand span{color:#73cdd0}.kicker{letter-spacing:.2em;font-size:12px;font-weight:800;color:#e8c17d;margin-top:32px}h1{font-size:clamp(34px,6vw,57px);margin:16px 0;color:#f4dfba}p{line-height:1.7;color:#dce9ee;font-size:clamp(15px,2vw,18px)}.line{height:2px;width:72px;background:#caa96e;margin:24px auto}.small{font-size:12px;color:#b9cbd5;margin-top:34px}</style></head><body><main class="panel"><div class="brand">MyClosing<span>Timeline</span>.com</div><div class="kicker">SOMETHING GREAT IS COMING</div><h1>Under Construction</h1><div class="line"></div><p>We're preparing a more organized way for real estate professionals to manage their closing timelines, deadlines, and follow-up tasks.</p><p>Our website is currently being developed and is not accepting registrations or payments.</p><div class="small">© 2026 My Closing Timeline · All rights reserved</div></main></body></html>`);
  }
 
