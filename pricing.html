@@ -134,7 +134,7 @@ min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!import
 #mct-stripe-pro-catalog .mct-lp-coupon-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px;flex-wrap:wrap}
 #mct-stripe-pro-catalog .mct-lp-coupon-head div{display:flex;flex-direction:column;gap:2px}
 #mct-stripe-pro-catalog .mct-lp-coupon-head div span{font-size:10px;color:#966e32;font-weight:900;letter-spacing:.1em}
-#mct-stripe-pro-catalog .mct-lp-coupon-head div strong{font-size:17px;color:#173b51}
+#mct-stripe-pro-catalog .mct-lp-coupon-head div strong{font-size:17px;color:#173b51}#mct-stripe-pro-catalog .mct-lp-coupon-head div .mct-lp-howto{font-size:11px;color:#58717a;font-weight:600;max-width:345px;line-height:1.5;margin-top:3px}#mct-stripe-pro-catalog .mct-lp-coupon-head div .mct-lp-howto b{color:#1d715b;font-weight:900}
 #mct-stripe-pro-catalog #mct-lp-code-copy{background:#fff;border:1px dashed #ba965f;padding:8px 12px;font:900 14px Manrope,Arial,sans-serif;border-radius:7px;color:#7c5420;cursor:pointer}
 #mct-stripe-pro-catalog .mct-lp-coupon label{font-size:12px;font-weight:800;color:#274f61}
 #mct-stripe-pro-catalog .mct-lp-inputs{display:flex;gap:8px;margin-top:8px}
@@ -167,7 +167,7 @@ min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!import
  <div class="mct-lp-cards" role="group" aria-label="Select PRO credit package">
 <label class="mct-lp-card" data-plan="single">
  <input type="radio" name="mct-lp-plan" value="single" checked aria-label="1 Closing Credit" />
- <span class="mct-lp-card-selected" aria-hidden="true">✓ Selected</span>
+ <span class="mct-lp-card-selected" aria-hidden="true">Select package</span>
  <span class="mct-lp-count"><strong>1</strong><span>Closing Credit</span></span>
  <span class="mct-lp-details">Single transaction · One-time payment</span>
  <span class="mct-lp-future-label">Planned price after launch</span>
@@ -200,10 +200,10 @@ min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!import
 </label></div>
  <div class="mct-lp-bottom">
   <div class="mct-lp-coupon">
-   <div class="mct-lp-coupon-head"><div><span>YOUR LAUNCH PROMOTION</span><strong>Apply your 90-Day Offer</strong></div><button type="button" id="mct-lp-code-copy" aria-label="Put LAUNCH90 into the coupon field" title="Fill the offer code field">LAUNCH90 <span aria-hidden="true">⧉</span></button></div>
+   <div class="mct-lp-coupon-head"><div><span>YOUR LAUNCH PROMOTION</span><strong>Apply your 90-Day Offer</strong><small class="mct-lp-howto">Your code is <b>LAUNCH90</b> — click the code to apply it instantly.</small></div><button type="button" id="mct-lp-code-copy" aria-label="Apply the LAUNCH90 offer now" title="Click to apply LAUNCH90 now">USE CODE: LAUNCH90 <span aria-hidden="true">⧉</span></button></div>
    <label for="mct-lp-code">Enter offer code</label>
    <div class="mct-lp-inputs"><input id="mct-lp-code" type="text" placeholder="Enter LAUNCH90" maxlength="64" autocomplete="off" autocapitalize="characters" /><button type="button" id="mct-lp-apply">Apply Offer</button></div>
-   <p id="mct-lp-status" role="status" aria-live="polite">Enter the code to apply your promotional price to the selected package.</p>
+   <p id="mct-lp-status" role="status" aria-live="polite">Click <strong>USE CODE: LAUNCH90</strong> above, or enter the same code and press Apply Offer.</p>
   </div>
   <div class="mct-lp-summary"><span class="mct-lp-sum-kicker">YOUR ORDER</span><strong id="mct-lp-selection">1 Closing Credit</strong><span class="mct-lp-summary-line">One-time total <strong id="mct-lp-total">$29.90</strong></span><p id="mct-lp-saving">Use LAUNCH90 to unlock $19.90.</p><a id="mct-lp-continue" href="/pro-get-started.html?plan=single">Continue to PRO Registration</a><small>Stripe Sandbox testing only · No real charges</small></div>
  </div>
@@ -299,7 +299,7 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
  let chosen="single",applied=false,campaignActive=true;
  const status=(message,result="")=>{$("mct-lp-status").textContent=message;$("mct-lp-status").dataset.result=result};
  function render(){
-  root.querySelectorAll('input[name="mct-lp-plan"]').forEach(input=>input.closest(".mct-lp-card").classList.toggle("is-selected",input.checked));
+  root.querySelectorAll('input[name="mct-lp-plan"]').forEach(input=>{const card=input.closest(".mct-lp-card");card.classList.toggle("is-selected",input.checked);card.querySelector(".mct-lp-card-selected").textContent=input.checked?"✓ Selected":"Select package"});
   const plan=catalog[chosen],offer=applied&&campaignActive;
   $("mct-lp-selection").textContent=plan.name;
   $("mct-lp-total").textContent=offer?plan.launch:plan.regular;
@@ -309,11 +309,12 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
   $("mct-lp-continue").href="/pro-get-started.html?"+query;
  }
  root.querySelectorAll('input[name="mct-lp-plan"]').forEach(input=>input.addEventListener("change",()=>{chosen=input.value;render();if(applied)status("Offer applied to "+catalog[chosen].name+" — "+catalog[chosen].launch+".","success")}));
- $("mct-lp-code-copy").addEventListener("click",()=>{$("mct-lp-code").value="LAUNCH90";$("mct-lp-code").focus();status("LAUNCH90 entered. Select Apply Offer to activate.","")});
+ $("mct-lp-code-copy").addEventListener("click",()=>{$("mct-lp-code").value="LAUNCH90";applyOffer()});
  $("mct-lp-code").addEventListener("input",()=>{if(applied){applied=false;render();status("Offer code changed. Apply the code again.");}});
  async function applyOffer(){
   const code=$("mct-lp-code").value.trim().toUpperCase();
-  if(code!=="LAUNCH90"){applied=false;render();status(code?"This code does not match LAUNCH90.":"Enter the promotional code to continue.","error");return}
+  if(code!=="LAUNCH90"){applied=false;render();status(code?"This code does not match LAUNCH90. Click the visible code to apply it.":"Click USE CODE: LAUNCH90 above to apply the offer automatically.","");return}
+  status("Checking LAUNCH90 with our secure pricing service…");
   try{
    const response=await fetch("/api/pro/pricing",{credentials:"same-origin",cache:"no-store"});
    if(!response.ok)throw Error("Offer could not be checked");
