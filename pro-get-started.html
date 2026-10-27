@@ -30,6 +30,7 @@ html{scroll-padding-top:118px}
 #mct-gift-panel.mct-invited-gift .mct-coupon-heading strong{font-size:14px}
 body.mct-gift-visit #mct-coupon-panel{opacity:.48}
 body.mct-gift-visit #mct-gift-panel{border-color:#1b805f!important;border-width:2px}
+body.mct-gift-visit #mct-account+div,body.mct-gift-visit #mct-secure-checkout{display:none!important}
 body.mct-gift-visit #mct-gift-panel::before{content:"COMPLIMENTARY INVITATION  ·  $0.00 TO REDEEM";display:block;margin:0 0 12px;color:#156a4f;font:850 12px/1.4 Manrope,Arial,sans-serif;letter-spacing:.045em}
 @media(max-width:680px){#mct-gift-enroll-actions button{flex:1 1 100%}}
 </style></head><body><header class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand mct-canonical-brand" href="/index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="46" height="46"><span class="mct-brand-name">MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/free-timeline.html">Free Timeline</a><a href="/pro-get-started.html" aria-current="page">PRO Timeline</a><a href="/pricing.html">Plans &amp; Pricing</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header><main><section class="hero"><span class="eyebrow">REALTOR PRO · SIMPLE CHECKOUT</span><h1>Choose. Pay. Start Your Closing.</h1><p>Everything in one place. Select your closing credits, sign in or register, and continue to secure checkout when available.</p></section><section id="mct-verified-welcome" class="mct-welcome" hidden aria-live="polite">
@@ -147,6 +148,13 @@ function initializeGiftFromInvitation(){
  $("mct-gift-panel").classList.add("mct-invited-gift");
  const publicPanel=$("mct-coupon-panel");
  publicPanel?.parentNode?.insertBefore($("mct-gift-panel"),publicPanel);
+ const giftHeading=$("mct-gift-panel").querySelector(".mct-coupon-heading strong");
+ if(giftHeading)giftHeading.textContent="1 · YOUR PRIVATE GIFT — 1 FREE CLOSING CREDIT";
+ const paidHeading=publicPanel?.querySelector(".mct-coupon-heading strong");
+ if(paidHeading)paidHeading.textContent="2 · OPTIONAL PAID-CREDIT DISCOUNT";
+ $("mct-launch-input").value="LAUNCH90";
+ const publicStatus=$("mct-code-status");
+ publicStatus.textContent="LAUNCH90 is prefilled for optional paid credit purchases only. Your PRIVATE GIFT is FREE ($0.00) and does not require LAUNCH90 or checkout.";
  invitationActions();
  $("mct-gift-status").dataset.result="success";
  $("mct-gift-status").textContent="Your private FREE gift code has been filled in automatically. Create your account and verify your email, or sign in with the invited email. Your credit will then be added automatically. No payment is needed.";
