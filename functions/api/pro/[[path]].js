@@ -17,7 +17,17 @@ const launchActive=()=>Date.now()>=launch.start&&Date.now()<launch.end;
 const launchValid=code=>launchActive()&&String(code||"").trim().toUpperCase()===launch.code;
 const emailOK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
 const isoDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||""))return false;const d=new Date(s+"T00:00:00Z");return !Number.isNaN(d.valueOf())&&d.toISOString().slice(0,10)===s};
-async function pbkdf(password,salt){const key=await crypto.subtle.importKey("raw",E.encode(password),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:E.encode(salt),iterations:210000},key,256);return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,"0")).join("")}
+// Workers production limits each PBKDF2 call to 100,000 iterations.
+// Use three domain-separated chained calls and version the stored result.
+// Never silently fall back to a single weak/legacy hashing pass.
+async function pbkdf(password,salt){
+ let material=E.encode(password);
+ for(let round=1;round<=3;round++){
+  const key=await crypto.subtle.importKey("raw",material,"PBKDF2",false,["deriveBits"]);
+  material=new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:E.encode("mct-pbkdf2-v2:"+round+":"+salt),iterations:100000},key,256));
+ }
+ return "v2:"+Array.from(material).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
 async function permit(db,kind,value,max,windowSeconds){const key=await digest(kind+":"+value);const previous=await db.prepare("SELECT attempts,expires_at FROM auth_attempts WHERE rate_key=?").bind(key).first();if(previous&&previous.expires_at>now()&&previous.attempts>=max)return false;await db.prepare("INSERT INTO auth_attempts(rate_key,attempts,expires_at) VALUES(?,1,?) ON CONFLICT(rate_key) DO UPDATE SET attempts=CASE WHEN expires_at<=? THEN 1 ELSE attempts+1 END,expires_at=CASE WHEN expires_at<=? THEN excluded.expires_at ELSE expires_at END").bind(key,now()+windowSeconds,now(),now()).run();return true}
 async function getAuth(req,db){const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));if(!cookie)return null;const token=cookie.slice(cookieName.length+1);if(!/^[A-Za-z0-9_-]{40,60}$/.test(token))return null;return db.prepare("SELECT u.id,u.email,u.full_name,u.verified,u.credits FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>?").bind(await digest(token),now()).first()}
 async function newSession(db,userId){const token=random();await db.prepare("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES (?,?,?)").bind(await digest(token),userId,now()+2592000).run();return sessionCookie(token)}
@@ -113,7 +123,9 @@ export async function onRequest(context){
  if(route==="login"){
   const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");if(!emailOK(email)||password.length>128)return error("Invalid credentials",401);if(!await permit(db,"login",email,8,900))return error("Too many sign-in attempts. Try again later.",429);
   const row=await db.prepare("SELECT id,password_salt,password_hash,verified FROM users WHERE email=?").bind(email).first();
-  if(!row||!safeEq(await pbkdf(password,row.password_salt),row.password_hash))return error("Invalid credentials",401);
+  if(!row)return error("Invalid credentials",401);
+  if(!String(row.password_hash||"").startsWith("v2:"))return error("Please reset your password to finish the security update.",403);
+  if(!safeEq(await pbkdf(password,row.password_salt),row.password_hash))return error("Invalid credentials",401);
   if(!row.verified)return error("Verify your email before signing in",403);
   return reply({ok:true},200,{"Set-Cookie":await newSession(db,row.id)});
  }
