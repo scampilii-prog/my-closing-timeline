@@ -1,7 +1,7 @@
 /* MyClosingTimeline: canonical site header derived from approved HOME.
    Deliberately isolated to .mct-unified-header; do not modify page content. */
 html body header#mct-site-header.mct-unified-header{
-  box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:9999!important;
+  box-sizing:border-box!important;position:fixed!important;inset:0 0 auto 0!important;left:0!important;right:0!important;top:0!important;z-index:999999!important;
   display:block!important;width:100%!important;height:108px!important;min-height:108px!important;
   margin:0!important;padding:0!important;background:#102b43!important;
   border:0!important;border-bottom:2px solid #bd9d68!important;box-shadow:0 3px 14px #071b2b24!important;
@@ -93,7 +93,14 @@ html{scroll-padding-top:118px}
  html body header#mct-site-header.mct-unified-header nav{gap:8px 12px!important}
  html body header#mct-site-header.mct-unified-header nav a{font-size:11.5px!important}
 }
-/* The Home page intentionally keeps its original fixed-position header. */
+/* Fixed header identical to HOME on every page, with an in-flow spacer. */
+html body #mct-fixed-header-spacer{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ height:var(--mct-fixed-header-height,108px)!important;min-height:0!important;
+ margin:0!important;padding:0!important;border:0!important;background:transparent!important;flex:none!important;
+}
+html body header#mct-site-header.mct-unified-header>.mct-header-inner>a.mct-brand{outline-offset:4px!important}
+
 
 /* The owner console keeps its functional sign-out action in place of visitor auth links. */
 html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account>a{display:none!important}
