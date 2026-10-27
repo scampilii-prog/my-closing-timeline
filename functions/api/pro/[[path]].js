@@ -90,7 +90,7 @@ export async function onRequest(context){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
   // Show ONLY unused, enabled, unexpired gift codes. Retain all redeemed codes
   // in D1 so that none can ever be used again or randomly reissued.
-  const rows=await db.prepare("SELECT id,credits,max_uses,uses,expires_at,restricted_email,created_at FROM promo_codes WHERE active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) ORDER BY created_at DESC LIMIT 100").bind(now()).all();
+  const rows=await db.prepare("SELECT id,credits,max_uses,uses,active,expires_at,restricted_email,created_at FROM promo_codes WHERE active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) ORDER BY created_at DESC LIMIT 100").bind(now()).all();
   return reply({ok:true,codes:rows.results});
 }
  if(req.method!=="POST")return error("Not found",404);
