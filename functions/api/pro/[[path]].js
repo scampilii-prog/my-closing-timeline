@@ -81,7 +81,13 @@ export async function onRequest(context){
   const items=await db.prepare("SELECT id,name,address,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
   return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results});
  }
- if(req.method==="GET"&&route==="admin/codes"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const rows=await db.prepare("SELECT id,credits,max_uses,uses,expires_at,restricted_email,active,created_at FROM promo_codes ORDER BY created_at DESC LIMIT 100").all();return reply({ok:true,codes:rows.results})}
+ if(req.method==="GET"&&route==="admin/codes"){
+  if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
+  // Show ONLY unused, enabled, unexpired gift codes. Retain all redeemed codes
+  // in D1 so that none can ever be used again or randomly reissued.
+  const rows=await db.prepare("SELECT id,credits,max_uses,uses,expires_at,restricted_email,created_at FROM promo_codes WHERE active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) ORDER BY created_at DESC LIMIT 100").bind(now()).all();
+  return reply({ok:true,codes:rows.results});
+}
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
  const body=await parseBody(req);
@@ -132,9 +138,15 @@ export async function onRequest(context){
  if(route==="admin/codes/disable"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const id=String(body.id||"");if(!/^[0-9a-f-]{36}$/.test(id))return error("Invalid code ID");await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(id).run();return reply({ok:true})}
  if(route==="admin/code"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
-  const credits=Number(body.credits),uses=Number(body.max_uses||1),exp=body.expires_at?Date.parse(body.expires_at):NaN,email=String(body.email||"").trim().toLowerCase();
-  if(!Number.isInteger(credits)||credits<1||credits>20||!Number.isInteger(uses)||uses<1||uses>100||email&&!emailOK(email)||body.expires_at&&!Number.isFinite(exp))return error("Invalid code settings");
-  const code="MCT-"+random(12).toUpperCase();await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,?,?,?,?)").bind(guid(),await digest(code),credits,uses,Number.isFinite(exp)?Math.floor(exp/1000):null,email||null).run();return reply({ok:true,code,credits,max_uses:uses,notice:"Store this code now; it cannot be retrieved later."},201);
+  // Every private invitation grants exactly ONE closing credit to ONE redemption.
+  const email=String(body.email||"").trim().toLowerCase();
+  const expiryString=String(body.expires_at||"").trim();
+  const expiryMillis=expiryString?Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(expiryString)?expiryString+"T23:59:59Z":expiryString):NaN;
+  if(email&&!emailOK(email)||expiryString&&(!Number.isFinite(expiryMillis)||expiryMillis<=Date.now()))return error("Enter a valid recipient email or a future expiration date");
+  if(!await permit(db,"admin_one_credit_gift","owner",60,3600))return error("Gift generator usage limit reached. Try later.",429);
+  const code="MCT-"+random(18).toUpperCase();
+  await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,?,?,?,?)").bind(guid(),await digest(code),1,1,Number.isFinite(expiryMillis)?Math.floor(expiryMillis/1000):null,email||null).run();
+  return reply({ok:true,code,credits:1,max_uses:1,notice:"This gift is valid for one free PRO closing only. Copy the private code now; it is not retrievable later."},201);
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
  if(route==="promo/check"||route==="promo/redeem"){
