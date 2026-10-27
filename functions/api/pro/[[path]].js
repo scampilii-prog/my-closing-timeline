@@ -11,7 +11,10 @@ const cookieName="mct_pro_session";
 const sessionCookie=v=>cookieName+"="+v+"; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=2592000";
 const clearCookie=()=>cookieName+"=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0";
 const guid=()=>crypto.randomUUID();
-const plans={single:{credits:1,amount:2000,price:"price_1UUv1MClAoCQ0RPCP6IcwrTK"},pack2:{credits:2,amount:3500,price:"price_1UUv1fClAoCQ0RPCzGZNSZKU"},pack5:{credits:5,amount:8000,price:"price_1UUv1hClAoCQ0RPCqh16HkBU"}};
+const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing Credit"},pack2:{credits:2,amount:5980,launchAmount:3490,label:"2 Closing Credits"},pack5:{credits:5,amount:14950,launchAmount:8490,label:"5 Closing Credits"}};
+const launch={code:"LAUNCH90",start:Date.UTC(2026,9,27),end:Date.UTC(2027,0,25)};
+const launchActive=()=>Date.now()>=launch.start&&Date.now()<launch.end;
+const launchValid=code=>launchActive()&&String(code||"").trim().toUpperCase()===launch.code;
 const emailOK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
 const isoDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||""))return false;const d=new Date(s+"T00:00:00Z");return !Number.isNaN(d.valueOf())&&d.toISOString().slice(0,10)===s};
 async function pbkdf(password,salt){const key=await crypto.subtle.importKey("raw",E.encode(password),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:E.encode(salt),iterations:210000},key,256);return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,"0")).join("")}
@@ -26,6 +29,7 @@ async function stripeRequest(env,data){const secret=env.STRIPE_SECRET_KEY;if(!se
 export async function onRequest(context){
  const {request:req,env}=context;const url=new URL(req.url),route=url.pathname.replace(/^\/api\/pro\/?/,"").replace(/\/$/,"");
  if(req.method==="GET"&&route==="health")return reply({ok:true,configured:{database:!!env.PRO_DB,checkoutSandbox:!!env.STRIPE_SECRET_KEY,webhook:!!env.STRIPE_WEBHOOK_SECRET,email:!!env.RESEND_API_KEY&&!!env.MCT_FROM_EMAIL}});
+ if(req.method==="GET"&&route==="pricing")return reply({ok:true,campaign:{code:launch.code,active:launchActive(),end:"2027-01-25",label:"Introductory launch offer"},plans:Object.fromEntries(Object.entries(plans).map(([id,p])=>[id,{credits:p.credits,regularAmount:p.amount,launchAmount:launchActive()?p.launchAmount:null}]))});
  if(!env.PRO_DB)return error("PRO service is being configured. No payment or registration has been started.",503);
  const db=env.PRO_DB;
  // Non-sensitive database readiness check (no account data is returned).
@@ -89,7 +93,7 @@ export async function onRequest(context){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email verification is not yet configured",503);
   const name=String(body.name||"").trim().slice(0,120),email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
   if(name.length<2||!emailOK(email)||password.length<12||password.length>128)return error("Enter your name, valid email and a password of at least 12 characters");
-  stage="R-LIMIT";if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",5,3600))return error("Too many registration attempts. Try again later.",429);stage="R-LOOKUP";const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
+  stage="R-LIMIT";if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",20,900))return error("Too many registration attempts. Try again later.",429);stage="R-LOOKUP";const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
   stage="R-HASH";const id=guid(),salt=random(20),hash=await pbkdf(password,salt),token=random(32);
   stage="R-INSERT";await db.batch([db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400)]);
   stage="R-EMAIL";try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
@@ -112,7 +116,7 @@ export async function onRequest(context){
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
  if(route==="promo/check"||route==="promo/redeem"){
-  const code=String(body.code||"").trim().toUpperCase();if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
+  const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
   const row=await db.prepare("SELECT id,credits FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) AND (restricted_email IS NULL OR restricted_email=?)").bind(await digest(code),now(),user.email).first();
   if(!row)return error("Code is invalid, expired or fully used",404);
@@ -127,8 +131,9 @@ export async function onRequest(context){
  }
  if(route==="checkout"){
   const plan=plans[String(body.plan||"")];if(!plan)return error("Choose a valid closing credit plan");
-  const order=guid();await db.prepare("INSERT INTO purchases(id,user_id,plan_id,credit_quantity,amount_cents) VALUES(?,?,?,?,?)").bind(order,user.id,body.plan,plan.credits,plan.amount).run();
-  let result;try{result=await stripeRequest(env,{"mode":"payment","line_items[0][price]":plan.price,"line_items[0][quantity]":"1","client_reference_id":user.id,"customer_email":user.email,"metadata[order_id]":order,"metadata[plan_id]":body.plan,"success_url":url.origin+"/my-closings.html?checkout=complete","cancel_url":url.origin+"/pro-get-started.html?checkout=cancelled"})}catch(_){await db.prepare("DELETE FROM purchases WHERE id=? AND status='pending'").bind(order).run();return error("Checkout is not available yet. No payment was taken.",503)}
+  const promotional=launchValid(body.code),amount=promotional?plan.launchAmount:plan.amount;
+  const order=guid();await db.prepare("INSERT INTO purchases(id,user_id,plan_id,credit_quantity,amount_cents) VALUES(?,?,?,?,?)").bind(order,user.id,body.plan,plan.credits,amount).run();
+  let result;try{result=await stripeRequest(env,{"mode":"payment","line_items[0][price_data][currency]":"usd","line_items[0][price_data][unit_amount]":String(amount),"line_items[0][price_data][product_data][name]":plan.label,"line_items[0][quantity]":"1","client_reference_id":user.id,"customer_email":user.email,"metadata[order_id]":order,"metadata[plan_id]":body.plan,"metadata[launch]":promotional?"LAUNCH90":"none","success_url":url.origin+"/my-closings.html?checkout=complete","cancel_url":url.origin+"/pro-get-started.html?checkout=cancelled"})}catch(_){await db.prepare("DELETE FROM purchases WHERE id=? AND status='pending'").bind(order).run();return error("Checkout is not available yet. No payment was taken.",503)}
   await db.prepare("UPDATE purchases SET checkout_session_id=? WHERE id=?").bind(result.id,order).run();
   return reply({ok:true,checkout_url:result.url});
  }
