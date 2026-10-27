@@ -28,6 +28,22 @@ export async function onRequest(context){
  if(req.method==="GET"&&route==="health")return reply({ok:true,configured:{database:!!env.PRO_DB,checkoutSandbox:!!env.STRIPE_SECRET_KEY,webhook:!!env.STRIPE_WEBHOOK_SECRET,email:!!env.RESEND_API_KEY&&!!env.MCT_FROM_EMAIL}});
  if(!env.PRO_DB)return error("PRO service is being configured. No payment or registration has been started.",503);
  const db=env.PRO_DB;
+ // Non-sensitive database readiness check (no account data is returned).
+ if(req.method==="GET"&&route==="diagnostics"){
+  const checks={
+   accounts:"SELECT id,email,full_name,password_salt,password_hash,verified,credits FROM users LIMIT 0",
+   verification:"SELECT token_hash,user_id,expires_at FROM email_verifications LIMIT 0",
+   rateLimits:"SELECT rate_key,attempts,expires_at FROM auth_attempts LIMIT 0"
+  };
+  const result={};
+  for(const [key,query] of Object.entries(checks)){
+   try{await db.prepare(query).all();result[key]=true}
+   catch(e){result[key]=false;console.error("PRO D1 readiness failed",{check:key,type:e?.name||"Unknown"})}
+  }
+  const ok=Object.values(result).every(Boolean);
+  return reply({ok,databaseReady:ok,checks:result},ok?200:503);
+ }
+ let stage="request";
  try{
  if(req.method==="GET"&&route==="verify"){
   const token=url.searchParams.get("token")||"";if(token.length<32)return error("Invalid verification link");
@@ -69,13 +85,14 @@ export async function onRequest(context){
  }
 
  if(route==="register"){
+  stage="R-CONFIG";
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email verification is not yet configured",503);
   const name=String(body.name||"").trim().slice(0,120),email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
   if(name.length<2||!emailOK(email)||password.length<12||password.length>128)return error("Enter your name, valid email and a password of at least 12 characters");
-  if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",5,3600))return error("Too many registration attempts. Try again later.",429);const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
-  const id=guid(),salt=random(20),hash=await pbkdf(password,salt),token=random(32);
-  await db.batch([db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400)]);
-  try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
+  stage="R-LIMIT";if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",5,3600))return error("Too many registration attempts. Try again later.",429);stage="R-LOOKUP";const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
+  stage="R-HASH";const id=guid(),salt=random(20),hash=await pbkdf(password,salt),token=random(32);
+  stage="R-INSERT";await db.batch([db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400)]);
+  stage="R-EMAIL";try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
   catch(_){await db.batch([db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),db.prepare("DELETE FROM users WHERE id=? AND verified=0").bind(id)]);return error("Could not send verification email. Try again later.",503)}
   return reply({ok:true,message:"Check your email for a verification link."},201);
  }
@@ -170,5 +187,5 @@ export async function onRequest(context){
   }
  }
  return error("Not found",404);
- }catch(e){const message=e instanceof Error?e.message:String(e);console.error("MyClosingTimeline PRO request failed",{route,errorType:e?.name||"Unknown",detail:message.slice(0,350)});if(message.includes("UNIQUE constraint"))return error("Already exists or was already used",409);return error("Request could not be completed. Please try again.",500)}
+ }catch(e){const message=e instanceof Error?e.message:String(e);console.error("MyClosingTimeline PRO request failed",{route,stage,errorType:e?.name||"Unknown",detail:message.slice(0,350)});if(message.includes("UNIQUE constraint"))return error("Already exists or was already used",409);return error(stage.startsWith("R-")?"Account registration could not be completed. Reference "+stage+". No payment was taken.":"Request could not be completed. Please try again.",500)}
 }
