@@ -18,6 +18,20 @@ html{scroll-padding-top:118px}
 #mct-gift-panel .mct-gift-workspace-cta{display:inline-flex;margin:13px 0 2px;padding:13px 18px;min-height:46px;border:1px solid #1e765e;background:#1e765e;color:white!important;font:850 14px/1.35 Manrope,Arial,sans-serif;text-decoration:none;border-radius:8px}
 #mct-gift-panel .mct-gift-workspace-cta[hidden]{display:none!important}
 #mct-gift-panel .mct-coupon-feedback[data-result="success"]{font-weight:800;font-size:13px;line-height:1.55}
+</style><style id="mct-gift-invitation-cta-20261027">
+#mct-gift-enroll-actions{padding:15px;margin:15px 0 8px;border:1px solid #91c6b0;border-radius:10px;background:#f9fffa;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+#mct-gift-enroll-actions[hidden],#mct-gift-enroll-actions button[hidden]{display:none!important}
+#mct-gift-enroll-actions .mct-gift-enroll-note{flex:1 0 100%;font:750 13px/1.6 Manrope,Arial,sans-serif;margin:0 0 3px;color:#1d6656}
+#mct-gift-enroll-actions button{font:850 13px/1.35 Manrope,Arial,sans-serif;padding:13px 15px;min-height:47px;border-radius:8px}
+#mct-gift-enroll-actions .mct-gift-enroll-button{background:#18735a;color:#fff;border:1px solid #18735a;flex:1 1 210px}
+#mct-gift-enroll-actions .mct-gift-existing-button{background:#fff;border:1px solid #8ebbad;color:#1f5d52;flex:1 1 140px}
+#mct-gift-enroll-actions .mct-gift-switch-button{background:#fff8e9;border:1px solid #be9961;color:#78521e;flex:1 1 220px}
+#mct-gift-panel.mct-invited-gift{scroll-margin-top:125px}
+#mct-gift-panel.mct-invited-gift .mct-coupon-heading strong{font-size:14px}
+body.mct-gift-visit #mct-coupon-panel{opacity:.48}
+body.mct-gift-visit #mct-gift-panel{border-color:#1b805f!important;border-width:2px}
+body.mct-gift-visit #mct-gift-panel::before{content:"COMPLIMENTARY INVITATION  ·  $0.00 TO REDEEM";display:block;margin:0 0 12px;color:#156a4f;font:850 12px/1.4 Manrope,Arial,sans-serif;letter-spacing:.045em}
+@media(max-width:680px){#mct-gift-enroll-actions button{flex:1 1 100%}}
 </style></head><body><header class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand mct-canonical-brand" href="/index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="46" height="46"><span class="mct-brand-name">MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/free-timeline.html">Free Timeline</a><a href="/pro-get-started.html" aria-current="page">PRO Timeline</a><a href="/pricing.html">Plans &amp; Pricing</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header><main><section class="hero"><span class="eyebrow">REALTOR PRO · SIMPLE CHECKOUT</span><h1>Choose. Pay. Start Your Closing.</h1><p>Everything in one place. Select your closing credits, sign in or register, and continue to secure checkout when available.</p></section><section id="mct-verified-welcome" class="mct-welcome" hidden aria-live="polite">
  <span class="mct-welcome-eyebrow">YOUR ACCOUNT IS VERIFIED</span>
  <h2 id="mct-verified-title">Welcome to My Closing Timeline PRO!</h2>
@@ -38,6 +52,12 @@ html{scroll-padding-top:118px}
 <label for="mct-code" class="mct-coupon-label">Your private gift code (from invitation email)</label>
 <div class="mct-coupon-input-row"><input type="text" id="mct-code" placeholder="Enter the personal code you received" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64" aria-describedby="mct-gift-status"><button type="button" class="btn mct-gift-check-button" id="mct-gift-check">Check Gift</button></div>
 <p id="mct-gift-status" class="mct-coupon-feedback" role="status" aria-live="polite">Only invited customers receive a private gift code. Register or sign in with the invited email to redeem it.</p>
+<div id="mct-gift-enroll-actions" class="mct-gift-enroll-actions" hidden>
+ <p class="mct-gift-enroll-note" id="mct-gift-enroll-note">Your invitation is ready. Create a free account or sign in to receive 1 PRO Closing Credit for $0.00.</p>
+ <button type="button" class="btn mct-gift-enroll-button" id="mct-gift-create-account">Create FREE Account · Activate Gift →</button>
+ <button type="button" class="btn mct-gift-existing-button" id="mct-gift-existing-account">Already Registered? Sign In</button>
+ <button type="button" class="btn mct-gift-switch-button" id="mct-gift-switch-account" hidden>Use Invited Email · Switch Account</button>
+</div>
 <button type="button" class="btn mct-redeem-button" id="mct-free-redeem" hidden>Redeem My FREE Credit · No Card Needed</button>
 <a class="btn mct-gift-workspace-cta" id="mct-gift-start-work" href="/my-closings.html" hidden>Open My PRO Workspace · Start Your Closing →</a>
 </section></div><div><div class="eyebrow">2 · YOUR ACCOUNT &amp; PAYMENT</div><h3 style="font-size:18px;margin:9px 0 6px">One account. All your closings.</h3><p style="font-size:13px">New customers will register once; returning Realtors will sign in. Secure Stripe payment follows and each verified purchase adds credits to that account.</p><section id="mct-account" style="margin:12px 0 16px;border:1px solid #d7e3e8;border-radius:9px;padding:13px;background:#fbfdfd">
@@ -75,6 +95,40 @@ function savedGift(){
  return "";
 }
 function clearSavedGift(){try{localStorage.removeItem(giftStorageKey)}catch(_){}}
+
+function invitationActions(){
+ const pending=!!savedGift();
+ const root=$("mct-gift-enroll-actions");
+ root.hidden=!pending;
+ if(!pending)return;
+ const signed=!!account;
+ $("mct-gift-create-account").hidden=signed;
+ $("mct-gift-existing-account").hidden=signed;
+ $("mct-gift-switch-account").hidden=!signed;
+ $("mct-gift-enroll-note").textContent=signed?
+ "Signed in as "+account.email+". Your FREE gift can be activated only with the invited email. If this is not the invited address, switch accounts. No payment required.":
+ "Your 1 FREE Closing Credit ($0.00) is ready. Register and verify your email, or sign in with the invited email. Your private gift will activate automatically.";
+}
+function openInvitedRegistration(kind){
+ showTab(kind);
+ $("mct-account").scrollIntoView({behavior:"smooth",block:"center"});
+ const field=$(kind==="register"?"mct-register-form":"mct-login-form")?.querySelector('input[name="email"]');
+ field?.focus({preventScroll:true});
+}
+async function switchInvitedAccount(){
+ const btn=$("mct-gift-switch-account");
+ btn.disabled=true;
+ try{
+  await api("logout","POST",{});
+  account=null;giftAttemptedFor="";
+  await refreshAccount();
+  openInvitedRegistration("register");
+ }catch(err){
+  $("mct-gift-status").dataset.result="error";
+  $("mct-gift-status").textContent="Could not switch accounts: "+err.message;
+ }finally{btn.disabled=false}
+}
+
 function initializeGiftFromInvitation(){
  let code="";
  const fragment=location.hash.slice(1);
@@ -89,7 +143,11 @@ function initializeGiftFromInvitation(){
  const pending=code||savedGift();
  if(!pending)return false;
  $("mct-code").value=pending;
+ document.body.classList.add("mct-gift-visit");
  $("mct-gift-panel").classList.add("mct-invited-gift");
+ const publicPanel=$("mct-coupon-panel");
+ publicPanel?.parentNode?.insertBefore($("mct-gift-panel"),publicPanel);
+ invitationActions();
  $("mct-gift-status").dataset.result="success";
  $("mct-gift-status").textContent="Your private FREE gift code has been filled in automatically. Create your account and verify your email, or sign in with the invited email. Your credit will then be added automatically. No payment is needed.";
  if(fragment.startsWith("gift=")){
@@ -100,6 +158,7 @@ function initializeGiftFromInvitation(){
 async function automaticallyApplySavedGift(){
  const code=savedGift();
  if(!account||!account.email||!code)return;
+ invitationActions();
  const attempt=account.email+"|"+code;
  if(giftAttemptedFor===attempt)return;
  giftAttemptedFor=attempt;
@@ -110,6 +169,7 @@ async function automaticallyApplySavedGift(){
   const result=await api("promo/redeem","POST",{code});
   clearSavedGift();
   $("mct-code").value="";
+  invitationActions();
   $("mct-free-redeem").hidden=true;
   $("mct-gift-start-work").hidden=false;
   const latest=await api("me");
@@ -124,7 +184,8 @@ async function automaticallyApplySavedGift(){
   setStatus("Your complimentary PRO Closing Credit is active. Open My PRO Workspace to start.", "success");
  }catch(e){
   status.dataset.result="error";
-  status.textContent="Your gift code is ready, but could not be applied automatically: "+e.message+". Check that you are signed in with the invited email. You can also select Check Gift below.";
+  status.textContent="The private gift could not be activated: "+e.message;
+  invitationActions();
  }
 }
 
@@ -165,8 +226,11 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
  $("mct-verified-welcome").hidden=true;
  setStatus(ready.database?"Sign in or create your account to continue.":"Customer accounts are not active until Cloudflare D1 is configured.");
 }
-refreshButtons();if(account)await automaticallyApplySavedGift()}catch(e){setStatus("Secure account services are being configured.");refreshButtons()}}
+refreshButtons();invitationActions();if(account)await automaticallyApplySavedGift()}catch(e){setStatus("Secure account services are being configured.");refreshButtons();invitationActions()}}
 function showTab(tab){$("mct-login-form").hidden=tab!=="login";$("mct-register-form").hidden=tab!=="register";for(const name of ["login","register"]){const b=$("mct-tab-"+name);const active=name===tab;b.classList.toggle("is-active",active);b.setAttribute("aria-pressed",String(active));}setStatus(tab==="register"?"Create your account using a valid email.":"Sign in to continue.")}
+$("mct-gift-create-account").onclick=()=>openInvitedRegistration("register");
+$("mct-gift-existing-account").onclick=()=>openInvitedRegistration("login");
+$("mct-gift-switch-account").onclick=switchInvitedAccount;
 $("mct-tab-login").onclick=()=>showTab("login");
 $("mct-tab-register").onclick=()=>showTab("register");$("mct-forgot-toggle").onclick=()=>{$("mct-forgot-form").hidden=false;$("mct-login-form").hidden=true};$("mct-forgot-form").onsubmit=async e=>{e.preventDefault();try{const r=await api("forgot","POST",Object.fromEntries(new FormData(e.target)));setStatus(r.message);e.target.hidden=true}catch(err){setStatus(err.message)}};$("mct-reset-form").onsubmit=async e=>{e.preventDefault();try{const token=new URLSearchParams(location.search).get("reset");const r=await api("reset","POST",{token,password:new FormData(e.target).get("password")});setStatus(r.message);e.target.hidden=true;$("mct-login-form").hidden=false;history.replaceState({},"","/pro-get-started.html")}catch(err){setStatus(err.message)}};if(new URLSearchParams(location.search).get("reset")){$("mct-login-form").hidden=true;$("mct-reset-form").hidden=false;}
 document.querySelectorAll('input[name="plan"]').forEach(el=>el.addEventListener("change",()=>{
