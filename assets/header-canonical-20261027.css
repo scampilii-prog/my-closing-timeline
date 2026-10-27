@@ -1,4 +1,4 @@
-/* MyClosingTimeline: canonical site header based on approved Plans & Pricing.
+/* MyClosingTimeline: canonical site header derived from approved HOME.
    Deliberately isolated to .mct-unified-header; do not modify page content. */
 html body header#mct-site-header.mct-unified-header{
   box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:9999!important;
@@ -94,3 +94,9 @@ html{scroll-padding-top:118px}
  html body header#mct-site-header.mct-unified-header nav a{font-size:11.5px!important}
 }
 /* The Home page intentionally keeps its original fixed-position header. */
+
+/* The owner console keeps its functional sign-out action in place of visitor auth links. */
+html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account>a{display:none!important}
+html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account .mct-auth-logout{display:block!important;box-sizing:border-box!important;margin:0!important;padding:0!important;border:0!important}
+html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account .mct-auth-logout button{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:104px!important;min-height:41px!important;padding:0 12px!important;background:transparent!important;color:#f8ead0!important;border:1.5px solid #d8b77b!important;border-radius:8px!important;font:800 13px/1.25 Manrope,Arial,sans-serif!important;cursor:pointer!important}
+html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account .mct-auth-logout button:hover{background:#264d62!important;color:#fff!important}
