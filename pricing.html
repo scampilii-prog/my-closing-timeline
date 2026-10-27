@@ -303,6 +303,15 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
  const $=id=>root.querySelector("#"+id);
  const catalog={single:{name:"1 Closing Credit",regular:"$29.90",launch:"$19.90"},pack2:{name:"2 Closing Credits",regular:"$59.80",launch:"$34.90"},pack5:{name:"5 Closing Credits",regular:"$149.50",launch:"$84.90"}};
  let chosen="single",applied=false,campaignActive=true;
+ // Respect a validated package deep link from FREE; never change checkout or pricing authority here.
+ const params=new URLSearchParams(window.location.search);
+ const linkedPlan=params.get("plan");
+ if(linkedPlan&&Object.prototype.hasOwnProperty.call(catalog,linkedPlan)){
+  chosen=linkedPlan;
+  const option=root.querySelector('input[name="mct-lp-plan"][value="'+linkedPlan+'"]');
+  if(option)option.checked=true;
+ }
+ const linkedLaunchOffer=params.get("offer")==="LAUNCH90";
  const status=(message,result="")=>{$("mct-lp-status").textContent=message;$("mct-lp-status").dataset.result=result};
  function render(){
   root.querySelectorAll('input[name="mct-lp-plan"]').forEach(input=>{const card=input.closest(".mct-lp-card");card.classList.toggle("is-selected",input.checked);card.querySelector(".mct-lp-card-selected").textContent=input.checked?"✓ Selected":"Select package"});
@@ -333,6 +342,7 @@ html body .mct-unified-header .mct-header-account a:focus-visible{outline:2px so
  $("mct-lp-apply").addEventListener("click",applyOffer);
  $("mct-lp-code").addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault();applyOffer()}});
  render();
+ if(linkedLaunchOffer){$("mct-lp-code").value="LAUNCH90";applyOffer();}
  fetch("/api/pro/pricing",{credentials:"same-origin",cache:"no-store"}).then(r=>r.ok?r.json():null).then(data=>{if(data&&data.campaign?.active===false){campaignActive=false;applied=false;render();status("Introductory offer has ended. Current prices are available on the PRO page.","error")}}).catch(()=>{});
 })();
 </script></body></html>
