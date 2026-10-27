@@ -5,7 +5,7 @@ Estado: código de frontend, backend, migración y webhook guardado en GitHub. *
 ## Paso 1. Base de datos Cloudflare D1
 1. Entrar en https://dash.cloudflare.com/ y abrir Workers & Pages.
 2. Crear una base de datos D1 llamada `myclosingtimeline-pro`.
-3. Ejecutar en su consola SQL el archivo `migrations/0001_pro_accounts.sql` del repositorio.
+3. Ejecutar en su consola SQL **en este orden**: `migrations/0001_pro_accounts.sql` y después `migrations/0002_launch_prices.sql`. La segunda migración es obligatoria para que la API acepte los importes actuales; sin ella el checkout permanece bloqueado por seguridad.
 4. Abrir Workers & Pages > proyecto Pages **my-closing-timeline** > Settings > Bindings > Add > D1 database.
 5. Nombre exacto del enlace: `PRO_DB`; elegir `myclosingtimeline-pro`. Configurar para producción y el entorno de pruebas que uses. Redeploy después.
 
@@ -24,7 +24,7 @@ Seleccionar eventos:
 - `checkout.session.async_payment_succeeded`
 Guardar `STRIPE_WEBHOOK_SECRET` (empieza por `whsec_`) como secreto Cloudflare.
 Redeploy Pages para aplicar secretos/bindings. La API solo admite claves `sk_test_`: no procesa cobros reales accidentalmente.
-Productos sandbox activados: 1/$20, 2/$35, 5/$80. Oferta obsoleta 2/$20 permanece inactiva.
+Precios de referencia del código actual: 1 crédito $29.90 (LAUNCH90 $19.90), 2 créditos $59.80 (LAUNCH90 $34.90) y 5 créditos $149.50 (LAUNCH90 $84.90). **Son importes para Stripe Sandbox; no activar claves de pagos reales ni aceptar pagos en producción todavía.**
 
 ## Paso 4. Comprobar antes de cobrar
 - `/api/pro/health` debe responder con `database:true`, `checkoutSandbox:true`, `webhook:true`, `email:true`.
@@ -32,7 +32,7 @@ Productos sandbox activados: 1/$20, 2/$35, 5/$80. Oferta obsoleta 2/$20 permanec
 - Abrir Stripe Sandbox Checkout (tarjeta de prueba de Stripe), confirmar pago de prueba y observar que aparece el saldo correcto en `/my-closings.html`.
 - Repetir el webhook y comprobar que los créditos NO se duplican.
 - Crear un FREE code en `/admin-gift-codes.html` usando la sesión protegida de Admin Console. Canjear una vez y comprobar que el saldo aumenta solo una vez.
-- Registrar una transacción, verificar que se descuenta exactamente un crédito; editar tarea futura; cambiar fecha; cancelar y cerrar proyectos distintos. Verificar que solo aparece la cuenta propia y las operaciones archivadas no se editan.
+- Registrar una transacción y verificar que descuenta exactamente 1 crédito y crea las 40 tareas sugeridas. Las 31 relativas a Effective Date y las 9 relativas a Closing Date son recordatorios editables, no fechas contractuales. Editar tarea futura, verificar bloqueo de tareas vencidas, cambiar Closing Date y confirmar el recálculo de las 9 tareas vinculadas al cierre. Cancelar con doble confirmación; completar otro closing; comprobar que los archivados son de solo lectura y que la cuenta no ve cierres ajenos.
 
 ## Seguridad y límites actuales
 - Contraseñas con derivación PBKDF2 SHA-256 + salt; cookie de sesión aleatoria HttpOnly, Secure y SameSite=Lax.
@@ -55,3 +55,12 @@ Productos sandbox activados: 1/$20, 2/$35, 5/$80. Oferta obsoleta 2/$20 permanec
 - `functions/_middleware.js`: autenticación existente del propietario y protección del generador de códigos
 
 No agregar ningún token real, contraseña de clientes o secreto al código GitHub ni en capturas.
+
+## Auditoría estática del 27 octubre 2026
+- Los enlaces antiguos de `login.html` ahora redirigen al acceso PRO actual; los visitantes con un código privado pueden usar `#gift=<código>` y la invitación será detectada desde el navegador.
+- La ruta pública `/` conserva Coming Soon para visitantes sin sesión, pero permite al propietario que ya inició sesión en Admin Console ver la Home completa.
+- `pricing.html#pro-offers` existe y dirige a los paquetes de crédito actuales; `pro-plan.html` conserva el enlace antiguo redirigiendo a Pricing.
+- 40 sugerencias de seguimiento se crean al registrar cada closing **nuevo**; no modificar automáticamente transacciones existentes.
+- Se corrigieron identificadores CSS repetidos, encabezados, vínculos de registro e invitaciones, y versiones de caché del CSS.
+- **Pendiente de certificación real:** despliegue Cloudflare, aspecto responsive en navegador, email Resend, D1, pruebas de aislamiento de cuentas y pagos de Stripe Sandbox. No se ha probado producción ni se han enviado correos o procesado pagos en esta auditoría.
+- Antes de enviar correos comerciales a clientes reales, incluir y verificar dirección postal comercial válida y cumplimiento de requisitos legales de correo electrónico (además de unsubscribe operativo).
