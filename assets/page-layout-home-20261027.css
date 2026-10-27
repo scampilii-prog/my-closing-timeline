@@ -1,0 +1,120 @@
+/* Unified HOME-inspired page widths and surfaces. Functional forms/tables stay intact. */
+/* HOME itself remains the visual benchmark; no changes to its content layout. */
+html body.mct-layout-wide{background:#f3f7f9;color:#183b52;font-family:Manrope,Arial,sans-serif}
+html body.mct-layout-wide main.workspace{
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1480px!important;
+ margin:22px auto 52px!important;padding-left:0!important;padding-right:0!important;
+}
+html body.mct-layout-wide main.workspace>.home-like-panel{
+ box-sizing:border-box!important;max-width:none!important;width:100%!important;
+ margin-left:0!important;margin-right:0!important;
+ background:#fffdfa!important;border:1px solid #dce5e9!important;
+ border-radius:14px!important;box-shadow:0 8px 28px rgba(20,48,67,.045)!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main{
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1420px!important;
+ margin:0 auto 56px!important;padding:24px 0 60px!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card{
+ box-sizing:border-box!important;width:100%!important;max-width:1360px!important;
+ margin:0 auto!important;background:#fff!important;
+ border:1px solid #d6e3e8!important;border-radius:14px!important;
+ box-shadow:0 8px 26px rgba(15,46,66,.075)!important;overflow:hidden!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card>.head{
+ padding:20px 28px!important;background:#eaf2f4!important;border-bottom:2px solid #d7b97e!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card>.head h2{
+ font:850 24px/1.35 Manrope,Arial,sans-serif!important;color:#183e55!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card>.content{
+ padding:24px 27px 29px!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .mct-pro-simple-grid{
+ display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)!important;gap:30px!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .mct-pro-simple-grid>div{
+ min-width:0!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .eyebrow{
+ font-size:12px!important;letter-spacing:.07em!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .plan.mct-plan-refined{
+ min-height:99px!important;padding:14px 15px!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .plan.mct-plan-refined .mct-plan-quantity{
+ font-size:15px!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main input:not([type="radio"]),
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main select{
+ min-height:44px;font:600 14px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main button{
+ font-family:Manrope,Arial,sans-serif!important;
+}
+html body.mct-layout-wide.mct-layout-pricing main.workspace.mct-sales-page{
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1440px!important;
+ margin:24px auto 58px!important;padding:0!important;
+}
+html body.mct-layout-wide.mct-layout-pricing main.workspace.mct-sales-page>section{
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;
+}
+html body.mct-layout-wide.mct-layout-reading main.workspace{
+ max-width:1370px!important;
+}
+html body.mct-layout-wide.mct-layout-reading main.workspace .mct-sub-content{
+ max-width:1080px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;
+ font:500 15px/1.75 Manrope,Arial,sans-serif!important;
+}
+html body.mct-layout-wide.mct-layout-dashboard main.workspace{
+ width:calc(100% - 44px)!important;max-width:1600px!important;margin:20px auto 50px!important;
+ box-sizing:border-box!important;
+}
+html body.mct-layout-wide.mct-layout-dashboard main.workspace>section,
+html body.mct-layout-wide.mct-layout-dashboard main.workspace>.home-like-panel{
+ box-sizing:border-box!important;max-width:none!important;width:100%!important;
+}
+html body.mct-layout-wide.mct-layout-secondary>main{
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;
+ max-width:1400px!important;margin:24px auto 54px!important;
+ padding-left:12px!important;padding-right:12px!important;
+}
+html body.mct-layout-wide.mct-layout-secondary>main>.panel,
+html body.mct-layout-wide.mct-layout-secondary>main>.card,
+html body.mct-layout-wide.mct-layout-secondary>main>section.card,
+html body.mct-layout-wide.mct-layout-secondary>main>section.panel{
+ box-sizing:border-box!important;border-radius:12px!important;
+ border:1px solid #d7e4e8!important;background:#fffdf9!important;
+ box-shadow:0 6px 22px rgba(20,48,67,.045)!important;
+}
+html body.mct-layout-wide.mct-layout-compact>main{
+ box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:1050px!important;
+ margin:25px auto 48px!important;
+}
+@media(max-width:850px){
+ html body.mct-layout-wide main.workspace,
+ html body.mct-layout-wide.mct-layout-pricing main.workspace.mct-sales-page,
+ html body.mct-layout-wide.mct-layout-dashboard main.workspace,
+ html body.mct-layout-wide.mct-layout-secondary>main,
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main{
+  width:calc(100% - 24px)!important;max-width:none!important;
+  margin:15px auto 35px!important;
+ }
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .mct-pro-simple-grid{
+  grid-template-columns:minmax(0,1fr)!important;gap:23px!important;
+ }
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card>.content{
+  padding:18px!important;
+ }
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card>.head{
+  padding:17px 18px!important;
+ }
+}
+@media(max-width:460px){
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .plan.mct-plan-refined{
+  padding:10px 7px!important;
+ }
+ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main .plan.mct-plan-refined .mct-plan-quantity{
+  font-size:12px!important;
+ }
+}
