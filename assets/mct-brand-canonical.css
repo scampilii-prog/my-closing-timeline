@@ -1,0 +1,9 @@
+/* Shared My Closing Timeline Home brand across secondary workspaces.
+   Match Home wordmark and calendar favicon; do not change page workflows. */
+a.mct-canonical-brand{display:inline-flex!important;align-items:center!important;gap:12px!important;white-space:nowrap!important;text-decoration:none!important;font:800 clamp(21px,1.75vw,29px)/1.2 Manrope,Arial,sans-serif!important;color:#fff!important;letter-spacing:-.015em!important}
+a.mct-canonical-brand .mct-brand-icon{display:block!important;width:46px!important;height:46px!important;min-width:46px!important;flex:0 0 46px!important;object-fit:contain!important}
+a.mct-canonical-brand .mct-brand-name{color:#fff!important;font:inherit!important;white-space:nowrap!important}
+a.mct-canonical-brand .mct-brand-timeline{color:#53d1ce!important;font:inherit!important}
+a.mct-canonical-brand .mct-brand-domain{color:#e7faf9!important;font-size:.57em!important;font-weight:600!important;letter-spacing:0!important;margin-left:2px!important}
+a.mct-canonical-brand:hover .mct-brand-name{color:#fff!important}
+@media(max-width:600px){a.mct-canonical-brand{font-size:clamp(18px,4.3vw,23px)!important;gap:8px!important}a.mct-canonical-brand .mct-brand-icon{width:36px!important;height:36px!important;min-width:36px!important;flex-basis:36px!important}}
