@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Unsubscribe | My Closing Timeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f5f7;color:#173d55;font:500 15px/1.65 Manrope,Arial,sans-serif}
+header{background:#10283e;border-bottom:3px solid #d5b47b;padding:19px 5%;box-shadow:0 7px 24px #10283e19}
+.brand{display:inline-flex;gap:13px;align-items:center;color:#fff;text-decoration:none;font:850 clamp(20px,3vw,29px)/1.2 Manrope,Arial,sans-serif}
+.brand img{width:44px;height:44px}.brand em{font-style:normal;color:#53d1ce}.brand small{font-size:.58em;font-weight:600;color:#e7faf9}
+main{max-width:690px;margin:48px auto 28px;padding:0 17px}.panel{padding:clamp(25px,5vw,43px);background:#fff;border:1px solid #d3e0e6;border-radius:14px;box-shadow:0 8px 32px #10283e0d}
+.kicker{font-size:11px;font-weight:850;letter-spacing:.13em;color:#976a2d}h1{font-size:clamp(28px,4vw,38px);line-height:1.2;margin:9px 0 13px;color:#173d55}
+p{color:#536b7d}label{display:block;font-size:14px;font-weight:800;margin:19px 0 6px}input{display:block;width:100%;padding:13px;border-radius:8px;border:1px solid #aebfcc;font:600 15px Manrope,Arial,sans-serif;color:#173d55}
+button{background:#176b61;color:#fff;font:850 14px Manrope,Arial,sans-serif;border:0;border-radius:8px;padding:13px 21px;margin:16px 0 4px;cursor:pointer}
+button:disabled{opacity:.55;cursor:progress}.result{border-radius:8px;padding:14px;margin:16px 0 0;background:#ecf7f3;border:1px solid #b7d8cd;color:#1c5f50}.result.error{background:#fff1ed;border-color:#e4b9aa;color:#8c352b}
+.fine{font-size:12px;color:#6e8290}footer{text-align:center;padding:18px;color:#617986;font-size:12px}footer a{color:#1b637e;text-decoration:underline;font-weight:750}
+</style></head><body>
+<header><a class="brand" href="/index.html" aria-label="My Closing Timeline Home"><img src="/favicon.svg" alt=""><span>MyClosing<em>Timeline</em><small>.com</small></span></a></header>
+<main><section class="panel">
+<span class="kicker">MY CLOSING TIMELINE · EMAIL PREFERENCES</span>
+<h1>Unsubscribe from promotional emails</h1>
+<p>We respect your inbox. Enter the email address that received the invitation, then select Unsubscribe. This stops future promotional invitations and marketing emails sent by My Closing Timeline.</p>
+<form id="mct-unsubscribe-form">
+<label for="mct-unsubscribe-email">Email address</label>
+<input id="mct-unsubscribe-email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required>
+<button type="submit" id="mct-unsubscribe-button">Unsubscribe</button>
+</form>
+<p class="fine">This does not close your PRO account or affect essential account verification, password reset, or closing-related notices.</p>
+<div id="mct-unsubscribe-result" role="status" aria-live="polite" hidden></div>
+</section></main>
+<footer>© 2026 My Closing Timeline · <a href="/privacy.html">Privacy &amp; Terms</a> · <a href="/contact.html">Help &amp; Contact</a> · <a href="/index.html">Home</a></footer>
+<script>
+(()=>{const form=document.getElementById("mct-unsubscribe-form"),input=document.getElementById("mct-unsubscribe-email"),button=document.getElementById("mct-unsubscribe-button"),result=document.getElementById("mct-unsubscribe-result");
+const prefill=new URLSearchParams(location.search).get("email");if(prefill&&prefill.length<=254)input.value=prefill;
+form.addEventListener("submit",async e=>{e.preventDefault();if(!input.checkValidity()){input.reportValidity();return}button.disabled=true;result.hidden=true;
+try{const r=await fetch("/api/pro/marketing/unsubscribe",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:input.value.trim()})});const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||"Could not update your preferences. Please try again.");result.className="result";result.textContent="Your request was recorded. You will no longer receive My Closing Timeline promotional emails at this address.";result.hidden=false;form.hidden=true;history.replaceState(null,"","/unsubscribe.html")}
+catch(err){result.className="result error";result.textContent=err.message;result.hidden=false}
+finally{button.disabled=false}});
+})();
+</script></body></html>
