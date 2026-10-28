@@ -43,94 +43,142 @@ html body main.mct-pro-registration-main .mct-product-path{max-width:940px;margi
 }
 
 
-/* Website 15 — A clear, truthful invitation for NON-Realtor visitors.
-   Used in FREE and PRO without touching any transaction workflow. */
-html body .mct-beyond-realtor-banner{
- box-sizing:border-box!important;
- width:calc(100% - 40px)!important;
- max-width:1188px!important;
- margin:14px auto 24px!important;
- padding:18px 20px!important;
- display:grid!important;
- grid-template-columns:minmax(0,1fr) auto!important;
- gap:14px 24px!important;
- align-items:center!important;
- border:1px solid #c8ded9!important;
- border-left:5px solid #168581!important;
- border-radius:12px!important;
- background:linear-gradient(112deg,#eaf7f3 0%,#f9fcf9 62%,#fff9eb 100%)!important;
- box-shadow:0 5px 16px rgba(13,68,77,.07)!important;
- font-family:Manrope,Arial,sans-serif!important;
-}
-html body.mct-layout-pro .mct-beyond-realtor-banner{max-width:1360px!important}
-html body .mct-beyond-realtor-banner .mct-beyond-realtor-copy{
- min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;
-}
-html body .mct-beyond-realtor-banner .mct-beyond-realtor-eyebrow{
- display:inline-block!important;max-width:100%!important;margin:0 0 5px!important;
- padding:4px 8px!important;border-radius:5px!important;background:#d2eee4!important;
- color:#075f57!important;
- font:900 11px/1.35 Manrope,Arial,sans-serif!important;letter-spacing:.055em!important;
-}
-html body .mct-beyond-realtor-banner h3{
- display:block!important;margin:0 0 5px!important;padding:0!important;
- color:#173e52!important;font:900 clamp(18px,1.52vw,22px)/1.3 Manrope,Arial,sans-serif!important;
- letter-spacing:-.02em!important;
-}
-html body .mct-beyond-realtor-banner p{
- margin:0!important;padding:0!important;max-width:900px!important;
- color:#405e70!important;font:600 13.5px/1.57 Manrope,Arial,sans-serif!important;
-}
-html body .mct-beyond-realtor-banner .mct-beyond-realtor-actions{
- display:flex!important;flex-direction:column!important;align-items:stretch!important;
- gap:6px!important;width:min(246px,100%)!important;min-width:0!important;
-}
-html body .mct-beyond-realtor-banner a.mct-beyond-realtor-cta,
-html body .mct-beyond-realtor-banner a.mct-beyond-realtor-cta:visited{
- display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;
- min-height:45px!important;padding:11px 16px!important;border-radius:8px!important;
- border:1px solid #125e6b!important;background:#18596a!important;color:#ffffff!important;
- text-decoration:none!important;white-space:normal!important;text-align:center!important;
- font:850 13px/1.35 Manrope,Arial,sans-serif!important;
-}
-html body .mct-beyond-realtor-banner a.mct-beyond-realtor-cta:hover{
- background:#0d4857!important;color:#fff!important;
-}
-html body .mct-beyond-realtor-banner a.mct-beyond-realtor-cta:focus-visible{
- outline:3px solid #d5a968!important;outline-offset:3px!important;
-}
-html body .mct-beyond-realtor-banner .mct-beyond-realtor-status{
- color:#647a82!important;text-align:center!important;
- font:750 10.5px/1.45 Manrope,Arial,sans-serif!important;
-}
-@media(max-width:760px){
- html body .mct-beyond-realtor-banner{
-  width:calc(100% - 24px)!important;
-  grid-template-columns:minmax(0,1fr)!important;
-  padding:16px!important;gap:12px!important;
- }
- html body .mct-beyond-realtor-banner .mct-beyond-realtor-actions{
-  width:100%!important;max-width:none!important;
- }
-}
 
-/* Website 15: explain audiences clearly in BOTH product selectors.
-   Realtor closing tools are distinct from project models still in preview. */
-html body .mct-product-path-audience-summary{
- display:block!important;width:100%!important;max-width:none!important;
- margin:0 0 17px!important;padding:11px 13px!important;
- border-left:3px solid #b8995d!important;border-radius:0 7px 7px 0!important;
- background:#fbf7ed!important;color:#34596b!important;
- font:600 13px/1.6 Manrope,Arial,sans-serif!important;
+/* Website 15 · final, nonduplicated audience chooser.
+   TWO large distinct links in FREE and PRO; no extra advertising panel.
+   No JS changes, and the real-estate tools stay separate from Other Projects. */
+html body .mct-product-path.mct-audience-choice{
+ box-sizing:border-box!important;
+ padding:20px clamp(15px,1.65vw,25px) 24px!important;
+ border:1px solid #bfd7db!important;
+ border-top:4px solid #bf9a5e!important;
+ border-left:1px solid #bfd7db!important;
+ border-radius:13px!important;
+ background:#fffdf9!important;
+ box-shadow:0 8px 24px rgba(18,53,70,.09)!important;
 }
-html body .mct-product-path-audience-summary strong{
- font-weight:900!important;color:#153e50!important;
+html body .mct-product-path.mct-audience-choice .mct-product-path-head{
+ display:block!important;margin:0 0 17px!important;text-align:left!important;
 }
-html body .mct-product-path-audience-summary span{
- display:block!important;margin-top:4px!important;
- font-weight:750!important;color:#7a5a2c!important;
+html body .mct-product-path.mct-audience-choice .mct-product-path-eyebrow{
+ color:#9a7137!important;font:900 11px/1.4 Manrope,Arial,sans-serif!important;letter-spacing:.11em!important;
 }
-html body .mct-beyond-realtor-banner h3{max-width:850px!important}
+html body .mct-product-path.mct-audience-choice .mct-product-path-head h3{
+ margin:4px 0 0!important;color:#173d52!important;
+ font:900 clamp(23px,2vw,29px)/1.22 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.025em!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-audience-choice-intro{
+ margin:6px 0 0!important;color:#547180!important;
+ font:650 14px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-product-path-options{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:16px!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice{
+ box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ min-width:0!important;min-height:236px!important;
+ padding:20px clamp(15px,1.35vw,22px) 17px!important;
+ margin:0!important;border-radius:13px!important;
+ text-decoration:none!important;box-shadow:0 5px 12px rgba(20,46,60,.12)!important;
+ transition:box-shadow .15s ease, transform .15s ease, background .15s ease!important;
+ cursor:pointer!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice:hover{
+ transform:translateY(-2px)!important;
+ box-shadow:0 10px 25px rgba(20,46,60,.21)!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice:focus-visible{
+ outline:3px solid #e6a73b!important;outline-offset:4px!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice-realtor,
+html body .mct-product-path.mct-audience-choice a.mct-path-choice-realtor.active{
+ background:linear-gradient(145deg,#173e55,#0e2e45)!important;
+ border:2px solid #d2ad70!important;
+ color:#ffffff!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice-professional{
+ background:linear-gradient(145deg,#e7f7f3,#d5f0e8)!important;
+ border:2px solid #16867e!important;
+ color:#103f49!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-top{
+ display:flex!important;align-items:center!important;gap:10px!important;
+ margin:0 0 15px!important;min-width:0!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-icon{
+ box-sizing:border-box!important;display:grid!important;place-items:center!important;
+ flex:0 0 41px!important;width:41px!important;height:41px!important;
+ border-radius:10px!important;font:900 24px/1 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-icon{
+ background:#edc980!important;color:#14374b!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-icon{
+ background:#157b78!important;color:#fff!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-eyebrow{
+ font:900 10px/1.45 Manrope,Arial,sans-serif!important;
+ letter-spacing:.045em!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-eyebrow{
+ color:#f5d299!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-eyebrow{
+ color:#17675e!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+ display:block!important;margin:0 0 4px!important;
+ font:900 clamp(20px,1.7vw,25px)/1.22 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.025em!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-title{
+ color:#ffffff!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-title{
+ color:#124754!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{
+ display:block!important;margin-bottom:9px!important;
+ font:850 clamp(14px,1.2vw,17px)/1.35 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-subtitle{color:#f0d39b!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-subtitle{color:#176e66!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-description{
+ display:block!important;margin:0 0 17px!important;
+ font:600 13px/1.52 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-description{color:#d8eaf0!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-description{color:#315d66!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-action{
+ box-sizing:border-box!important;display:flex!important;
+ align-items:center!important;justify-content:center!important;
+ width:100%!important;min-height:42px!important;margin: auto 0 0!important;
+ padding:10px 12px!important;border-radius:7px!important;
+ text-align:center!important;text-decoration:none!important;
+ font:900 13px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-action{
+ background:#f0ca82!important;border:1px solid #d5ab62!important;color:#14374b!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-action{
+ background:#14596a!important;border:1px solid #115366!important;color:#ffffff!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-footnote{
+ display:block!important;margin:9px 0 0!important;
+ font:800 10.5px/1.4 Manrope,Arial,sans-serif!important;
+ letter-spacing:.03em!important;text-align:center!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-footnote{color:#cce3e9!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-footnote{color:#326f69!important}
 @media(max-width:760px){
- html body .mct-product-path-audience-summary{font-size:13px!important;padding:10px 11px!important}
+ html body .mct-product-path.mct-audience-choice{padding:18px 14px 19px!important}
+ html body .mct-product-path.mct-audience-choice .mct-product-path-options{
+  grid-template-columns:minmax(0,1fr)!important;gap:13px!important;
+ }
+ html body .mct-product-path.mct-audience-choice a.mct-path-choice{
+  min-height:0!important;padding:20px 17px!important;
+ }
 }
