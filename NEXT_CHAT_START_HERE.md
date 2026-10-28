@@ -77,6 +77,11 @@
 - En ambos avisos el título: **“Realtors: manage closings. Other professionals: plan your own tasks.”** La descripción aclara que **Other Projects FREE & PRO son previews, todavía no funcionan como proyectos editables**; enlace directo a `/other-projects.html`.
 - CSS de presentación uniforme `assets/mct-project-path-20261028.css?v=3`. Código y links confirmados GitHub; QA visual y Cloudflare pendientes.
 
+## D10. Elección definitiva y elegante de audiencias — FREE y PRO (Website 15)
+- El propietario rechazó textos redundantes que confundían al visitante. En ambas páginas `free-timeline.html` y `pro-get-started.html` hay **UN SOLO selector** con encabezado «Choose your timeline.» y DOS tarjetas grandes de colores: **azul marino/dorado «I'm a Realtor»** y **verde turquesa «I'm another professional»**. Su jerarquía: categoría, título grande destacado y subrayado fino, objetivo breve, disponibilidad y botón claro abajo.
+- La tarjeta Realtor lleva a la herramienta inmobiliaria de la misma página (`#mct-free-transaction` en FREE o `#mct-start-choice` en PRO); la tarjeta Other Professional abre **`/other-projects.html`** en la misma pestaña. Distingue claramente que los modelos generales son **PREVIEW ONLY — coming soon**. Se retiraron cuadros extra repetitivos.
+- CSS centralizado `assets/mct-project-path-20261028.css?v=6`, adaptable a móvil. Verificados en GitHub los 2 enlaces y el código/estilos. No se modificaron motores de fechas, acceso ni pagos. QA de Cloudflare sin certificar.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
