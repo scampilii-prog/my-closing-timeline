@@ -311,3 +311,107 @@ html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan .mct-slogan-mai
   font-size:11.5px!important;left:59px!important;
  }
 }
+
+/* Website 14 · secondary public-page badge integration: no hero overlays. */
+
+/* Pricing: a tidy two-column introduction; price tiles span full width below. */
+html body main.workspace.mct-sales-page section#mct-price-clarity{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(285px,335px)!important;
+ grid-template-rows:auto auto auto!important;align-items:center!important;
+ column-gap:25px!important;row-gap:10px!important;
+}
+html body main.workspace.mct-sales-page section#mct-price-clarity>h2{grid-column:1!important;grid-row:1!important;min-width:0!important}
+html body main.workspace.mct-sales-page section#mct-price-clarity>p{grid-column:1!important;grid-row:2!important;min-width:0!important}
+html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-price-points{grid-column:1/-1!important;grid-row:3!important}
+html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-brand-slogan{
+ position:relative!important;display:flex!important;float:none!important;
+ top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+ width:100%!important;max-width:100%!important;grid-column:2!important;grid-row:1/3!important;
+ margin:18px 0 0!important;min-height:91px!important;padding:25px 11px 14px 65px!important;
+}
+html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-brand-slogan::after{left:63px!important;font-size:12px!important;padding:7px 12px!important}
+html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-brand-slogan .mct-slogan-main{font-size:14px!important}
+
+/* PRO sample follow-ups: pledge in an in-flow row, above the task table. */
+html body .mct-pro-followups-live .mct-pro-privacy-row{
+ box-sizing:border-box!important;display:flex!important;align-items:center!important;
+ justify-content:space-between!important;gap:20px!important;
+ padding:18px 21px 16px!important;min-width:0!important;
+}
+html body .mct-pro-followups-live .mct-pro-privacy-row>p{
+ flex:1!important;min-width:0!important;padding:0!important;margin:0!important;
+ font:600 14px/1.65 Manrope,Arial,sans-serif!important;
+}
+html body .mct-pro-followups-live .mct-pro-privacy-row>.mct-brand-slogan{
+ position:relative!important;display:flex!important;float:none!important;
+ top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+ flex:0 1 335px!important;width:min(335px,100%)!important;max-width:100%!important;
+ min-height:87px!important;margin:13px 0 0!important;padding:24px 11px 12px 65px!important;
+}
+html body .mct-pro-followups-live .mct-pro-privacy-row>.mct-brand-slogan::after{
+ left:62px!important;font-size:12px!important;padding:7px 12px!important;
+}
+html body .mct-pro-followups-live .mct-pro-privacy-row>.mct-brand-slogan .mct-slogan-main{font-size:13px!important}
+
+/* Contact: the pledge belongs with the 'no sensitive details' introduction. */
+html body .mct-sub-content>section.section:first-child:has(>.mct-brand-slogan){
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,340px)!important;
+ grid-template-rows:auto auto!important;column-gap:20px!important;align-items:center!important;
+}
+html body .mct-sub-content>section.section:first-child>.pills{grid-column:1!important;grid-row:2!important}
+html body .mct-sub-content>section.section:first-child>p{grid-column:1!important;grid-row:1!important}
+html body .mct-sub-content>section.section:first-child>.mct-brand-slogan{
+ position:relative!important;float:none!important;display:flex!important;
+ top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+ grid-column:2!important;grid-row:1/3!important;
+ width:100%!important;max-width:100%!important;min-height:88px!important;
+ margin:15px 0 0!important;padding:25px 12px 13px 66px!important;
+}
+html body .mct-sub-content>section.section:first-child>.mct-brand-slogan::after{left:63px!important;font-size:12px!important;padding:7px 12px!important}
+
+/* Other Projects: consistent integrated third element, with both project cards
+   still full-width below the introduction. */
+html body main.mpt-main>section.mpt-intro{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,340px)!important;
+ grid-template-rows:auto auto auto!important;gap:10px 23px!important;align-items:center!important;
+}
+html body main.mpt-main>section.mpt-intro>h2{grid-column:1!important;grid-row:1!important}
+html body main.mpt-main>section.mpt-intro>p{grid-column:1!important;grid-row:2!important}
+html body main.mpt-main>section.mpt-intro>.mpt-choices{
+ grid-column:1/-1!important;grid-row:3!important;width:100%!important;
+}
+html body main.mpt-main>section.mpt-intro>.mct-brand-slogan{
+ position:relative!important;float:none!important;display:flex!important;
+ top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+ grid-column:2!important;grid-row:1/3!important;
+ width:100%!important;max-width:100%!important;min-height:94px!important;
+ margin:13px 0 0!important;padding:26px 12px 14px 66px!important;
+}
+html body main.mpt-main>section.mpt-intro>.mct-brand-slogan::after{left:63px!important;font-size:12px!important;padding:7px 12px!important}
+@media(max-width:950px){
+ html body main.workspace.mct-sales-page section#mct-price-clarity,
+ html body main.mpt-main>section.mpt-intro{
+  grid-template-columns:1fr!important;grid-template-rows:auto auto auto auto!important;
+ }
+ html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-brand-slogan,
+ html body main.mpt-main>section.mpt-intro>.mct-brand-slogan{
+  grid-column:1!important;grid-row:3!important;width:min(350px,100%)!important;justify-self:start!important;margin:20px 0 8px!important;
+ }
+ html body main.workspace.mct-sales-page section#mct-price-clarity>.mct-price-points,
+ html body main.mpt-main>section.mpt-intro>.mpt-choices{grid-column:1!important;grid-row:4!important}
+ html body .mct-sub-content>section.section:first-child:has(>.mct-brand-slogan){
+  grid-template-columns:1fr!important;grid-template-rows:auto auto auto!important;
+ }
+ html body .mct-sub-content>section.section:first-child>.mct-brand-slogan{
+  grid-column:1!important;grid-row:3!important;width:min(350px,100%)!important;
+  margin:22px 0 8px!important;
+ }
+}
+@media(max-width:700px){
+ html body .mct-pro-followups-live .mct-pro-privacy-row{
+  flex-direction:column!important;align-items:flex-start!important;padding:16px!important;
+ }
+ html body .mct-pro-followups-live .mct-pro-privacy-row>.mct-brand-slogan{
+  flex:none!important;width:min(340px,100%)!important;
+ }
+}
