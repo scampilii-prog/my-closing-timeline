@@ -1,5 +1,5 @@
 /* Existing PRO D1 account, promo redemption and Stripe Sandbox endpoints.
-   No automatic gift approval, no real Stripe keys, no client closing data. */
+   Verified first-time codes are sent automatically; no admin approval. */
 (function(){
 "use strict";
 var $=function(id){return document.getElementById(id)},user=null,pricing=null,ready=null;
@@ -13,7 +13,11 @@ async function api(route,options){
 }
 function safeCode(s){return /^MCT-[A-Z0-9_-]{12,60}$/.test(String(s||"").toUpperCase())}
 function rememberCode(s){
+ if(!safeCode(s))return;
+ // Preserve the same private code across the registration/verification journey.
+ // The PRO registration page already reads this original same-origin key.
  try{sessionStorage.setItem(giftKey,JSON.stringify({code:s,until:Date.now()+86400000}))}catch(e){}
+ try{localStorage.setItem(previousGiftKey,JSON.stringify({code:s,expires:Date.now()+86400000}))}catch(e){}
 }
 function remembered(){
  try{
@@ -40,6 +44,9 @@ function showPrice(){
 }
 function updateView(){
  var sign=$("mct-activation-signin"),signed=$("mct-activation-signed");
+ document.body.classList.toggle("mct-activation-account-verified",!!user);
+ $("mct-activation-account-heading").textContent=user?"Account verified — activate your FREE credit":"Create your FREE account or sign in";
+ $("mct-activation-account-kicker").textContent=user?"STEP 1 · COMPLETED":"STEP 1 · START HERE";
  sign.hidden=!!user;signed.hidden=!user;
  $("mct-activation-user").textContent=user?user.email:"";
  $("mct-activation-balance").textContent=user?(user.credits+" credit"+(user.credits===1?"":"s")+" available"):"";
@@ -52,25 +59,36 @@ function updateView(){
  showPrice();
 }
 async function load(){
- var c=remembered();if(c)$("mct-activate-code").value=c;
+ var c=remembered();
+ document.body.classList.toggle("mct-activation-gift-visit",!!c);
+ if(c){
+  $("mct-activate-code").value=c;
+  message("mct-activate-gift-status","Your private FREE code has been entered automatically. Sign in with the invited email, then activate your $0.00 credit.","info");
+ }else{
+  $("mct-activation-heading").textContent="Activate Your PRO Credit.";
+  $("mct-activation-hero-description").textContent="Already received your free code? Paste it below. First register or sign in using the same verified email. Paid Sandbox checkout is optional.";
+  $("mct-activation-gift-instructions").textContent="Enter your personal MCT- code from the confirmation email. No credit card is needed for a first-time invitation.";
+  message("mct-activate-gift-status","Already have a FREE code? Paste it above, then sign in with the email that received it.","info");
+ }
+
  var checks=await Promise.allSettled([api("me"),api("health"),api("pricing")]);
  if(checks[0].status==="fulfilled"){var a=checks[0].value;user=a.authenticated?a.user:null}else message("mct-activate-status","Account service is temporarily unavailable. You can try signing in again.","error");
  if(checks[1].status==="fulfilled")ready=checks[1].value.configured||{};
  if(checks[2].status==="fulfilled")pricing=checks[2].value;
  updateView();
- if(user&&new URLSearchParams(location.search).has("verified"))message("mct-activate-status","Your account email is verified. Enter your approved private FREE code below, or review Stripe Sandbox test packages.","success");
- else if(user)message("mct-activate-status","You are signed in. Choose your activation method below.","success");
- else message("mct-activate-status","Create your free account and confirm your email before redeeming a code or making a test payment.","info");
+ if(user&&new URLSearchParams(location.search).has("verified"))message("mct-activate-status","Account email verified. Your personal code is ready for activation below.","success");
+ else if(user)message("mct-activate-status","You are signed in. Continue with Step 2 to activate your FREE credit.","success");
+ else message("mct-activate-status","START HERE: select the gold Create My FREE Account button, or Sign In if you already registered. Use the email that received your code.","info");
 }
 async function checkOrRedeem(redeem){
  if(!user){message("mct-activate-gift-status","First create your account and verify your email using the same address as your invitation.","error");return}
  var code=$("mct-activate-code").value.trim().toUpperCase();
- if(!safeCode(code)){message("mct-activate-gift-status","Enter the private MCT- code from your approved invitation email. LAUNCH90 is a paid discount, not a free code.","error");return}
+ if(!safeCode(code)){message("mct-activate-gift-status","Enter the private MCT- code from your invitation email. LAUNCH90 is only a paid discount.","error");return}
  var btn=$(redeem?"mct-activate-redeem":"mct-activate-check");btn.disabled=true;
  try{
  var result=await api(redeem?"promo/redeem":"promo/check",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code})});
  if(redeem){clearCode();$("mct-activate-code").value="";var m=await api("me");user=m.authenticated?m.user:user;updateView();message("mct-activate-gift-status","Success! "+result.credits_added+" complimentary PRO Closing Credit added to your account. No card or payment was needed.","success");$("mct-activation-ready").scrollIntoView({behavior:"smooth",block:"center"})}
- else{rememberCode(code);message("mct-activate-gift-status","Approved code verified for your account. Select Activate My FREE Credit to redeem it for $0.00.","success")}
+ else{rememberCode(code);message("mct-activate-gift-status","Your FREE code is valid. Now click Activate My FREE Credit — $0.00. No payment required.","success")}
  }catch(e){message("mct-activate-gift-status",e.message,"error")}
  finally{updateView()}
 }
@@ -91,7 +109,7 @@ function start(){
  $("mct-activate-redeem").addEventListener("click",function(){checkOrRedeem(true)});
  $("mct-activate-pay").addEventListener("click",checkout);
  $("mct-activate-plan").addEventListener("change",showPrice);
- $("mct-activate-code").addEventListener("change",function(){var c=this.value.trim().toUpperCase();this.value=c;if(safeCode(c))rememberCode(c)});
+ $("mct-activate-code").addEventListener("change",function(){var c=this.value.trim().toUpperCase();this.value=c;if(safeCode(c)){rememberCode(c);document.body.classList.add("mct-activation-gift-visit")}});
  load();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
