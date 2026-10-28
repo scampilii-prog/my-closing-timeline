@@ -1,0 +1,59 @@
+/* First-time Realtor activation, standalone page on the existing website.
+   Keep consistent 1420px centered content and full-width photographic hero. */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:125px}
+body.mct-activation-page{margin:0;background:#f4f8f9;color:#173e52;font:600 15px/1.65 Manrope,Arial,sans-serif}
+.mct-activate-hero{background:linear-gradient(110deg,#12374f 5%,#195a66 75%,#28716d);color:#fff;border-bottom:4px solid #e0bc7f}
+.mct-activate-hero-inner{max-width:1420px;width:calc(100% - 40px);margin:auto;padding:42px 0}
+.mct-activate-kicker{font:900 12px/1.5 Manrope,Arial,sans-serif;color:#f3cc8d;letter-spacing:.08em}
+.mct-activate-hero h1{margin:5px 0 10px;color:#fff;font:900 clamp(29px,4vw,47px)/1.19 Manrope,Arial,sans-serif;letter-spacing:-.03em}
+.mct-activate-hero p{color:#e4eff0;margin:0;max-width:960px;font:600 clamp(14px,1.4vw,17px)/1.65 Manrope,Arial,sans-serif}
+.mct-activate-main{max-width:1420px;width:calc(100% - 40px);margin:23px auto 65px}
+.mct-activation-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.mct-activation-step{background:#fff;border:1px solid #d6e4e8;border-radius:11px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px}
+.mct-activation-step span{display:grid;place-items:center;border-radius:50%;height:31px;width:31px;flex:none;background:#e9f4f2;color:#166c6e;font:900 14px Manrope,Arial}
+.mct-activation-step strong{display:block;color:#163d51;font:900 15px/1.35 Manrope,Arial,sans-serif}
+.mct-activation-step p{margin:3px 0 0;color:#577282;font:600 12px/1.5 Manrope,Arial,sans-serif}
+.mct-activation-account{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 22px;border:1px solid #cddde1;background:#fff;border-radius:12px;margin:0 0 20px}
+.mct-activation-account h2{margin:0 0 2px;color:#173e52;font:900 19px/1.35 Manrope,Arial,sans-serif}
+.mct-activation-account p{margin:0;color:#496b7b;font:600 13px/1.6 Manrope,Arial,sans-serif}
+.mct-activation-account .mct-activate-account-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mct-activation-account a,.mct-activation-actions a,.mct-activate-link{
+ display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border-radius:7px;text-decoration:none!important;
+ background:#e9f2f4;border:1px solid #a6c8cf;color:#174f66!important;font:850 12px/1.35 Manrope,Arial,sans-serif
+}
+.mct-activation-account a:hover,.mct-activate-link:hover{background:#d3e9ec}
+.mct-activation-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.mct-activate-panel{min-width:0;background:#fff;border:1px solid #d4e2e6;border-radius:14px;padding:23px 24px;box-shadow:0 7px 24px #1b435312}
+.mct-activate-panel.mct-activate-free{border-top:5px solid #22927d}
+.mct-activate-panel.mct-activate-paid{border-top:5px solid #ca9b56}
+.mct-activate-panel h2{margin:0 0 7px;color:#173e52;font:900 clamp(20px,2.2vw,27px)/1.3 Manrope,Arial,sans-serif}
+.mct-activate-panel h2:after{content:"";width:55px;height:3px;display:block;margin:10px 0 0;border-radius:7px;background:#1c8a7a}
+.mct-activate-paid h2:after{background:#c99b58}
+.mct-activate-eyebrow{display:block;font:900 11px/1.4 Manrope,Arial,sans-serif;letter-spacing:.065em;color:#18715e;margin-bottom:8px}
+.mct-activate-paid .mct-activate-eyebrow{color:#936b34}
+.mct-activate-panel p{margin:8px 0 15px;color:#516d7d;font:600 13px/1.6 Manrope,Arial,sans-serif}
+.mct-activate-panel label{display:block;margin:13px 0 7px;color:#244f62;font:850 13px/1.5 Manrope,Arial,sans-serif}
+.mct-activate-panel input,.mct-activate-panel select{min-height:46px;width:100%;max-width:100%;border:1px solid #b6cbd4;border-radius:7px;background:#fff;color:#183e53;padding:11px 12px;font:750 14px Manrope,Arial,sans-serif}
+.mct-activate-panel button{display:flex;align-items:center;justify-content:center;min-height:46px;width:100%;margin:11px 0 0;border-radius:8px;border:1px solid #186b5a;background:#187863;color:#fff;font:900 14px/1.35 Manrope,Arial,sans-serif;cursor:pointer}
+.mct-activate-panel button:hover{background:#135e50}
+.mct-activate-paid button{background:#1b5970;border-color:#1b5970}
+.mct-activate-paid button:hover{background:#154658}
+.mct-activate-panel button:disabled{opacity:.52;cursor:not-allowed}
+.mct-activate-panel button:focus-visible,.mct-activate-panel input:focus-visible,.mct-activate-panel select:focus-visible,.mct-activation-account a:focus-visible{outline:3px solid #e0b66e;outline-offset:3px}
+.mct-activate-link{margin-top:9px;background:#f5fbf8;color:#136558!important;border-color:#c5dfd3}
+.mct-activate-message{margin:12px 0 0!important;padding:11px 12px;border-radius:8px;border:1px solid #c9dfe2;background:#f3f9fa;color:#305d6c;font:750 12px/1.55 Manrope,Arial,sans-serif}
+.mct-activate-message[data-type="success"]{background:#e8f7ee;color:#126048;border-color:#a7d5b8}
+.mct-activate-message[data-type="error"]{background:#fff0e9;color:#8b3a29;border-color:#e8c2b1}
+.mct-activate-price{background:#fdf9f0;border:1px solid #e5d4b6;border-radius:9px;padding:12px 15px;margin:12px 0;color:#5d584c}
+.mct-activate-price strong{display:block;font:900 26px/1.3 Manrope,Arial,sans-serif;color:#8a5a24}
+.mct-activate-price small{display:block;font:650 11px/1.5 Manrope,Arial,sans-serif;color:#667680}
+.mct-activate-result{margin:20px 0 0;background:#e8f5f0;border:1px solid #b3d8c6;border-radius:11px;padding:19px 21px}
+.mct-activate-result h2{margin:0 0 7px;font:900 20px/1.3 Manrope,Arial,sans-serif;color:#155c49}
+.mct-activate-result p{margin:0 0 10px;color:#31635c}
+.mct-activate-legal{margin-top:17px;font:600 11.5px/1.65 Manrope,Arial,sans-serif;color:#55717d}
+.mct-activate-legal a{color:#24697a}
+.mct-activate-tag{display:inline-flex;padding:4px 9px;background:#d8f0e7;border-radius:6px;color:#176a57;font:900 11px/1.4 Manrope,Arial,sans-serif}
+[hidden]{display:none!important}
+@media(max-width:800px){.mct-activation-options{grid-template-columns:1fr}.mct-activation-steps{grid-template-columns:1fr}.mct-activate-panel{padding:20px}.mct-activate-hero-inner{padding:34px 0}}
+@media(max-width:550px){.mct-activate-main,.mct-activate-hero-inner{width:calc(100% - 24px)}.mct-activation-account{padding:16px}.mct-activation-options{gap:13px}}
