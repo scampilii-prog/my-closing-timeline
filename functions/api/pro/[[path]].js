@@ -36,7 +36,7 @@ async function pbkdf(password,salt){
 async function permit(db,kind,value,max,windowSeconds){const key=await digest(kind+":"+value);const previous=await db.prepare("SELECT attempts,expires_at FROM auth_attempts WHERE rate_key=?").bind(key).first();if(previous&&previous.expires_at>now()&&previous.attempts>=max)return false;await db.prepare("INSERT INTO auth_attempts(rate_key,attempts,expires_at) VALUES(?,1,?) ON CONFLICT(rate_key) DO UPDATE SET attempts=CASE WHEN expires_at<=? THEN 1 ELSE attempts+1 END,expires_at=CASE WHEN expires_at<=? THEN excluded.expires_at ELSE expires_at END").bind(key,now()+windowSeconds,now(),now()).run();return true}
 async function getAuth(req,db){const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));if(!cookie)return null;const token=cookie.slice(cookieName.length+1);if(!/^[A-Za-z0-9_-]{40,60}$/.test(token))return null;return db.prepare("SELECT u.id,u.email,u.full_name,u.verified,u.credits FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>?").bind(await digest(token),now()).first()}
 async function newSession(db,userId){const token=random();await db.prepare("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES (?,?,?)").bind(await digest(token),userId,now()+2592000).run();return sessionCookie(token)}
-async function parseBody(req){if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))throw Error("Expected JSON");if(Number(req.headers.get("Content-Length")||0)>10000)throw Error("Request too large");return await req.json()}
+async function parseBody(req,maxBytes=10000){if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))throw Error("Expected JSON");if(Number(req.headers.get("Content-Length")||0)>maxBytes)throw Error("Request too large");return await req.json()}
 function validOrigin(req){const origin=req.headers.get("Origin");return origin===new URL(req.url).origin}
 const corporateSignature="<table role=\"presentation\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-top:1px solid #e0e8eb;margin-top:21px\"><tr><td align=\"center\" style=\"padding:18px 0 5px\"><a href=\"https://myclosingtimeline.com\" style=\"text-decoration:none\"><img src=\"https://myclosingtimeline.com/assets/myclosingtimeline-email-signature.png\" width=\"490\" alt=\"MyClosingTimeline.com — Closing deadlines, follow-ups, one clear timeline\" style=\"max-width:100%;width:490px;height:auto;display:block;border:0\" /></a></td></tr><tr><td align=\"center\" style=\"padding:3px 0 0\"><a href=\"https://myclosingtimeline.com\" style=\"color:#116c9d;font-weight:800;font-size:13px;text-decoration:underline\">myclosingtimeline.com</a></td></tr></table>";
 async function sendVerification(env,email,link){
@@ -98,9 +98,16 @@ export async function onRequest(context){
   const rows=await db.prepare("SELECT id,credits,max_uses,uses,active,expires_at,restricted_email,created_at FROM promo_codes WHERE active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) ORDER BY created_at DESC LIMIT 100").bind(now()).all();
   return reply({ok:true,codes:rows.results});
 }
+ if(req.method==="GET"&&route==="forms/library"){
+  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to verified PRO account",401);
+  await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_library (user_id TEXT PRIMARY KEY, forms_json TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+  const saved=await db.prepare("SELECT forms_json,updated_at FROM user_contract_form_library WHERE user_id=?").bind(user.id).first();
+  let forms=[];try{const parsed=JSON.parse(saved?.forms_json||"[]");if(Array.isArray(parsed))forms=parsed}catch(e){}
+  return reply({ok:true,forms,updated_at:saved?.updated_at||null});
+ }
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
- const body=await parseBody(req);
+ const body=await parseBody(req,route==="forms/library"?200000:10000);
  if(route==="marketing/unsubscribe"){
   const address=String(body.email||"").trim().toLowerCase();
   if(!emailOK(address))return error("Enter a valid email address",400);
@@ -188,6 +195,20 @@ export async function onRequest(context){
   return reply({ok:true,code,credits:1,max_uses:1,notice:"This gift is valid for one free PRO closing only. Copy the private code now; it is not retrievable later."},201);
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
+ if(route==="forms/library"){
+  if(!Array.isArray(body.forms)||body.forms.length>1000)return error("Invalid forms library");
+  const names=[],seen=new Set();let total=0;
+  for(const raw of body.forms){
+   if(typeof raw!=="string")return error("Invalid document name");
+   const name=raw.replace(/\\s+/g," ").trim();
+   if(!name||name.length>160)return error("Document names must be between 1 and 160 characters");
+   const key=name.toLocaleLowerCase("en");if(seen.has(key))continue;
+   seen.add(key);names.push(name);total+=name.length;if(total>100000)return error("Forms library is too large");
+  }
+  await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_library (user_id TEXT PRIMARY KEY, forms_json TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+  await db.prepare("INSERT INTO user_contract_form_library(user_id,forms_json,updated_at) VALUES(?,?,datetime('now')) ON CONFLICT(user_id) DO UPDATE SET forms_json=excluded.forms_json,updated_at=datetime('now')").bind(user.id,JSON.stringify(names)).run();
+  return reply({ok:true,count:names.length});
+ }
  if(route==="promo/check"||route==="promo/redeem"){
   const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
