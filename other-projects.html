@@ -69,11 +69,24 @@
 <body class="mct-layout-wide">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="other-projects.html" aria-current="page">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
 <div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div>
-<section class="mpt-hero" aria-labelledby="mpt-page-title">
- <span class="mpt-kicker">MY PROJECT TIMELINE · OTHER PROJECTS</span>
- <h1 id="mpt-page-title">Every project.<br><span>One clear timeline.</span></h1>
- <p>Plan business, construction, service or personal projects with your own tasks and deadlines — without real estate contract templates.</p>
- <span class="mpt-status">PREVIEW AVAILABLE · GENERAL PROJECT WORKSPACE COMING NEXT</span>
+<section class="mpt-hero mpt-hero-wide" aria-labelledby="mpt-page-title">
+ <div class="mpt-hero-shell">
+  <div class="mpt-hero-copy">
+   <span class="mpt-kicker">MY PROJECT TIMELINE · OTHER PROJECTS</span>
+   <h1 id="mpt-page-title">Every project.<br><span>One clear timeline.</span></h1>
+   <p>Plan business, construction, service or personal projects with your own tasks and deadlines — without real estate contract templates.</p>
+   <span class="mpt-status">PREVIEW AVAILABLE · GENERAL PROJECT WORKSPACE COMING NEXT</span>
+  </div>
+  <aside class="mpt-privacy-panel" aria-labelledby="mpt-privacy-heading">
+   <div class="mpt-privacy-top">
+    <span class="mpt-privacy-shield" aria-hidden="true"><svg viewBox="0 0 44 44" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4 36 9v11c0 10-6.5 16-14 20C14.5 36 8 30 8 20V9L22 4Z"/><path d="m15 22 5 5 10-11"/></svg></span>
+    <span class="mpt-privacy-label">PRIVACY FIRST</span>
+   </div>
+   <h2 id="mpt-privacy-heading">Your Clients.<br>Your Records.<br><span>Your Privacy.</span></h2>
+   <p>Privacy-first design. Improvements in progress.</p>
+   <a href="/privacy.html#mct-privacy-policy" class="mpt-privacy-link">Read our privacy approach <span aria-hidden="true">→</span></a>
+  </aside>
+ </div>
 </section>
 <main class="mpt-main">
  <section class="mpt-intro" aria-labelledby="mpt-choose-title">
@@ -131,5 +144,82 @@
 </main>
 <footer id="mct-site-footer" aria-label="Website footer"><div class="mct-footer-links"><span>© 2026 My Closing Timeline</span><a href="pricing.html">Plans &amp; Pricing</a><a href="privacy.html">Privacy &amp; Terms</a><a href="contact.html">Help &amp; Contact</a><a href="/personal-sabatino.html" rel="nofollow" title="Authorized administrator access">Admin Console</a></div><div class="mct-footer-credit"><a href="https://acromatico.com/" rel="noopener noreferrer" aria-label="Created with love by Acromatico">Created with <span class="mct-footer-heart">♥</span> by Acromatico</a></div></footer>
 <script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script>
-<link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"></body>
+<link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"><style id="mpt-wide-privacy-hero-20261028">
+/* Website 15: full-viewport Other Projects masthead, with a distinct
+   accessible Privacy First panel at right. All inner copy remains aligned
+   to the established 1420px shared content canvas. */
+html body section.mpt-hero.mpt-hero-wide{
+ box-sizing:border-box!important;display:block!important;
+ width:100vw!important;max-width:none!important;min-width:0!important;
+ margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;
+ padding:0!important;border-radius:0!important;
+ background:radial-gradient(circle at 88% 27%,rgba(84,174,158,.31),transparent 38%),
+ linear-gradient(110deg,#102c43 0%,#16445a 59%,#1b6d67 100%)!important;
+}
+html body .mpt-hero-wide>.mpt-hero-shell{
+ box-sizing:border-box!important;width:calc(100% - 40px)!important;max-width:1420px!important;
+ min-height:360px!important;margin:0 auto!important;padding:47px 0 50px!important;
+ display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(320px,.82fr)!important;
+ align-items:center!important;column-gap:clamp(25px,4.1vw,65px)!important;
+}
+html body .mpt-hero-wide .mpt-hero-copy{min-width:0!important;text-align:left!important}
+html body .mpt-hero-wide .mpt-hero-copy p{max-width:710px!important}
+html body .mpt-hero-wide .mpt-hero-copy .mpt-status{max-width:100%!important}
+html body .mpt-hero-wide .mpt-privacy-panel{
+ box-sizing:border-box!important;min-width:0!important;width:100%!important;max-width:480px!important;
+ justify-self:end!important;margin:0!important;padding:25px 29px 23px!important;
+ background:linear-gradient(145deg,rgba(37,57,70,.96),rgba(59,46,60,.97))!important;
+ border:1.5px solid rgba(244,206,146,.78)!important;border-radius:16px!important;
+ box-shadow:0 16px 38px rgba(4,23,37,.25),inset 0 1px 0 rgba(255,255,255,.08)!important;
+ color:#fffaf3!important;text-align:left!important;
+}
+html body .mpt-hero-wide .mpt-privacy-top{
+ display:flex!important;align-items:center!important;gap:12px!important;margin:0 0 15px!important;
+}
+html body .mpt-hero-wide .mpt-privacy-shield{
+ display:inline-grid!important;place-items:center!important;flex:0 0 50px!important;
+ width:50px!important;height:50px!important;border-radius:13px!important;
+ background:#e7f4e5!important;color:#137051!important;
+}
+html body .mpt-hero-wide .mpt-privacy-label{
+ display:inline-block!important;color:#e5f6e7!important;background:#17664e!important;
+ border:1px solid #58aa88!important;border-radius:7px!important;padding:7px 12px!important;
+ font:900 12px/1.4 Manrope,Arial,sans-serif!important;letter-spacing:.08em!important;
+}
+html body .mpt-hero-wide .mpt-privacy-panel h2{
+ margin:0 0 11px!important;padding:0!important;color:#fffaf3!important;
+ font:850 clamp(25px,2.5vw,35px)/1.19 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.035em!important;overflow-wrap:normal!important;
+}
+html body .mpt-hero-wide .mpt-privacy-panel h2 span{color:#f3ce9a!important}
+html body .mpt-hero-wide .mpt-privacy-panel p{
+ margin:0 0 13px!important;max-width:none!important;
+ color:#f0dcd2!important;font:650 14px/1.55 Manrope,Arial,sans-serif!important;
+}
+html body .mpt-hero-wide .mpt-privacy-panel .mpt-privacy-link{
+ display:inline-flex!important;align-items:center!important;gap:7px!important;
+ color:#f3ce9a!important;font:850 13px/1.5 Manrope,Arial,sans-serif!important;
+ text-decoration:underline!important;text-underline-offset:4px!important;
+}
+html body .mpt-hero-wide .mpt-privacy-panel .mpt-privacy-link:hover{color:#ffffff!important}
+html body .mpt-hero-wide .mpt-privacy-panel .mpt-privacy-link:focus-visible{
+ outline:3px solid #f3ce9a!important;outline-offset:4px!important;
+}
+@media(max-width:950px){
+ html body .mpt-hero-wide>.mpt-hero-shell{
+  min-height:0!important;grid-template-columns:minmax(0,1fr)!important;
+  row-gap:27px!important;padding:39px 0 43px!important;
+ }
+ html body .mpt-hero-wide .mpt-privacy-panel{max-width:550px!important;justify-self:start!important}
+}
+@media(max-width:700px){
+ html body .mpt-hero-wide>.mpt-hero-shell{
+  width:calc(100% - 24px)!important;padding:31px 0 37px!important;
+  row-gap:22px!important;
+ }
+ html body .mpt-hero-wide .mpt-privacy-panel{max-width:100%!important;padding:21px!important}
+ html body .mpt-hero-wide .mpt-privacy-panel h2{font-size:clamp(23px,6vw,32px)!important}
+ html body .mpt-hero-wide .mpt-status{white-space:normal!important}
+}
+</style></body>
 </html>
