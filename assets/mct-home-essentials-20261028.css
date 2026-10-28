@@ -245,3 +245,13 @@ html body main.mct-home-final section.mct-home-free>.mct-home-side>.mct-home-sha
 html body main.mct-home-final .mct-home-essentials a:focus-visible{
  outline:3px solid #b78a47!important;outline-offset:3px!important;
 }
+
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-disclaimer a.mct-live-start-link{
+ display:inline-block!important;
+ margin-left:8px!important;
+ color:#195f73!important;
+ font:850 11px/1.45 Manrope,Arial,sans-serif!important;
+ text-decoration:underline!important;
+ text-underline-offset:3px!important;
+ white-space:normal!important;
+}
