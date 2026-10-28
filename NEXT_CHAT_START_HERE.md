@@ -3,6 +3,12 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — START HERE: último diseño de destello ancho (28-oct-2026)
+- Última preferencia: usuario aportó 4 imágenes de starburst; no quiere estrella pequeña de cinco puntas ni medallón. Cambiarla por un **estallido grande, ancho, con 16 puntas**, verde lima/marfil con perfil verde, debajo de START HERE.
+- Se bajó el aviso verde a 12px dentro del marco exterior (antes estaba 6px POR ENCIMA), se reservó altura de 127px arriba, y se creó burst CSS de 192×72px (170×66px móvil). Debajo está el bloque crema con título PRO intacto. No invade el cuadro central ni foto superior.
+- Archivo `index.html` commit `a0869bf3ed7f424ba6a199af8dfad8292fa34703`. Comprobación solo estática; verificar Cloudflare, desktop/móvil antes de afirmar acabado.
+- Enlace revisión: https://myclosingtimeline.com/?mct_refresh=wide-burst-20261028#home-essentials
+
 ## WEBSITE 16 — Corrección final de estrella y color (28-oct-2026)
 - El propietario rechazó la estrella pequeña en un medallón dentro del recuadro. Se corrigió: verde START HERE **centrado en el borde alto de la primera tarjeta**, estrella grande **debajo del letrero** dentro del mismo eje vertical, sobresaliendo apenas hacia arriba de la tarjeta, con suficiente espacio inferior para no tapar `Your First PRO Closing Could Be FREE.`. No tocar la foto, la tarjeta derecha ni TODAY & TOMORROW.
 - Color estrella actualizado a **cobre rosado suave** (`#e7a990`) con borde marfil. Sin disco circular. Mantener verde del letrero; evitar volver al diseño de medallón anterior.
