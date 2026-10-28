@@ -8,10 +8,10 @@
  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap">
  <link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11">
- <link rel="stylesheet" href="/assets/mct-pro-activation-20261028.css?v=2">
+ <link rel="stylesheet" href="/assets/mct-pro-activation-20261028.css?v=3">
  <script src="/assets/mct-header-height-20261027.js?v=1" defer></script>
  <script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script>
- <script src="/assets/mct-pro-activation-20261028.js?v=2" defer></script>
+ <script src="/assets/mct-pro-activation-20261028.js?v=3" defer></script>
 </head>
 <body class="mct-layout-wide mct-activation-page">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" >Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
@@ -30,6 +30,7 @@
   <div><span class="mct-activation-account-kicker" id="mct-activation-account-kicker">STEP 1 · START HERE</span><h2 id="mct-activation-account-heading">Create your FREE account or sign in</h2>
    <p id="mct-activate-status" role="status" aria-live="polite">Checking your account…</p></div>
   <div id="mct-activation-signin" class="mct-activate-account-actions" hidden>
+   <p id="mct-activation-saved-code-notice" class="mct-activation-saved-code-notice" role="status" aria-live="polite" hidden><span aria-hidden="true">✓</span> <strong>Your FREE Code Is Saved.</strong> No need to copy or enter it again. Register or sign in with the same email.</p>
    <a class="mct-activation-primary-signup" href="/pro-get-started.html?auth=register&amp;mode=gift#mct-account">1 · Create My FREE Account →</a>
    <a class="mct-activation-existing-signin" href="/pro-get-started.html?auth=login&amp;mode=gift#mct-account">Already registered? Sign In →</a>
   </div>
@@ -41,9 +42,9 @@
    <span class="mct-activate-eyebrow">STEP 2 · NO PAYMENT NEEDED</span>
    <h2 id="mct-activation-gift-heading">Activate My FREE Closing · $0.00</h2>
    <p id="mct-activation-gift-instructions">Your email-confirmed code is inserted automatically. <strong>No approval, no credit card.</strong> After you sign in with the same verified email, activate this code once for your first closing.</p>
-   <label for="mct-activate-code">Your personal invitation code</label>
+   <div id="mct-activate-manual-code"><label for="mct-activate-code">Your personal invitation code</label>
    <input id="mct-activate-code" type="text" autocomplete="off" autocapitalize="characters" maxlength="64" spellcheck="false" placeholder="MCT-…">
-   <button type="button" id="mct-activate-check" disabled>Check My FREE Code</button>
+   <button type="button" id="mct-activate-check" disabled>Check My FREE Code</button></div>
    <button type="button" id="mct-activate-redeem" disabled>Activate My FREE Credit — $0.00</button>
    <p id="mct-activate-gift-status" class="mct-activate-message" role="status" aria-live="polite">Your FREE code is ready. Create your account or sign in above first; then activate it for $0.00.</p>
    <a class="mct-activate-link" href="/first-closing-free.html">I haven't requested my FREE code yet →</a>
