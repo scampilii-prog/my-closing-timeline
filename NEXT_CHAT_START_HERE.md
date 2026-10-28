@@ -64,6 +64,13 @@
 - **Implementado:** se reemplazó únicamente la tarjeta privada `.mct-brand-slogan` de `.mct-pro-privacy-standalone` por `.mct-pro-privacy-guide`, con etiqueta pequeña PRIVACY FIRST, escudo, título «Keep client details private», instrucciones: online solo referencia y fechas, nunca nombres/direcciones/precios; PDF guardado y completado localmente; protecciones bajo revisión; enlace a política. El slogan se conserva como pie discreto. Diseño responsive, sin tocar la selección de productos, registro, promociones ni checkout.
 - **Estado:** confirmación del archivo/commit en GitHub; publicación Cloudflare y QA visual pendientes. No afirmar medidas de seguridad no auditadas.
 
+## D8. FREE y PRO: aviso visible para visitantes que NO son Realtors — Website 15
+- El propietario pidió que las páginas **FREE Timeline** (`free-timeline.html`) y **PRO Timeline** (`pro-get-started.html`) expliquen claramente que también existe **Other Projects** para dueños de negocios, contratistas, proveedores de servicios y planes personales.
+- **Implementación GitHub:** debajo del selector «Real Estate Closing or Other Projects?» se añadió en ambas páginas un panel diferente y elegante con la etiqueta «NOT A REALTOR? THIS IS FOR YOU», el título «Organize your own business or personal projects», un resumen y el botón **«Explore Other Projects →»**. Todos los accesos de esas dos páginas (menú, selector, botón) llevan directamente a `/other-projects.html`, sin parámetros innecesarios y en la misma pestaña.
+- **Estilo compartido:** `assets/mct-project-path-20261028.css?v=2`, responsive, tarjeta turquesa suave, CTA azul marino de alto contraste y aviso «FREE & PRO previews · Tools coming soon».
+- **QA:** inspección estática de todos los enlaces internos de ambas páginas contra los archivos GitHub y anclas locales: **0 destinos inexistentes**; referencias CSS y destino directo comprobados. **No equivale a prueba runtime ni publicación Cloudflare**: acceso HTTP del dominio no disponible desde el navegador de verificación.
+- **Regla de honestidad:** Other Projects FREE y PRO son aún vistas previas; no anunciar creación, guardado ni pago como disponibles hasta completar el desarrollo y las pruebas.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
