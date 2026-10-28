@@ -163,9 +163,21 @@ function emailPicture(){const source=timelinePicture(),small=document.createElem
 function downloadPicture(){const a=document.createElement('a');a.href=emailPicture().toDataURL('image/png');a.download='Buyer-Closing-Timeline.png';document.body.appendChild(a);a.click();a.remove()}
 function timelineFeedback(text){$('closing-email-feedback').textContent=text;const preview=$('timeline-email-feedback');if(preview)preview.textContent=text}
 function copyPicture(){
- if(!navigator.clipboard||!window.ClipboardItem){timelineFeedback('Download the PNG and drag it into your email message.');return}
- const promise=new Promise((resolve,reject)=>emailPicture().toBlob(b=>b?resolve(b):reject(Error('Image unavailable')),'image/png'));
- navigator.clipboard.write([new ClipboardItem({'image/png':promise})]).then(()=>{$('closing-email-feedback').textContent='Image copied. Click inside your email message and paste with ⌘V (Mac) or Ctrl+V.'}).catch(()=>{$('closing-email-feedback').textContent='Download the PNG and drag it into your email message.'});
+ const message='Timeline copied. Open Mail, click where the timeline should appear, then paste (⌘V on Mac or Ctrl+V on Windows).';
+ if(!navigator.clipboard||!window.ClipboardItem){
+  downloadPicture();
+  timelineFeedback('Your browser cannot copy an image directly. The timeline image was downloaded. Drag it into your email before your signature.');
+  return;
+ }
+ try{
+  const blob=new Promise((resolve,reject)=>emailPicture().toBlob(b=>b?resolve(b):reject(Error('Image unavailable')),'image/png'));
+  navigator.clipboard.write([new ClipboardItem({'image/png':blob})])
+  .then(()=>timelineFeedback(message))
+  .catch(()=>{downloadPicture();timelineFeedback('Copying the image was blocked. A timeline image has been downloaded; drag it into Mail instead.')});
+ }catch(e){
+  downloadPicture();
+  timelineFeedback('The timeline image has been downloaded; drag it into your email.');
+ }
 }
 function senderContact(){
  const get=id=>String($(id)?.value||'').trim();
@@ -186,22 +198,23 @@ function timelineEmailTable(){
  });
  return [...head,...rowsText,'────────────────────────────────────────','Please confirm all due dates and notice requirements against the signed contract.'].join('\n');
 }
-async function openInMail(){
- // Browsers cannot automatically attach inline pictures to a mailto draft.
- // Include the full readable table in the draft and copy its image for optional pasting.
- const recipient='';
- const body=plainTimeline()+'\n\n'+timelineEmailTable()+'\n\n'+
-  (senderContactText()?'Kind regards,\n'+senderContactText():'Kind regards,\n\n');
- let copied=false;
- if(navigator.clipboard&&window.ClipboardItem){
-  try{
-   const png=new Promise((resolve,reject)=>emailPicture().toBlob(b=>b?resolve(b):reject(Error('Image unavailable')),'image/png'));
-   await navigator.clipboard.write([new ClipboardItem({'image/png':png})]);copied=true;
-  }catch(e){}
- }
- // One click opens the visitor's preferred email application. It never sends a message.
- window.location.href='mailto:'+encodeURIComponent(recipient)+'?subject='+encodeURIComponent('Closing Timeline Summary — Please Review Dates')+'&body='+encodeURIComponent(body);
- timelineFeedback(copied?'Your Mail draft contains the milestone table. For the styled image, paste (⌘V on Mac, Ctrl+V on Windows) before your Mail signature.':'Your Mail draft contains the milestone table. You can use “More sharing options” to download or copy the formatted timeline picture. Mail signatures depend on your app settings.');
+function openInMail(){
+ // Mailto can open a draft but cannot attach HTML/images. The visitor copies the
+ // timeline picture using the separate Copy Timeline button, then pastes it.
+ const body=[
+  'Hello,',
+  '',
+  'Please find the Closing Timeline Summary below for your review.',
+  '',
+  '',
+  '',
+  'Kindly verify all dates and deadlines against the signed contract and applicable amendments.',
+  '',
+  'Kind regards,',
+  ''
+ ].join('\n');
+ timelineFeedback('Mail draft opened. Paste your copied timeline into the space before the verification note. Your Mail signature comes from your own email settings.');
+ window.location.href='mailto:?subject='+encodeURIComponent('Closing Timeline Summary — Please Verify Dates')+'&body='+encodeURIComponent(body);
 }
 let timelineModal=null;
 function closeTimelineModal(){if(window.history.state&&window.history.state.fcTimelineModal){window.history.back()}else if(timelineModal&&timelineModal.open){timelineModal.close();timelineModal=null}}
@@ -213,7 +226,7 @@ function viewPicture(){
  dialog.querySelector('img').src=timelinePicture().toDataURL('image/png');openTimelineModal(dialog);
 }
 function viewEmailPreview(){
- let dialog=$('timeline-email-dialog');if(!dialog){dialog=document.createElement('dialog');dialog.id='timeline-email-dialog';dialog.setAttribute('aria-labelledby','timeline-email-title');dialog.innerHTML='<button type="button" class="fc-picture-close" aria-label="Return to timeline">×</button><h3 id="timeline-email-title">Your email</h3><div class="fc-email-preview-body"></div><p id="timeline-email-feedback" role="status" style="font:500 12px/1.7 Arial;color:#527184">Open in Mail, then paste the timeline before your signature. Your signature follows your Mail settings.</p><div class="fc-email-preview-actions"><button type="button" data-open-mail>Open in Mail</button><button type="button" data-download-email>Download formatted email (.eml)</button><button type="button" data-copy-email-image>Copy image for Mail</button></div>';document.body.appendChild(dialog);wireTimelineModal(dialog);dialog.querySelector('[data-open-mail]').addEventListener('click',openInMail);dialog.querySelector('[data-download-email]').addEventListener('click',exportFormattedEmail);dialog.querySelector('[data-copy-email-image]').addEventListener('click',copyPicture)}
+ let dialog=$('timeline-email-dialog');if(!dialog){dialog=document.createElement('dialog');dialog.id='timeline-email-dialog';dialog.setAttribute('aria-labelledby','timeline-email-title');dialog.innerHTML='<button type="button" class="fc-picture-close" aria-label="Return to timeline">×</button><h3 id="timeline-email-title">Your email</h3><div class="fc-email-preview-body"></div><p id="timeline-email-feedback" role="status" style="font:500 12px/1.7 Arial;color:#527184">First copy the timeline, then open Mail and paste it before your signature. Your Mail settings control your signature.</p><div class="fc-email-preview-actions"><button type="button" data-copy-email-image>Copy Timeline</button><button type="button" data-open-mail>Open in Mail</button><button type="button" data-download-email>Prepared Email (.eml)</button></div>';document.body.appendChild(dialog);wireTimelineModal(dialog);dialog.querySelector('[data-open-mail]').addEventListener('click',openInMail);dialog.querySelector('[data-download-email]').addEventListener('click',exportFormattedEmail);dialog.querySelector('[data-copy-email-image]').addEventListener('click',copyPicture)}
  const previewImage=emailPicture();dialog.querySelector('.fc-email-preview-body').innerHTML=buyerAgentNotice()+'<img class="fc-email-inline-picture" src="'+previewImage.toDataURL('image/png')+'" width="'+previewImage.width+'" style="display:block;max-width:100%;height:auto" alt="Closing Timeline Summary">'+buyerAgentClosing();openTimelineModal(dialog);
 }
 function exportFormattedEmail(){
@@ -242,7 +255,7 @@ function buyerAgentClosing(){
  const d=senderContact();
  const fields=[d.name,d.email,d.phone].filter(Boolean);
  return '<div style="font-family:Helvetica,Arial,sans-serif;color:#18374b;font-size:15px;line-height:1.6;margin:16px 0 0"><p style="margin:0 0 6px">Kind regards,</p>'+
- (fields.length?'<p style="margin:0;font-weight:650">'+fields.map(esc).join('<br>')+'</p>':'<p style="margin:0;color:#647889;font-style:italic">Your own Mail signature or contact details</p>')+
+ (fields.length?'<p style="margin:0;font-weight:650">'+fields.map(esc).join('<br>')+'</p>':'')+
  '</div>';
 }
 function buyerAgentTasks(){return collect().filter(x=>x.kind==='task')}
