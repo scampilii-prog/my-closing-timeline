@@ -29,3 +29,30 @@ html body .mct-home-opening .mct-slogan-home{
  html body .mct-brand-slogan .mct-slogan-main{font-size:16px!important}
  html body .mct-brand-slogan .mct-slogan-note{font-size:11px!important}
 }
+
+/* 2026-10-28 visibility fix: bring slogan below fixed header, not at page bottom. */
+html body > .mct-brand-slogan{
+ position:relative!important;
+ z-index:11!important;
+ min-height:60px!important;
+ padding:12px 20px 11px!important;
+ margin:0!important;
+ background:linear-gradient(90deg,#173c53 0%,#102b42 48%,#173c53 100%)!important;
+ border-top:1px solid #bfa06a!important;
+ border-bottom:2px solid #c6a76e!important;
+ box-shadow:0 3px 12px rgba(10,38,54,.14)!important;
+}
+html body > .mct-brand-slogan .mct-slogan-main{
+ color:#f9d89f!important;
+ font:900 clamp(17px,1.5vw,22px)/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:.015em!important;
+}
+html body > .mct-brand-slogan .mct-slogan-note{
+ color:#e6eef2!important;
+ font:650 clamp(11.5px,.95vw,13px)/1.4 Manrope,Arial,sans-serif!important;
+}
+@media(max-width:590px){
+ html body > .mct-brand-slogan{min-height:0!important;padding:11px 12px!important}
+ html body > .mct-brand-slogan .mct-slogan-main{font-size:16px!important}
+ html body > .mct-brand-slogan .mct-slogan-note{font-size:11px!important}
+}
