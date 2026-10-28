@@ -3,6 +3,12 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — HOME: completar los cuadros acompañantes del START HERE (28-oct-2026)
+- Última aprobación: el cuadro central **Today & Tomorrow** mantiene su ejemplo y agrega un panel práctico al fondo `YOUR NEXT STEP` con un único botón **Create My FREE Timeline** hacia `/free-timeline.html` (sin duplicar el antiguo CTA en el pie).
+- La tarjeta derecha **Privacy First** eleva el título `Keep personal details private.` y explica visualmente qué sí escribir online (referencia privada, fechas, tareas genéricas) y qué conservar solo en el dispositivo (nombres, direcciones, precios y documentos). Mantener el aviso sobre salvaguardas aún bajo revisión, el enlace a Privacy y el slogan.
+- Solo `index.html` (commits `21b9acc77b65d3fbdfeed0ce9bbb299351802825`, `85edd6d60a286d608cd22c8923302ba0bd695b42`). QA estático: bloques presentes y enlaces destino conservados; **publicación Cloudflare y prueba visual no verificadas**.
+- Página: https://myclosingtimeline.com/?mct_refresh=home-companion-cards-20261028#home-essentials
+
 ## WEBSITE 16 — HOME: START HERE ahora es la PRIMERA tarjeta (28-oct-2026)
 - Última preferencia del propietario: **START HERE va en la primera columna a la izquierda de HOME, debajo del hero fotográfico**; **Today & Tomorrow queda en el medio** y **Privacy First a la derecha**.
 - El recuadro izquierdo contiene la orientación FREE/PRO y **Beyond Real Estate** debajo. Fondo exterior navy→turquesa con marco dorado y sombra; interior crema/dorado; dos opciones FREE teal/PRO dorado. El visitante debe reconocer dónde comenzar antes de ver el ejemplo de fechas.
