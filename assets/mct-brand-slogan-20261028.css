@@ -1,0 +1,31 @@
+/* Consistent site-wide privacy-first brand philosophy. Not a security certification. */
+html body .mct-brand-slogan{
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;
+ margin:0!important;padding:17px 22px 15px!important;
+ border-top:2px solid #c5a46d!important;border-bottom:1px solid #2a4f67!important;
+ background:linear-gradient(112deg,#102b42,#193d54)!important;
+ color:#f8f9f9!important;text-align:center!important;
+ font-family:Manrope,Arial,sans-serif!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:5px!important;
+}
+html body .mct-brand-slogan .mct-slogan-main{
+ display:block!important;color:#f6d39c!important;
+ font:850 clamp(16px,1.55vw,21px)/1.35 Manrope,Arial,sans-serif!important;
+ letter-spacing:.015em!important;text-wrap:balance!important;
+}
+html body .mct-brand-slogan .mct-slogan-note{
+ display:block!important;color:#dae6ec!important;
+ font:600 clamp(11px,.95vw,12.5px)/1.45 Manrope,Arial,sans-serif!important;
+ letter-spacing:.005em!important;
+}
+html body .mct-home-opening .mct-slogan-home{
+ margin:13px 0 0!important;padding:0!important;display:block!important;
+ color:#28727a!important;font:850 clamp(15px,1.25vw,18px)/1.35 Manrope,Arial,sans-serif!important;
+ letter-spacing:.01em!important
+}
+@media(max-width:560px){
+ html body .mct-brand-slogan{padding:14px 12px!important}
+ html body .mct-brand-slogan .mct-slogan-main{font-size:16px!important}
+ html body .mct-brand-slogan .mct-slogan-note{font-size:11px!important}
+}
