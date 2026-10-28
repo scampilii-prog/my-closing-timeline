@@ -1,7 +1,17 @@
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
-**Website 15 · actualización: 28 de octubre de 2026 · leer este archivo PRIMERO.**
+**Website 16 · actualización: 28 de octubre de 2026 · leer este archivo PRIMERO.**
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
+
+## WEBSITE 16 — Actualización 28-oct-2026 · después de Website 15
+- **Se continuó `main`, sin rehacer la web.** Los documentos maestros fueron leídos antes de cambiar archivos.
+- **Other Projects FREE ya tiene un planificador de navegador para pruebas:** Step 1 referencia privada + inicio + fin opcional; Step 2 hasta 8 tareas editables, fechas, Done/Remove, resumen copiable y calendario .ics local. Ninguna tarea se sube ni se guarda en cuenta; recargar borra FREE.
+- **Other Projects PRO SOLO DEMO:** Step 3 permite tareas propias, frecuencia once/daily/weekly/monthly, notas genéricas, responsable como función, última fecha de repetición, períodos de planificación 1/3/12 meses o indefinidos, historial de ocurrencias (sin el límite previo de 50 en nueva actividad), próximo vencimiento y Undo. Persistencia SOLO localStorage navegador del visitante, no D1 ni usuario autenticado; no emails de recordatorio ni pagos.
+- **Separar duración de créditos:** desaparecieron precios inmobiliarios de botones mensuales. La regla futura es 1 proyecto PRO/1 crédito, independientemente de si el proyecto dura meses o es continuo; NO ofertar ni cobrar Other Projects hasta aprobación comercial y funcional.
+- **Archivos:** `other-projects.html`, `assets/mpt-project-task-demo-20261028.js?v=16`, `assets/mpt-task-demo-20261028.css?v=16`. En Realtor FREE/PRO y APIs PRO inmobiliarias no hubo modificaciones.
+- **QA:** sintaxis JS verificada, 34 IDs del script emparejan el HTML, sin duplicados, pruebas de fechas daily/weekly/monthly/once y fin de mes correctas. NO verificado navegador real, Cloudflare, backend, seguridad multiusuario ni envío de email.
+- **Próximo:** comprobar UI/funcionalidad FREE y demo PRO en Cloudflare y móvil; introducir almacenamiento por usuario y aislamiento seguros en backend propio solo tras completar privacidad, migraciones y revisión comercial; no activar Stripe. Leer `PROJECT_CHANGELOG.md` para evidencias.
+- **Página para comprobar:** https://myclosingtimeline.com/other-projects.html — enlace con anclas `#mpt-free-task-demo` y `#mpt-pro-task-demo`. Si faltan campos en producción, revisar primero si Cloudflare publicó la última versión.
 
 ## A. Identidad, modo de trabajo y decisiones INALTERABLES
 - Web: **https://myclosingtimeline.com**; GitHub: **`scampilii-prog/my-closing-timeline`**, rama **`main`**; Cloudflare Pages + Functions, D1, Resend y Stripe **Sandbox**.
