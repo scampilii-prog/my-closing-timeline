@@ -1,0 +1,234 @@
+/* HOME compact essentials: real Today & Tomorrow preview above the fold, no duplicate choice cards.
+   Scope to Home only; FREE/PRO deadline calculators are untouched. */
+html body main.mct-home-final>.mct-brand-slogan{
+ margin-bottom:8px!important;
+}
+html body main.mct-home-final>section.mct-home-essentials{
+ box-sizing:border-box!important;
+ display:grid!important;
+ grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr)!important;
+ align-items:stretch!important;
+ gap:15px!important;
+ width:min(1200px,calc(100% - 36px))!important;
+ max-width:1200px!important;
+ padding:0!important;
+ margin:7px auto 17px!important;
+ background:transparent!important;
+ border:0!important;
+ box-shadow:none!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview,
+html body main.mct-home-final .mct-home-essentials-aside{
+ box-sizing:border-box!important;min-width:0!important;width:100%!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview>.mct-home-deadlines-refined{
+ display:block!important;
+ box-sizing:border-box!important;
+ width:100%!important;
+ max-width:none!important;
+ height:100%!important;
+ margin:0!important;
+ overflow:hidden!important;
+ border-radius:13px!important;
+ border:1px solid #c3a269!important;
+ background:#fffcf7!important;
+ box-shadow:0 8px 20px rgba(18,46,64,.08)!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-head{
+ box-sizing:border-box!important;
+ display:flex!important;
+ flex-direction:row!important;
+ justify-content:space-between!important;
+ align-items:center!important;
+ flex-wrap:wrap!important;
+ gap:8px 14px!important;
+ padding:12px 18px!important;
+ border:0!important;
+ min-height:65px!important;
+ background:#17394f!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-head span{
+ font:850 10px/1.4 Manrope,Arial,sans-serif!important;
+ letter-spacing:.09em!important;
+ color:#ecc990!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-head strong{
+ font:850 clamp(19px,1.9vw,25px)/1.3 Manrope,Arial,sans-serif!important;
+ color:white!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-inner{
+ box-sizing:border-box!important;
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:start!important;
+ gap:9px 12px!important;
+ padding:13px 14px 12px!important;
+ margin:0!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-intro{
+ display:none!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-day{
+ margin:0!important;padding:0!important;min-width:0!important;
+ border:1px solid #e0e7e8!important;
+ border-radius:9px!important;overflow:hidden!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-day-title{
+ display:flex!important;justify-content:space-between!important;align-items:center!important;
+ padding:9px 11px!important;margin:0!important;
+ border:0!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-day-title strong{
+ font:850 16px/1.3 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-day-title b{
+ font:850 16px/1.3 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list{
+ box-sizing:border-box!important;
+ margin:0!important;padding:8px 10px 11px!important;
+ list-style:none!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list li{
+ display:grid!important;
+ grid-template-columns:45px minmax(0,1fr)!important;
+ gap:7px!important;
+ align-items:start!important;
+ padding:7px 0!important;
+ margin:0!important;
+ font:600 11.5px/1.4 Manrope,Arial,sans-serif!important;
+ color:#29465b!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list li+li{
+ border-top:1px solid #e5ebee!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list li span{
+ font-weight:850!important;white-space:nowrap!important;
+ color:#416b79!important;
+}
+html body main.mct-home-final .mct-home-essentials-preview .mct-live-disclaimer{
+ grid-column:1/-1!important;
+ margin:0!important;
+ padding:2px 3px 0!important;
+ font:500 10px/1.45 Manrope,Arial,sans-serif!important;
+ color:#687985!important;
+}
+html body main.mct-home-final .mct-home-essentials-aside{
+ display:flex!important;flex-direction:column!important;
+ align-items:stretch!important;gap:12px!important;
+}
+html body main.mct-home-final #mct-home-offer-slot{
+ display:block!important;flex:1 1 auto!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home{
+ box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;
+ align-items:stretch!important;justify-content:space-between!important;
+ width:100%!important;max-width:none!important;
+ min-height:0!important;height:100%!important;
+ margin:0!important;padding:17px 19px!important;
+ gap:10px!important;
+ border:1px solid #dac393!important;border-left:4px solid #bf9557!important;
+ border-radius:12px!important;
+ background:linear-gradient(125deg,#fffdf9,#f7f0e5)!important;
+ box-shadow:0 6px 18px rgba(29,55,64,.06)!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home .mct-offer-kicker{
+ font:850 10px/1.4 Manrope,Arial,sans-serif!important;
+ letter-spacing:.12em!important;margin:0 0 5px!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home h2{
+ font:850 clamp(19px,1.8vw,23px)/1.2 Manrope,Arial,sans-serif!important;
+ margin:0 0 7px!important;color:#173a51!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home p{
+ font:550 12.5px/1.55 Manrope,Arial,sans-serif!important;
+ margin:0!important;color:#526e7a!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home .mct-offer-actions{
+ flex:none!important;
+ display:flex!important;flex-direction:row!important;
+ flex-wrap:wrap!important;align-items:center!important;
+ justify-content:flex-start!important;gap:9px 12px!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home a.mct-offer-primary{
+ flex:none!important;
+ width:auto!important;min-width:0!important;
+ min-height:41px!important;
+ padding:10px 15px!important;
+ font:850 12.5px/1.3 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-first-free-banner-home a.mct-offer-secondary{
+ font:750 11px/1.35 Manrope,Arial,sans-serif!important;
+ text-decoration:underline!important;
+}
+html body main.mct-home-final a.mct-home-project-link{
+ box-sizing:border-box!important;
+ display:flex!important;align-items:center!important;
+ flex:none!important;gap:11px!important;
+ width:100%!important;min-width:0!important;
+ padding:11px 14px!important;margin:0!important;
+ border:1px solid #c4dcdd!important;border-radius:11px!important;
+ background:#f0f8f7!important;color:#173e51!important;
+ text-decoration:none!important;
+ box-shadow:none!important;
+}
+html body main.mct-home-final a.mct-home-project-link:hover{
+ border-color:#23848a!important;background:#e8f5f3!important;
+}
+html body main.mct-home-final .mct-project-link-icon{
+ flex:none!important;
+ display:grid!important;place-items:center!important;
+ width:35px!important;height:35px!important;
+ background:#d7eceb!important;
+ color:#165c68!important;
+ border-radius:8px!important;
+ font-size:20px!important;
+}
+html body main.mct-home-final a.mct-home-project-link span:nth-child(2){
+ min-width:0!important;flex:1 1 auto!important;
+ display:flex!important;flex-direction:column!important;gap:0!important;
+}
+html body main.mct-home-final a.mct-home-project-link strong{
+ font:850 14.5px/1.35 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final a.mct-home-project-link small{
+ font:600 11px/1.45 Manrope,Arial,sans-serif!important;
+ color:#57717e!important;
+}
+html body main.mct-home-final .mct-project-link-arrow{
+ font:850 20px/1 Manrope,Arial,sans-serif!important;
+ color:#16787c!important;
+}
+html body main.mct-home-final>section.mct-home-free{
+ margin-top:13px!important;
+}
+@media(max-width:990px){
+ html body main.mct-home-final>section.mct-home-essentials{
+  grid-template-columns:1fr!important;
+  width:calc(100% - 30px)!important;
+ }
+ html body main.mct-home-final .mct-home-essentials-aside{
+  display:grid!important;grid-template-columns:minmax(0,1.5fr) minmax(200px,1fr)!important;
+  align-items:stretch!important;
+ }
+ html body main.mct-home-final #mct-home-offer-slot{height:100%!important}
+}
+@media(max-width:640px){
+ html body main.mct-home-final>section.mct-home-essentials{
+  grid-template-columns:1fr!important;
+  width:calc(100% - 24px)!important;
+  margin:6px auto 13px!important;
+  gap:10px!important;
+ }
+ html body main.mct-home-final .mct-home-essentials-preview .mct-live-head{padding:12px!important}
+ html body main.mct-home-final .mct-home-essentials-preview .mct-live-inner{
+  grid-template-columns:1fr!important;padding:11px!important
+ }
+ html body main.mct-home-final .mct-home-essentials-aside{
+  display:flex!important;flex-direction:column!important;gap:10px!important;
+ }
+ html body main.mct-home-final .mct-first-free-banner-home{padding:15px!important}
+ html body main.mct-home-final .mct-first-free-banner-home .mct-offer-actions{align-items:flex-start!important}
+ html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list li{font-size:12px!important}
+}
