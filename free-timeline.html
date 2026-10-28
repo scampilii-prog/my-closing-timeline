@@ -1218,17 +1218,19 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .m
  <button type="button" id="timeline-copy-picture" class="mct-free-share-primary">▣ Copy Timeline</button>
  <button type="button" id="deadline-email-btn" class="mct-free-share-mail">✉ Open in Mail</button>
 </div>
-<div class="mct-free-share-quiet" aria-label="Optional tools">
- <button type="button" id="deadline-print" class="mct-free-share-text">Save PDF / Print</button>
- <button type="button" id="mct-calendar-action" class="mct-free-share-text" aria-controls="mct-calendar-panel" aria-expanded="false">Calendar &amp; Reminders</button>
- <button type="button" id="mct-alert-action" hidden tabindex="-1" aria-controls="mct-calendar-panel" aria-expanded="false">Reminder options</button>
- <details class="mct-free-more-share"><summary>More tools</summary>
-  <div class="mct-free-extra-share">
-   <button type="button" id="timeline-download-picture">Download image</button>
-   <button type="button" id="timeline-view-picture">View timeline</button>
-   <button type="button" id="mct-email-preview-trigger">Preview formatted email</button>
-  </div>
- </details>
+<div class="mct-free-share-quiet mct-free-pro-locked" aria-label="PRO features preview">
+ <div class="mct-free-pro-buttons">
+  <button type="button" id="deadline-print" class="mct-free-share-text" disabled aria-describedby="mct-free-pro-note" title="Available in PRO">Save PDF / Print <span class="mct-pro-lock" aria-hidden="true">PRO</span></button>
+  <button type="button" id="mct-calendar-action" class="mct-free-share-text" disabled aria-controls="mct-calendar-panel" aria-expanded="false" aria-describedby="mct-free-pro-note" title="Available in PRO">Calendar &amp; Reminders <span class="mct-pro-lock" aria-hidden="true">PRO</span></button>
+  <button type="button" class="mct-free-share-text mct-free-more-locked" disabled aria-describedby="mct-free-pro-note" title="Available in PRO">▸ More Tools <span class="mct-pro-lock" aria-hidden="true">PRO</span></button>
+ </div>
+ <p class="mct-free-pro-note" id="mct-free-pro-note"><strong>PRO features.</strong> Available with a Closing Credit. <a href="/pricing.html#pro-offers">Explore PRO</a></p>
+</div>
+<div hidden aria-hidden="true" class="mct-free-share-internal">
+ <button type="button" id="mct-alert-action" disabled aria-controls="mct-calendar-panel" aria-expanded="false">Reminder options</button>
+ <button type="button" id="timeline-download-picture" disabled>Download image</button>
+ <button type="button" id="timeline-view-picture" disabled>View timeline</button>
+ <button type="button" id="mct-email-preview-trigger" disabled>Preview formatted email</button>
 </div>
 <p class="mct-mail-signature-help">Your email app adds your own signature if configured. No sender names or personal details are stored here.</p>
 <section class="mct-calendar-panel" id="mct-calendar-panel" hidden aria-labelledby="mct-calendar-title">
@@ -1687,5 +1689,5 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .f
  }
 }
 </style>
-<link rel="stylesheet" href="/assets/mct-free-share-refined-20261028.css?v=4">
-<script src="/assets/mct-private-pdf-20261028.js?v=2" defer></script><script src="/assets/mct-first-free-20261028.js?v=1" defer></script></body></html>
+<link rel="stylesheet" href="/assets/mct-free-share-refined-20261028.css?v=5">
+<script src="/assets/mct-first-free-20261028.js?v=1" defer></script></body></html>
