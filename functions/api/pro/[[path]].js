@@ -120,7 +120,7 @@ export async function onRequest(context){
   const hash=await digest(token);const match=await db.prepare("SELECT user_id FROM email_verifications WHERE token_hash=? AND expires_at>?").bind(hash,now()).first();
   if(!match)return error("Verification link is expired or has already been used",410);
   await db.batch([db.prepare("UPDATE users SET verified=1 WHERE id=?").bind(match.user_id),db.prepare("DELETE FROM email_verifications WHERE token_hash=?").bind(hash)]);
-  return new Response(null,{status:303,headers:{Location:"/pro-get-started.html?verified=1","Set-Cookie":await newSession(db,match.user_id),"Cache-Control":"no-store"}});
+  return new Response(null,{status:303,headers:{Location:"/pro-activate.html?verified=1","Set-Cookie":await newSession(db,match.user_id),"Cache-Control":"no-store"}});
  }
  if(req.method==="GET"&&route==="me"){
   const user=await getAuth(req,db);if(!user)return reply({authenticated:false});
