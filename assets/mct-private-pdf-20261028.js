@@ -86,6 +86,12 @@ function createFillablePdf(info){
  pdf+='trailer\n<< /Size '+objects.length+' /Root '+catalog+' 0 R >>\nstartxref\n'+pos+'\n%%EOF';
  return new Blob([pdf],{type:'application/pdf'});
 }
+// Owner demo uses the identical local-only generator; no network request is made.
+window.MCTPrivatePDFCreateBlob=function(info){
+ const ref=safeRef(String(info?.reference||'').toUpperCase());
+ if(ref==='CL-NOT-SET')throw Error('A valid private reference is required');
+ return createFillablePdf({...info,reference:ref});
+};
 window.MCTPrivatePDFDownload=function(info){
   const ref=safeRef(String(info?.reference||'').toUpperCase());
   if(ref==='CL-NOT-SET')throw Error('A valid private reference is required');
