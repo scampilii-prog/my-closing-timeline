@@ -3,6 +3,12 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — HOME: orientación inmediata del nuevo visitante (28-oct-2026)
+- En `index.html` el recuadro CENTRAL de HOME (`#mct-first-free-offer`, arriba de Beyond Real Estate) ahora incluye un distintivo verde **START HERE** y explica claramente dos opciones ALTERNATIVAS: abrir el Realtor FREE Timeline sin registro o solicitar un código del primer Realtor PRO Closing gratis sujeto a verificación/aprobación. Bajo ellas figura `Already have a code? Redeem & start`.
+- Mantener título **Your First PRO Closing Could Be FREE.**, el botón Beyond Real Estate debajo y la guía Privacy First de la derecha. No agregar un segundo recuadro introductorio redundante.
+- Cambios guardados solo en `index.html` + changelog. GitHub commit `1117b112b1871289493ae245b9699118d6cde0b5`; destinos existentes y único identificador de tarjeta comprobados. **Cloudflare/browser QA no verificados.** HOME pública sigue protegida por middleware, salvo propietario con sesión activa.
+- Enlace: https://myclosingtimeline.com/?mct_refresh=start-here-20261028#home-essentials
+
 ## WEBSITE 16 — Actualización 28-oct-2026 · después de Website 15
 - **Se continuó `main`, sin rehacer la web.** Los documentos maestros fueron leídos antes de cambiar archivos.
 - **Other Projects FREE ya tiene un planificador de navegador para pruebas:** Step 1 referencia privada + inicio + fin opcional; Step 2 hasta 8 tareas editables, fechas, Done/Remove, resumen copiable y calendario .ics local. Ninguna tarea se sube ni se guarda en cuenta; recargar borra FREE.
