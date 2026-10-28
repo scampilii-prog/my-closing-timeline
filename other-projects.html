@@ -4,12 +4,12 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width,initial-scale=1">
  <title>My Project Timeline | Other Projects · FREE &amp; PRO Preview</title>
- <meta name="description" content="Explore My Project Timeline: a planned flexible FREE and PRO project planner for business, construction and personal projects.">
+ <meta name="description" content="Explore FREE project tasks and the browser-only PRO follow-up demo for businesses, services and personal projects. No payment required.">
  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
  <link rel="stylesheet" href="/assets/unified-workflow.css?v=3">
  <link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11">
- <link rel="stylesheet" href="/assets/mpt-task-demo-20261028.css?v=1">
+ <link rel="stylesheet" href="/assets/mpt-task-demo-20261028.css?v=16">
  <style>
  :root{--navy:#102c43;--teal:#196e76;--gold:#eac68b;--ink:#193e52}
  *{box-sizing:border-box}
@@ -66,7 +66,7 @@
  @media(max-width:800px){.mpt-choices{grid-template-columns:1fr}.mpt-steps{grid-template-columns:1fr}.mpt-hero{padding:45px 22px 52px}.mpt-intro,.mpt-section{padding:20px}.mpt-card{padding:20px}}
  </style>
  <script src="/assets/mct-header-height-20261027.js?v=1" defer></script>
- <script src="/assets/mpt-project-task-demo-20261028.js?v=2" defer></script>
+ <script src="/assets/mpt-project-task-demo-20261028.js?v=16" defer></script>
 <style id="mpt-twenty-followup-samples-20261028">
 /* Other Projects: read-only examples, not FREE presets or live PRO promises. */
 html body .mpt-pro-followup-link{display:block!important;margin:10px 0 0!important;color:#3a6070!important;font:700 13px/1.6 Manrope,Arial,sans-serif!important}
@@ -164,15 +164,15 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
 <main class="mpt-main">
  <section class="mpt-intro" aria-labelledby="mpt-choose-title">
   <h2 id="mpt-choose-title">Choose the project experience that fits you</h2>
-  <p>FREE will let you prepare an editable project timeline without an account. PRO is planned to add saved projects, ongoing follow-up and a larger task checklist. The new project tools are being prepared; they are <strong>not yet open for transactions or payments</strong>.</p>
+  <p>Try the FREE project planner without an account and explore the browser-only PRO follow-up demonstration. <strong>Account-based Other Projects, credits and payments are not yet available.</strong></p>
   <div class="mpt-choices">
    <article class="mpt-card" id="project-free">
     <div class="mpt-card-head"><span class="mpt-card-type">PROJECT TIMELINE FREE</span><span class="mpt-pill">COMING NEXT</span></div>
     <h3>Start with your own tasks</h3>
     <p>No Realtor paperwork or preset closing deadlines.</p>
-    <ul><li>Step 1 · Project name, owner and schedule</li><li>Step 2 · Up to 8 tasks with custom dates</li><li>Print, email and calendar options planned</li><li>No login required for FREE</li></ul>
+    <ul><li>Step 1 · Private project reference and schedule</li><li>Step 2 · Up to 8 tasks with custom dates</li><li>Print, email and calendar options planned</li><li>No login required for FREE</li></ul>
     <a class="mpt-button" href="#mpt-free-preview">Explore FREE Preview ↓</a>
-    <span class="mpt-caption">Preview of the planned workflow — not yet an editable project.</span>
+    <span class="mpt-caption">Try Step 1 and Step 2 in your browser now. No account, cloud saving or client details.</span>
    </article>
    <article class="mpt-card pro" id="project-pro">
     <div class="mpt-card-head"><span class="mpt-card-type">PROJECT TIMELINE PRO</span><span class="mpt-pill">COMING NEXT</span></div>
@@ -194,14 +194,24 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
   </div>
 <div class="mpt-demo-board" id="mpt-free-task-demo" aria-labelledby="mpt-free-demo-title">
  <div class="mpt-demo-head"><div><span class="mpt-demo-eyebrow">INTERACTIVE FREE PREVIEW · NO ACCOUNT</span><h3 id="mpt-free-demo-title">Try your own task list</h3><p>Add up to <strong>8 tasks</strong> with dates you choose. Mark them done or remove them. This FREE preview <strong>resets when you reload</strong>.</p></div><span class="mpt-demo-count" id="mpt-free-count">0 / 8 tasks</span></div>
+ <div class="mpt-free-project-meta" aria-label="Step 1: basic project details">
+  <div class="mpt-demo-subheading"><span>STEP 1</span><strong>Project details</strong><small>Use a private reference, not a client or company name.</small></div>
+  <div class="mpt-free-project-grid">
+   <label for="mpt-free-project-ref">Private project reference<input id="mpt-free-project-ref" type="text" maxlength="40" placeholder="e.g., PRJ-2026-01" autocomplete="off"></label>
+   <label for="mpt-free-project-start">Project start<input id="mpt-free-project-start" type="date"></label>
+   <label for="mpt-free-project-end">Optional finish date<input id="mpt-free-project-end" type="date"></label>
+  </div>
+ </div>
+ <div class="mpt-demo-subheading"><span>STEP 2</span><strong>Your tasks and dates</strong><small>Up to eight tasks; no mandatory suggestions.</small></div>
  <form id="mpt-free-demo-form" class="mpt-demo-form" autocomplete="off">
   <label for="mpt-free-task-name">Your task <input id="mpt-free-task-name" type="text" maxlength="140" required placeholder="e.g., Confirm supplier delivery"></label>
   <label for="mpt-free-task-date">Due date <input id="mpt-free-task-date" type="date" required></label>
   <button id="mpt-free-add" type="submit" class="mpt-demo-primary">+ Add FREE task</button>
  </form>
- <div class="mpt-demo-toolbar"><p id="mpt-free-message" role="status" aria-live="polite">Enter tasks for your own activity; nothing is preselected.</p><button id="mpt-free-clear" type="button" class="mpt-demo-secondary">Clear FREE list</button></div>
+ <div class="mpt-demo-toolbar"><p id="mpt-free-message" role="status" aria-live="polite">Enter tasks for your own activity; nothing is preselected.</p><div class="mpt-demo-toolbar-buttons"><button id="mpt-free-calendar" type="button" class="mpt-demo-secondary">Download calendar</button><button id="mpt-free-copy" type="button" class="mpt-demo-secondary">Copy summary</button><button id="mpt-free-clear" type="button" class="mpt-demo-secondary">Clear FREE list</button></div></div>
  <div class="mpt-demo-table-scroll"><table class="mpt-demo-table" aria-label="Your FREE preview tasks"><thead><tr><th scope="col">Your task</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead><tbody id="mpt-free-demo-body"><tr><td colspan="4">You can try this task list when scripts load.</td></tr></tbody></table></div>
- <p class="mpt-demo-security">Demo only. Do not enter client names, addresses, confidential records or payment details. FREE preview data is not uploaded or saved.</p>
+ <div class="mpt-free-summary" id="mpt-free-summary" aria-live="polite">Add project details or tasks to see your schedule summary.</div>
+ <p class="mpt-demo-security">Working browser-only FREE planner, not an online account: this page does not upload or save project tasks. Reloading clears them. The calendar download and copied summary are generated locally. Do not enter client names, addresses, confidential records or payment details.</p>
 </div>
   <div class="mpt-workmode-explainer" aria-label="How your future project tasks will work">
    <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR BUSINESS</span><h3>You create the tasks</h3><p>Write tasks that fit your trade, profession or project. Nothing is compulsory.</p></div>
@@ -238,11 +248,11 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
     <div class="mpt-followup-copy">
      <span class="mpt-followup-kicker">PRO · STEP 3 FOLLOW-UP PREVIEW</span>
      <h3 id="mpt-followup-title">20 tasks worth keeping track of</h3>
-     <p><strong>Your business defines the checklist.</strong> These 20 tasks are illustrations, not required templates. The planned PRO Step 3 will let every customer create unlimited tasks for their own activity, including <strong>one-time, weekly and monthly follow-ups</strong>, and keep tracking them until their chosen end date — or for an ongoing business with <strong>no end date</strong>.</p>
+     <p><strong>Your business defines the checklist.</strong> These 20 tasks are illustrations, not required templates. The planned PRO Step 3 will let every customer create unlimited tasks for their own activity, including <strong>one-time, daily, weekly and monthly follow-ups</strong>, and keep tracking them until their chosen end date — or for an ongoing business with <strong>no end date</strong>.</p>
     </div>
     <div class="mpt-followup-value"><strong>20</strong><span>sample follow-up tasks</span></div>
    </div>
-   <div class="mpt-task-frequency-preview" aria-label="Examples of future task repeat schedules"><span class="mpt-frequency-label">PLANNED PRO REPEAT OPTIONS</span><span class="mpt-frequency-chip">One-time task</span><span class="mpt-frequency-chip">Every week</span><span class="mpt-frequency-chip">Every month</span><span class="mpt-frequency-chip">Until a date or ongoing</span></div>
+   <div class="mpt-task-frequency-preview" aria-label="Examples of future task repeat schedules"><span class="mpt-frequency-label">PLANNED PRO REPEAT OPTIONS</span><span class="mpt-frequency-chip">One-time task</span><span class="mpt-frequency-chip">Every day</span><span class="mpt-frequency-chip">Every week</span><span class="mpt-frequency-chip">Every month</span><span class="mpt-frequency-chip">Until a date or ongoing</span></div>
    <p class="mpt-frequency-explanation">Set the repeat schedule for each task yourself. A task may repeat weekly or monthly, even if your project has no planned finish date. Completing one occurrence should not cancel future reminders.</p>
    <div class="mpt-followup-groups">
    <div class="mpt-followup-group">
@@ -295,36 +305,39 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
  </section>
  <section class="mpt-section" id="mpt-pro-preview" aria-labelledby="mpt-pro-title">
   <h2 id="mpt-pro-title">PRO · Project management with follow-up</h2>
-  <p><strong>Your tasks. Your business. Your schedule.</strong> PRO is planned to let each customer create and edit as many tasks as needed <strong>within each project</strong>, set responsibilities and due dates, and choose whether a task happens <strong>once, every week or every month</strong>. The customer will be able to track each occurrence independently and follow up until a chosen completion date — or keep an activity <strong>ongoing with no fixed end date</strong>. Every business sets its own tasks and repeat schedules; suggestions are optional.</p>
+  <p><strong>Your tasks. Your business. Your schedule.</strong> PRO is planned to let each customer create and edit as many tasks as needed <strong>within each project</strong>, set responsibilities and due dates, and choose whether a task happens <strong>once, every day, every week or every month</strong>. The customer will be able to track each occurrence independently and follow up until a chosen completion date — or keep an activity <strong>ongoing with no fixed end date</strong>. Every business sets its own tasks and repeat schedules; suggestions are optional.</p>
 <div class="mpt-demo-board mpt-pro-demo" id="mpt-pro-task-demo" aria-labelledby="mpt-pro-demo-title">
- <div class="mpt-demo-head"><div><span class="mpt-demo-eyebrow">INTERACTIVE PRO PREVIEW · NO PAYMENT</span><h3 id="mpt-pro-demo-title">Your follow-up table — try it here</h3><p>Build a custom checklist for your activity. Choose <strong>one-time, weekly or monthly</strong> tasks and a <strong>1-month, 3-month, 1-year or ongoing</strong> project plan.</p></div><span class="mpt-demo-demo-tag">BROWSER-ONLY TEST</span></div>
+ <div class="mpt-demo-head"><div><span class="mpt-demo-eyebrow">INTERACTIVE PRO PREVIEW · NO PAYMENT</span><h3 id="mpt-pro-demo-title">Your follow-up table — try it here</h3><p>Build a custom checklist for your activity. Choose <strong>one-time, daily, weekly or monthly</strong> tasks and a <strong>1-month, 3-month, 1-year or ongoing</strong> project plan.</p></div><span class="mpt-demo-demo-tag">BROWSER-ONLY TEST</span></div>
  <div class="mpt-plan-controls" role="group" aria-label="Choose your PRO project planning period">
   <div class="mpt-plan-start"><label for="mpt-pro-plan-start">Project start date</label><input id="mpt-pro-plan-start" type="date"></div>
   <div class="mpt-plan-horizons"><span class="mpt-plan-label">Choose your planning period</span><div class="mpt-plan-period-buttons">
-   <button type="button" class="mpt-demo-period" data-mpt-horizon="1m" aria-pressed="true"><strong>1 month</strong><span>1 credit tier</span><small>$19.90*</small></button>
-   <button type="button" class="mpt-demo-period" data-mpt-horizon="3m" aria-pressed="false"><strong>3 months</strong><span>2 credit tier</span><small>$34.90*</small></button>
-   <button type="button" class="mpt-demo-period" data-mpt-horizon="12m" aria-pressed="false"><strong>1 year</strong><span>5 credit tier</span><small>$84.90*</small></button>
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="1m" aria-pressed="true"><strong>1 month</strong><span>Duration</span><small>Planning only</small></button>
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="3m" aria-pressed="false"><strong>3 months</strong><span>Duration</span><small>Planning only</small></button>
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="12m" aria-pressed="false"><strong>1 year</strong><span>Duration</span><small>Planning only</small></button>
   </div></div>
   <label class="mpt-plan-ongoing"><input id="mpt-pro-ongoing" type="checkbox"><span>Ongoing — no end date</span></label>
   <div class="mpt-plan-custom"><label for="mpt-pro-enddate">Or choose an exact end date</label><div><input id="mpt-pro-enddate" type="date"><button id="mpt-pro-set-end" type="button" class="mpt-demo-secondary">Set date</button></div></div>
   <p class="mpt-plan-summary" id="mpt-pro-horizon-label" aria-live="polite">Plan until one month after your start date</p>
-  <p class="mpt-plan-offer-info" id="mpt-pro-offer-info" aria-live="polite">*Proposed promotion: 1 project-credit tier, using the $19.90 Real Estate LAUNCH90 price as a reference.</p>
-  <p class="mpt-plan-offer-terms">*Illustrative LAUNCH90 equivalent prices from Real Estate PRO: <strong>1 credit $19.90 · 2 credits $34.90 · 5 credits $84.90.</strong> Credits would represent separate projects; <strong>months control planning duration, not credit consumption.</strong> Other Projects plans have not launched, cannot be purchased here, and the final prices and terms remain subject to approval.</p>
+  <p class="mpt-plan-offer-info" id="mpt-pro-offer-info" aria-live="polite">Planning duration is independent of credits. One credit per PRO project is planned; no Other Projects payment is active.</p>
+  <p class="mpt-plan-offer-terms"><strong>1 project = 1 future project credit.</strong> Choose a duration for planning only. One-time, daily, weekly and monthly follow-ups can continue as needed, including with no end date. Other Projects billing and final prices have not been approved or launched.</p>
  </div>
  <form id="mpt-pro-demo-form" class="mpt-demo-form" autocomplete="off">
   <label for="mpt-pro-task-name">Your follow-up task<input id="mpt-pro-task-name" type="text" maxlength="140" required placeholder="e.g., Review inventory"></label>
   <label for="mpt-pro-task-date">First due date<input id="mpt-pro-task-date" type="date" required></label>
-  <label for="mpt-pro-repeat">Repeat this task<select id="mpt-pro-repeat"><option value="once">One time</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></label>
+  <label for="mpt-pro-repeat">Repeat this task<select id="mpt-pro-repeat"><option value="once">One time</option><option value="daily">Every day</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></label>
+  <label for="mpt-pro-task-until">Optional last occurrence<input id="mpt-pro-task-until" type="date"></label>
+  <label for="mpt-pro-task-owner">Responsible role (not name)<input id="mpt-pro-task-owner" type="text" maxlength="60" placeholder="e.g., Site supervisor"></label>
+  <label for="mpt-pro-task-note">General note (no private data)<input id="mpt-pro-task-note" type="text" maxlength="180" placeholder="e.g., Review every Friday"></label>
   <button type="submit" class="mpt-demo-primary">+ Add follow-up</button>
  </form>
  <div class="mpt-demo-toolbar"><p id="mpt-pro-message" role="status" aria-live="polite">Your tasks are yours to choose. Complete an occurrence to schedule the next one.</p><div class="mpt-demo-toolbar-buttons"><button id="mpt-pro-examples" type="button" class="mpt-demo-secondary">Load 20 optional examples</button><button id="mpt-pro-clear" type="button" class="mpt-demo-secondary mpt-demo-clear">Clear this demo</button></div></div>
  <div class="mpt-demo-stat-grid"><div><strong id="mpt-pro-total">0</strong><span>Custom tasks</span></div><div><strong id="mpt-pro-due">0</strong><span>Due today</span></div><div><strong id="mpt-pro-overdue">0</strong><span>Overdue</span></div><div><strong id="mpt-pro-complete">0</strong><span>Completed tasks</span></div><div><strong id="mpt-pro-completions">0</strong><span>Occurrences finished</span></div></div>
- <div class="mpt-demo-table-scroll"><table class="mpt-demo-table mpt-pro-table" aria-label="Your editable PRO preview follow-up checklist"><thead><tr><th scope="col">Task you created</th><th scope="col">Next due</th><th scope="col">Frequency</th><th scope="col">Status</th><th scope="col">Done</th><th scope="col">Actions</th></tr></thead><tbody id="mpt-pro-demo-body"><tr><td colspan="6">You can try this project checklist when scripts load.</td></tr></tbody></table></div>
- <p class="mpt-demo-security"><strong>Local browser demonstration only.</strong> PRO demo tasks are saved only in this browser's local storage, not in a customer account or server; use Clear this demo to erase them. No emails, reminders, credits or payments occur. The illustrative monthly/quarterly/annual packages above are <strong>not subscriptions or available purchases.</strong> Do not enter identifying or confidential information. The actual Other Projects PRO service remains under development.</p>
+ <div class="mpt-demo-table-scroll"><table class="mpt-demo-table mpt-pro-table" aria-label="Your editable PRO preview follow-up checklist"><thead><tr><th scope="col">Task you created / history</th><th scope="col">Next due</th><th scope="col">Frequency</th><th scope="col">Responsible role</th><th scope="col">Notes</th><th scope="col">Repeat until</th><th scope="col">Status</th><th scope="col">Done</th><th scope="col">Actions</th></tr></thead><tbody id="mpt-pro-demo-body"><tr><td colspan="9">You can try this project checklist when scripts load.</td></tr></tbody></table></div>
+ <p class="mpt-demo-security"><strong>Local browser demonstration only.</strong> PRO demo tasks are saved only in this browser's local storage, not in a customer account or server; use Clear this demo to erase them. No emails, reminders, credits or payments occur. The period buttons are for planning, not subscription or credit-pack prices. Do not enter identifying or confidential information. The actual Other Projects PRO service remains under development.</p>
 </div>
   <p class="mpt-pro-followup-link"><strong>Want to see what PRO follow-up means?</strong> <a href="#mpt-followup-showcase">Review 20 sample tasks above ↑</a></p>
   <div class="mpt-steps">
-   <div class="mpt-step"><span>1</span><h3>1 Project Credit</h3><p>One project with saved timeline and follow-up access.</p></div>
+   <div class="mpt-step"><span>1</span><h3>1 Project Credit</h3><p>Planned: one project with its own timeline and follow-up access, regardless of planning duration.</p></div>
    <div class="mpt-step"><span>2</span><h3>2 Project Credits</h3><p>For customers managing two projects.</p></div>
    <div class="mpt-step"><span>5</span><h3>5 Project Credits</h3><p>For multiple jobs or clients. Same credit-pack concept as Real Estate PRO.</p></div>
   </div>
