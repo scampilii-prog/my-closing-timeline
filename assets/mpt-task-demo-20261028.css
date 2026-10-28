@@ -105,3 +105,29 @@ html body .mpt-demo-stat-grid span{color:#4d7280;font:750 10px/1.4 Manrope,Arial
  html body .mpt-demo-period{padding:8px 3px}
  html body .mpt-demo-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Website 16 — legible, editable FREE Steps 1–2 and richer PRO Step 3 preview. */
+html body .mpt-free-project-meta{margin:0 0 18px;padding:17px 18px;border:1px solid #c6deda;border-radius:10px;background:#fff}
+html body .mpt-demo-subheading{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:10px 0 13px;color:#1a485a}
+html body .mpt-demo-subheading>span{display:inline-flex;align-items:center;justify-content:center;padding:6px 9px;background:#164e63;color:#fff;border-radius:6px;font:850 11px/1.4 Manrope,Arial,sans-serif}
+html body .mpt-demo-subheading>strong{font:900 17px/1.35 Manrope,Arial,sans-serif}
+html body .mpt-demo-subheading>small{color:#657d87;font:650 12px/1.5 Manrope,Arial,sans-serif}
+html body .mpt-free-project-meta .mpt-demo-subheading{margin-top:0}
+html body .mpt-free-project-grid{display:grid;grid-template-columns:minmax(185px,1.35fr) repeat(2,minmax(140px,1fr));gap:12px}
+html body .mpt-free-project-grid label{display:flex;flex-direction:column;gap:6px;font:850 12px/1.45 Manrope,Arial,sans-serif;color:#254e62}
+html body .mpt-free-project-grid input{box-sizing:border-box;width:100%;min-height:43px;padding:9px 11px;background:#fff;color:#173e53;border:1px solid #bbcfd8;border-radius:7px;font:650 13px/1.4 Manrope,Arial,sans-serif}
+html body .mpt-free-project-grid input:focus{outline:2px solid #bd8c49;outline-offset:1px}
+html body .mpt-free-summary{margin-top:15px;padding:13px 15px;border-left:4px solid #217978;border-radius:8px;background:#e8f4f2;color:#1d5161;font:800 13px/1.65 Manrope,Arial,sans-serif}
+html body .mpt-pro-table{min-width:1430px;font-size:13px}
+html body .mpt-pro-table td input{min-width:130px}
+html body .mpt-pro-table td:nth-child(1){min-width:225px}
+html body .mpt-pro-table td:nth-child(5){min-width:215px}
+html body .mpt-pro-table td:nth-child(6){min-width:150px}
+html body .mpt-pro-task-title{display:flex;flex-direction:column;gap:7px}
+html body .mpt-demo-history{font:650 11.5px/1.5 Manrope,Arial,sans-serif;color:#2c6d70}
+html body .mpt-demo-history summary{cursor:pointer;font-weight:850;text-decoration:underline;text-underline-offset:3px}
+html body .mpt-demo-history ol{padding-left:19px;max-height:170px;overflow-y:auto;margin:8px 0 3px;color:#55727d;font-size:11.5px}
+html body .mpt-demo-history li{padding:2px 0}
+html body .mpt-demo-history summary:focus-visible{outline:2px solid #bd8c49;outline-offset:2px}
+@media(max-width:800px){html body .mpt-free-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}html body .mpt-free-project-grid label:first-child{grid-column:1/-1}}
+@media(max-width:550px){html body .mpt-free-project-grid{grid-template-columns:minmax(0,1fr)}html body .mpt-free-project-grid label:first-child{grid-column:auto}html body .mpt-free-project-meta{padding:13px}}
