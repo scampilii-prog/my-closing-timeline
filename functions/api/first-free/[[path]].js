@@ -20,6 +20,8 @@ async function tables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS first_free_requests(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,status TEXT NOT NULL DEFAULT 'pending_verification' CHECK(status IN ('pending_verification','pending','approved','sent','declined')),verification_hash TEXT,verification_expires INTEGER,verified_at TEXT,marketing_requested INTEGER NOT NULL DEFAULT 0 CHECK(marketing_requested IN (0,1)),promo_code_id TEXT UNIQUE REFERENCES promo_codes(id),requested_at TEXT NOT NULL DEFAULT (datetime('now')),updated_at INTEGER NOT NULL,sent_at TEXT,declined_at TEXT)").run();
  await db.prepare("CREATE INDEX IF NOT EXISTS idx_first_free_status ON first_free_requests(status,updated_at)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS marketing_consents(email TEXT PRIMARY KEY,source TEXT NOT NULL,consented_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+ // Discard abandoned, unverified requests older than 30 days.
+ await db.prepare("DELETE FROM first_free_requests WHERE status='pending_verification' AND updated_at<?").bind(now()-2592000).run();
 }
 async function throttle(db,k,v,max,seconds){
  const h=await sha(k+":"+v),r=await db.prepare("SELECT attempts,expires_at FROM auth_attempts WHERE rate_key=?").bind(h).first();
