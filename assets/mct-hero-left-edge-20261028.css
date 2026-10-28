@@ -1,11 +1,49 @@
-/* MyClosingTimeline · Website 14 · 2026-10-28
-   A single left reference for photographic banners and the approved wide page
-   content: 12px each side (100% minus 24px), at every viewport width.
-   Only presentation changes. Existing headers, forms and buttons remain intact. */
+/* MyClosingTimeline · Website 14 · approved centered canvas · 2026-10-28
+   Corrects the earlier accidental edge-to-edge page layout.
+   Only presentation: no changes to forms, calculations, routes or permissions.
+   All visible photographic headlines share the precise left edge of the
+   corresponding content panels at every viewport width. */
 
-/* Preserve the full-bleed photo; remove historic 1150/1180px centered inset. */
-html body section.intro.mct-photo-hero,
-html body section.intro.mct-photo-hero.mct-pro-photo-hero{
+:root{--mct-approved-page-width:1200px;--mct-approved-page-gutter:20px}
+
+/* 1. Consistent centered content panels on public header destinations. */
+html body main.mct-home-final>section#home-essentials.mct-home-essentials,
+html body main.mct-home-final>section#free-benefits.mct-home-free,
+html body main.mct-home-final>section#pro-benefits.mct-home-pro,
+html body.mct-layout-wide:not(.mct-layout-dashboard) main.workspace:not(.mct-home-final),
+html body.mct-layout-pro main.mct-pro-registration-main,
+html body.mct-layout-pricing main.workspace.mct-sales-page,
+html body.mct-layout-reading main.workspace,
+html body main.mpt-main,
+html body main.mct-invite-page,
+html body main.mct-privacy-workspace,
+html body.mct-layout-dashboard main.workspace{
+ box-sizing:border-box!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
+ min-width:0!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+
+/* Child sections should fill only their parent, never the viewport. */
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privacy-row,
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-first-free-banner-pro,
+html body.mct-layout-pro main.mct-pro-registration-main>section.card,
+html body.mct-layout-pricing main.workspace.mct-sales-page>section,
+html body.mct-layout-reading main.workspace>.home-like-panel,
+html body main.mpt-main>section,
+html body.mct-layout-wide main.workspace>section#contract-deadline-planner.fc-simple-timeline{
+ box-sizing:border-box!important;
+ width:100%!important;
+ max-width:none!important;
+ min-width:0!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+
+/* 2. Full-bleed photographic backdrop, CENTERED text container. */
+html body section.intro.mct-photo-hero{
  box-sizing:border-box!important;
  width:100%!important;
  max-width:none!important;
@@ -14,59 +52,41 @@ html body section.intro.mct-photo-hero.mct-pro-photo-hero{
  padding-left:0!important;
  padding-right:0!important;
  display:flex!important;
- align-items:center!important;
  justify-content:center!important;
+ align-items:center!important;
 }
-
-/* The complete text stack (kicker, title, description and benefits) starts
-   exactly at the same edge as the widest main page content. */
-html body section.intro.mct-photo-hero>.mct-photo-hero-content,
-html body section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+html body section.intro.mct-photo-hero>.mct-photo-hero-content{
  box-sizing:border-box!important;
- flex:0 1 calc(100% - 24px)!important;
- width:calc(100% - 24px)!important;
- max-width:none!important;
+ flex:0 1 min(var(--mct-approved-page-width), calc(100% - 40px))!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
  min-width:0!important;
  margin:0 auto!important;
- padding-left:0!important;
- padding-right:0!important;
+ padding:0!important;
  text-align:left!important;
 }
 
-/* HOME has its own two-column photographic headline, not mct-photo-hero. */
+/* 3. HOME uses a two-column photograph rather than .mct-photo-hero. */
 html body main.mct-home-final>section.mct-home-opening{
- padding-left:12px!important;
-}
-@media(max-width:600px){
- html body main.mct-home-final>section.mct-home-opening{
-  padding-left:12px!important;
-  padding-right:12px!important;
- }
+ box-sizing:border-box!important;
+ padding-left:max(20px,calc((100% - 1200px)/2))!important;
+ padding-right:max(20px,calc((100% - 1200px)/2))!important;
 }
 
-/* The Beyond Real Estate introductory banner uses a different class. */
+/* 4. Other Projects uses a separate hero without a photo. */
 html body section.mpt-hero{
  box-sizing:border-box!important;
- padding-left:12px!important;
-}
-@media(max-width:800px){
- html body section.mpt-hero{padding-left:12px!important;padding-right:12px!important}
+ padding-left:max(20px,calc((100% - 1200px)/2))!important;
+ padding-right:max(20px,calc((100% - 1200px)/2))!important;
 }
 
-/* The personal Admin Console intentionally hides its obsolete photo header.
-   Keep that decision, and align its visible test banner and main content with
-   the same outer column. Do not reveal, recreate, or restyle private controls. */
-html body.mct-layout-dashboard .mct-practice-banner{
+/* 5. Admin Console: retain deliberate hidden public photograph. Align the
+   actual private heading, practice notice and private navigation instead. */
+html body.mct-layout-dashboard .mct-practice-banner,
+html body .mct-admin-route{
  box-sizing:border-box!important;
- width:calc(100% - 24px)!important;
- max-width:none!important;
- margin-left:auto!important;
- margin-right:auto!important;
-}
-html body.mct-layout-dashboard main.workspace{
- box-sizing:border-box!important;
- width:calc(100% - 24px)!important;
- max-width:none!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
  margin-left:auto!important;
  margin-right:auto!important;
 }
@@ -77,14 +97,36 @@ html body.mct-layout-dashboard main.workspace>section#mct-admin-quick-practice-l
  margin-left:0!important;
  margin-right:0!important;
 }
+html body.mct-layout-dashboard section.intro.mct-photo-hero{
+ /* No display override: previous visibility decisions still control this. */
+}
 
-/* Make sure narrow devices retain the same line, without horizontal scroll. */
-@media(max-width:600px){
- html body section.intro.mct-photo-hero>.mct-photo-hero-content,
- html body section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+/* 6. Tablet and phone: identical 12px gutters, same left line in hero and body. */
+@media(max-width:700px){
+ html body main.mct-home-final>section#home-essentials.mct-home-essentials,
+ html body main.mct-home-final>section#free-benefits.mct-home-free,
+ html body main.mct-home-final>section#pro-benefits.mct-home-pro,
+ html body.mct-layout-wide:not(.mct-layout-dashboard) main.workspace:not(.mct-home-final),
+ html body.mct-layout-pro main.mct-pro-registration-main,
+ html body.mct-layout-pricing main.workspace.mct-sales-page,
+ html body.mct-layout-reading main.workspace,
+ html body main.mpt-main,
+ html body main.mct-invite-page,
+ html body main.mct-privacy-workspace,
+ html body.mct-layout-dashboard main.workspace,
+ html body.mct-layout-dashboard .mct-practice-banner,
+ html body .mct-admin-route{
+  width:calc(100% - 24px)!important;
+ }
+ html body section.intro.mct-photo-hero>.mct-photo-hero-content{
   flex-basis:calc(100% - 24px)!important;
   width:calc(100% - 24px)!important;
-  padding-left:0!important;
-  padding-right:0!important;
+  max-width:none!important;
+  padding:0!important;
+ }
+ html body main.mct-home-final>section.mct-home-opening,
+ html body section.mpt-hero{
+  padding-left:12px!important;
+  padding-right:12px!important;
  }
 }
