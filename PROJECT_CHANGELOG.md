@@ -4,6 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — Corrección de ubicación y nuevo tono de estrella
+- **Feedback propietario:** medallón anterior incorrecto. La estrella debe ir justo bajo el aviso verde START HERE y sobresalir apenas del borde SUPERIOR del primer recuadro, sin tocar hero/foto, tarjeta central ni título «Your First PRO Closing Could Be FREE.»
+- **Implementación HOME (`index.html`):** trasladado el bloque START HERE + estrella desde el kicker interno a un elemento posicionado respecto a `.mct-home-essentials-aside` (primera columna únicamente). Contenedor con `position:relative`, insignia centrada `top:-6px`, espacio reservado al inicio para dejar el título totalmente visible. Sin medallón circular; estrella grande independiente debajo del letrero.
+- **Color solicitado después:** sustituyó amarillo dorado por **cobre rosado suave** `#e7a990` con contorno marfil `#fce0d1` y sombra discreta. El verde del aviso permanece.
+- **Commits:** `b384503ab54637a55f41af78d1018b7c34378316`, `f8e0dc038aeb6ab620996b5b1ff93648c558043f`.
+- **QA estática:** un único START HERE, una estrella y se conserva el H2 y enlaces del producto. Verificación visual Cloudflare/Chrome/móvil aún pendiente.
+- **Revisión:** `https://myclosingtimeline.com/?mct_refresh=start-here-copper-20261028#home-essentials`.
+
 ## Website 16 — 2026-10-28 — STAR debajo de START HERE
 - **Petición:** dar mayor protagonismo al aviso verde START HERE de la primera tarjeta HOME con una estrella directamente debajo.
 - **Archivo cambiado:** `index.html` solamente. Se organizó `NEW TO MY CLOSING TIMELINE?` junto al bloque vertical START HERE + estrella dorada decorativa (`aria-hidden`). La etiqueta verde es más grande, con degradado y relieve discreto; la estrella dorada dentro de medallón claro queda justo bajo la etiqueta. Responsive hasta 420px.
