@@ -24,6 +24,13 @@ async function tables(db){
   try{await db.prepare("ALTER TABLE first_free_requests ADD COLUMN customer_type TEXT NOT NULL DEFAULT 'realtor' CHECK(customer_type IN ('realtor','other'))").run()}
   catch(e){if(!/duplicate column/i.test(String(e?.message||"")))throw e}
  }
+ // Only owner-driven test resets may override first-use eligibility.
+ const latest=await db.prepare("PRAGMA table_info(first_free_requests)").all();
+ if(!latest.results.some(x=>x.name==="test_reset")){
+  try{await db.prepare("ALTER TABLE first_free_requests ADD COLUMN test_reset INTEGER NOT NULL DEFAULT 0 CHECK(test_reset IN (0,1))").run()}
+  catch(e){if(!/duplicate column/i.test(String(e?.message||"")))throw e}
+ }
+ await db.prepare("CREATE TABLE IF NOT EXISTS first_free_test_reset_history(id TEXT PRIMARY KEY,email TEXT NOT NULL,previous_promo_code_id TEXT,previous_status TEXT NOT NULL,reset_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
  await db.prepare("CREATE INDEX IF NOT EXISTS idx_first_free_status ON first_free_requests(status,updated_at)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS marketing_consents(email TEXT PRIMARY KEY,source TEXT NOT NULL,consented_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
  // Discard abandoned, unverified requests older than 30 days.
@@ -49,7 +56,7 @@ async function eligible(db,email){
 async function issueVerifiedInvite(db,env,r){
  if(!r||r.status!=="pending"||!r.verified_at||r.promo_code_id)return "not_ready";
  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return "not_configured";
- if(!await eligible(db,r.email))return "ineligible";
+ if(!r.test_reset&&!await eligible(db,r.email))return "ineligible";
  const rid=r.id;
   const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending' AND verified_at IS NOT NULL AND promo_code_id IS NULL").bind(now(),rid).run();
   if(!lock.meta?.changes)return "busy";
@@ -99,8 +106,40 @@ export async function onRequest({request:req,env}){
  }
  if(req.method==="GET"&&route==="admin/list"){
   if(!await owner(req,env))return err("Owner access required.",403);
-  const d=await db.prepare("SELECT r.id,r.email,r.status,r.verified_at,r.marketing_requested,r.requested_at,r.sent_at,CASE WHEN p.uses>0 THEN 1 ELSE 0 END redeemed FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id ORDER BY r.requested_at DESC LIMIT 250").all();
+  const d=await db.prepare("SELECT r.id,r.email,r.status,r.verified_at,r.marketing_requested,r.requested_at,r.sent_at,r.test_reset,CASE WHEN p.uses>0 THEN 1 ELSE 0 END redeemed FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id ORDER BY r.requested_at DESC LIMIT 250").all();
   return json({ok:true,requests:d.results.map(x=>({...x,status:x.redeemed?"redeemed":x.status}))});
+ }
+ // Exceptional OWNER-ONLY practice reset. Does not delete any PRO closing,
+ // purchased credits, original account or marketing-consent records.
+ // Ordinary visitors cannot invoke it and automatic issuance still enforces
+ // one code per email until a deliberate owner reset.
+ if(req.method==="POST"&&route==="admin/reset-test"){
+  if(!await owner(req,env))return err("Owner access required.",403);
+  if(req.headers.get("Origin")!==u.origin)return err("Request origin not accepted.",403);
+  if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))return err("Expected JSON.",400);
+  if(Number(req.headers.get("Content-Length")||0)>3000)return err("Request too large.",400);
+  const data=await req.json(),id=String(data.id||""),email=String(data.email||"").trim().toLowerCase();
+  if(!/^[0-9a-f-]{36}$/.test(id)||!emailOK(email)||data.confirm!=="RESET FREE TEST: "+email)return err("Confirm the full test email to reset its benefit.",400);
+  const record=await db.prepare("SELECT id,email,status,verified_at,promo_code_id FROM first_free_requests WHERE id=? AND email=?").bind(id,email).first();
+  if(!record)return err("Invitation record not found.",404);
+  if(record.status==="approved")return err("A code is being issued. Retry after processing finishes.",409);
+  // Never modify paid customers by mistake. Use a separate unpaid practice
+  // account/email; do not alter an existing paid purchase or real closing.
+  const account=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();
+  if(account){
+   const paid=await db.prepare("SELECT id FROM purchases WHERE user_id=? LIMIT 1").bind(account.id).first();
+   if(paid)return err("This email has purchases. Use a separate unpaid practice email; customer purchase records cannot be reset.",409);
+  }
+  const updates=[
+   db.prepare("UPDATE first_free_requests SET status='pending_verification',verification_hash=NULL,verification_expires=NULL,verified_at=NULL,promo_code_id=NULL,test_reset=1,marketing_requested=0,sent_at=NULL,declined_at=NULL,updated_at=? WHERE id=? AND email=? AND status!='approved'").bind(now(),id,email),
+   db.prepare("INSERT INTO first_free_test_reset_history(id,email,previous_promo_code_id,previous_status) VALUES(?,?,?,?)").bind(guid(),email,record.promo_code_id||null,record.status)
+  ];
+  if(record.promo_code_id)updates.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(record.promo_code_id));
+  const changed=await db.batch(updates);
+  if(!changed[0]?.meta?.changes)return err("Practice reset was not completed.",409);
+  // Allow a new confirmation request for the exact reset email.
+  await db.prepare("DELETE FROM auth_attempts WHERE rate_key=?").bind(await sha("firstfree_email:"+email)).run();
+  return json({ok:true,message:"Practice benefit reset for this email. The former code was disabled; the email may request and confirm ONE new code. Saved closings and paid credits were not deleted."});
  }
  if(req.method!=="POST")return err("Not found.",404);
  if(req.headers.get("Origin")!==u.origin)return err("Request origin not accepted.",403);
