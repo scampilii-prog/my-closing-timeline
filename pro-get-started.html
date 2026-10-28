@@ -463,6 +463,7 @@ $("mct-pro-flow-gift").addEventListener("click",()=>{
 
 function invitationActions(){
  const gift=giftMode(),pending=!!savedGift();
+ $("mct-gift-check").hidden=gift&&!account;
  const actions=$("mct-gift-enroll-actions");actions.hidden=!gift;
  if(!gift)return;
  const signed=!!account;
