@@ -2019,6 +2019,91 @@ html body main#home-overview #home-essentials .mct-first-free-banner-home .mct-o
   grid-column:1!important;grid-row:3!important;
  }
 }
+
+/* WEBSITE 16 · fill the two companion cards with helpful, non-redundant
+   onboarding and lift the privacy content to the top. HOME ONLY. */
+html body main#home-overview #home-essentials .mct-home-essentials-preview .mct-home-preview-next{
+ box-sizing:border-box!important;grid-column:1/-1!important;display:flex!important;
+ align-items:center!important;justify-content:space-between!important;
+ flex-wrap:wrap!important;gap:12px 18px!important;min-width:0!important;
+ margin-top:5px!important;padding:15px 16px!important;
+ border:1px solid #b9d5d3!important;border-left:4px solid #207e7a!important;
+ border-radius:10px!important;background:linear-gradient(120deg,#eaf5f2,#f7fbf9)!important;
+}
+html body main#home-overview #home-essentials .mct-home-preview-next-copy{
+ display:flex!important;flex:1 1 210px!important;flex-direction:column!important;gap:3px!important;min-width:0!important;
+}
+html body main#home-overview #home-essentials .mct-home-preview-next-kicker{
+ color:#19736d!important;font:900 10.5px/1.4 Manrope,Arial,sans-serif!important;letter-spacing:.075em!important;
+}
+html body main#home-overview #home-essentials .mct-home-preview-next-copy>strong{
+ color:#173f52!important;font:900 clamp(15px,1.25vw,18px)/1.35 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials .mct-home-preview-next-copy>p{
+ margin:0!important;color:#456a75!important;font:650 12px/1.48 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials a.mct-home-preview-next-button{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;
+ flex:0 0 auto!important;min-height:43px!important;padding:11px 14px!important;
+ border:1px solid #165568!important;border-radius:8px!important;background:#164e62!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;text-decoration:none!important;
+ font:900 12.5px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials a.mct-home-preview-next-button:hover{
+ background:#0c6571!important;
+}
+html body main#home-overview #home-essentials a.mct-home-preview-next-button:focus-visible{
+ outline:3px solid #b88638!important;outline-offset:3px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-guide{
+ justify-content:flex-start!important;padding-top:17px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-guide-head{
+ margin-bottom:12px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-guide h3{
+ margin-bottom:12px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-guide{
+ display:flex!important;flex-direction:column!important;gap:9px!important;margin:12px 0 5px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row{
+ display:flex!important;align-items:flex-start!important;gap:11px!important;
+ padding:12px 13px!important;border:1px solid rgba(144,206,167,.5)!important;
+ border-radius:9px!important;background:rgba(36,114,89,.36)!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row.is-private{
+ border-color:rgba(231,199,152,.5)!important;background:rgba(88,69,80,.5)!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-icon{
+ box-sizing:border-box!important;display:grid!important;place-items:center!important;
+ flex:0 0 26px!important;width:26px!important;height:26px!important;
+ border-radius:50%!important;background:#dbefdf!important;color:#146d54!important;
+ font:900 15px/1.2 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row.is-private .mct-home-privacy-safe-icon{
+ background:#f0d8b3!important;color:#5b3c37!important;font-size:11px!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row>div{
+ display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row strong{
+ color:#fff6e9!important;font:900 12.5px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-safe-row div>span{
+ color:#eddad0!important;font:650 11.5px/1.42 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials .mct-home-privacy-guide-bottom{
+ margin-top:13px!important;
+}
+@media(max-width:760px){
+ html body main#home-overview #home-essentials .mct-home-preview-next-button{
+  width:100%!important;
+ }
+ html body main#home-overview #home-essentials .mct-home-preview-next{
+  padding:14px!important;
+ }
+}
 </style></head><body style="padding-top:0!important"><header id="mct-site-header" class="mct-unified-header" style="position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:999999!important;width:100%!important"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" aria-current="page">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="workspace mct-home-final" id="home-overview"><section class="mct-home-opening"><div class="mct-home-copy"><p class="mct-overline">CLOSINGS MADE SIMPLE</p><h1>One clear timeline.<br><span>A smoother closing for everyone.</span></h1><p>Turn a signed contract into a professional <strong>Closing Timeline Summary</strong>. Listing agents can share it with the buyer’s agent to help both sides track important dates and milestones from contract to closing.</p><div class="mct-home-ctas"><a class="mct-home-primary" href="free-timeline.html">Start Free Timeline →</a><a class="mct-home-secondary" href="#pro-benefits">Explore PRO Benefits ↓</a></div><nav class="mct-home-questions" aria-label="Explore benefits"><a href="#free-benefits">What does FREE include? ↓</a><a href="#share-summary">What does the other agent receive? ↓</a><a href="#pro-benefits">How does PRO help me? ↓</a><a href="#reminder-methods">How will I get reminders? ↓</a></nav></div><div class="mct-showcase-card mct-luxury-timeline"><div class="mct-showcase-head"><span class="mct-luxury-house" aria-hidden="true"><svg viewBox="0 0 44 44" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M4 21 22 5l18 16M9 18v21h26V18M17 39V27h10v12M17 16h4v5h-4zM25 16h4v5h-4z"/></svg></span><span>Closing Timeline <em>Summary</em></span></div><div class="mct-luxury-column-head"><span>#</span><span>TASK / MILESTONE</span><span>DAYS</span><span>DUE DATE</span></div><div class="mct-luxury-body"><div class="mct-luxury-row mct-luxury-effective"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Effective date</span><strong class="mct-luxury-days">0</strong><span class="mct-luxury-date">03/01/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">1</span><span class="mct-luxury-task">1st Deposit</span><strong class="mct-luxury-days">3</strong><span class="mct-luxury-date">03/04/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">2</span><span class="mct-luxury-task">Loan Application</span><strong class="mct-luxury-days">5</strong><span class="mct-luxury-date">03/06/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">3</span><span class="mct-luxury-task">Condo Application</span><strong class="mct-luxury-days">10</strong><span class="mct-luxury-date">03/11/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">4</span><span class="mct-luxury-task">Property Inspection deadline w/right to cancel</span><strong class="mct-luxury-days">15</strong><span class="mct-luxury-date">03/16/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">5</span><span class="mct-luxury-task">LOAN APPROVAL - Notify seller if NO LOAN APPROVAL</span><strong class="mct-luxury-days">30</strong><span class="mct-luxury-date">03/31/22</span></div><div class="mct-luxury-row mct-luxury-closing"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Closing date</span><strong class="mct-luxury-days">45</strong><span class="mct-luxury-date">04/15/22</span></div></div><small class="mct-luxury-caption">* Fictitious example only. Dates and deadlines must follow the signed contract.</small></div></section>
 <section class="mct-home-essentials" id="home-essentials" aria-label="Closing deadlines preview and quick links">
  
@@ -2059,7 +2144,15 @@ html body main#home-overview #home-essentials .mct-first-free-banner-home .mct-o
    <span class="mct-project-link-arrow" aria-hidden="true">→</span>
   </a>
  </aside>
- <div class="mct-home-essentials-preview"><div class="mct-home-reminders mct-home-deadlines-refined" aria-label="Fictitious examples of contractual deadlines"><div class="mct-live-head"><span>EXAMPLE · MARCH 2022</span><strong>Today &amp; Tomorrow</strong></div><div class="mct-live-inner"><div class="mct-live-day mct-live-today"><div class="mct-live-day-title"><strong>Due Today</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 16</span> Property inspection deadline with right to cancel</li><li><span>Mar 16</span> Condo application submission deadline (if applicable)</li></ul></div><div class="mct-live-day mct-live-tomorrow"><div class="mct-live-day-title"><strong>Tomorrow</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 17</span> Loan application documents deadline (if specified)</li><li><span>Mar 17</span> Insurance documentation deadline (if specified)</li></ul></div><p class="mct-live-disclaimer">* Example only. Verify deadlines against the signed contract. <a class="mct-live-start-link" href="/free-timeline.html">Build Your FREE Timeline →</a></p></div></div></div>
+ <div class="mct-home-essentials-preview"><div class="mct-home-reminders mct-home-deadlines-refined" aria-label="Fictitious examples of contractual deadlines"><div class="mct-live-head"><span>EXAMPLE · MARCH 2022</span><strong>Today &amp; Tomorrow</strong></div><div class="mct-live-inner"><div class="mct-live-day mct-live-today"><div class="mct-live-day-title"><strong>Due Today</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 16</span> Property inspection deadline with right to cancel</li><li><span>Mar 16</span> Condo application submission deadline (if applicable)</li></ul></div><div class="mct-live-day mct-live-tomorrow"><div class="mct-live-day-title"><strong>Tomorrow</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 17</span> Loan application documents deadline (if specified)</li><li><span>Mar 17</span> Insurance documentation deadline (if specified)</li></ul></div><p class="mct-live-disclaimer">* Example only. Verify every deadline against the signed contract.</p>
+<div class="mct-home-preview-next" aria-label="Start your own timeline">
+ <div class="mct-home-preview-next-copy">
+  <span class="mct-home-preview-next-kicker">YOUR NEXT STEP</span>
+  <strong>Turn this example into your own timeline.</strong>
+  <p>Enter contract dates, review each deadline and share a clear summary.</p>
+ </div>
+ <a class="mct-home-preview-next-button" href="/free-timeline.html">Create My FREE Timeline <span aria-hidden="true">→</span></a>
+</div></div></div></div>
  
  <aside class="mct-home-essentials-privacy" aria-label="How to protect private information">
  <div class="mct-home-privacy-guide">
@@ -2068,8 +2161,17 @@ html body main#home-overview #home-essentials .mct-first-free-banner-home .mct-o
    <span class="mct-home-privacy-guide-label">PRIVACY FIRST</span>
   </div>
   <h3>Keep personal details private.</h3>
-  <p>Use a closing reference instead of client names or property addresses in your online timeline.</p>
-  <p>For the private PDF, add personal details on your own device.</p>
+  <p>Use a private closing reference and generic tasks online. Complete personal details only in the PDF on your own device.</p>
+  <div class="mct-home-privacy-safe-guide" aria-label="What to enter online and what to keep offline">
+   <div class="mct-home-privacy-safe-row">
+    <span class="mct-home-privacy-safe-icon" aria-hidden="true">✓</span>
+    <div><strong>Use in your timeline</strong><span>Reference · Dates · General tasks</span></div>
+   </div>
+   <div class="mct-home-privacy-safe-row is-private">
+    <span class="mct-home-privacy-safe-icon" aria-hidden="true">●</span>
+    <div><strong>Keep on your own device</strong><span>Client names · Addresses · Prices · Documents</span></div>
+   </div>
+  </div>
   <div class="mct-home-privacy-guide-bottom">
    <p>Privacy safeguards are still being reviewed and improved.</p>
    <a href="/privacy.html#mct-privacy-policy">Read our privacy approach <span aria-hidden="true">→</span></a>
