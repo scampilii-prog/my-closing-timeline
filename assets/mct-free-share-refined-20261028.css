@@ -116,3 +116,34 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #m
 html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-extra-share>button{
  font-size:11px!important;color:#456f80!important;
 }
+
+/* Inset the entire Finish · Review & Share group from the right-panel frame. */
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-head,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-share-simple-guide,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .fc-simple-share.mct-free-share-actions,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-quiet,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-mail-signature-help,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-private-mail-note,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > #closing-email-feedback,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-calendar-panel {
+  box-sizing:border-box!important;
+  margin-left:23px!important;
+  margin-right:23px!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-head{
+  padding-left:0!important;
+  padding-right:0!important;
+}
+@media(max-width:580px){
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-head,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-share-simple-guide,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .fc-simple-share.mct-free-share-actions,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-quiet,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-mail-signature-help,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-private-mail-note,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > #closing-email-feedback,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-calendar-panel {
+  margin-left:15px!important;
+  margin-right:15px!important;
+ }
+}
