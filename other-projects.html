@@ -118,6 +118,22 @@ html body .mpt-preview-task-num{display:inline-block!important;min-width:32px!im
 html body #mpt-free-preview .mpt-preview-row:nth-child(2n){background:#f7fafb!important}
 html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12px!important;color:#5d7783!important}
 @media(max-width:850px){html body .mpt-workmode-explainer{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}html body .mpt-workmode{padding:15px!important}}
+
+/* Other Projects planned Step 3: weekly/monthly/one-time task recurrence, 
+   visibly customizable by each client. Read-only illustration only. */
+html body .mpt-task-frequency-preview{
+ display:flex!important;gap:8px!important;flex-wrap:wrap!important;
+ align-items:center!important;margin:0 0 10px!important;
+ padding:12px 14px!important;border:1px solid #cadfdf!important;
+ border-radius:10px!important;background:#ffffff!important;
+}
+html body .mpt-frequency-label{color:#226572!important;font:900 10px/1.45 Manrope,Arial,sans-serif!important;letter-spacing:.05em!important;margin-right:5px!important}
+html body .mpt-frequency-chip{display:inline-flex!important;padding:6px 10px!important;border-radius:50px!important;
+ border:1px solid #aed3d0!important;background:#e9f6f3!important;color:#125f5c!important;
+ font:800 11px/1.45 Manrope,Arial,sans-serif!important}
+html body .mpt-frequency-chip:last-child{background:#fff6e8!important;border-color:#e6cfaa!important;color:#77542d!important}
+html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!important;
+ font:600 12.5px/1.6 Manrope,Arial,sans-serif!important}
 </style></head>
 <body class="mct-layout-wide">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="other-projects.html" aria-current="page">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
@@ -209,10 +225,12 @@ html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12
     <div class="mpt-followup-copy">
      <span class="mpt-followup-kicker">PRO · STEP 3 FOLLOW-UP PREVIEW</span>
      <h3 id="mpt-followup-title">20 tasks worth keeping track of</h3>
-     <p><strong>Not a fixed task list.</strong> The 20 examples are only starting ideas. With the planned PRO Step 3, each customer would create <strong>unlimited tasks</strong> specific to their activity, add new tasks whenever needed, and track progress until completion — or continue working with <strong>no end date</strong>.</p>
+     <p><strong>Your business defines the checklist.</strong> These 20 tasks are illustrations, not required templates. The planned PRO Step 3 will let every customer create unlimited tasks for their own activity, including <strong>one-time, weekly and monthly follow-ups</strong>, and keep tracking them until their chosen end date — or for an ongoing business with <strong>no end date</strong>.</p>
     </div>
     <div class="mpt-followup-value"><strong>20</strong><span>sample follow-up tasks</span></div>
    </div>
+   <div class="mpt-task-frequency-preview" aria-label="Examples of future task repeat schedules"><span class="mpt-frequency-label">PLANNED PRO REPEAT OPTIONS</span><span class="mpt-frequency-chip">One-time task</span><span class="mpt-frequency-chip">Every week</span><span class="mpt-frequency-chip">Every month</span><span class="mpt-frequency-chip">Until a date or ongoing</span></div>
+   <p class="mpt-frequency-explanation">Set the repeat schedule for each task yourself. A task may repeat weekly or monthly, even if your project has no planned finish date. Completing one occurrence should not cancel future reminders.</p>
    <div class="mpt-followup-groups">
    <div class="mpt-followup-group">
     <div class="mpt-followup-group-head"><span>START THE PROJECT</span><h4>Planning & approvals</h4></div>
@@ -220,7 +238,7 @@ html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12
      <li><span class="mpt-followup-number" aria-hidden="true">01</span><span class="mpt-followup-detail"><strong>Confirm project scope and deliverables</strong><small>Clarify what work is included</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">02</span><span class="mpt-followup-detail"><strong>Schedule the kickoff meeting</strong><small>Agree on a start date</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">03</span><span class="mpt-followup-detail"><strong>Assign task owners</strong><small>Confirm who is responsible</small></span></li>
-     <li><span class="mpt-followup-number" aria-hidden="true">04</span><span class="mpt-followup-detail"><strong>Review budget and expenses</strong><small>Check estimated and approved costs</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">04</span><span class="mpt-followup-detail"><strong>Review budget and expenses</strong><small>Monthly example · Check estimated and approved costs</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">05</span><span class="mpt-followup-detail"><strong>Obtain necessary approvals</strong><small>Follow up on pending decisions</small></span></li>
     </ol>
    </div>
@@ -237,10 +255,10 @@ html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12
    <div class="mpt-followup-group">
     <div class="mpt-followup-group-head"><span>KEEP WORK MOVING</span><h4>Progress & quality</h4></div>
     <ol class="mpt-followup-items">
-     <li><span class="mpt-followup-number" aria-hidden="true">11</span><span class="mpt-followup-detail"><strong>Send progress updates</strong><small>Keep the customer informed</small></span></li>
-     <li><span class="mpt-followup-number" aria-hidden="true">12</span><span class="mpt-followup-detail"><strong>Review upcoming deadlines</strong><small>Check what is due next</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">11</span><span class="mpt-followup-detail"><strong>Send progress updates</strong><small>Weekly example · Keep the customer informed</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">12</span><span class="mpt-followup-detail"><strong>Review upcoming deadlines</strong><small>Weekly example · Check what is due next</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">13</span><span class="mpt-followup-detail"><strong>Follow up on open questions</strong><small>Get answers and decisions</small></span></li>
-     <li><span class="mpt-followup-number" aria-hidden="true">14</span><span class="mpt-followup-detail"><strong>Inspect work quality</strong><small>Identify corrections needed</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">14</span><span class="mpt-followup-detail"><strong>Inspect work quality</strong><small>Weekly example · Identify corrections needed</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">15</span><span class="mpt-followup-detail"><strong>Record changes to the project</strong><small>Confirm scope and schedule updates</small></span></li>
     </ol>
    </div>
@@ -249,14 +267,14 @@ html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12
     <ol class="mpt-followup-items">
      <li><span class="mpt-followup-number" aria-hidden="true">16</span><span class="mpt-followup-detail"><strong>Schedule a final review</strong><small>Arrange completion inspection</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">17</span><span class="mpt-followup-detail"><strong>Resolve outstanding issues</strong><small>Close open items and corrections</small></span></li>
-     <li><span class="mpt-followup-number" aria-hidden="true">18</span><span class="mpt-followup-detail"><strong>Check invoices and payments</strong><small>Follow up on pending balances</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">18</span><span class="mpt-followup-detail"><strong>Check invoices and payments</strong><small>Monthly example · Follow up on pending balances</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">19</span><span class="mpt-followup-detail"><strong>Request final approval</strong><small>Confirm customer sign-off</small></span></li>
      <li><span class="mpt-followup-number" aria-hidden="true">20</span><span class="mpt-followup-detail"><strong>Send a completion summary</strong><small>Document handover and next steps</small></span></li>
     </ol>
    </div>
    </div>
    <div class="mpt-followup-bottom">
-    <p><strong>Why PRO?</strong> FREE is planned for a simple schedule with up to 8 tasks. PRO is planned for unlimited customer-created tasks within each project, ongoing reminders and follow-up — for a job with a specific finish date or a business activity that continues indefinitely.</p>
+    <p><strong>Why PRO?</strong> FREE is planned for a simple schedule with up to 8 tasks. PRO is planned for unlimited customer-created tasks per project, with <strong>weekly or monthly repeating follow-ups</strong> (or one-time tasks). The customer chooses a finish date or keeps the project running indefinitely.</p>
     <a href="#mpt-pro-preview">See planned PRO features <span aria-hidden="true">↓</span></a>
    </div>
    <p class="mpt-followup-disclaimer">Illustrative, read-only sample. The Other Projects FREE and PRO tools, reminders, saving and billing are not available yet. No project will be created by this preview.</p>
@@ -264,7 +282,7 @@ html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12
  </section>
  <section class="mpt-section" id="mpt-pro-preview" aria-labelledby="mpt-pro-title">
   <h2 id="mpt-pro-title">PRO · Project management with follow-up</h2>
-  <p><strong>Your tasks. Your business. Your schedule.</strong> PRO is planned to let each customer create and edit as many tasks as needed, assign responsibilities, set target dates, update status and follow up regularly. A project may <strong>end on a date you choose</strong> or remain <strong>ongoing with no fixed end date</strong>. Suggestions will be optional, not mandatory templates.</p>
+  <p><strong>Your tasks. Your business. Your schedule.</strong> PRO is planned to let each customer create and edit as many tasks as needed <strong>within each project</strong>, set responsibilities and due dates, and choose whether a task happens <strong>once, every week or every month</strong>. The customer will be able to track each occurrence independently and follow up until a chosen completion date — or keep an activity <strong>ongoing with no fixed end date</strong>. Every business sets its own tasks and repeat schedules; suggestions are optional.</p>
   <p class="mpt-pro-followup-link"><strong>Want to see what PRO follow-up means?</strong> <a href="#mpt-followup-showcase">Review 20 sample tasks above ↑</a></p>
   <div class="mpt-steps">
    <div class="mpt-step"><span>1</span><h3>1 Project Credit</h3><p>One project with saved timeline and follow-up access.</p></div>
