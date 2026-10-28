@@ -2,14 +2,21 @@
 (function(){
  'use strict';
  const $=id=>document.getElementById(id),root=$('contract-deadline-planner');
- const input=$('mct-contract-form-input'),add=$('mct-contract-form-add');
+ let input=$('mct-contract-form-input');const add=$('mct-contract-form-add');
  const list=$('mct-contract-form-list'),feedback=$('mct-contract-form-feedback');
  const status=$('mct-contract-form-account-status'),hidden=$('deadline-contract-form');
  if(!root||!input||!add||!list||!feedback||!status||!hidden)return;
+ const formCategories=["Purchase Agreement","Contract Addendum","Condo Rider","HOA Addendum","Financing Addendum","Inspection Addendum","Lead Paint Disclosure","Seller Disclosure","Survey","Title Commitment","Estoppel","Loan Approval","Closing Disclosure","Settlement Statement","Other Generic Form"];
+ const templateCategories=["Standard Purchase","Condo / HOA","Cash Purchase","New Construction","Investment Purchase","Other Generic Package",...Array.from({length:20},(_,i)=>"Template Set "+String(i+1).padStart(2,"0"))];
+ // Replace free-text document entry with non-identifying categories for FREE and PRO.
+ const formSelector=document.createElement('select');formSelector.id=input.id;formSelector.setAttribute('aria-label','Choose a generic document type');
+ formSelector.append(new Option('Select document type',''));
+ for(const label of formCategories)formSelector.append(new Option(label,label));
+ input.replaceWith(formSelector);input=formSelector;
  const isFree=Number(root.dataset.freeTaskLimit||0)>0||location.pathname.endsWith('/free-timeline.html');
  const editor=$('mct-contract-forms-editor'),forms=[],templates=[];
  let authorized=false,revision=0,selectedId='',loading=true,busy=false;
- const clean=s=>String(s||'').replace(/\s+/g,' ').trim().slice(0,160);
+ const clean=value=>{const name=String(value||'').replace(/\s+/g,' ').trim();return formCategories.find(t=>t.toLocaleLowerCase('en')===name.toLocaleLowerCase('en'))||''};
  const contains=s=>forms.some(f=>f.toLocaleLowerCase('en')===s.toLocaleLowerCase('en'));
  const snapshot=()=>forms.slice();
  const tell=(message,state='')=>{status.textContent=message;status.dataset.state=state};
@@ -22,15 +29,11 @@
    const label=document.createElement('span');label.textContent=form;
    const edit=document.createElement('button');edit.type='button';edit.textContent='✎';
    edit.className='mct-form-rename';edit.setAttribute('aria-label','Edit '+form);
+   edit.textContent='Change';
    edit.addEventListener('click',()=>{
-    const proposed=prompt('Edit document name:',form);if(proposed===null)return;
-    const name=clean(proposed);
-    if(!name){feedback.textContent='A document name cannot be empty.';return}
-    if(name.toLocaleLowerCase('en')!==form.toLocaleLowerCase('en')&&contains(name)){
-     feedback.textContent='That name is already on this closing.';return
-    }
     const index=forms.indexOf(form);if(index<0)return;
-    forms[index]=name;revision++;redraw();feedback.textContent='Updated document name. Save a PRO template separately if you want to reuse this change.';
+    forms.splice(index,1);revision++;redraw();input.value=form;input.focus();
+    feedback.textContent='Choose a different generic document category and select Add.';
    });
    const del=document.createElement('button');del.type='button';del.textContent='×';
    del.setAttribute('aria-label','Remove '+form);
@@ -50,8 +53,8 @@
  }
  function addForm(){
   const name=clean(input.value);
-  if(!name){feedback.textContent='Enter a document name first.';input.focus();return}
-  if(contains(name)){feedback.textContent='Already in this closing.';input.select();return}
+  if(!name){feedback.textContent='Choose a generic document type. Do not enter personal information.';input.focus();return}
+  if(contains(name)){feedback.textContent='Already in this closing.';input.focus();return}
   forms.push(name);revision++;redraw();input.value='';
   feedback.textContent='Added '+name+' to this closing.';input.focus();
  }
@@ -65,9 +68,9 @@
   opts.append(heading,description);
  }
  const intro=editor&&editor.querySelector('.mct-contract-form-lead');
- if(intro)intro.textContent='Enter any contract, rider or addendum, then choose + Add. Edit or remove names as needed for this closing.';
+ if(intro)intro.textContent='Choose generic contract or addendum types. No buyer, seller or property details are collected here.';
  const hint=$('mct-contract-form-hint');
- if(hint)hint.textContent='Document names are reference notes, not legal deadlines. Confirm the signed contract before calculating dates.';
+ if(hint)hint.textContent='Document categories do not change contractual deadlines. Verify dates against the signed agreement.';
  const title=editor&&editor.querySelector('h5');
  if(title)title.firstChild.textContent='Contract Forms & Addenda ';
  window.MCTContractFormsGetLabels=snapshot;
@@ -79,17 +82,19 @@
  };
  if(isFree){
   loading=false;
-  tell('FREE · Add and remove documents during this visit. These names are not saved to an account. PRO members can save reusable templates.');
+  tell('FREE · Choose generic document types only. No personal names or addresses; nothing is saved to an account.');
   redraw();return;
  }
  const box=document.createElement('section');box.className='mct-template-tools';box.setAttribute('aria-label','Personal PRO contract form templates');
  box.innerHTML='<div class="mct-template-head"><strong>PRO · My Saved Form Templates</strong><span>Save a named collection to your account and reuse it on future closings.</span></div>'+
- '<div class="mct-template-row"><label>Template name<input id="mct-template-name" type="text" maxlength="100" autocomplete="off" placeholder="e.g., Condo purchase package"></label><button type="button" id="mct-template-save">Save as My Template</button></div>'+
+ '<div class="mct-template-row"><label>Template category<select id="mct-template-name" aria-label="Choose generic template name"></select></label><button type="button" id="mct-template-save">Save as My Template</button></div>'+
  '<div class="mct-template-row"><label>My saved templates<select id="mct-template-select"><option value="">Select a saved template</option></select></label><button type="button" id="mct-template-load">Load My Template</button><button type="button" id="mct-template-manage-toggle" aria-expanded="false">Manage Templates</button></div>'+
  '<div class="mct-template-manage" id="mct-template-manage" hidden><p>Select a saved template to rename/update, make it the default for new closings, or delete it.</p><div class="mct-template-manage-buttons"><button type="button" id="mct-template-update">Update Selected</button><button type="button" id="mct-template-default">Make Default</button><button type="button" id="mct-template-delete">Delete Template</button></div></div>'+
  '<p class="mct-template-help">Loading a template copies its names into this closing. Editing these names does not alter the saved template until you choose Update Selected.</p>';
  editor.insertBefore(box,status);
  const select=$('mct-template-select'),nameInput=$('mct-template-name'),save=$('mct-template-save');
+ nameInput.append(new Option('Choose template category',''));
+ for(const label of templateCategories)nameInput.append(new Option(label,label));
  const loadButton=$('mct-template-load'),manageButton=$('mct-template-manage-toggle'),manage=$('mct-template-manage');
  const update=$('mct-template-update'),setDefault=$('mct-template-default'),remove=$('mct-template-delete');
  const buttons=[save,loadButton,update,setDefault,remove];
@@ -112,7 +117,7 @@
  function storeTemplates(data){
   templates.length=0;
   for(const t of Array.isArray(data.templates)?data.templates:[]){
-   if(t&&typeof t.id==='string'&&Array.isArray(t.forms))templates.push(t);
+   if(t&&typeof t.id==='string'&&Array.isArray(t.forms))templates.push({...t,forms:t.forms.filter(v=>formCategories.includes(v))});
   }
   repaint();
  }
@@ -142,7 +147,7 @@
  });
  save.addEventListener('click',async()=>{
   const name=nameInput.value.trim();
-  if(!name){feedback.textContent='Name your template before saving.';nameInput.focus();return}
+  if(!templateCategories.includes(name)){feedback.textContent='Choose a generic template category.';nameInput.focus();return}
   if(!forms.length){feedback.textContent='Add at least one document to this closing before saving a template.';return}
   if(templates.some(t=>t.name.toLocaleLowerCase('en')===name.toLocaleLowerCase('en'))){
    feedback.textContent='That template already exists. Select it and use Manage Templates · Update Selected.';return;
@@ -165,7 +170,7 @@
  });
  update.addEventListener('click',async()=>{
   const t=current();if(!t)return;
-  const name=nameInput.value.trim();if(!name){feedback.textContent='Enter a template name.';return}
+  const name=nameInput.value.trim();if(!templateCategories.includes(name)){feedback.textContent='Choose a generic template category.';return}
   if(!confirm('Update "'+t.name+'" with this closing’s document list and the name "'+name+'"?'))return;
   const data=await request('save',{id:t.id,name,forms:snapshot()});
   if(data){selectedId=t.id;repaint();feedback.textContent='Updated saved template '+name+'.'}
