@@ -4,12 +4,20 @@
 > Este archivo reúne decisiones aprobadas de las conversaciones Website 1–14 y el estado contrastado con GitHub. **No equivale a certificación de producción.** En caso de discrepancia entre una decisión histórica y el código actual, inspeccionar el código y confirmar la decisión más reciente antes de actuar. Nunca dar por probados los servicios externos por la sola presencia del código.
 
 
-## Decisión más reciente — Website 15 (28 oct 2026): 1280px en TODAS las páginas
+## Historial anterior — Website 15: ampliación inicial a 1280px (SUPERADA por decisión 1420px)
 - **El propietario confirmó que HOME estaba demasiado estrecho.** Se aprueba un **ancho de contenido exterior máximo común de 1280px**, centrado, para HOME, FREE, PRO, Pricing, Other Projects, Help y páginas de Admin, privadas y auxiliares.
 - **No mantener HOME más estrecho que las demás páginas.** La regla anterior de 1140px corresponde al estado histórico de Website 14 y queda superada.
 - Implementado en el código: `assets/mct-hero-left-edge-20261028.css`, cargado con `?v=5` en 22 archivos HTML. Se mantienen las imágenes de fondo y se alinean sus textos con las tarjetas inferiores.
 - La apariencia responsive y el despliegue Cloudflare siguen **PENDIENTES de certificación visual**. No se alteraron funciones contractuales ni pagos.
 - **Siguiente tarea:** revisar el aspecto real (escritorio/móvil) de HOME, FREE, PRO, Pricing, Other Projects y Admin; comprobar alineación, tablas, márgenes y commit publicado. Corregir solo regresiones comprobadas.
+
+## DECISIÓN VIGENTE — Website 15 (28 oct 2026): todas las páginas a 1420px
+- El propietario confirmó expresamente: **“pon todas las paginas del mismo ancho de 1.420 pixeles”**. Es la instrucción de diseño más reciente y **reemplaza las anteriores medidas de 1140px y 1280px**.
+- Máximo uniforme del lienzo de contenido **1420px**, centrado y responsive (margen lateral de 20px en escritorio, 12px en móviles). HOME, FREE, PRO, Pricing, Help, Other Projects, Admin, invitaciones, paneles privados y páginas auxiliares deben usarlo.
+- Las fotografías de cabecera pueden conservar su fondo a todo lo ancho, pero los títulos han de alinearse con la izquierda de los paneles interiores de 1420px. No estirar tablas/campos ilegiblemente ni cambiar lógica.
+- Implementado en GitHub: `assets/mct-hero-left-edge-20261028.css` y versión de carga `?v=6` en 22 páginas HTML. Las páginas sin contenido sustantivo que redirigen (login legado, pro-plan, personal-sabatino.htm) no deben rediseñarse; proteger los cuadros de acceso privado.
+- **PENDIENTE:** prueba visual real en Cloudflare Pages, escritorio y móvil; el dominio no fue accesible durante la auditoría. No confundir archivos GitHub con despliegue verificado.
+- Siguiente tarea: contrastar la versión desplegada y revisar HOME/PRO lado a lado, después FREE, Pricing, Other Projects, Admin y páginas secundarias; corregir únicamente diferencias reales sin interferir con funciones.
 
 ## 1. Identidad y repositorio
 - Producto y dominio: **My Closing Timeline**, https://myclosingtimeline.com
