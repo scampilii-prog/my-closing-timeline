@@ -98,7 +98,7 @@ export async function onRequest({request:req,env}){
   if(!await throttle(db,"firstfree_owner","owner",25,3600))return err("Owner send limit reached.",429);
   const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending'").bind(now(),rid).run();
   if(!lock.meta?.changes)return err("Request is already being processed.",409);
-  const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-get-started.html#gift="+encodeURIComponent(t);
+  const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-activate.html#gift="+encodeURIComponent(t);
   try{
    await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,1,1,?,?)").bind(codeId,await sha(t),now()+2592000,r.email).run();
    await db.prepare("UPDATE first_free_requests SET promo_code_id=? WHERE id=? AND status='approved'").bind(codeId,rid).run();
