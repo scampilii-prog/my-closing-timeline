@@ -1,0 +1,68 @@
+/* Shared Step 1, Step 2 titles and contract day-count control — October 28, 2026 */
+html body #contract-deadline-planner .mct-unified-fields-title,
+html body #contract-deadline-planner .mct-step-two-heading{
+ box-sizing:border-box!important;width:100%!important;background:#edf5f7!important;
+ border:1px solid #cfdee4!important;border-left:5px solid #c5a16b!important;
+ border-radius:9px!important;padding:15px 17px!important;margin:16px 0 12px!important;
+ box-shadow:0 3px 12px rgba(15,47,68,.035)!important;font-family:Manrope,Arial,sans-serif!important
+}
+html body #contract-deadline-planner .mct-unified-fields-title{
+ display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:9px 12px!important
+}
+html body #contract-deadline-planner .mct-step-two-heading{
+ display:flex!important;align-items:flex-start!important;flex-direction:column!important;gap:7px!important
+}
+html body #contract-deadline-planner .mct-unified-fields-title .mct-step-label-text,
+html body #contract-deadline-planner .mct-step-two-heading>strong{
+ display:inline-flex!important;align-items:center!important;gap:10px!important;margin:0!important;
+ color:#17465a!important;font:850 clamp(17px,1.6vw,19px)/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:0!important;text-transform:uppercase!important
+}
+html body #contract-deadline-planner .mct-unified-fields-title>.mct-step-label-text + span,
+html body #contract-deadline-planner .mct-step-two-heading>span{
+ color:#405f71!important;font:650 14px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:0!important
+}
+html body #contract-deadline-planner .mct-step-medallion{
+ box-sizing:border-box!important;display:inline-flex!important;flex:0 0 32px!important;
+ align-items:center!important;justify-content:center!important;height:32px!important;width:32px!important;
+ min-width:32px!important;border:1px solid #207985!important;border-radius:50%!important;
+ background:#166676!important;color:#fff!important;font:850 17px/1 Manrope,Arial,sans-serif!important;
+ vertical-align:middle!important
+}
+html body #contract-deadline-planner .mct-day-count-picker{
+ box-sizing:border-box;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(245px,390px);
+ align-items:center;gap:10px 16px;padding:15px 17px;margin:9px 0 17px;
+ border:1px solid #b8d7d5;border-left:5px solid #1b8581;border-radius:10px;
+ background:#f1f9f7;color:#193d51;font-family:Manrope,Arial,sans-serif;scroll-margin-top:160px
+}
+html body #contract-deadline-planner .mct-day-count-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+html body #contract-deadline-planner .mct-day-count-copy strong{
+ color:#12666a;font:850 15px/1.35 Manrope,Arial,sans-serif;letter-spacing:.025em
+}
+html body #contract-deadline-planner .mct-day-count-copy span{
+ font:600 13px/1.4 Manrope,Arial,sans-serif;color:#4d6878
+}
+html body #contract-deadline-planner .mct-day-count-picker label{
+ display:flex;flex-direction:column;gap:6px;min-width:0;color:#244c60;
+ font:800 13px/1.35 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner #mct-contract-day-count{
+ display:block!important;box-sizing:border-box!important;min-width:0!important;width:100%!important;
+ max-width:100%!important;min-height:46px!important;padding:9px 12px!important;
+ border-radius:8px!important;border:2px solid #1b8581!important;
+ background:#fff!important;color:#12394b!important;cursor:pointer!important;
+ font:750 14px/1.4 Manrope,Arial,sans-serif!important
+}
+html body #contract-deadline-planner #mct-contract-day-count:focus-visible{outline:3px solid #95c9c9;outline-offset:2px}
+html body #contract-deadline-planner .mct-day-count-picker p{margin:0;grid-column:1/-1}
+html body #contract-deadline-planner #mct-day-count-help{color:#496875;font:550 12.5px/1.6 Manrope,Arial,sans-serif}
+html body #contract-deadline-planner #mct-day-count-help strong{font-weight:850;color:#1b5065}
+html body #contract-deadline-planner #mct-day-count-feedback{
+ padding:8px 11px;border-radius:7px;background:#e1f1ed;color:#126b58;
+ font:800 12px/1.5 Manrope,Arial,sans-serif
+}
+@media(max-width:790px){
+ html body #contract-deadline-planner .mct-day-count-picker{grid-template-columns:1fr;padding:13px 12px}
+ html body #contract-deadline-planner .mct-unified-fields-title,
+ html body #contract-deadline-planner .mct-step-two-heading{padding:12px 13px!important}
+}
