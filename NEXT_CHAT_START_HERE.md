@@ -3,6 +3,11 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — HOME: estrella bajo el aviso START HERE (28-oct-2026)
+- Última solicitud aprobada: primera tarjeta HOME START HERE en verde más visible y una **estrella dorada ★ inmediatamente debajo**, dentro de un pequeño medallón luminoso. Se aplicó en `index.html`, commit `063d0aab349b1522a3af991bd0abbb72b6bc6398`.
+- Preservar la presentación horizontal del intro, el bloque vertical etiqueta/estrella, los dos caminos Realtor FREE y primer PRO Closing gratis, y todos los cuadros restantes. Verificado solo estáticamente en GitHub; Cloudflare/móvil no certificados.
+- Ver https://myclosingtimeline.com/?mct_refresh=start-here-star-20261028#home-essentials
+
 ## WEBSITE 16 — HOME: completar los cuadros acompañantes del START HERE (28-oct-2026)
 - Última aprobación: el cuadro central **Today & Tomorrow** mantiene su ejemplo y agrega un panel práctico al fondo `YOUR NEXT STEP` con un único botón **Create My FREE Timeline** hacia `/free-timeline.html` (sin duplicar el antiguo CTA en el pie).
 - La tarjeta derecha **Privacy First** eleva el título `Keep personal details private.` y explica visualmente qué sí escribir online (referencia privada, fechas, tareas genéricas) y qué conservar solo en el dispositivo (nombres, direcciones, precios y documentos). Mantener el aviso sobre salvaguardas aún bajo revisión, el enlace a Privacy y el slogan.
