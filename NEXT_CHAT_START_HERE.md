@@ -36,6 +36,11 @@
 - Cambios hechos SOLO de explicación y navegación (más `my-closings.html` texto de guía). No se han probado registros, emails, checkout, D1 ni PDF en Cloudflare en vivo. No activar pagos reales.
 - Próxima acción del usuario: abrir `https://myclosingtimeline.com/first-closing-free.html` como nuevo visitante e informar en qué paso llega o qué error aparece. Tras un código aprobado, usar `https://myclosingtimeline.com/pro-get-started.html?auth=register&mode=gift#mct-account`.
 
+## D5. Other Projects — encabezado full-width y Privacy First en el lado derecho (Website 15)
+- El propietario pidió insertar el mensaje **Privacy First** a la derecha del encabezado fotográfico/degradado de **Other Projects**, con estilo nuevo elegante; después ordenó explícitamente que el cabezal ocupara **todo el ancho de la pantalla**.
+- **Implementado en `other-projects.html`:** sección `.mpt-hero-wide` de `100vw` (borde a borde) con fondo degradado; texto y panel interno `.mpt-hero-shell` centrados a máximo **1420px**. A la izquierda sigue «Every project. One clear timeline.»; a la derecha aparece tarjeta elegante con «PRIVACY FIRST», icono escudo, slogan exacto «Your Clients. Your Records. Your Privacy.», nota «Privacy-first design. Improvements in progress.» y enlace a `privacy.html#mct-privacy-policy`. En móvil la tarjeta queda debajo del texto.
+- **No se cambian** herramientas FREE/PRO de proyectos, que siguen como previews (COMING NEXT), seguridad, pagos ni otras páginas. Código guardado en GitHub; vista Cloudflare y QA visual aún pendientes.
+
 ## D4. Último ajuste: foto de HOME ocupa toda la pantalla
 - HOME: la **fotografía superior es full-bleed (100vw)**, independiente del máximo 1420px de las secciones interiores. El propietario rechazó que se vea más estrecha. No volver a restringir su ancho al main.
 - El menú Other Projects debe ser **BLANCO como los demás enlaces**, salvo activo o hover (dorado). CSS canónica v11.
