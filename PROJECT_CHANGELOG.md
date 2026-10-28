@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — títulos inclusivos y claros en FREE/PRO
+- **Usuario:** aclarar en los dos títulos que el sitio sirve tanto a Realtors (contract closing timelines) como a otros profesionales que necesitan programar tareas en sus propios negocios, sin confundir ambas opciones.
+- **Realizado en GitHub:** nuevos títulos de los selectores en `free-timeline.html` y `pro-get-started.html`, explicación debajo separando Realtors de negocios/contratistas/profesionales y estado **Other Projects preview**; publicidad con el título «Realtors: manage closings. Other professionals: plan your own tasks.»
+- **Estilos:** hoja `mct-project-path-20261028.css` ampliada con resumen de audiencias de contraste correcto; HTML referencia `?v=3` para renovar caché.
+- **Verificación:** código guardado y enlaces de ambas páginas a `/other-projects.html` confirmados en GitHub; desplegado Cloudflare y browser no verificados.
+
 ## Website 15 — 2026-10-28 — rutas y anuncio Other Projects en FREE y PRO
 - **Petición:** revisar enlaces FREE/PRO y destacar que no hace falta ser Realtor para interesarse por modelos de proyectos propios, negocios, servicios o construcción.
 - **Archivos:** `free-timeline.html` y `pro-get-started.html` incorporan, debajo del selector de producto, un aviso destacado «NOT A REALTOR? THIS IS FOR YOU» con botón «Explore Other Projects». Los enlaces anteriores del selector se normalizan a `/other-projects.html`. En ambos se actualiza la hoja `mct-project-path-20261028.css` a `?v=2`.
