@@ -99,3 +99,16 @@ html body #contract-deadline-planner .mct-calendar-panel .mct-calendar-hint{
 @media(prefers-reduced-motion:reduce){
  html body #contract-deadline-planner .fc-simple-result .mct-share-actions>button:hover{transform:none}
 }
+
+/* FREE's older end-of-page rule forced one extremely wide button per row.
+   This more specific rule retains two compact buttons in the right-hand panel. */
+@media(min-width:501px){
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .fc-simple-result .fc-simple-share.mct-share-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+}
+@media(max-width:500px){
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .fc-simple-result .fc-simple-share.mct-share-actions{
+  grid-template-columns:1fr!important;
+ }
+}
