@@ -157,7 +157,7 @@ export async function onRequest({request:req,env}){
   const email=String(b.email||"").trim().toLowerCase(),type=String(b.customerType||"");
   if(!emailOK(email)||typeof b.marketingOptIn!=="boolean"||!["realtor","other"].includes(type))return err("Select Realtor or Other Projects and provide a valid email.");
   if(!await throttle(db,"firstfree_ip",req.headers.get("CF-Connecting-IP")||"unknown",8,3600)||!await throttle(db,"firstfree_email",email,3,86400))return err("Too many requests. Try later.",429);
-  const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type FROM first_free_requests WHERE email=?").bind(email).first();
+  const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type,test_reset,verification_hash FROM first_free_requests WHERE email=?").bind(email).first();
   // A previously confirmed request may be completed without requesting a
   // second confirmation email or exposing the private code to this caller.
   if(prev?.status==="pending"&&prev.verified_at&&!prev.promo_code_id){
@@ -165,7 +165,11 @@ export async function onRequest({request:req,env}){
    if(row.customer_type===type)await issueVerifiedInvite(db,env,row);
    return json({ok:true,message:"If this verified address has an unused first-time benefit, your private code will be emailed to that address."});
   }
-  if(prev&&(prev.status!=="pending_verification"||now()-prev.updated_at<900))return json({ok:true,message:publicReply});
+  // A deliberate owner reset clears the previous confirmation token. Let the
+  // same verified address request a NEW confirmation immediately, without
+  // waiting for the normal 15-minute anti-spam throttle on fresh requests.
+  const ownerResetReady=prev?.test_reset===1&&prev.status==="pending_verification"&&!prev.verification_hash;
+  if(prev&&(prev.status!=="pending_verification"||(now()-prev.updated_at<900&&!ownerResetReady)))return json({ok:true,message:publicReply});
   if(!await eligible(db,email))return json({ok:true,message:publicReply});
   const t=token();
   if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=?,verification_expires=?,marketing_requested=?,customer_type=?,updated_at=? WHERE id=? AND status='pending_verification'").bind(await sha(t),now()+86400,b.marketingOptIn?1:0,type,now(),prev.id).run();
