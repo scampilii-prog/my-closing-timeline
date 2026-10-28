@@ -4,6 +4,15 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — START HERE pasa a primera posición de HOME
+- **Decisión:** el propietario aprobó el nuevo cuadro START HERE y pidió ponerlo «de primero» con un fondo llamativo. Interpretación implementada: primera tarjeta **a la izquierda en la fila de tres tarjetas debajo de la fotografía**, sin moverla por encima de la foto HOME aprobada.
+- **HTML:** `index.html` cambia el orden del DOM a: `mct-home-essentials-aside` (START HERE + Beyond Real Estate), `mct-home-essentials-preview` (Today & Tomorrow), `mct-home-essentials-privacy` (Privacy First). Orden de lectura/teclado coincide con el visual.
+- **Diseño:** columna izquierda destacada en degradado navy/turquesa con marco dorado y sombra suave; tarjeta interior crema-dorada y opciones FREE turquesa / PRO dorado. Se ensancha la columna central para no comprimir la tabla Today & Tomorrow. En pantallas reducidas se apilan ordenadas START HERE → Today & Tomorrow → Privacy First.
+- **Conservado:** foto HOME a todo el ancho, branding, accesos FREE, primer código PRO por invitación, canje, Beyond Real Estate, Privacy First y resto de secciones.
+- **GitHub:** commits `22c97288f0e3fec22d932b89d65c783636053956` y `dc5788ffbc041bb75a2ab286ce9a19e81a01bd96`.
+- **QA estático:** verificado orden de los tres elementos en el DOM, una sola tarjeta de invitación y un solo enlace Beyond Real Estate, CSS de degradado y rutas principales conservadas. **Publicación Cloudflare / visual Chrome, Safari y móvil no verificada**.
+- **Para revisar:** `https://myclosingtimeline.com/?mct_refresh=start-first-20261028#home-essentials` con sesión propietaria.
+
 ## Website 16 — 2026-10-28 — HOME: START HERE para visitantes nuevos
 - **Solicitud / captura:** en la columna central de HOME, en la tarjeta crema de `Your First PRO Closing Could Be FREE.`, indicar claramente dónde comienza el visitante; conservar la oferta y la tarjeta separada Beyond Real Estate.
 - **Cambio único de interfaz en `index.html`:** etiqueta verde **START HERE** junto a `NEW TO MY CLOSING TIMELINE?`, título promocional original, dos rutas en tarjetas compactas: **OPTION 1 · Start FREE Timeline** (sin cuenta, `/free-timeline.html`) y **OPTION 2 · Request My FREE Code** (correo verificado y aprobación, `/first-closing-free.html`), más enlace para canjear invitación en `/pro-get-started.html?auth=register&mode=gift#mct-account`. Un visitante elige UNA de las dos opciones; no son pasos obligatorios en secuencia.
