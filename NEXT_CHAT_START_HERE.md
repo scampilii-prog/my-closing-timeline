@@ -1,5 +1,11 @@
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
 
+## Website 16 · 28 oct 2026 · Invitación FREE abría la página a media altura
+- Usuario mostró `/pro-get-started.html?auth=register&mode=gift#mct-start-choice` desde el email con la felicitación cortada por arriba. No era problema del texto sino de desplazamiento automático: `initializeGiftFromInvitation()` reescribía el hash a `#mct-start-choice` (sección oculta para FREE) y bloque final hacía `requestAnimationFrame(...#mct-account.scrollIntoView({block:"center"}))` para cualquier `auth=register`.
+- Corregido en `pro-get-started.html`: al leer invitación, guardar código en storage y limpiar el fragmento del URL sin agregar hash oculto; al cargar por primera vez con código guardado, quitar hashes residuales `#mct-start-choice`, `#mct-account`, `#mct-gift-panel`, forzar scroll inicial a 0 después de render y en evento load. Mantiene scroll automático a formulario para clientes normales sin código y no altera la emisión o canje del crédito.
+- Commit `c9c6b6a88561f388dbe0eff49f3bc9f0f9c053bb`. QA: 8 checks estáticos, 5 scripts parseados. Se necesita screenshot real después de recargar para confirmar Cloudflare.
+
+
 ## Website 16 · 28 oct 2026 · Screenshots show old activation page is redundant
 - Owner explicitly insists the screenshot at `/pro-activate.html#mct-activation-gift` is the *pre-click* page and should be ELIMINATED from first-FREE path, not merely rearranged; the second screenshot shows registration page with stray hero, repeated titles, and visible "Forgot Password?" above name.
 - `pro-activate.html` now runs an immediate head-level same-origin redirect for `#gift=<code>` or `#mct-activation-gift` with validated saved code, to streamlined `/pro-get-started.html?auth=register&mode=gift#gift=<code>`. Legacy deferred JS also redirects.
