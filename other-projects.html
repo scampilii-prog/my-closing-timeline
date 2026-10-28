@@ -101,6 +101,23 @@ html body .mpt-followup-bottom a:focus-visible{outline:3px solid #fff!important;
 html body .mpt-followup-disclaimer{margin:12px 0 0!important;color:#667b85!important;font:600 11.5px/1.55 Manrope,Arial,sans-serif!important}
 @media(max-width:800px){html body .mpt-followup-showcase{padding:18px!important}html body .mpt-followup-groups{grid-template-columns:minmax(0,1fr)!important}html body .mpt-followup-bottom{flex-direction:column!important;align-items:stretch!important}html body .mpt-followup-bottom a{width:100%!important}}
 @media(max-width:500px){html body .mpt-followup-header{flex-direction:column!important;align-items:stretch!important}html body .mpt-followup-value{flex:auto!important;align-items:flex-start!important;width:max-content!important;max-width:100%!important;padding:9px 16px!important}html body .mpt-followup-group{padding:13px!important}}
+
+/* Other Projects: unmistakable preview explanation of individually authored
+   tasks, unlimited planned PRO follow-up and finite/ongoing project mode. */
+html body .mpt-workmode-explainer{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:20px 0 17px!important}
+html body .mpt-workmode{min-width:0!important;padding:15px 16px!important;border:1px solid #c5dedc!important;border-radius:10px!important;background:linear-gradient(135deg,#edf8f5,#fbfdfd)!important}
+html body .mpt-workmode:nth-child(2){border-color:#dcc6a3!important;background:linear-gradient(135deg,#fff7e9,#fffdf8)!important}
+html body .mpt-workmode-kicker{display:block!important;color:#176e69!important;font:900 10.5px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:.075em!important}
+html body .mpt-workmode:nth-child(2) .mpt-workmode-kicker{color:#986f3d!important}
+html body .mpt-workmode h3{margin:5px 0 7px!important;color:#183f52!important;font:900 clamp(16px,1.55vw,20px)/1.3 Manrope,Arial,sans-serif!important}
+html body .mpt-workmode p{margin:0!important;color:#4c6879!important;font:600 12.5px/1.58 Manrope,Arial,sans-serif!important}
+html body .mpt-example-header{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:10px 20px!important;flex-wrap:wrap!important}
+html body .mpt-example-header>strong{font:900 18px/1.4 Manrope,Arial,sans-serif!important;color:#234a5b!important}
+html body .mpt-example-counter{padding:6px 11px!important;border-radius:100px!important;border:1px solid #c1d9d5!important;background:#e9f6f2!important;color:#186d68!important;font:900 10.5px/1.3 Manrope,Arial,sans-serif!important}
+html body .mpt-preview-task-num{display:inline-block!important;min-width:32px!important;margin-right:9px!important;color:#147b79!important;font:900 12px Manrope,Arial,sans-serif!important}
+html body #mpt-free-preview .mpt-preview-row:nth-child(2n){background:#f7fafb!important}
+html body #mpt-free-preview .mpt-preview-row span:not(:first-child){font-size:12px!important;color:#5d7783!important}
+@media(max-width:850px){html body .mpt-workmode-explainer{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}html body .mpt-workmode{padding:15px!important}}
 </style></head>
 <body class="mct-layout-wide">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="other-projects.html" aria-current="page">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
@@ -156,6 +173,11 @@ html body .mpt-followup-disclaimer{margin:12px 0 0!important;color:#667b85!impor
    <div class="mpt-step"><span>1</span><h3>Project Details</h3><p>Name your project, choose when it starts and set its planned completion date.</p></div>
    <div class="mpt-step"><span>2</span><h3>Your Own Tasks &amp; Deadlines</h3><p>In FREE, write up to 8 tasks that matter to you. Give each its own deadline; no required presets.</p></div>
    <div class="mpt-step"><span>✓</span><h3>Review &amp; Share</h3><p>See your planned schedule and use sharing options when the tools are released.</p></div>
+  </div>
+  <div class="mpt-workmode-explainer" aria-label="How your future project tasks will work">
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR BUSINESS</span><h3>You create the tasks</h3><p>Write tasks that fit your trade, profession or project. Nothing is compulsory.</p></div>
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">PRO · UNLIMITED</span><h3>As many as you need</h3><p>Keep adding tasks, updating progress and following up throughout the work.</p></div>
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR TIMEFRAME</span><h3>Finish or keep going</h3><p>Choose a completion date, or keep an ongoing project active with no end date.</p></div>
   </div>
   <div class="mpt-example"><div class="mpt-example-header"><strong>20 task examples for different businesses</strong><span class="mpt-example-counter">20 IDEAS · YOU CHOOSE</span></div><p class="mpt-example-note">These are suggestions to help you visualize your timeline. <strong>Every customer creates their own task names and dates.</strong> FREE will have up to 8 blank, editable tasks — the 20 examples below will <strong>not</strong> be inserted automatically.</p>
    <div class="mpt-preview-table" aria-label="Read-only table of 20 sample tasks adaptable to any business">
