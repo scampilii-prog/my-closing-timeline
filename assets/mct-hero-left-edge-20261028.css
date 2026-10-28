@@ -346,3 +346,20 @@ html body section.mpt-hero {
   padding-right:12px!important;
  }
 }
+
+
+/* Auxiliary local-PDF test page: unlike the rest, it has no layout body
+   class. Match the same 1420px canvas without expanding sign-in dialogs. */
+html body:not(.mct-layout-wide)>main:not(.panel){
+ box-sizing:border-box!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
+ min-width:0!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+@media(max-width:700px){
+ html body:not(.mct-layout-wide)>main:not(.panel){
+  width:calc(100% - 24px)!important;
+ }
+}
