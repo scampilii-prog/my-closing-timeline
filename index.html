@@ -1031,70 +1031,126 @@ html body .mct-home-opening{
 html body .mct-home-why .mct-home-help-tagline{font:750 clamp(19px,2vw,29px)/1.25 Manrope,Arial,sans-serif!important;color:#b68a47!important;margin:9px auto 10px!important}
 html body .mct-home-why .mct-home-help-heading{font:750 clamp(25px,2.5vw,37px)/1.2 Georgia,serif!important;color:#153950!important;margin:0 auto 18px!important}
 </style><link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=9"><script src="/assets/mct-header-height-20261027.js?v=1" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"><style id="mct-home-choose-timeline-20261028">
-/* Only the HOME selector changes; preserve hero and opening summary exactly. */
+/* Compact, aligned two-card choice. First card is informational; only Other Projects is a link.
+   Approved HOME hero and Today & Tomorrow stay unchanged. */
 html body main.mct-home-final > section.mct-home-path-chooser{
- box-sizing:border-box!important;display:grid!important;grid-template-columns:minmax(220px,.68fr) minmax(0,2fr)!important;
- align-items:center!important;gap:18px 24px!important;width:calc(100% - 44px)!important;max-width:1100px!important;
- margin:18px auto 3px!important;padding:19px 20px!important;border:1px solid #d6e3e7!important;
- border-left:4px solid #c7a46f!important;border-radius:12px!important;
- background:linear-gradient(110deg,#fffbf2 0%,#f5fafb 100%)!important;
- box-shadow:0 5px 16px rgba(17,49,68,.055)!important;color:#173e53!important;font-family:Manrope,Arial,sans-serif!important;
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1.16fr)!important;align-items:stretch!important;
+ gap:14px!important;width:calc(100% - 44px)!important;max-width:1370px!important;
+ margin:16px auto 0!important;padding:0!important;
+ border:0!important;box-shadow:none!important;background:transparent!important;
+ color:#173e53!important;font-family:Manrope,Arial,sans-serif!important;
  scroll-margin-top:132px!important;
 }
-html body .mct-home-path-kicker{display:block!important;color:#98713b!important;font:850 11px/1.45 Manrope,Arial,sans-serif!important;letter-spacing:.09em!important}
-html body #mct-home-path-title{margin:6px 0 9px!important;padding:0!important;color:#153e55!important;font:850 clamp(18px,1.7vw,22px)/1.3 Manrope,Arial,sans-serif!important;letter-spacing:-.015em!important}
-html body .mct-home-path-intro p{margin:0!important;color:#54717e!important;font:600 12px/1.62 Manrope,Arial,sans-serif!important}
-html body .mct-home-path-options{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important;align-items:stretch!important;gap:11px!important}
-html body .mct-home-path-options .mct-home-path-option{
- box-sizing:border-box!important;display:flex!important;align-items:flex-start!important;gap:10px!important;min-width:0!important;
- min-height:155px!important;margin:0!important;padding:15px 14px!important;border:1.5px solid #cddde4!important;
- border-radius:10px!important;background:#fff!important;color:#1c5365!important;text-decoration:none!important;box-shadow:none!important;
+html body main.mct-home-final .mct-home-path-card{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ gap:7px!important;min-width:0!important;min-height:157px!important;
+ margin:0!important;padding:17px 21px!important;
+ border:1px solid #cfdfe3!important;border-left:4px solid #2a7a87!important;
+ border-radius:12px!important;
+ background:#f3f9fa!important;color:#173e53!important;
+ text-decoration:none!important;box-shadow:0 4px 15px rgba(17,49,68,.055)!important;
 }
-html body .mct-home-path-options .mct-home-path-option.is-primary{background:#f0f7f8!important;border-color:#a2c6d0!important;cursor:default!important}
-html body .mct-home-path-options a.mct-home-path-other{background:#fffdf8!important;border-color:#d5bc91!important;cursor:pointer!important;transition:background .17s,border-color .17s,box-shadow .17s}
-html body .mct-home-path-options a.mct-home-path-other:hover{background:#f5faf9!important;border-color:#38858a!important;box-shadow:0 4px 13px rgba(23,63,83,.08)!important}
-html body .mct-home-path-options a.mct-home-path-other:focus-visible{outline:3px solid #caa367!important;outline-offset:3px!important}
-html body .mct-home-path-icon{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;border-radius:10px!important;background:#e6eff1!important;color:#1c6b78!important;font:800 24px/1 Manrope,Arial,sans-serif!important}
-html body .mct-home-path-option.is-primary .mct-home-path-icon{background:#1d7381!important;color:white!important}
-html body .mct-home-path-label{display:flex!important;flex-direction:column!important;gap:6px!important;min-width:0!important;flex:1!important}
-html body .mct-home-path-label strong{display:block!important;color:#153e55!important;font:850 15px/1.35 Manrope,Arial,sans-serif!important}
-html body .mct-home-path-label small{display:block!important;color:#5c7683!important;font:600 11.5px/1.5 Manrope,Arial,sans-serif!important}
-html body .mct-home-path-current{display:inline-flex!important;vertical-align:middle!important;margin-left:4px!important;padding:3px 6px!important;border:1px solid #aad2c7!important;border-radius:100px!important;background:#e3f2ec!important;color:#14715b!important;font:850 9px/1.1 Manrope,Arial,sans-serif!important;letter-spacing:.04em!important;white-space:nowrap!important}
-html body .mct-home-path-context{display:block!important;margin-top:4px!important;color:#456878!important;font:600 11px/1.65 Manrope,Arial,sans-serif!important}
-html body .mct-home-industry-examples{display:flex!important;gap:5px!important;flex-wrap:wrap!important;margin-top:4px!important}
-html body .mct-home-industry-examples>span{display:inline-flex!important;padding:4px 7px!important;border:1px solid #e1e8e9!important;border-radius:6px!important;background:#f3f6f6!important;color:#3c6472!important;font:750 10px/1.25 Manrope,Arial,sans-serif!important}
-html body .mct-home-path-callout{display:block!important;margin-top:5px!important;color:#1c7180!important;font:850 12px/1.4 Manrope,Arial,sans-serif!important}
-@media(max-width:1060px){html body main.mct-home-final > section.mct-home-path-chooser{grid-template-columns:1fr!important;max-width:920px!important}}
-@media(max-width:650px){
- html body main.mct-home-final > section.mct-home-path-chooser{width:calc(100% - 24px)!important;margin:13px auto 3px!important;padding:15px!important}
- html body .mct-home-path-options{grid-template-columns:1fr!important}
- html body .mct-home-path-options .mct-home-path-option{min-height:0!important}
+html body main.mct-home-final .mct-home-path-realty{cursor:default!important}
+html body main.mct-home-final a.mct-home-path-other{
+ background:linear-gradient(115deg,#fffcf5,#f6faf9)!important;
+ border-color:#d9c49d!important;border-left-color:#c69b59!important;
+ cursor:pointer!important;transition:border-color .16s,box-shadow .16s,background .16s;
 }
-@media(prefers-reduced-motion:reduce){html body .mct-home-path-options a.mct-home-path-other{transition:none!important}}
-</style></head><body style="padding-top:0!important"><header id="mct-site-header" class="mct-unified-header" style="position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:999999!important;width:100%!important"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" aria-current="page">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="workspace mct-home-final" id="home-overview"><section class="mct-home-opening"><div class="mct-home-copy"><p class="mct-overline">CLOSINGS MADE SIMPLE</p><h1>One clear timeline.<br><span>A smoother closing for everyone.</span></h1><p>Turn a signed contract into a professional <strong>Closing Timeline Summary</strong>. Listing agents can share it with the buyer’s agent to help both sides track important dates and milestones from contract to closing.</p><div class="mct-home-ctas"><a class="mct-home-primary" href="free-timeline.html">Start Free Timeline →</a><a class="mct-home-secondary" href="#pro-benefits">Explore PRO Benefits ↓</a></div><nav class="mct-home-questions" aria-label="Explore benefits"><a href="#free-benefits">What does FREE include? ↓</a><a href="#share-summary">What does the other agent receive? ↓</a><a href="#pro-benefits">How does PRO help me? ↓</a><a href="#reminder-methods">How will I get reminders? ↓</a></nav></div><div class="mct-showcase-card mct-luxury-timeline"><div class="mct-showcase-head"><span class="mct-luxury-house" aria-hidden="true"><svg viewBox="0 0 44 44" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M4 21 22 5l18 16M9 18v21h26V18M17 39V27h10v12M17 16h4v5h-4zM25 16h4v5h-4z"/></svg></span><span>Closing Timeline <em>Summary</em></span></div><div class="mct-luxury-column-head"><span>#</span><span>TASK / MILESTONE</span><span>DAYS</span><span>DUE DATE</span></div><div class="mct-luxury-body"><div class="mct-luxury-row mct-luxury-effective"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Effective date</span><strong class="mct-luxury-days">0</strong><span class="mct-luxury-date">03/01/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">1</span><span class="mct-luxury-task">1st Deposit</span><strong class="mct-luxury-days">3</strong><span class="mct-luxury-date">03/04/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">2</span><span class="mct-luxury-task">Loan Application</span><strong class="mct-luxury-days">5</strong><span class="mct-luxury-date">03/06/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">3</span><span class="mct-luxury-task">Condo Application</span><strong class="mct-luxury-days">10</strong><span class="mct-luxury-date">03/11/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">4</span><span class="mct-luxury-task">Property Inspection deadline w/right to cancel</span><strong class="mct-luxury-days">15</strong><span class="mct-luxury-date">03/16/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">5</span><span class="mct-luxury-task">LOAN APPROVAL - Notify seller if NO LOAN APPROVAL</span><strong class="mct-luxury-days">30</strong><span class="mct-luxury-date">03/31/22</span></div><div class="mct-luxury-row mct-luxury-closing"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Closing date</span><strong class="mct-luxury-days">45</strong><span class="mct-luxury-date">04/15/22</span></div></div><small class="mct-luxury-caption">* Fictitious example only. Dates and deadlines must follow the signed contract.</small></div></section><section class="mct-home-path-chooser" id="choose-timeline" aria-labelledby="mct-home-path-title">
- <div class="mct-home-path-intro">
-  <span class="mct-home-path-kicker">WELCOME · REAL ESTATE CLOSING</span>
-  <h2 id="mct-home-path-title">You're viewing our Real Estate Closing experience.</h2>
-  <p>This page is designed for Realtors and real estate transactions. Explore FREE and PRO here using the navigation above or the sections below.</p>
- </div>
- <div class="mct-home-path-options">
-  <div class="mct-home-path-option is-primary" aria-label="Current experience: Real Estate Closing">
-   <span class="mct-home-path-icon" aria-hidden="true">⌂</span>
-   <span class="mct-home-path-label"><strong>Real Estate Closing <span class="mct-home-path-current">YOU ARE HERE</span></strong>
-    <small>Seller's Agent · Buyer's Agent · Transaction Coordinator</small>
-    <span class="mct-home-path-context">Contract deadlines, closing tasks, sharing and follow-up. Continue exploring this page.</span></span>
+html body main.mct-home-final a.mct-home-path-other:hover{
+ border-color:#6ca3a6!important;box-shadow:0 7px 19px rgba(14,62,74,.13)!important;
+ background:linear-gradient(115deg,#fffdf7,#ecf8f7)!important;
+}
+html body main.mct-home-final a.mct-home-path-other:focus-visible{outline:3px solid #d2a565!important;outline-offset:3px!important}
+html body main.mct-home-final .mct-home-path-kicker{
+ display:block!important;color:#946d33!important;
+ font:850 10.5px/1.4 Manrope,Arial,sans-serif!important;letter-spacing:.09em!important;
+}
+html body main.mct-home-final .mct-home-path-heading{
+ display:flex!important;gap:10px!important;align-items:center!important;
+ min-width:0!important;margin:0!important;
+}
+html body main.mct-home-final .mct-home-path-icon{
+ display:grid!important;place-items:center!important;flex:0 0 35px!important;
+ width:35px!important;height:35px!important;border-radius:10px!important;
+ background:#1e7781!important;color:#fff!important;
+ font:850 22px/1 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-path-other .mct-home-path-icon{
+ background:#e9efed!important;color:#26737b!important;
+}
+html body main.mct-home-final .mct-home-path-heading h2{
+ margin:0!important;padding:0!important;color:#153e55!important;
+ font:850 clamp(18px,1.65vw,23px)/1.27 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.02em!important;
+}
+html body main.mct-home-final .mct-home-path-current{
+ display:inline-flex!important;vertical-align:middle!important;
+ margin-left:5px!important;padding:4px 7px!important;
+ border:1px solid #aed2c5!important;border-radius:100px!important;
+ background:#e1f2e9!important;color:#176b56!important;
+ font:850 9px/1.1 Manrope,Arial,sans-serif!important;
+ letter-spacing:.03em!important;white-space:nowrap!important;
+}
+html body main.mct-home-final .mct-home-path-card p{
+ margin:0!important;max-width:100%!important;color:#476a79!important;
+ font:600 12.5px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-path-card p strong{color:#22536b!important;font-weight:850!important}
+html body main.mct-home-final .mct-home-path-tip{
+ color:#20707a!important;font:800 11.5px/1.4 Manrope,Arial,sans-serif!important;
+ margin-top:auto!important;padding-top:2px!important;
+}
+html body main.mct-home-final .mct-home-path-industries{
+ display:flex!important;flex-wrap:wrap!important;align-items:center!important;
+ gap:5px 9px!important;margin-top:0!important;
+}
+html body main.mct-home-final .mct-home-path-industries span{
+ display:inline-flex!important;max-width:100%!important;padding:3px 7px!important;
+ border:1px solid #e0e8e9!important;border-radius:6px!important;
+ background:#f3f7f6!important;color:#406979!important;
+ font:750 10.5px/1.25 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-path-callout{
+ display:flex!important;align-items:center!important;flex-wrap:wrap!important;
+ gap:9px!important;margin-top:auto!important;padding-top:3px!important;
+ color:#176e79!important;font:850 12.5px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body main.mct-home-final .mct-home-path-callout small{
+ color:#597882!important;font:700 10px/1.3 Manrope,Arial,sans-serif!important;
+}
+@media(max-width:900px){
+ html body main.mct-home-final > section.mct-home-path-chooser{
+  grid-template-columns:1fr!important;
+  width:calc(100% - 24px)!important;gap:10px!important;margin-top:12px!important;
+ }
+ html body main.mct-home-final .mct-home-path-card{min-height:0!important;padding:16px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body main.mct-home-final a.mct-home-path-other{transition:none!important}
+}
+</style></head><body style="padding-top:0!important"><header id="mct-site-header" class="mct-unified-header" style="position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:999999!important;width:100%!important"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" aria-current="page">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="workspace mct-home-final" id="home-overview"><section class="mct-home-opening"><div class="mct-home-copy"><p class="mct-overline">CLOSINGS MADE SIMPLE</p><h1>One clear timeline.<br><span>A smoother closing for everyone.</span></h1><p>Turn a signed contract into a professional <strong>Closing Timeline Summary</strong>. Listing agents can share it with the buyer’s agent to help both sides track important dates and milestones from contract to closing.</p><div class="mct-home-ctas"><a class="mct-home-primary" href="free-timeline.html">Start Free Timeline →</a><a class="mct-home-secondary" href="#pro-benefits">Explore PRO Benefits ↓</a></div><nav class="mct-home-questions" aria-label="Explore benefits"><a href="#free-benefits">What does FREE include? ↓</a><a href="#share-summary">What does the other agent receive? ↓</a><a href="#pro-benefits">How does PRO help me? ↓</a><a href="#reminder-methods">How will I get reminders? ↓</a></nav></div><div class="mct-showcase-card mct-luxury-timeline"><div class="mct-showcase-head"><span class="mct-luxury-house" aria-hidden="true"><svg viewBox="0 0 44 44" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M4 21 22 5l18 16M9 18v21h26V18M17 39V27h10v12M17 16h4v5h-4zM25 16h4v5h-4z"/></svg></span><span>Closing Timeline <em>Summary</em></span></div><div class="mct-luxury-column-head"><span>#</span><span>TASK / MILESTONE</span><span>DAYS</span><span>DUE DATE</span></div><div class="mct-luxury-body"><div class="mct-luxury-row mct-luxury-effective"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Effective date</span><strong class="mct-luxury-days">0</strong><span class="mct-luxury-date">03/01/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">1</span><span class="mct-luxury-task">1st Deposit</span><strong class="mct-luxury-days">3</strong><span class="mct-luxury-date">03/04/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">2</span><span class="mct-luxury-task">Loan Application</span><strong class="mct-luxury-days">5</strong><span class="mct-luxury-date">03/06/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">3</span><span class="mct-luxury-task">Condo Application</span><strong class="mct-luxury-days">10</strong><span class="mct-luxury-date">03/11/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">4</span><span class="mct-luxury-task">Property Inspection deadline w/right to cancel</span><strong class="mct-luxury-days">15</strong><span class="mct-luxury-date">03/16/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">5</span><span class="mct-luxury-task">LOAN APPROVAL - Notify seller if NO LOAN APPROVAL</span><strong class="mct-luxury-days">30</strong><span class="mct-luxury-date">03/31/22</span></div><div class="mct-luxury-row mct-luxury-closing"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Closing date</span><strong class="mct-luxury-days">45</strong><span class="mct-luxury-date">04/15/22</span></div></div><small class="mct-luxury-caption">* Fictitious example only. Dates and deadlines must follow the signed contract.</small></div></section><section class="mct-home-path-chooser" id="choose-timeline" aria-label="Your timeline type">
+ <div class="mct-home-path-card mct-home-path-realty" aria-labelledby="mct-home-path-title">
+  <span class="mct-home-path-kicker">WELCOME · YOU ARE IN THE RIGHT PLACE</span>
+  <div class="mct-home-path-heading"><span class="mct-home-path-icon" aria-hidden="true">⌂</span>
+   <h2 id="mct-home-path-title">Real Estate Closing <span class="mct-home-path-current">YOU ARE HERE</span></h2>
   </div>
-  <a href="/other-projects.html" class="mct-home-path-option mct-home-path-other" aria-label="Explore timelines for other projects such as construction, contractors, business, events and personal projects">
-   <span class="mct-home-path-icon" aria-hidden="true">☷</span>
-   <span class="mct-home-path-label"><strong>Other Projects</strong><small>Planning something outside real estate? Explore project timelines for:</small>
-    <span class="mct-home-industry-examples" aria-label="Examples of industries and projects">
-     <span>Construction &amp; Remodeling</span><span>Contractors &amp; Trades</span><span>Business &amp; Offices</span>
-     <span>Maintenance &amp; Repairs</span><span>Marketing &amp; Launches</span><span>Events &amp; Weddings</span>
-     <span>Technology &amp; Software</span><span>Design &amp; Creative</span><span>Education &amp; Training</span><span>Personal Projects</span>
-    </span>
-    <span class="mct-home-path-callout">Explore My Project Timeline <span aria-hidden="true">→</span></span></span>
-  </a>
+  <p>Built for <strong>seller's agents, buyer's agents and transaction coordinators</strong> to organize contract deadlines, closing tasks and communication.</p>
+  <span class="mct-home-path-tip">Explore FREE and PRO right here — use the menu or sections below.</span>
  </div>
+ <a href="/other-projects.html" class="mct-home-path-card mct-home-path-other" aria-label="Explore Other Projects and the My Project Timeline FREE and PRO preview">
+  <span class="mct-home-path-kicker">OTHER INDUSTRIES · PROJECT PLANNING</span>
+  <div class="mct-home-path-heading"><span class="mct-home-path-icon" aria-hidden="true">☷</span>
+   <h2>Other Projects</h2>
+  </div>
+  <p>Manage your own tasks and deadlines beyond real estate, with a flexible timeline for many kinds of work:</p>
+  <div class="mct-home-path-industries" aria-label="Examples of applicable projects">
+   <span>Construction · Contractors · Maintenance</span>
+   <span>Business · Marketing · Technology</span>
+   <span>Events · Education · Personal Projects</span>
+  </div>
+  <span class="mct-home-path-callout">Explore My Project Timeline <span aria-hidden="true">→</span> <small>FREE &amp; PRO preview</small></span>
+ </a>
 </section><section class="mct-home-block mct-home-free" id="free-benefits"><div class="mct-home-benefit-copy"><p class="mct-overline">FREE · CONTRACT DEADLINES</p><h2>Build your timeline. Share it with confidence.</h2><p>Enter your effective date, closing date and contract milestones. Review calculated due dates, mark completed tasks and prepare a polished summary to send to the other agent.</p><ul><li>Editable contract milestones and dates</li><li>Professional summary with deadlines and status</li><li>Live Today &amp; Tomorrow view for contractual deadlines while using the page</li><li>No registration required</li></ul><a class="mct-home-primary" href="free-timeline.html">Use Free Timeline →</a></div><div class="mct-home-side"><div class="mct-home-reminders mct-home-deadlines-refined" aria-label="Fictitious examples of contractual deadlines"><div class="mct-live-head"><span>LIVE DEADLINES · EXAMPLE</span><strong>Today &amp; Tomorrow</strong></div><div class="mct-live-inner"><p class="mct-live-intro">Example transaction · March 2022</p><div class="mct-live-day mct-live-today"><div class="mct-live-day-title"><strong>Due Today</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 16</span> Property inspection deadline with right to cancel</li><li><span>Mar 16</span> Condo application submission deadline (if applicable)</li></ul></div><div class="mct-live-day mct-live-tomorrow"><div class="mct-live-day-title"><strong>Tomorrow</strong><b>2</b></div><ul class="mct-live-sample-list"><li><span>Mar 17</span> Loan application documents deadline (if specified)</li><li><span>Mar 17</span> Insurance documentation deadline (if specified)</li></ul></div><p class="mct-live-disclaimer">* Fictitious demonstration only. Dates and obligations must follow each signed contract. Personal follow-ups belong to PRO.</p></div></div><div class="mct-home-share" id="share-summary"><h3>✉ What the buyer’s agent receives</h3><p>A clear <strong>Closing Timeline Summary</strong> from the listing agent, with the contract tasks, due dates and current status. The same format also helps the seller’s agent keep a record.</p><a href="free-timeline.html">Create your summary →</a></div></div></section><section class="mct-home-block mct-home-pro" id="pro-benefits"><div class="mct-home-benefit-copy"><p class="mct-overline">REALTOR PRO · PLANNED</p><h2>Your private follow-up assistant.</h2><p>In addition to your contractual timeline, PRO is being developed to give each agent a personal workspace for follow-up through closing.</p><ul><li>40 suggested tasks, plus any tasks you add</li><li>Edit descriptions, change dates, complete or reschedule reminders</li><li>See overdue, due-today, tomorrow and upcoming items together</li><li>Planned private saved closings and transaction history</li></ul><a class="mct-home-primary" href="pricing.html#pro-offers">Explore PRO Plans →</a><figure class="mct-pro-editorial-photo"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&amp;fit=crop&amp;w=1000&amp;q=82" alt="Professional planning and reviewing business documents at a desk" loading="lazy"><figcaption>Stay organized from contract to closing.</figcaption></figure></div><div><div class="mct-showcase-card mct-pro-preview"><div class="mct-showcase-head"><span class="mct-pro-heading"><span class="mct-pro-kicker">REALTOR PRO · PRIVATE WORKSPACE</span><strong>Follow-Up Tasks</strong></span><span class="mct-pro-preview-label">PRO Preview</span></div><div class="mct-pro-strip mct-pro-strip-left"><strong>40+ suggested follow-up tasks</strong><span>Customize them, add as many of your own as you want, and keep building your list throughout the transaction.</span></div><div class="mct-showcase-table-wrap"><table class="mct-showcase-table"><thead><tr><th>#</th><th>Follow-up task</th><th>Due date</th><th>Status</th></tr></thead><tbody><tr><td>1</td><td>Send welcome email to client</td><td>03/01/2022</td><td><span class="mct-chip-completed">Completed</span></td></tr><tr><td>2</td><td>Order appraisal (if applicable)</td><td>03/04/2022</td><td><span class="mct-chip-overdue">Overdue</span></td></tr><tr><td>3</td><td>Confirm homeowner’s insurance binder</td><td>03/08/2022</td><td><span class="mct-chip-due-today">Due Today</span></td></tr><tr><td>4</td><td>Request title commitment from title company</td><td>03/11/2022</td><td><span class="mct-chip-due-tomorrow">Due Tomorrow</span></td></tr><tr><td>5</td><td>Follow up on loan approval status</td><td>03/24/2022</td><td><span class="mct-chip-upcoming">Upcoming</span></td></tr></tbody></table></div><p class="mct-pro-private">🔒 Private agent follow-ups — not part of the summary sent to the other agent. This preview shows only 5 of the 40 suggested tasks; PRO users will be able to add, edit and reschedule their own tasks.</p></div><div class="mct-reminder-methods" id="reminder-methods"><h3>Reminders your way</h3><div><span>▣ In your PRO dashboard</span><span>✉ Email · planned</span><span>▤ SMS · planned</span><span>◷ Calendar integrations · planned</span></div><p>Dashboard reminders are being tested. Automatic messages and integrations are not available yet; delivery will require secure accounts and opt-in preferences.</p></div></div></section><section class="mct-home-why"><p class="mct-overline">BUILT FOR REAL ESTATE PROFESSIONALS</p><p class="mct-home-help-tagline">How Can We Help?</p><h2 class="mct-home-help-heading">Make Every Closing Easier.</h2><h2>Useful for buyer’s agents, listing agents and their clients</h2><div><article><h3>Why share the summary?</h3><p>Help both sides understand important contractual milestones and reduce avoidable confusion.</p></article><article><h3>Why use Today &amp; Tomorrow?</h3><p>Spot approaching deadlines and organize the next actions during the closing process.</p></article><article><h3>Why upgrade to PRO?</h3><p>Manage personal follow-up tasks in one place while keeping them separate from the signed contract.</p></article></div></section><section class="mct-home-next"><div><strong>FREE · $0</strong><h3>Start with your contractual timeline</h3><a href="free-timeline.html">Open Free Timeline →</a></div><div><strong>PRO · COMING SOON</strong><h3>First-time offer planned: 2 closings for $20</h3><a href="pricing.html#pro-offers">See All PRO Offers →</a></div></section><p class="mct-home-caveat">Example dates and tasks are fictitious. Your signed agreement controls deadlines. PRO accounts, secure storage, payments and automated notifications are not yet active. The public preview does not expose the full private checklist.</p></main><footer id="mct-site-footer" aria-label="Website footer"><div class="mct-footer-links"><span>© 2026 My Closing Timeline</span><a href="pricing.html">Plans &amp; Pricing</a><a href="privacy.html">Privacy &amp; Terms</a><a href="contact.html">Help &amp; Contact</a><a href="/personal-sabatino.html" rel="nofollow" title="Authorized administrator access">Admin Console</a></div><div class="mct-footer-credit"><a href="https://acromatico.com/" rel="noopener noreferrer" aria-label="Created with love by Acromatico">Created with <span class="mct-footer-heart">♥</span> by Acromatico</a></div></footer><button type="button" id="mct-back-top" class="mct-back-top" hidden aria-label="Back to top"><span aria-hidden="true">↑</span> Back to Top</button><script src="assets/navigation-extras.js?v=20261022-backtop-instant" defer></script><style id="mct-hero-matches-planner-width-20261021">
 /* Photo banner and white timeline panel are one aligned visual column. */
 html body .intro.mct-photo-hero{
