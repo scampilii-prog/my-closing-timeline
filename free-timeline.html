@@ -1430,4 +1430,44 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .f
 @media(max-width:920px){.mct-free-step-links{grid-template-columns:1fr!important}.mct-free-guide-intro>p{flex-basis:100%}}
 @media(max-width:600px){html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .mct-free-step-guide{margin:12px 10px;padding:16px}html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .mct-add-task-area{grid-template-columns:1fr!important}html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] .fc-simple-share{grid-template-columns:1fr!important}.mct-free-task-inline{display:block;margin-left:0;margin-top:4px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style></body></html>
+</style>
+<style id="mct-free-hero-card-spacing-20261028">
+/*
+ * FREE opening composition:
+ * Put breathing room between the photo/PRO-offer ribbon and the ivory timeline.
+ * The offers remain partly over the photo without hiding the hero's feature text.
+ * Layout-only change: leave credits, prices, deadlines and forms untouched.
+ */
+@media (min-width:1151px){
+ html body.mct-layout-wide main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{
+  margin-top:110px!important;
+ }
+ html body.mct-layout-wide main.workspace #contract-deadline-planner[data-free-task-limit="8"]
+ .mct-pro-top-offer-banner.mct-pro-top-offer-refined{
+  top:-249px!important;
+  box-shadow:0 8px 22px rgba(7,31,44,.22)!important;
+ }
+}
+@media (min-width:701px) and (max-width:1150px){
+ html body.mct-layout-wide main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{
+  margin-top:72px!important;
+ }
+ html body.mct-layout-wide main.workspace #contract-deadline-planner[data-free-task-limit="8"]
+ .mct-pro-top-offer-banner.mct-pro-top-offer-refined{
+  top:-130px!important;
+  box-shadow:0 7px 18px rgba(7,31,44,.20)!important;
+ }
+}
+@media (max-width:700px){
+ html body.mct-layout-wide main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{
+  margin-top:24px!important;
+ }
+ html body.mct-layout-wide main.workspace #contract-deadline-planner[data-free-task-limit="8"]
+ .mct-pro-top-offer-banner.mct-pro-top-offer-refined{
+  top:0!important;
+  margin-bottom:22px!important;
+  box-shadow:0 6px 15px rgba(7,31,44,.15)!important;
+ }
+}
+</style>
+</body></html>
