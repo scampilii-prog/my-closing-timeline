@@ -1269,10 +1269,16 @@ function initializeGiftFromInvitation(){
  let code=fromLink?(new URLSearchParams(fragment).get("gift")||"").trim().toUpperCase():"";
  if(fromLink&&giftPattern.test(code)){
   try{localStorage.setItem(giftStorageKey,JSON.stringify({code,expires:Date.now()+86400000}))}catch(e){}
-  history.replaceState(null,"",location.pathname+location.search+"#mct-start-choice");
+  // Keep the private code in same-origin storage; do not introduce a fragment
+  // targeting a hidden section, because the browser then scrolls past the
+  // congratulation heading.
+  history.replaceState(null,"",location.pathname+location.search);
  }else if(fromLink){
   code="";
-  history.replaceState(null,"",location.pathname+location.search+"#mct-start-choice");
+  // Keep the private code in same-origin storage; do not introduce a fragment
+  // targeting a hidden section, because the browser then scrolls past the
+  // congratulation heading.
+  history.replaceState(null,"",location.pathname+location.search);
  }
  let rememberedMode="";
  try{rememberedMode=localStorage.getItem("mct-last-onboarding-mode")||""}catch(e){}
@@ -1567,7 +1573,20 @@ const requestedAuth=(new URLSearchParams(location.search).get("auth")||"").toLow
 pickPlan();
 showTab(requestedAuth==="login"?"login":"register");
 refreshAccount();
-if(requestedAuth==="register"||requestedAuth==="login"||(!cameWithGift&&location.hash==="#register")){
+// An email invitation is already at the correct page. The old automatic
+// scroll-to-form (or #mct-start-choice hash) clipped the congratulation banner
+// behind the fixed header. Always start gift onboarding with the welcome
+// fully visible, while preserving the original scrolling for paid customers.
+const firstFreeEntry=giftMode()&&!!savedGift();
+if(firstFreeEntry){
+ if(location.hash==="#mct-start-choice"||location.hash==="#mct-account"||location.hash==="#mct-gift-panel"){
+  history.replaceState(null,"",location.pathname+location.search);
+ }
+ const revealWelcome=()=>window.scrollTo(0,0);
+ requestAnimationFrame(()=>requestAnimationFrame(revealWelcome));
+ if(document.readyState==="complete")revealWelcome();
+ else window.addEventListener("load",revealWelcome,{once:true});
+}else if(requestedAuth==="register"||requestedAuth==="login"||(!cameWithGift&&location.hash==="#register")){
  requestAnimationFrame(()=>document.getElementById("mct-account")?.scrollIntoView({block:"center"}));
 }
 </script><script src="/assets/mct-first-free-20261028.js?v=2" defer></script><link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"></body></html>
