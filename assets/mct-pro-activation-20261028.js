@@ -120,6 +120,20 @@ async function checkout(){
  }catch(e){message("mct-activate-pay-status",e.message+". No payment was confirmed.","error");updateView()}
 }
 function start(){
+ // Legacy invitation links still work, but visitors now go straight to the
+ // small registration form. No redundant activation page.
+ if(location.hash.startsWith("#gift=")){
+  var legacyCode=(new URLSearchParams(location.hash.slice(1)).get("gift")||"").trim().toUpperCase();
+  if(safeCode(legacyCode)){
+   rememberCode(legacyCode);
+   location.replace("/pro-get-started.html?auth=register&mode=gift#gift="+encodeURIComponent(legacyCode));
+   return;
+  }
+ }
+ if(new URLSearchParams(location.search).has("verified")&&remembered()){
+  location.replace("/pro-get-started.html?verified=1&mode=gift#mct-account");
+  return;
+ }
  $("mct-activate-check").addEventListener("click",function(){checkOrRedeem(false)});
  $("mct-activate-redeem").addEventListener("click",function(){checkOrRedeem(true)});
  $("mct-activate-pay").addEventListener("click",checkout);
