@@ -130,8 +130,13 @@ function start(){
    return;
   }
  }
- if(new URLSearchParams(location.search).has("verified")&&remembered()){
-  location.replace("/pro-get-started.html?verified=1&mode=gift#mct-account");
+ // Old email links already rewrite their hash to #mct-activation-gift
+ // after the first visit. Recognize that saved invitation as well and
+ // eliminate this duplicate activation page completely.
+ var available=remembered();
+ if(available&&(location.hash==="#mct-activation-gift"||new URLSearchParams(location.search).has("verified"))){
+  var verified=new URLSearchParams(location.search).has("verified");
+  location.replace("/pro-get-started.html?auth=register&mode=gift"+(verified?"&verified=1":"")+"#mct-account");
   return;
  }
  $("mct-activate-check").addEventListener("click",function(){checkOrRedeem(false)});
