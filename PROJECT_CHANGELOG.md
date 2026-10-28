@@ -4,6 +4,15 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — HOME: acciones debajo de Today & Tomorrow y Privacy First elevado
+- **Solicitud:** después de mover START HERE a la izquierda, aprovechar los espacios libres debajo de Today & Tomorrow y del título `Keep personal details private.` subiendo este último.
+- **Archivo actualizado:** `index.html` exclusivamente. Today & Tomorrow conserva el ejemplo y añade panel interno turquesa `YOUR NEXT STEP` con explicación y único CTA `Create My FREE Timeline` → `/free-timeline.html`. Se retiró el enlace CTA duplicado del pie de ejemplo (la advertencia contractual permanece).
+- **Privacy First:** se ajustó alineación del contenido hacia la parte superior; debajo del título aparece guía legible de dos secciones: `Use in your timeline` (referencia, fechas y tareas generales) y `Keep on your own device` (nombres, direcciones, precios y documentos). Se conserva la explicación de PDF local, el enlace a la política, el mensaje de revisión de salvaguardas y el slogan.
+- **Diseño/seguridad:** colores y navegación anteriores intactos; nuevo panel turquesa y guía vino/verde discretos; CTA responsive. No hay nuevos formularios de datos, seguimiento, almacenamiento, cobros ni cambios de lógica Realtor PRO/FREE.
+- **Commits GitHub:** `21b9acc77b65d3fbdfeed0ce9bbb299351802825` y `85edd6d60a286d608cd22c8923302ba0bd695b42`.
+- **Verificación:** lectura del HTML después del commit; confirma un solo enlace CTA nuevo, dos filas de guía, un solo bloque de código nuevo y conservación de destinos First Closing FREE, Other Projects y Privacy Policy. **Cloudflare, vista real en Chrome/móvil y comportamiento de CSS pendientes**.
+- **Página para revisar propietario:** `https://myclosingtimeline.com/?mct_refresh=home-companion-cards-20261028#home-essentials`.
+
 ## Website 16 — 2026-10-28 — START HERE pasa a primera posición de HOME
 - **Decisión:** el propietario aprobó el nuevo cuadro START HERE y pidió ponerlo «de primero» con un fondo llamativo. Interpretación implementada: primera tarjeta **a la izquierda en la fila de tres tarjetas debajo de la fotografía**, sin moverla por encima de la foto HOME aprobada.
 - **HTML:** `index.html` cambia el orden del DOM a: `mct-home-essentials-aside` (START HERE + Beyond Real Estate), `mct-home-essentials-preview` (Today & Tomorrow), `mct-home-essentials-privacy` (Privacy First). Orden de lectura/teclado coincide con el visual.
