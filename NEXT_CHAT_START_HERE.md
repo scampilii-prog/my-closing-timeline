@@ -59,6 +59,11 @@
 - No cambiar por un slogan ambiguo ni prometer almacenamiento cifrado/verificado sin auditoría. Código en GitHub; QA visual Cloudflare pendiente.
 - **HOME fotografía:** `<main id="home-overview">` corregido a ancho total en estilo `mct-home-hero-full-bleed-v2-20261028`. Solo los paneles inferiores siguen centrados a 1420px; el cabezal superior debe extenderse de borde a borde.
 
+## D7. Privacy First explicado también en PRO Timeline — Website 15
+- **Solicitud sobre captura 5:12 PM:** el recuadro rojo/derecho de `/pro-get-started.html`, al lado de «Real Estate Closing or Other Projects?», debe explicar la privacidad igual que HOME y no mostrar solo un slogan.
+- **Implementado:** se reemplazó únicamente la tarjeta privada `.mct-brand-slogan` de `.mct-pro-privacy-standalone` por `.mct-pro-privacy-guide`, con etiqueta pequeña PRIVACY FIRST, escudo, título «Keep client details private», instrucciones: online solo referencia y fechas, nunca nombres/direcciones/precios; PDF guardado y completado localmente; protecciones bajo revisión; enlace a política. El slogan se conserva como pie discreto. Diseño responsive, sin tocar la selección de productos, registro, promociones ni checkout.
+- **Estado:** confirmación del archivo/commit en GitHub; publicación Cloudflare y QA visual pendientes. No afirmar medidas de seguridad no auditadas.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
