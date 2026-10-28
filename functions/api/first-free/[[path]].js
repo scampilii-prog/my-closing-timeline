@@ -51,7 +51,7 @@ async function issueVerifiedInvite(db,env,r){
  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return "not_configured";
  if(!await eligible(db,r.email))return "ineligible";
  const rid=r.id;
-  const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND undefined").bind(now(),rid).run();
+  const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending' AND verified_at IS NOT NULL AND promo_code_id IS NULL").bind(now(),rid).run();
   if(!lock.meta?.changes)return "busy";
   const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-activate.html#gift="+encodeURIComponent(t);
   try{
