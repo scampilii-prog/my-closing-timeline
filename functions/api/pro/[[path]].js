@@ -142,6 +142,9 @@ export async function onRequest(context){
   if(!await permit(db,"marketing_optout",req.headers.get("CF-Connecting-IP")||"unknown",25,3600))return error("Too many attempts. Please try again later.",429);
   await db.prepare("CREATE TABLE IF NOT EXISTS marketing_optouts(email_hash TEXT PRIMARY KEY, created_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
   await db.prepare("INSERT OR IGNORE INTO marketing_optouts(email_hash) VALUES(?)").bind(await digest(address)).run();
+   // Withdraw optional marketing consent; do not delete the service request itself.
+   const consentTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='marketing_consents'").first();
+   if(consentTable)await db.prepare("DELETE FROM marketing_consents WHERE email=?").bind(address).run();
   return reply({ok:true,message:"Promotional email opt-out recorded."});
  }
  if(route==="forgot"){
@@ -294,6 +297,18 @@ export async function onRequest(context){
   const row=await db.prepare("SELECT id,credits,restricted_email FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?)").bind(await digest(code),now()).first();
   if(!row)return error("This private gift code has expired, has already been redeemed or is not available. Please contact the sender for a new invitation.",404);
   if(row.restricted_email&&row.restricted_email!==user.email)return error("This private gift is restricted to a different email address. Sign out and register or sign in with the email that received the invitation.",403);
+   // First-free invitation codes are reserved for eligible first-time PRO closings.
+   // Ordinary owner gift codes continue to work under their existing rules.
+   const firstFreeSchema=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='first_free_requests'").first();
+   if(firstFreeSchema){
+    const offer=await db.prepare("SELECT email,status,verified_at FROM first_free_requests WHERE promo_code_id=?").bind(row.id).first();
+    if(offer){
+     if(offer.email!==user.email||offer.status!=="sent"||!offer.verified_at)return error("This invitation is not available for your verified account.",403);
+     const previousClosing=await db.prepare("SELECT 1 FROM closings WHERE user_id=? LIMIT 1").bind(user.id).first();
+     const priorFirstCredit=await db.prepare("SELECT 1 FROM promo_redemptions pr JOIN first_free_requests r ON r.promo_code_id=pr.code_id WHERE pr.user_id=? LIMIT 1").bind(user.id).first();
+     if(previousClosing||priorFirstCredit)return error("First-free invitations are for your first eligible PRO Closing only.",409);
+    }
+   }
   if(route==="promo/check")return reply({ok:true,credits:row.credits,total:0});
   const id=guid();const q=[
    db.prepare("INSERT INTO promo_redemptions(id,code_id,user_id) SELECT ?,id,? FROM promo_codes WHERE id=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) AND NOT EXISTS(SELECT 1 FROM promo_redemptions WHERE code_id=? AND user_id=?)").bind(id,user.id,row.id,now(),row.id,user.id),
