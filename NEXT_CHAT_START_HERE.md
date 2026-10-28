@@ -52,6 +52,13 @@
 - Estilo dorado discreto `mct-nav-other-projects` en `assets/header-canonical-20261027.css?v=10`; `assets/navigation-extras.js?v=20261028-other-projects` aporta las traducciones ES/IT/PT del nuevo nombre. Se conservan ancho máximo de contenido 1420px, logo, registro, HOME y demás enlaces.
 - Cambios confirmados en GitHub; despliegue en Cloudflare/visualización móvil todavía pendientes de verificar. Ante caché, recargar la página.
 
+## D6. Privacy First explicado en palabras sencillas — HOME y Other Projects
+- El propietario señaló que el cuadro vino/rojo **no se entendía**. Decisión: el slogan `Your Clients. Your Records. Your Privacy.` sigue, pero como firma secundaria; NO sustituye una instrucción práctica.
+- **HOME `index.html`:** reemplazada la antigua caja `.mct-brand-slogan` por `.mct-home-privacy-guide`, un cuadro elegante que explica: usar referencia de closing en lugar de nombres/direcciones online, completar información personal en el PDF local, y que las protecciones aún están en revisión. Con enlace a política de privacidad. La etiqueta verde PRIVACY FIRST y escudo son compactos.
+- **Other Projects `other-projects.html`:** tarjeta maroon a la derecha del hero explica evitar nombres, direcciones y datos privados en tareas/notas; deja claro que los proyectos son PREVIEWS y que los controles de privacidad siguen bajo revisión.
+- No cambiar por un slogan ambiguo ni prometer almacenamiento cifrado/verificado sin auditoría. Código en GitHub; QA visual Cloudflare pendiente.
+- **HOME fotografía:** `<main id="home-overview">` corregido a ancho total en estilo `mct-home-hero-full-bleed-v2-20261028`. Solo los paneles inferiores siguen centrados a 1420px; el cabezal superior debe extenderse de borde a borde.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
