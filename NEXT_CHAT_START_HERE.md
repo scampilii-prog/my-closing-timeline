@@ -71,6 +71,12 @@
 - **QA:** inspección estática de todos los enlaces internos de ambas páginas contra los archivos GitHub y anclas locales: **0 destinos inexistentes**; referencias CSS y destino directo comprobados. **No equivale a prueba runtime ni publicación Cloudflare**: acceso HTTP del dominio no disponible desde el navegador de verificación.
 - **Regla de honestidad:** Other Projects FREE y PRO son aún vistas previas; no anunciar creación, guardado ni pago como disponibles hasta completar el desarrollo y las pruebas.
 
+## D9. Títulos de FREE y PRO sin confusión entre Realtors y otros profesionales
+- Decisión Website 15: el usuario quiere **los dos títulos (uno en FREE, otro en PRO)** explícitos para explicar que el sitio contempla Realtors y otros profesionales que necesitan programar tareas de sus propios negocios. No anunciar general project tools ya operativos.
+- En `free-timeline.html` y `pro-get-started.html`, título del selector ahora: **“Real Estate Closings & Business Projects — Choose Your Timeline.”** con intro `FOR REALTORS & OTHER PROFESSIONALS`, explicando en un párrafo diferencia entre herramientas inmobiliarias y modelos futuros de negocios y servicios.
+- En ambos avisos el título: **“Realtors: manage closings. Other professionals: plan your own tasks.”** La descripción aclara que **Other Projects FREE & PRO son previews, todavía no funcionan como proyectos editables**; enlace directo a `/other-projects.html`.
+- CSS de presentación uniforme `assets/mct-project-path-20261028.css?v=3`. Código y links confirmados GitHub; QA visual y Cloudflare pendientes.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
