@@ -4,6 +4,13 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — FREE PRO activation clarified; email logo no longer broken
+- Usuario real recibió correo con código privado y `Redeem My FREE Closing`. El email mostraba enorme imagen rota; la página destino exhibía pasos confusos y pagos Stripe TEST simultáneamente.
+- `pro-activate.html`: dos pasos claros; primero cuenta/verificación, segundo activar código $0.00. **Dos botones en una sola línea**, el primero en dorado destacado y el segundo en blanco borde azul; ocultar pagos Sandbox cuando existe código privado presente. `assets/mct-pro-activation-20261028.js` persiste código temporalmente a través de `pro-get-started.html`; `assets/mct-pro-activation-20261028.css` controla estados `hidden` y responsive.
+- El correo original apuntaba a una imagen remota inexistente. Se reemplazó `<img>` por calendario/check y marca tipográfica construidos con tabla HTML compatible con clientes de correo, en AMBOS emails (confirmación y regalo). Ahora da instrucciones para Create FREE Account / Sign In y explica que no se necesita tarjeta.
+- QA estática / parseo de JS: OK. GitHub guardado. Cloudflare render y nuevos mensajes REALES no verificados. Los mensajes enviados antes de la actualización conservarán el aspecto anterior.
+- Commits: HTML `82255a3b7e265d5d1533d9c7d47b7b3c78aa7966`, CSS `525779131d579fb1bf5c487f42644aadf4f98db9`, `9403772953101c543bfc778f9d7a1e5370105c1e`; JS `061dde862306c6edc43ad77f824d4b68433a53f6`; emails `918844c9c9f77d3bcd99baf24a009f0f135154a1`, `b4bfcd2a10e2954c03fd82e287bb593f98cef0b8`, `7b8420e3fe2719f4a7fa6dacc3042ac2a40e5266`.
+
 ## Website 16 — 2026-10-28 — Resolver «Pending Verification» después del reset de prueba
 - Usuario pregunta para qué sirve `Pending Verification` después de Reset FREE Test. Este estado indicaba que la fila estaba reiniciada pero todavía no se había enviado una nueva solicitud de email. Mejorado Admin: `Ready for New Test` tras reset; `Awaiting Email Confirmation` después de emitir enlace de confirmación.
 - Reparado problema backend: excepción de owner reset para el mismo email usada antes de revisar límites IP y elegibilidad de primer cierre. Usuario puede repetir pruebas con el mismo email, pero debe solicitar y confirmar de nuevo para simular un visitante. No se relaja un código por email para visitantes comunes.
