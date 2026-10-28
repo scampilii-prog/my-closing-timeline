@@ -3,6 +3,11 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — Corrección final de estrella y color (28-oct-2026)
+- El propietario rechazó la estrella pequeña en un medallón dentro del recuadro. Se corrigió: verde START HERE **centrado en el borde alto de la primera tarjeta**, estrella grande **debajo del letrero** dentro del mismo eje vertical, sobresaliendo apenas hacia arriba de la tarjeta, con suficiente espacio inferior para no tapar `Your First PRO Closing Could Be FREE.`. No tocar la foto, la tarjeta derecha ni TODAY & TOMORROW.
+- Color estrella actualizado a **cobre rosado suave** (`#e7a990`) con borde marfil. Sin disco circular. Mantener verde del letrero; evitar volver al diseño de medallón anterior.
+- `index.html`, commits `b384503ab54637a55f41af78d1018b7c34378316` y `f8e0dc038aeb6ab620996b5b1ff93648c558043f`. Probado estáticamente en GitHub, pendiente comprobar en Cloudflare y en navegador real.
+
 ## WEBSITE 16 — HOME: estrella bajo el aviso START HERE (28-oct-2026)
 - Última solicitud aprobada: primera tarjeta HOME START HERE en verde más visible y una **estrella dorada ★ inmediatamente debajo**, dentro de un pequeño medallón luminoso. Se aplicó en `index.html`, commit `063d0aab349b1522a3af991bd0abbb72b6bc6398`.
 - Preservar la presentación horizontal del intro, el bloque vertical etiqueta/estrella, los dos caminos Realtor FREE y primer PRO Closing gratis, y todos los cuadros restantes. Verificado solo estáticamente en GitHub; Cloudflare/móvil no certificados.
