@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — Other Projects: encabezado a todo ancho y panel Privacy First
+- **Solicitud:** situar el mensaje Privacy First de la captura a la **derecha del cabezal de Other Projects**, con diseño diferente y elegante, y **extender el cabezal de borde a borde**.
+- **Implementación GitHub:** `other-projects.html`, encabezado `.mpt-hero-wide` 100vw, contenedor interno 1420px, composición de dos columnas (título y tarjeta con escudo), adaptación vertical para móvil. Mantener slogan oficial, nota de mejoras pendientes y enlace a la política de privacidad.
+- **Conservado:** navegación, ancho de contenido inferior 1420px, estatus preview/COMING NEXT, FREE/PRO y sin flujos de pago en Other Projects.
+- **QA:** escritura GitHub verificada; publicación Cloudflare y aspecto visual no certificados independientemente.
+
 ## Website 15 — 2026-10-28 — fotografía principal HOME al ancho total
 - **Corrección explícita del propietario:** “Nooooo, esta menos ancha. Vuelvela a poner a todo el ancho.”
 - La foto del encabezado de **HOME** se fuerza al **100% del ancho del viewport** (100vw), de borde a borde, en el estilo final de `index.html` (`mct-home-photo-full-viewport-20261028`). El ancho del resto de las páginas y paneles sigue limitado al máximo acordado de **1420px**. La reducción anterior de altura no debe interpretarse como orden de reducir el ancho.
