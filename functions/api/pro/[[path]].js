@@ -16,6 +16,18 @@ const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing Cr
 // The same 40 suggested Step 3 follow-ups used in the private Realtor test.
 // Dates are suggestions only, never contractual deadlines.
 const suggestedFollowUps=[["Send client congratulations email",0,0],["Update brokerage transaction system to Pending",0,0],["Retrieve missing documents / signatures as required",0,0],["Confirm applicable property disclosures received",0,0],["Send transaction timeline email to client",0,0],["1st deposit — deliver or confirm earnest money receipt",1,0],["Review occupancy / leases and applicable notice period",2,0],["Confirm appraisal ordered by lender",2,0],["2nd deposit — deliver or confirm earnest money receipt",5,0],["Order survey",5,0],["Verify all title work is complete",20,0],["Confirm repair negotiations",20,0],["Send termite report to title and lender",20,0],["Verify appraisal has passed",20,0],["Lease information — obtain tenant estoppel letter",10,0],["Deliver or confirm lender clear to close",7,0],["Confirm closing time with title",7,0],["Send final walkthrough and closing email to client",7,0],["Purchase closing gift / thank-you card",7,0],["Verify condo association approval",5,0],["Title evidence and insurance",5,0],["Ensure no additional amendments are required",3,0],["Submit final documents to brokerage compliance",1,0],["Update brokerage transaction system to Closed",1,0],["Introduce buyer, seller, lender and settlement contacts",0,0],["Confirm all parties received executed agreement",0,0],["Confirm deposit receipt with escrow holder",2,0],["Schedule property inspections as applicable",3,0],["Follow up on inspection results and questions",7,0],["Coordinate agreed repair access and updates",10,0],["Confirm insurance application and coverage progress",10,0],["Check title or escrow outstanding requirements",14,1],["Follow up on appraisal appointment and access",14,1],["Review loan conditions with lender contact",10,1],["Confirm association documents or approval if applicable",10,1],["Check survey requirements with settlement team",10,1],["Confirm settlement statement review with parties",4,1],["Verify wire instructions independently by trusted phone number",3,1],["Schedule and coordinate final walkthrough",2,1],["Confirm funds, signing, keys and possession coordination",1,1]];
+
+/* Server-side transaction data boundary: only generic categories and dates. */
+const genericTasks=["General Follow-Up","Document Review","Lender Follow-Up","Title / Closing Follow-Up","Association Follow-Up","Inspection Follow-Up","Insurance Follow-Up","Client Communication","Other General Task"];
+const allowedTask=v=>genericTasks.includes(v)||suggestedFollowUps.some(t=>t[0]===v);
+const genericForms=["Purchase Agreement","Contract Addendum","Condo Rider","HOA Addendum","Financing Addendum","Inspection Addendum","Lead Paint Disclosure","Seller Disclosure","Survey","Title Commitment","Estoppel","Loan Approval","Closing Disclosure","Settlement Statement","Other Generic Form"];
+const allowedForm=v=>genericForms.includes(v);
+const genericTemplateName=v=>/^(Standard Purchase|Condo \/ HOA|Cash Purchase|New Construction|Investment Purchase|Other Generic Package|Template Set (0[1-9]|1[0-9]|20))$/.test(v);
+const reasonDate=["Written Contract Amendment","Agreed Extension","Financing Timeline","Title / Closing Coordination","Association Approval","Other Contractual Adjustment"];
+const reasonCancel=["Mutual Agreement","Financing Contingency","Inspection Contingency","Title / Closing Issue","Association Approval","Other Contractual Reason"];
+const cleanClosing=c=>({id:c.id,name:/^CL-[A-F0-9]{8}$/.test(c.name||"")?c.name:"CL-"+String(c.id||"").replace(/[^a-f0-9]/gi,"").slice(0,8).toUpperCase(),effective_date:c.effective_date,closing_date:c.closing_date,status:c.status,completed_on:c.completed_on,cancelled_on:c.cancelled_on,created_at:c.created_at});
+const cleanTask=t=>({id:t.id,title:allowedTask(t.title)?t.title:"General Follow-Up",due_date:t.due_date,status:t.status,auto_shift:t.auto_shift});
+
 function suggestedDate(iso,offset){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+offset);return d.toISOString().slice(0,10)}
 const launch={code:"LAUNCH90",start:Date.UTC(2026,9,27),end:Date.UTC(2027,0,25)};
 const launchActive=()=>Date.now()>=launch.start&&Date.now()<launch.end;
@@ -53,7 +65,7 @@ async function mctReadFormTemplates(db,userId){
  await db.prepare("CREATE INDEX IF NOT EXISTS idx_form_templates_user ON user_contract_form_templates(user_id,updated_at)").run();
  let result=await db.prepare("SELECT id,name,forms_json,is_default,updated_at FROM user_contract_form_templates WHERE user_id=? ORDER BY is_default DESC,name COLLATE NOCASE ASC").bind(userId).all();
  // Import a legacy single-list library once, without exposing it to other accounts.
- if(!result.results.length){
+ if(false && !result.results.length){
   const hasOld=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='user_contract_form_library'").first();
   if(hasOld){
    const old=await db.prepare("SELECT forms_json FROM user_contract_form_library WHERE user_id=?").bind(userId).first();
@@ -67,7 +79,7 @@ async function mctReadFormTemplates(db,userId){
    }
   }
  }
- return result.results.map(r=>{let forms=[];try{const parsed=JSON.parse(r.forms_json);if(Array.isArray(parsed))forms=parsed}catch(e){}return {id:r.id,name:r.name,forms,is_default:!!r.is_default,updated_at:r.updated_at}});
+ return result.results.map((r,i)=>{let forms=[];try{const parsed=JSON.parse(r.forms_json);if(Array.isArray(parsed))forms=parsed.filter(allowedForm)}catch(e){}return {id:r.id,name:genericTemplateName(r.name)?r.name:"Legacy Template "+String(i+1).padStart(2,"0"),forms,is_default:!!r.is_default,updated_at:r.updated_at}});
 }
 
 export async function onRequest(context){
@@ -112,8 +124,8 @@ export async function onRequest(context){
  }
  if(req.method==="GET"&&route==="me"){
   const user=await getAuth(req,db);if(!user)return reply({authenticated:false});
-  const items=await db.prepare("SELECT id,name,address,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
-  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results});
+  const items=await db.prepare("SELECT id,name,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
+  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results.map(cleanClosing)});
  }
  if(req.method==="GET"&&route==="admin/codes"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
@@ -126,13 +138,7 @@ export async function onRequest(context){
   const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified PRO account",401);
   return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
  }
- if(req.method==="GET"&&route==="forms/library"){
-  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to verified PRO account",401);
-  await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_library (user_id TEXT PRIMARY KEY, forms_json TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
-  const saved=await db.prepare("SELECT forms_json,updated_at FROM user_contract_form_library WHERE user_id=?").bind(user.id).first();
-  let forms=[];try{const parsed=JSON.parse(saved?.forms_json||"[]");if(Array.isArray(parsed))forms=parsed}catch(e){}
-  return reply({ok:true,forms,updated_at:saved?.updated_at||null});
- }
+ if(req.method==="GET"&&route==="forms/library")return reply({ok:true,forms:[],privacy_note:"Legacy free-text library disabled."});
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
  const body=await parseBody(req,(route==="forms/library"||route==="forms/templates")?200000:10000);
@@ -238,13 +244,13 @@ export async function onRequest(context){
   const id=String(body.id||"").trim();
   if(action==="save"){
    const name=String(body.name||"").replace(/\s+/g," ").trim();
-   if(!name||name.length>100)return error("Template name must be between 1 and 100 characters");
+   if(!genericTemplateName(name))return error("Choose a generic template name. Custom names are not saved.");
    if(!Array.isArray(body.forms))return error("Provide document names for the template");
    let total=0;const forms=[],seen=new Set();
    for(const item of body.forms){
     if(typeof item!=="string")return error("Invalid document name");
     const label=item.replace(/\s+/g," ").trim();
-    if(!label||label.length>160)return error("Document names must be between 1 and 160 characters");
+    if(!allowedForm(label))return error("Choose a generic document type. Custom names are not stored.");
     const key=label.toLocaleLowerCase("en");if(seen.has(key))continue;
     seen.add(key);forms.push(label);total+=label.length;
     if(total>100000)return error("This template exceeds the maximum request size");
@@ -277,21 +283,8 @@ export async function onRequest(context){
   }else return error("Invalid template operation");
   return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
  }
- if(route==="forms/library"){
-  if(!Array.isArray(body.forms)||body.forms.length>1000)return error("Invalid forms library");
-  const names=[],seen=new Set();let total=0;
-  for(const raw of body.forms){
-   if(typeof raw!=="string")return error("Invalid document name");
-   const name=raw.replace(/\s+/g," ").trim();
-   if(!name||name.length>160)return error("Document names must be between 1 and 160 characters");
-   const key=name.toLocaleLowerCase("en");if(seen.has(key))continue;
-   seen.add(key);names.push(name);total+=name.length;if(total>100000)return error("Forms library is too large");
-  }
-  await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_library (user_id TEXT PRIMARY KEY, forms_json TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
-  await db.prepare("INSERT INTO user_contract_form_library(user_id,forms_json,updated_at) VALUES(?,?,datetime('now')) ON CONFLICT(user_id) DO UPDATE SET forms_json=excluded.forms_json,updated_at=datetime('now')").bind(user.id,JSON.stringify(names)).run();
-  return reply({ok:true,count:names.length});
- }
- if(route==="promo/check"||route==="promo/redeem"){
+ if(route==="forms/library")return error("Legacy free-text library disabled. Use generic templates.",409);
+  if(route==="promo/check"||route==="promo/redeem"){
   const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
   const row=await db.prepare("SELECT id,credits,restricted_email FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?)").bind(await digest(code),now()).first();
@@ -351,11 +344,11 @@ export async function onRequest(context){
  if(match){
   const id=match[1],act=match[2],closing=await db.prepare("SELECT * FROM closings WHERE id=? AND user_id=?").bind(id,user.id).first();
   if(!closing)return error("Closing not found",404);
-  if(act==="details"){const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();return reply({ok:true,closing,tasks:tasks.results})}
+  if(act==="details"){const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask)})}
   if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
   if(act==="change-date"){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
-   if(!isoDate(value)||value<closing.effective_date||reason.length<3)return error("Provide the revised closing date and written reason");
+   if(!isoDate(value)||value<closing.effective_date||!reasonDate.includes(reason))return error("Select a generic closing date adjustment reason.");
    const delta=Math.round((Date.parse(value)-Date.parse(closing.closing_date))/86400000);
    await db.batch([
     db.prepare("UPDATE closings SET closing_date=?,updated_at=datetime('now') WHERE id=? AND user_id=? AND status='in_progress'").bind(value,id,user.id),
@@ -368,7 +361,7 @@ export async function onRequest(context){
    const value=String(body.date||"");
    if(!isoDate(value))return error("Enter the actual date");
    if(act==="cancel"){
-    const reason=String(body.reason||"").trim().slice(0,400);if(reason.length<3||body.confirm!==true)return error("Written reason and explicit confirmation required");
+    const reason=String(body.reason||"").trim();if(!reasonCancel.includes(reason)||body.confirm!==true)return error("Choose a generic cancellation reason and confirm.");
     await db.batch([db.prepare("UPDATE closings SET status='cancelled',cancelled_on=?,cancel_reason=?,updated_at=datetime('now') WHERE id=? AND user_id=?").bind(value,reason,id,user.id),db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"cancelled",JSON.stringify({date:value,reason}))]);
    }else{
     if(body.confirm!==true)return error("Confirm that closing was completed");
@@ -378,7 +371,7 @@ export async function onRequest(context){
   }
   if(act==="tasks/add"){
    const title=String(body.title||"").trim().slice(0,150),date=String(body.date||"");
-   if(!title||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Enter a task with a current or future due date");
+   if(!allowedTask(title)||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Choose a generic follow-up task and a valid date.");
    await db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date,auto_shift) VALUES(?,?,?,?,?,?)").bind(guid(),id,user.id,title,date,body.relative===true?1:0).run();return reply({ok:true},201);
   }
   if(act==="tasks/update"){
@@ -386,7 +379,7 @@ export async function onRequest(context){
    if(!task)return error("Task not found",404);
    if(task.due_date<new Date().toISOString().slice(0,10))return error("Expired tasks are locked",409);
    const title=String(body.title||task.title).trim().slice(0,150),date=String(body.date||task.due_date),status=body.done===true?"done":body.done===false?"pending":task.status;
-   if(!title||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Invalid task or past due date");
+   if(!allowedTask(title)||!isoDate(date)||date<new Date().toISOString().slice(0,10))return error("Choose a generic follow-up task and a valid future date.");
    await db.prepare("UPDATE follow_tasks SET title=?,due_date=?,status=? WHERE id=? AND user_id=?").bind(title,date,status,task.id,user.id).run();return reply({ok:true});
   }
  }
