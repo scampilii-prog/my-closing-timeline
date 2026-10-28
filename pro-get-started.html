@@ -1048,4 +1048,28 @@ refreshAccount();
 if(!cameWithGift&&(requestedAuth==="register"||requestedAuth==="login"||location.hash==="#register")){
  requestAnimationFrame(()=>document.getElementById("mct-account")?.scrollIntoView({block:"center"}));
 }
-</script><script src="/assets/mct-first-free-20261028.js?v=2" defer></script></body></html>
+</script><script src="/assets/mct-first-free-20261028.js?v=2" defer></script><style id="mct-header-pages-home-width-20261028">
+/* Shared visual width: HOME overview cards, 1530px maximum and responsive gutters. */
+
+/* HOME-aligned PRO canvas; category cards, invitation and account form share outer edges. */
+html body.mct-layout-pro main.mct-pro-registration-main{
+ box-sizing:border-box!important;width:calc(100% - 40px)!important;max-width:1530px!important;
+ margin-left:auto!important;margin-right:auto!important;padding:20px 0 42px!important;
+}
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privacy-row,
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-first-free-banner-pro{
+ box-sizing:border-box!important;max-width:none!important;width:100%!important;
+}
+html body.mct-layout-pro main.mct-pro-registration-main>section.card{
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;
+ margin:0 auto!important;
+}
+@media(max-width:1080px){html body.mct-layout-pro main.mct-pro-registration-main{width:calc(100% - 30px)!important}}
+@media(max-width:740px){
+ html body.mct-layout-pro main.mct-pro-registration-main{
+  width:calc(100% - 24px)!important;padding:16px 0 30px!important;
+ }
+}
+
+</style>
+</body></html>
