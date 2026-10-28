@@ -1,5 +1,11 @@
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
 
+## Website 16 · 28 oct 2026 · Realtor vs Other Professional on First FREE registration
+- At owner's request, the welcomed `pro-get-started.html?auth=register&mode=gift` form now has compact **WHAT WILL YOU ORGANIZE?** dual-choice selector: **I'm a Realtor · Real estate closings · PRO** (default) and **I'm Another Professional · Business & personal projects · preview**. It appears above the registration form, not as another large pricing card; same-row responsive styling.
+- Selecting Realtor retains the existing real-estate PRO account registration and auto-redeem process after verification. Selecting Other shows a distinct, honest notice that Other Projects PRO is **preview/demo only, not launched** and links to `/other-projects.html`; hides the real-estate account form and blocks automatic Realtor redemption while Other is selected. Returning to Realtor restores it. Gift-code type remains enforced server-side: codes cannot be transferred across products. **This does not implement a production Other Projects PRO account or store a user profile category server-side.**
+- Commits: `aaa826e71e87926c1798bfef9166015d7ce9dd5c` selector and click logic, `c4a2fcaab608d8f77ed17b93ceb89680181a84b2` CSS hidden specificity fix. Static JS syntax validated, no real Cloudflare/browser validation.
+
+
 ## Website 16 · 28 oct 2026 · Invitación FREE abría la página a media altura
 - Usuario mostró `/pro-get-started.html?auth=register&mode=gift#mct-start-choice` desde el email con la felicitación cortada por arriba. No era problema del texto sino de desplazamiento automático: `initializeGiftFromInvitation()` reescribía el hash a `#mct-start-choice` (sección oculta para FREE) y bloque final hacía `requestAnimationFrame(...#mct-account.scrollIntoView({block:"center"}))` para cualquier `auth=register`.
 - Corregido en `pro-get-started.html`: al leer invitación, guardar código en storage y limpiar el fragmento del URL sin agregar hash oculto; al cargar por primera vez con código guardado, quitar hashes residuales `#mct-start-choice`, `#mct-account`, `#mct-gift-panel`, forzar scroll inicial a 0 después de render y en evento load. Mantiene scroll automático a formulario para clientes normales sin código y no altera la emisión o canje del crédito.
