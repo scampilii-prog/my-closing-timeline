@@ -231,3 +231,83 @@ html body .mct-invite-aside>.mct-brand-slogan .mct-slogan-main{font-size:13px!im
 @media(max-width:760px){
  html body .mct-invite-aside>.mct-brand-slogan{width:min(350px,100%)!important}
 }
+
+/* Website 14 · contextual privacy placement for requested panels.
+   Reparented cards are always in document flow: no overlay on links, forms, prices or headings. */
+
+/* FREE: discreet privacy pledge INSIDE the dark introductory PRO offer.
+   Left column, below the copy, with the price tiles and CTA unobstructed. */
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan{
+ position:relative!important;float:none!important;display:flex!important;
+ top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+ width:min(315px,100%)!important;max-width:100%!important;
+ min-height:74px!important;height:auto!important;margin:24px 0 0!important;
+ padding:20px 10px 10px 58px!important;box-shadow:0 5px 16px rgba(3,17,29,.2)!important;
+}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan::before{
+ width:36px!important;height:36px!important;left:10px!important;background-size:31px 31px!important;
+}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan::after{
+ font-size:11.5px!important;left:56px!important;top:-13px!important;padding:6px 11px!important;
+}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan .mct-slogan-main{
+ font-size:13px!important;line-height:1.3!important;
+}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan .mct-slogan-note{
+ font-size:9.5px!important;line-height:1.3!important;
+}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy{min-width:0!important;align-items:flex-start!important}
+html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined{align-items:center!important}
+/* PRO: make the category choice fill the same broad page canvas, with the seal
+   as a third, genuinely integrated element to the right. */
+html body.mct-layout-pro main.mct-pro-registration-main section#mct-product-path-pro.mct-product-path{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,335px)!important;
+ grid-template-rows:auto auto!important;column-gap:22px!important;row-gap:14px!important;
+ align-items:center!important;max-width:none!important;width:100%!important;
+ margin:18px auto 20px!important;padding:22px 24px!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-product-path-head{
+ grid-column:1!important;grid-row:1!important;margin:0!important;min-width:0!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-product-path-options{
+ grid-column:1!important;grid-row:2!important;min-width:0!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan{
+ position:relative!important;display:flex!important;float:none!important;
+ top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+ grid-column:2!important;grid-row:1/3!important;align-self:center!important;
+ width:100%!important;max-width:100%!important;min-height:93px!important;
+ padding:27px 14px 15px 66px!important;margin:10px 0 0!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan::before{
+ width:41px!important;height:41px!important;left:11px!important;background-size:35px 35px!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan::after{
+ left:64px!important;top:-16px!important;font-size:12.5px!important;padding:7px 13px!important;
+}
+html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan .mct-slogan-main{
+ font-size:14px!important;line-height:1.35!important;
+}
+@media(max-width:950px){
+ html body.mct-layout-pro main.mct-pro-registration-main section#mct-product-path-pro.mct-product-path{
+  grid-template-columns:1fr!important;grid-template-rows:auto auto auto!important;
+  padding:18px!important;row-gap:13px!important;
+ }
+ html body.mct-layout-pro #mct-product-path-pro>.mct-product-path-head{grid-column:1!important;grid-row:1!important}
+ html body.mct-layout-pro #mct-product-path-pro>.mct-product-path-options{grid-column:1!important;grid-row:2!important}
+ html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan{
+  grid-column:1!important;grid-row:3!important;justify-self:start!important;
+  width:min(350px,100%)!important;margin-top:15px!important;
+ }
+}
+@media(max-width:560px){
+ html body main.workspace #contract-deadline-planner .mct-pro-top-offer-refined .mct-pro-top-offer-copy>.mct-brand-slogan{
+  width:min(320px,100%)!important;padding-left:59px!important;
+ }
+ html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan{
+  width:100%!important;min-height:82px!important;padding:24px 10px 12px 59px!important;
+ }
+ html body.mct-layout-pro #mct-product-path-pro>.mct-brand-slogan::after{
+  font-size:11.5px!important;left:59px!important;
+ }
+}
