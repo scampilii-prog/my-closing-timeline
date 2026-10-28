@@ -294,9 +294,12 @@ export async function onRequest(context){
    // Ordinary owner gift codes continue to work under their existing rules.
    const firstFreeSchema=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='first_free_requests'").first();
    if(firstFreeSchema){
-    const offer=await db.prepare("SELECT email,status,verified_at FROM first_free_requests WHERE promo_code_id=?").bind(row.id).first();
+    const offer=await db.prepare("SELECT email,status,verified_at,customer_type FROM first_free_requests WHERE promo_code_id=?").bind(row.id).first();
     if(offer){
      if(offer.email!==user.email||offer.status!=="sent"||!offer.verified_at)return error("This invitation is not available for your verified account.",403);
+     // Other Projects is a separate unlaunched product. A reserved FREE
+     // project benefit must never be consumed as a Realtor closing credit.
+     if(offer.customer_type==="other")return error("Your first Other Projects PRO credit is reserved. Its activation will be enabled when that workspace launches; this code cannot be used for a real-estate closing.",409);
      const previousClosing=await db.prepare("SELECT 1 FROM closings WHERE user_id=? LIMIT 1").bind(user.id).first();
      const priorFirstCredit=await db.prepare("SELECT 1 FROM promo_redemptions pr JOIN first_free_requests r ON r.promo_code_id=pr.code_id WHERE pr.user_id=? LIMIT 1").bind(user.id).first();
      if(previousClosing||priorFirstCredit)return error("First-free invitations are for your first eligible PRO Closing only.",409);
