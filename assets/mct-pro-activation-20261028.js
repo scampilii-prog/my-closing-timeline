@@ -33,7 +33,18 @@ function remembered(){
  }catch(e){}
  return "";
 }
-function clearCode(){try{sessionStorage.removeItem(giftKey);localStorage.removeItem(previousGiftKey)}catch(e){}}
+function transferableCode(code){
+ if(!safeCode(code))return false;
+ try{
+  var stored=JSON.parse(localStorage.getItem(previousGiftKey)||"null");
+  if(stored&&stored.code===code&&Number(stored.expires)>Date.now())return true;
+ }catch(e){}
+ try{
+  var session=JSON.parse(sessionStorage.getItem(giftKey)||"null");
+  return !!(session&&session.code===code&&Number(session.until)>Date.now());
+ }catch(e){return false}
+}
+function clearCode(){try{sessionStorage.removeItem(giftKey)}catch(e){}try{localStorage.removeItem(previousGiftKey)}catch(e){}}
 function isTest(){return !!(ready&&ready.checkoutSandbox&&pricing&&pricing.catalogReady)}
 function numPrice(cents){return "$"+(Number(cents)/100).toFixed(2)}
 function showPrice(){
@@ -59,11 +70,15 @@ function updateView(){
  showPrice();
 }
 async function load(){
- var c=remembered();
+ var c=remembered(),stored=!!c&&transferableCode(c);
  document.body.classList.toggle("mct-activation-gift-visit",!!c);
+ document.body.classList.toggle("mct-activation-code-stored",stored);
+ $("mct-activation-saved-code-notice").hidden=!stored;
  if(c){
   $("mct-activate-code").value=c;
-  message("mct-activate-gift-status","Your private FREE code has been entered automatically. Sign in with the invited email, then activate your $0.00 credit.","info");
+  message("mct-activate-gift-status",stored?
+   "Your FREE code is saved in this browser and will carry over to account registration. After email verification, the site will attempt to apply your $0.00 credit automatically.":
+   "Your code is entered, but this browser could not save it for registration. Copy the displayed code before continuing; paste it into the private invitation field after you register.","info");
  }else{
   $("mct-activation-heading").textContent="Activate Your PRO Credit.";
   $("mct-activation-hero-description").textContent="Already received your free code? Paste it below. First register or sign in using the same verified email. Paid Sandbox checkout is optional.";
@@ -109,7 +124,13 @@ function start(){
  $("mct-activate-redeem").addEventListener("click",function(){checkOrRedeem(true)});
  $("mct-activate-pay").addEventListener("click",checkout);
  $("mct-activate-plan").addEventListener("change",showPrice);
- $("mct-activate-code").addEventListener("change",function(){var c=this.value.trim().toUpperCase();this.value=c;if(safeCode(c)){rememberCode(c);document.body.classList.add("mct-activation-gift-visit")}});
+ $("mct-activate-code").addEventListener("change",function(){var c=this.value.trim().toUpperCase();this.value=c;if(safeCode(c)){
+ rememberCode(c);
+ document.body.classList.add("mct-activation-gift-visit");
+ var saved=transferableCode(c);
+ document.body.classList.toggle("mct-activation-code-stored",saved);
+ $("mct-activation-saved-code-notice").hidden=!saved;
+}});
  load();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
