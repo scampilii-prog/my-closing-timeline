@@ -4,6 +4,15 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — Registro FREE directo, sin activación adicional ni grandes botones duplicados
+- Resuelto feedback: el visitante nuevo no necesita ver un botón grande `Already Registered?`, una segunda pantalla de "activar" ni información sobre paquetes de pago.
+- Email con código gratuito ahora abre directamente `/pro-get-started.html?auth=register&mode=gift#gift=<código>`. En modo FREE ese formulario presenta UNA tarjeta compacta, un solo botón principal `Create My FREE Account`, enlace pequeño `Sign In` como excepción para correos registrados, y aviso de código guardado. Los paquetes 2/5 están disponibles en la sección comercial normal, no en el primer acceso gratis.
+- Enlaces antiguos a `pro-activate.html#gift=` redirigen al formulario. El enlace de verificación de cuenta devuelve al mismo formulario y el código se aplica automáticamente al iniciar sesión, con respuesta del servidor `promo/redeem`; **solo cuando el canje tiene éxito** envía al usuario a `my-closings.html?welcome=free`.
+- En My Closings se muestra `Your first FREE PRO credit is ready` y `Start My FREE Closing`; el crédito se consume al registrar un nuevo closing, no al volver a abrir la cuenta. Se ocultan ventas mientras se da la bienvenida gratuita.
+- **Limitación sin resolver:** My Closings es el módulo real D1 para closings + checklist + PDF, pero la tabla maestra de Step 1 / 2 / 3 de owner-pro-workspace aún no está integrada allí. No afirmar que lo está.
+- QA estática: 15/15 comprobaciones + 5 parsers JavaScript. Aún falta verificación de publicación Cloudflare, correos, registro y canje end-to-end.
+- Commits: `278cd2e92c8302e134550821858e12b8abf38e89`, `d31cde013a0209a61bced987eb241b55c4cf7796`, `bbd2accd111ee0eac275e9c16dc98ae5b38e16c0`, `e046b9aa4e55f0391c7f4eaa6a262fdc058a8cd4`, `e8768f14d381b2a9a062a5ad7ba81f84eba59421`.
+
 ## Website 16 — 2026-10-28 — FREE PRO activation clarified; email logo no longer broken
 - Usuario real recibió correo con código privado y `Redeem My FREE Closing`. El email mostraba enorme imagen rota; la página destino exhibía pasos confusos y pagos Stripe TEST simultáneamente.
 - `pro-activate.html`: dos pasos claros; primero cuenta/verificación, segundo activar código $0.00. **Dos botones en una sola línea**, el primero en dorado destacado y el segundo en blanco borde azul; ocultar pagos Sandbox cuando existe código privado presente. `assets/mct-pro-activation-20261028.js` persiste código temporalmente a través de `pro-get-started.html`; `assets/mct-pro-activation-20261028.css` controla estados `hidden` y responsive.
