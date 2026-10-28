@@ -232,3 +232,16 @@ html body main.mct-home-final>section.mct-home-free{
  html body main.mct-home-final .mct-first-free-banner-home .mct-offer-actions{align-items:flex-start!important}
  html body main.mct-home-final .mct-home-essentials-preview .mct-live-sample-list li{font-size:12px!important}
 }
+
+/* After moving Today & Tomorrow to the upper preview, keep the FREE benefits area clean. */
+html body main.mct-home-final section.mct-home-free>.mct-home-side{
+ display:block!important;min-width:0!important;width:100%!important;max-width:none!important;
+}
+html body main.mct-home-final section.mct-home-free>.mct-home-side>.mct-home-share{
+ display:block!important;width:100%!important;max-width:none!important;margin:0!important;
+ box-sizing:border-box!important;
+}
+/* Keep compact offer links legible, without reopening the old tall cards. */
+html body main.mct-home-final .mct-home-essentials a:focus-visible{
+ outline:3px solid #b78a47!important;outline-offset:3px!important;
+}
