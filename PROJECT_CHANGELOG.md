@@ -4,6 +4,13 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — legibilidad del botón FREE Summary en HOME
+- **Captura del propietario:** el enlace `Create & Share Your FREE Summary` de la tarjeta HOME se mostraba con texto azul poco legible sobre fondo azul oscuro.
+- **Causa comprobada en el código:** la regla genérica `#share-summary.mct-home-share a` aplicaba `color:#146482!important` al botón, con especificidad superior a su definición individual blanca.
+- **Corrección GitHub:** `index.html`, con el estilo de enlaces informativos limitado a `:not(.mct-free-share-action)` y una regla específica para la acción principal: texto marfil/blanco, borde dorado, flecha dorada, foco accesible y efecto hover de alto contraste.
+- **Se conserva:** enlace `free-timeline.html`, botones vecinos, ancho acordado 1420px y todas las funciones.
+- **Pendiente de verificar:** despliegue Cloudflare y captura actualizada de HOME en un navegador real.
+
 ## Website 15 — 2026-10-28 — decisión definitiva: ancho uniforme de 1420px
 - **Petición textual del propietario:** “pon todas las paginas del mismo ancho de 1.420 pixeles”. Sustituye el intento de 1280px y el anterior de 1140px.
 - **Cambios GitHub:** `assets/mct-hero-left-edge-20261028.css` actualizado a lienzo de contenido centrado con máximo **1420px**; regla final alineada para HOME y páginas interiores. Se actualiza versión de caché de `v=5` a **`v=6`** en 22 páginas HTML. La página auxiliar de PDF local sin clase de layout recibió el mismo ancho sin afectar el inicio de sesión.
