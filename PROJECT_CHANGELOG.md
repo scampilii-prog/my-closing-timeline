@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — fotografía principal HOME al ancho total
+- **Corrección explícita del propietario:** “Nooooo, esta menos ancha. Vuelvela a poner a todo el ancho.”
+- La foto del encabezado de **HOME** se fuerza al **100% del ancho del viewport** (100vw), de borde a borde, en el estilo final de `index.html` (`mct-home-photo-full-viewport-20261028`). El ancho del resto de las páginas y paneles sigue limitado al máximo acordado de **1420px**. La reducción anterior de altura no debe interpretarse como orden de reducir el ancho.
+- **Other Projects:** enlace del header en blanco en páginas inactivas y dorado solo al estar activo o en hover, mediante `assets/header-canonical-20261027.css?v=11` en 21 páginas.
+- **Pendiente:** verificar visualmente el despliegue y la adaptación móvil, en particular el encabezado a pantalla completa sin desbordes ni cambios en la tabla.
+
 ## Website 15 — 2026-10-28 — Other Projects aparece en el encabezado de todas las páginas
 - **Petición:** el visitante que no sea Realtor debe reconocer inmediatamente un enlace directo a `other-projects.html` desde el header.
 - **Implementación GitHub:** insertar enlace `Other Projects` entre `PRO Timeline` y `Plans & Pricing` en 21 páginas que usan navegación canónica; `aria-current="page"` en la página de Other Projects. Solo cambia el menú visible, sin tocar los flujos FREE/PRO.
