@@ -733,23 +733,23 @@ function setAccessMode(mode){
  }
  const msg=$("mct-flow-explanation");
  msg.textContent=gift?
-  "PRIVATE INVITATION ONLY · Register or sign in with your invited email first. Verify your email, then activate your $0.00 credit. No card or checkout needed.":
-  "NO INVITATION NEEDED · FIRST create your account or sign in. THEN choose a package. The launch price, when active, is applied automatically; checkout follows when live.";
+  "Already have a personal FREE code? Create an account or sign in with the same invited email, confirm your email, then redeem the code for $0.00. No credit card.":
+  "First create your free account and confirm your email. Then choose 1, 2 or 5 PRO credits. The card payment screen is currently for TEST payments only. You can also request First Closing FREE above.";
  const intro=document.querySelector(".mct-pro-registration-intro");
  if(intro){
   intro.querySelector("strong").textContent=gift?"Your Private Gift. Your PRO Workspace.":"Register. Choose. Confirm. Start.";
   intro.querySelector("span").textContent=gift?
-   "Invitation holders only: register or sign in with the invited email. No card or payment needed.":
-   "Register or sign in first, choose a PRO package, then review the automatically applied offer. Secure checkout is being tested.";
+   "Already invited? Register with the same email that received the code. Verify it, then redeem your first closing at no cost.":
+   "Create a free account, confirm your email, choose a PRO package, and complete a TEST checkout if available.";
  }
  const left=document.querySelector(".mct-pro-offers-column>.eyebrow");
- if(left)left.textContent=gift?"2 · REDEEM YOUR PRIVATE GIFT":"PRIVATE INVITATION · $0.00";
+ if(left)left.textContent=gift?"2 · ENTER YOUR APPROVED FREE CODE":"OPTIONAL · REDEEM A FREE CODE";
  const accountTitle=$("mct-pro-account-heading");
  if(accountTitle)accountTitle.textContent="1 · REGISTER OR SIGN IN";
  const accountHelp=$("mct-pro-account-help");
  if(accountHelp)accountHelp.textContent=gift?
-  "FIRST: create your account with the invited email, or sign in if you are already registered. SECOND: confirm your email. Your private credit can then be activated. You do not need to pay.":
-  "FIRST: create your account or sign in. Verify your email. NEXT: choose 1, 2 or 5 PRO credits; the active launch offer is applied automatically. Checkout follows when available.";
+  "Create an account using the SAME email that received your FREE code. Open the verification email and confirm it. Then enter your code to add one credit to your account at no charge.":
+  "Select Create Account, enter your name and email, and confirm the email link we send. Then choose a PRO plan below. Payment is Stripe Sandbox TEST mode only; no real charges.";
  const giftHead=$("mct-gift-panel")?.querySelector(".mct-coupon-heading strong");
  if(giftHead)giftHead.textContent="2 · REDEEM YOUR PRIVATE GIFT — $0.00";
  const saved=savedGift();
@@ -878,12 +878,12 @@ function updateProGuide(){
   ["Create account or sign in","First, use the email that received your invitation.","#mct-account"],
   ["Verify your email","Open the verification email and confirm your account.","#mct-account"],
   ["Activate your private gift","Your invitation code is checked after login. $0.00.","#mct-gift-panel"],
-  ["Open your PRO Workspace","Start your new closing with the activated credit.","/my-closings.html"]
+  ["Create PRO & save PDF","Open My Closings, select + Start New Closing, then download your private PDF.","/my-closings.html"]
  ]:[
   ["Register or sign in","Create an account or access your existing account.","#mct-account"],
   ["Choose PRO credits","Pick 1, 2 or 5 credits; active launch savings apply automatically.","#mct-pro-select-heading"],
   ["Verify your email & checkout","Email verification first; Stripe is still test-only.","#mct-account"],
-  ["Open your PRO Workspace","Start a new closing when you have an active credit.","/my-closings.html"]
+  ["Create PRO & save PDF","Open My Closings, select + Start New Closing, then download your private PDF.","/my-closings.html"]
  ];
  values.forEach((v,i)=>{
   const n=i+1,el=root.querySelector('[data-mct-guide-step="'+n+'"]');
@@ -899,13 +899,13 @@ function updateProGuide(){
  status.textContent=credits>0?"READY TO OPEN YOUR WORKSPACE":"NEXT STEP · "+step+" OF 4";
  const desc=$("mct-pro-guide-description"),note=$("mct-pro-guide-footnote");
  if(gift){
-  desc.textContent="For invited Realtors only. First register or sign in, verify your email, activate your private gift code and open PRO for $0.00.";
+  desc.textContent="Already have a FREE code? Register with the invited email, confirm it, enter your code and start one PRO closing for $0.00.";
   note.textContent=credits>0?"Your credit is active. Open your PRO Workspace.":"No Stripe payment, card, or LAUNCH90 code is required. Your private invitation is not available to the general public.";
   primary.textContent=step===1?"Step 1 · Create Your FREE Account →":
    step===2?"Step 2 · Check Your Verification Email →":
    step===3?"Step 3 · Activate Your Gift Code →":"Step 4 · Open My PRO Workspace →";
  }else{
-  desc.textContent="No gift needed. Create an account or sign in, verify your email, select your package, then use secure checkout when available.";
+  desc.textContent="Register and confirm your email. Choose a package for a TEST checkout, or request First Closing FREE above. After a credit is available, start your closing and save a private PDF.";
   note.textContent="Stripe is still in Sandbox; real card payments are not yet accepted.";
   primary.textContent=step===1?"Step 1 · Register or Sign In →":
    step===2?"Step 2 · Choose Your PRO Package →":
