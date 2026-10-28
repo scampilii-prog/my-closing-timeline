@@ -172,9 +172,15 @@ export async function onRequest(context){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email verification is not yet configured",503);
   const name=String(body.name||"").trim().slice(0,120),email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
   if(name.length<2||!emailOK(email)||password.length<12||password.length>128)return error("Enter your name, valid email and a password of at least 12 characters");
+  if(body.termsAccepted!==true)return error("You must confirm that you are 18 or older and accept the current Terms of Use and Privacy Policy",400);
   stage="R-LIMIT";if(!await permit(db,"register",req.headers.get("CF-Connecting-IP")||"unknown",20,900))return error("Too many registration attempts. Try again later.",429);stage="R-LOOKUP";const existing=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(existing)return error("This email already has an account. Please sign in.",409);
   stage="R-HASH";const id=guid(),salt=random(20),hash=await pbkdf(password,salt),token=random(32);
-  stage="R-INSERT";await db.batch([db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400)]);
+  stage="R-POLICY";await db.prepare("CREATE TABLE IF NOT EXISTS account_policy_acceptances (user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, terms_version TEXT NOT NULL, privacy_version TEXT NOT NULL, accepted_at TEXT NOT NULL DEFAULT (datetime('now')), acceptance_method TEXT NOT NULL)").run();
+  stage="R-INSERT";await db.batch([
+   db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash) VALUES(?,?,?,?,?)").bind(id,email,name,salt,hash),
+   db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(await digest(token),id,now()+86400),
+   db.prepare("INSERT INTO account_policy_acceptances(user_id,terms_version,privacy_version,acceptance_method) VALUES(?,?,?,?)").bind(id,"2026-10-28","2026-10-28","PRO register required checkbox")
+  ]);
   stage="R-EMAIL";try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
   catch(_){await db.batch([db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),db.prepare("DELETE FROM users WHERE id=? AND verified=0").bind(id)]);return error("Could not send verification email. Try again later.",503)}
   return reply({ok:true,message:"Check your email for a verification link."},201);
