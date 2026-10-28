@@ -4,6 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — onboarding nuevo cliente: solicitud gratis, registro, TEST checkout y PDF
+- **Motivo:** primera visita no entendía términos como “PRO credits”, “gift” ni las etapas de registro, pago, canje y PDF.
+- **GitHub:** en `pro-get-started.html` se aclaró que un crédito inicia un PRO closing, se añadió el CTA `Request First Closing FREE`, se revisaron textos estáticos y dinámicos de ambas opciones y se incluyó guía de PDF; botones existentes llevan al formulario de registro o sección de paquete. La URL con `auth=register&mode=gift` coloca al visitante en el registro con modalidad de código.
+- **GitHub:** `first-closing-free.html` ahora describe solicitud → confirmación email → aprobación Admin → código único de 30 días → cuenta con mismo email → canje → cierre PRO → PDF. Consentimiento marketing se conserva separado y desmarcado.
+- **GitHub:** `my-closings.html` explica cómo usar un crédito, crear un cierre y guardar PDF privado sin incluir datos inmobiliarios sensibles en el sitio.
+- **Sin cambiar:** backend de registro, Stripe, D1, Resend, PDFs locales, privacidad o consentimiento. **Solo Stripe Sandbox**. No se ha verificado publicación Cloudflare ni transacciones reales.
+- **Próximo paso:** prueba guiada del visitante en `/first-closing-free.html`, luego `/pro-get-started.html?auth=register&mode=gift#mct-account`, y finalmente `/my-closings.html`. Documentar errores exactos antes de ajustar funcionamiento.
+
 ## Website 15 — 2026-10-28 — botón FREE Summary dorado (corrección reforzada)
 - **Reporte del propietario:** el enlace en HOME seguía viéndose con letras casi invisibles después de la primera corrección.
 - **Cambio aplicado:** `index.html`: botón `Create & Share Your FREE Summary` en **dorado con texto azul marino**, estilo explícito directamente en el enlace y sus dos elementos de texto, versión interna `data-mct-cta-version="gold-20261028-v2"`; regla final de contraste y color de selección, manteniendo `href="free-timeline.html"`.
