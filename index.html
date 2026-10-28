@@ -2448,28 +2448,59 @@ html body main.mct-home-final #free-benefits #share-summary a.mct-free-share-act
  -webkit-text-fill-color:#ffffff!important;
 }
 </style>
-<style id="mct-home-photo-full-viewport-20261028">
-/* Owner correction: HOME hero photograph must span the FULL VIEWPORT,
-   independently of the centered 1420px content canvas. Retain the compact
-   vertical presentation; do not alter the summary rows or other pages. */
-html body main.workspace.mct-home-final > section.mct-home-opening{
+<style id="mct-home-hero-full-bleed-v2-20261028">
+/* Final owner instruction: photo on HOME reaches BOTH viewport edges.
+   Root cause: the hero was a child of a 1420px centered <main>.
+   Make ONLY HOME's parent main full width; constrain its lower sections
+   individually to 1420px. Do not shrink or reposition its table. */
+html body>main#home-overview.workspace.mct-home-final {
+ box-sizing:border-box!important;
+ display:block!important;
+ width:100%!important;
+ max-width:none!important;
+ min-width:0!important;
+ margin:0 auto 50px!important;
+ padding:0!important;
+ overflow:visible!important;
+}
+html body>main#home-overview.workspace.mct-home-final>section.mct-home-opening {
  box-sizing:border-box!important;
  display:grid!important;
  position:relative!important;
- width:100vw!important;
+ width:100%!important;
  max-width:none!important;
  min-width:0!important;
- margin-left:calc(50% - 50vw)!important;
- margin-right:calc(50% - 50vw)!important;
+ margin:0!important;
  border-radius:0!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
+ padding-left:max(20px,calc((100% - 1420px)/2))!important;
+ padding-right:max(20px,calc((100% - 1420px)/2))!important;
+}
+html body>main#home-overview.workspace.mct-home-final>section#home-essentials,
+html body>main#home-overview.workspace.mct-home-final>section#free-benefits,
+html body>main#home-overview.workspace.mct-home-final>section#pro-benefits,
+html body>main#home-overview.workspace.mct-home-final>section.mct-home-why,
+html body>main#home-overview.workspace.mct-home-final>section.mct-home-next,
+html body>main#home-overview.workspace.mct-home-final>p.mct-home-caveat {
+ box-sizing:border-box!important;
+ width:calc(100% - 40px)!important;
+ max-width:1420px!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
 }
 @media(max-width:700px){
- html body main.workspace.mct-home-final > section.mct-home-opening{
-  width:100vw!important;
-  margin-left:calc(50% - 50vw)!important;
-  margin-right:calc(50% - 50vw)!important;
+ html body>main#home-overview.workspace.mct-home-final>section.mct-home-opening {
+  padding-left:12px!important;
+  padding-right:12px!important;
+ }
+ html body>main#home-overview.workspace.mct-home-final>section#home-essentials,
+ html body>main#home-overview.workspace.mct-home-final>section#free-benefits,
+ html body>main#home-overview.workspace.mct-home-final>section#pro-benefits,
+ html body>main#home-overview.workspace.mct-home-final>section.mct-home-why,
+ html body>main#home-overview.workspace.mct-home-final>section.mct-home-next,
+ html body>main#home-overview.workspace.mct-home-final>p.mct-home-caveat {
+  width:calc(100% - 24px)!important;
  }
 }
 </style></body></html>
