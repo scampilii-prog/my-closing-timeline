@@ -29,6 +29,13 @@
 - **Precios previstos en código:** 1 crédito $29.90, 2 $59.80, 5 $149.50; campaña LAUNCH90 con descuentos. No asumir que estos precios están publicados o que se permite cobrar.
 - **Stripe solo Sandbox**, no pagos reales aún. Confirmar primero Cloudflare Pages/D1 migrations 0001–0005, Resend, permisos, aislamiento por cuentas, emails/opt-out, webhooks, códigos, tests de fechas y revisión legal.
 
+## D2. Nuevo recorrido aprobado — visitante por primera vez (Website 15)
+- En `pro-get-started.html` hay ahora instrucciones más sencillas: **un crédito = un cierre PRO**; primero elegir solicitar invitación `First Closing FREE` o registrar cuenta y escoger un paquete de **pago TEST / Stripe Sandbox**. El botón de solicitud va a `first-closing-free.html`.
+- Para FREE: completar correo en `first-closing-free.html` (marketing opcional desmarcado), confirmar email, esperar aprobación Admin, recibir código único vigente 30 días. Crear cuenta o iniciar sesión con **el mismo correo**, verificar cuenta, canjear código a $0 sin tarjeta. No concederlo sin aprobación ni confundir con `LAUNCH90` (descuento de compra, no crédito gratis).
+- PRO: abrir `my-closings.html`, seleccionar `+ Start New Closing`, utilizar referencia privada `CL-XXXXXXXX` y fechas, seleccionar el cierre, descargar `Download Private Fillable PDF`; completar nombres/direcciones únicamente en el PDF guardado localmente.
+- Cambios hechos SOLO de explicación y navegación (más `my-closings.html` texto de guía). No se han probado registros, emails, checkout, D1 ni PDF en Cloudflare en vivo. No activar pagos reales.
+- Próxima acción del usuario: abrir `https://myclosingtimeline.com/first-closing-free.html` como nuevo visitante e informar en qué paso llega o qué error aparece. Tras un código aprobado, usar `https://myclosingtimeline.com/pro-get-started.html?auth=register&mode=gift#mct-account`.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
