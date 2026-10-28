@@ -1431,6 +1431,95 @@ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct
   font-size:clamp(16px,5.5vw,20px)!important;
  }
 }
+
+/* HOME TYPOGRAPHY REFINEMENT OCT28
+   Manrope editorial hierarchy: larger high-contrast main line, legible supporting copy.
+   Preserve the tilted green tab and a single badge on HOME only. */
+html body main.mct-home-final > section#home-essentials.mct-home-essentials{
+ grid-template-columns:minmax(0,1.38fr) minmax(320px,.92fr) minmax(320px,1fr)!important;
+}
+html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy{
+ padding:25px 8px 8px!important;
+}
+html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan{
+ min-height:235px!important;
+ padding:65px 21px 30px 85px!important;
+ justify-content:center!important;
+ gap:9px!important;
+}
+html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan::before{
+ width:52px!important;height:52px!important;
+ left:14px!important;top:60%!important;
+ background-size:44px 44px!important;
+ border-radius:13px!important;
+}
+html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-main{
+ font-family:Manrope,Arial,sans-serif!important;
+ font-size:clamp(21px,1.75vw,26px)!important;
+ font-weight:900!important;
+ line-height:1.23!important;
+ letter-spacing:-.035em!important;
+ text-wrap:balance!important;
+ color:#fffdf7!important;
+ max-width:none!important;
+ text-shadow:0 1px 1px rgba(18,6,15,.13)!important;
+}
+html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-note{
+ font-family:Manrope,Arial,sans-serif!important;
+ font-size:clamp(13px,1vw,15px)!important;
+ font-weight:700!important;
+ line-height:1.55!important;
+ letter-spacing:-.008em!important;
+ color:#f5dbc0!important;
+ margin:4px 0 0!important;
+ max-width:none!important;
+ text-wrap:pretty!important;
+}
+@media(max-width:1080px){
+ html body main.mct-home-final > section#home-essentials.mct-home-essentials{
+  grid-template-columns:minmax(0,1.35fr) minmax(305px,.95fr)!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan{
+  padding:62px 17px 27px 80px!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-main{
+  font-size:clamp(21px,2.5vw,25px)!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-note{
+  font-size:14px!important;
+ }
+}
+@media(max-width:740px){
+ html body main.mct-home-final > section#home-essentials.mct-home-essentials{
+  grid-template-columns:minmax(0,1fr)!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan{
+  min-height:210px!important;padding:61px 23px 27px 88px!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-main{
+  font-size:clamp(21px,4.5vw,27px)!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-note{
+  font-size:clamp(13.5px,2.8vw,15px)!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan::before{
+  width:49px!important;height:49px!important;left:17px!important;background-size:41px 41px!important;
+ }
+}
+@media(max-width:390px){
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan{
+  padding:62px 12px 23px 71px!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-main{
+  font-size:20px!important;letter-spacing:-.035em!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan .mct-slogan-note{
+  font-size:12.5px!important;
+ }
+ html body main.mct-home-final #home-essentials>.mct-home-essentials-privacy>.mct-brand-slogan::before{
+  width:40px!important;height:40px!important;left:12px!important;background-size:34px 34px!important;
+ }
+}
 </style></head><body style="padding-top:0!important"><header id="mct-site-header" class="mct-unified-header" style="position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:999999!important;width:100%!important"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" aria-current="page">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="workspace mct-home-final" id="home-overview"><section class="mct-home-opening"><div class="mct-home-copy"><p class="mct-overline">CLOSINGS MADE SIMPLE</p><h1>One clear timeline.<br><span>A smoother closing for everyone.</span></h1><p>Turn a signed contract into a professional <strong>Closing Timeline Summary</strong>. Listing agents can share it with the buyer’s agent to help both sides track important dates and milestones from contract to closing.</p><div class="mct-home-ctas"><a class="mct-home-primary" href="free-timeline.html">Start Free Timeline →</a><a class="mct-home-secondary" href="#pro-benefits">Explore PRO Benefits ↓</a></div><nav class="mct-home-questions" aria-label="Explore benefits"><a href="#free-benefits">What does FREE include? ↓</a><a href="#share-summary">What does the other agent receive? ↓</a><a href="#pro-benefits">How does PRO help me? ↓</a><a href="#reminder-methods">How will I get reminders? ↓</a></nav></div><div class="mct-showcase-card mct-luxury-timeline"><div class="mct-showcase-head"><span class="mct-luxury-house" aria-hidden="true"><svg viewBox="0 0 44 44" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M4 21 22 5l18 16M9 18v21h26V18M17 39V27h10v12M17 16h4v5h-4zM25 16h4v5h-4z"/></svg></span><span>Closing Timeline <em>Summary</em></span></div><div class="mct-luxury-column-head"><span>#</span><span>TASK / MILESTONE</span><span>DAYS</span><span>DUE DATE</span></div><div class="mct-luxury-body"><div class="mct-luxury-row mct-luxury-effective"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Effective date</span><strong class="mct-luxury-days">0</strong><span class="mct-luxury-date">03/01/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">1</span><span class="mct-luxury-task">1st Deposit</span><strong class="mct-luxury-days">3</strong><span class="mct-luxury-date">03/04/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">2</span><span class="mct-luxury-task">Loan Application</span><strong class="mct-luxury-days">5</strong><span class="mct-luxury-date">03/06/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">3</span><span class="mct-luxury-task">Condo Application</span><strong class="mct-luxury-days">10</strong><span class="mct-luxury-date">03/11/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">4</span><span class="mct-luxury-task">Property Inspection deadline w/right to cancel</span><strong class="mct-luxury-days">15</strong><span class="mct-luxury-date">03/16/22</span></div><div class="mct-luxury-row"><span class="mct-luxury-num">5</span><span class="mct-luxury-task">LOAN APPROVAL - Notify seller if NO LOAN APPROVAL</span><strong class="mct-luxury-days">30</strong><span class="mct-luxury-date">03/31/22</span></div><div class="mct-luxury-row mct-luxury-closing"><span class="mct-luxury-num">–</span><span class="mct-luxury-task">Closing date</span><strong class="mct-luxury-days">45</strong><span class="mct-luxury-date">04/15/22</span></div></div><small class="mct-luxury-caption">* Fictitious example only. Dates and deadlines must follow the signed contract.</small></div></section>
 <section class="mct-home-essentials" id="home-essentials" aria-label="Closing deadlines preview and quick links">
  
