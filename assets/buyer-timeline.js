@@ -168,8 +168,7 @@ function copyPicture(){
  navigator.clipboard.write([new ClipboardItem({'image/png':promise})]).then(()=>{$('closing-email-feedback').textContent='Image copied. Click inside your email message and paste with ⌘V (Mac) or Ctrl+V.'}).catch(()=>{$('closing-email-feedback').textContent='Download the PNG and drag it into your email message.'});
 }
 async function openInMail(){
- const recipient=$('deadline-email').value.trim();
- if(recipient&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)){alert('Enter a valid email address or leave it blank.');return}
+ const recipient=''; // Address the message privately in your own Mail application.
  let copied=false;
  try{
   if(navigator.clipboard&&window.ClipboardItem){
@@ -195,8 +194,7 @@ function viewEmailPreview(){
  const previewImage=emailPicture();dialog.querySelector('.fc-email-preview-body').innerHTML=buyerAgentNotice()+'<img class="fc-email-inline-picture" src="'+previewImage.toDataURL('image/png')+'" width="'+previewImage.width+'" style="display:block;max-width:100%;height:auto" alt="Closing Timeline Summary">'+buyerAgentClosing();openTimelineModal(dialog);
 }
 function exportFormattedEmail(){
- const recipient=$('deadline-email').value.trim();
- if(recipient&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)){alert('Enter a valid email address or leave it blank.');return}
+ const recipient=''; // Address the message privately in your own Mail application.
  const exportedImage=emailPicture(),png=exportedImage.toDataURL('image/png').split(',')[1];
  const id=Date.now().toString(16),related='fc-related-'+id,alt='fc-alternative-'+id,cid='buyer-timeline-'+id+'@floridacostiera.com';
  const html='<!doctype html><html><head><meta charset="utf-8"></head><body style="font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#18374b">'+buyerAgentNotice()+'<p><img src="cid:'+cid+'" width="'+exportedImage.width+'" style="display:block;width:'+exportedImage.width+'px;max-width:100%;height:auto" alt="Closing Timeline Summary"></p>'+buyerAgentClosing()+'</body></html>';
