@@ -18,6 +18,12 @@ async function owner(req,env){
 }
 async function tables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS first_free_requests(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,status TEXT NOT NULL DEFAULT 'pending_verification' CHECK(status IN ('pending_verification','pending','approved','sent','declined')),verification_hash TEXT,verification_expires INTEGER,verified_at TEXT,marketing_requested INTEGER NOT NULL DEFAULT 0 CHECK(marketing_requested IN (0,1)),promo_code_id TEXT UNIQUE REFERENCES promo_codes(id),requested_at TEXT NOT NULL DEFAULT (datetime('now')),updated_at INTEGER NOT NULL,sent_at TEXT,declined_at TEXT)").run();
+ // Add visitor classification to older databases without losing verified requests.
+ const info=await db.prepare("PRAGMA table_info(first_free_requests)").all();
+ if(!info.results.some(x=>x.name==="customer_type")){
+  try{await db.prepare("ALTER TABLE first_free_requests ADD COLUMN customer_type TEXT NOT NULL DEFAULT 'realtor' CHECK(customer_type IN ('realtor','other'))").run()}
+  catch(e){if(!/duplicate column/i.test(String(e?.message||"")))throw e}
+ }
  await db.prepare("CREATE INDEX IF NOT EXISTS idx_first_free_status ON first_free_requests(status,updated_at)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS marketing_consents(email TEXT PRIMARY KEY,source TEXT NOT NULL,consented_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
  // Discard abandoned, unverified requests older than 30 days.
@@ -38,7 +44,33 @@ async function eligible(db,email){
  if(await db.prepare("SELECT 1 FROM promo_redemptions p JOIN first_free_requests r ON r.promo_code_id=p.code_id WHERE p.user_id=? LIMIT 1").bind(u.id).first())return false;
  return true;
 }
-const publicReply="If eligible, you will receive an email asking you to confirm your request. Check your inbox or spam folder.";
+/* Automatic first-time reward. Verification is mandatory; manual owner approval
+   is not. The status compare-and-set locks issuance to one request/email. */
+async function issueVerifiedInvite(db,env,r){
+ if(!r||r.status!=="pending"||!r.verified_at||r.promo_code_id)return "not_ready";
+ if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return "not_configured";
+ if(!await eligible(db,r.email))return "ineligible";
+ const rid=r.id;
+  const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND undefined").bind(now(),rid).run();
+  if(!lock.meta?.changes)return "busy";
+  const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-activate.html#gift="+encodeURIComponent(t);
+  try{
+   await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,1,1,?,?)").bind(codeId,await sha(t),r.customer_type==="other"?null:now()+2592000,r.email).run();
+   await db.prepare("UPDATE first_free_requests SET promo_code_id=? WHERE id=? AND status='approved'").bind(codeId,rid).run();
+   const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="max-width:600px;background:white;border-top:5px solid #d5b578;border-radius:12px;padding:30px;margin:auto;color:#173b52"><div><a href="https://myclosingtimeline.com" style="text-decoration:none"><img src="https://myclosingtimeline.com/assets/myclosingtimeline-email-logo-dark.png" alt="MyClosingTimeline.com" width="300" style="display:block;max-width:100%;height:auto;border:0"></a></div><p>Your Clients. Your Records. Your Privacy.</p><h1>'+ (r.customer_type==="other"?"Your first Other Project PRO credit is reserved!":"Your first PRO Closing is on us!")+'</h1><p>Your email was confirmed. Enjoy <strong>one complimentary PRO Closing Credit</strong>, a planned $29.90 value, without a credit card.</p><p style="background:#f9f3e8;padding:14px;border-radius:8px">Your personal code: <strong>'+esc(t)+'</strong></p><p><a href="'+(r.customer_type==="other"?"https://myclosingtimeline.com/other-projects.html":link)+'" style="display:inline-block;padding:14px 19px;background:#173b52;color:white;text-decoration:none;border-radius:8px">'+(r.customer_type==="other"?"Explore Other Projects Preview":"Redeem My FREE Closing")+'</a></p><p>Register or sign in with <strong>'+esc(r.email)+'</strong>. Verify your email first. This single-use invitation expires in 30 days for Realtors. Other Projects PRO activation will be available after its separate launch. Eligibility applies.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a> · <a href="https://myclosingtimeline.com/unsubscribe.html">Unsubscribe</a> · <a href="https://myclosingtimeline.com/contact.html">Contact</a></p></div></div>';
+   const plain="Your first My Closing Timeline PRO Closing is complimentary (planned $29.90 value).\n\nPrivate code: "+t+"\nRedeem: "+link+"\n\nUse verified email: "+r.email+". One redemption. Realtor code expires in 30 days; Other Projects code is reserved until that PRO workspace launches. No card required.\nPrivacy: https://myclosingtimeline.com/privacy.html\nUnsubscribe: https://myclosingtimeline.com/unsubscribe.html";
+   // Mark ready before sending: once the provider accepts, the issued code is redeemable.
+   // If sending fails, disable the code and restore Pending in the catch branch.
+   await db.prepare("UPDATE first_free_requests SET status='sent',sent_at=datetime('now'),updated_at=? WHERE id=? AND status='approved'").bind(now(),rid).run();
+   await send(env,r.email,"Your FREE My Closing Timeline PRO invitation",html,plain);
+   return "sent";
+  }catch(e){
+   await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(codeId).run().catch(()=>{});
+   await db.prepare("UPDATE first_free_requests SET status='pending',promo_code_id=NULL,updated_at=? WHERE id=? AND status IN ('approved','sent')").bind(now(),rid).run().catch(()=>{});
+   return "send_failed";
+  }
+}
+const publicReply="Check your inbox for email confirmation. Once verified, your first-time code is sent automatically, without administrator approval.";
 export async function onRequest({request:req,env}){
  const u=new URL(req.url),route=u.pathname.replace(/^\/api\/first-free\/?/,"").replace(/\/$/,"");
  if(req.method==="GET"&&route==="health")return json({ok:true,configured:{database:!!env.PRO_DB,email:!!(env.RESEND_API_KEY&&env.MCT_FROM_EMAIL)}});
@@ -56,7 +88,14 @@ export async function onRequest({request:req,env}){
    await db.prepare("INSERT INTO marketing_consents(email,source) VALUES(?,'verified_first_free_opt_in') ON CONFLICT(email) DO UPDATE SET source=excluded.source,consented_at=datetime('now')").bind(r.email).run();
    await db.prepare("DELETE FROM marketing_optouts WHERE email_hash=?").bind(await sha(r.email)).run().catch(()=>{});
   }
-  return new Response(null,{status:303,headers:{Location:"/first-closing-free.html?verification=confirmed","Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
+  let outcome="pending";
+  if(updated.meta?.changes){
+   const verified=await db.prepare("SELECT * FROM first_free_requests WHERE id=?").bind(r.id).first();
+   outcome=await issueVerifiedInvite(db,env,verified);
+  }
+  // Even if delivery fails, confirmation persists. Visitor can retry the same
+  // verified address from the request form, without administrator assistance.
+  return new Response(null,{status:303,headers:{Location:"/first-closing-free.html?verification=confirmed&delivery="+(outcome==="sent"?"sent":"pending"),"Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
  }
  if(req.method==="GET"&&route==="admin/list"){
   if(!await owner(req,env))return err("Owner access required.",403);
@@ -69,17 +108,24 @@ export async function onRequest({request:req,env}){
  const b=await req.json();
  if(route==="request"){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return err("Email invitations are not ready. Please try again later.",503);
-  const email=String(b.email||"").trim().toLowerCase();
-  if(!emailOK(email)||typeof b.marketingOptIn!=="boolean")return err("Enter your email and confirm your email preferences.");
+  const email=String(b.email||"").trim().toLowerCase(),type=String(b.customerType||"");
+  if(!emailOK(email)||typeof b.marketingOptIn!=="boolean"||!["realtor","other"].includes(type))return err("Select Realtor or Other Projects and provide a valid email.");
   if(!await throttle(db,"firstfree_ip",req.headers.get("CF-Connecting-IP")||"unknown",8,3600)||!await throttle(db,"firstfree_email",email,3,86400))return err("Too many requests. Try later.",429);
-  const prev=await db.prepare("SELECT id,status,updated_at FROM first_free_requests WHERE email=?").bind(email).first();
+  const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type FROM first_free_requests WHERE email=?").bind(email).first();
+  // A previously confirmed request may be completed without requesting a
+  // second confirmation email or exposing the private code to this caller.
+  if(prev?.status==="pending"&&prev.verified_at&&!prev.promo_code_id){
+   const row=await db.prepare("SELECT * FROM first_free_requests WHERE id=?").bind(prev.id).first();
+   if(row.customer_type===type)await issueVerifiedInvite(db,env,row);
+   return json({ok:true,message:"If this verified address has an unused first-time benefit, your private code will be emailed to that address."});
+  }
   if(prev&&(prev.status!=="pending_verification"||now()-prev.updated_at<900))return json({ok:true,message:publicReply});
   if(!await eligible(db,email))return json({ok:true,message:publicReply});
   const t=token();
-  if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=?,verification_expires=?,marketing_requested=?,updated_at=? WHERE id=?").bind(await sha(t),now()+86400,b.marketingOptIn?1:0,now(),prev.id).run();
-  else await db.prepare("INSERT INTO first_free_requests(id,email,verification_hash,verification_expires,marketing_requested,updated_at) VALUES(?,?,?,?,?,?)").bind(guid(),email,await sha(t),now()+86400,b.marketingOptIn?1:0,now()).run();
+  if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=?,verification_expires=?,marketing_requested=?,customer_type=?,updated_at=? WHERE id=? AND status='pending_verification'").bind(await sha(t),now()+86400,b.marketingOptIn?1:0,type,now(),prev.id).run();
+  else await db.prepare("INSERT INTO first_free_requests(id,email,verification_hash,verification_expires,marketing_requested,customer_type,updated_at) VALUES(?,?,?,?,?,?,?)").bind(guid(),email,await sha(t),now()+86400,b.marketingOptIn?1:0,type,now()).run();
   const link="https://myclosingtimeline.com/api/first-free/confirm?token="+encodeURIComponent(t);
-  const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="background:white;border-top:5px solid #d6b579;padding:30px;max-width:580px;margin:auto;border-radius:12px;color:#173b52"><h1>Confirm your invitation request</h1><p>Thank you for your interest in My Closing Timeline PRO. Please confirm your email to request your first complimentary Closing Credit.</p><p><a style="background:#173b52;color:white;text-decoration:none;padding:14px 20px;display:inline-block;border-radius:7px" href="'+link+'">Confirm My Email</a></p><p>Confirmation does not guarantee approval. If this was not you, ignore this email.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a></p></div></div>';
+  const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="background:white;border-top:5px solid #d6b579;padding:30px;max-width:580px;margin:auto;border-radius:12px;color:#173b52"><h1>Confirm your invitation request</h1><p>Thank you for your interest in My Closing Timeline PRO. Please confirm your email to request your first complimentary Closing Credit.</p><p><a style="background:#173b52;color:white;text-decoration:none;padding:14px 20px;display:inline-block;border-radius:7px" href="'+link+'">Confirm My Email</a></p><p>After email confirmation, your one-time code is issued automatically if this is your first eligible request. No administrator approval. If this was not you, ignore this email.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a></p></div></div>';
   try{await send(env,email,"Confirm your My Closing Timeline invitation request",html,"Confirm your invitation request: "+link+"\n\nIf this was not you, ignore this email.\nPrivacy: https://myclosingtimeline.com/privacy.html")}
   catch(e){await db.prepare("DELETE FROM first_free_requests WHERE email=? AND status='pending_verification'").bind(email).run();return err("Could not send confirmation email. Try later.",503)}
   return json({ok:true,message:publicReply},202);
@@ -93,27 +139,10 @@ export async function onRequest({request:req,env}){
   if(route==="admin/decline"){
    await db.prepare("UPDATE first_free_requests SET status='declined',declined_at=datetime('now'),updated_at=? WHERE id=? AND status='pending'").bind(now(),rid).run();return json({ok:true});
   }
-  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return err("Invitation email delivery is not configured.",503);
-  if(!await eligible(db,r.email))return err("Not eligible: an existing PRO closing or prior free-first credit was found.",409);
-  if(!await throttle(db,"firstfree_owner","owner",25,3600))return err("Owner send limit reached.",429);
-  const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending'").bind(now(),rid).run();
-  if(!lock.meta?.changes)return err("Request is already being processed.",409);
-  const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-activate.html#gift="+encodeURIComponent(t);
-  try{
-   await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,1,1,?,?)").bind(codeId,await sha(t),now()+2592000,r.email).run();
-   await db.prepare("UPDATE first_free_requests SET promo_code_id=? WHERE id=? AND status='approved'").bind(codeId,rid).run();
-   const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="max-width:600px;background:white;border-top:5px solid #d5b578;border-radius:12px;padding:30px;margin:auto;color:#173b52"><div><a href="https://myclosingtimeline.com" style="text-decoration:none"><img src="https://myclosingtimeline.com/assets/myclosingtimeline-email-logo-dark.png" alt="MyClosingTimeline.com" width="300" style="display:block;max-width:100%;height:auto;border:0"></a></div><p>Your Clients. Your Records. Your Privacy.</p><h1>Your first PRO Closing is on us!</h1><p>Your invitation was approved. Enjoy <strong>one complimentary PRO Closing Credit</strong>, a planned $29.90 value, without a credit card.</p><p style="background:#f9f3e8;padding:14px;border-radius:8px">Your personal code: <strong>'+esc(t)+'</strong></p><p><a href="'+link+'" style="display:inline-block;padding:14px 19px;background:#173b52;color:white;text-decoration:none;border-radius:8px">Redeem My FREE Closing</a></p><p>Register or sign in with <strong>'+esc(r.email)+'</strong>. Verify your email first. This single-use invitation expires in 30 days. Eligibility applies.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a> · <a href="https://myclosingtimeline.com/unsubscribe.html">Unsubscribe</a> · <a href="https://myclosingtimeline.com/contact.html">Contact</a></p></div></div>';
-   const plain="Your first My Closing Timeline PRO Closing is complimentary (planned $29.90 value).\n\nPrivate code: "+t+"\nRedeem: "+link+"\n\nUse verified email: "+r.email+". One redemption, 30-day expiry, eligibility applies. No card required.\nPrivacy: https://myclosingtimeline.com/privacy.html\nUnsubscribe: https://myclosingtimeline.com/unsubscribe.html";
-   // Mark ready before sending: once the provider accepts, the issued code is redeemable.
-   // If sending fails, disable the code and restore Pending in the catch branch.
-   await db.prepare("UPDATE first_free_requests SET status='sent',sent_at=datetime('now'),updated_at=? WHERE id=? AND status='approved'").bind(now(),rid).run();
-   await send(env,r.email,"Your FREE My Closing Timeline PRO invitation",html,plain);
-   return json({ok:true,message:"Email service accepted the invitation. One private code issued."});
-  }catch(e){
-   await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(codeId).run().catch(()=>{});
-   await db.prepare("UPDATE first_free_requests SET status='pending',promo_code_id=NULL,updated_at=? WHERE id=? AND status IN ('approved','sent')").bind(now(),rid).run().catch(()=>{});
-   return err("Invitation could not be completed. Request is pending for retry.",503);
-  }
+  // Legacy admin action remains a troubleshooting fallback only.
+  const outcome=await issueVerifiedInvite(db,env,r);
+  if(outcome==="sent")return json({ok:true,message:"Code email accepted by provider."});
+  return err(outcome==="ineligible"?"An existing PRO closing or prior credit was found.":"No code issued. Request remains available for review.",409);
  }
  return err("Not found.",404);
  }catch(e){console.error("First FREE request failed",{route,type:e?.name||"Error"});return err("Invitation service is unavailable.",503)}
