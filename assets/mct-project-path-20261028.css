@@ -1,0 +1,43 @@
+/* FREE + PRO: prominent product-category switcher, isolated from form engines. */
+html body .mct-product-path{
+ box-sizing:border-box;width:100%;max-width:1188px;margin:22px auto 20px;padding:17px 20px 19px;
+ background:linear-gradient(130deg,#f5faf9 0%,#fffdf8 100%);
+ border:1px solid #c7dce1;border-left:5px solid #247986;border-radius:12px;
+ box-shadow:0 7px 22px rgba(16,46,65,.075);font-family:Manrope,Arial,sans-serif;color:#163e53;
+ scroll-margin-top:160px;
+}
+html body .mct-product-path-head{display:flex;justify-content:space-between;align-items:center;gap:10px 20px;flex-wrap:wrap;margin-bottom:13px}
+html body .mct-product-path-eyebrow{font:850 11px/1.4 Manrope,Arial,sans-serif;letter-spacing:.10em;color:#9a7137}
+html body .mct-product-path-head h3{margin:4px 0 0!important;color:#173f55!important;font:850 clamp(20px,2vw,25px)/1.3 Manrope,Arial,sans-serif!important}
+html body .mct-product-path-hint{color:#54717e!important;font:650 12px/1.5 Manrope,Arial,sans-serif!important}
+html body .mct-product-path-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+html body a.mct-product-path-option{
+ display:flex!important;gap:13px!important;align-items:center!important;min-width:0;
+ padding:15px 18px!important;border:2px solid #d5e1e5!important;border-radius:10px!important;
+ background:white!important;text-decoration:none!important;color:#1b485d!important;
+ box-shadow:none!important;transition:background .15s,border-color .15s;
+}
+html body a.mct-product-path-option.active{
+ border-color:#247d87!important;background:#ecf7f4!important;
+}
+html body a.mct-product-path-option:hover{border-color:#247d87!important;background:#f1f8f7!important}
+html body a.mct-product-path-option:focus-visible{outline:3px solid #d6ae65!important;outline-offset:2px}
+html body .mct-product-path-icon{
+ flex:0 0 43px;width:43px;height:43px;display:grid;place-items:center;
+ background:#dfebef;color:#206a78;border-radius:12px;font:800 23px/1 Manrope,Arial,sans-serif
+}
+html body a.mct-product-path-option.active .mct-product-path-icon{background:#217381;color:white}
+html body .mct-product-path-text{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+html body .mct-product-path-text strong{color:#153f54;font:850 clamp(15px,1.4vw,18px)/1.35 Manrope,Arial,sans-serif!important}
+html body .mct-product-path-text small{color:#5a7480;font:600 12px/1.55 Manrope,Arial,sans-serif!important}
+html body .mct-product-path-arrow{color:#2b7c83;font:850 20px Manrope,Arial,sans-serif}
+html body main.workspace #contract-deadline-planner .mct-product-path{
+ max-width:none;margin:30px 18px 21px!important;width:calc(100% - 36px)!important;
+}
+html body main.mct-pro-registration-main .mct-product-path{max-width:940px;margin:20px auto!important}
+@media(max-width:760px){
+ html body .mct-product-path{padding:14px 12px}
+ html body .mct-product-path-options{grid-template-columns:1fr}
+ html body a.mct-product-path-option{padding:12px!important}
+ html body main.workspace #contract-deadline-planner .mct-product-path{margin:24px 10px 18px!important;width:calc(100% - 20px)!important}
+}
