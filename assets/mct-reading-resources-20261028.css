@@ -1,0 +1,70 @@
+/* Website 12 · conspicuous but compact educational external resources under the Florida closing guide */
+html body #understanding-closing .mct-external-reading{
+ margin:19px 0 3px!important;padding:18px 18px 15px!important;
+ border:1px solid #b9d7dd!important;border-left:5px solid #217788!important;
+ border-radius:12px!important;background:#f4fafb!important;
+ box-shadow:0 4px 14px rgba(16,61,79,.055)!important;
+ font-family:Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-external-reading h3{
+ margin:0 0 4px!important;color:#173e54!important;
+ font:850 clamp(19px,1.65vw,23px)/1.32 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-subtitle{
+ margin:0 0 14px!important;color:#547180!important;
+ font:600 13.5px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-grid{
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:10px!important;
+}
+html body #understanding-closing .mct-reading-card{
+ display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:6px!important;
+ padding:15px 13px!important;min-width:0!important;min-height:145px!important;
+ background:#fff!important;border:1px solid #cddfe3!important;border-radius:9px!important;
+ color:#1e4b61!important;text-decoration:none!important;
+ box-shadow:0 2px 8px rgba(15,59,76,.025)!important;transition:background .15s,border-color .15s,box-shadow .15s!important;
+}
+html body #understanding-closing .mct-reading-card:hover,
+html body #understanding-closing .mct-reading-card:focus-visible{
+ border-color:#39899a!important;background:#eaf7f7!important;
+ box-shadow:0 4px 12px rgba(19,88,101,.11)!important;outline-offset:2px!important;
+}
+html body #understanding-closing .mct-reading-source{
+ color:#a07636!important;font:900 11px/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:.05em!important;text-transform:uppercase!important;
+}
+html body #understanding-closing .mct-reading-card strong{
+ color:#183e54!important;font:850 clamp(14.5px,1.08vw,16px)/1.35 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-card .mct-reading-detail{
+ color:#557383!important;font:600 12.5px/1.45 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-open{
+ margin-top:auto!important;color:#146b79!important;font:850 12.3px/1.3 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-additional{
+ display:flex!important;align-items:center!important;gap:5px 9px!important;flex-wrap:wrap!important;
+ margin:12px 0 0!important;color:#576f7b!important;
+ font:650 12.5px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body #understanding-closing .mct-reading-additional a{
+ color:#17657f!important;font-weight:850!important;text-decoration:underline!important;
+ text-underline-offset:3px!important;
+}
+html body .mct-resource-area .mct-resource-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+@media(max-width:1100px){
+ html body #understanding-closing .mct-reading-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:900px){
+ html body .mct-resource-area .mct-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:550px){
+ html body #understanding-closing .mct-external-reading{padding:15px 13px!important}
+ html body #understanding-closing .mct-reading-grid{grid-template-columns:1fr!important}
+ html body #understanding-closing .mct-reading-card{min-height:0!important;padding:12px 13px!important}
+ html body .mct-resource-area .mct-resource-grid{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body #understanding-closing .mct-reading-card{transition:none!important}
+}
