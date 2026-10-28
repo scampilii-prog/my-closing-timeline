@@ -98,3 +98,21 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #m
   flex:1 1 140px!important;max-width:none!important;min-width:130px!important
  }
 }
+
+/* Calm tertiary utilities: quiet chips instead of distracting underlined links. */
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet>button.mct-free-share-text{
+ min-height:29px!important;padding:5px 9px!important;
+ border:1px solid #d2e1e7!important;border-radius:6px!important;background:#f7fafb!important;
+ text-decoration:none!important;box-shadow:none!important;color:#496c7c!important;
+ font:750 11px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review details.mct-free-more-share>summary{
+ display:list-item!important;min-height:29px!important;
+ padding:5px 9px!important;background:#f7fafb!important;
+ border:1px solid #d2e1e7!important;border-radius:6px!important;
+ text-decoration:none!important;color:#496c7c!important;
+ font:750 11px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-extra-share>button{
+ font-size:11px!important;color:#456f80!important;
+}
