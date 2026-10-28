@@ -2,6 +2,7 @@
 Real Estate Closing Timeline Manager
 
 ## Continuidad del proyecto / Project handoff
+- **[EMPEZAR AQUÍ — resumen corto y siguiente tarea](NEXT_CHAT_START_HERE.md)**
 - [Documento maestro — decisiones, estado y siguiente tarea](PROJECT_CONTINUITY_MASTER.md)
 - [Registro de cambios y verificación](PROJECT_CHANGELOG.md)
 
