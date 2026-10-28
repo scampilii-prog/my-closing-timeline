@@ -58,6 +58,17 @@ function pendingPeriodOrder(a,b){if(a.base!==b.base||a.date||b.date||a.override|
 function sortRows(){manualOrder=false;const before=rows.slice();rows=rows.map((r,i)=>({r,i,date:rowDate(r)})).sort((a,b)=>(a.date||'9999-12-31').localeCompare(b.date||'9999-12-31')||pendingPeriodOrder(a.r,b.r)||a.i-b.i).map(x=>x.r);if(rows.some((r,i)=>r!==before[i]))render();else show()}
 root.addEventListener('focusout',function(e){const card=e.target.closest&&e.target.closest('[data-index]');if(!card||(e.relatedTarget&&card.contains(e.relatedTarget)))return;sortRows()});
 function collect(){const effective=$('deadline-effective').value,closing=$('deadline-closing').value;const out=[{kind:'effective',name:'Effective date',date:effective,days:'0',detail:'Effective date',status:effective?'scheduled':'pending'},...rows.flatMap((r,index)=>{if(!r.name)return [];const date=rowDate(r);const timing=(r.direction==='before'?'Before ':'After ')+(r.base==='closing'?'Closing Date':r.base==='effective'?'Acceptance':r.base==='recovery'?'Services Restored':'Receipt / Event');const detail=r.override?'Entered exact date':r.days!==''?(r.days+' '+(r.type==='business'?'business days (weekends and U.S. federal holidays excluded)':'calendar days (holiday/weekend deadline adjustment)')+' '+r.direction+' '+r.base+' date'):'Enter contract period or exact date';return{kind:r.name.includes('lender closing funds')?'extension-funds':r.name.includes('Force Majeure')?'extension-force':'task',taskNumber:index+1,timing,base:r.base,direction:r.direction,missingBase:!date&&r.days!==''?r.base:'',days:r.days||'',name:(r.custom|| (r.name===names[names.length-1]?'Custom task':r.name)),date,detail,status:r.status,amount:r.amount||'',note:r.note||''}}),{kind:'closing',name:'Closing date',date:closing,days:utcDate(effective)&&utcDate(closing)?String(Math.round((utcDate(closing)-utcDate(effective))/86400000)):'',detail:'Effective date',status:closing?'scheduled':'pending'}];const arrange=list=>[...list.filter(x=>x.kind==='effective'),...list.filter(x=>x.kind==='task'),...list.filter(x=>x.kind==='closing'),...list.filter(x=>x.kind.startsWith('extension-'))];if(manualOrder)return arrange(out);return arrange(out.map((r,i)=>({r,i})).sort((a,b)=>(a.r.date||'9999-12-31').localeCompare(b.r.date||'9999-12-31')||pendingPeriodOrder(a.r,b.r)||a.i-b.i).map(x=>x.r))}
+/* Shared read-only calendar export: always take the current edited contract dates. */
+window.MCTCalendarGetTimeline=()=>({
+ property:document.getElementById('property-address')?.value?.trim()||'',
+ agent:document.getElementById('agent-name')?.value?.trim()||'',
+ effective:document.getElementById('deadline-effective')?.value||'',
+ closing:document.getElementById('deadline-closing')?.value||'',
+ entries:collect().map(row=>({
+  name:String(row.name||''),date:String(row.date||''),kind:String(row.kind||''),
+  status:String(row.status||''),detail:String(row.detail||''),note:String(row.note||'')
+ }))
+});
 function timelineShortDate(date){const d=utcDate(date);if(!d)return 'Not entered';return new Intl.DateTimeFormat('en-US',{year:'2-digit',month:'2-digit',day:'2-digit',timeZone:'UTC'}).format(d)}function timelineDay(date){const d=utcDate(date);return d?new Intl.DateTimeFormat('en-US',{weekday:'short',timeZone:'UTC'}).format(d):'—'}
 function timelineDays(r){return r.days!==undefined&&r.days!==''?String(r.days):'—'}
 function timelineStatus(r){return r.status==='done'?'Completed':r.status==='na'?'Not applicable':'Pending'}
