@@ -25,7 +25,7 @@ function load(){
  try{var val=localStorage.getItem(key);if(!val)return;var a=JSON.parse(val);if(!a||!Array.isArray(a.tasks))return;
  state.endDate=parse(a.endDate)?a.endDate:"";
  state.planStart=parse(a.planStart)?a.planStart:today();
- state.planHorizon=["1m","6m","12m","ongoing","custom"].includes(a.planHorizon)?a.planHorizon:(state.endDate?"custom":"ongoing");
+ state.planHorizon=a.planHorizon==="6m"?"custom":(["1m","3m","12m","ongoing","custom"].includes(a.planHorizon)?a.planHorizon:(state.endDate?"custom":"ongoing"));
  state.tasks=a.tasks.filter(function(t){return t&&typeof t.name==="string"&&parse(t.due)&&["once","weekly","monthly"].includes(t.repeat)}).map(function(t){
  return {id:String(t.id||taskId()),name:t.name.slice(0,140),due:t.due,repeat:t.repeat,
  anchor:Number(t.anchor)||parse(t.due).getDate(),doneCount:Math.max(0,Number(t.doneCount)||0),
@@ -87,6 +87,10 @@ function proRender(){
  if($("mpt-pro-enddate"))$("mpt-pro-enddate").disabled=!state.endDate;
  document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.setAttribute("aria-pressed",String(state.planHorizon===btn.dataset.mptHorizon))});
  if($("mpt-pro-horizon-label"))$("mpt-pro-horizon-label").textContent=state.endDate?"Plan until "+readable(state.endDate):"Ongoing · no fixed end date";
+ var offers={"1m":"1 credit · $19.90","3m":"2 credits · $34.90","12m":"5 credits · $84.90"};
+ if($("mpt-pro-offer-info"))$("mpt-pro-offer-info").textContent=offers[state.planHorizon]?
+  "Proposed LAUNCH90-equivalent offer: "+offers[state.planHorizon]+". Preview only — not for sale.":
+  "Custom / ongoing timeline. No separate credit price or billing period is assigned. Preview only.";
  if(memoryOnly)notify("mpt-pro-message","Local storage is unavailable. This demonstration will not be saved after leaving the page.","warn");
 }
 function freeActions(){
@@ -140,13 +144,13 @@ function proActions(){
   else{var input=$("mpt-pro-enddate");input.disabled=false;input.value=state.endDate||addMonths(state.planStart||today(),1);input.focus();notify("mpt-pro-message","Choose an end date or select a planning period.","info")}
  });
  document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.addEventListener("click",function(){
-  var v=btn.dataset.mptHorizon,months={"1m":1,"6m":6,"12m":12}[v];if(!months)return;
+  var v=btn.dataset.mptHorizon,months={"1m":1,"3m":3,"12m":12}[v];if(!months)return;
   state.planStart=parse($("mpt-pro-plan-start").value)?$("mpt-pro-plan-start").value:today();state.planHorizon=v;state.endDate=addMonths(state.planStart,months);
   save();proRender();notify("mpt-pro-message","Planning period selected: "+months+(months===1?" month":" months")+", ending "+readable(state.endDate)+".","info");
  })});
  $("mpt-pro-plan-start").addEventListener("change",function(e){
   if(!parse(e.target.value)){e.target.value=state.planStart||today();return}state.planStart=e.target.value;
-  if(["1m","6m","12m"].includes(state.planHorizon))state.endDate=addMonths(state.planStart,{"1m":1,"6m":6,"12m":12}[state.planHorizon]);
+  if(["1m","3m","12m"].includes(state.planHorizon))state.endDate=addMonths(state.planStart,{"1m":1,"3m":3,"12m":12}[state.planHorizon]);
   save();proRender();notify("mpt-pro-message","Project start updated. Check your task dates.","info");
  });
  $("mpt-pro-set-end").addEventListener("click",function(){
