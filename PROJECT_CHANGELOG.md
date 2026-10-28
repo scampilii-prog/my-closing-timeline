@@ -3,6 +3,15 @@
 
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
+
+## Website 15 — 2026-10-28 — 1280px uniforme en HOME y todas las páginas
+- **Decisión del propietario:** HOME se veía demasiado estrecho. TODAS las páginas comparten ahora un **ancho máximo común de 1280px** para su contenido principal (sin abrir los fondos fotográficos o las tablas hasta los bordes).
+- **Implementado en GitHub:** la hoja `assets/mct-hero-left-edge-20261028.css` cambia su referencia de 1140px a 1280px; nuevas reglas finales prevalecen sobre restricciones antiguas y mantienen márgenes responsivos de 12px en móvil.
+- **Caché actualizado:** 22 páginas HTML, incluidas HOME, FREE, PRO, Pricing, Help, Other Projects, Admin Console, invitaciones y páginas auxiliares, usan `/assets/mct-hero-left-edge-20261028.css?v=5`.
+- **No se tocó:** lógica de deadlines, calendarios, tareas, PDFs, login, pagos Stripe, D1, Resend ni privacidad.
+- **Verificación:** commits GitHub escritos. **Sin certificación de la publicación Cloudflare ni prueba visual en un navegador real**, debido a que el dominio no es accesible desde el entorno de comprobación.
+- **Siguiente paso:** abrir cada URL en escritorio y móvil; comprobar anchura, alineación de título fotográfico, tarjetas y ausencia de desplazamiento horizontal. Registrar cualquier corrección específica.
+
 ## Website 15 — 2026-10-28 — recuperación, inventario y documentación
 **Objetivo:** continuar exactamente desde Website 14; sin alterar diseños ni flujos ya aprobados.
 
