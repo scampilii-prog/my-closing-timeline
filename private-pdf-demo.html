@@ -43,8 +43,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #c8a05f;outline-offset:3p
 footer{font-size:12px;text-align:center;color:#728490;padding:18px 20px 32px}
 @media(max-width:930px){.layout{grid-template-columns:1fr}#pdf-preview{height:720px}}
 @media(max-width:560px){.panel{padding:16px}.summary{grid-template-columns:1fr}.metric.wide{grid-column:auto}#pdf-preview{height:580px}.brand{font-size:17px}}
-</style>
-<script src="/assets/mct-private-pdf-20261028.js?v=4" defer></script>
+.mode-picker{display:flex;flex-direction:column;gap:7px;margin:5px 0 20px}.mode-picker label{font-size:12px;font-weight:850;color:#36596a}.mode-picker select{padding:12px;border:1px solid #9fbfc5;border-radius:8px;font:750 14px Manrope,Arial,sans-serif;color:#173b52;background:#f7fbfa;width:100%;min-height:46px}.mode-explain{margin:0 0 11px;color:#52717a;font-size:12px;line-height:1.5}.date-highlight{box-shadow:inset 0 0 0 1px #cca667;background:#fff8e9!important}</style>
+<script src="/assets/mct-private-pdf-20261028.js?v=5" defer></script>
 </head>
 <body>
 <header>
@@ -52,14 +52,14 @@ footer{font-size:12px;text-align:center;color:#728490;padding:18px 20px 32px}
   <nav aria-label="Navegación de prueba"><a href="/personal-sabatino.html">Admin Console</a><a href="/pro-timeline.html">PRO Timeline</a><a href="/my-closings.html">My Closings</a></nav>
 </header>
 <main>
- <div class="heading"><div><span class="eyebrow">Owner preview · PDF privado</span><h1>Así se verá un PDF de un cierre registrado</h1><p class="note">Este cierre es totalmente ficticio. La prueba no crea ninguna transacción, no consume créditos y no envía información a nuestros servidores.</p></div><span class="flag">SOLO DEMOSTRACIÓN</span></div>
+ <div class="heading"><div><span class="eyebrow">Owner preview · PDF privado</span><h1>PDF editable: Real Estate y Other Projects</h1><p class="note">Este cierre es totalmente ficticio. La prueba no crea ninguna transacción, no consume créditos y no envía información a nuestros servidores.</p></div><span class="flag">SOLO DEMOSTRACIÓN</span></div>
  <div class="layout">
   <section class="panel" aria-label="Cierre ficticio y descarga">
-   <h2>Closing · CL-D3E0A125</h2>
-   <div class="summary"><div class="metric"><span>Effective Date</span><strong>11/02/2026</strong></div><div class="metric"><span>Closing Date</span><strong>12/17/2026</strong></div><div class="metric wide"><span>Transaction status</span><strong>Sample / In progress</strong></div></div>
+   <h2 id="current-kind-title">Closing · CL-D3E0A125</h2><div class="mode-picker"><label for="mct-demo-kind">Selecciona el tipo de proyecto</label><select id="mct-demo-kind"><option value="real_estate">Real Estate Closing</option><option value="other">Other Projects (sin datos inmobiliarios)</option></select></div><p class="mode-explain" id="mct-demo-explain">PDF con compañía de cierre, persona encargada, dirección y teléfono.</p>
+   <div class="summary"><div class="metric"><span id="mct-start-label">Effective Date</span><strong>11/02/2026</strong></div><div class="metric date-highlight"><span id="mct-target-label">Closing Date</span><strong>12/17/2026</strong></div><div class="metric wide"><span>Transaction status</span><strong>Sample / In progress</strong></div></div>
    <h2>Comprueba sus campos privados</h2>
-   <ol><li>Descarga el PDF rellenable.</li><li>Ábrelo en Adobe Acrobat o Vista Previa en tu Mac.</li><li>Completa nombres, propiedad, precio, contactos y comentarios en los campos editables.</li><li>Guarda tu copia, ciérrala y vuelve a abrirla para comprobar que conserva los cambios.</li></ol>
-   <button type="button" id="download">Descargar PDF privado rellenable</button>
+   <ol><li>Descarga el PDF rellenable.</li><li>Ábrelo en Adobe Acrobat o Vista Previa en tu Mac.</li><li>Completa las tres columnas, las extensiones, las tareas posteriores y comentarios.</li><li>Guarda tu copia, ciérrala y vuelve a abrirla para comprobar que conserva los cambios.</li></ol>
+   <button type="button" id="download">Descargar PDF privado · 3 columnas</button>
    <p id="feedback" role="status" aria-live="polite" class="help">El PDF se genera y descarga exclusivamente en tu navegador.</p>
    <div class="privacy"><strong>Privacidad:</strong> los campos personales se entregan en blanco. Los rellenas en tu propio dispositivo y no se incorporan al cierre guardado en PRO.</div>
   </section>
@@ -74,39 +74,47 @@ footer{font-size:12px;text-align:center;color:#728490;padding:18px 20px 32px}
 <footer>MyClosingTimeline.com · Your Clients. Your Records. Your Privacy. · Test privado, sin datos reales</footer>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
- const info={
-  reference:'CL-D3E0A125',
-  effective:'2026-11-02',
-  closing:'2026-12-17',
-  entries:[
-   {name:'Effective date',date:'2026-11-02',status:'Done'},
-   {name:'1st Deposit',date:'2026-11-05',status:'Pending'},
-   {name:'2nd Deposit',date:'2026-11-09',status:'Pending'},
-   {name:'Loan Application',date:'2026-11-09',status:'Pending'},
-   {name:'Condo Application',date:'2026-11-09',status:'Pending'},
-   {name:'Property Inspection deadline',date:'2026-11-10',status:'Pending'},
-   {name:'LOAN APPROVAL notice',date:'2026-12-02',status:'Pending'},
-   {name:'Closing date',date:'2026-12-17',status:'Pending'}
-  ]
- };
+ const base={reference:'CL-D3E0A125',effective:'2026-11-02',closing:'2026-12-17'};
+ const real=[
+  ['Effective date','2026-11-02'],['1st Deposit','2026-11-05'],['2nd Deposit','2026-11-09'],
+  ['Loan Application','2026-11-09'],['Condo Application','2026-11-09'],['Property Inspection','2026-11-10'],
+  ['LOAN APPROVAL notice','2026-12-02'],['Original Closing Date','2026-12-17'],
+  ['Final document delivery','2026-12-19'],['Closing follow-up','2026-12-22']
+ ];
+ const other=[
+  ['Project kickoff','2026-11-02'],['Requirements approval','2026-11-05'],['Contractor proposal','2026-11-09'],
+  ['Phase one','2026-11-15'],['Quality review','2026-12-02'],['Original target date','2026-12-17'],
+  ['Handover','2026-12-19'],['Service review','2026-12-22']
+ ];
+ const select=document.getElementById('mct-demo-kind');
  const download=document.getElementById('download'),feedback=document.getElementById('feedback'),frame=document.getElementById('pdf-preview'),status=document.getElementById('previewStatus');
- download.addEventListener('click',()=>{
+ let localPreview=null;
+ const data=()=>({...base,projectType:select.value,entries:(select.value==='other'?other:real).map(([name,date],i)=>({name,date,status:i===0?'Done':'Pending'}))});
+ function preview(){
+  const isOther=select.value==='other';
+  document.getElementById('current-kind-title').textContent=(isOther?'Project':'Closing')+' · CL-D3E0A125';
+  document.getElementById('mct-start-label').textContent=isOther?'Start Date':'Effective Date';
+  document.getElementById('mct-target-label').textContent=isOther?'Target Date':'Closing Date';
+  document.getElementById('mct-demo-explain').textContent=isOther?'PDF para proyectos, proveedores, presupuesto y etapas. Sin campos exclusivos de bienes raíces.':'PDF con Closing Company, su dirección, responsable, teléfono y demás campos inmobiliarios.';
   try{
-   window.MCTPrivatePDFDownload(info);
-   feedback.textContent='PDF de prueba descargado. Ábrelo, completa los campos y guárdalo en tu dispositivo.';
-  }catch(e){feedback.textContent='El PDF no se pudo descargar en este navegador. Comprueba que las descargas estén permitidas.'}
- });
- try{
-  const blob=window.MCTPrivatePDFCreateBlob(info);
-  const url=URL.createObjectURL(blob);
-  frame.src=url+'#toolbar=1&navpanes=0';
-  status.textContent='Generado localmente · 2 páginas';
-  window.addEventListener('pagehide',()=>URL.revokeObjectURL(url),{once:true});
- }catch(e){
-  document.getElementById('fallback').style.display='block';frame.hidden=true;
-  status.textContent='Vista previa no disponible';
-  feedback.textContent='Puedes intentar descargar el PDF con el botón de la izquierda.';
+   const blob=window.MCTPrivatePDFCreateBlob(data()),url=URL.createObjectURL(blob);
+   frame.src=url+'#toolbar=1&navpanes=0';
+   if(localPreview)setTimeout(()=>URL.revokeObjectURL(localPreview),1000);
+   localPreview=url;status.textContent='Generado localmente · 3 páginas · 42 campos';
+   frame.hidden=false;document.getElementById('fallback').style.display='none';
+   feedback.textContent='Selecciona un formato, descarga el PDF y edita los campos en tu dispositivo.';
+  }catch(e){
+   document.getElementById('fallback').style.display='block';frame.hidden=true;
+   status.textContent='Vista previa no disponible';feedback.textContent='Prueba la descarga u otro navegador.';
+  }
  }
+ select.addEventListener('change',preview);
+ download.addEventListener('click',()=>{
+  try{window.MCTPrivatePDFDownload(data());feedback.textContent='PDF descargado. Puedes rellenarlo, guardarlo y volver a editarlo localmente.'}
+  catch(e){feedback.textContent='No se pudo descargar el PDF. Revisa la configuración de Chrome.'}
+ });
+ window.addEventListener('pagehide',()=>{if(localPreview)URL.revokeObjectURL(localPreview)},{once:true});
+ preview();
 });
 </script>
 </body>
