@@ -3,6 +3,13 @@
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
 
+## WEBSITE 16 — HOME: START HERE ahora es la PRIMERA tarjeta (28-oct-2026)
+- Última preferencia del propietario: **START HERE va en la primera columna a la izquierda de HOME, debajo del hero fotográfico**; **Today & Tomorrow queda en el medio** y **Privacy First a la derecha**.
+- El recuadro izquierdo contiene la orientación FREE/PRO y **Beyond Real Estate** debajo. Fondo exterior navy→turquesa con marco dorado y sombra; interior crema/dorado; dos opciones FREE teal/PRO dorado. El visitante debe reconocer dónde comenzar antes de ver el ejemplo de fechas.
+- HTML `index.html` reordenado también a nivel DOM, adaptado a móvil apilando en el mismo orden. NO mover el recuadro sobre la foto a pantalla completa ni alterar rutas de Realtor/Other Projects.
+- Commits `22c97288f0e3fec22d932b89d65c783636053956` + `dc5788ffbc041bb75a2ab286ce9a19e81a01bd96`. Orden/IDs/estilos comprobados estáticamente en GitHub. **Cloudflare, apariencia real y móvil pendientes**.
+- Enlace para revisar como propietario: https://myclosingtimeline.com/?mct_refresh=start-first-20261028#home-essentials
+
 ## WEBSITE 16 — HOME: orientación inmediata del nuevo visitante (28-oct-2026)
 - En `index.html` el recuadro CENTRAL de HOME (`#mct-first-free-offer`, arriba de Beyond Real Estate) ahora incluye un distintivo verde **START HERE** y explica claramente dos opciones ALTERNATIVAS: abrir el Realtor FREE Timeline sin registro o solicitar un código del primer Realtor PRO Closing gratis sujeto a verificación/aprobación. Bajo ellas figura `Already have a code? Redeem & start`.
 - Mantener título **Your First PRO Closing Could Be FREE.**, el botón Beyond Real Estate debajo y la guía Privacy First de la derecha. No agregar un segundo recuadro introductorio redundante.
