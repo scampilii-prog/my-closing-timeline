@@ -4,6 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — HOME: START HERE para visitantes nuevos
+- **Solicitud / captura:** en la columna central de HOME, en la tarjeta crema de `Your First PRO Closing Could Be FREE.`, indicar claramente dónde comienza el visitante; conservar la oferta y la tarjeta separada Beyond Real Estate.
+- **Cambio único de interfaz en `index.html`:** etiqueta verde **START HERE** junto a `NEW TO MY CLOSING TIMELINE?`, título promocional original, dos rutas en tarjetas compactas: **OPTION 1 · Start FREE Timeline** (sin cuenta, `/free-timeline.html`) y **OPTION 2 · Request My FREE Code** (correo verificado y aprobación, `/first-closing-free.html`), más enlace para canjear invitación en `/pro-get-started.html?auth=register&mode=gift#mct-account`. Un visitante elige UNA de las dos opciones; no son pasos obligatorios en secuencia.
+- **Diseño:** azul/turquesa suave para FREE y dorado para PRO; tipografía legible, `START HERE` verde, enlaces en la misma pestaña y dos columnas que se apilan en móvil; el espacio de Other Projects y la guía Privacy First permanecen intactos.
+- **Commit GitHub:** `1117b112b1871289493ae245b9699118d6cde0b5`.
+- **QA estático:** los tres archivos destino existen en `main`, la tarjeta `mct-first-free-offer` aparece una vez y el HTML tiene dos enlaces iniciales. No se verificó Cloudflare ni se probó visualmente la nueva tarjeta en navegador.
+- **Enlace de propietario para revisar:** `https://myclosingtimeline.com/?mct_refresh=start-here-20261028#home-essentials` (Home completa visible solo con sesión privada autorizada; usuarios anónimos pueden recibir Coming Soon).
+
 ## Website 16 — 2026-10-28 — Other Projects FREE browser planner + PRO Step 3 recurrence upgrade
 - **Repositorios/archivos:** `other-projects.html`, `assets/mpt-project-task-demo-20261028.js`, `assets/mpt-task-demo-20261028.css`. Estos cambios NO alteran código de Realtor FREE/PRO, First Closing FREE, Stripe, D1, seguridad Admin ni pagos.
 - **FREE:** se habilita en la demostración existente Step 1 (referencia privada, fecha de inicio, fin opcional) y Step 2 (hasta ocho tareas creadas por el visitante). Permite editar nombres y fechas, marcar completadas, copiar resumen y descargar archivo local de calendario .ics. Solo estado en memoria de esa página: al recargar desaparece. No pide registro ni almacena proyectos en D1.
