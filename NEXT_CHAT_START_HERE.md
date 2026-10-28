@@ -88,6 +88,13 @@
 - **Separación indispensable:** FREE proyectado solo Steps 1 y 2 con tareas en blanco (hasta 8); **PRO proyectado** añade Step 3 y seguimiento. Los 20 elementos son **solo lectura y ejemplos**, no se guardan ni se incorporan al timeline, no hay descuentos, créditos ni pagos reales para Other Projects. Mostrar nota «not available yet» y no prometer fechas de salida.
 - Estilos exclusivos en `other-projects.html`, con agrupación responsive en dos columnas/escritorio y una/móvil. No cambiar motores inmobiliarios FREE/PRO ni la privacidad aprobada. Código verificado en GitHub; QA visual Cloudflare pendiente.
 
+## D12. Otras profesiones: 20 tareas visibles en tabla FREE y modelo PRO flexible (Website 15)
+- El propietario indicó que **solo aparecían cinco filas de muestra** y faltaba aclarar que **cada cliente escribe tareas propias**, adaptadas a su profesión; el futuro PRO debe permitir seguimiento hasta una fecha concreta **o durante tiempo indefinido**.
+- En `other-projects.html` se muestran ahora **20 filas de ejemplos en la tabla superior FREE**, numeradas de 01 a 20, con días y fechas «Client sets». **Son ejemplos visuales, no tareas automáticas ni un aumento del límite FREE.** El FREE planificado sigue con hasta **8 tareas propias** en 2 pasos.
+- Un bloque visual con tres columnas aclara: «You create the tasks» / «PRO · UNLIMITED TASKS» / «Finish or keep going». **PRO planificado:** tareas personalizadas sin límite fijo **dentro de cada proyecto** (un crédito por proyecto), seguimiento continuo, finalizar en fecha indicada o mantener proyecto sin fecha de cierre. No confundir «tareas ilimitadas» con «proyectos ilimitados».
+- Se conserva más abajo la muestra de **20 acciones de seguimiento Step 3** en cuatro grupos, para enseñar el valor de PRO. No se añade JavaScript ni cambia funcionamiento real: tanto FREE como PRO de Other Projects aún son **preview no operativo**. No cobrar ni garantizar controles no implementados.
+- Código actualizado en GitHub. Falta comprobar Cloudflare y funcionalidad futura de proyectos sin fin y tareas ilimitadas cuando se implemente el backend.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
