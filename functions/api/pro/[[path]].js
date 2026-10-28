@@ -200,7 +200,7 @@ export async function onRequest(context){
   const names=[],seen=new Set();let total=0;
   for(const raw of body.forms){
    if(typeof raw!=="string")return error("Invalid document name");
-   const name=raw.replace(/\\s+/g," ").trim();
+   const name=raw.replace(/\s+/g," ").trim();
    if(!name||name.length>160)return error("Document names must be between 1 and 160 characters");
    const key=name.toLocaleLowerCase("en");if(seen.has(key))continue;
    seen.add(key);names.push(name);total+=name.length;if(total>100000)return error("Forms library is too large");
