@@ -1,0 +1,90 @@
+/* MCT national-facing transparent pricing and legal disclosures. */
+html body .mct-legal-page,html body .mct-price-clarity{font-family:Manrope,Arial,sans-serif;color:#173c51}
+html body .mct-legal-page{max-width:1220px;width:100%;margin:12px auto 36px;padding:0 18px}
+html body .mct-legal-page * ,html body .mct-price-clarity *{box-sizing:border-box}
+html body .mct-legal-intro{
+ background:#fff;border:1px solid #d4e2e8;border-radius:14px;
+ padding:26px 29px;margin-bottom:17px;
+ box-shadow:0 6px 22px rgba(18,54,76,.045)
+}
+html body .mct-legal-eyebrow{
+ margin:0 0 6px;color:#a07535;font-size:12px;font-weight:900;letter-spacing:.065em
+}
+html body .mct-legal-intro h2{margin:0 0 10px;font-size:clamp(25px,2.3vw,34px);line-height:1.24;color:#183d53}
+html body .mct-legal-intro>p{font-size:15.5px;line-height:1.65;color:#516e7e;margin:8px 0}
+html body .mct-legal-pills{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0 4px}
+html body .mct-legal-pills span{
+ padding:8px 11px;border-radius:8px;border:1px solid #c7ddd9;
+ background:#ebf6f2;color:#286358;font-weight:800;font-size:12.5px
+}
+html body .mct-legal-notice{
+ border:1px solid #dbc495;border-left:5px solid #b88b44;background:#fff9ec;border-radius:9px;
+ padding:15px 18px;color:#604b2c;font-size:14px;line-height:1.6;margin:14px 0
+}
+html body .mct-legal-notice strong{color:#7a521e}
+html body .mct-legal-nav{
+ display:flex;gap:9px;flex-wrap:wrap;padding:14px;background:#f6fafb;border-radius:10px;
+ border:1px solid #d8e5e9;margin-bottom:18px
+}
+html body .mct-legal-nav a{
+ display:inline-flex;align-items:center;justify-content:center;
+ padding:9px 13px;border:1px solid #bed9df;border-radius:8px;
+ color:#165d72;background:#fff;font:800 13px/1.4 Manrope,Arial,sans-serif;text-decoration:none
+}
+html body .mct-legal-nav a:hover,html body .mct-legal-nav a:focus-visible{
+ border-color:#3e9296;text-decoration:underline;background:#ebf8f6
+}
+html body .mct-legal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+html body .mct-legal-card{
+ background:#fff;border:1px solid #d6e2e7;border-radius:11px;
+ padding:23px 24px;min-width:0;scroll-margin-top:140px
+}
+html body .mct-legal-card.mct-legal-full{grid-column:1/-1}
+html body .mct-legal-card h2{
+ margin:0 0 11px;font:850 clamp(19px,1.45vw,23px)/1.3 Manrope,Arial,sans-serif;color:#183e52
+}
+html body .mct-legal-card h3{
+ margin:15px 0 6px;font-size:16px;color:#23526a
+}
+html body .mct-legal-card p,html body .mct-legal-card li,html body .mct-legal-card td{
+ color:#465f6c;font:500 14px/1.72 Manrope,Arial,sans-serif
+}
+html body .mct-legal-card p{margin:8px 0}
+html body .mct-legal-card ul{padding-left:20px;margin:8px 0}
+html body .mct-legal-card li{margin-bottom:5px}
+html body .mct-legal-card a,html body .mct-legal-intro a{
+ color:#126985;text-decoration:underline;text-underline-offset:3px
+}
+html body .mct-legal-card strong{color:#244b61}
+html body .mct-price-clarity{
+ border:1.5px solid #c9dce1;background:#f4faf9;border-radius:13px;padding:20px 22px;
+ margin:17px 0 20px;scroll-margin-top:135px
+}
+html body .mct-price-clarity h2{
+ margin:0 0 7px;color:#1c4859;font-size:clamp(20px,1.8vw,25px)
+}
+html body .mct-price-clarity>p{
+ font:550 14px/1.65 Manrope,Arial,sans-serif;color:#496a77;margin:6px 0 14px
+}
+html body .mct-price-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+html body .mct-price-points>div{padding:13px;border:1px solid #d2e2df;border-radius:9px;background:#fff}
+html body .mct-price-points strong{display:block;color:#195466;font-size:14px;line-height:1.4}
+html body .mct-price-points span{display:block;color:#59717b;font-size:12.7px;line-height:1.55;margin-top:5px}
+html body .mct-pricing-faq{margin:22px 0;border:1px solid #d3e2e7;border-radius:12px;padding:22px;background:#fff}
+html body .mct-pricing-faq h2{color:#173f53;font-size:24px;margin:0 0 12px}
+html body .mct-pricing-faq details{border-top:1px solid #e0e9ed;padding:12px 2px}
+html body .mct-pricing-faq summary{cursor:pointer;font-size:15px;font-weight:850;color:#255264}
+html body .mct-pricing-faq p{color:#4e6877;font-size:14px;line-height:1.65;margin:10px 0 0}
+html body .mct-pricing-faq a{color:#166b83;text-underline-offset:3px}
+html body .mct-legal-small{font-size:12px!important;color:#627887!important}
+@media(max-width:800px){
+ html body .mct-legal-grid{grid-template-columns:1fr}
+ html body .mct-legal-card.mct-legal-full{grid-column:auto}
+ html body .mct-price-points{grid-template-columns:1fr}
+}
+@media(max-width:550px){
+ html body .mct-legal-page{padding:0 12px}
+ html body .mct-legal-intro,html body .mct-legal-card{padding:18px 16px}
+ html body .mct-price-clarity{padding:16px}
+ html body .mct-legal-nav a{flex:1 1 42%}
+}
