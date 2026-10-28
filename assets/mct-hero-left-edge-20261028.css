@@ -1,0 +1,90 @@
+/* MyClosingTimeline · Website 14 · 2026-10-28
+   A single left reference for photographic banners and the approved wide page
+   content: 12px each side (100% minus 24px), at every viewport width.
+   Only presentation changes. Existing headers, forms and buttons remain intact. */
+
+/* Preserve the full-bleed photo; remove historic 1150/1180px centered inset. */
+html body section.intro.mct-photo-hero,
+html body section.intro.mct-photo-hero.mct-pro-photo-hero{
+ box-sizing:border-box!important;
+ width:100%!important;
+ max-width:none!important;
+ margin-left:0!important;
+ margin-right:0!important;
+ padding-left:0!important;
+ padding-right:0!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+}
+
+/* The complete text stack (kicker, title, description and benefits) starts
+   exactly at the same edge as the widest main page content. */
+html body section.intro.mct-photo-hero>.mct-photo-hero-content,
+html body section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+ box-sizing:border-box!important;
+ flex:0 1 calc(100% - 24px)!important;
+ width:calc(100% - 24px)!important;
+ max-width:none!important;
+ min-width:0!important;
+ margin:0 auto!important;
+ padding-left:0!important;
+ padding-right:0!important;
+ text-align:left!important;
+}
+
+/* HOME has its own two-column photographic headline, not mct-photo-hero. */
+html body main.mct-home-final>section.mct-home-opening{
+ padding-left:12px!important;
+}
+@media(max-width:600px){
+ html body main.mct-home-final>section.mct-home-opening{
+  padding-left:12px!important;
+  padding-right:12px!important;
+ }
+}
+
+/* The Beyond Real Estate introductory banner uses a different class. */
+html body section.mpt-hero{
+ box-sizing:border-box!important;
+ padding-left:12px!important;
+}
+@media(max-width:800px){
+ html body section.mpt-hero{padding-left:12px!important;padding-right:12px!important}
+}
+
+/* The personal Admin Console intentionally hides its obsolete photo header.
+   Keep that decision, and align its visible test banner and main content with
+   the same outer column. Do not reveal, recreate, or restyle private controls. */
+html body.mct-layout-dashboard .mct-practice-banner{
+ box-sizing:border-box!important;
+ width:calc(100% - 24px)!important;
+ max-width:none!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+html body.mct-layout-dashboard main.workspace{
+ box-sizing:border-box!important;
+ width:calc(100% - 24px)!important;
+ max-width:none!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+html body.mct-layout-dashboard main.workspace>section#mct-admin-quick-practice-links{
+ box-sizing:border-box!important;
+ width:100%!important;
+ max-width:none!important;
+ margin-left:0!important;
+ margin-right:0!important;
+}
+
+/* Make sure narrow devices retain the same line, without horizontal scroll. */
+@media(max-width:600px){
+ html body section.intro.mct-photo-hero>.mct-photo-hero-content,
+ html body section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+  flex-basis:calc(100% - 24px)!important;
+  width:calc(100% - 24px)!important;
+  padding-left:0!important;
+  padding-right:0!important;
+ }
+}
