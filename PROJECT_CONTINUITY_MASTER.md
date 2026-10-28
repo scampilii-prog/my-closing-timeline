@@ -3,6 +3,14 @@
 
 > Este archivo reúne decisiones aprobadas de las conversaciones Website 1–14 y el estado contrastado con GitHub. **No equivale a certificación de producción.** En caso de discrepancia entre una decisión histórica y el código actual, inspeccionar el código y confirmar la decisión más reciente antes de actuar. Nunca dar por probados los servicios externos por la sola presencia del código.
 
+
+## Decisión más reciente — Website 15 (28 oct 2026): 1280px en TODAS las páginas
+- **El propietario confirmó que HOME estaba demasiado estrecho.** Se aprueba un **ancho de contenido exterior máximo común de 1280px**, centrado, para HOME, FREE, PRO, Pricing, Other Projects, Help y páginas de Admin, privadas y auxiliares.
+- **No mantener HOME más estrecho que las demás páginas.** La regla anterior de 1140px corresponde al estado histórico de Website 14 y queda superada.
+- Implementado en el código: `assets/mct-hero-left-edge-20261028.css`, cargado con `?v=5` en 22 archivos HTML. Se mantienen las imágenes de fondo y se alinean sus textos con las tarjetas inferiores.
+- La apariencia responsive y el despliegue Cloudflare siguen **PENDIENTES de certificación visual**. No se alteraron funciones contractuales ni pagos.
+- **Siguiente tarea:** revisar el aspecto real (escritorio/móvil) de HOME, FREE, PRO, Pricing, Other Projects y Admin; comprobar alineación, tablas, márgenes y commit publicado. Corregir solo regresiones comprobadas.
+
 ## 1. Identidad y repositorio
 - Producto y dominio: **My Closing Timeline**, https://myclosingtimeline.com
 - Repositorio único: `scampilii-prog/my-closing-timeline`; rama principal: `main`.
