@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — selector visual definitivo en FREE/PRO
+- El usuario compartió captura donde había demasiados textos redundantes y pidió que el cliente elija claramente si entra como Realtor o como otro profesional. Se eliminaron del código las explicaciones y banner duplicados.
+- Ambas páginas presentan un solo selector «Choose your timeline.» con dos tarjetas amplias, azul marino para Realtors y verde turquesa para otros profesionales; títulos grandes con acentos de color, breves explicaciones, estado y botones alineados abajo. Se reorganizó el contenido sin añadir pasos o elementos de pago.
+- El enlace Realtor de FREE salta a `#mct-free-transaction`, el de PRO a `#mct-start-choice`; la segunda tarjeta lleva a `/other-projects.html`. Los modelos de proyectos generales siguen expresamente `PREVIEW ONLY`.
+- Estilo centralizado: `assets/mct-project-path-20261028.css?v=6`. Confirmado en GitHub; Cloudflare y revisión visual en móvil pendientes.
+
 ## Website 15 — 2026-10-28 — títulos inclusivos y claros en FREE/PRO
 - **Usuario:** aclarar en los dos títulos que el sitio sirve tanto a Realtors (contract closing timelines) como a otros profesionales que necesitan programar tareas en sus propios negocios, sin confundir ambas opciones.
 - **Realizado en GitHub:** nuevos títulos de los selectores en `free-timeline.html` y `pro-get-started.html`, explicación debajo separando Realtors de negocios/contratistas/profesionales y estado **Other Projects preview**; publicidad con el título «Realtors: manage closings. Other professionals: plan your own tasks.»
