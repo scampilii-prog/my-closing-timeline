@@ -1,10 +1,10 @@
-/* MyClosingTimeline · Website 14 · approved centered canvas · 2026-10-28
+/* MyClosingTimeline · Website 14 · PRO-matched centered canvas · 2026-10-28
    Corrects the earlier accidental edge-to-edge page layout.
    Only presentation: no changes to forms, calculations, routes or permissions.
    All visible photographic headlines share the precise left edge of the
    corresponding content panels at every viewport width. */
 
-:root{--mct-approved-page-width:1200px;--mct-approved-page-gutter:20px}
+:root{--mct-approved-page-width:1140px;--mct-approved-page-gutter:20px}
 
 /* 1. Consistent centered content panels on public header destinations. */
 html body main.mct-home-final>section#home-essentials.mct-home-essentials,
@@ -69,15 +69,15 @@ html body section.intro.mct-photo-hero>.mct-photo-hero-content{
 /* 3. HOME uses a two-column photograph rather than .mct-photo-hero. */
 html body main.mct-home-final>section.mct-home-opening{
  box-sizing:border-box!important;
- padding-left:max(20px,calc((100% - 1200px)/2))!important;
- padding-right:max(20px,calc((100% - 1200px)/2))!important;
+ padding-left:max(20px,calc((100% - 1140px)/2))!important;
+ padding-right:max(20px,calc((100% - 1140px)/2))!important;
 }
 
 /* 4. Other Projects uses a separate hero without a photo. */
 html body section.mpt-hero{
  box-sizing:border-box!important;
- padding-left:max(20px,calc((100% - 1200px)/2))!important;
- padding-right:max(20px,calc((100% - 1200px)/2))!important;
+ padding-left:max(20px,calc((100% - 1140px)/2))!important;
+ padding-right:max(20px,calc((100% - 1140px)/2))!important;
 }
 
 /* 5. Admin Console: retain deliberate hidden public photograph. Align the
@@ -128,5 +128,35 @@ html body.mct-layout-dashboard section.intro.mct-photo-hero{
  html body section.mpt-hero{
   padding-left:12px!important;
   padding-right:12px!important;
+ }
+}
+
+/* 7. Prevent horizontal spreading of the HOME lower sections at desktop widths.
+   1140px matches the approved PRO category/Privacy cards shown in the reference.
+   Keep every HOME section centered on the same shared left boundary. */
+html body main.mct-home-final>section.mct-home-why,
+html body main.mct-home-final>section.mct-home-next,
+html body main.mct-home-final>p.mct-home-caveat{
+ box-sizing:border-box!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+@media(max-width:700px){
+ html body main.mct-home-final>section.mct-home-why,
+ html body main.mct-home-final>section.mct-home-next,
+ html body main.mct-home-final>p.mct-home-caveat{width:calc(100% - 24px)!important}
+}
+/* 8. Maintain the reference PRO category/Privacy row as a contained pair,
+   avoiding the earlier third-column/invitation collision. */
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privacy-row{
+ grid-template-columns:minmax(0,1fr) minmax(300px,312px)!important;
+ gap:15px!important;
+ align-items:stretch!important;
+}
+@media(max-width:900px){
+ html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privacy-row{
+  grid-template-columns:minmax(0,1fr)!important;
  }
 }
