@@ -479,7 +479,7 @@ function savedGift(){
 }
 function clearSavedGift(){try{localStorage.removeItem(giftStorageKey)}catch(_){}}
 
-let paidPlanChosen=["single","pack2","pack5"].includes(selectedFromPricing)||incomingSelection.has("auth");
+let paidPlanChosen=["single","pack2","pack5"].includes(selectedFromPricing);
 function giftMode(){return document.body.classList.contains("mct-gift-visit")}
 function holdGiftForVerification(){
  if(!giftMode())return true;
@@ -508,7 +508,7 @@ function setAccessMode(mode){
  }
  const msg=$("mct-flow-explanation");
  msg.textContent=gift?
-  "PRIVATE INVITATION ONLY · A gift credit ($0.00) is sent to selected Realtors by email. Start by creating your account on the LEFT using the invited email, or sign in. Verify your email. Your gift code is then activated; no payment is required.":
+  "PRIVATE INVITATION ONLY · Register or sign in with your invited email first. Verify your email, then activate your $0.00 credit. No card or checkout needed.":
   "NO INVITATION NEEDED · FIRST create your account or sign in. THEN choose a package. The launch price, when active, is applied automatically; checkout follows when live.";
  const intro=document.querySelector(".mct-pro-registration-intro");
  if(intro){
@@ -533,7 +533,7 @@ function setAccessMode(mode){
   $("mct-gift-status").dataset.result="";
   $("mct-gift-status").textContent=saved?
    "A private code from your invitation is saved. Verify your account using the invited email; activation will be attempted automatically. You do not need to click Verify Gift Code first.":
-   "If your invitation link did not fill the code, enter it here. First create or sign in to your account on the LEFT; code verification happens after sign-in.";
+   "If your invitation link did not fill the code, enter it here after you register or sign in. Code verification is available after sign-in.";
  }
  $("mct-gift-check").hidden=gift&&!account;
  invitationActions();
@@ -672,7 +672,7 @@ function updateProGuide(){
  status.textContent=credits>0?"READY TO OPEN YOUR WORKSPACE":"NEXT STEP · "+step+" OF 4";
  const desc=$("mct-pro-guide-description"),note=$("mct-pro-guide-footnote");
  if(gift){
-  desc.textContent="For invited Realtors only. Start with the account on the LEFT. Verify your email, activate your private gift code and open PRO for $0.00.";
+  desc.textContent="For invited Realtors only. First register or sign in, verify your email, activate your private gift code and open PRO for $0.00.";
   note.textContent=credits>0?"Your credit is active. Open your PRO Workspace.":"No Stripe payment, card, or LAUNCH90 code is required. Your private invitation is not available to the general public.";
   primary.textContent=step===1?"Step 1 · Create Your FREE Account →":
    step===2?"Step 2 · Check Your Verification Email →":
@@ -751,6 +751,9 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
  const verified=new URLSearchParams(location.search).get("verified")==="1";
  $("mct-verified-welcome").hidden=!verified;
  $("mct-verified-title").textContent="Welcome, "+(account.name.split(/\s+/)[0]||"Realtor")+"! Your account is verified.";
+ const welcomeLink=$("mct-verified-welcome").querySelector(".mct-welcome-cta");
+ welcomeLink.href=account.credits>0?"/my-closings.html":giftMode()?"#mct-gift-panel":"#mct-pro-select-heading";
+ welcomeLink.textContent=account.credits>0?"Open My PRO Workspace →":giftMode()?"Activate Your Private Gift →":"Choose Your PRO Package →";
  $("mct-verified-credits").textContent=account.credits>0?
   account.credits+" PRO closing credit(s) ready to use in your workspace.":
   "Your account is active. You have 0 credits; redeem a private gift or purchase a credit when checkout is available to start a PRO closing.";
@@ -786,7 +789,7 @@ $("mct-code").addEventListener("input",()=>{
  $("mct-free-redeem").hidden=true;$("mct-gift-status").dataset.result="";
  $("mct-gift-status").textContent="Select Check Gift to verify the private code from your invitation.";
 });
-$("mct-login-form").onsubmit=async e=>{e.preventDefault();if(!holdGiftForVerification())return;const d=Object.fromEntries(new FormData(e.target));try{await api("login","POST",d);await refreshAccount()}catch(err){setStatus(err.message)}};
+$("mct-login-form").onsubmit=async e=>{e.preventDefault();if(!holdGiftForVerification())return;const d=Object.fromEntries(new FormData(e.target));try{await api("login","POST",d);await refreshAccount();if(account&&!giftMode()&&Number(account.credits||0)<1){$("mct-pro-select-heading").scrollIntoView({behavior:"smooth",block:"center"})}}catch(err){setStatus(err.message)}};
 $("mct-register-form").onsubmit=async e=>{e.preventDefault();const form=e.target,button=form.querySelector('button[type="submit"]');if(button.disabled)return;const d=Object.fromEntries(new FormData(form));if(!holdGiftForVerification())return;button.disabled=true;button.classList.remove("is-error","is-success");button.classList.add("is-busy");button.textContent="Creating account…";setStatus("Connecting securely. Please do not click again.");try{const result=await api("register","POST",d);button.classList.remove("is-busy");button.classList.add("is-success");button.textContent="Verification Email Requested ✓";setStatus(result.message||"Check your email to verify your account.","success");document.body.classList.add("mct-pro-awaiting-verification");updateProGuide()}catch(err){button.classList.remove("is-busy");button.classList.add("is-error");button.textContent="Try Again · Create Account";setStatus(err.message,"error")}finally{button.disabled=false}};
 $("mct-logout").onclick=async()=>{try{await api("logout","POST",{});account=null;await refreshAccount()}catch(e){setStatus(e.message)}};
 $("mct-launch-code").onclick=()=>{$("mct-launch-input").value="LAUNCH90";$("mct-check-code").click()};
