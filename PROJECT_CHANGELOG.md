@@ -4,6 +4,13 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — HOME / Other Projects: explicación práctica de PRIVACY FIRST
+- **Solicitud:** el propietario dijo que no entendía el contenido del cuadro rojo; pidió reestructurar y explicar su utilidad, no solo mostrar el slogan.
+- **HOME:** `index.html` sustituye el badge maroon abstracto por guía con encabezado compacto, subtítulo claro, indicación de referencia de cierre sin nombres ni direcciones, PDF personal únicamente local, aviso honesto de protecciones en revisión y enlace a la política. El slogan se conserva en letra secundaria. No se afectan tablas, créditos ni cálculos.
+- **Other Projects:** `other-projects.html` actualiza la tarjeta a la derecha con la explicación «Simple tasks. Less private information.», instrucciones sobre notas sin datos privados y el estado preview/privacidad en revisión.
+- **HOME hero:** nueva corrección técnica `mct-home-hero-full-bleed-v2-20261028` cambia también el ancho del elemento `main` a 100% (no solo su hijo), manteniendo las secciones inferiores en 1420px.
+- **QA:** código GitHub modificado; publicación Cloudflare y captura/medidas reales por verificar.
+
 ## Website 15 — 2026-10-28 — Other Projects: encabezado a todo ancho y panel Privacy First
 - **Solicitud:** situar el mensaje Privacy First de la captura a la **derecha del cabezal de Other Projects**, con diseño diferente y elegante, y **extender el cabezal de borde a borde**.
 - **Implementación GitHub:** `other-projects.html`, encabezado `.mpt-hero-wide` 100vw, contenedor interno 1420px, composición de dos columnas (título y tarjeta con escudo), adaptación vertical para móvil. Mantener slogan oficial, nota de mejoras pendientes y enlace a la política de privacidad.
