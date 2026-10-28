@@ -104,7 +104,10 @@
    const title='Closing · '+item.name;
    const details=reminderText(item,info)+' Set your preferred notification inside Google Calendar.';
    const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+dates+'&details='+encodeURIComponent(details);
-   window.location.assign(url);
+   // Google is external; keep FREE's unsaved timeline available in this tab.
+   const other=window.open(url,'_blank');
+   if(other){other.opener=null;feedback('Google Calendar opened separately. Save the selected date there and set your notification. Your timeline remains here.','success')}
+   else feedback('Allow the Google Calendar tab from your browser to continue, or download the .ics file above.','error');
   });
   $('mct-reminder-email').addEventListener('click',()=>{
    const {info,item}=selected();
