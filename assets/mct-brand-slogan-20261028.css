@@ -216,3 +216,18 @@ html body .panel>.mct-brand-slogan{margin:0 0 32px!important}
  html body .registration-intro>.mct-brand-slogan,
  html body .panel>.mct-brand-slogan{width:100%!important;padding:22px 12px 12px 61px!important}
 }
+
+/* Website 14: first-free invitation privacy pledge in existing sidebar;
+   no floating overlay on either the email field or hero text. */
+html body .mct-invite-aside>.mct-brand-slogan{
+ position:relative!important;display:flex!important;float:none!important;
+ top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+ width:100%!important;max-width:100%!important;
+ padding:26px 12px 13px 63px!important;margin:6px 0 25px!important;
+}
+html body .mct-invite-aside>.mct-brand-slogan::before{left:10px!important;width:39px!important;height:39px!important;background-size:33px 33px!important}
+html body .mct-invite-aside>.mct-brand-slogan::after{left:62px!important;font-size:12px!important;padding:7px 10px!important;top:-14px!important}
+html body .mct-invite-aside>.mct-brand-slogan .mct-slogan-main{font-size:13px!important}
+@media(max-width:760px){
+ html body .mct-invite-aside>.mct-brand-slogan{width:min(350px,100%)!important}
+}
