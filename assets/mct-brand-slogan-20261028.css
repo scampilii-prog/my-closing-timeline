@@ -1,58 +1,105 @@
-/* Consistent site-wide privacy-first brand philosophy. Not a security certification. */
-html body .mct-brand-slogan{
- box-sizing:border-box!important;width:100%!important;max-width:none!important;
- margin:0!important;padding:17px 22px 15px!important;
- border-top:2px solid #c5a46d!important;border-bottom:1px solid #2a4f67!important;
- background:linear-gradient(112deg,#102b42,#193d54)!important;
- color:#f8f9f9!important;text-align:center!important;
+/* Privacy seal · Website 13 · 28 Oct 2026
+   No full-width colored slogan strip. Small left-aligned emblem below the photo.
+   The disclaimer remains because Privacy by Design is work in progress.
+*/
+html body .mct-brand-slogan,
+html body > .mct-brand-slogan,
+html body main .mct-brand-slogan{
+ box-sizing:border-box!important;
+ position:relative!important;
+ width:max-content!important;
+ max-width:calc(100% - 42px)!important;
+ min-height:75px!important;
+ margin:19px 20px 19px max(20px,calc((100% - 1180px)/2))!important;
+ padding:19px 23px 15px 76px!important;
+ border:1px solid #d8c5a7!important;
+ border-left:3px solid #177d82!important;
+ border-radius:13px!important;
+ background:linear-gradient(115deg,#fffdf9 0%,#faf7f1 100%)!important;
+ color:#17384c!important;
+ text-align:left!important;
+ box-shadow:0 8px 22px rgba(15,42,58,.09)!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:flex-start!important;
+ justify-content:center!important;
+ gap:3px!important;
+ z-index:2!important;
+ isolation:isolate;
+ clear:both;
+ overflow:visible!important;
  font-family:Manrope,Arial,sans-serif!important;
- display:flex!important;flex-direction:column!important;align-items:center!important;
- justify-content:center!important;gap:5px!important;
+}
+html body .mct-brand-slogan::before{
+ content:""!important;
+ position:absolute!important;
+ display:block!important;
+ left:15px!important;
+ top:50%!important;
+ width:47px!important;
+ height:47px!important;
+ border-radius:13px!important;
+ border:1px solid #a6d5d1!important;
+ background-color:#e5f4f0!important;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' fill='none' viewBox='0 0 48 48'%3E%3Cpath d='M24 7 36 12v10c0 8-4.8 14.5-12 18-7.2-3.5-12-10-12-18V12L24 7Z' stroke='%230f6268' stroke-width='2.7' stroke-linejoin='round'/%3E%3Cpath d='m18.1 24 4.2 4.3 8.3-9' stroke='%230f6268' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+ background-position:center!important;
+ background-repeat:no-repeat!important;
+ background-size:39px 39px!important;
+ transform:translateY(-50%) rotate(-7deg)!important;
+ box-shadow:0 3px 8px rgba(14,79,82,.13)!important;
+ pointer-events:none!important;
+}
+html body .mct-brand-slogan::after{
+ content:"PRIVACY FIRST"!important;
+ display:block!important;
+ position:absolute!important;
+ top:-11px!important;
+ left:77px!important;
+ background:#126d70!important;
+ color:white!important;
+ border:1px solid #6ab2a8!important;
+ border-radius:4px!important;
+ padding:3px 10px 3px!important;
+ font:850 9.5px/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:.13em!important;
+ transform:rotate(-2deg)!important;
+ box-shadow:0 3px 7px rgba(8,44,52,.14)!important;
+ white-space:nowrap!important;
+ pointer-events:none!important;
 }
 html body .mct-brand-slogan .mct-slogan-main{
- display:block!important;color:#f6d39c!important;
- font:850 clamp(16px,1.55vw,21px)/1.35 Manrope,Arial,sans-serif!important;
- letter-spacing:.015em!important;text-wrap:balance!important;
+ display:block!important;
+ margin:0!important;
+ padding:0!important;
+ color:#17384c!important;
+ font:850 clamp(13.5px,1.18vw,16px)/1.35 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.012em!important;
+ text-align:left!important;
+ white-space:normal!important;
+ text-wrap:balance!important;
 }
 html body .mct-brand-slogan .mct-slogan-note{
- display:block!important;color:#dae6ec!important;
- font:600 clamp(11px,.95vw,12.5px)/1.45 Manrope,Arial,sans-serif!important;
- letter-spacing:.005em!important;
+ display:block!important;
+ color:#607680!important;
+ font:650 clamp(10px,.78vw,11px)/1.4 Manrope,Arial,sans-serif!important;
+ letter-spacing:0!important;
+ margin:1px 0 0!important;
+ padding:0!important;
+ text-align:left!important;
 }
-html body .mct-home-opening .mct-slogan-home{
- margin:13px 0 0!important;padding:0!important;display:block!important;
- color:#f5d49d!important;font:850 clamp(15px,1.25vw,18px)/1.35 Manrope,Arial,sans-serif!important;
- letter-spacing:.01em!important
-}
-@media(max-width:560px){
- html body .mct-brand-slogan{padding:14px 12px!important}
- html body .mct-brand-slogan .mct-slogan-main{font-size:16px!important}
- html body .mct-brand-slogan .mct-slogan-note{font-size:11px!important}
-}
-
-/* 2026-10-28 visibility fix: bring slogan below fixed header, not at page bottom. */
-html body > .mct-brand-slogan{
- position:relative!important;
- z-index:11!important;
- min-height:60px!important;
- padding:12px 20px 11px!important;
- margin:0!important;
- background:linear-gradient(90deg,#173c53 0%,#102b42 48%,#173c53 100%)!important;
- border-top:1px solid #bfa06a!important;
- border-bottom:2px solid #c6a76e!important;
- box-shadow:0 3px 12px rgba(10,38,54,.14)!important;
-}
-html body > .mct-brand-slogan .mct-slogan-main{
- color:#f9d89f!important;
- font:900 clamp(17px,1.5vw,22px)/1.3 Manrope,Arial,sans-serif!important;
- letter-spacing:.015em!important;
-}
-html body > .mct-brand-slogan .mct-slogan-note{
- color:#e6eef2!important;
- font:650 clamp(11.5px,.95vw,13px)/1.4 Manrope,Arial,sans-serif!important;
-}
-@media(max-width:590px){
- html body > .mct-brand-slogan{min-height:0!important;padding:11px 12px!important}
- html body > .mct-brand-slogan .mct-slogan-main{font-size:16px!important}
- html body > .mct-brand-slogan .mct-slogan-note{font-size:11px!important}
+@media(max-width:640px){
+ html body .mct-brand-slogan,
+ html body > .mct-brand-slogan,
+ html body main .mct-brand-slogan{
+  margin:17px 14px 20px 14px!important;
+  max-width:calc(100% - 28px)!important;
+  padding:20px 13px 14px 67px!important;
+  min-height:71px!important;
+ }
+ html body .mct-brand-slogan::before{
+  width:40px!important;height:40px!important;left:13px!important;background-size:34px 34px!important
+ }
+ html body .mct-brand-slogan::after{left:68px!important;font-size:9px!important}
+ html body .mct-brand-slogan .mct-slogan-main{font-size:13.5px!important}
+ html body .mct-brand-slogan .mct-slogan-note{font-size:10px!important}
 }
