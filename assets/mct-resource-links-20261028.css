@@ -1,0 +1,75 @@
+
+/* My Closing Timeline: clearly differentiated customer resources, related websites and owner access. */
+html body .mct-resource-area{
+ box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+ margin:20px 0 14px!important;padding:21px 23px!important;
+ border:1px solid #d5e5e8!important;border-radius:12px!important;
+ background:#fff!important;box-shadow:0 5px 18px rgba(18,54,74,.045)!important;
+ font-family:Manrope,Arial,sans-serif!important;
+}
+html body .mct-resource-area *{box-sizing:border-box}
+html body .mct-resource-area h2{
+ margin:0 0 4px!important;font:850 clamp(20px,1.8vw,24px)/1.32 Manrope,Arial,sans-serif!important;
+ color:#1b4157!important;
+}
+html body .mct-resource-area .mct-resource-intro{
+ margin:0 0 13px!important;color:#5d7785!important;
+ font:600 13.5px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body .mct-resource-area .mct-resource-grid{
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:9px!important;margin:0 0 15px!important;
+}
+html body .mct-resource-area .mct-resource-grid a{
+ min-height:47px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ gap:7px!important;white-space:normal!important;text-align:center!important;
+ padding:10px 12px!important;border:1px solid #c5dbe0!important;border-radius:8px!important;
+ background:#edf6f7!important;color:#1c596a!important;
+ font:850 13.3px/1.35 Manrope,Arial,sans-serif!important;
+ text-decoration:none!important;
+}
+html body .mct-resource-area .mct-resource-grid a:hover,
+html body .mct-resource-area .mct-resource-grid a:focus-visible{
+ border-color:#418b92!important;background:#e1f1ee!important;text-decoration:underline!important;
+}
+html body .mct-resource-area .mct-resource-bottom{
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ gap:14px!important;flex-wrap:wrap!important;
+ border-top:1px solid #e1e9eb!important;padding-top:13px!important;
+}
+html body .mct-resource-area .mct-resource-personal{
+ display:flex!important;align-items:center!important;gap:8px 14px!important;
+ flex-wrap:wrap!important;
+}
+html body .mct-resource-area .mct-resource-personal strong{
+ color:#365b6b!important;font:850 12.4px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body .mct-resource-area .mct-resource-personal a{
+ color:#17637c!important;font:800 13.2px/1.5 Manrope,Arial,sans-serif!important;
+ text-decoration:underline!important;text-underline-offset:3px!important;
+}
+html body .mct-resource-area .mct-resource-private{
+ display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:5px 10px!important;
+ color:#8b6738!important;font:700 11.7px/1.45 Manrope,Arial,sans-serif!important;
+}
+html body .mct-resource-area .mct-resource-private a{
+ display:inline-flex!important;align-items:center!important;
+ padding:7px 10px!important;border:1px solid #d8c8ae!important;border-radius:7px!important;
+ color:#674f30!important;background:#fcf8f0!important;
+ font:850 12px/1.35 Manrope,Arial,sans-serif!important;text-decoration:none!important;
+}
+html body .mct-resource-area .mct-resource-private a:hover,
+html body .mct-resource-area .mct-resource-private a:focus-visible{
+ text-decoration:underline!important;border-color:#bda26e!important;
+}
+@media(max-width:900px){
+ html body .mct-resource-area .mct-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html body .mct-resource-area .mct-resource-bottom{align-items:flex-start!important}
+}
+@media(max-width:530px){
+ html body .mct-resource-area{padding:16px!important}
+ html body .mct-resource-area .mct-resource-grid{grid-template-columns:1fr!important;gap:7px!important}
+ html body .mct-resource-area .mct-resource-grid a{min-height:43px!important}
+ html body .mct-resource-area .mct-resource-personal,
+ html body .mct-resource-area .mct-resource-private{width:100%!important}
+}
