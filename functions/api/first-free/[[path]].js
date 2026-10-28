@@ -106,7 +106,7 @@ export async function onRequest({request:req,env}){
  }
  if(req.method==="GET"&&route==="admin/list"){
   if(!await owner(req,env))return err("Owner access required.",403);
-  const d=await db.prepare("SELECT r.id,r.email,r.status,r.verified_at,r.marketing_requested,r.requested_at,r.sent_at,r.test_reset,CASE WHEN p.uses>0 THEN 1 ELSE 0 END redeemed FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id ORDER BY r.requested_at DESC LIMIT 250").all();
+  const d=await db.prepare("SELECT r.id,r.email,r.status,r.verified_at,r.marketing_requested,r.requested_at,r.sent_at,r.test_reset,CASE WHEN r.verification_hash IS NOT NULL THEN 1 ELSE 0 END confirmation_sent,CASE WHEN p.uses>0 THEN 1 ELSE 0 END redeemed FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id ORDER BY r.requested_at DESC LIMIT 250").all();
   return json({ok:true,requests:d.results.map(x=>({...x,status:x.redeemed?"redeemed":x.status}))});
  }
  // Exceptional OWNER-ONLY practice reset. Does not delete any PRO closing,
@@ -156,8 +156,11 @@ export async function onRequest({request:req,env}){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return err("Email invitations are not ready. Please try again later.",503);
   const email=String(b.email||"").trim().toLowerCase(),type=String(b.customerType||"");
   if(!emailOK(email)||typeof b.marketingOptIn!=="boolean"||!["realtor","other"].includes(type))return err("Select Realtor or Other Projects and provide a valid email.");
-  if(!await throttle(db,"firstfree_ip",req.headers.get("CF-Connecting-IP")||"unknown",8,3600)||!await throttle(db,"firstfree_email",email,3,86400))return err("Too many requests. Try later.",429);
   const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type,test_reset,verification_hash FROM first_free_requests WHERE email=?").bind(email).first();
+  // An owner reset creates a one-shot exception for this previously verified
+  // practice email. Without another owner reset, all regular limits apply.
+  const ownerResetReady=prev?.test_reset===1&&prev.status==="pending_verification"&&!prev.verification_hash;
+  if((!ownerResetReady&&!await throttle(db,"firstfree_ip",req.headers.get("CF-Connecting-IP")||"unknown",8,3600))||!await throttle(db,"firstfree_email",email,3,86400))return err("Too many requests. Try later.",429);
   // A previously confirmed request may be completed without requesting a
   // second confirmation email or exposing the private code to this caller.
   if(prev?.status==="pending"&&prev.verified_at&&!prev.promo_code_id){
@@ -168,16 +171,23 @@ export async function onRequest({request:req,env}){
   // A deliberate owner reset clears the previous confirmation token. Let the
   // same verified address request a NEW confirmation immediately, without
   // waiting for the normal 15-minute anti-spam throttle on fresh requests.
-  const ownerResetReady=prev?.test_reset===1&&prev.status==="pending_verification"&&!prev.verification_hash;
   if(prev&&(prev.status!=="pending_verification"||(now()-prev.updated_at<900&&!ownerResetReady)))return json({ok:true,message:publicReply});
-  if(!await eligible(db,email))return json({ok:true,message:publicReply});
+  // A previously used first credit is valid for a NEW owner-authorized test,
+  // but not for an ordinary visitor or an un-reset returning account.
+  if(!ownerResetReady&&!await eligible(db,email))return json({ok:true,message:publicReply});
   const t=token();
   if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=?,verification_expires=?,marketing_requested=?,customer_type=?,updated_at=? WHERE id=? AND status='pending_verification'").bind(await sha(t),now()+86400,b.marketingOptIn?1:0,type,now(),prev.id).run();
   else await db.prepare("INSERT INTO first_free_requests(id,email,verification_hash,verification_expires,marketing_requested,customer_type,updated_at) VALUES(?,?,?,?,?,?,?)").bind(guid(),email,await sha(t),now()+86400,b.marketingOptIn?1:0,type,now()).run();
   const link="https://myclosingtimeline.com/api/first-free/confirm?token="+encodeURIComponent(t);
   const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="background:white;border-top:5px solid #d6b579;padding:30px;max-width:580px;margin:auto;border-radius:12px;color:#173b52"><h1>Confirm your first PRO benefit</h1><p>Thank you for your interest in My Closing Timeline '+(type==="other"?"Other Projects":"Realtor")+' PRO. Confirm your email to receive your single first-project complimentary code, without manual approval.</p><p><a style="background:#173b52;color:white;text-decoration:none;padding:14px 20px;display:inline-block;border-radius:7px" href="'+link+'">Confirm My Email</a></p><p>After email confirmation, your one-time code is issued automatically if this is your first eligible request. No administrator approval. If this was not you, ignore this email.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a></p></div></div>';
   try{await send(env,email,"Confirm your My Closing Timeline first-project benefit",html,"Confirm your first-project email: "+link+"\n\nIf this was not you, ignore this email.\nPrivacy: https://myclosingtimeline.com/privacy.html")}
-  catch(e){await db.prepare("DELETE FROM first_free_requests WHERE email=? AND status='pending_verification'").bind(email).run();return err("Could not send confirmation email. Try later.",503)}
+  catch(e){
+   // Keep a resettable test record and its audit history on provider failure;
+   // never delete its original same-email record.
+   if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=NULL,verification_expires=NULL,updated_at=? WHERE id=? AND status='pending_verification'").bind(now(),prev.id).run();
+   else await db.prepare("DELETE FROM first_free_requests WHERE email=? AND status='pending_verification'").bind(email).run();
+   return err("Could not send confirmation email. Try later.",503)
+  }
   return json({ok:true,message:publicReply},202);
  }
  if(route==="admin/approve"||route==="admin/decline"){
