@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — botón FREE Summary dorado (corrección reforzada)
+- **Reporte del propietario:** el enlace en HOME seguía viéndose con letras casi invisibles después de la primera corrección.
+- **Cambio aplicado:** `index.html`: botón `Create & Share Your FREE Summary` en **dorado con texto azul marino**, estilo explícito directamente en el enlace y sus dos elementos de texto, versión interna `data-mct-cta-version="gold-20261028-v2"`; regla final de contraste y color de selección, manteniendo `href="free-timeline.html"`.
+- **Verificado:** HTML y estilos confirmados guardados en `main` de GitHub.
+- **Sin verificar:** despliegue Cloudflare o aspecto real del dominio. Al revisar, abrir `https://myclosingtimeline.com/?mct_refresh=20261028gold2#free-benefits` y recargar sin caché en Chrome. Si sigue azul, significa que la versión nueva no está llegando al navegador; no afirmar que se resolvió en producción.
+
 ## Website 15 — 2026-10-28 — legibilidad del botón FREE Summary en HOME
 - **Captura del propietario:** el enlace `Create & Share Your FREE Summary` de la tarjeta HOME se mostraba con texto azul poco legible sobre fondo azul oscuro.
 - **Causa comprobada en el código:** la regla genérica `#share-summary.mct-home-share a` aplicaba `color:#146482!important` al botón, con especificidad superior a su definición individual blanca.
