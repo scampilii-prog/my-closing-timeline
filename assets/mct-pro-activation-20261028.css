@@ -130,3 +130,20 @@ body.mct-activation-page.mct-activation-gift-visit .mct-activation-account{
  }
  .mct-activation-account .mct-activate-account-actions{gap:7px}
 }
+
+/* WEBSITE 16 · stored private FREE code acknowledgment above primary CTA. */
+.mct-activation-account .mct-activate-account-actions .mct-activation-saved-code-notice{
+ box-sizing:border-box;grid-column:1/-1!important;
+ display:block;margin:0 0 4px!important;padding:12px 14px;
+ border:1.5px solid #9dceae;border-left:4px solid #248462;
+ border-radius:9px;background:linear-gradient(115deg,#e9f6ed,#f8fcf6);
+ color:#235e49;font:750 13px/1.55 Manrope,Arial,sans-serif;
+}
+.mct-activation-account .mct-activate-account-actions .mct-activation-saved-code-notice[hidden]{display:none!important}
+.mct-activation-saved-code-notice span{
+ display:inline-grid;place-items:center;width:24px;height:24px;margin-right:5px;
+ border-radius:50%;background:#227c63;color:#fff;font-weight:900;
+}
+.mct-activation-saved-code-notice strong{color:#175b47;font-weight:900}
+body.mct-activation-code-stored #mct-activate-manual-code{display:none!important}
+body.mct-activation-code-stored #mct-activation-gift-instructions{max-width:750px}
