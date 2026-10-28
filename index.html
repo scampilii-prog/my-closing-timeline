@@ -2378,4 +2378,17 @@ html body main.mct-home-final>p.mct-home-caveat{
 }
 
 </style>
-</body></html>
+<style id="mct-home-wide-grid-safe-20261028">
+/* Percent columns + gap previously overflowed the FREE panel by the gap size.
+   Fractional columns reserve the gutter inside the identical outer width. */
+@media(min-width:901px){
+ html body main.mct-home-final>section#free-benefits.mct-home-free{
+  grid-template-columns:minmax(0,47fr) minmax(0,53fr)!important;
+  column-gap:clamp(16px,2vw,26px)!important;
+ }
+}
+html body main.mct-home-final>section#free-benefits.mct-home-free>.mct-home-side,
+html body main.mct-home-final>section#free-benefits.mct-home-free>.mct-home-benefit-copy{
+ min-width:0!important;
+}
+</style></body></html>
