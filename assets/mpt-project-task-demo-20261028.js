@@ -5,11 +5,12 @@ var $ = function(id){return document.getElementById(id)};
 var freeTasks = [];
 var key = "mpt_other_projects_step3_local_demo_v1";
 var memoryOnly = false;
-var state = {tasks:[], endDate:""};
+var state = {tasks:[], endDate:"", planStart:"", planHorizon:"1m"};
 function today(){var d=new Date();return iso(d)}
 function iso(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-")}
 function parse(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v||""))return null;var p=v.split("-").map(Number),d=new Date(p[0],p[1]-1,p[2],12);return d.getFullYear()===p[0]&&d.getMonth()===p[1]-1&&d.getDate()===p[2]?d:null}
 function datePlus(s,n){var d=parse(s);if(!d)return "";d.setDate(d.getDate()+n);return iso(d)}
+function addMonths(s,n){var d=parse(s);if(!d)return "";var day=d.getDate(),year=d.getFullYear(),month=d.getMonth()+Number(n),last=new Date(year,month+1,0,12).getDate();return iso(new Date(year,month,Math.min(day,last),12))}
 function nextDate(s,kind,anchor){
  var d=parse(s);if(!d)return "";
  if(kind==="weekly"){d.setDate(d.getDate()+7);return iso(d)}
@@ -23,6 +24,8 @@ function status(t){if(t.finished)return "Completed";if(state.endDate&&t.due>stat
 function load(){
  try{var val=localStorage.getItem(key);if(!val)return;var a=JSON.parse(val);if(!a||!Array.isArray(a.tasks))return;
  state.endDate=parse(a.endDate)?a.endDate:"";
+ state.planStart=parse(a.planStart)?a.planStart:today();
+ state.planHorizon=["1m","6m","12m","ongoing","custom"].includes(a.planHorizon)?a.planHorizon:(state.endDate?"custom":"ongoing");
  state.tasks=a.tasks.filter(function(t){return t&&typeof t.name==="string"&&parse(t.due)&&["once","weekly","monthly"].includes(t.repeat)}).map(function(t){
  return {id:String(t.id||taskId()),name:t.name.slice(0,140),due:t.due,repeat:t.repeat,
  anchor:Number(t.anchor)||parse(t.due).getDate(),doneCount:Math.max(0,Number(t.doneCount)||0),
@@ -79,8 +82,11 @@ function proRender(){
  $("mpt-pro-complete").textContent=String(completed);
  $("mpt-pro-completions").textContent=String(state.tasks.reduce(function(a,t){return a+t.doneCount},0));
  if($("mpt-pro-enddate"))$("mpt-pro-enddate").value=state.endDate;
+ if($("mpt-pro-plan-start"))$("mpt-pro-plan-start").value=state.planStart||today();
  if($("mpt-pro-ongoing"))$("mpt-pro-ongoing").checked=!state.endDate;
  if($("mpt-pro-enddate"))$("mpt-pro-enddate").disabled=!state.endDate;
+ document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.setAttribute("aria-pressed",String(state.planHorizon===btn.dataset.mptHorizon))});
+ if($("mpt-pro-horizon-label"))$("mpt-pro-horizon-label").textContent=state.endDate?"Plan until "+readable(state.endDate):"Ongoing · no fixed end date";
  if(memoryOnly)notify("mpt-pro-message","Local storage is unavailable. This demonstration will not be saved after leaving the page.","warn");
 }
 function freeActions(){
@@ -130,12 +136,22 @@ function proActions(){
   save();proRender();
  });
  $("mpt-pro-ongoing").addEventListener("change",function(e){
-  if(e.target.checked){state.endDate="";save();proRender();notify("mpt-pro-message","Ongoing project: no fixed end date.","info")}
-  else{var input=$("mpt-pro-enddate");input.disabled=false;input.value=state.endDate||datePlus(today(),30);input.focus();notify("mpt-pro-message","Choose a final project date and click Set end date.","info")}
+  if(e.target.checked){state.endDate="";state.planHorizon="ongoing";save();proRender();notify("mpt-pro-message","Ongoing project: no fixed end date.","info")}
+  else{var input=$("mpt-pro-enddate");input.disabled=false;input.value=state.endDate||addMonths(state.planStart||today(),1);input.focus();notify("mpt-pro-message","Choose an end date or select a planning period.","info")}
+ });
+ document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.addEventListener("click",function(){
+  var v=btn.dataset.mptHorizon,months={"1m":1,"6m":6,"12m":12}[v];if(!months)return;
+  state.planStart=parse($("mpt-pro-plan-start").value)?$("mpt-pro-plan-start").value:today();state.planHorizon=v;state.endDate=addMonths(state.planStart,months);
+  save();proRender();notify("mpt-pro-message","Planning period selected: "+months+(months===1?" month":" months")+", ending "+readable(state.endDate)+".","info");
+ })});
+ $("mpt-pro-plan-start").addEventListener("change",function(e){
+  if(!parse(e.target.value)){e.target.value=state.planStart||today();return}state.planStart=e.target.value;
+  if(["1m","6m","12m"].includes(state.planHorizon))state.endDate=addMonths(state.planStart,{"1m":1,"6m":6,"12m":12}[state.planHorizon]);
+  save();proRender();notify("mpt-pro-message","Project start updated. Check your task dates.","info");
  });
  $("mpt-pro-set-end").addEventListener("click",function(){
   var e=$("mpt-pro-enddate"),v=e.value;if(!parse(v)){notify("mpt-pro-message","Choose a valid project end date.","warn");return}
-  state.endDate=v;save();proRender();notify("mpt-pro-message","Project end date set: "+readable(v)+".","info");
+  if(state.planStart&&v<state.planStart){notify("mpt-pro-message","The end date must be on or after the start date.","warn");return}state.endDate=v;state.planHorizon="custom";save();proRender();notify("mpt-pro-message","Custom end date set: "+readable(v)+".","info");
  });
  $("mpt-pro-examples").addEventListener("click",function(){
   if(state.tasks.length&&!window.confirm("Add 20 sample follow-up tasks to your existing demo list?"))return;
@@ -150,9 +166,9 @@ function proActions(){
  });
  $("mpt-pro-clear").addEventListener("click",function(){
   if(!window.confirm("Delete all locally saved PRO demo tasks and their completion history from this browser?"))return;
-  state={tasks:[],endDate:""};save();proRender();notify("mpt-pro-message","This browser's demo tasks and dates have been cleared.","info");
+  state={tasks:[],endDate:addMonths(today(),1),planStart:today(),planHorizon:"1m"};save();proRender();notify("mpt-pro-message","Demo reset to a 1-month planning period.","info");
  });
- $("mpt-pro-task-date").value=today();load();proRender();
+ $("mpt-pro-task-date").value=today();load();if(!state.planStart)state.planStart=today();if(!state.endDate&&state.planHorizon==="1m")state.endDate=addMonths(state.planStart,1);proRender();
 }
 function start(){if($("mpt-free-demo-form"))freeActions();if($("mpt-pro-demo-form"))proActions()}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
