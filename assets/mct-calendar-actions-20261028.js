@@ -112,7 +112,7 @@
   $('mct-reminder-email').addEventListener('click',()=>{
    const {info,item}=selected();
    if(!item){feedback('Choose a future contract deadline.','error');return}
-   const recipient=$('deadline-email')?.value?.trim()||'';
+   const recipient=$('mct-reminder-email-to')?.value?.trim()||$('deadline-email')?.value?.trim()||'';
    if(recipient&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)){feedback('Correct the recipient email or leave it blank.','error');return}
    const subject='Closing reminder · '+item.name+' · '+item.date;
    const url='mailto:'+encodeURIComponent(recipient)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(reminderText(item,info)+'\n\nPlease verify the signed contract dates before acting.');
