@@ -111,18 +111,20 @@ html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .m
 html body:has(form.mct-auth-logout) header#mct-site-header.mct-unified-header .mct-header-account .mct-auth-logout button:hover{background:#264d62!important;color:#fff!important}
 
 /* FINAL HOME MASTHEAD: explicit geometry means links and calendar logo never shift between pages. */
-@media (min-width:1251px){
+@media (min-width:1351px){
  html body header#mct-site-header.mct-unified-header>.mct-header-inner{
-  display:grid!important;grid-template-columns:minmax(310px,1fr) max-content 265px!important;
-  column-gap:20px!important;align-items:center!important;justify-content:normal!important;
+  display:grid!important;grid-template-columns:minmax(310px,1fr) max-content 320px!important;
+  column-gap:24px!important;align-items:center!important;justify-content:normal!important;
   width:calc(100% - 70px)!important;margin-left:35px!important;margin-right:35px!important;
  }
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>nav{
   grid-column:2!important;justify-self:end!important;order:0!important;
+  gap:clamp(13px,1.12vw,19px)!important;
  }
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>.mct-header-tools{
   grid-column:3!important;justify-self:end!important;order:0!important;
-  margin:0!important;width:265px!important;justify-content:flex-end!important;
+  margin:0!important;width:320px!important;min-width:320px!important;
+  justify-content:flex-end!important;gap:13px!important;
  }
 }
 html body header#mct-site-header.mct-unified-header a.mct-brand{
@@ -146,12 +148,12 @@ html body header#mct-site-header.mct-unified-header a.mct-brand img.mct-brand-ic
  max-width:46px!important;max-height:46px!important;flex:0 0 46px!important;
  object-fit:contain!important;transform:none!important;
 }
-@media(min-width:1251px){
+@media(min-width:1351px){
  html body header#mct-site-header.mct-unified-header nav a{
   font-family:Manrope,Arial,sans-serif!important;font-size:16px!important;font-weight:800!important;letter-spacing:0!important;
  }
 }
-@media(max-width:1250px){
+@media(max-width:1350px){
  html body header#mct-site-header.mct-unified-header>.mct-header-inner{
   display:flex!important;flex-wrap:wrap!important;gap:10px 18px!important;
  }
