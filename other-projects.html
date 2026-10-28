@@ -65,6 +65,7 @@
  @media(max-width:800px){.mpt-choices{grid-template-columns:1fr}.mpt-steps{grid-template-columns:1fr}.mpt-hero{padding:45px 22px 52px}.mpt-intro,.mpt-section{padding:20px}.mpt-card{padding:20px}}
  </style>
  <script src="/assets/mct-header-height-20261027.js?v=1" defer></script>
+ <script src="/assets/mpt-project-task-demo-20261028.js?v=2" defer></script>
 <style id="mpt-twenty-followup-samples-20261028">
 /* Other Projects: read-only examples, not FREE presets or live PRO promises. */
 html body .mpt-pro-followup-link{display:block!important;margin:10px 0 0!important;color:#3a6070!important;font:700 13px/1.6 Manrope,Arial,sans-serif!important}
@@ -190,6 +191,17 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
    <div class="mpt-step"><span>2</span><h3>Your Own Tasks &amp; Deadlines</h3><p>In FREE, write up to 8 tasks that matter to you. Give each its own deadline; no required presets.</p></div>
    <div class="mpt-step"><span>✓</span><h3>Review &amp; Share</h3><p>See your planned schedule and use sharing options when the tools are released.</p></div>
   </div>
+<div class="mpt-demo-board" id="mpt-free-task-demo" aria-labelledby="mpt-free-demo-title">
+ <div class="mpt-demo-head"><div><span class="mpt-demo-eyebrow">INTERACTIVE FREE PREVIEW · NO ACCOUNT</span><h3 id="mpt-free-demo-title">Try your own task list</h3><p>Add up to <strong>8 tasks</strong> with dates you choose. Mark them done or remove them. This FREE preview <strong>resets when you reload</strong>.</p></div><span class="mpt-demo-count" id="mpt-free-count">0 / 8 tasks</span></div>
+ <form id="mpt-free-demo-form" class="mpt-demo-form" autocomplete="off">
+  <label for="mpt-free-task-name">Your task <input id="mpt-free-task-name" type="text" maxlength="140" required placeholder="e.g., Confirm supplier delivery"></label>
+  <label for="mpt-free-task-date">Due date <input id="mpt-free-task-date" type="date" required></label>
+  <button id="mpt-free-add" type="submit" class="mpt-demo-primary">+ Add FREE task</button>
+ </form>
+ <div class="mpt-demo-toolbar"><p id="mpt-free-message" role="status" aria-live="polite">Enter tasks for your own activity; nothing is preselected.</p><button id="mpt-free-clear" type="button" class="mpt-demo-secondary">Clear FREE list</button></div>
+ <div class="mpt-demo-table-scroll"><table class="mpt-demo-table" aria-label="Your FREE preview tasks"><thead><tr><th scope="col">Your task</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead><tbody id="mpt-free-demo-body"><tr><td colspan="4">You can try this task list when scripts load.</td></tr></tbody></table></div>
+ <p class="mpt-demo-security">Demo only. Do not enter client names, addresses, confidential records or payment details. FREE preview data is not uploaded or saved.</p>
+</div>
   <div class="mpt-workmode-explainer" aria-label="How your future project tasks will work">
    <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR BUSINESS</span><h3>You create the tasks</h3><p>Write tasks that fit your trade, profession or project. Nothing is compulsory.</p></div>
    <div class="mpt-workmode"><span class="mpt-workmode-kicker">PRO · UNLIMITED TASKS</span><h3>As many as you need</h3><p>Add tasks without a fixed limit <strong>within each PRO project</strong>, and keep following them up. Each separate project would require its own credit.</p></div>
@@ -283,6 +295,30 @@ html body .mpt-frequency-explanation{margin:0 0 17px!important;color:#4b6d7a!imp
  <section class="mpt-section" id="mpt-pro-preview" aria-labelledby="mpt-pro-title">
   <h2 id="mpt-pro-title">PRO · Project management with follow-up</h2>
   <p><strong>Your tasks. Your business. Your schedule.</strong> PRO is planned to let each customer create and edit as many tasks as needed <strong>within each project</strong>, set responsibilities and due dates, and choose whether a task happens <strong>once, every week or every month</strong>. The customer will be able to track each occurrence independently and follow up until a chosen completion date — or keep an activity <strong>ongoing with no fixed end date</strong>. Every business sets its own tasks and repeat schedules; suggestions are optional.</p>
+<div class="mpt-demo-board mpt-pro-demo" id="mpt-pro-task-demo" aria-labelledby="mpt-pro-demo-title">
+ <div class="mpt-demo-head"><div><span class="mpt-demo-eyebrow">INTERACTIVE PRO PREVIEW · NO PAYMENT</span><h3 id="mpt-pro-demo-title">Your follow-up table — try it here</h3><p>Build a custom checklist for your activity. Choose <strong>one-time, weekly or monthly</strong> tasks and a <strong>1-month, 6-month, 1-year or ongoing</strong> project plan.</p></div><span class="mpt-demo-demo-tag">BROWSER-ONLY TEST</span></div>
+ <div class="mpt-plan-controls" role="group" aria-label="Choose your PRO project planning period">
+  <div class="mpt-plan-start"><label for="mpt-pro-plan-start">Project start date</label><input id="mpt-pro-plan-start" type="date"></div>
+  <div class="mpt-plan-horizons"><span class="mpt-plan-label">Choose your planning period</span><div class="mpt-plan-period-buttons">
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="1m" aria-pressed="true">1 month</button>
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="6m" aria-pressed="false">6 months</button>
+   <button type="button" class="mpt-demo-period" data-mpt-horizon="12m" aria-pressed="false">1 year</button>
+  </div></div>
+  <label class="mpt-plan-ongoing"><input id="mpt-pro-ongoing" type="checkbox"><span>Ongoing — no end date</span></label>
+  <div class="mpt-plan-custom"><label for="mpt-pro-enddate">Or choose an exact end date</label><div><input id="mpt-pro-enddate" type="date"><button id="mpt-pro-set-end" type="button" class="mpt-demo-secondary">Set date</button></div></div>
+  <p class="mpt-plan-summary" id="mpt-pro-horizon-label" aria-live="polite">Plan until one month after your start date</p>
+ </div>
+ <form id="mpt-pro-demo-form" class="mpt-demo-form" autocomplete="off">
+  <label for="mpt-pro-task-name">Your follow-up task<input id="mpt-pro-task-name" type="text" maxlength="140" required placeholder="e.g., Review inventory"></label>
+  <label for="mpt-pro-task-date">First due date<input id="mpt-pro-task-date" type="date" required></label>
+  <label for="mpt-pro-repeat">Repeat this task<select id="mpt-pro-repeat"><option value="once">One time</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></label>
+  <button type="submit" class="mpt-demo-primary">+ Add follow-up</button>
+ </form>
+ <div class="mpt-demo-toolbar"><p id="mpt-pro-message" role="status" aria-live="polite">Your tasks are yours to choose. Complete an occurrence to schedule the next one.</p><div class="mpt-demo-toolbar-buttons"><button id="mpt-pro-examples" type="button" class="mpt-demo-secondary">Load 20 optional examples</button><button id="mpt-pro-clear" type="button" class="mpt-demo-secondary mpt-demo-clear">Clear this demo</button></div></div>
+ <div class="mpt-demo-stat-grid"><div><strong id="mpt-pro-total">0</strong><span>Custom tasks</span></div><div><strong id="mpt-pro-due">0</strong><span>Due today</span></div><div><strong id="mpt-pro-overdue">0</strong><span>Overdue</span></div><div><strong id="mpt-pro-complete">0</strong><span>Completed tasks</span></div><div><strong id="mpt-pro-completions">0</strong><span>Occurrences finished</span></div></div>
+ <div class="mpt-demo-table-scroll"><table class="mpt-demo-table mpt-pro-table" aria-label="Your editable PRO preview follow-up checklist"><thead><tr><th scope="col">Task you created</th><th scope="col">Next due</th><th scope="col">Frequency</th><th scope="col">Status</th><th scope="col">Done</th><th scope="col">Actions</th></tr></thead><tbody id="mpt-pro-demo-body"><tr><td colspan="6">You can try this project checklist when scripts load.</td></tr></tbody></table></div>
+ <p class="mpt-demo-security"><strong>Local browser demonstration only.</strong> PRO demo tasks are saved only in this browser's local storage, not in a customer account or server; use Clear this demo to erase them. No emails, reminders, credit consumption or payments occur. Do not enter identifying or confidential information. The actual Other Projects PRO service remains under development.</p>
+</div>
   <p class="mpt-pro-followup-link"><strong>Want to see what PRO follow-up means?</strong> <a href="#mpt-followup-showcase">Review 20 sample tasks above ↑</a></p>
   <div class="mpt-steps">
    <div class="mpt-step"><span>1</span><h3>1 Project Credit</h3><p>One project with saved timeline and follow-up access.</p></div>
