@@ -9,6 +9,26 @@
  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap">
  <link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11">
  <link rel="stylesheet" href="/assets/mct-pro-activation-20261028.css?v=3">
+ <script>
+ /* Retire the redundant gift-activation screen for old email links.
+    Never copy the invitation into query parameters or send it to third parties. */
+ (function(){
+  var code="",pattern=/^MCT-[A-Z0-9_-]{12,60}$/;
+  try{
+   if(location.hash.indexOf("#gift=")===0)code=(new URLSearchParams(location.hash.slice(1)).get("gift")||"").trim().toUpperCase();
+   if(!pattern.test(code)&&location.hash==="#mct-activation-gift"){
+    var local=JSON.parse(localStorage.getItem("mct-pending-private-gift-v1")||"null");
+    if(local&&Number(local.expires)>Date.now())code=String(local.code||"").trim().toUpperCase();
+    if(!pattern.test(code)){var session=JSON.parse(sessionStorage.getItem("mct-activation-code-pending-v1")||"null");if(session&&Number(session.until)>Date.now())code=String(session.code||"").trim().toUpperCase()}
+   }
+   if(pattern.test(code)){
+    try{localStorage.setItem("mct-pending-private-gift-v1",JSON.stringify({code:code,expires:Date.now()+86400000}))}catch(e){}
+    try{sessionStorage.setItem("mct-activation-code-pending-v1",JSON.stringify({code:code,until:Date.now()+86400000}))}catch(e){}
+    location.replace("/pro-get-started.html?auth=register&mode=gift#gift="+encodeURIComponent(code));
+   }
+  }catch(e){}
+ })();
+ </script>
  <script src="/assets/mct-header-height-20261027.js?v=1" defer></script>
  <script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script>
  <script src="/assets/mct-pro-activation-20261028.js?v=3" defer></script>
