@@ -83,7 +83,7 @@ function createFillablePdf(info){
  pageBase(first,defs);
  // Page 2: all dated milestones, including later-than-closing items. Split large lists.
  const events=Array.isArray(info.entries)?info.entries:[];
- const chunk=16;
+ const chunk=14;
  for(let start=0;start<Math.max(1,events.length);start+=chunk){
   let content=top("MILESTONES | ORIGINAL TARGET AND LATER EVENTS", "timeline");
   content+=ink("CONTRACT / PROJECT MILESTONES",left,598,13);
