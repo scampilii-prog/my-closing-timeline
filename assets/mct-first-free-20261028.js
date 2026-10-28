@@ -4,11 +4,11 @@ const homeSlot=document.getElementById("mct-home-offer-slot");
 const anchor=document.querySelector(".mct-brand-slogan");
 if(!homeSlot&&!anchor)return;
 const card=document.createElement("section");card.className="mct-first-free-banner";card.id="mct-first-free-offer";card.setAttribute("aria-label","First PRO Closing invitation");
-card.innerHTML='<div><span class="mct-offer-kicker">FIRST TIME HERE?</span><h2>Your First PRO Closing Could Be FREE.</h2><p>Request a personal invitation for one complimentary PRO Closing Credit — a planned $29.90 value. Subject to eligibility and approval. No credit card required.</p></div><div class="mct-offer-actions"><a class="mct-offer-primary" href="/first-closing-free.html">Request My FREE Code</a><a class="mct-offer-secondary" href="/pro-get-started.html?auth=register&amp;mode=gift#mct-account">Already invited? Redeem your code</a></div>';
+card.innerHTML='<div><span class="mct-offer-kicker">FIRST TIME HERE?</span><h2>Your First PRO Closing is FREE.</h2><p>One complimentary first PRO credit per verified email. Your code is sent automatically after confirmation. No owner approval or card required.</p></div><div class="mct-offer-actions"><a class="mct-offer-primary" href="/first-closing-free.html">Request My FREE Code</a><a class="mct-offer-secondary" href="/pro-get-started.html?auth=register&amp;mode=gift#mct-account">Already invited? Redeem your code</a></div>';
 if(homeSlot){
  card.classList.add("mct-first-free-banner-home");
- card.querySelector("h2").textContent="Your First PRO Closing Could Be FREE.";
- card.querySelector("p").textContent="Request a personal invitation for one complimentary PRO Closing Credit. Subject to approval; no card required.";
+ card.querySelector("h2").textContent="Your First PRO Closing is FREE.";
+ card.querySelector("p").textContent="Your first PRO closing credit is free after email verification. One code per email; no approval needed.";
  card.querySelector(".mct-offer-primary").textContent="Request FREE Code";
  card.querySelector(".mct-offer-secondary").textContent="Have a code? Redeem";
  homeSlot.append(card);
