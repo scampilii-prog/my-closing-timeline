@@ -1,4 +1,11 @@
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
+## WEBSITE 16 · 28-oct-2026 · Owner Reset FREE Test corregido
+- El propietario quiere usar **un solo email para todas las pruebas**. El dueño pulsa una sola vez **Reset FREE Test** en `/admin-invitations`; no hay diálogos. La pantalla ahora muestra **Ready for New Test** tras reset, no el confuso `Pending Verification`. Tras solicitar el nuevo código aparece `Awaiting Email Confirmation`. El objetivo es repetir el recorrido de visitante con el mismo correo, incluyendo confirmar el nuevo email, sin borrar cuentas, cierres ni créditos comprados.
+- Se corrigió en `functions/api/first-free/[[path]].js` el bloqueo que antes impedía volver a solicitar códigos desde un correo previamente usado: `ownerResetReady` ahora se calcula antes de controles de IP y concede una excepción solo al siguiente intento expresamente autorizado por owner; `eligible()` no bloquea ese nuevo intento. Se conservan confirmación de correo, código un solo uso, fila única por email y límites normales de visitantes. El email-throttle se reinicia con cada owner reset; no se da acceso a reiniciar desde cuentas de clientes.
+- En caso de fallo del proveedor de email, se conserva la fila preexistente para reintentar y no se borra historial. `admin/list` devuelve solo booleano `confirmation_sent`, sin exponer token. No afirmar funcionamiento publicado sin verificar Cloudflare + D1 y Resend.
+- Commits: `7e905731784257c053987e659fb3602774734ee4` (API); `c298bc8fc3c3113c7228721eb9269c3add80e741` (Admin). QA estática de 4 archivos OK.
+
+
 **Website 16 · actualización: 28 de octubre de 2026 · leer este archivo PRIMERO.**
 
 > **Propósito:** conservar lo importante de Websites 1–15 sin copiar conversaciones extensas. Fuente de verdad: código actual de la rama `main` + este resumen. Para decisiones técnicas, consultar [PROJECT_CONTINUITY_MASTER.md](PROJECT_CONTINUITY_MASTER.md), [PROJECT_CHANGELOG.md](PROJECT_CHANGELOG.md), [PRIVACY_FIRST_REQUIREMENTS.md](PRIVACY_FIRST_REQUIREMENTS.md), [FIRST_FREE_LAUNCH_CHECKLIST.md](FIRST_FREE_LAUNCH_CHECKLIST.md) y [PRO_SETUP.md](PRO_SETUP.md). Este resumen no reemplaza una prueba del sitio publicado.
