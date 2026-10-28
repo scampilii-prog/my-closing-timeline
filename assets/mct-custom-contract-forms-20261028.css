@@ -49,3 +49,52 @@ html body #contract-deadline-planner #mct-contract-form-input:focus-visible,
 html body #contract-deadline-planner #mct-contract-form-add:focus-visible,
 html body #contract-deadline-planner .mct-contract-form-chip>button:focus-visible{outline:3px solid #d0ad71;outline-offset:2px}
 @media(max-width:480px){html body #contract-deadline-planner .mct-contract-form-entry{grid-template-columns:1fr}html body #contract-deadline-planner #mct-contract-form-add{width:100%}}
+
+/* Compact expandable More options and editable form library */
+html body #contract-deadline-planner .fc-simple-options>summary{
+ cursor:pointer!important;display:flex!important;flex-wrap:wrap!important;
+ gap:5px!important;align-items:center!important;min-height:43px!important;
+ padding:8px 10px!important;border:1px solid #c3dcdf!important;border-radius:7px!important;
+ background:#eaf6f4!important;color:#18596d!important;
+ font:750 13px/1.45 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .fc-simple-options>summary strong{
+ color:#155a6b!important;font:900 14.5px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .fc-simple-options>summary span{
+ color:#557380!important;font:650 12.5px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .fc-simple-options[open]>summary{
+ background:#ddf0ec!important;border-color:#6daaa5!important;margin-bottom:13px!important;
+}
+html body #contract-deadline-planner .mct-contract-forms-editor{
+ display:flex!important;flex-direction:column!important;gap:9px!important;
+}
+html body #contract-deadline-planner .mct-contract-forms-editor h5{
+ margin:0!important;color:#174b5d!important;
+ font:850 17px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-contract-forms-editor h5 span{
+ color:#617985!important;font:600 12px/1.4 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-contract-form-lead{
+ margin:0!important;color:#456b7b!important;
+ font:600 12.5px/1.55 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-contract-forms-editor>label{
+ margin:2px 0 0!important;font-size:13px!important;
+}
+html body #contract-deadline-planner .mct-contract-form-account-status{
+ margin:4px 0 0!important;padding:10px 12px!important;border-radius:7px!important;
+ background:#e2f2ec!important;color:#1a695a!important;
+ font:750 12.2px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-contract-form-account-status[data-state="warn"]{
+ color:#875d25!important;background:#fff4e2!important;
+}
+html body #contract-deadline-planner .mct-contract-form-account-status[data-state="pending"]{
+ color:#4d6c77!important;background:#ecf3f5!important;
+}
+html body #contract-deadline-planner .mct-contract-form-chip>span{
+ font-size:12.5px!important;
+}
