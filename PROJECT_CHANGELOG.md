@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — restaurado First Closing FREE sobre Beyond Real Estate + recurrencias PRO
+- **Captura HOME:** espacio vacío en segunda columna sobre `Beyond Real Estate`. La promoción de primer cierre gratis dejó de generarse porque el script `mct-first-free-20261028.js` exigía la antigua tarjeta `.mct-brand-slogan`, eliminada por el rediseño de privacidad.
+- **Reparación:** HTML permanente en `index.html #mct-home-offer-slot` con tarjeta REALTOR PRO, explicación de crédito gratuito sujeto a verificación/aprobación, botón `/first-closing-free.html` y enlace de canje `/pro-get-started.html?auth=register&mode=gift#mct-account`. CSS accesible centrado y responsive. El script ahora acepta un HOME slot y se corrigió el enlace antiguo roto; versión de script HOME v4. No se tocaron pagos, registro, D1 ni permisos.
+- **Nueva decisión del usuario sobre Other Projects PRO Step 3:** tareas creadas específicamente por cada cliente, **una vez, semanales o mensuales**, repetición hasta fecha elegida o indefinida, seguimiento de cada instancia, y sin límite de número de tareas por proyecto. No implica proyectos/créditos ilimitados. **Solo requisito para implementación futura**, no disponible hoy.
+- **QA:** presencia de HTML y rutas GitHub confirmada; validación visual y publicación Cloudflare pendientes.
+
 ## Website 15 — 2026-10-28 — 20 tareas visibles, personalización y PRO sin fecha de fin
 - **Captura del propietario:** la tabla FREE de Other Projects tenía cinco ejemplos, aunque había 20 abajo. Se solicitó visualizar al menos 20 en esa tabla y explicar que cada profesional define sus propias tareas adaptadas a la actividad, con seguimiento sin fecha final o hasta un día elegido.
 - **Hecho en `other-projects.html`:** tabla FREE de muestra con 20 nombres genéricos numerados, columna días/fecha bajo control del cliente; nota expresa de tareas no automáticas y límite planificado de hasta 8 para FREE. Tres tarjetas explicativas destacadas: creación propia, **PRO con tareas ilimitadas por proyecto** y proyectos con fecha de fin o duración continua.
