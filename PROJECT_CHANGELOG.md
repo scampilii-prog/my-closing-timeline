@@ -4,6 +4,13 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — Other Projects aparece en el encabezado de todas las páginas
+- **Petición:** el visitante que no sea Realtor debe reconocer inmediatamente un enlace directo a `other-projects.html` desde el header.
+- **Implementación GitHub:** insertar enlace `Other Projects` entre `PRO Timeline` y `Plans & Pricing` en 21 páginas que usan navegación canónica; `aria-current="page"` en la página de Other Projects. Solo cambia el menú visible, sin tocar los flujos FREE/PRO.
+- **CSS compartido:** enlace dorado sutil en `assets/header-canonical-20261027.css?v=10`, con hover/foco, sin cambiar el ancho de contenido de 1420px. **Idiomas:** ES «Otros Proyectos», IT «Altri Progetti» y PT «Outros Projetos» mediante `assets/navigation-extras.js?v=20261028-other-projects`.
+- **Funcionalidad anunciada:** Other Projects es acceso a preview/COMING NEXT, no presentar FREE/PRO de proyectos generales como operativos hasta verificarlos.
+- **Verificación:** cambios guardados en GitHub; Cloudflare Pages, apariencia en navegadores grandes/pequeños y funcionalidad pública no verificados independientemente.
+
 ## Website 15 — 2026-10-28 — onboarding nuevo cliente: solicitud gratis, registro, TEST checkout y PDF
 - **Motivo:** primera visita no entendía términos como “PRO credits”, “gift” ni las etapas de registro, pago, canje y PDF.
 - **GitHub:** en `pro-get-started.html` se aclaró que un crédito inicia un PRO closing, se añadió el CTA `Request First Closing FREE`, se revisaron textos estáticos y dinámicos de ambas opciones y se incluyó guía de PDF; botones existentes llevan al formulario de registro o sección de paquete. La URL con `auth=register&mode=gift` coloca al visitante en el registro con modalidad de código.
