@@ -1,0 +1,101 @@
+/* Calendar & alerts sidebar: primary actions first, report and exports below. */
+html body #contract-deadline-planner .fc-simple-result .fc-simple-share.mct-share-actions{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:9px!important;padding:14px 12px!important;align-items:stretch!important;
+ width:100%!important;box-sizing:border-box!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions>button{
+ box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;
+ justify-content:center!important;white-space:normal!important;min-width:0!important;
+ width:100%!important;height:auto!important;min-height:43px!important;
+ margin:0!important;padding:10px 8px!important;border-radius:8px!important;
+ text-align:center!important;font:800 12.5px/1.32 Manrope,Arial,sans-serif!important;
+ box-shadow:none!important;cursor:pointer!important;letter-spacing:0!important;grid-column:auto!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #mct-calendar-action{
+ background:#126f72!important;border:1px solid #126f72!important;color:#fff!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #mct-alert-action{
+ background:#204f76!important;border:1px solid #204f76!important;color:#fff!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #deadline-email-btn{
+ background:#304b66!important;border:1px solid #304b66!important;color:#fff!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #timeline-copy-picture{
+ background:#eaf1f5!important;border:1px solid #bdd0dc!important;color:#234b61!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #timeline-download-picture{
+ background:#f3f6f7!important;border:1px solid #cfdae0!important;color:#2c5064!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #deadline-print{
+ background:#fff5e3!important;border:1px solid #dcc08b!important;color:#6e4b1b!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions #timeline-view-picture{
+ background:#f8fafb!important;border:1px solid #d2dce1!important;color:#456172!important;
+ max-width:135px!important;min-height:35px!important;padding:7px 12px!important;font-size:11.5px!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions>button:hover{
+ filter:brightness(.95)!important;transform:translateY(-1px)
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-actions>button:focus-visible{
+ outline:3px solid #82bac5!important;outline-offset:2px!important
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-head{
+ display:flex;flex-direction:column;gap:4px;padding:16px 14px 0
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-head strong{
+ color:#1d5365;font:850 14px/1.3 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner .fc-simple-result .mct-share-head span{
+ color:#627a88;font:550 12px/1.55 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner #mct-calendar-panel[hidden]{display:none!important}
+html body #contract-deadline-planner .mct-calendar-panel{
+ box-sizing:border-box;margin:1px 12px 14px;padding:15px;border-radius:10px;
+ border:1px solid #a7d2c9;border-left:4px solid #247f7c;
+ background:#f5fbf9;color:#264b5b;font:550 12.5px/1.6 Manrope,Arial,sans-serif;
+}
+html body #contract-deadline-planner .mct-calendar-panel h5{
+ margin:0 0 4px;font:850 16px/1.35 Manrope,Arial,sans-serif;color:#1e5b65
+}
+html body #contract-deadline-planner .mct-calendar-panel>p{margin:5px 0 10px}
+html body #contract-deadline-planner .mct-calendar-panel label{
+ display:flex;flex-direction:column;gap:4px;margin:9px 0;
+ color:#214c5c;font:750 12px/1.45 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner .mct-calendar-panel select,
+html body #contract-deadline-planner .mct-calendar-panel input{
+ box-sizing:border-box;max-width:100%;min-width:0;width:100%;min-height:38px;
+ padding:7px 8px;border:1px solid #b9d2d3;border-radius:7px;background:#fff;
+ color:#23465a;font:600 12px/1.4 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner .mct-calendar-panel .mct-calendar-buttons{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0
+}
+html body #contract-deadline-planner .mct-calendar-panel .mct-calendar-buttons button{
+ min-height:39px!important;box-sizing:border-box!important;padding:8px!important;
+ border:1px solid #87b5b8!important;border-radius:7px!important;background:#fff!important;
+ color:#1f5867!important;cursor:pointer!important;font:800 12px/1.3 Manrope,Arial,sans-serif!important;
+ width:100%!important;min-width:0!important
+}
+html body #contract-deadline-planner .mct-calendar-panel #mct-calendar-download,
+html body #contract-deadline-planner .mct-calendar-panel #mct-reminder-email{
+ background:#1a7275!important;color:#fff!important;border-color:#1a7275!important
+}
+html body #contract-deadline-planner .mct-calendar-panel #mct-calendar-status{
+ background:#e5f2ef;border-radius:7px;padding:9px;margin:10px 0 0;
+ color:#24645a;font:650 11.5px/1.5 Manrope,Arial,sans-serif
+}
+html body #contract-deadline-planner .mct-calendar-panel #mct-calendar-status[data-state="error"]{
+ background:#fff0e9;color:#8f4332
+}
+html body #contract-deadline-planner .mct-calendar-panel .mct-calendar-hint{
+ color:#607786;font-size:11px;line-height:1.5
+}
+@media(max-width:500px){
+ html body #contract-deadline-planner .fc-simple-result .fc-simple-share.mct-share-actions{grid-template-columns:1fr!important}
+ html body #contract-deadline-planner .mct-calendar-panel .mct-calendar-buttons{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+ html body #contract-deadline-planner .fc-simple-result .mct-share-actions>button:hover{transform:none}
+}
