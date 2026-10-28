@@ -96,6 +96,9 @@ window.MCTPrivatePDFDownload=function(info){
   return true;
 };
 function boot(){
+ // Only account-backed PRO workspaces expose editable private PDF generation.
+ // The FREE timeline does not load this asset, but defend against accidental inclusion.
+ if(/\/free-timeline(?:\.html)?\/?$/.test(location.pathname))return;
  const root=document.getElementById('contract-deadline-planner');if(!root)return;
  const fields=root.querySelector('.mct-unified-fields-grid');
  const ref=document.getElementById('mct-private-ref');
@@ -106,6 +109,11 @@ function boot(){
  const intro=document.createElement('p');intro.textContent='Download a fillable PDF with your timeline. Buyer/seller names, property address, price and contact fields remain blank until you fill them on your own device. No private fields are uploaded.';
  const row=document.createElement('div');row.className='mct-private-action';
  const button=document.createElement('button');button.type='button';button.textContent='Download Private Fillable PDF';
+ if(/\/pro-timeline(?:\.html)?\/?$/.test(location.pathname)){
+   button.disabled=true;
+   button.setAttribute('aria-disabled','true');
+   button.title='Activate a PRO Closing Credit to use this private PDF.';
+ }
  const caption=document.createElement('small');caption.textContent='Complete and save in a PDF viewer. Keep a private copy; downloads are not stored in your PRO account.';
  const feedback=document.createElement('p');feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.style.marginTop='8px';
  row.append(button,caption);box.append(heading,intro,row,feedback);fields.insertAdjacentElement('afterend',box);
