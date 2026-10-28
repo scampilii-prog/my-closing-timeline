@@ -4,7 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
-## Website 15 — 2026-10-28 — 1280px uniforme en HOME y todas las páginas
+## Website 15 — 2026-10-28 — decisión definitiva: ancho uniforme de 1420px
+- **Petición textual del propietario:** “pon todas las paginas del mismo ancho de 1.420 pixeles”. Sustituye el intento de 1280px y el anterior de 1140px.
+- **Cambios GitHub:** `assets/mct-hero-left-edge-20261028.css` actualizado a lienzo de contenido centrado con máximo **1420px**; regla final alineada para HOME y páginas interiores. Se actualiza versión de caché de `v=5` a **`v=6`** en 22 páginas HTML. La página auxiliar de PDF local sin clase de layout recibió el mismo ancho sin afectar el inicio de sesión.
+- **Se conserva:** fotos de fondo, títulos alineados con paneles, Manrope, logo, encabezados, pies, FREE, PRO, Admin, Privacy First, First Closing FREE, Stripe Sandbox, D1, Resend y seguridad. No se modificó JS, Functions, migraciones ni transacciones.
+- **QA GitHub:** cambios guardados y referencias a hoja v6 verificadas. **QA Cloudflare:** sin certificar; acceso HTTP público no disponible desde esta sesión. Falta revisión en navegador escritorio/móvil y comparación visual HOME frente a PRO.
+- **Siguiente tarea:** comprobar publicación de v6 y ausencia de conflictos visuales, sin introducir una nueva anchura salvo decisión explícita del propietario.
+
+## Website 15 — 2026-10-28 — 1280px inicial (SUPERADO POR 1420px)
 - **Decisión del propietario:** HOME se veía demasiado estrecho. TODAS las páginas comparten ahora un **ancho máximo común de 1280px** para su contenido principal (sin abrir los fondos fotográficos o las tablas hasta los bordes).
 - **Implementado en GitHub:** la hoja `assets/mct-hero-left-edge-20261028.css` cambia su referencia de 1140px a 1280px; nuevas reglas finales prevalecen sobre restricciones antiguas y mantienen márgenes responsivos de 12px en móvil.
 - **Caché actualizado:** 22 páginas HTML, incluidas HOME, FREE, PRO, Pricing, Help, Other Projects, Admin Console, invitaciones y páginas auxiliares, usan `/assets/mct-hero-left-edge-20261028.css?v=5`.
