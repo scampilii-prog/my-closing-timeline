@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — 20 tareas visibles, personalización y PRO sin fecha de fin
+- **Captura del propietario:** la tabla FREE de Other Projects tenía cinco ejemplos, aunque había 20 abajo. Se solicitó visualizar al menos 20 en esa tabla y explicar que cada profesional define sus propias tareas adaptadas a la actividad, con seguimiento sin fecha final o hasta un día elegido.
+- **Hecho en `other-projects.html`:** tabla FREE de muestra con 20 nombres genéricos numerados, columna días/fecha bajo control del cliente; nota expresa de tareas no automáticas y límite planificado de hasta 8 para FREE. Tres tarjetas explicativas destacadas: creación propia, **PRO con tareas ilimitadas por proyecto** y proyectos con fecha de fin o duración continua.
+- **PRO:** descripción y cierre de Step 3 mejorados: tareas personalizadas sin límite fijo por proyecto, seguimiento y edición continua, sin término o con fecha concreta; **un crédito por proyecto**. Se mantienen los 20 ejemplos de seguimientos por grupos abajo de la tabla.
+- **QA:** comprobación del código y texto contra las decisiones del proyecto. **Estas funciones son planes, no se han implementado aún** en Other Projects ni verificado Cloudflare en vivo.
+
 ## Website 15 — 2026-10-28 — 20 ejemplos de tareas genéricas en Other Projects
 - **Solicitud:** en la sección FREE de Other Projects, sustituir las filas sin contenido por ejemplos reales y ofrecer al menos 20 tareas comunes de seguimiento para mostrar para qué serviría pagar PRO Step 3.
 - **GitHub:** `other-projects.html` ahora incluye 5 filas ilustrativas en la tabla FREE y una muestra visual **PRO · STEP 3 FOLLOW-UP PREVIEW** con 20 tareas (4 grupos x 5): planificación, recursos, seguimiento/ calidad y finalización. Cada tarea incluye una breve acción de control. La sección PRO enlaza a esos ejemplos.
