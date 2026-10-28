@@ -1,0 +1,36 @@
+/* Privacy-first customer-controlled, locally generated fillable PDF. */
+html body #contract-deadline-planner .mct-private-export{
+ box-sizing:border-box!important;margin:13px 0 7px!important;padding:16px 18px!important;
+ border:1px solid #bad8d6!important;border-left:4px solid #2a7e79!important;
+ border-radius:10px!important;background:#f1faf7!important;
+ color:#1c4a5b!important;font-family:Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-private-export h4{
+ margin:0 0 7px!important;color:#174e57!important;
+ font:850 18px/1.3 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-private-export p{
+ color:#4d6e75!important;margin:0 0 11px!important;
+ font:600 13.5px/1.55 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner .mct-private-export .mct-private-action{
+ display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:12px!important;
+}
+html body #contract-deadline-planner .mct-private-export button{
+ border:1px solid #1b6866!important;border-radius:8px!important;
+ color:white!important;background:#1e716c!important;
+ font:850 14px/1.4 Manrope,Arial,sans-serif!important;
+ min-height:44px!important;padding:10px 17px!important;cursor:pointer!important;
+}
+html body #contract-deadline-planner .mct-private-export button:hover{background:#155b59!important}
+html body #contract-deadline-planner .mct-private-export button:focus-visible{outline:3px solid #dab674!important;outline-offset:3px!important}
+html body #contract-deadline-planner .mct-private-export small{
+ color:#41646c!important;font:650 12px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner #mct-private-ref{
+ font-size:15px!important;letter-spacing:.03em!important;font-weight:800!important;
+}
+@media(max-width:640px){
+ html body #contract-deadline-planner .mct-private-export{padding:13px!important}
+ html body #contract-deadline-planner .mct-private-export button{width:100%!important}
+}
