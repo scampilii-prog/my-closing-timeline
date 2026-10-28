@@ -160,3 +160,56 @@ html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privac
   grid-template-columns:minmax(0,1fr)!important;
  }
 }
+
+/* 9. Final specificity protection. Some old PHOTO styles use three/four
+   classes and had been defeating the later, generic alignment rule.
+   These explicit public-page selectors win without stretching the background
+   or changing any contractual form. The headline and its body panel use the
+   same 1140px centered canvas, measured from the viewport. */
+html body.mct-layout-wide section.intro.mct-photo-hero,
+html body.mct-layout-pro section.intro.mct-photo-hero.mct-pro-photo-hero{
+ box-sizing:border-box!important;
+ width:100%!important;
+ max-width:none!important;
+ margin-left:0!important;
+ margin-right:0!important;
+ padding-left:0!important;
+ padding-right:0!important;
+ display:flex!important;
+ justify-content:center!important;
+ align-items:center!important;
+}
+html body.mct-layout-wide section.intro.mct-photo-hero>.mct-photo-hero-content,
+html body.mct-layout-pro section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+ box-sizing:border-box!important;
+ flex:0 1 min(var(--mct-approved-page-width),calc(100% - 40px))!important;
+ width:calc(100% - 40px)!important;
+ max-width:var(--mct-approved-page-width)!important;
+ min-width:0!important;
+ margin:0 auto!important;
+ padding:0!important;
+ text-align:left!important;
+}
+@media(max-width:700px){
+ html body.mct-layout-wide section.intro.mct-photo-hero>.mct-photo-hero-content,
+ html body.mct-layout-pro section.intro.mct-photo-hero.mct-pro-photo-hero>.mct-photo-hero-content{
+  flex:0 1 calc(100% - 24px)!important;
+  width:calc(100% - 24px)!important;
+  max-width:none!important;
+  margin:0 auto!important;
+  padding:0!important;
+ }
+}
+/* 10. HOME's banner title must use that same edge as the three overview
+   cards, even when earlier hero-specific CSS sets a different padding. */
+html body main.workspace.mct-home-final>section.mct-home-opening{
+ box-sizing:border-box!important;
+ padding-left:max(20px,calc((100% - var(--mct-approved-page-width))/2))!important;
+ padding-right:max(20px,calc((100% - var(--mct-approved-page-width))/2))!important;
+}
+@media(max-width:700px){
+ html body main.workspace.mct-home-final>section.mct-home-opening{
+  padding-left:12px!important;
+  padding-right:12px!important;
+ }
+}
