@@ -147,3 +147,102 @@ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #m
   margin-right:15px!important;
  }
 }
+
+
+/* FREE: group the three secondary actions on the RIGHT, separated from the email workflow. */
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-quiet{
+ display:flex!important;
+ flex-direction:row!important;
+ flex-wrap:wrap!important;
+ align-items:center!important;
+ justify-content:flex-end!important;
+ gap:9px!important;
+ margin-top:14px!important;
+ margin-bottom:11px!important;
+ padding-top:11px!important;
+ border-top:1px solid #dde7e8!important;
+ box-sizing:border-box!important;
+ background:transparent!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button.mct-free-share-text,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share > summary {
+ box-sizing:border-box!important;
+ display:inline-flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ flex:0 0 auto!important;
+ min-height:41px!important;
+ height:41px!important;
+ min-width:0!important;
+ width:auto!important;
+ max-width:100%!important;
+ padding:9px 13px!important;
+ margin:0!important;
+ background:#eaf4f5!important;
+ border:1.5px solid #91b4bd!important;
+ border-radius:8px!important;
+ box-shadow:0 2px 4px rgba(20,64,78,.06)!important;
+ color:#194c61!important;
+ font:850 12px/1.3 Manrope,Arial,sans-serif!important;
+ text-decoration:none!important;
+ white-space:nowrap!important;
+ cursor:pointer!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button#deadline-print {
+ background:#fcf3e3!important;
+ border-color:#c7aa76!important;
+ color:#745022!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button#mct-calendar-action {
+ background:#e8f4f1!important;
+ border-color:#8bbeb3!important;
+ color:#155e5d!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share {
+ position:relative!important;
+ display:block!important;
+ flex:0 0 auto!important;
+ margin:0!important;
+ padding:0!important;
+ border:0!important;
+ background:transparent!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share > summary{
+ display:list-item!important;
+ list-style-position:inside!important;
+ background:#eff3f8!important;
+ border-color:#9eb4c9!important;
+ color:#294c6b!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button:hover,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share > summary:hover {
+ filter:brightness(.975)!important;
+ border-color:#477c8c!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button:focus-visible,
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share > summary:focus-visible{
+ outline:3px solid #c99e58!important;
+ outline-offset:2px!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share[open]{
+ flex:0 0 100%!important;
+ text-align:right!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share[open] > summary{
+ width:max-content!important;
+ margin-left:auto!important;
+}
+html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet .mct-free-extra-share{
+ justify-content:flex-end!important;
+}
+@media(max-width:640px){
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review > .mct-free-share-quiet{
+  justify-content:flex-end!important;
+  gap:8px!important;
+ }
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > button.mct-free-share-text,
+ html body main.workspace #contract-deadline-planner[data-free-task-limit="8"] #mct-free-review .mct-free-share-quiet > details.mct-free-more-share > summary{
+  min-height:39px!important;height:auto!important;padding:8px 10px!important;
+  font-size:11px!important;white-space:normal!important;
+ }
+}
