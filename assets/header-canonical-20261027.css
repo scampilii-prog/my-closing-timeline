@@ -223,16 +223,16 @@ html body header#mct-site-header.mct-unified-header a.mct-brand img.mct-brand-ic
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>.mct-header-tools{margin:0 auto!important}
 }
 
-/* Website 15: primary navigation includes accessible non-Realtor projects.
-   Style ONLY this link; preserve canonical logo, fixed header and wrapping. */
-html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects{
- color:#efcf93!important;
+/* Website 15: Other Projects uses the same WHITE default as all links.
+   GOLD is reserved for an active page or hover/focus. */
+html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects:not([aria-current="page"]){
+ color:#fff!important;
 }
 html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects:hover,
 html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects:focus-visible{
- color:#ffe7b6!important;
+ color:#efce92!important;
 }
 html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects[aria-current="page"]{
- color:#efcf93!important;text-decoration:underline!important;
+ color:#edc983!important;text-decoration:underline!important;
  text-decoration-thickness:1.5px!important;text-underline-offset:6px!important;
 }
