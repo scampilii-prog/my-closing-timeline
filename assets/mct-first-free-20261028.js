@@ -11,6 +11,12 @@ if(homeSlot){
  card.querySelector(".mct-offer-primary").textContent="Request FREE Code";
  card.querySelector(".mct-offer-secondary").textContent="Have a code? Redeem";
  homeSlot.append(card);
-}else anchor.insertAdjacentElement("afterend",card);
+}else {
+ // On PRO, the privacy seal lives inside a dedicated card. Never insert
+ // the invitation INSIDE that card: doing so breaks the two-column layout.
+ const proRow=document.querySelector(".mct-pro-category-privacy-row");
+ if(proRow){card.classList.add("mct-first-free-banner-pro");proRow.insertAdjacentElement("afterend",card)}
+ else anchor.insertAdjacentElement("afterend",card);
+}
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place()})();
