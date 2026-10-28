@@ -1,0 +1,52 @@
+# MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
+**Proyecto:** https://myclosingtimeline.com · **Repositorio:** `scampilii-prog/my-closing-timeline` · **Rama:** `main`
+
+> Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
+
+## Website 15 — 2026-10-28 — recuperación, inventario y documentación
+**Objetivo:** continuar exactamente desde Website 14; sin alterar diseños ni flujos ya aprobados.
+
+- Se revisó el repositorio original, rama principal, lista de commits, carpetas `assets/`, `functions/`, `migrations/` y documentación previa.
+- Último HEAD de Website 14 **antes de los cambios de documentación**: `1aa7770631882417777768ed484ac75932b01591` (2026-10-28 20:09:09 UTC).
+- Se encontraron implementaciones en código de privacidad, FREE/PRO, Stripe Sandbox, D1, Resend, invitaciones, marketing separado y Admin. **No se ejecutaron flujos reales ni se certificaron los servicios**.
+- Se detectó `assets/mct-hero-left-edge-20261028.css?v=4`, hoja de estilo compartida con contenido centrado de 1140px y alineación de títulos fotográficos. La verificación visual de producción es el **punto exacto pendiente de Website 14**.
+- El middleware de Home implementa Coming Soon para usuarios anónimos y HOME completa para la sesión del propietario. Esta es una constatación del código, no del comportamiento desplegado.
+- La consulta externa de `https://myclosingtimeline.com`, páginas interiores y `/api/pro/health` fue inaccesible desde el entorno de revisión. No se obtuvo evidencia de commit desplegado ni de configuración de Cloudflare/D1/Resend/Stripe.
+- **Cambio realizado en esta conversación:** crear `PROJECT_CONTINUITY_MASTER.md` y este changelog; enlazarlos desde README para siguientes conversaciones. **Ningún HTML, CSS, JS, API ni dato de clientes se modificó.**
+- **Resultado:** continuidad documental establecida en GitHub; estado de producción **SIN CERTIFICAR**.
+- **Próxima acción:** abrir páginas de referencia en navegador autorizado y comparar anchura/títulos de HOME, FREE, PRO, Pricing, Help & Contact, Beyond Real Estate y Admin; inspeccionar versión desplegada `v=4` de CSS.
+
+## Website 14 — 2026-10-28 — última tanda de diseño
+- Decisión final del usuario: los primeros tres enlaces del header deben mostrar páginas tan anchas como la referencia **PRO Timeline**, no a todo el ancho; títulos dentro de la foto alineados con el contenido inferior en **todas** las páginas, incluida Admin Console donde proceda.
+- Ajustes iterativos de ancho, alineación y layouts. Última revisión documentada: `assets/mct-hero-left-edge-20261028.css?v=4` compartido.
+- Ejemplos de commits encontrados:
+  - `d988b412e6ff9dc904fd12ad19e6e76ae8f06c59` — FREE Timeline: estilo PRO 1140 px v4.
+  - `e2656a6e31bf0116174a9b4f77f9a29fd21e857e` — PRO get started: estilo compartido v4.
+  - `fc2566249f10dbe62b483c0e717d90317cd37e0c` — Other Projects: estilo compartido v4.
+  - `60d4177ac995d4cbd26fc25c0b2522662f10d997` — Admin Console: estilo compartido v4.
+  - `04d2029e8ef95a8d1ac16a8a36f992021e8b3733` — First Closing FREE: estilo compartido v4.
+  - `1aa7770631882417777768ed484ac75932b01591` — último commit de Website 14, closing-workspace-preview.
+- Diferenciación **Other Projects** para no Realtors con invitación visible «NOT A REALTOR? START HERE» y secciones organizadas; se conserva **PRIVACY FIRST** separado de First Closing FREE sin tapar tablas ni recargar diseño.
+- **Estado:** commits guardados. **Falta** comprobar que Cloudflare sirve esa versión y que el diseño se ve correctamente en equipos de escritorio y móvil.
+
+## Website 13 — 2026-10-28 — First Closing FREE
+- Campaña de primer Closing PRO sin costo por invitación, correo verificado, aprobación de administrador y código individual restringido al correo, 30 días y uso único.
+- Se añaden página `first-closing-free.html`, gestión `admin-invitations.html`, API `functions/api/first-free/[[path]].js` y migración `0005_first_free_invitations.sql`.
+- Consentimiento publicitario opcional desmarcado por defecto; separado de mensajes esenciales de oferta. Ver `FIRST_FREE_LAUNCH_CHECKLIST.md`.
+- **Estado:** fuente presente. **Falta:** aplicación migraciones y prueba de correo real, permisos, canje, protección ante repetición y unsubscribe.
+
+## Websites 1–12 — decisiones y desarrollos que permanecen
+- HOME, FREE, PRO, Admin Console; cronogramas contractuales y checklist de seguimiento; tareas y controles de fechas; menús de formularios de contrato personalizables; espacios de prueba; coherencia del header/footer y logo.
+- Filosofía «Your Clients. Your Records. Your Privacy.»; reemplazar captura de datos inmobiliarios identificables por referencia privada y PDF rellenable local. Ver `PRIVACY_FIRST_REQUIREMENTS.md`.
+- Cuentas PRO, créditos, invitaciones privadas, D1, envío Resend, planes y pagos Stripe **solo Sandbox**. Ver `PRO_SETUP.md`.
+- **Estado:** solo los archivos existentes en `main` y las pruebas documentadas autorizan afirmar qué está implementado. No inferir una prueba de producción de la historia de conversación.
+
+## Plantilla para próximas entradas
+### Website N — AAAA-MM-DD — resumen
+- **Decisión aprobada:**
+- **Modificaciones (rutas):**
+- **Commits:**
+- **Verificación en GitHub:**
+- **Verificación en Cloudflare/servicios:** realizado / no realizado, evidencia y resultados
+- **Regresiones o problemas:**
+- **Siguiente tarea exacta:**
