@@ -1,125 +1,182 @@
-/* Website 13 · privacy commitment · consistent right-aligned seal.
-   Muted burgundy / gold. No photograph overlap or full-width ribbon.
-   This visual statement is an aspiration; it does not certify a completed privacy audit. */
+/* MCT privacy commitment · Website 13
+   Hero-specific placement; no banner taking its own row.
+   A prominent green PRIVACY FIRST tab is a design statement, not a legal certification. */
+html body .mct-home-opening,
+html body .intro.mct-photo-hero,
+html body .mpt-hero{position:relative!important;}
+
+/* Main seal. Positioned inside the image/hero, without affecting the page flow. */
 html body .mct-brand-slogan,
 html body > .mct-brand-slogan,
 html body main .mct-brand-slogan{
  box-sizing:border-box!important;
+ position:absolute!important;
  display:flex!important;
  flex-direction:column!important;
  align-items:flex-start!important;
  justify-content:center!important;
- position:relative!important;
  isolation:isolate!important;
- clear:both!important;
+ clear:none!important;
  float:none!important;
- width:max-content!important;
- max-width:calc(100% - 40px)!important;
- min-height:72px!important;
- padding:19px 23px 14px 73px!important;
- margin-top:25px!important;
- margin-bottom:20px!important;
- margin-left:auto!important;
- margin-right:max(20px,calc((100% - 1180px)/2))!important;
- background:linear-gradient(116deg,#4a2432 0%,#612d3a 70%,#653745 100%)!important;
- color:#fff7eb!important;
- border:1px solid #9d6c6c!important;
- border-left:4px solid #d7af76!important;
- border-radius:12px!important;
- box-shadow:0 9px 21px rgba(39,17,27,.16)!important;
+ width:375px!important;
+ max-width:calc(100% - 28px)!important;
+ min-height:86px!important;
+ height:auto!important;
+ margin:0!important;
+ padding:23px 18px 12px 74px!important;
+ background:linear-gradient(112deg,#432534 0%,#572b3b 65%,#593342 100%)!important;
+ color:#fff8eb!important;
+ border:1px solid #b88979!important;
+ border-left:4px solid #d7b17b!important;
+ border-radius:11px!important;
+ box-shadow:0 9px 25px rgba(24,13,20,.24)!important;
  overflow:visible!important;
  text-align:left!important;
  transform:none!important;
- z-index:3!important;
+ z-index:7!important;
  gap:3px!important;
  font-family:Manrope,Arial,sans-serif!important;
+ pointer-events:none!important;
 }
 html body .mct-brand-slogan::before{
  content:""!important;
  position:absolute!important;
  display:block!important;
- left:14px!important;
+ left:13px!important;
  top:50%!important;
- width:44px!important;
- height:44px!important;
- border:1px solid #c89f75!important;
- border-radius:12px!important;
- background-color:#fbebd2!important;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Cpath d='M24 7 36 12v10c0 8-4.8 14.5-12 18-7.2-3.5-12-10-12-18V12L24 7Z' stroke='%23642d3b' stroke-width='2.7' stroke-linejoin='round'/%3E%3Cpath d='m18.1 24 4.2 4.3 8.3-9' stroke='%23642d3b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+ width:45px!important;
+ height:45px!important;
+ border:1px solid #b5d0b2!important;
+ border-radius:11px!important;
+ background-color:#e9f5e6!important;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Cpath d='M24 7 36 12v10c0 8-4.8 14.5-12 18-7.2-3.5-12-10-12-18V12L24 7Z' stroke='%23146a4d' stroke-width='2.7' stroke-linejoin='round'/%3E%3Cpath d='m18.1 24 4.2 4.3 8.3-9' stroke='%23146a4d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
  background-repeat:no-repeat!important;
  background-position:center!important;
  background-size:38px 38px!important;
  transform:translateY(-50%) rotate(-5deg)!important;
- box-shadow:0 3px 8px rgba(25,10,17,.12)!important;
+ box-shadow:0 3px 9px rgba(21,56,38,.14)!important;
  pointer-events:none!important;
 }
 html body .mct-brand-slogan::after{
- content:"OUR COMMITMENT"!important;
+ content:"PRIVACY FIRST"!important;
  display:block!important;
  position:absolute!important;
- top:-10px!important;
- left:74px!important;
- color:#432130!important;
- background:#f0d6a8!important;
- border:1px solid #e1bb7f!important;
- border-radius:4px!important;
- padding:3px 9px!important;
- font:850 9px/1.25 Manrope,Arial,sans-serif!important;
- letter-spacing:.1em!important;
+ top:-17px!important;
+ left:73px!important;
+ padding:8px 17px!important;
+ border:1px solid #a4d9ba!important;
+ border-radius:6px!important;
+ background:linear-gradient(115deg,#167954,#228d69)!important;
+ color:#fff!important;
+ font:900 13px/1.1 Manrope,Arial,sans-serif!important;
+ letter-spacing:.065em!important;
  white-space:nowrap!important;
+ text-align:center!important;
  transform:rotate(-2deg)!important;
- box-shadow:0 3px 7px rgba(30,16,20,.12)!important;
+ box-shadow:0 5px 11px rgba(5,56,36,.24)!important;
  pointer-events:none!important;
 }
 html body .mct-brand-slogan .mct-slogan-main{
  display:block!important;
- color:#fff8ec!important;
- font:850 clamp(13px,1.13vw,16px)/1.35 Manrope,Arial,sans-serif!important;
- letter-spacing:-.012em!important;
- text-align:left!important;
  margin:0!important;
  padding:0!important;
- white-space:normal!important;
+ color:#fff8ed!important;
+ font:850 clamp(13.5px,1.22vw,16px)/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.015em!important;
+ text-align:left!important;
  text-wrap:balance!important;
+ white-space:normal!important;
 }
 html body .mct-brand-slogan .mct-slogan-note{
  display:block!important;
- color:#e9cdae!important;
- font:650 clamp(10px,.77vw,11px)/1.4 Manrope,Arial,sans-serif!important;
+ margin:2px 0 0!important;
+ padding:0!important;
+ color:#ead4b8!important;
+ font:650 10.5px/1.4 Manrope,Arial,sans-serif!important;
  letter-spacing:0!important;
  text-align:left!important;
- margin:1px 0 0!important;
- padding:0!important;
 }
-/* Explicitly override older hero-overlap rules in all public and admin layouts. */
-html body .mct-home-opening + .mct-brand-slogan,
-html body .mct-photo-hero + .mct-brand-slogan,
-html body .mpt-hero + .mct-brand-slogan{
- margin-top:25px!important;
- margin-bottom:20px!important;
- transform:none!important;
+
+/* Page-specific positions: the card uses unused space within each hero. */
+html body .intro.mct-photo-hero > .mct-brand-slogan{
+ right:max(24px,calc((100% - 1250px)/2))!important;
+ bottom:27px!important;
+ left:auto!important;
+ top:auto!important;
 }
-@media(max-width:640px){
- html body .mct-brand-slogan,
- html body > .mct-brand-slogan,
- html body main .mct-brand-slogan{
-  width:max-content!important;
-  max-width:calc(100% - 28px)!important;
-  min-height:70px!important;
-  padding:20px 12px 14px 64px!important;
-  margin:23px 14px 18px auto!important;
+html body .mct-home-opening > .mct-brand-slogan{
+ left:max(22px,calc((100% - 1310px)/2))!important;
+ right:auto!important;
+ bottom:14px!important;
+ top:auto!important;
+ width:345px!important;
+ max-width:calc(100% - 44px)!important;
+}
+html body .mpt-hero > .mct-brand-slogan{
+ right:max(24px,calc((100% - 1180px)/2))!important;
+ bottom:23px!important;
+ left:auto!important;
+ top:auto!important;
+ width:355px!important;
+}
+
+/* Operational pages: overlay alongside the page heading, not above the content. */
+html body main.mct-privacy-workspace{
+ position:relative!important;
+}
+html body main.mct-privacy-workspace > .mct-brand-slogan{
+ top:8px!important;
+ right:20px!important;
+ left:auto!important;
+ bottom:auto!important;
+ width:340px!important;
+ min-height:75px!important;
+ padding-top:20px!important;
+}
+
+/* On small screens, keep the card visually subordinate to main content;
+   the hero has sufficient established padding below the copy. */
+@media(max-width:900px){
+ html body .intro.mct-photo-hero > .mct-brand-slogan,
+ html body .mpt-hero > .mct-brand-slogan{
+  width:min(335px,calc(100% - 26px))!important;
+  right:13px!important;
+  bottom:14px!important;
+ }
+ html body .mct-home-opening > .mct-brand-slogan{
+  left:17px!important;
+  bottom:11px!important;
+  width:min(330px,calc(100% - 34px))!important;
+ }
+ html body main.mct-privacy-workspace > .mct-brand-slogan{
+  display:none!important;
+ }
+}
+@media(max-width:560px){
+ html body .intro.mct-photo-hero > .mct-brand-slogan,
+ html body .mct-home-opening > .mct-brand-slogan,
+ html body .mpt-hero > .mct-brand-slogan{
+  width:min(305px,calc(100% - 24px))!important;
+  max-width:calc(100% - 24px)!important;
+  min-height:73px!important;
+  padding:22px 12px 10px 61px!important;
+  border-radius:9px!important;
+  bottom:10px!important;
+  right:12px!important;
+  left:auto!important;
  }
  html body .mct-brand-slogan::before{
-  left:11px!important;width:39px!important;height:39px!important;
-  background-size:34px 34px!important;
+  width:37px!important;
+  height:37px!important;
+  left:10px!important;
+  background-size:32px 32px!important;
  }
- html body .mct-brand-slogan::after{left:64px!important;font-size:8px!important}
- html body .mct-brand-slogan .mct-slogan-main{font-size:13px!important}
- html body .mct-brand-slogan .mct-slogan-note{font-size:10px!important}
- html body .mct-home-opening + .mct-brand-slogan,
- html body .mct-photo-hero + .mct-brand-slogan,
- html body .mpt-hero + .mct-brand-slogan{
-  margin-top:23px!important;
-  margin-bottom:18px!important;
+ html body .mct-brand-slogan::after{
+  left:60px!important;
+  top:-14px!important;
+  padding:6px 10px!important;
+  font-size:11px!important;
  }
+ html body .mct-brand-slogan .mct-slogan-main{font-size:12.5px!important}
+ html body .mct-brand-slogan .mct-slogan-note{font-size:9.5px!important}
 }
