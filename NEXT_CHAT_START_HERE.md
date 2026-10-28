@@ -36,6 +36,12 @@
 - Cambios hechos SOLO de explicación y navegación (más `my-closings.html` texto de guía). No se han probado registros, emails, checkout, D1 ni PDF en Cloudflare en vivo. No activar pagos reales.
 - Próxima acción del usuario: abrir `https://myclosingtimeline.com/first-closing-free.html` como nuevo visitante e informar en qué paso llega o qué error aparece. Tras un código aprobado, usar `https://myclosingtimeline.com/pro-get-started.html?auth=register&mode=gift#mct-account`.
 
+## D3. Website 15 — acceso permanente a clientes NO Realtors
+- Decisión aprobada: mostrar **Other Projects** como **sexto enlace del header**, situado **entre PRO Timeline y Plans & Pricing**, accesible en la misma pestaña en las **21 páginas con navegación pública canónica** (incluyendo las privadas que comparten ese header). En la propia `other-projects.html`, el enlace debe ser el activo.
+- Abre **`https://myclosingtimeline.com/other-projects.html`**. Presenta alternativas de organización para negocios, construcción, servicios y proyectos personales. **FREE y PRO de Other Projects están señalados como preview/COMING NEXT**; no prometer herramientas ni pagos que aún no estén publicados.
+- Estilo dorado discreto `mct-nav-other-projects` en `assets/header-canonical-20261027.css?v=10`; `assets/navigation-extras.js?v=20261028-other-projects` aporta las traducciones ES/IT/PT del nuevo nombre. Se conservan ancho máximo de contenido 1420px, logo, registro, HOME y demás enlaces.
+- Cambios confirmados en GitHub; despliegue en Cloudflare/visualización móvil todavía pendientes de verificar. Ante caché, recargar la página.
+
 ## E. PRIORIDADES — próximos pasos, en este orden
 1. **Verificar despliegue real** y comparar página HOME con FREE, PRO, Pricing, Help, Other Projects y Admin en escritorio y móvil: ancho común **1420px**, márgenes, encabezado, títulos fotográficos, legibilidad y ausencia de desbordes. No confundir commit GitHub con despliegue.
 2. **Probar botones y flujos FREE** (Step 1/2, tareas 6+2, cálculo, business/calendar days, resumen email, copiar, PDF cuando corresponda), y CTA dorado HOME.
