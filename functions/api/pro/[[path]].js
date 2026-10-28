@@ -46,6 +46,30 @@ async function sendVerification(env,email,link){
 }
 async function ownerAuthenticated(req,env){const pass=env.PERSONAL_PRACTICE_PASSWORD;if(typeof pass!=="string"||pass.length<12)return false;const v=(req.headers.get("Cookie")||"").split(";").map(s=>s.trim()).find(s=>s.startsWith("mct_owner_session_v2="));if(!v)return false;const m=/^v2\.(\d+)\.([A-Za-z0-9_-]+)$/.exec(v.split("=")[1]);if(!m||Number(m[1])<Date.now()||Number(m[1])>Date.now()+2592000000)return false;const key=await crypto.subtle.importKey("raw",E.encode(pass),{name:"HMAC",hash:"SHA-256"},false,["sign"]);const sig=new Uint8Array(await crypto.subtle.sign("HMAC",key,E.encode("v2."+m[1])));const b64=btoa(String.fromCharCode(...sig)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");return safeEq(b64,m[2])}
 async function stripeRequest(env,data){const secret=env.STRIPE_SECRET_KEY;if(!secret||!secret.startsWith("sk_test_"))throw Error("Stripe Sandbox key has not been configured");const response=await fetch("https://api.stripe.com/v1/checkout/sessions",{method:"POST",headers:{Authorization:"Bearer "+secret,"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(data)});const result=await response.json();if(!response.ok||!result.url||!result.id)throw Error("Stripe checkout could not be opened");return result}
+
+/* User-owned, reusable form-name templates. Separate from the forms on each closing. */
+async function mctReadFormTemplates(db,userId){
+ await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_templates (id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,name TEXT NOT NULL COLLATE NOCASE,forms_json TEXT NOT NULL,is_default INTEGER NOT NULL DEFAULT 0 CHECK(is_default IN (0,1)),created_at TEXT NOT NULL DEFAULT (datetime('now')),updated_at TEXT NOT NULL DEFAULT (datetime('now')),UNIQUE(user_id,name))").run();
+ await db.prepare("CREATE INDEX IF NOT EXISTS idx_form_templates_user ON user_contract_form_templates(user_id,updated_at)").run();
+ let result=await db.prepare("SELECT id,name,forms_json,is_default,updated_at FROM user_contract_form_templates WHERE user_id=? ORDER BY is_default DESC,name COLLATE NOCASE ASC").bind(userId).all();
+ // Import a legacy single-list library once, without exposing it to other accounts.
+ if(!result.results.length){
+  const hasOld=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='user_contract_form_library'").first();
+  if(hasOld){
+   const old=await db.prepare("SELECT forms_json FROM user_contract_form_library WHERE user_id=?").bind(userId).first();
+   let legacy=[];try{const arr=JSON.parse(old?.forms_json||"[]");if(Array.isArray(arr))legacy=arr.filter(v=>typeof v==="string"&&v.trim())}catch(e){}
+   if(legacy.length){
+    await db.batch([
+     db.prepare("INSERT INTO user_contract_form_templates(id,user_id,name,forms_json,is_default) VALUES(?,?,?,?,1)").bind(guid(),userId,"My Standard Forms",JSON.stringify(legacy)),
+     db.prepare("DELETE FROM user_contract_form_library WHERE user_id=?").bind(userId)
+    ]);
+    result=await db.prepare("SELECT id,name,forms_json,is_default,updated_at FROM user_contract_form_templates WHERE user_id=? ORDER BY is_default DESC,name COLLATE NOCASE ASC").bind(userId).all();
+   }
+  }
+ }
+ return result.results.map(r=>{let forms=[];try{const parsed=JSON.parse(r.forms_json);if(Array.isArray(parsed))forms=parsed}catch(e){}return {id:r.id,name:r.name,forms,is_default:!!r.is_default,updated_at:r.updated_at}});
+}
+
 export async function onRequest(context){
  const {request:req,env}=context;const url=new URL(req.url),route=url.pathname.replace(/^\/api\/pro\/?/,"").replace(/\/$/,"");
  if(req.method==="GET"&&route==="health")return reply({ok:true,configured:{database:!!env.PRO_DB,checkoutSandbox:!!env.STRIPE_SECRET_KEY,webhook:!!env.STRIPE_WEBHOOK_SECRET,email:!!env.RESEND_API_KEY&&!!env.MCT_FROM_EMAIL}});
@@ -98,6 +122,10 @@ export async function onRequest(context){
   const rows=await db.prepare("SELECT id,credits,max_uses,uses,active,expires_at,restricted_email,created_at FROM promo_codes WHERE active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) ORDER BY created_at DESC LIMIT 100").bind(now()).all();
   return reply({ok:true,codes:rows.results});
 }
+ if(req.method==="GET"&&route==="forms/templates"){
+  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified PRO account",401);
+  return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
+ }
  if(req.method==="GET"&&route==="forms/library"){
   const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to verified PRO account",401);
   await db.prepare("CREATE TABLE IF NOT EXISTS user_contract_form_library (user_id TEXT PRIMARY KEY, forms_json TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
@@ -107,7 +135,7 @@ export async function onRequest(context){
  }
  if(req.method!=="POST")return error("Not found",404);
  if(!validOrigin(req))return error("Request origin was not accepted",403);
- const body=await parseBody(req,route==="forms/library"?200000:10000);
+ const body=await parseBody(req,(route==="forms/library"||route==="forms/templates")?200000:10000);
  if(route==="marketing/unsubscribe"){
   const address=String(body.email||"").trim().toLowerCase();
   if(!emailOK(address))return error("Enter a valid email address",400);
@@ -195,6 +223,51 @@ export async function onRequest(context){
   return reply({ok:true,code,credits:1,max_uses:1,notice:"This gift is valid for one free PRO closing only. Copy the private code now; it is not retrievable later."},201);
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
+ if(route==="forms/templates"){
+  const templates=await mctReadFormTemplates(db,user.id);
+  const action=String(body.action||"");
+  const id=String(body.id||"").trim();
+  if(action==="save"){
+   const name=String(body.name||"").replace(/\\s+/g," ").trim();
+   if(!name||name.length>100)return error("Template name must be between 1 and 100 characters");
+   if(!Array.isArray(body.forms))return error("Provide document names for the template");
+   let total=0;const forms=[],seen=new Set();
+   for(const item of body.forms){
+    if(typeof item!=="string")return error("Invalid document name");
+    const label=item.replace(/\\s+/g," ").trim();
+    if(!label||label.length>160)return error("Document names must be between 1 and 160 characters");
+    const key=label.toLocaleLowerCase("en");if(seen.has(key))continue;
+    seen.add(key);forms.push(label);total+=label.length;
+    if(total>100000)return error("This template exceeds the maximum request size");
+   }
+   const target=id?templates.find(t=>t.id===id):null;
+   if(id&&!target)return error("Template not found in this account",404);
+   if(templates.some(t=>t.id!==id&&t.name.toLocaleLowerCase("en")===name.toLocaleLowerCase("en")))return error("You already have a template with this name",409);
+   const makeDefault=!templates.length||!!body.make_default;
+   if(makeDefault)await db.prepare("UPDATE user_contract_form_templates SET is_default=0 WHERE user_id=?").bind(user.id).run();
+   if(target){
+    await db.prepare("UPDATE user_contract_form_templates SET name=?,forms_json=?,is_default=?,updated_at=datetime('now') WHERE user_id=? AND id=?")
+     .bind(name,JSON.stringify(forms),makeDefault?1:(target.is_default?1:0),user.id,id).run();
+   }else{
+    await db.prepare("INSERT INTO user_contract_form_templates(id,user_id,name,forms_json,is_default) VALUES(?,?,?,?,?)")
+     .bind(guid(),user.id,name,JSON.stringify(forms),makeDefault?1:0).run();
+   }
+  }else if(action==="delete"){
+   const target=templates.find(t=>t.id===id);if(!target)return error("Template not found in this account",404);
+   await db.prepare("DELETE FROM user_contract_form_templates WHERE user_id=? AND id=?").bind(user.id,id).run();
+   if(target.is_default){
+    const next=await db.prepare("SELECT id FROM user_contract_form_templates WHERE user_id=? ORDER BY name COLLATE NOCASE LIMIT 1").bind(user.id).first();
+    if(next)await db.prepare("UPDATE user_contract_form_templates SET is_default=1 WHERE user_id=? AND id=?").bind(user.id,next.id).run();
+   }
+  }else if(action==="set_default"){
+   if(!templates.some(t=>t.id===id))return error("Template not found in this account",404);
+   await db.batch([
+    db.prepare("UPDATE user_contract_form_templates SET is_default=0 WHERE user_id=?").bind(user.id),
+    db.prepare("UPDATE user_contract_form_templates SET is_default=1 WHERE user_id=? AND id=?").bind(user.id,id)
+   ]);
+  }else return error("Invalid template operation");
+  return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
+ }
  if(route==="forms/library"){
   if(!Array.isArray(body.forms)||body.forms.length>1000)return error("Invalid forms library");
   const names=[],seen=new Set();let total=0;
