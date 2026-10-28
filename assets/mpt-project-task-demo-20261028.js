@@ -95,7 +95,7 @@ function proRender(){
   var name=input("text","Task description",t.name);name.className="mpt-demo-task-input";name.dataset.field="name";name.dataset.id=t.id;
   var nameWrap=make("div","mpt-pro-task-title");nameWrap.appendChild(name);
   if(t.history.length){var details=make("details","mpt-demo-history"),summary=make("summary",null,"History · "+t.history.length+" completed");details.appendChild(summary);
-   var list=make("ol");t.history.slice().reverse().forEach(function(h){list.appendChild(make("li",null,"Due "+readable(h.due)+" · done "+readable(h.at))});details.appendChild(list);nameWrap.appendChild(details)}
+   var list=make("ol");t.history.slice().reverse().forEach(function(h){list.appendChild(make("li",null,"Due "+readable(h.due)+" · done "+readable(h.at)))});details.appendChild(list);nameWrap.appendChild(details)}
   cell(row,nameWrap);
   var due=input("date","Next due date",t.due);due.dataset.field="due";due.dataset.id=t.id;cell(row,due);
   var sel=make("select");sel.dataset.field="repeat";sel.dataset.id=t.id;sel.setAttribute("aria-label","Repeat frequency");
