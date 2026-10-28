@@ -384,18 +384,80 @@ function savedGift(){
 }
 function clearSavedGift(){try{localStorage.removeItem(giftStorageKey)}catch(_){}}
 
+let paidPlanChosen=["single","pack2","pack5"].includes(selectedFromPricing)||incomingSelection.has("auth");
+function giftMode(){return document.body.classList.contains("mct-gift-visit")}
+function holdGiftForVerification(){
+ if(!giftMode())return true;
+ const code=($("mct-code")?.value||"").trim().toUpperCase();
+ if(!code)return true;
+ if(!giftPattern.test(code)){
+  $("mct-gift-status").dataset.result="error";
+  $("mct-gift-status").textContent="This does not look like a private invitation code. Check the email you received, or leave this blank while creating your account.";
+  $("mct-code").focus();return false;
+ }
+ try{localStorage.setItem(giftStorageKey,JSON.stringify({code,expires:Date.now()+86400000}))}
+ catch(e){}
+ return true;
+}
+function setAccessMode(mode){
+ const gift=mode==="gift";
+ document.body.classList.toggle("mct-gift-visit",gift);
+ for(const [id,selected] of [["mct-pro-flow-buy",!gift],["mct-pro-flow-gift",gift]]){
+  const button=$(id);
+  button.classList.toggle("is-selected",selected);
+  button.setAttribute("aria-pressed",String(selected));
+ }
+ const msg=$("mct-flow-explanation");
+ msg.textContent=gift?
+  "PRIVATE INVITATION ONLY · A gift credit ($0.00) is sent to selected Realtors by email. Start by creating your account on the LEFT using the invited email, or sign in. Verify your email. Your gift code is then activated; no payment is required.":
+  "NO INVITATION NEEDED · First choose 1, 2 or 5 Closing Credits below. Next create your account or sign in. Verify your email and proceed to checkout when live.";
+ const intro=document.querySelector(".mct-pro-registration-intro");
+ if(intro){
+  intro.querySelector("strong").textContent=gift?"Your Private Gift. Your PRO Workspace.":"Choose. Register. Verify. Start.";
+  intro.querySelector("span").textContent=gift?
+   "Invitation holders only: register or sign in with the invited email. No card or payment needed.":
+   "Select a credit package, create or access your account and verify your email. Secure checkout is being tested.";
+ }
+ const left=document.querySelector(".mct-pro-offers-column>.eyebrow");
+ if(left)left.textContent=gift?"3 · ACTIVATE YOUR PRIVATE GIFT":"OPTIONAL PRO LAUNCH DISCOUNT";
+ const accountTitle=$("mct-pro-account-heading");
+ if(accountTitle)accountTitle.textContent=gift?"1 · CREATE ACCOUNT OR SIGN IN":"2 · CREATE ACCOUNT OR SIGN IN";
+ const accountHelp=$("mct-pro-account-help");
+ if(accountHelp)accountHelp.textContent=gift?
+  "FIRST: create your account with the invited email, or sign in if you are already registered. SECOND: confirm your email. Your private credit can then be activated. You do not need to pay.":
+  "New customer? Choose Create Account. Already registered? Choose Sign In. Verify your email, then continue with the selected PRO package when checkout is live.";
+ const giftHead=$("mct-gift-panel")?.querySelector(".mct-coupon-heading strong");
+ if(giftHead)giftHead.textContent="3 · PRIVATE INVITATION CODE — $0.00";
+ const saved=savedGift();
+ if(gift&&saved&&!$("mct-code").value)$("mct-code").value=saved;
+ if(gift){
+  $("mct-gift-status").dataset.result="";
+  $("mct-gift-status").textContent=saved?
+   "A private code from your invitation is saved. Verify your account using the invited email; activation will be attempted automatically. You do not need to click Verify Gift Code first.":
+   "If your invitation link did not fill the code, enter it here. First create or sign in to your account on the LEFT; code verification happens after sign-in.";
+ }
+ $("mct-gift-check").hidden=gift&&!account;
+ invitationActions();
+ updateProGuide();
+}
+$("mct-pro-flow-buy").addEventListener("click",()=>setAccessMode("buy"));
+$("mct-pro-flow-gift").addEventListener("click",()=>{
+ setAccessMode("gift");
+ if(account&&savedGift())automaticallyApplySavedGift();
+});
+
 function invitationActions(){
- const pending=!!savedGift();
- const root=$("mct-gift-enroll-actions");
- root.hidden=!pending;
- if(!pending)return;
+ const gift=giftMode(),pending=!!savedGift();
+ const actions=$("mct-gift-enroll-actions");actions.hidden=!gift;
+ if(!gift)return;
  const signed=!!account;
  $("mct-gift-create-account").hidden=signed;
  $("mct-gift-existing-account").hidden=signed;
  $("mct-gift-switch-account").hidden=!signed;
  $("mct-gift-enroll-note").textContent=signed?
- "Signed in as "+account.email+". Your FREE gift can be activated only with the invited email. If this is not the invited address, switch accounts. No payment required.":
- "Your 1 FREE Closing Credit ($0.00) is ready. Register and verify your email, or sign in with the invited email. Your private gift will activate automatically.";
+  "Signed in as "+account.email+". Use the invited email. Your code can be verified below; no payment is required.":
+  pending?"Your private code is saved. Create an account or sign in with the email that received the invitation, then verify the email.":
+  "Create an account or sign in with your invitation email. After verification, enter your private code here to activate the $0.00 credit.";
 }
 function openInvitedRegistration(kind){
  showTab(kind);
@@ -418,52 +480,29 @@ async function switchInvitedAccount(){
 }
 
 function initializeGiftFromInvitation(){
- let code="";
  const fragment=location.hash.slice(1);
- if(fragment.startsWith("gift=")){
-  code=(new URLSearchParams(fragment).get("gift")||"").trim().toUpperCase();
-  if(giftPattern.test(code)){
-   try{localStorage.setItem(giftStorageKey,JSON.stringify({code,expires:Date.now()+86400000}))}catch(_){}
-   // Clear the private code from the visible browser URL after it is captured.
-   history.replaceState(null,"",location.pathname+location.search+"#mct-gift-panel");
-  }else code="";
+ const fromLink=fragment.startsWith("gift=");
+ let code=fromLink?(new URLSearchParams(fragment).get("gift")||"").trim().toUpperCase():"";
+ if(fromLink&&giftPattern.test(code)){
+  try{localStorage.setItem(giftStorageKey,JSON.stringify({code,expires:Date.now()+86400000}))}catch(e){}
+  history.replaceState(null,"",location.pathname+location.search+"#mct-start-choice");
+ }else if(fromLink){
+  code="";
+  history.replaceState(null,"",location.pathname+location.search+"#mct-start-choice");
  }
- const pending=code||savedGift();
- if(!pending)return false;
- $("mct-code").value=pending;
- document.body.classList.add("mct-gift-visit");
- const proIntro=document.querySelector(".mct-pro-registration-intro");
- if(proIntro){
-  proIntro.querySelector("strong").textContent="Your FREE PRO Gift. Verify. Start Your Closing.";
-  proIntro.querySelector("span").textContent="Your invitation is ready. Create an account or sign in using the invited email. No payment required.";
+ const explicitGift=!!code||incomingSelection.get("mode")==="gift"||
+  (incomingSelection.get("verified")==="1"&&!!savedGift())||location.hash==="#mct-gift-panel";
+ if(explicitGift&&savedGift())$("mct-code").value=savedGift();
+ setAccessMode(explicitGift?"gift":"buy");
+ if(fromLink&&!code){
+  $("mct-flow-explanation").textContent="The private invitation link could not be read. Check the link in your invitation email, or enter your code in the gift section below.";
  }
- const leftHeading=document.querySelector(".mct-pro-offers-column>.eyebrow");
- if(leftHeading)leftHeading.textContent="1 · YOUR PRIVATE PRO GIFT";
- const accountHeading=document.querySelector("#mct-account")?.parentElement?.querySelector(".eyebrow");
- if(accountHeading)accountHeading.textContent="2 · CREATE ACCOUNT OR SIGN IN";
- const accountIntro=$("mct-account")?.previousElementSibling;
- if(accountIntro?.tagName==="P")accountIntro.textContent="Register with the email that received your invitation, or sign in if you already have an account. Verify your email to activate your FREE credit. No card or payment needed.";
- $("mct-gift-panel").classList.add("mct-invited-gift");
- const publicPanel=$("mct-coupon-panel");
- publicPanel?.parentNode?.insertBefore($("mct-gift-panel"),publicPanel);
- const giftHeading=$("mct-gift-panel").querySelector(".mct-coupon-heading strong");
- if(giftHeading)giftHeading.textContent="1 · YOUR PRIVATE GIFT — 1 FREE CLOSING CREDIT";
- const paidHeading=publicPanel?.querySelector(".mct-coupon-heading strong");
- if(paidHeading)paidHeading.textContent="2 · OPTIONAL PAID-CREDIT DISCOUNT";
- $("mct-launch-input").value="LAUNCH90";
- const publicStatus=$("mct-code-status");
- publicStatus.textContent="LAUNCH90 is prefilled for optional paid credit purchases only. Your PRIVATE GIFT is FREE ($0.00) and does not require LAUNCH90 or checkout.";
- invitationActions();
- $("mct-gift-status").dataset.result="success";
- $("mct-gift-status").textContent="Your private FREE gift code has been filled in automatically. Create your account and verify your email, or sign in with the invited email. Your credit will then be added automatically. No payment is needed.";
- if(fragment.startsWith("gift=")){
-  $("mct-gift-panel").scrollIntoView({block:"center"});
- }
- return true;
+ // Never scroll straight to Check Gift. New visitors start at the clear choice.
+ return explicitGift;
 }
 async function automaticallyApplySavedGift(){
  const code=savedGift();
- if(!account||!account.email||!code)return;
+ if(!giftMode()||!account||!account.email||!code)return;
  invitationActions();
  const attempt=account.email+"|"+code;
  if(giftAttemptedFor===attempt)return;
@@ -600,7 +639,7 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
  setStatus(ready.database?"Sign in or create your account to continue.":"Customer accounts are not active until Cloudflare D1 is configured.");
 }
 if(account)document.body.classList.remove("mct-pro-awaiting-verification");
- refreshButtons();invitationActions();updateProGuide();if(account)await automaticallyApplySavedGift();updateProGuide()}catch(e){setStatus("Secure account services are being configured.");refreshButtons();invitationActions();updateProGuide()}}
+ refreshButtons();invitationActions();updateProGuide();if(account&&giftMode())await automaticallyApplySavedGift();updateProGuide()}catch(e){setStatus("Secure account services are being configured.");refreshButtons();invitationActions();updateProGuide()}}
 function showTab(tab){$("mct-login-form").hidden=tab!=="login";$("mct-register-form").hidden=tab!=="register";for(const name of ["login","register"]){const b=$("mct-tab-"+name);const active=name===tab;b.classList.toggle("is-active",active);b.setAttribute("aria-pressed",String(active));}setStatus(tab==="register"?"Create your account using a valid email.":"Sign in to continue.")}
 $("mct-gift-create-account").onclick=()=>openInvitedRegistration("register");
 $("mct-gift-existing-account").onclick=()=>openInvitedRegistration("login");
@@ -608,7 +647,7 @@ $("mct-gift-switch-account").onclick=switchInvitedAccount;
 $("mct-tab-login").onclick=()=>showTab("login");
 $("mct-tab-register").onclick=()=>showTab("register");$("mct-forgot-toggle").onclick=()=>{$("mct-forgot-form").hidden=false;$("mct-login-form").hidden=true};$("mct-forgot-form").onsubmit=async e=>{e.preventDefault();try{const r=await api("forgot","POST",Object.fromEntries(new FormData(e.target)));setStatus(r.message);e.target.hidden=true}catch(err){setStatus(err.message)}};$("mct-reset-form").onsubmit=async e=>{e.preventDefault();try{const token=new URLSearchParams(location.search).get("reset");const r=await api("reset","POST",{token,password:new FormData(e.target).get("password")});setStatus(r.message);e.target.hidden=true;$("mct-login-form").hidden=false;history.replaceState({},"","/pro-get-started.html")}catch(err){setStatus(err.message)}};if(new URLSearchParams(location.search).get("reset")){$("mct-login-form").hidden=true;$("mct-reset-form").hidden=false;}
 document.querySelectorAll('input[name="plan"]').forEach(el=>el.addEventListener("change",()=>{
- const chosen=pickPlan();
+ const chosen=pickPlan();paidPlanChosen=true;if(!giftMode())updateProGuide();
  if(launchCodeApplied){$("mct-code-status").dataset.result="success";$("mct-code-status").textContent="LAUNCH90 applied to "+plans[chosen].name+" — "+plans[chosen].launch+"."}
 }));
 $("mct-launch-input").addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault();$("mct-check-code").click();}});
@@ -623,8 +662,8 @@ $("mct-code").addEventListener("input",()=>{
  $("mct-free-redeem").hidden=true;$("mct-gift-status").dataset.result="";
  $("mct-gift-status").textContent="Select Check Gift to verify the private code from your invitation.";
 });
-$("mct-login-form").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{await api("login","POST",d);await refreshAccount()}catch(err){setStatus(err.message)}};
-$("mct-register-form").onsubmit=async e=>{e.preventDefault();const form=e.target,button=form.querySelector('button[type="submit"]');if(button.disabled)return;const d=Object.fromEntries(new FormData(form));button.disabled=true;button.classList.remove("is-error","is-success");button.classList.add("is-busy");button.textContent="Creating account…";setStatus("Connecting securely. Please do not click again.");try{const result=await api("register","POST",d);button.classList.remove("is-busy");button.classList.add("is-success");button.textContent="Verification Email Requested ✓";setStatus(result.message||"Check your email to verify your account.","success");document.body.classList.add("mct-pro-awaiting-verification");updateProGuide()}catch(err){button.classList.remove("is-busy");button.classList.add("is-error");button.textContent="Try Again · Create Account";setStatus(err.message,"error")}finally{button.disabled=false}};
+$("mct-login-form").onsubmit=async e=>{e.preventDefault();if(!holdGiftForVerification())return;const d=Object.fromEntries(new FormData(e.target));try{await api("login","POST",d);await refreshAccount()}catch(err){setStatus(err.message)}};
+$("mct-register-form").onsubmit=async e=>{e.preventDefault();const form=e.target,button=form.querySelector('button[type="submit"]');if(button.disabled)return;const d=Object.fromEntries(new FormData(form));if(!holdGiftForVerification())return;button.disabled=true;button.classList.remove("is-error","is-success");button.classList.add("is-busy");button.textContent="Creating account…";setStatus("Connecting securely. Please do not click again.");try{const result=await api("register","POST",d);button.classList.remove("is-busy");button.classList.add("is-success");button.textContent="Verification Email Requested ✓";setStatus(result.message||"Check your email to verify your account.","success");document.body.classList.add("mct-pro-awaiting-verification");updateProGuide()}catch(err){button.classList.remove("is-busy");button.classList.add("is-error");button.textContent="Try Again · Create Account";setStatus(err.message,"error")}finally{button.disabled=false}};
 $("mct-logout").onclick=async()=>{try{await api("logout","POST",{});account=null;await refreshAccount()}catch(e){setStatus(e.message)}};
 $("mct-launch-code").onclick=()=>{$("mct-launch-input").value="LAUNCH90";$("mct-check-code").click()};
 $("mct-check-code").onclick=()=>{
