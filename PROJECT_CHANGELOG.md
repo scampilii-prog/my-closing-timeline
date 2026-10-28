@@ -4,6 +4,13 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — STAR debajo de START HERE
+- **Petición:** dar mayor protagonismo al aviso verde START HERE de la primera tarjeta HOME con una estrella directamente debajo.
+- **Archivo cambiado:** `index.html` solamente. Se organizó `NEW TO MY CLOSING TIMELINE?` junto al bloque vertical START HERE + estrella dorada decorativa (`aria-hidden`). La etiqueta verde es más grande, con degradado y relieve discreto; la estrella dorada dentro de medallón claro queda justo bajo la etiqueta. Responsive hasta 420px.
+- **Sin cambios:** ubicación del primer recuadro, promociones First Closing FREE, enlaces de opciones Realtor FREE/PRO, Beyond Real Estate, Today & Tomorrow, Privacy First y funcionamiento transaccional.
+- **Commit:** `063d0aab349b1522a3af991bd0abbb72b6bc6398`.
+- **QA:** CSS específico HOME y un solo bloque de estrella/etiqueta comprobados en `main`; destinos CTA intactos. **Cloudflare y prueba visual real aún no verificados.**
+
 ## Website 16 — 2026-10-28 — HOME: acciones debajo de Today & Tomorrow y Privacy First elevado
 - **Solicitud:** después de mover START HERE a la izquierda, aprovechar los espacios libres debajo de Today & Tomorrow y del título `Keep personal details private.` subiendo este último.
 - **Archivo actualizado:** `index.html` exclusivamente. Today & Tomorrow conserva el ejemplo y añade panel interno turquesa `YOUR NEXT STEP` con explicación y único CTA `Create My FREE Timeline` → `/free-timeline.html`. Se retiró el enlace CTA duplicado del pie de ejemplo (la advertencia contractual permanece).
