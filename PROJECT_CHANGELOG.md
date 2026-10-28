@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — 20 ejemplos de tareas genéricas en Other Projects
+- **Solicitud:** en la sección FREE de Other Projects, sustituir las filas sin contenido por ejemplos reales y ofrecer al menos 20 tareas comunes de seguimiento para mostrar para qué serviría pagar PRO Step 3.
+- **GitHub:** `other-projects.html` ahora incluye 5 filas ilustrativas en la tabla FREE y una muestra visual **PRO · STEP 3 FOLLOW-UP PREVIEW** con 20 tareas (4 grupos x 5): planificación, recursos, seguimiento/ calidad y finalización. Cada tarea incluye una breve acción de control. La sección PRO enlaza a esos ejemplos.
+- **Importante:** no se han añadido tareas predeterminadas al FREE real ni activado PRO general. Todos estos elementos son preview no interactivo, sin credenciales, pagos ni almacenamiento. Se conservan navegación, privacy-first y contratos inmobiliarios sin cambios.
+- **QA:** verificaciones de contenido HTML, 20 tareas, 4 categorías y enlaces internos en GitHub; publicación de Cloudflare/visual móvil todavía sin confirmar.
+
 ## Website 15 — 2026-10-28 — selector visual definitivo en FREE/PRO
 - El usuario compartió captura donde había demasiados textos redundantes y pidió que el cliente elija claramente si entra como Realtor o como otro profesional. Se eliminaron del código las explicaciones y banner duplicados.
 - Ambas páginas presentan un solo selector «Choose your timeline.» con dos tarjetas amplias, azul marino para Realtors y verde turquesa para otros profesionales; títulos grandes con acentos de color, breves explicaciones, estado y botones alineados abajo. Se reorganizó el contenido sin añadir pasos o elementos de pago.
