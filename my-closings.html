@@ -6,7 +6,23 @@
 .mct-workspace-nav a[aria-current="page"]{color:#f0cd90}
 @media(max-width:1000px){.mct-workspace-header-inner{justify-content:center}.mct-workspace-nav{justify-content:center}}
 @media(max-width:600px){.mct-workspace-nav{gap:9px 13px;justify-content:center}.mct-workspace-nav a{font-size:12px}}
-</style><link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11"><script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><script src="/assets/mct-header-height-20261027.js?v=1" defer></script><link rel="stylesheet" href="/assets/page-layout-home-20261027.css?v=1"><link rel="stylesheet" href="/assets/mct-private-pdf-20261028.css?v=1"></head><body class="mct-layout-wide mct-layout-secondary"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" >Home</a><a href="free-timeline.html">Free Timeline</a><a href="/my-closings.html" aria-current="page">My PRO Workspace</a><a class="mct-nav-other-projects" href="other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><button id="signout" type="button">Log Out</button></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="mct-privacy-workspace"><div class="eyebrow">PRO · YOUR PRIVATE TRANSACTIONS</div><h1>My Closings</h1><p class="muted">All your active and completed closings in one place. <strong>One credit starts one PRO closing.</strong> Once your closing is created, select it and click <strong>Download Private Fillable PDF</strong> to save your document. Keep buyer/seller information and property details in your downloaded PDF only.</p>
+</style><link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11"><script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><script src="/assets/mct-header-height-20261027.js?v=1" defer></script><link rel="stylesheet" href="/assets/page-layout-home-20261027.css?v=1"><link rel="stylesheet" href="/assets/mct-private-pdf-20261028.css?v=1">
+<style id="mct-free-welcome-workspace-20261028">
+body.mct-first-free-welcome #workspace-onboarding{
+ background:linear-gradient(117deg,#ecf8ef,#fffdf5)!important;
+ border:2px solid #83c2a3!important;border-left:6px solid #288469!important;
+ padding:18px 20px!important;box-shadow:0 5px 17px rgba(25,95,75,.08)!important;
+}
+body.mct-first-free-welcome #workspace-onboarding strong{
+ color:#175f4e!important;font:900 21px/1.4 Manrope,Arial,sans-serif!important;
+}
+body.mct-first-free-welcome #workspace-onboarding .btn.primary{
+ display:inline-flex!important;min-height:46px!important;padding:11px 17px!important;
+ font:900 14px/1.3 Manrope,Arial,sans-serif!important;color:#fff!important;
+}
+body.mct-first-free-welcome #workspace-onboarding>a:not(.primary){display:none!important}
+body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
+</style></head><body class="mct-layout-wide mct-layout-secondary"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html" >Home</a><a href="free-timeline.html">Free Timeline</a><a href="/my-closings.html" aria-current="page">My PRO Workspace</a><a class="mct-nav-other-projects" href="other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><button id="signout" type="button">Log Out</button></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><main class="mct-privacy-workspace"><div class="eyebrow">PRO · YOUR PRIVATE TRANSACTIONS</div><h1>My Closings</h1><p class="muted">All your active and completed closings in one place. <strong>One credit starts one PRO closing.</strong> Once your closing is created, select it and click <strong>Download Private Fillable PDF</strong> to save your document. Keep buyer/seller information and property details in your downloaded PDF only.</p>
  <section class="onboard" id="workspace-onboarding" hidden aria-live="polite">
   <strong id="workspace-onboarding-title">Welcome to your private PRO Workspace</strong>
   <p id="workspace-onboarding-text">Your account is active and ready for your transactions.</p>
@@ -21,14 +37,18 @@ function viewList(){const list=$("items");list.replaceChildren();const data=all.
 async function load(){try{const a=await api("me");if(!a.authenticated){location.replace("/pro-get-started.html");return}user=a.user;all=a.closings||[];$("member").textContent=user.name+" · "+user.email;$("credits").textContent=user.credits+" credits available";
  const none=user.credits===0&&all.length===0;
  const onboard=$("workspace-onboarding");
- onboard.hidden=!(none||new URLSearchParams(location.search).get("welcome")==="1");
+ const firstFreeWelcome=new URLSearchParams(location.search).get("welcome")==="free"&&user.credits>0;
+ document.body.classList.toggle("mct-first-free-welcome",firstFreeWelcome);
+ onboard.hidden=!(none||firstFreeWelcome||new URLSearchParams(location.search).get("welcome")==="1");
  onboard.classList.toggle("no-credits",user.credits===0);
- $("workspace-onboarding-title").textContent=user.credits>0?"Welcome! Your PRO Workspace is ready.":"Welcome! Your account is verified and ready.";
- $("workspace-onboarding-text").textContent=user.credits>0?
+ $("workspace-onboarding-title").textContent=firstFreeWelcome?"Your first FREE PRO credit is ready.":user.credits>0?"Welcome! Your PRO Workspace is ready.":"Welcome! Your account is verified and ready.";
+ $("workspace-onboarding-text").textContent=firstFreeWelcome?
+  "Your complimentary PRO credit has been added automatically. Select Start My FREE Closing to register the first transaction using its private reference and contractual dates. No card, code entry or extra activation step.":
+  user.credits>0?
   "You have "+user.credits+" available credit(s). Select + Start New Closing, enter the private reference and contract dates, select the new closing, and download your private fillable PDF to your device.":
   "You can access your workspace now. To start a new PRO closing, you need one credit. If you received a private invitation, redeem the gift code without a card. Sandbox checkout is not ready for real payments.";
  const primary=$("workspace-primary-action");
- primary.textContent=user.credits>0?"Start My First Closing →":"Add or Redeem a Closing Credit →";
+ primary.textContent=firstFreeWelcome?"Start My FREE Closing →":user.credits>0?"Start My First Closing →":"Add or Redeem a Closing Credit →";
  primary.href=user.credits>0?"#new-panel":"/pro-get-started.html#mct-gift-panel";
  if(user.credits>0){
   primary.onclick=event=>{event.preventDefault();$("new").click()};
