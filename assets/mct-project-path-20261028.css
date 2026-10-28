@@ -182,3 +182,50 @@ html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .m
   min-height:0!important;padding:20px 17px!important;
  }
 }
+
+/* Website 15 · elegant visual emphasis on BOTH audience titles.
+   Reserved gold for Realtor, teal for other professionals; no extra
+   panels or duplicate explanatory text. */
+html body .mct-product-path.mct-audience-choice .mct-product-path-head h3{
+ font:900 clamp(25px,2.35vw,33px)/1.2 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.035em!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-product-path-head h3::after{
+ content:""!important;display:block!important;
+ width:74px!important;height:3px!important;
+ margin:11px 0 0!important;border-radius:99px!important;
+ background:linear-gradient(90deg,#cb9c53,#f2d7a2)!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+ display:block!important;
+ margin:0 0 11px!important;
+ font:900 clamp(24px,2.2vw,30px)/1.16 Manrope,Arial,sans-serif!important;
+ letter-spacing:-.035em!important;
+ text-wrap:balance!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title::after{
+ content:""!important;display:block!important;
+ width:62px!important;height:3px!important;
+ margin:10px 0 0!important;border-radius:99px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-title{
+ color:#fffdf6!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-title::after{
+ background:#efc781!important;
+ box-shadow:0 0 10px rgba(239,199,129,.22)!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-title{
+ color:#114c55!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-title::after{
+ background:#148a7d!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{
+ font-size:clamp(15px,1.25vw,18px)!important;
+}
+@media(max-width:760px){
+ html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+  font-size:clamp(23px,5.8vw,28px)!important;
+ }
+}
