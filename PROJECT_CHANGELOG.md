@@ -4,6 +4,12 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — Resolver «Pending Verification» después del reset de prueba
+- Usuario pregunta para qué sirve `Pending Verification` después de Reset FREE Test. Este estado indicaba que la fila estaba reiniciada pero todavía no se había enviado una nueva solicitud de email. Mejorado Admin: `Ready for New Test` tras reset; `Awaiting Email Confirmation` después de emitir enlace de confirmación.
+- Reparado problema backend: excepción de owner reset para el mismo email usada antes de revisar límites IP y elegibilidad de primer cierre. Usuario puede repetir pruebas con el mismo email, pero debe solicitar y confirmar de nuevo para simular un visitante. No se relaja un código por email para visitantes comunes.
+- Arreglado manejo de error Resend: conserva solicitudes preexistentes. Verificación estática: SQL de unicidad de correo, bloqueo de emisión atómico, check token, validación owner y crédito un uso intactos. Tests reales en Cloudflare pendientes.
+- Commits `7e905731784257c053987e659fb3602774734ee4`, `c298bc8fc3c3113c7228721eb9269c3add80e741`.
+
 ## Website 16 — 2026-10-28 — Sustituir estrella pequeña por destello grande y ancho
 - **Referencia del propietario:** cuatro imágenes de distintos sellos y estallidos con muchas puntas; pide estrella **MÁS GRANDE y ANCHA**, inmediatamente debajo de START HERE, y bajar el letrero, que quedó demasiado alto. Mantener libre la foto, columna central y título «Your First PRO Closing Could Be FREE.».
 - **Implementación única `index.html`:** reemplazar la estrella de 5 puntas por destello **de 16 puntas**, generado con CSS `clip-path:polygon(...)` para no utilizar marcas de agua ni imágenes de terceros. Ancho 192px × alto 72px (170×66px en móvil), doble tono verde hoja/verde lima marfil con filete verde oscuro, ligero ángulo. Aviso verde `START HERE` se baja de `top:-6px` a `top:12px`; la columna reserva 127px arriba para la insignia, sin tapar el H2.
