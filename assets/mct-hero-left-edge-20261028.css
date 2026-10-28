@@ -4,7 +4,7 @@
    All visible photographic headlines share the precise left edge of the
    corresponding content panels at every viewport width. */
 
-:root{--mct-approved-page-width:1280px;--mct-approved-page-gutter:20px}
+:root{--mct-approved-page-width:1420px;--mct-approved-page-gutter:20px}
 
 /* 1. Consistent centered content panels on public header destinations. */
 html body main.mct-home-final>section#home-essentials.mct-home-essentials,
@@ -69,15 +69,15 @@ html body section.intro.mct-photo-hero>.mct-photo-hero-content{
 /* 3. HOME uses a two-column photograph rather than .mct-photo-hero. */
 html body main.mct-home-final>section.mct-home-opening{
  box-sizing:border-box!important;
- padding-left:max(20px,calc((100% - 1280px)/2))!important;
- padding-right:max(20px,calc((100% - 1280px)/2))!important;
+ padding-left:max(20px,calc((100% - 1420px)/2))!important;
+ padding-right:max(20px,calc((100% - 1420px)/2))!important;
 }
 
 /* 4. Other Projects uses a separate hero without a photo. */
 html body section.mpt-hero{
  box-sizing:border-box!important;
- padding-left:max(20px,calc((100% - 1280px)/2))!important;
- padding-right:max(20px,calc((100% - 1280px)/2))!important;
+ padding-left:max(20px,calc((100% - 1420px)/2))!important;
+ padding-right:max(20px,calc((100% - 1420px)/2))!important;
 }
 
 /* 5. Admin Console: retain deliberate hidden public photograph. Align the
@@ -132,7 +132,7 @@ html body.mct-layout-dashboard section.intro.mct-photo-hero{
 }
 
 /* 7. Prevent horizontal spreading of the HOME lower sections at desktop widths.
-   1280px matches the approved PRO category/Privacy cards shown in the reference.
+   1420px matches the approved PRO category/Privacy cards shown in the reference.
    Keep every HOME section centered on the same shared left boundary. */
 html body main.mct-home-final>section.mct-home-why,
 html body main.mct-home-final>section.mct-home-next,
@@ -165,7 +165,7 @@ html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privac
    classes and had been defeating the later, generic alignment rule.
    These explicit public-page selectors win without stretching the background
    or changing any contractual form. The headline and its body panel use the
-   same 1280px centered canvas, measured from the viewport. */
+   same 1420px centered canvas, measured from the viewport. */
 html body.mct-layout-wide section.intro.mct-photo-hero,
 html body.mct-layout-pro section.intro.mct-photo-hero.mct-pro-photo-hero{
  box-sizing:border-box!important;
@@ -215,10 +215,10 @@ html body main.workspace.mct-home-final>section.mct-home-opening{
 }
 
 
-/* Website 15 · 1280px unified desktop canvas. HOME INCLUDED.
+/* Website 15 · 1420px unified desktop canvas. HOME INCLUDED.
    Photos retain their established backgrounds. Internal task columns,
    deadlines, storage, permissions and mobile layout are untouched. */
-:root{--mct-approved-page-width:1280px;--mct-approved-page-gutter:20px}
+:root{--mct-approved-page-width:1420px;--mct-approved-page-gutter:20px}
 html body.mct-layout-wide>main.mct-pro-registration-main,
 html body.mct-layout-wide>main.mpt-main,
 html body.mct-layout-wide>main.mct-invite-page,
@@ -283,5 +283,66 @@ html body section.mpt-hero{
  html body main.workspace.mct-home-final>section.mct-home-opening,
  html body section.mpt-hero{
   padding-left:12px!important;padding-right:12px!important;
+ }
+}
+
+
+/* Website 15 · width correction v6 · PRO's 1420px reference.
+   All major page content, including HOME, follows one centered canvas.
+   Full-bleed photo backgrounds remain full-bleed; their text starts at
+   the same x-position as the sections below. */
+:root{--mct-approved-page-width:1420px;}
+html body main.workspace.mct-home-final>section#home-essentials.mct-home-essentials,
+html body main.workspace.mct-home-final>section#free-benefits.mct-home-free,
+html body main.workspace.mct-home-final>section#pro-benefits.mct-home-pro,
+html body main.workspace.mct-home-final>section.mct-home-why,
+html body main.workspace.mct-home-final>section.mct-home-next,
+html body main.workspace.mct-home-final>p.mct-home-caveat,
+html body.mct-layout-wide main.workspace:not(.mct-home-final),
+html body.mct-layout-wide main.mct-pro-registration-main,
+html body.mct-layout-wide main.mpt-main,
+html body.mct-layout-wide main.mct-privacy-workspace,
+html body.mct-layout-wide main.mct-invite-page{
+ box-sizing:border-box!important;
+ width:calc(100% - 40px)!important;
+ max-width:1420px!important;
+ min-width:0!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
+}
+/* Legacy PRO and HOME cards should not impose different outer widths.
+   Preserve their internal grid columns and reading column widths. */
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-pro-category-privacy-row,
+html body.mct-layout-pro main.mct-pro-registration-main>.mct-first-free-banner-pro,
+html body.mct-layout-pro main.mct-pro-registration-main>section.card,
+html body main.workspace.mct-home-final>section#home-essentials.mct-home-essentials,
+html body main.workspace.mct-home-final>section#free-benefits.mct-home-free,
+html body main.workspace.mct-home-final>section#pro-benefits.mct-home-pro {
+ max-width:1420px!important;
+}
+/* Parallel photographic text and content gutters. */
+html body main.workspace.mct-home-final>section.mct-home-opening,
+html body section.mpt-hero {
+ padding-left:max(20px,calc((100% - 1420px)/2))!important;
+ padding-right:max(20px,calc((100% - 1420px)/2))!important;
+}
+@media(max-width:700px){
+ html body main.workspace.mct-home-final>section#home-essentials.mct-home-essentials,
+ html body main.workspace.mct-home-final>section#free-benefits.mct-home-free,
+ html body main.workspace.mct-home-final>section#pro-benefits.mct-home-pro,
+ html body main.workspace.mct-home-final>section.mct-home-why,
+ html body main.workspace.mct-home-final>section.mct-home-next,
+ html body main.workspace.mct-home-final>p.mct-home-caveat,
+ html body.mct-layout-wide main.workspace:not(.mct-home-final),
+ html body.mct-layout-wide main.mct-pro-registration-main,
+ html body.mct-layout-wide main.mpt-main,
+ html body.mct-layout-wide main.mct-privacy-workspace,
+ html body.mct-layout-wide main.mct-invite-page {
+  width:calc(100% - 24px)!important;
+ }
+ html body main.workspace.mct-home-final>section.mct-home-opening,
+ html body section.mpt-hero {
+  padding-left:12px!important;
+  padding-right:12px!important;
  }
 }
