@@ -86,6 +86,15 @@ function createFillablePdf(info){
  pdf+='trailer\n<< /Size '+objects.length+' /Root '+catalog+' 0 R >>\nstartxref\n'+pos+'\n%%EOF';
  return new Blob([pdf],{type:'application/pdf'});
 }
+window.MCTPrivatePDFDownload=function(info){
+  const ref=safeRef(String(info?.reference||'').toUpperCase());
+  if(ref==='CL-NOT-SET')throw Error('A valid private reference is required');
+  const pdf=createFillablePdf({...info,reference:ref});
+  const url=URL.createObjectURL(pdf),link=document.createElement('a');
+  link.href=url;link.download='Private-Closing-'+ref+'.pdf';document.body.append(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),12000);
+  return true;
+};
 function boot(){
  const root=document.getElementById('contract-deadline-planner');if(!root)return;
  const fields=root.querySelector('.mct-unified-fields-grid');
@@ -106,10 +115,7 @@ function boot(){
    const data=typeof window.MCTCalendarGetTimeline==='function'?window.MCTCalendarGetTimeline():{};
    const info={reference:code,effective:data.effective||document.getElementById('deadline-effective')?.value||'',closing:data.closing||document.getElementById('deadline-closing')?.value||'',entries:data.entries||[]};
    try{
-     const blob=createFillablePdf(info);
-     const url=URL.createObjectURL(blob),link=document.createElement('a');
-     link.href=url;link.download='Private-Closing-'+code+'.pdf';document.body.append(link);link.click();link.remove();
-     setTimeout(()=>URL.revokeObjectURL(url),12000);
+     window.MCTPrivatePDFDownload(info);
      feedback.textContent='Your fillable PDF has been downloaded locally. Open it to add personal details; nothing is sent back to this website.';
    }catch(e){feedback.textContent='The PDF could not be generated in this browser. Please try another current PDF-capable browser.'}
  });
