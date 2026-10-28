@@ -57,3 +57,73 @@ body.mct-activation-page{margin:0;background:#f4f8f9;color:#173e52;font:600 15px
 [hidden]{display:none!important}
 @media(max-width:800px){.mct-activation-options{grid-template-columns:1fr}.mct-activation-steps{grid-template-columns:1fr}.mct-activate-panel{padding:20px}.mct-activate-hero-inner{padding:34px 0}}
 @media(max-width:550px){.mct-activate-main,.mct-activate-hero-inner{width:calc(100% - 24px)}.mct-activation-account{padding:16px}.mct-activation-options{gap:13px}}
+
+/* WEBSITE 16 · unmistakable account CTA pair.
+   Both links remain on ONE ROW, with gold registration as primary. */
+.mct-activation-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mct-activation-account{
+ border:2px solid #bcd6d7;
+ background:linear-gradient(112deg,#fafffd 0%,#fffaf0 100%);
+ box-shadow:0 7px 20px rgba(13,73,83,.08);
+}
+.mct-activation-account-kicker{
+ display:block;margin:0 0 6px;color:#137b6b;
+ font:900 11px/1.4 Manrope,Arial,sans-serif;letter-spacing:.09em;
+}
+.mct-activation-account .mct-activate-account-actions{
+ display:grid!important;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)!important;
+ align-items:stretch;gap:10px;width:min(100%,575px);flex:1 1 430px;min-width:0;
+}
+.mct-activation-account .mct-activate-account-actions a{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ margin:0!important;min-height:54px;max-width:100%;padding:10px 13px;
+ border-radius:9px;font:900 clamp(11.5px,1.05vw,14px)/1.4 Manrope,Arial,sans-serif;
+ text-align:center;white-space:normal;text-decoration:none!important;
+}
+.mct-activation-account .mct-activate-account-actions a.mct-activation-primary-signup{
+ color:#173448!important;-webkit-text-fill-color:#173448!important;
+ border:2px solid #c39a52;background:linear-gradient(130deg,#ffe6aa,#eec67a);
+ box-shadow:0 4px 12px rgba(117,82,28,.20);
+}
+.mct-activation-account .mct-activate-account-actions a.mct-activation-primary-signup:hover{
+ background:linear-gradient(130deg,#ffedc2,#f2cb81);border-color:#b6852c;
+ transform:translateY(-1px);
+}
+.mct-activation-account .mct-activate-account-actions a.mct-activation-existing-signin{
+ background:#fff!important;color:#184b61!important;-webkit-text-fill-color:#184b61!important;
+ border:2px solid #789dab;box-shadow:none;
+}
+.mct-activation-account .mct-activate-account-actions a.mct-activation-existing-signin:hover{
+ background:#eaf4f7!important;border-color:#32687d;
+}
+.mct-activation-account .mct-activate-account-actions a:focus-visible{
+ outline:3px solid #187b74;outline-offset:3px;
+}
+.mct-activate-free #mct-activate-check{
+ background:#fff;color:#176658;border:1.5px solid #7eb6a8;
+ font-weight:850;
+}
+.mct-activate-free #mct-activate-redeem{
+ background:#166f5d;color:#fff;min-height:51px;
+ box-shadow:0 4px 12px rgba(17,112,91,.13);
+}
+body.mct-activation-page.mct-activation-gift-visit #mct-activation-checkout{display:none!important}
+body.mct-activation-page.mct-activation-gift-visit .mct-activation-options{
+ grid-template-columns:minmax(0,1fr);max-width:880px;margin-inline:auto;
+}
+body.mct-activation-page.mct-activation-gift-visit .mct-activation-account{
+ border-color:#65aea3;box-shadow:0 10px 25px rgba(18,106,94,.10);
+}
+@media(max-width:800px){
+ .mct-activation-account .mct-activate-account-actions{
+  flex:1 1 100%;width:100%;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)!important;gap:9px;
+ }
+ .mct-activation-steps{grid-template-columns:1fr}
+}
+@media(max-width:430px){
+ .mct-activation-account .mct-activate-account-actions a{
+  padding:10px 7px;font-size:11px!important;line-height:1.42;min-height:60px;
+ }
+ .mct-activation-account .mct-activate-account-actions{gap:7px}
+}
