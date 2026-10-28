@@ -4,6 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — rutas y anuncio Other Projects en FREE y PRO
+- **Petición:** revisar enlaces FREE/PRO y destacar que no hace falta ser Realtor para interesarse por modelos de proyectos propios, negocios, servicios o construcción.
+- **Archivos:** `free-timeline.html` y `pro-get-started.html` incorporan, debajo del selector de producto, un aviso destacado «NOT A REALTOR? THIS IS FOR YOU» con botón «Explore Other Projects». Los enlaces anteriores del selector se normalizan a `/other-projects.html`. En ambos se actualiza la hoja `mct-project-path-20261028.css` a `?v=2`.
+- **Estilo:** `assets/mct-project-path-20261028.css` suma panel accesible, contraste, móvil y aviso veraz «FREE & PRO previews · Tools coming soon».
+- **Control de calidad estático:** se verificaron 45 enlaces HTML en FREE y 27 en PRO, con **0 enlaces internos a archivos inexistentes ni anclas propias faltantes**. El archivo de destino y las secciones de vista previa están presentes en GitHub. No se puede garantizar la ejecución de todos los flujos dinámicos mediante esta prueba.
+- **Publicación Cloudflare:** el entorno de revisión no pudo acceder al dominio, por tanto **no verificado**.
+- **Siguiente paso:** comparar la publicación en navegador real, confirmar CTA y menú de cada página, revisar móvil y mantener separado el desarrollo futuro de Other Projects de FREE/PRO inmobiliarios.
+
 ## Website 15 — 2026-10-28 — PRO registration: tarjeta Privacy First explicada
 - **Petición:** simplificar y explicar dentro del mismo recuadro vino/rojo de `/pro-get-started.html` el objetivo real de privacidad.
 - **Código:** `pro-get-started.html`: tarjeta `.mct-pro-privacy-guide` con escudo, etiqueta verde compacta, explicación legible de datos permitidos en timeline (referencia/fechas), detalles privados solo en PDF local, aviso de salvaguardas bajo revisión, enlace a privacidad y slogan secundario. Se retiró el antiguo contenido `.mct-brand-slogan` solo de esa tarjeta. Sin cambios al funcionamiento FREE, PRO, First Closing FREE, precios ni pagos.
