@@ -103,3 +103,23 @@ html body .mct-brand-slogan .mct-slogan-note{
  html body .mct-brand-slogan .mct-slogan-main{font-size:13.5px!important}
  html body .mct-brand-slogan .mct-slogan-note{font-size:10px!important}
 }
+
+
+/* Slight photo overlap: left-side seal crosses only the hero's lower edge. */
+html body .mct-home-opening + .mct-brand-slogan,
+html body .mct-photo-hero + .mct-brand-slogan,
+html body .mpt-hero + .mct-brand-slogan{
+ margin-top:-29px!important;
+ margin-bottom:23px!important;
+ z-index:40!important;
+ transform:translateZ(0);
+}
+/* Non-hero pages retain normal spacing below the header. */
+@media(max-width:640px){
+ html body .mct-home-opening + .mct-brand-slogan,
+ html body .mct-photo-hero + .mct-brand-slogan,
+ html body .mpt-hero + .mct-brand-slogan{
+  margin-top:-23px!important;
+  margin-bottom:20px!important;
+ }
+}
