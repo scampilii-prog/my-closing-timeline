@@ -113,3 +113,24 @@ html body .mct-beyond-realtor-banner .mct-beyond-realtor-status{
   width:100%!important;max-width:none!important;
  }
 }
+
+/* Website 15: explain audiences clearly in BOTH product selectors.
+   Realtor closing tools are distinct from project models still in preview. */
+html body .mct-product-path-audience-summary{
+ display:block!important;width:100%!important;max-width:none!important;
+ margin:0 0 17px!important;padding:11px 13px!important;
+ border-left:3px solid #b8995d!important;border-radius:0 7px 7px 0!important;
+ background:#fbf7ed!important;color:#34596b!important;
+ font:600 13px/1.6 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path-audience-summary strong{
+ font-weight:900!important;color:#153e50!important;
+}
+html body .mct-product-path-audience-summary span{
+ display:block!important;margin-top:4px!important;
+ font-weight:750!important;color:#7a5a2c!important;
+}
+html body .mct-beyond-realtor-banner h3{max-width:850px!important}
+@media(max-width:760px){
+ html body .mct-product-path-audience-summary{font-size:13px!important;padding:10px 11px!important}
+}
