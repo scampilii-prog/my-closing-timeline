@@ -1227,6 +1227,87 @@ html body main.mct-home-final .mct-home-path-callout small{
 @media(prefers-reduced-motion:reduce){
  html body main.mct-home-final a.mct-home-path-other{transition:none!important}
 }
+
+/* MCT HOME compact chooser v2: keep cards side by side, reduce height. */
+html body main.mct-home-final > section.mct-home-path-chooser{
+ grid-template-columns:minmax(0,.94fr) minmax(0,1.16fr)!important;
+ gap:11px!important;margin:11px auto 0!important;
+}
+html body main.mct-home-final .mct-home-path-card{
+ padding:12px 15px!important;gap:5px!important;
+}
+html body main.mct-home-final .mct-home-path-realty{
+ justify-content:center!important;
+}
+html body main.mct-home-final .mct-home-path-kicker{
+ font-size:11.5px!important;line-height:1.3!important;
+}
+html body main.mct-home-final .mct-home-path-heading{
+ gap:9px!important;
+}
+html body main.mct-home-final .mct-home-path-icon{
+ flex-basis:36px!important;width:36px!important;height:36px!important;
+ font-size:22px!important;border-radius:9px!important;
+}
+html body main.mct-home-final .mct-home-path-heading h2{
+ font-size:clamp(20px,1.55vw,23px)!important;line-height:1.22!important;
+}
+html body main.mct-home-final .mct-home-path-card p{
+ font-size:13.5px!important;line-height:1.45!important;
+}
+html body main.mct-home-final .mct-home-path-tip{
+ margin-top:2px!important;padding-top:0!important;font-size:12.5px!important;
+}
+html body main.mct-home-final a.mct-home-path-other{
+ display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)!important;
+ grid-template-rows:auto auto auto auto!important;
+ align-content:center!important;align-items:center!important;
+ column-gap:12px!important;row-gap:5px!important;
+}
+html body main.mct-home-final a.mct-home-path-other>.mct-home-path-kicker{
+ grid-column:1!important;grid-row:1!important;
+}
+html body main.mct-home-final a.mct-home-path-other>.mct-home-path-heading{
+ grid-column:1!important;grid-row:2!important;
+}
+html body main.mct-home-final a.mct-home-path-other>p{
+ grid-column:1!important;grid-row:3!important;
+}
+html body main.mct-home-final a.mct-home-path-other>.mct-home-path-industries{
+ grid-column:2!important;grid-row:1 / span 4!important;
+ align-self:center!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important;
+}
+html body main.mct-home-final .mct-home-path-industries span{
+ min-height:29px!important;padding:5px 5px!important;
+ font-size:11.7px!important;line-height:1.28!important;
+}
+html body main.mct-home-final a.mct-home-path-other>.mct-home-path-callout{
+ grid-column:1!important;grid-row:4!important;
+ margin-top:2px!important;padding:7px 9px!important;
+ font-size:12.5px!important;line-height:1.25!important;gap:3px 7px!important;
+}
+html body main.mct-home-final .mct-home-path-callout small{
+ font-size:10.5px!important;
+}
+@media(max-width:1080px) and (min-width:901px){
+ html body main.mct-home-final a.mct-home-path-other{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ }
+ html body main.mct-home-final a.mct-home-path-other>.mct-home-path-industries{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ }
+}
+@media(max-width:680px){
+ html body main.mct-home-final .mct-home-path-card{padding:13px 14px!important}
+ html body main.mct-home-final a.mct-home-path-other{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ }
+ html body main.mct-home-final a.mct-home-path-other>.mct-home-path-industries{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+ html body main.mct-home-final .mct-home-path-card p{font-size:13.5px!important}
+}
 </style><style id="mct-share-summary-font-upgrade-20261028">
 /* HOME · What the buyer's agent receives: legible, balanced typography */
 html body main.mct-home-final section.mct-home-free #share-summary.mct-home-share h3{
@@ -1253,8 +1334,8 @@ html body main.mct-home-final section.mct-home-free #share-summary.mct-home-shar
    <span class="mct-home-path-icon" aria-hidden="true">⌂</span>
    <h2 id="mct-home-path-title">Real Estate Closing <span class="mct-home-path-current">YOU ARE HERE</span></h2>
   </div>
-  <p>For <strong>Seller's Agents, Buyer's Agents and Transaction Coordinators</strong> — organize contract dates, closing tasks and communication.</p>
-  <span class="mct-home-path-tip">Explore FREE and PRO on this page or in the menu above.</span>
+  <p>For <strong>Seller's Agents, Buyer's Agents and Transaction Coordinators</strong> — keep dates, tasks and communication organized.</p>
+  <span class="mct-home-path-tip">Explore FREE and PRO below.</span>
  </div>
  <a href="/other-projects.html" class="mct-home-path-card mct-home-path-other" aria-label="Explore My Project Timeline for construction, contractors, business, marketing, technology, events, education and personal projects">
   <span class="mct-home-path-kicker">MORE POSSIBILITIES · PROJECT PLANNING</span>
@@ -1262,7 +1343,7 @@ html body main.mct-home-final section.mct-home-free #share-summary.mct-home-shar
    <span class="mct-home-path-icon" aria-hidden="true">☷</span>
    <h2>Other Projects</h2>
   </div>
-  <p>Create your own tasks, deadlines and follow-ups for work beyond real estate:</p>
+  <p>Plan tasks, deadlines and follow-ups beyond real estate:</p>
   <div class="mct-home-path-industries" aria-label="Examples of industries and project types">
    <span>Construction &amp; Remodeling</span>
    <span>Contractors &amp; Maintenance</span>
