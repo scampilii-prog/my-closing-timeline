@@ -228,13 +228,13 @@ export async function onRequest(context){
   const action=String(body.action||"");
   const id=String(body.id||"").trim();
   if(action==="save"){
-   const name=String(body.name||"").replace(/\\s+/g," ").trim();
+   const name=String(body.name||"").replace(/\s+/g," ").trim();
    if(!name||name.length>100)return error("Template name must be between 1 and 100 characters");
    if(!Array.isArray(body.forms))return error("Provide document names for the template");
    let total=0;const forms=[],seen=new Set();
    for(const item of body.forms){
     if(typeof item!=="string")return error("Invalid document name");
-    const label=item.replace(/\\s+/g," ").trim();
+    const label=item.replace(/\s+/g," ").trim();
     if(!label||label.length>160)return error("Document names must be between 1 and 160 characters");
     const key=label.toLocaleLowerCase("en");if(seen.has(key))continue;
     seen.add(key);forms.push(label);total+=label.length;
