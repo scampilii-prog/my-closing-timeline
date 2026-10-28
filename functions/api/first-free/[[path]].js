@@ -104,12 +104,14 @@ export async function onRequest({request:req,env}){
    await db.prepare("UPDATE first_free_requests SET promo_code_id=? WHERE id=? AND status='approved'").bind(codeId,rid).run();
    const html='<div style="background:#f2f6f8;padding:30px 14px;font-family:Arial,sans-serif"><div style="max-width:600px;background:white;border-top:5px solid #d5b578;border-radius:12px;padding:30px;margin:auto;color:#173b52"><div style="font-size:25px;font-weight:bold">MyClosing<span style="color:#af8550">Timeline</span>.com</div><p>Your Clients. Your Records. Your Privacy.</p><h1>Your first PRO Closing is on us!</h1><p>Your invitation was approved. Enjoy <strong>one complimentary PRO Closing Credit</strong>, a planned $29.90 value, without a credit card.</p><p style="background:#f9f3e8;padding:14px;border-radius:8px">Your personal code: <strong>'+esc(t)+'</strong></p><p><a href="'+link+'" style="display:inline-block;padding:14px 19px;background:#173b52;color:white;text-decoration:none;border-radius:8px">Redeem My FREE Closing</a></p><p>Register or sign in with <strong>'+esc(r.email)+'</strong>. Verify your email first. This single-use invitation expires in 30 days. Eligibility applies.</p><p><a href="https://myclosingtimeline.com/privacy.html">Privacy &amp; Terms</a> · <a href="https://myclosingtimeline.com/unsubscribe.html">Unsubscribe</a> · <a href="https://myclosingtimeline.com/contact.html">Contact</a></p></div></div>';
    const plain="Your first My Closing Timeline PRO Closing is complimentary (planned $29.90 value).\n\nPrivate code: "+t+"\nRedeem: "+link+"\n\nUse verified email: "+r.email+". One redemption, 30-day expiry, eligibility applies. No card required.\nPrivacy: https://myclosingtimeline.com/privacy.html\nUnsubscribe: https://myclosingtimeline.com/unsubscribe.html";
-   await send(env,r.email,"Your FREE My Closing Timeline PRO invitation",html,plain);
+   // Mark ready before sending: once the provider accepts, the issued code is redeemable.
+   // If sending fails, disable the code and restore Pending in the catch branch.
    await db.prepare("UPDATE first_free_requests SET status='sent',sent_at=datetime('now'),updated_at=? WHERE id=? AND status='approved'").bind(now(),rid).run();
+   await send(env,r.email,"Your FREE My Closing Timeline PRO invitation",html,plain);
    return json({ok:true,message:"Email service accepted the invitation. One private code issued."});
   }catch(e){
    await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(codeId).run().catch(()=>{});
-   await db.prepare("UPDATE first_free_requests SET status='pending',promo_code_id=NULL,updated_at=? WHERE id=? AND status='approved'").bind(now(),rid).run().catch(()=>{});
+   await db.prepare("UPDATE first_free_requests SET status='pending',promo_code_id=NULL,updated_at=? WHERE id=? AND status IN ('approved','sent')").bind(now(),rid).run().catch(()=>{});
    return err("Invitation could not be completed. Request is pending for retry.",503);
   }
  }
