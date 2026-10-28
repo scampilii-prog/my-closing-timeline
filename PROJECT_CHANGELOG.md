@@ -4,6 +4,14 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 16 — 2026-10-28 — Sustituir estrella pequeña por destello grande y ancho
+- **Referencia del propietario:** cuatro imágenes de distintos sellos y estallidos con muchas puntas; pide estrella **MÁS GRANDE y ANCHA**, inmediatamente debajo de START HERE, y bajar el letrero, que quedó demasiado alto. Mantener libre la foto, columna central y título «Your First PRO Closing Could Be FREE.».
+- **Implementación única `index.html`:** reemplazar la estrella de 5 puntas por destello **de 16 puntas**, generado con CSS `clip-path:polygon(...)` para no utilizar marcas de agua ni imágenes de terceros. Ancho 192px × alto 72px (170×66px en móvil), doble tono verde hoja/verde lima marfil con filete verde oscuro, ligero ángulo. Aviso verde `START HERE` se baja de `top:-6px` a `top:12px`; la columna reserva 127px arriba para la insignia, sin tapar el H2.
+- **No alterar:** texto promocional, opciones FREE/PRO, Beyond Real Estate, Today & Tomorrow, Privacy First, rutas y lógica de closings. Un solo destello decorativo `aria-hidden`.
+- **Commit GitHub:** `a0869bf3ed7f424ba6a199af8dfad8292fa34703`.
+- **QA:** código, geometría prevista y rutas comprobados estáticamente. **No está comprobada visualmente la publicación Cloudflare ni el render real responsive**.
+- **Página:** `https://myclosingtimeline.com/?mct_refresh=wide-burst-20261028#home-essentials`.
+
 ## Website 16 — 2026-10-28 — Corrección de ubicación y nuevo tono de estrella
 - **Feedback propietario:** medallón anterior incorrecto. La estrella debe ir justo bajo el aviso verde START HERE y sobresalir apenas del borde SUPERIOR del primer recuadro, sin tocar hero/foto, tarjeta central ni título «Your First PRO Closing Could Be FREE.»
 - **Implementación HOME (`index.html`):** trasladado el bloque START HERE + estrella desde el kicker interno a un elemento posicionado respecto a `.mct-home-essentials-aside` (primera columna únicamente). Contenedor con `position:relative`, insignia centrada `top:-6px`, espacio reservado al inicio para dejar el título totalmente visible. Sin medallón circular; estrella grande independiente debajo del letrero.
