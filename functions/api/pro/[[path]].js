@@ -315,8 +315,8 @@ export async function onRequest(context){
   return reply({ok:true,checkout_url:result.url});
  }
  if(route==="closings/create"){
-  const name=String(body.name||"").trim().slice(0,120),address=String(body.address||"").trim().slice(0,250),eff=String(body.effective_date||""),end=String(body.closing_date||"");
-  if(!name||!isoDate(eff)||!isoDate(end)||end<eff)return error("Enter a transaction name and valid contract dates");
+  const name=String(body.name||"").trim().toUpperCase(),address="",eff=String(body.effective_date||""),end=String(body.closing_date||"");
+  if(!/^CL-[A-F0-9]{8}$/.test(name)||!isoDate(eff)||!isoDate(end)||end<eff)return error("Use an anonymous CL-XXXXXXXX reference and valid contract dates. Personal information is not accepted in this field.");
   const id=guid();
   // The batch is atomic: no task is added and no credit is consumed if the
   // closing cannot be registered. Existing closings remain untouched.
