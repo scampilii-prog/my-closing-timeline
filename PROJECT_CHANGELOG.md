@@ -4,6 +4,11 @@
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
 
 
+## Website 15 — 2026-10-28 — PRO registration: tarjeta Privacy First explicada
+- **Petición:** simplificar y explicar dentro del mismo recuadro vino/rojo de `/pro-get-started.html` el objetivo real de privacidad.
+- **Código:** `pro-get-started.html`: tarjeta `.mct-pro-privacy-guide` con escudo, etiqueta verde compacta, explicación legible de datos permitidos en timeline (referencia/fechas), detalles privados solo en PDF local, aviso de salvaguardas bajo revisión, enlace a privacidad y slogan secundario. Se retiró el antiguo contenido `.mct-brand-slogan` solo de esa tarjeta. Sin cambios al funcionamiento FREE, PRO, First Closing FREE, precios ni pagos.
+- **QA:** commit GitHub confirmado; Cloudflare y móvil pendientes de comprobación.
+
 ## Website 15 — 2026-10-28 — HOME / Other Projects: explicación práctica de PRIVACY FIRST
 - **Solicitud:** el propietario dijo que no entendía el contenido del cuadro rojo; pidió reestructurar y explicar su utilidad, no solo mostrar el slogan.
 - **HOME:** `index.html` sustituye el badge maroon abstracto por guía con encabezado compacto, subtítulo claro, indicación de referencia de cierre sin nombres ni direcciones, PDF personal únicamente local, aviso honesto de protecciones en revisión y enlace a la política. El slogan se conserva en letra secundaria. No se afectan tablas, créditos ni cálculos.
