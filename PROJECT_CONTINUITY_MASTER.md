@@ -1,6 +1,9 @@
 # MY CLOSING TIMELINE — DOCUMENTO MAESTRO DE CONTINUIDAD
 **Website 15 — creado 2026-10-28. Actualizar después de cada sesión importante.**
 
+**PARA INICIAR CHAT NUEVO:** usar primero **[NEXT_CHAT_START_HERE.md](NEXT_CHAT_START_HERE.md)**. Es el resumen breve vigente y la lista priorizada de acciones; este MASTER mantiene los detalles históricos. **Estado Website 15:** todas las páginas a máximo 1420px (`mct-hero-left-edge-20261028.css?v=6`) y CTA `Create & Share Your FREE Summary` dorado con texto azul marino (`data-mct-cta-version="gold-20261028-v2"`). El propietario respondió «Perfecto» tras el último arreglo. Código confirmado GitHub; publicación/QA de Cloudflare no certificada independientemente.
+
+
 > Este archivo reúne decisiones aprobadas de las conversaciones Website 1–14 y el estado contrastado con GitHub. **No equivale a certificación de producción.** En caso de discrepancia entre una decisión histórica y el código actual, inspeccionar el código y confirmar la decisión más reciente antes de actuar. Nunca dar por probados los servicios externos por la sola presencia del código.
 
 
