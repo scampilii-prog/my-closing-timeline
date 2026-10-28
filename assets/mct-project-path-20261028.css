@@ -229,3 +229,36 @@ html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{
   font-size:clamp(23px,5.8vw,28px)!important;
  }
 }
+
+/* Website 15 final arrangement: icon/category, prominent title, benefit,
+   honest availability status, then a full-width action at the foot.
+   Same measured rhythm for FREE/PRO and responsive on small screens. */
+html body .mct-product-path.mct-audience-choice a.mct-path-choice{
+ min-height:254px!important;
+ justify-content:flex-start!important;
+ gap:0!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-top{margin-bottom:14px!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title{margin-bottom:10px!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{margin-bottom:10px!important}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-description{
+ display:block!important;margin:0 0 11px!important;
+ font:600 13.5px/1.5 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-status{
+ display:block!important;
+ margin:0 0 16px!important;
+ font:850 11px/1.45 Manrope,Arial,sans-serif!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-realtor .mct-path-choice-status{
+ color:#f2d399!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-status{
+ color:#146f61!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-action{
+ margin:auto 0 0!important;
+}
+@media(max-width:760px){
+ html body .mct-product-path.mct-audience-choice a.mct-path-choice{min-height:0!important}
+}
