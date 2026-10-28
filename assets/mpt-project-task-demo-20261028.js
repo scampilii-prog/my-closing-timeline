@@ -105,7 +105,7 @@ function proRender(){
   var until=input("date","Optional end date for this task",t.until||"");until.dataset.field="until";until.dataset.id=t.id;cell(row,until);
   var flag=make("span","mpt-demo-status",status(t));if(status(t)==="Overdue")flag.classList.add("is-late");if(status(t)==="Completed")flag.classList.add("is-done");cell(row,flag);
   cell(row,String(t.doneCount));
-  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.finished?"Completed":t.repeat==="once"?"Mark done":"Done · Next","complete",t.id));actions.lastChild.disabled=t.finished||!!(state.endDate&&t.due>state.endDate);
+  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.finished?"Completed":t.repeat==="once"?"Mark done":"Done · Next","complete",t.id));actions.lastChild.disabled=t.finished||!!(state.endDate&&t.due>state.endDate)||!!(t.until&&t.due>t.until);
   if(t.history.length)actions.appendChild(button("Undo","undo",t.id));
   actions.appendChild(button("Remove","delete",t.id));cell(row,actions);body.appendChild(row);
  });
@@ -170,7 +170,7 @@ function proActions(){
  $("mpt-pro-demo-body").addEventListener("change",function(e){
   var el=e.target,id=el.dataset.id,field=el.dataset.field;if(!id||!field)return;var t=state.tasks.find(function(x){return x.id===id});if(!t)return;
   if(field==="name"){if(!el.value.trim()){el.value=t.name;notify("mpt-pro-message","Task name cannot be blank.","warn");return}t.name=el.value.trim().slice(0,140)}
-  if(field==="due"){if(!parse(el.value)){el.value=t.due;return}if(state.endDate&&el.value>state.endDate){el.value=t.due;notify("mpt-pro-message","Due date must be on or before project end.","warn");return}t.due=el.value;t.anchor=parse(el.value).getDate();t.finished=false}
+  if(field==="due"){if(!parse(el.value)){el.value=t.due;return}if((state.endDate&&el.value>state.endDate)||(t.until&&el.value>t.until)){el.value=t.due;notify("mpt-pro-message","Due date must not exceed the project or task end date.","warn");return}t.due=el.value;t.anchor=parse(el.value).getDate();t.finished=false}
   if(field==="repeat"){if(!["once","daily","weekly","monthly"].includes(el.value))return;t.repeat=el.value;t.finished=false}
   if(field==="owner")t.owner=el.value.trim().slice(0,60);
   if(field==="note")t.note=el.value.trim().slice(0,180);
@@ -180,7 +180,7 @@ function proActions(){
  $("mpt-pro-demo-body").addEventListener("click",function(e){
   var b=e.target.closest("button[data-action]");if(!b)return;var i=state.tasks.findIndex(function(t){return t.id===b.dataset.id});if(i<0)return;var t=state.tasks[i],action=b.dataset.action;
   if(action==="delete"){if(!window.confirm("Remove this follow-up task and its demo history?"))return;state.tasks.splice(i,1)}
-  if(action==="complete"&&!t.finished){
+  if(action==="complete"&&!t.finished&&!(state.endDate&&t.due>state.endDate)&&!(t.until&&t.due>t.until)){
    var oldDue=t.due,next=nextDate(t.due,t.repeat,t.anchor),end=state.endDate;
    t.history.push({due:oldDue,at:today(),next:next});
    t.lastDone=today();t.doneCount++;
