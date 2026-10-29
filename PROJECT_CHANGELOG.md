@@ -1,5 +1,15 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
 
+## WEBSITE 19 — FREE Timeline, presentación igualitaria aprobada (2026-10-29)
+- Selector FREE reescrito: `Two powerful planners. One clear timeline.` y dos tarjetas iguales, paletas azul marino/dorado y turquesa/verde; arte vectorial SVG, beneficios reales de cada producto, CTA anclados en la misma página.
+- Other Projects FREE trasladado inmediatamente después de las tarjetas (antes de la tabla Realtor), con título y tres pasos visibles, sin duplicar navbar/header/hero. Real Estate FREE recibe encabezado con bordes dorados y jerarquía simétrica.
+- Corrección principal: `assets/mct-inline-project-planners-20261029.js` fuerza el modo iframe FREE/PRO al cargar y oculta DOM del header, hero, footer y los textos promocionales internos; mide altura del editor, no muestra iframe hasta que ha limpiado la vista. Evita que se vea una página dentro de otra.
+- Nuevo stylesheet `assets/mct-unified-free-design-20261029.css`, versión 2 y scripts helper versión 2; anti-flash en Free Timeline y PRO Get Started.
+- Sin cambios en fórmulas de los tasks, estructura de cuentas o términos de FREE/PRO; continuidad de hasta ocho tareas en FREE Other Projects.
+- Comprobación de sintaxis JS y referencias IDs/anchors satisfactoria. Falta prueba real visual y despliegue Cloudflare. Commits en `NEXT_CHAT_START_HERE.md`.
+
+
+
 ## Website 19 — 2026-10-29 — selector de FREE y PRO desplaza a ambas tablas sin abandonar página
 - `free-timeline.html`: `I'm a Realtor` → editor inmueble actual, `I'm another professional` → nueva sección `#mct-free-other-projects` debajo con tabla FREE ocho tareas y mismo diseño de dos pasos, panel live review y motores de tareas originales.
 - `pro-get-started.html`: selector inmobiliario conserva entrada a plan/cuenta, selector Other Projects → `#mct-pro-other-projects` con planificación y follow-up **DEMO**, 90/180/365 días y recordatorio visual. No pagos activos ni cuentas independientes Other Projects.
