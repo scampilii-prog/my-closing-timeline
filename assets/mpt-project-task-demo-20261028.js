@@ -3,6 +3,18 @@
 // Browser-only demonstration: no API, no account, no payments, no remote storage.
 var $ = function(id){return document.getElementById(id)};
 var freeTasks = [];
+// Six OPTIONAL general starter suggestions, never fixed contractual tasks.
+// Each customer may rename, reschedule, remove, or replace every task.
+var freeSuggestedTasks=[
+ ["Project Setup",1],["Requirements Ready",3],["Budget Approved",5],
+ ["Resources Confirmed",7],["Progress Review",14],["Final Delivery",21]
+];
+function freeSeedSuggestions(){
+ freeTasks=freeSuggestedTasks.map(function(entry){
+  return {id:taskId(),name:entry[0],days:entry[1],dayType:"calendar",
+   base:"start",direction:"after",exact:false,due:"",done:false,suggested:true};
+ });
+}
 var key = "mpt_other_projects_step3_local_demo_v1";
 var memoryOnly = false;
 var state = {tasks:[], endDate:"", planStart:"", planHorizon:"90d"};
@@ -53,14 +65,14 @@ function freeTaskDue(t){
 }
 function freeStatus(t){
  if(t.done)return "Done";
- if(!t.due)return "Set date";
- if(t.due<today())return "Overdue";
- if(t.due===today())return "Due today";
- if(t.due===datePlus(today(),1))return "Tomorrow";
- return "Pending";
+ if(!t.due)return "PENDING";
+ if(t.due<today())return "OVERDUE";
+ if(t.due===today())return "DUE TODAY";
+ if(t.due===datePlus(today(),1))return "TOMORROW";
+ return "PENDING";
 }
 function freeDatesOK(due){return !!parse(due)&&!(freeProject.start&&due<freeProject.start)&&!(freeProject.end&&due>freeProject.end)}
-function freeSorted(){return freeTasks.slice().sort(function(a,b){return String(a.due||"9999").localeCompare(String(b.due||"9999"))||a.name.localeCompare(b.name)})}
+function freeSorted(){return freeTasks.slice().sort(function(a,b){return String(a.due||"9999").localeCompare(String(b.due||"9999"))||freeTasks.indexOf(a)-freeTasks.indexOf(b)})}
 function freeSelect(items,value,label){
  var el=make("select");el.setAttribute("aria-label",label);
  items.forEach(function(item){var opt=make("option",null,item[1]);opt.value=item[0];el.appendChild(opt)});
@@ -77,10 +89,10 @@ function freeRender(){
   var base=freeSelect([["start","Project Start"],["end","Project Finish"]],t.base,"Start or finish date");base.className="mpt-free-col-base";base.dataset.field="base";base.dataset.id=t.id;cell(row,base);
   var direction=freeSelect([["after","After"],["before","Before"]],t.direction,"Before or after base date");direction.className="mpt-free-col-direction";direction.dataset.field="direction";direction.dataset.id=t.id;cell(row,direction);
   var due=input("date","Exact task due date",t.due);due.className="mpt-free-col-date";due.dataset.field="due";due.dataset.id=t.id;due.title=t.exact?"Exact date selected. Change days to recalculate.":"Calculated from "+t.base+". You may enter an exact date.";cell(row,due);
-  cell(row,make("span","mpt-demo-status "+(t.done?"is-done":t.due<today()?"is-late":""),freeStatus(t)));
+  cell(row,make("span","mpt-demo-status "+(t.done?"is-done":t.due&&t.due<today()?"is-late":""),freeStatus(t)));
   var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.done?"Reopen":"Done","toggle",t.id));actions.appendChild(button("Remove","delete",t.id));cell(row,actions);Array.from(row.cells).forEach(function(td,j){td.dataset.label=["#","Task / reminder","Days","Day count","Based on","When","Due date","Status","Actions"][j]});body.appendChild(row);
  });
- if(!freeTasks.length){var empty=make("tr");var td=cell(empty,"No tasks yet. Enter your first task above — all eight tasks are yours to create.");td.colSpan=9;td.className="mpt-demo-empty";body.appendChild(empty)}
+ if(!freeTasks.length){var empty=make("tr");var td=cell(empty,"No project tasks. Add a task, or reload to restore the six suggested starter tasks.");td.colSpan=9;td.className="mpt-demo-empty";body.appendChild(empty)}
  $("mpt-free-count").textContent=freeTasks.length+" / 8 tasks";
  var sub=$("mpt-free-tasks-step").querySelector(".mpt-free-tasks-header small");if(sub)sub.textContent=freeTasks.length+" of 8";
  $("mpt-free-add").disabled=freeTasks.length>=8;
@@ -103,12 +115,20 @@ function freeSummary(){
  var completed=freeTasks.filter(function(t){return t.done}).length;
  el.textContent=(freeProject.ref||"Your project")+" · "+freeTasks.length+" of 8 tasks · "+completed+" completed · "+(freeProject.end?"Finish "+readable(freeProject.end):"No finish date selected")+".";
  var list=$("mpt-free-live-list");if(!list)return;list.textContent="";
+ function keyRow(name,value){
+  var li=make("li","mpt-free-key-date");
+  var badge=make("b",null,"◆"),wrap=make("div");
+  wrap.append(make("strong",null,name),make("span",null,value||"Not selected · KEY DATE"));
+  li.append(badge,wrap);list.appendChild(li);
+ }
+ keyRow("Project start date",freeProject.start?readable(freeProject.start):"Set project start date · KEY DATE");
  freeSorted().forEach(function(t,i){
   var li=make("li"),badge=make("b",null,String(i+1)),wrap=make("div"),title=make("strong",null,t.name);
-  var detail=make("span",null,(t.due?readable(t.due):"Due date not entered")+" · "+freeStatus(t));
+  var detail=make("span",null,(t.due?readable(t.due):"Set project start date")+" · "+freeStatus(t));
   wrap.append(title,detail);li.append(badge,wrap);list.appendChild(li);
  });
- if(!freeTasks.length){list.appendChild(make("li",null,"Add a task in Step 2 to see your live project timeline here."))}
+ if(!freeTasks.length){list.appendChild(make("li",null,"Add a task or reload to restore six suggested tasks."))}
+ keyRow("Target finish date",freeProject.end?readable(freeProject.end):"Not selected · KEY DATE");
 }
 function freeMeta(){
  var oldStart=freeProject.start,oldEnd=freeProject.end;
@@ -226,11 +246,10 @@ function freeActions(){
   if(freeTasks.length>=8){notify("mpt-free-message","Eight tasks is the FREE limit. Remove one before adding another.","warn");return}
   if(!name||!Number.isInteger(days)||days<0||days>3650){notify("mpt-free-message","Enter a task name and between 0 and 3650 days.","warn");return}
   if(exact&&!parse(exact)){notify("mpt-free-message","Enter a valid exact date.","warn");return}
-  if(!exact&&!freeProject.start){notify("mpt-free-message","Select the project start date in Step 1, or enter an exact due date.","warn");return}
   var kind=$("mpt-free-day-count").value==="business"?"business":"calendar";
   var item={id:taskId(),name:name.slice(0,140),days:days,dayType:kind,base:"start",direction:"after",exact:!!exact,due:exact||"",done:false};
   if(!item.exact)item.due=freeTaskDue(item);
-  if(!item.due||!freeDatesOK(item.due)){notify("mpt-free-message","Task due date must be inside your selected project period. Check your days or exact date.","warn");return}
+  if(item.due&&!freeDatesOK(item.due)){notify("mpt-free-message","Task due date must be inside your selected project period. Check your days or exact date.","warn");return}
   freeTasks.push(item);
   $("mpt-free-task-name").value="";$("mpt-free-task-date").value="";
   notify("mpt-free-message","Task added. Dates recalculate automatically; eight FREE tasks maximum.","info");
@@ -262,7 +281,7 @@ function freeActions(){
    if(field==="direction"&&!["before","after"].includes(v))return;
    candidate[field]=v;candidate.exact=false;candidate.due=freeTaskDue(candidate);
   }
-  if(!candidate.due||!freeDatesOK(candidate.due)){
+  if(candidate.due&&!freeDatesOK(candidate.due)){
    notify("mpt-free-message","The date falls outside your project, or its Start/Finish date is missing. Change the settings and try again.","warn");
    freeRender();return;
   }
@@ -290,11 +309,12 @@ function freeActions(){
  $("mpt-free-copy").addEventListener("click",freeCopyPicture);
  $("mpt-free-mail").addEventListener("click",freeOpenMail);
  $("mpt-free-calendar").addEventListener("click",freeCalendar);
- // Do not fill up the table with defaults: Other Projects tasks belong to
- // each individual customer, unlike six suggested Real Estate milestones.
- $("mpt-free-project-start").value=today();
+ // Six general suggestions are editable, nonmandatory starters.
+ // Do not invent a start date: results say PENDING until the user chooses it.
+ freeSeedSuggestions();
+ $("mpt-free-project-start").value="";
  $("mpt-free-task-date").value="";
- freeMeta();freeRender();
+ freeMeta();
 }
 
 function proActions(){
