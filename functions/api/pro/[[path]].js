@@ -11,7 +11,13 @@ const cookieName="mct_pro_session";
 const sessionCookie=v=>cookieName+"="+v+"; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=2592000";
 const clearCookie=()=>cookieName+"=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0";
 const guid=()=>crypto.randomUUID();
-const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing Credit"},pack2:{credits:2,amount:5980,launchAmount:3490,label:"2 Closing Credits"},pack5:{credits:5,amount:14950,launchAmount:8490,label:"5 Closing Credits"}};
+const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing · up to 90 days"},pack2:{credits:2,amount:5980,launchAmount:3490,label:"2 Closings · 90 days each"},pack5:{credits:5,amount:14950,launchAmount:8490,label:"5 Closings · 90 days each"}};
+const includedClosingDays=90;
+const extensionDays=90;
+const regularHalfBasicCents=plans.single.amount/2;
+const calendarDayDifference=(a,b)=>Math.round((Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/86400000);
+const closingExtensionNeeded=(effective,closing)=>calendarDayDifference(effective,closing)>includedClosingDays;
+const extensionNotLaunched=()=>reply({ok:false,code:"CLOSING_EXTENSION_PAYMENT_REQUIRED",extensionDays,regularPriceCents:regularHalfBasicCents,error:"This closing exceeds the included 90 days from its original Effective Date. An additional 90-day extension costs $14.95 (half the current regular basic price, no promotions). Extension checkout is not available in test mode yet. No closing has been changed or charged."},409);
 
 // The same 40 suggested Step 3 follow-ups used in the private Realtor test.
 // Dates are suggestions only, never contractual deadlines.
@@ -40,7 +46,7 @@ const cleanClosing=c=>({id:c.id,name:/^CL-[A-F0-9]{8}$/.test(c.name||"")?c.name:
 const cleanTask=t=>({id:t.id,title:allowedTask(t.title)?t.title:"General Follow-Up",due_date:t.due_date,status:t.status,auto_shift:t.auto_shift});
 
 function suggestedDate(iso,offset){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+offset);return d.toISOString().slice(0,10)}
-const launch={code:"LAUNCH90",start:Date.UTC(2026,9,27),end:Date.UTC(2027,0,25)};
+const launch={code:"LAUNCH90",start:Date.UTC(2026,9,27),end:Date.UTC(2027,3,1)}; // Offer runs through March 31, 2027 (UTC end exclusive).
 const launchActive=()=>Date.now()>=launch.start&&Date.now()<launch.end;
 const launchValid=code=>launchActive()&&String(code||"").trim().toUpperCase()===launch.code;
 const emailOK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
@@ -107,7 +113,7 @@ export async function onRequest(context){
    const sql=String(table?.sql||"");
    catalogReady=[1990,3490,8490,2990,5980,14950].every(amount=>new RegExp("\\b"+amount+"\\b").test(sql));
   }catch(e){console.error("PRO pricing readiness check failed",{type:e?.name||"Error"})}
-  return reply({ok:true,catalogReady,campaign:{code:launch.code,active:launchActive(),end:"2027-01-25",label:"Introductory launch offer"},plans:Object.fromEntries(Object.entries(plans).map(([id,p])=>[id,{credits:p.credits,regularAmount:p.amount,launchAmount:launchActive()?p.launchAmount:null}]))});
+  return reply({ok:true,catalogReady,campaign:{code:launch.code,active:launchActive(),end:"2027-03-31",label:"Introductory launch offer"},plans:Object.fromEntries(Object.entries(plans).map(([id,p])=>[id,{credits:p.credits,regularAmount:p.amount,launchAmount:launchActive()?p.launchAmount:null}]))});
  }
  // Non-sensitive database readiness check (no account data is returned).
  if(req.method==="GET"&&route==="diagnostics"){
@@ -342,6 +348,8 @@ export async function onRequest(context){
   if(!Object.prototype.hasOwnProperty.call(realEstateRoleTemplates,role))return error("Choose a valid real-estate role for the suggested closing tasks.",400);
   const selectedTasks=realEstateRoleTemplates[role];
   if(!/^CL-[A-F0-9]{8}$/.test(name)||!isoDate(eff)||!isoDate(end)||end<eff)return error("Use an anonymous CL-XXXXXXXX reference and valid contract dates. Personal information is not accepted in this field.");
+  // No credit is consumed before any additional-duration requirement is satisfied.
+  if(closingExtensionNeeded(eff,end))return extensionNotLaunched();
   const id=guid();
   // The batch is atomic: no task is added and no credit is consumed if the
   // closing cannot be registered. Existing closings remain untouched.
@@ -366,6 +374,9 @@ export async function onRequest(context){
   if(act==="change-date"){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
    if(!isoDate(value)||value<closing.effective_date||!reasonDate.includes(reason))return error("Select a generic closing date adjustment reason.");
+   // Only the original Effective Date determines included duration. Never quietly
+   // apply a second credit or a promotional price to a 90-day extension.
+   if(closingExtensionNeeded(closing.effective_date,value))return extensionNotLaunched();
    const delta=Math.round((Date.parse(value)-Date.parse(closing.closing_date))/86400000);
    await db.batch([
     db.prepare("UPDATE closings SET closing_date=?,updated_at=datetime('now') WHERE id=? AND user_id=? AND status='in_progress'").bind(value,id,user.id),
