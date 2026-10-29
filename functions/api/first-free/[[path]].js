@@ -106,7 +106,7 @@ export async function onRequest({request:req,env}){
   }
   // Even if delivery fails, confirmation persists. Visitor can retry the same
   // verified address from the request form, without administrator assistance.
-  return new Response(null,{status:303,headers:{Location:"/first-closing-free.html?verification=confirmed&delivery="+(outcome==="sent"?"sent":"pending"),"Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
+  return new Response(null,{status:303,headers:{Location:"/first-closing-free.html?verification=confirmed&delivery="+(outcome==="sent"?"sent":"pending")+"&audience="+(r.customer_type==="other"?"other":"realtor"),"Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
  }
  if(req.method==="GET"&&route==="admin/list"){
   if(!await owner(req,env))return err("Owner access required.",403);
