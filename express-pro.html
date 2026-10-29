@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>FREE to PRO Express | MyClosingTimeline.com</title>
+<style>
+:root{font-family:Manrope,Arial,sans-serif;color:#183d53;background:#f2f7f9}*{box-sizing:border-box}body{margin:0}header{background:#102b43;padding:18px max(20px,calc((100vw - 1020px)/2));font-size:23px;font-weight:900}header a{color:#fff;text-decoration:none}main{max-width:830px;margin:32px auto;padding:32px 35px;background:#fff;border:1px solid #d3e4e9;border-top:5px solid #d3ab67;border-radius:15px;box-shadow:0 8px 30px #103a4b15}h1{font-size:clamp(29px,3.6vw,40px);line-height:1.2;margin:10px 0 18px}h2{font-size:24px;margin:12px 0}p{font-size:17px;line-height:1.65;color:#456778}label{display:block;margin:16px 0;font-size:17px;font-weight:750}input[type=email]{display:block;width:100%;min-height:53px;padding:12px 14px;border:1.5px solid #a3bdc9;border-radius:8px;font-size:18px;margin-top:8px}input[type=checkbox]{width:18px;height:18px;vertical-align:middle;margin-right:8px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:17px 0}button,.button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:15px 22px;min-height:52px;background:#144a61;color:white;font-size:17px;font-weight:850;cursor:pointer;text-decoration:none}button.secondary,.button.secondary{background:#e3f3ef;color:#17665a}.note{padding:17px 19px;background:#eff8f6;border:1px solid #bcdbd3;border-radius:11px;color:#245e5b;font-size:16px;line-height:1.5}small{font-size:14px;color:#6b7f87}#status{font-size:17px;font-weight:800;color:#1a6959;margin:12px 0}a{color:#136c82}footer{text-align:center;padding:24px;color:#657c88;font-size:14px}[hidden]{display:none!important}@media(max-width:860px){main{margin:15px;padding:21px}header{font-size:20px}}
+</style></head><body>
+<header><a href="/">MyClosing<span style="color:#4fd0c2">Timeline</span>.com</a></header><main>
+<small>FREE → PRO EXPRESS · REAL ESTATE & OTHER PROJECTS</small><h1>Keep your work. Continue with PRO.</h1><p>One email confirmation, no password to create, and no repeating your FREE forms.</p>
+<div class="note" id="draft">Checking your FREE timeline in this browser…</div>
+<section id="request">
+<h2>Continue with one secure email</h2>
+<form id="express-form"><label>Email address<input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+<label><input type="checkbox" id="terms" required>I am 18 or older and accept the <a href="/privacy.html" target="_self">Terms and Privacy Policy</a>.</label>
+<div class="actions"><button type="submit" id="send">Email my one-click access link</button><a class="button secondary" id="back" href="/free-timeline.html">Continue FREE</a></div></form>
+<p id="status" role="status" aria-live="polite"></p>
+</section>
+<section id="ready" hidden><h2>You're signed in.</h2><p id="account-info">Your account is ready.</p>
+<div class="actions"><a id="workspace" class="button" href="/my-closings.html">Open my PRO workspace</a><a class="button secondary" id="preview" href="/other-projects.html#mpt-pro-preview">Other Projects PRO demonstration</a></div>
+<p id="credit-info"></p></section>
+<p><small>Privacy first: the FREE draft remains only in your browser until a supported secure import is completed. PRO access and promotional eligibility are checked independently. No credit card is required to request the link.</small></p>
+</main><footer>Your Clients. Your Records. Your Privacy.</footer>
+<script>
+(function(){
+ const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
+ let saved=null;try{saved=JSON.parse(sessionStorage.getItem("mct-free-pro-draft")||"null")}catch(e){}
+ const audience=params.get("audience")==="other"||saved?.audience==="other"?"other":"realtor";
+ $("draft").textContent=saved?.fields?.length?("Your "+(audience==="other"?"Other Projects":"Real Estate")+" FREE draft ("+saved.fields.length+" fields) is preserved in this browser."):"You can continue without an existing FREE draft. No work has been uploaded.";
+ $("back").href=audience==="other"?"/free-timeline.html?view=other#mct-free-other-projects":"/free-timeline.html?view=realtor#mct-free-real-estate-landing";
+ async function check(){
+  try{const r=await fetch("/api/pro/me",{credentials:"same-origin",cache:"no-store"}),j=await r.json();
+   if(j.authenticated){$("request").hidden=true;$("ready").hidden=false;$("account-info").textContent="Signed in as "+j.user.email+". Your existing PRO account is available."; $("credit-info").textContent=audience==="other"?"Other Projects paid activation is not yet available. You can try its interactive PRO preview without payment.":"Your current Real Estate PRO credits: "+j.user.credits+". A first-time benefit or paid credit must be active before starting a paid closing."; $("workspace").hidden=audience==="other";return;}
+  }catch(e){}
+  $("ready").hidden=true;$("request").hidden=false;
+ }
+ $("express-form").addEventListener("submit",async e=>{
+  e.preventDefault();$("send").disabled=true;$("status").textContent="Requesting your secure link…";
+  try{const r=await fetch("/api/pro/express/start",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({email:$("email").value.trim(),audience,termsAccepted:$("terms").checked})});const j=await r.json();if(!r.ok)throw Error(j.error||"Request failed");$("status").textContent="One secure link has been sent. Open your email and select Continue to PRO. You won't need a password."; }
+  catch(e){$("status").textContent=e.message}finally{$("send").disabled=false}
+ });
+ if(params.has("expired"))$("status").textContent="That link has expired or was already used. Request another one.";
+ check();
+})();
+</script></body></html>
