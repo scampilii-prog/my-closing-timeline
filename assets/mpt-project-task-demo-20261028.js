@@ -212,7 +212,7 @@ function proRender(){
  if($("mpt-pro-enddate"))$("mpt-pro-enddate").disabled=!state.endDate;
  document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.setAttribute("aria-pressed",String(state.planHorizon===btn.dataset.mptHorizon))});
  if($("mpt-pro-horizon-label"))$("mpt-pro-horizon-label").textContent=state.endDate?"Preview project period ends "+readable(state.endDate):"Ongoing project preview · an eventual paid account would still require renewal";
- if($("mpt-pro-offer-info"))$("mpt-pro-offer-info").textContent="PRO demo only. Proposed project plans: 90 days ($19.90 intro), 180 days ($34.90 intro), or 1 year ($84.90 intro). Account access and renewals are not active.";
+ if($("mpt-pro-offer-info"))$("mpt-pro-offer-info").textContent="PRO demo only. Preview project periods: 90 days, 180 days, or 1 year. For any proposed prices or promotions, visit Plans & Pricing. Paid project accounts and renewals are not active.";
  var countdown=$("mpt-pro-renewal-preview");if(countdown){var remain=state.endDate?Math.round((Date.parse(state.endDate+"T00:00:00Z")-Date.parse(today()+"T00:00:00Z"))/86400000):null;countdown.hidden=remain===null||remain>15;if(!countdown.hidden)countdown.textContent=remain<0?"DEMO · Project period ended "+(-remain)+" days ago. Renewing a real account will require a new plan.":remain===0?"DEMO · Your project period ends today. Renewal will be available after PRO launch.":"DEMO · "+remain+" day"+(remain===1?"":"s")+" remaining in the selected period. Future PRO accounts will display a permanent renewal notice here during the last 15 days.";}
  if(memoryOnly)notify("mpt-pro-message","Local storage is unavailable. This demonstration will not be saved after leaving the page.","warn");
 }
