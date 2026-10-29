@@ -467,6 +467,7 @@ export async function onRequest(context){
    if(exactDate&&!isoDate(exactDate))return error("Enter a valid exact date.",400);
    const due=computeContractTask(closing,days,base,direction,dayType,exactDate);
    if(!due||due<today)return error("Past deadlines cannot be created or edited. Choose a current or future date.",409);
+   if(closingExtensionNeeded(closing.effective_date,due))return reply({ok:false,code:"CONTRACT_TASK_OUTSIDE_90_DAYS",error:"This task is beyond the included 90-day PRO period. An extension must be purchased before adding deadlines in the extra period. No charge has been made."},409);
    if(act==="contract/add"){
     await db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,exact_date,due_date,status) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(guid(),id,user.id,title,days,base,direction,dayType,exactDate||null,due,status).run();
     return reply({ok:true},201);
