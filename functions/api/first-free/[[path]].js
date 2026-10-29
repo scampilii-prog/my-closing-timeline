@@ -60,7 +60,14 @@ async function eligible(db,email){
 async function issueVerifiedInvite(db,env,r){
  if(!r||r.status!=="pending"||!r.verified_at||r.promo_code_id)return "not_ready";
  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return "not_configured";
- if(!r.test_reset&&!await eligible(db,r.email))return "ineligible";
+ if(!r.test_reset){
+  if(!await eligible(db,r.email))return "ineligible";
+  // Older installations may have created duplicate email request rows
+  // before the UNIQUE-email schema existed. A previous issued first-FREE
+  // code for this address must still count, even when no account was made.
+  const otherIssued=await db.prepare("SELECT 1 FROM first_free_requests WHERE email=? AND id!=? AND promo_code_id IS NOT NULL LIMIT 1").bind(r.email,r.id).first();
+  if(otherIssued)return "ineligible";
+ }
  const rid=r.id;
   const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending' AND verified_at IS NOT NULL AND promo_code_id IS NULL").bind(now(),rid).run();
   if(!lock.meta?.changes)return "busy";
@@ -126,6 +133,8 @@ export async function onRequest({request:req,env}){
   if(!/^[0-9a-f-]{36}$/.test(id)||!emailOK(email)||data.confirm!=="RESET FREE TEST: "+email)return err("Confirm the full test email to reset its benefit.",400);
   const record=await db.prepare("SELECT id,email,status,verified_at,promo_code_id FROM first_free_requests WHERE id=? AND email=?").bind(id,email).first();
   if(!record)return err("Invitation record not found.",404);
+  const mostRecent=await db.prepare("SELECT id FROM first_free_requests WHERE email=? ORDER BY requested_at DESC,updated_at DESC LIMIT 1").bind(email).first();
+  if(mostRecent?.id!==id)return err("Reset the newest request for this email. Refresh the admin page to see the current record.",409);
   if(record.status==="approved")return err("A code is being issued. Retry after processing finishes.",409);
   // Never modify paid customers by mistake. Use a separate unpaid practice
   // account/email; do not alter an existing paid purchase or real closing.
@@ -145,7 +154,10 @@ export async function onRequest({request:req,env}){
    db.prepare("UPDATE first_free_requests SET status='pending_verification',verification_hash=NULL,verification_expires=NULL,verified_at=NULL,promo_code_id=NULL,test_reset=1,marketing_requested=0,sent_at=NULL,declined_at=NULL,updated_at=? WHERE id=? AND email=? AND status!='approved'").bind(now(),id,email),
    db.prepare("INSERT INTO first_free_test_reset_history(id,email,previous_promo_code_id,previous_status) VALUES(?,?,?,?)").bind(guid(),email,record.promo_code_id||null,record.status)
   ];
-  if(record.promo_code_id)updates.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(record.promo_code_id));
+  // An owner-authorized reset invalidates ALL prior first-FREE codes tied
+  // to this same practice email, including older duplicate request rows.
+  // Nothing here removes user credits, purchases or saved closings.
+  updates.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL)").bind(email));
   const changed=await db.batch(updates);
   if(!changed[0]?.meta?.changes)return err("Practice reset was not completed.",409);
   // Allow a new confirmation request for the exact reset email.
@@ -160,7 +172,7 @@ export async function onRequest({request:req,env}){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return err("Email invitations are not ready. Please try again later.",503);
   const email=String(b.email||"").trim().toLowerCase(),type=String(b.customerType||"");
   if(!emailOK(email)||typeof b.marketingOptIn!=="boolean"||!["realtor","other"].includes(type))return err("Select Realtor or Other Projects and provide a valid email.");
-  const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type,test_reset,verification_hash FROM first_free_requests WHERE email=?").bind(email).first();
+  const prev=await db.prepare("SELECT id,status,updated_at,verified_at,promo_code_id,customer_type,test_reset,verification_hash FROM first_free_requests WHERE email=? ORDER BY requested_at DESC,updated_at DESC LIMIT 1").bind(email).first();
   // An owner reset creates a one-shot exception for this previously verified
   // practice email. Without another owner reset, all regular limits apply.
   const ownerResetReady=prev?.test_reset===1&&prev.status==="pending_verification"&&!prev.verification_hash;
