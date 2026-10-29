@@ -145,7 +145,8 @@ export async function onRequest({request:req,env}){
  if(req.method==="GET"&&route==="admin/list"){
   if(!await owner(req,env))return err("Owner access required.",403);
   const d=await db.prepare("SELECT r.id,r.email,r.status,r.verified_at,r.marketing_requested,r.requested_at,r.sent_at,r.test_reset,CASE WHEN r.verification_hash IS NOT NULL THEN 1 ELSE 0 END confirmation_sent,CASE WHEN p.uses>0 THEN 1 ELSE 0 END redeemed FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id ORDER BY r.requested_at DESC LIMIT 250").all();
-  return json({ok:true,requests:d.results.map(x=>({...x,status:x.redeemed?"redeemed":x.status}))});
+  const archive=await db.prepare("SELECT COUNT(*) AS n FROM first_free_archived_requests").first();
+  return json({ok:true,archived_count:Number(archive?.n||0),requests:d.results.map(x=>({...x,status:x.redeemed?"redeemed":x.status}))});
  }
  // Exceptional OWNER-ONLY practice reset. Does not delete any PRO closing,
  // purchased credits, original account or marketing-consent records.
