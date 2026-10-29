@@ -181,6 +181,24 @@ export async function onRequest(context){
  }
  let stage="request";
  try{
+ if(req.method==="GET"&&route==="express/confirm"){
+  const token=url.searchParams.get("token")||"";
+  if(!/^[A-Za-z0-9_-]{40,100}$/.test(token))return error("Invalid access link",400);
+  await db.prepare("CREATE TABLE IF NOT EXISTS express_links (token_hash TEXT PRIMARY KEY,email TEXT NOT NULL,audience TEXT NOT NULL,expires_at INTEGER NOT NULL)").run();
+  const consumed=await db.prepare("DELETE FROM express_links WHERE token_hash=? AND expires_at>? RETURNING email,audience").bind(await digest(token),now()).first();
+  if(!consumed)return new Response(null,{status:303,headers:{"Location":"/express-pro.html?expired=1","Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
+  let user=await db.prepare("SELECT id,verified FROM users WHERE email=?").bind(consumed.email).first();
+  if(!user){
+   const id=guid(),salt=random(20),password=random(40),hash=await pbkdf(password,salt);
+   await db.prepare("CREATE TABLE IF NOT EXISTS account_policy_acceptances (user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,terms_version TEXT NOT NULL,privacy_version TEXT NOT NULL,accepted_at TEXT NOT NULL DEFAULT (datetime('now')),acceptance_method TEXT NOT NULL)").run();
+   try{await db.batch([
+    db.prepare("INSERT INTO users(id,email,full_name,password_salt,password_hash,verified) VALUES(?,?,?,?,?,1)").bind(id,consumed.email,"MCT Customer",salt,hash),
+    db.prepare("INSERT INTO account_policy_acceptances(user_id,terms_version,privacy_version,acceptance_method) VALUES(?,?,?,?)").bind(id,"2026-10-28","2026-10-28","Express verified email and required checkbox")
+   ]);}catch(e){user=await db.prepare("SELECT id FROM users WHERE email=?").bind(consumed.email).first();if(!user)throw e;}
+   if(!user)user={id};
+  }else if(!user.verified){await db.prepare("UPDATE users SET verified=1 WHERE id=?").bind(user.id).run()}
+  return new Response(null,{status:303,headers:{"Location":"/express-pro.html?ready=1&audience="+encodeURIComponent(consumed.audience),"Set-Cookie":await newSession(db,user.id),"Cache-Control":"no-store","Referrer-Policy":"no-referrer"}});
+ }
  if(req.method==="GET"&&route==="verify"){
   const token=url.searchParams.get("token")||"";if(token.length<32)return error("Invalid verification link");
   const hash=await digest(token);const match=await db.prepare("SELECT user_id FROM email_verifications WHERE token_hash=? AND expires_at>?").bind(hash,now()).first();
@@ -219,6 +237,24 @@ export async function onRequest(context){
    const consentTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='marketing_consents'").first();
    if(consentTable)await db.prepare("DELETE FROM marketing_consents WHERE email=?").bind(address).run();
   return reply({ok:true,message:"Promotional email opt-out recorded."});
+ }
+ if(route==="express/start"){
+  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Email access is not configured",503);
+  const email=String(body.email||"").trim().toLowerCase(),audience=String(body.audience||"");
+  if(!emailOK(email)||!["realtor","other"].includes(audience)||body.termsAccepted!==true)return error("Enter an email, choose the project type and accept the terms",400);
+  if(!await permit(db,"express",req.headers.get("CF-Connecting-IP")||"unknown",8,3600))return error("Too many attempts. Try again later",429);
+  if(!await permit(db,"express-email",email,4,3600))return error("Too many email requests. Try again later",429);
+  await db.prepare("CREATE TABLE IF NOT EXISTS express_links (token_hash TEXT PRIMARY KEY,email TEXT NOT NULL,audience TEXT NOT NULL,expires_at INTEGER NOT NULL)").run();
+  const token=random(32),hash=await digest(token);
+  await db.prepare("DELETE FROM express_links WHERE email=?").bind(email).run();
+  await db.prepare("INSERT INTO express_links(token_hash,email,audience,expires_at) VALUES(?,?,?,?)").bind(hash,email,audience,now()+900).run();
+  const link=url.origin+"/api/pro/express/confirm?token="+encodeURIComponent(token);
+  const html='<div style="max-width:620px;margin:auto;padding:30px;font-family:Arial,sans-serif;color:#173b52"><h1>Continue your My Closing Timeline project</h1><p>One secure link. No password and no second verification.</p><p><a href="'+link+'" style="display:inline-block;padding:15px 22px;background:#173b52;color:white;text-decoration:none;border-radius:8px">Continue to PRO</a></p><p>This link expires in 15 minutes and works once. If you did not request it, ignore this message.</p>'+corporateSignature+'</div>';
+  try{
+   const res=await fetch("https://api.resend.com/emails",{method:"POST",headers:{"Authorization":"Bearer "+env.RESEND_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({from:"My Closing Timeline <"+env.MCT_FROM_EMAIL+">",to:[email],subject:"Your one-step My Closing Timeline access",html,text:"Continue securely: "+link+"\nThis link expires in 15 minutes."})});
+   if(!res.ok)throw Error("Email service unavailable");
+  }catch(e){await db.prepare("DELETE FROM express_links WHERE token_hash=?").bind(hash).run();return error("Unable to send access email. Please try again.",503)}
+  return reply({ok:true,message:"Check your email for one secure access link."});
  }
  if(route==="forgot"){
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Password recovery email is not yet configured",503);
