@@ -1209,7 +1209,12 @@ html[data-mct-free-view="other"] #contract-deadline-planner>.mct-free-next-steps
 </script><script id="mct-home-category-scroll-v76">
 (function(){
  var view=new URLSearchParams(location.search).get("view");
- if(view!=="realtor"&&view!=="other")return;
+ var hash=location.hash;
+ if(view!=="realtor"&&view!=="other"){
+  if(hash==="#mct-free-other-projects")view="other";
+  else if(hash==="#mct-free-real-estate-landing")view="realtor";
+  else return;
+ }
  var id=view==="realtor"?"mct-free-real-estate-landing":"mct-free-other-projects";
  function align(){
   var target=document.getElementById(id),header=document.getElementById("mct-site-header");
@@ -1218,7 +1223,7 @@ html[data-mct-free-view="other"] #contract-deadline-planner>.mct-free-next-steps
   var y=window.scrollY+target.getBoundingClientRect().top-h-7;
   window.scrollTo({top:Math.max(0,Math.round(y)),behavior:"instant"});
  }
- function schedule(){requestAnimationFrame(function(){requestAnimationFrame(align)});setTimeout(align,180);setTimeout(align,700);}
+ function schedule(){requestAnimationFrame(function(){requestAnimationFrame(align)});setTimeout(align,180);setTimeout(align,700);setTimeout(align,1400);}
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",schedule);else schedule();
  window.addEventListener("load",schedule,{once:true});
  window.addEventListener("pageshow",schedule);
