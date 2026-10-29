@@ -142,12 +142,12 @@ export async function onRequest({request:req,env}){
   if(account){
    const paid=await db.prepare("SELECT id FROM purchases WHERE user_id=? LIMIT 1").bind(account.id).first();
    if(paid)return err("This email has purchases. Use a separate unpaid practice email; customer purchase records cannot be reset.",409);
-   if(record.promo_code_id){
-    const redeemed=await db.prepare("SELECT 1 FROM promo_redemptions WHERE code_id=? AND user_id=? LIMIT 1").bind(record.promo_code_id,account.id).first();
-    if(redeemed){
-     const balance=await db.prepare("SELECT credits FROM users WHERE id=?").bind(account.id).first();
-     if(Number(balance?.credits||0)>0)return err("Use the remaining test credit before resetting. Existing account credits are never deleted.",409);
-    }
+   // Check every prior request for this address, including legacy duplicate
+   // rows. A previously redeemed, unspent FREE credit must be used first.
+   const redeemed=await db.prepare("SELECT 1 FROM promo_redemptions WHERE user_id=? AND code_id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL) LIMIT 1").bind(account.id,email).first();
+   if(redeemed){
+    const balance=await db.prepare("SELECT credits FROM users WHERE id=?").bind(account.id).first();
+    if(Number(balance?.credits||0)>0)return err("Use the remaining test credit before resetting. Existing account credits are never deleted.",409);
    }
   }
   const updates=[
