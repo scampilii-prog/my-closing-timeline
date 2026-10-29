@@ -382,3 +382,13 @@ html body #contract-deadline-planner .fc-simple-result .mct-free-share-quiet{dis
 @media(min-width:1080px) and (max-width:1210px){
  html body #contract-deadline-planner .fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}
 }
+
+/* Website 19: align Step 2 heading with Step 1, at left edge. */
+html body #contract-deadline-planner .mct-realty-step2-card .mct-step-two-heading{
+ display:flex!important;justify-content:flex-start!important;align-items:center!important;
+ text-align:left!important;width:100%!important;margin-left:0!important;
+ margin-right:0!important;padding-left:0!important;gap:12px!important;
+}
+html body #contract-deadline-planner .mct-realty-step2-card .mct-step-two-heading .mct-step-medallion{
+ margin-left:0!important;flex-shrink:0!important;
+}
