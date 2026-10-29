@@ -360,3 +360,74 @@ html body #contract-deadline-planner .fc-simple-preview-head h4{
    min-height:60px!important
  }
 }
+
+/* Identical Step 3 preview in the two FREE categories; use the palette only
+ * to distinguish business type. The disclosure is visibly a non-billing demo. */
+html body .mct-step3-preview{
+ box-sizing:border-box;margin:14px 0 12px;border:1px solid #c2dce1;
+ border-radius:10px;background:#fff;overflow:hidden;
+}
+html body .mct-step3-preview>summary{
+ display:flex;align-items:center;justify-content:space-between;gap:15px;
+ padding:11px 13px;cursor:pointer;list-style:none;background:#f0f7f8;
+ color:#1e5368;font:800 12px/1.45 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-preview>summary::-webkit-details-marker{display:none}
+html body .mct-step3-preview>summary>span:first-child{display:block}
+html body .mct-step3-preview>summary strong{
+ display:block;font:900 11px/1.35 Manrope,Arial,sans-serif;
+ letter-spacing:.035em;color:#1c6870;
+}
+html body .mct-step3-preview>summary small{display:block;font:650 11px/1.4 Manrope,Arial,sans-serif;color:#667d8a;margin-top:3px}
+html body .mct-step3-chevron{
+ width:26px;height:26px;border:1px solid #bcd0d7;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;font:900 19px/1 Arial,sans-serif;color:#245772;
+}
+html body .mct-step3-preview[open] .mct-step3-chevron{transform:rotate(45deg)}
+html body .mct-step3-preview>summary:focus-visible{outline:3px solid #cead70;outline-offset:-3px}
+html body .mct-step3-demo{
+ display:grid;grid-template-columns:minmax(0,1.25fr) minmax(160px,1fr);
+ gap:10px;padding:12px;align-items:start;
+}
+html body .mct-step3-demo-editor,html body .mct-step3-demo-priorities{
+ box-sizing:border-box;min-width:0;border:1px solid #d9e6e9;
+ padding:10px;border-radius:8px;background:#fff;
+}
+html body .mct-step3-demo-editor>strong,html body .mct-step3-demo-priorities>strong{
+ display:block;color:#1b455c;font:900 12px/1.45 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-demo-editor>small,html body .mct-step3-demo-priorities>small{
+ display:block;color:#758994;font:750 9px/1.6 Manrope,Arial,sans-serif;margin:2px 0 8px;
+}
+html body .mct-step3-demo-editor ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+html body .mct-step3-demo-editor li{
+ display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:6px;
+ align-items:center;margin:0;padding:7px 6px;border:1px solid #e5ecef;
+ border-radius:6px;background:#f8fafb;color:#304e62;font:750 10px/1.4 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-counter{
+ display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+ border-radius:50%;background:#e1edf0;color:#205c74;font:900 10px/1 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-status{
+ border-radius:4px;background:#e4edf0;color:#597487;padding:4px 5px;
+ font:900 9px/1.2 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-demo-priorities>div{padding:8px 0;border-top:1px solid #e0e8eb}
+html body .mct-step3-demo-priorities b{
+ display:block;color:#2d6b70;font:900 11px/1.4 Manrope,Arial,sans-serif;
+}
+html body .mct-step3-demo-priorities div>span{
+ display:block;color:#6b8390;font:650 10px/1.55 Manrope,Arial,sans-serif;margin-top:2px;
+}
+html body .mct-step3-preview-disclaimer{
+ font:650 10px/1.6 Manrope,Arial,sans-serif!important;color:#68808a!important;
+ margin:0 12px 12px!important;padding:8px 10px!important;
+ border-left:3px solid #8dbcb6;background:#f5faf8;border-radius:5px;
+}
+html body .mct-step3-preview-realtor>summary{background:#fbf6ec;color:#6e5538}
+html body .mct-step3-preview-realtor>summary strong{color:#926c3a}
+html body .mct-step3-preview-realtor .mct-step3-preview-disclaimer{border-color:#c9a16a;background:#fffaf1}
+@media(max-width:700px){
+ html body .mct-step3-demo{grid-template-columns:1fr}
+}
