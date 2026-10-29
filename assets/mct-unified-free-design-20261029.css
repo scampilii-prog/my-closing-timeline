@@ -259,3 +259,104 @@ html body .mct-free-header-nav a{
 html body .mct-free-header-nav a:hover{background:#eff8f5!important}
 html body .mct-free-header-nav a:focus-visible{outline:3px solid #d6ac69;outline-offset:2px}
 @media(max-width:560px){html body .mct-free-header-nav{align-items:flex-start!important;flex-direction:column!important}}
+
+/* FREE Real Estate now uses the same premium section pattern as the
+   approved Other Projects header. No second "guide" and no empty banner. */
+html body #contract-deadline-planner #mct-free-real-estate-landing.mct-inline-realty-section{
+  display:block!important;box-sizing:border-box!important;position:relative!important;
+  width:min(1420px,calc(100% - 32px))!important;max-width:1420px!important;
+  margin:26px auto 13px!important;padding:22px!important;
+  background:linear-gradient(112deg,#fffdf8 0%,#f8fafc 73%,#fbf9f4 100%)!important;
+  border:1.5px solid #e1cda7!important;border-top:5px solid #d2a158!important;
+  border-radius:14px!important;box-shadow:0 8px 28px rgba(17,59,71,.072)!important;
+  scroll-margin-top:calc(var(--mct-fixed-header-height,108px) + 42px)!important;
+  color:#163b52!important;text-align:left!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-project-head{
+  display:block!important;box-sizing:border-box!important;max-width:none!important;
+  padding:4px 6px 10px!important;margin:0!important;min-height:0!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-kicker{
+  display:block!important;color:#a47231!important;letter-spacing:.08em!important;
+  font:900 11px/1.5 Manrope,Arial,sans-serif!important;margin:12px 0 4px!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing #deadline-planner-title{
+  display:block!important;margin:7px 0 5px!important;padding:0!important;
+  font:900 clamp(26px,3vw,39px)/1.2 Manrope,Arial,sans-serif!important;
+  letter-spacing:-.025em!important;color:#143b52!important;text-transform:none!important;
+  border:none!important;max-width:none!important;white-space:normal!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-project-head>p{
+  display:block!important;margin:7px 0 15px!important;max-width:1100px!important;
+  font:650 clamp(13px,1.25vw,15px)/1.68 Manrope,Arial,sans-serif!important;
+  color:#4a6b78!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-project-head>p strong{color:#8b683a!important}
+html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:10px!important;margin:12px 0 10px!important;
+  padding:0!important;border:none!important;background:transparent!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps>a.mct-inline-step{
+  display:flex!important;min-width:0!important;gap:11px!important;align-items:center!important;
+  min-height:75px!important;padding:11px 13px!important;
+  border:1px solid #d2dfe6!important;border-radius:10px!important;
+  background:#fff!important;box-shadow:0 2px 8px rgba(26,56,70,.035)!important;
+  color:#284f63!important;text-decoration:none!important;
+  transform:none!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps>a.mct-inline-step:hover{
+  background:#f4f9fa!important;border-color:#b99b68!important;
+  box-shadow:0 5px 14px rgba(27,57,71,.10)!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps>a.mct-inline-step:focus-visible{
+  outline:3px solid #bd9452!important;outline-offset:2px!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step>b{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  box-sizing:border-box!important;flex:0 0 40px!important;width:40px!important;height:40px!important;
+  margin:0!important;border-radius:50%!important;background:#d5a352!important;color:#fff!important;
+  font:900 18px/1 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step:nth-child(2)>b{
+  background:#e5ebf7!important;color:#455b9a!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step:nth-child(3)>b{
+  background:#dbefe8!important;color:#277d68!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step>span{display:block!important;min-width:0!important}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step strong{
+  display:block!important;margin:0 0 1px!important;max-width:none!important;
+  color:#29485e!important;font:900 13px/1.4 Manrope,Arial,sans-serif!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-step small{
+  display:block!important;max-width:none!important;color:#5d7987!important;
+  font:650 11px/1.5 Manrope,Arial,sans-serif!important
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-note{
+  display:block!important;margin:12px 0 0!important;padding:11px 15px!important;
+  background:#f5efdf!important;border:0!important;border-left:4px solid #cb9c51!important;
+  border-radius:7px!important;color:#5d6f76!important;
+  font:750 12px/1.65 Manrope,Arial,sans-serif!important;
+}
+html body #contract-deadline-planner #mct-free-real-estate-landing .mct-inline-note strong{color:#8f632c!important}
+/* The two live-work columns are the next thing readers should see. */
+html body #contract-deadline-planner .fc-simple-layout{margin-top:13px!important}
+html body #contract-deadline-planner .mct-build-header,
+html body #contract-deadline-planner .fc-simple-preview-head{box-sizing:border-box!important}
+html body #contract-deadline-planner .mct-build-header h3,
+html body #contract-deadline-planner .fc-simple-preview-head h4{
+  font:900 clamp(19px,1.9vw,24px)/1.27 Manrope,Arial,sans-serif!important;letter-spacing:-.015em!important
+}
+@media(max-width:750px){
+ html body #contract-deadline-planner #mct-free-real-estate-landing.mct-inline-realty-section{
+   width:calc(100% - 20px)!important;margin:18px auto 12px!important;padding:14px 10px!important
+ }
+ html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps{
+   grid-template-columns:1fr!important;gap:8px!important
+ }
+ html body #contract-deadline-planner #mct-free-real-estate-landing nav.mct-inline-steps>a.mct-inline-step{
+   min-height:60px!important
+ }
+}
