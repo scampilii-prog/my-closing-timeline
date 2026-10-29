@@ -107,9 +107,65 @@ async function load(){try{const a=await api("me");if(!a.authenticated){location.
  $("new").disabled=user.credits<1;
  $("new").title=user.credits<1?"You need 1 closing credit to create a PRO transaction.":"Start a new PRO closing";
  viewList();if(current&&all.some(x=>x.id===current))await select(current)}catch(e){tell(e.message)}}
-async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.status!=="in_progress"}$("task-form").hidden=c.status!=="in_progress";$("action-form").replaceChildren();showTasks(a.tasks,c.status);
+
+function mctContractFields(task,options,closing,readOnly){
+ const row=n("div",undefined,"mct-contract-task-row"+(task.status==="done"?" done":"")+(task.due_date<new Date().toISOString().slice(0,10)?" overdue":""));
+ const locked=readOnly||task.due_date<new Date().toISOString().slice(0,10);
+ row.append(n("strong",task.title+(locked?" · Read-only":"")));
+ const fields=n("div",undefined,"mct-contract-task-fields");
+ const field=(text,control)=>{const label=n("label",text);label.append(control);fields.append(label);return control};
+ const selectField=(title,items,value)=>{
+  const el=n("select");items.forEach(([v,label])=>{const option=n("option",label);option.value=v;el.append(option)});el.value=value;el.disabled=locked;return field(title,el)
+ };
+ const title=selectField("Contract task",options.map(x=>[x,x]),task.title);
+ const days=n("input");days.type="number";days.min="0";days.max="3650";days.step="1";days.value=task.days;days.disabled=locked;field("Days",days);
+ const type=selectField("Count days",[["calendar","Calendar Days"],["business","Business Days"]],task.day_type);
+ const base=selectField("Based on",[["effective","Effective Date"],["closing","Closing Date"]],task.base);
+ const direction=selectField("When",[["after","After"],["before","Before"]],task.direction);
+ const exact=n("input");exact.type="date";exact.value=task.exact_date||"";exact.disabled=locked;field("Exact date (optional)",exact);
+ row.append(fields);
+ const buttons=n("div",undefined,"mct-contract-task-controls");
+ const due=n("span",undefined,"mct-contract-due");
+ const updatePreview=()=>{
+  const from=base.value==="closing"?closing.closing_date:closing.effective_date;
+  const calc=exact.value||window.MCTTaskRules.offsetDate(from,Number(days.value),direction.value,type.value,true);
+  due.textContent="Due: "+(calc||"Choose valid dates")+(calc&&calc<new Date().toISOString().slice(0,10)?" · Past date":"")+(task.status==="done"?" · Done":"");
+ };
+ [title,days,type,base,direction,exact].forEach(el=>el.addEventListener("change",updatePreview));updatePreview();
+ buttons.append(due);
+ const save=n("button","Save Changes","primary");save.type="button";save.disabled=locked;save.onclick=async()=>{
+  const value=Number(days.value);
+  if(!Number.isInteger(value)||value<0||value>3650){tell("Days must be an integer from 0 to 3650.");return}
+  try{await api("closings/"+current+"/contract/update","POST",{task_id:task.id,title:title.value,days:value,day_type:type.value,base:base.value,direction:direction.value,exact_date:exact.value});tell("Contract deadline saved.");await select(current)}catch(e){tell(e.message)}
+ };
+ const done=n("button",task.status==="done"?"Reopen":"Mark Done");done.type="button";done.disabled=locked;done.onclick=async()=>{
+  try{await api("closings/"+current+"/contract/update","POST",{task_id:task.id,done:task.status!=="done"});tell("Contract task updated.");await select(current)}catch(e){tell(e.message)}
+ };
+ buttons.append(save,done);row.append(buttons);return row;
+}
+function showContractTasks(tasks,options,closing){
+ const host=$("mct-contract-task-list");host.replaceChildren();
+ const readOnly=closing.status!=="in_progress";
+ if(!tasks.length)host.append(n("p","No contract tasks found. New PRO closings receive the same six defaults as FREE.","muted"));
+ tasks.forEach(t=>host.append(mctContractFields(t,options,closing,readOnly)));
+ const form=$("mct-contract-task-add");
+ form.hidden=readOnly;
+ const select=$("mct-contract-add-title");
+ select.replaceChildren();
+ const placeholder=n("option","Choose a task category");placeholder.value="";select.append(placeholder);
+ options.forEach(t=>{const opt=n("option",t);opt.value=t;select.append(opt)});
+ form.onsubmit=async event=>{
+  event.preventDefault();const data=Object.fromEntries(new FormData(form));
+  if(!data.title)return;
+  try{await api("closings/"+current+"/contract/add","POST",{title:data.title,days:Number(data.days),day_type:data.day_type,base:data.base,direction:data.direction});
+   tell("Contract task added.");form.reset();await select(current)}
+  catch(e){tell(e.message)}
+ };
+}
+
+async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.status!=="in_progress"}$("task-form").hidden=c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.status);
  const code=/^CL-[A-F0-9]{8}$/.test(c.name||'')?c.name:'CL-'+String(c.id||'').replace(/[^a-f0-9]/gi,'').slice(0,8).toUpperCase();
- privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:(a.tasks||[]).map(t=>({name:t.title,date:t.due_date,status:t.status}))};
+ privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:[...(a.contract_tasks||[]).map(t=>({name:"CONTRACT: "+t.title,date:t.due_date,status:t.status})),...(a.tasks||[]).map(t=>({name:"FOLLOW-UP: "+t.title,date:t.due_date,status:t.status}))]};
  $("mct-pro-private-pdf").disabled=false;
  }catch(e){tell(e.message)}}
 function showTasks(tasks,closingStatus){const root=$("tasks");root.replaceChildren();if(!tasks.length){root.append(n("p","No suggested tasks saved for this earlier closing. Add a follow-up task below; new closings receive the suggested checklist automatically.","muted"));return}const today=new Date().toISOString().slice(0,10);for(const item of tasks){const row=n("div",undefined,"task"+(item.status==="done"?" done":"")+(item.due_date<today?" locked":""));const label=n("span",item.title+(item.due_date<today?" · Locked":""),"task-name");const due=n("span",item.due_date,"muted");const controls=n("div",undefined,"row");const locked=closingStatus!=="in_progress"||item.due_date<today;const btn=n("button",item.status==="done"?"Done ✓":"Done");btn.type="button";btn.disabled=locked;btn.onclick=async()=>{try{await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,done:item.status!=="done"});await select(current)}catch(e){tell(e.message)}};const edit=n("button","Change Date");edit.type="button";edit.disabled=locked;edit.onclick=async()=>{const title=item.title;const date=prompt("New reminder date (YYYY-MM-DD)",item.due_date);if(date===null)return;try{await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,title,date});await select(current)}catch(e){tell(e.message)}};controls.append(btn,edit);if(item.auto_shift)label.append(n("small"," · Closing-linked","muted"));row.append(label,due,controls);root.append(row)}}
