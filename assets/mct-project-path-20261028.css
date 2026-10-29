@@ -262,3 +262,85 @@ html body .mct-product-path.mct-audience-choice .mct-path-choice-action{
 @media(max-width:760px){
  html body .mct-product-path.mct-audience-choice a.mct-path-choice{min-height:0!important}
 }
+
+/* Website 16 · matching title heights and distinct second-path color.
+   The same vertical content rhythm keeps both calls-to-action aligned. */
+html body .mct-product-path.mct-audience-choice .mct-product-path-options{
+ align-items:stretch!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice{
+ height:100%!important;min-height:315px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-top{
+ min-height:41px!important;margin-bottom:15px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+ box-sizing:border-box!important;display:flex!important;
+ align-items:center!important;min-height:66px!important;
+ margin:0 0 9px!important;
+ font-size:clamp(24px,2.1vw,29px)!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title::after{
+ /* Place underline below the actual title without enlarging one title. */
+ position:absolute!important;content:""!important;left:0;bottom:-5px;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+ position:relative!important;margin-bottom:17px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{
+ display:block!important;min-height:43px!important;
+ margin:0 0 10px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-description{
+ min-height:85px!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-status{
+ min-height:32px!important;
+}
+html body .mct-product-path.mct-audience-choice a.mct-path-choice-professional,
+html body .mct-product-path.mct-audience-choice a.mct-path-choice-professional:hover{
+ background:linear-gradient(145deg,#f5edfa 0%,#e7dcf2 100%)!important;
+ border:2px solid #8e75aa!important;
+ box-shadow:0 5px 12px rgba(66,43,87,.12)!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-icon{
+ background:#695083!important;color:#ffffff!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-eyebrow{
+ color:#6a4d82!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-title{
+ color:#443253!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-title::after{
+ background:#a887bc!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-subtitle{
+ color:#63477e!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-description{
+ color:#594b66!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-status{
+ color:#765a91!important;
+}
+html body .mct-product-path.mct-audience-choice .mct-path-choice-professional .mct-path-choice-action{
+ background:#644d7d!important;border-color:#5b4474!important;color:white!important;
+}
+@media(max-width:760px){
+ html body .mct-product-path.mct-audience-choice a.mct-path-choice{
+  height:auto!important;min-height:0!important;
+ }
+ html body .mct-product-path.mct-audience-choice .mct-path-choice-title{
+  min-height:0!important;margin-bottom:18px!important;
+ }
+ html body .mct-product-path.mct-audience-choice .mct-path-choice-subtitle{
+  min-height:0!important;
+ }
+ html body .mct-product-path.mct-audience-choice .mct-path-choice-description{
+  min-height:0!important;
+ }
+ html body .mct-product-path.mct-audience-choice .mct-path-choice-status{
+  min-height:0!important;
+ }
+}
