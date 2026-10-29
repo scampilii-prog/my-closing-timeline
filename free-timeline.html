@@ -1183,28 +1183,56 @@ html{scroll-behavior:smooth}
 .mct-inline-foot{font:650 12px/1.6 Manrope,Arial,sans-serif;color:#526e7c;padding:4px 6px}
 .mct-inline-foot a{color:#166d78;font-weight:850;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:700px){.mct-inline-project-section{padding:13px 9px;margin:17px auto}.mct-inline-project-head p{font-size:13px}}
-</style><link rel="stylesheet" href="/assets/mct-unified-free-design-20261029.css?v=7"><link rel="stylesheet" href="/assets/mct-free-realty-matched-cards-20261029.css?v=19"><style id="mct-other-direct-table-anchor-v70">#mct-other-projects-table{scroll-margin-top:calc(var(--mct-fixed-header-height,108px) + 12px)!important}</style><style id="mct-other-top-edge-v72">html body #mct-free-other-projects{scroll-margin-top:var(--mct-fixed-header-height,108px)!important}</style><style id="mct-single-selected-free-v75">
+</style><link rel="stylesheet" href="/assets/mct-unified-free-design-20261029.css?v=7"><link rel="stylesheet" href="/assets/mct-free-realty-matched-cards-20261029.css?v=19"><style id="mct-other-direct-table-anchor-v70">#mct-other-projects-table{scroll-margin-top:calc(var(--mct-fixed-header-height,108px) + 12px)!important}</style><style id="mct-other-top-edge-v72">html body #mct-free-other-projects{scroll-margin-top:var(--mct-fixed-header-height,108px)!important}</style><style id="mct-step-two-left-head-20261029">
+html body #contract-deadline-planner .mct-realty-step2-card #mct-free-deadlines.mct-step-two-heading{
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ justify-content:flex-start!important;text-align:left!important;padding:11px 13px!important;
+}
+html body #contract-deadline-planner .mct-realty-step2-card #mct-free-deadlines>strong{
+ display:flex!important;width:100%!important;align-items:center!important;
+ justify-content:flex-start!important;text-align:left!important;margin:0!important;gap:11px!important;
+}
+html body #contract-deadline-planner .mct-realty-step2-card #mct-free-deadlines>span{
+ display:block!important;text-align:left!important;margin:0!important;
+}
+</style><style id="mct-single-selected-free-v75">
 html[data-mct-free-view="realtor"] #mct-free-other-projects{display:none!important}
 html[data-mct-free-view="other"] #mct-free-real-estate-landing,
 html[data-mct-free-view="other"] #contract-deadline-planner>.fc-simple-layout,
 html[data-mct-free-view="other"] #contract-deadline-planner>.mct-free-next-steps{display:none!important}
 </style>
-<script id="mct-single-selected-free-script-v75">
+<script id="mct-single-selected-free-script-v76">
 (function(){
- var view=new URLSearchParams(location.search).get("view");
- if(view!=="other"&&view!=="realtor")return;
- document.documentElement.setAttribute("data-mct-free-view",view);
- function apply(){
+ function viewFromLocation(){
+  var q=new URLSearchParams(location.search).get("view"),h=location.hash;
+  if(h==="#mct-free-other-projects"||h.indexOf("#mct-free-other-")===0)return "other";
+  if(h==="#mct-free-real-estate-landing")return "realtor";
+  return q==="other"?"other":q==="realtor"?"realtor":null;
+ }
+ function sync(choice){
+  var view=choice||viewFromLocation();if(!view)return;
+  document.documentElement.setAttribute("data-mct-free-view",view);
   var root=document.getElementById("contract-deadline-planner");
   var other=document.getElementById("mct-free-other-projects");
   var real=document.getElementById("mct-free-real-estate-landing");
   if(!root||!other||!real)return;
   var node=real.nextElementSibling;
-  while(node&&node!==other){node.style.display=view==="other"?"none":"";node=node.nextElementSibling;}
-  if(view==="other")real.style.display="none";
-  else other.style.display="none";
+  while(node&&node!==other){node.style.removeProperty("display");node=node.nextElementSibling}
+  real.style.removeProperty("display");other.style.removeProperty("display");
+  document.querySelectorAll("[data-mct-inline-choice]").forEach(function(a){
+   var active=a.getAttribute("data-mct-inline-choice")===view;
+   a.classList.toggle("active",active);
+   if(active)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current");
+  });
  }
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply);else apply();
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){sync()});else sync();
+ window.addEventListener("hashchange",function(){sync()});
+ document.addEventListener("click",function(e){
+  var a=e.target.closest("[data-mct-inline-choice]");
+  if(a){sync(a.getAttribute("data-mct-inline-choice"));return;}
+  var link=e.target.closest('a[href*="mct-free-other-projects"],a[href*="mct-free-real-estate-landing"]');
+  if(link)sync(link.getAttribute("href").includes("other")?"other":"realtor");
+ });
 })();
 </script><script id="mct-home-category-scroll-v76">
 (function(){
