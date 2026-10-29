@@ -1,4 +1,8 @@
 # MY CLOSING TIMELINE — DOCUMENTO MAESTRO DE CONTINUIDAD
+
+**Website 17 (29 oct 2026):** HOME mantiene mensaje original Closing y dispone de una sola invitación clara a Other Projects (`mct-hero-other-projects`, hasta 8 tareas FREE y PRO solo preview). Commit `db193ea1639099d933dc22d774292fea157f3097`, `index.html`. Las seis tarjetas aprobadas (START HERE, Today & Tomorrow, Privacy First; Beyond Real Estate, FREE Timeline, privacidad local) permanecen sin alteraciones y siguen en 2 filas con reglas desktop/mobile. Inspección estática OK; **NO se ha certificado render de Cloudflare ni operatividad de D1/Resend/Stripe ni archivado de invitaciones en producción.** La continuidad detallada más reciente está al principio de `NEXT_CHAT_START_HERE.md`.
+
+
 **Website 15 — creado 2026-10-28. Actualizar después de cada sesión importante.**
 
 **PARA INICIAR CHAT NUEVO:** usar primero **[NEXT_CHAT_START_HERE.md](NEXT_CHAT_START_HERE.md)**. Es el resumen breve vigente y la lista priorizada de acciones; este MASTER mantiene los detalles históricos. **Estado Website 15:** todas las páginas a máximo 1420px (`mct-hero-left-edge-20261028.css?v=6`) y CTA `Create & Share Your FREE Summary` dorado con texto azul marino (`data-mct-cta-version="gold-20261028-v2"`). El propietario respondió «Perfecto» tras el último arreglo. Código confirmado GitHub; publicación/QA de Cloudflare no certificada independientemente.
