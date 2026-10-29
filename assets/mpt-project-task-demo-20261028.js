@@ -91,23 +91,23 @@ function freeCalendar(){
 function proRender(){
  var body=$("mpt-pro-demo-body");if(!body)return;body.textContent="";
  state.tasks.forEach(function(t){
-  var row=make("tr");row.dataset.id=t.id;
-  var name=input("text","Task description",t.name);name.className="mpt-demo-task-input";name.dataset.field="name";name.dataset.id=t.id;
+  var row=make("tr");row.dataset.id=t.id;var expired=t.due<today();if(expired)row.classList.add("mpt-expired-locked");
+  var name=input("text","Task description",t.name);name.disabled=expired;name.className="mpt-demo-task-input";name.dataset.field="name";name.dataset.id=t.id;
   var nameWrap=make("div","mpt-pro-task-title");nameWrap.appendChild(name);
   if(t.history.length){var details=make("details","mpt-demo-history"),summary=make("summary",null,"History · "+t.history.length+" completed");details.appendChild(summary);
    var list=make("ol");t.history.slice().reverse().forEach(function(h){list.appendChild(make("li",null,"Due "+readable(h.due)+" · done "+readable(h.at)))});details.appendChild(list);nameWrap.appendChild(details)}
   cell(row,nameWrap);
-  var due=input("date","Next due date",t.due);due.dataset.field="due";due.dataset.id=t.id;cell(row,due);
+  var due=input("date","Next due date",t.due);due.dataset.field="due";due.dataset.id=t.id;due.disabled=expired;cell(row,due);
   var sel=make("select");sel.dataset.field="repeat";sel.dataset.id=t.id;sel.setAttribute("aria-label","Repeat frequency");
-  [["once","One time"],["daily","Every day"],["weekly","Every week"],["monthly","Every month"]].forEach(function(pair){var op=make("option",null,pair[1]);op.value=pair[0];sel.appendChild(op)});sel.value=t.repeat;cell(row,sel);
-  var owner=input("text","Responsible role (no person names)",t.owner||"");owner.maxLength=60;owner.dataset.field="owner";owner.dataset.id=t.id;cell(row,owner);
-  var note=input("text","Generic note (no private information)",t.note||"");note.maxLength=180;note.dataset.field="note";note.dataset.id=t.id;cell(row,note);
-  var until=input("date","Optional end date for this task",t.until||"");until.dataset.field="until";until.dataset.id=t.id;cell(row,until);
+  [["once","One time"],["daily","Every day"],["weekly","Every week"],["monthly","Every month"]].forEach(function(pair){var op=make("option",null,pair[1]);op.value=pair[0];sel.appendChild(op)});sel.value=t.repeat;sel.disabled=expired;cell(row,sel);
+  var owner=input("text","Responsible role (no person names)",t.owner||"");owner.maxLength=60;owner.dataset.field="owner";owner.dataset.id=t.id;owner.disabled=expired;cell(row,owner);
+  var note=input("text","Generic note (no private information)",t.note||"");note.maxLength=180;note.dataset.field="note";note.dataset.id=t.id;note.disabled=expired;cell(row,note);
+  var until=input("date","Optional end date for this task",t.until||"");until.dataset.field="until";until.dataset.id=t.id;until.disabled=expired;cell(row,until);
   var flag=make("span","mpt-demo-status",status(t));if(status(t)==="Overdue")flag.classList.add("is-late");if(status(t)==="Completed")flag.classList.add("is-done");cell(row,flag);
   cell(row,String(t.doneCount));
-  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.finished?"Completed":t.repeat==="once"?"Mark done":"Done · Next","complete",t.id));actions.lastChild.disabled=t.finished||!!(state.endDate&&t.due>state.endDate)||!!(t.until&&t.due>t.until);
-  if(t.history.length)actions.appendChild(button("Undo","undo",t.id));
-  actions.appendChild(button("Remove","delete",t.id));cell(row,actions);body.appendChild(row);
+  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.finished?"Completed":t.repeat==="once"?"Mark done":"Done · Next","complete",t.id));actions.lastChild.disabled=expired||t.finished||!!(state.endDate&&t.due>state.endDate)||!!(t.until&&t.due>t.until);
+  if(t.history.length){actions.appendChild(button("Undo","undo",t.id));actions.lastChild.disabled=expired;}
+  actions.appendChild(button("Remove","delete",t.id));actions.lastChild.disabled=expired;cell(row,actions);body.appendChild(row);
  });
  if(!state.tasks.length){var row=make("tr"),td=cell(row,"No follow-up tasks yet. Add one or load optional sample tasks.");td.colSpan=9;td.className="mpt-demo-empty";body.appendChild(row)}
  var overdue=state.tasks.filter(function(t){return status(t)==="Overdue"}).length,completed=state.tasks.filter(function(t){return t.finished}).length;
@@ -161,6 +161,7 @@ function proActions(){
  $("mpt-pro-demo-form").addEventListener("submit",function(e){
   e.preventDefault();var name=$("mpt-pro-task-name").value.trim(),due=$("mpt-pro-task-date").value,repeat=$("mpt-pro-repeat").value;
   if(!name||!parse(due)){notify("mpt-pro-message","Enter a task name and its first due date.","warn");return}
+  if(due<today()){notify("mpt-pro-message","Past due dates are locked. Choose today or a future date.","warn");return}
   if(state.endDate&&due>state.endDate){notify("mpt-pro-message","This due date is after the chosen project end date.","warn");return}
   var until=$("mpt-pro-task-until").value,owner=$("mpt-pro-task-owner").value.trim(),note=$("mpt-pro-task-note").value.trim();
   if(until&&(!parse(until)||until<due)){notify("mpt-pro-message","The task's last occurrence must be on or after its first date.","warn");return}
@@ -170,6 +171,7 @@ function proActions(){
  });
  $("mpt-pro-demo-body").addEventListener("change",function(e){
   var el=e.target,id=el.dataset.id,field=el.dataset.field;if(!id||!field)return;var t=state.tasks.find(function(x){return x.id===id});if(!t)return;
+  if(t.due<today()){notify("mpt-pro-message","This overdue task is locked. Its history is preserved.","warn");proRender();return}
   if(field==="name"){if(!el.value.trim()){el.value=t.name;notify("mpt-pro-message","Task name cannot be blank.","warn");return}t.name=el.value.trim().slice(0,140)}
   if(field==="due"){if(!parse(el.value)){el.value=t.due;return}if((state.endDate&&el.value>state.endDate)||(t.until&&el.value>t.until)){el.value=t.due;notify("mpt-pro-message","Due date must not exceed the project or task end date.","warn");return}t.due=el.value;t.anchor=parse(el.value).getDate();t.finished=false}
   if(field==="repeat"){if(!["once","daily","weekly","monthly"].includes(el.value))return;t.repeat=el.value;t.finished=false}
@@ -179,7 +181,7 @@ function proActions(){
   save();proRender();
  });
  $("mpt-pro-demo-body").addEventListener("click",function(e){
-  var b=e.target.closest("button[data-action]");if(!b)return;var i=state.tasks.findIndex(function(t){return t.id===b.dataset.id});if(i<0)return;var t=state.tasks[i],action=b.dataset.action;
+  var b=e.target.closest("button[data-action]");if(!b)return;var i=state.tasks.findIndex(function(t){return t.id===b.dataset.id});if(i<0)return;var t=state.tasks[i],action=b.dataset.action;if(t.due<today()){notify("mpt-pro-message","Overdue tasks are read-only, just as in Real Estate PRO.","warn");return}
   if(action==="delete"){if(!window.confirm("Remove this follow-up task and its demo history?"))return;state.tasks.splice(i,1)}
   if(action==="complete"&&!t.finished&&!(state.endDate&&t.due>state.endDate)&&!(t.until&&t.due>t.until)){
    var oldDue=t.due,next=nextDate(t.due,t.repeat,t.anchor),end=state.endDate;
