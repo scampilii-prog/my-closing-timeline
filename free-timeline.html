@@ -2006,4 +2006,14 @@ html body main.workspace{margin-top:-48px!important;padding-top:0!important}
 html body main.workspace>section#contract-deadline-planner.fc-simple-timeline{margin-top:0!important}
 html body main.workspace #contract-deadline-planner>section#mct-product-path-free{margin-top:0!important}
 @media(max-width:700px){html body main.workspace{margin-top:-22px!important}}
+</style><style id="mct-fix-real-gap-v38">
+/* Override the precise old 24px planner offset and keep the notice contiguous. */
+@media(min-width:701px){
+html body main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{margin-top:0!important}
+html body main.workspace{margin-top:-52px!important}
+html body .mct-version-current{position:relative!important;z-index:2!important}
+}
+@media(max-width:700px){
+html body main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{margin-top:0!important}
+}
 </style></body></html>
