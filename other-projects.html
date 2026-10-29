@@ -384,6 +384,12 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
      <label for="mpt-free-day-count">Day counting<select id="mpt-free-day-count"><option value="calendar">Calendar Days (default)</option><option value="business">Business Days (skip weekends &amp; U.S. holidays)</option></select></label>
     </div>
     <div class="mpt-free-tasks-header"><strong>Your tasks <small>6 of 8</small></strong><p>All six starter tasks are optional and fully editable. Rename, reschedule or remove any; add two more or replace tasks to suit your project.</p></div>
+    <div class="mct-project-start-strip" aria-label="Project setup before adding tasks">
+      <div class="mct-project-start-heading"><strong>Start your project</strong><small>Enter your start date to calculate all six task deadlines automatically.</small></div>
+      <label>Start date <input id="mct-project-start-quick" type="date"></label>
+      <label>Target finish <input id="mct-project-end-quick" type="date"></label>
+      <span class="mct-project-quick-note">Optional finish date · You can adjust both dates in Step 1.</span>
+    </div>
     <form id="mpt-free-demo-form" class="mpt-demo-form mpt-free-add-form" autocomplete="off">
      <label for="mpt-free-task-name">Task / milestone<input id="mpt-free-task-name" type="text" maxlength="140" required placeholder="e.g., Order building materials"></label>
      <label for="mpt-free-task-days">Days from project start<input id="mpt-free-task-days" type="number" min="0" max="3650" value="3" step="1"></label>
@@ -822,5 +828,19 @@ html body .mpt-free-editor-table tbody td:nth-child(5){display:none!important}
  html body .mpt-free-live-list li:not(.mpt-free-key-date)>div>span{font-size:10px!important}
 }
 @media(max-width:899px){html body .mpt-free-live-list .mpt-free-summary-date{font-size:11px;font-weight:800}}
-</style></body>
+</style><style id="mct-project-start-quick-style">
+.mct-project-start-strip{display:grid;grid-template-columns:minmax(140px,1fr) minmax(120px,170px) minmax(120px,170px);gap:9px;align-items:end;background:#f1f8f6;border:1px solid #bcd7d0;border-left:4px solid #27817b;border-radius:9px;padding:12px;margin:10px 0 14px}
+.mct-project-start-heading strong{display:block;font-size:14px;color:#194b55}.mct-project-start-heading small{display:block;color:#50727a;font-size:11px;line-height:1.5}
+.mct-project-start-strip label{font-size:11px;font-weight:850;color:#275566}.mct-project-start-strip input{display:block;width:100%;box-sizing:border-box;min-height:36px;border:1px solid #b9d1d2;border-radius:6px;background:#fff;padding:6px;font:700 12px Manrope,Arial,sans-serif;color:#1e4557}
+.mct-project-quick-note{grid-column:1/-1;font-size:10px;color:#5f7580}
+@media(max-width:620px){.mct-project-start-strip{grid-template-columns:1fr 1fr}.mct-project-start-heading{grid-column:1/-1}}
+</style>
+<script id="mct-project-start-quick-sync">(function(){
+function init(){var pairs=[["mct-project-start-quick","mpt-free-project-start"],["mct-project-end-quick","mpt-free-project-end"]];
+pairs.forEach(function(pair){var quick=document.getElementById(pair[0]),original=document.getElementById(pair[1]);if(!quick||!original)return;
+function sync(){quick.value=original.value}sync();original.addEventListener("change",sync);original.addEventListener("input",sync);
+quick.addEventListener("change",function(){original.value=quick.value;original.dispatchEvent(new Event("change",{bubbles:true}));sync()});
+});}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();</script></body>
 </html>
