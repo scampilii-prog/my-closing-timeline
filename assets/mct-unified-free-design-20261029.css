@@ -169,3 +169,34 @@ html body #mct-free-transaction{scroll-margin-top:calc(var(--mct-fixed-header-he
  html body #mct-product-path-free .mct-equal-heading{gap:9px!important}
  html body #mct-product-path-free .mct-path-choice-title{font-size:20px!important}
 }
+
+/* Real Estate's landing header has the same section weight as Other Projects. */
+html body .fc-simple-heading.mct-equal-realty-section{
+ box-sizing:border-box!important;max-width:1420px!important;width:min(1420px,calc(100% - 32px))!important;
+ margin:30px auto 13px!important;padding:23px!important;
+ background:linear-gradient(115deg,#fcfbf7,#f4f9fd)!important;border:1.5px solid #e3d5b8!important;
+ border-top:5px solid #d2a657!important;border-radius:14px!important;
+ box-shadow:0 8px 26px rgba(26,55,74,.065)!important;
+ scroll-margin-top:calc(var(--mct-fixed-header-height,108px) + 42px)!important;
+}
+html body .fc-simple-heading.mct-equal-realty-section .fc-heading-line{gap:12px!important}
+html body .fc-simple-heading.mct-equal-realty-section .deadline-eyebrow{
+ color:#976b31!important;font:900 11px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:.08em!important
+}
+html body .fc-simple-heading.mct-equal-realty-section #deadline-planner-title{
+ color:#183e54!important;font:900 clamp(23px,2.8vw,34px)/1.25 Manrope,Arial,sans-serif!important;
+ margin:5px 0 8px!important
+}
+html body .fc-simple-heading.mct-equal-realty-section #gce-timeline-heading{
+ color:#173a53!important;font:900 clamp(23px,2.55vw,33px)/1.25 Manrope,Arial,sans-serif!important
+}
+html body .fc-simple-heading.mct-equal-realty-section #buyer-contract-timeline p{
+ color:#547281!important;font-size:13px!important;line-height:1.65!important
+}
+html body .fc-simple-heading.mct-equal-realty-section .mct-free-hanging{
+ position:relative!important;inset:auto!important;transform:none!important;margin:0 0 10px!important;
+ box-shadow:none!important
+}
+@media(max-width:700px){
+ html body .fc-simple-heading.mct-equal-realty-section{padding:15px!important}
+}
