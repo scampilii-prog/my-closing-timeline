@@ -679,5 +679,26 @@ html body .mpt-first-credit-note a{
 @media(min-width:900px) and (max-width:1270px){
  html body .mpt-free-editor-layout{grid-template-columns:minmax(0,1fr)!important}
 }
+</style><style id="mct-v18-final-proportions">
+/* Desktop proportions: narrow ID and buttons, readable task and dates. */
+@media(min-width:900px){
+ html body .mpt-free-editor-layout{grid-template-columns:minmax(0,5fr) minmax(175px,1fr)!important;gap:10px!important}
+ html body .mpt-free-editor-table tbody tr{
+  grid-template-columns:22px minmax(160px,2.8fr) 43px minmax(85px,1.22fr) minmax(78px,1.13fr) 58px minmax(100px,1.42fr) 62px 76px!important;
+  gap:4px!important;padding:7px 5px!important
+ }
+ html body .mpt-free-editor-table tbody td:first-child{font-size:10px!important;text-align:center!important;align-items:center!important}
+ html body .mpt-free-editor-table tbody td:first-child::before{content:none!important}
+ html body .mpt-free-editor-table tbody td:nth-child(9) .mpt-demo-btn{padding:3px 2px!important;min-height:26px!important;font-size:9px!important}
+ html body .mpt-free-editor-table tbody td:nth-child(9) .mpt-demo-actions{gap:2px!important}
+ html body .mpt-free-editor-table tbody td:nth-child(7) input{min-width:0!important}
+ html body .mpt-free-editor-table tbody td:nth-child(3) input{min-width:0!important;text-align:center!important}
+ html body .mpt-free-editor-table tbody td[data-label]:before{font-size:8px!important;white-space:nowrap!important}
+ html body #mpt-free-demo-form{grid-template-columns:minmax(0,2.8fr) minmax(85px,.8fr) minmax(130px,1.2fr) auto!important;gap:7px!important}
+ html body #mpt-free-demo-form label{min-width:0!important}
+}
+@media(min-width:900px) and (max-width:1270px){
+ html body .mpt-free-editor-layout{grid-template-columns:minmax(0,1fr)!important}
+}
 </style></body>
 </html>
