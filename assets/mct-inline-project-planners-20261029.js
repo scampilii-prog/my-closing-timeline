@@ -16,7 +16,21 @@
     else a.removeAttribute("aria-current");
    });
   }
-  links.forEach(link=>link.addEventListener("click",()=>markChoice(link)));
+  links.forEach(link=>link.addEventListener("click",function(event){
+   markChoice(link);
+   if(link.dataset.mctInlineChoice!=="realtor")return;
+   const heading=document.getElementById("deadline-planner-title");
+   if(!heading)return;
+   event.preventDefault();
+   if(history.replaceState)history.replaceState(null,"","#deadline-planner-title");
+   const go=function(){
+    const header=document.querySelector(".apphead")||document.querySelector("header");
+    const headerHeight=header?Math.max(0,header.getBoundingClientRect().height):85;
+    const target=heading.getBoundingClientRect().top+window.scrollY-headerHeight-14;
+    window.scrollTo({top:Math.max(0,target),behavior:"smooth"});
+   };
+   requestAnimationFrame(go);
+  }));
   function updateSelection(){
    const match=links.find(link=>link.getAttribute("href")===location.hash);
    if(match)markChoice(match);
