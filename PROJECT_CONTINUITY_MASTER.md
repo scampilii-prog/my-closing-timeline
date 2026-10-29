@@ -1,5 +1,9 @@
 # MY CLOSING TIMELINE — DOCUMENTO MAESTRO DE CONTINUIDAD
 
+**Decisiones posteriores Website 17 (29 oct 2026):** manténganse dos productos comerciales separados: Real Estate PRO (1/2/5 cierres por paquete, máximo 90 días del Effective Date original por cada cierre, extensión 90 días a mitad del precio regular básico vigente, sin descuentos) y Other Projects (90/180/365 días por plan, cuentas/entitlements propios, primer plan 90 días reservado gratis por email, FREE navegador 8 tareas, PRO tarea personalizada y recurrente, alerta persistente 15 días antes de vencimiento en el sistema real, renovación no automática). Igual escala propuesta de $29.90/$59.80/$149.50 y campaña $19.90/$34.90/$84.90 para ambos productos hasta 31 marzo 2027, revisiones trimestrales. **Código ya guardado**: Pricing, fechas/cierre, demo Other, invitaciones, login sesión deslizante 30 días. **NO IMPLEMENTADOS / NO VERIFICADOS**: cobro de extensión $14.95, cuentas y pagos independientes de Other, alertas reales, promo única por cada producto (índice actual es por email global), QA Cloudflare/D1/Resend/Stripe y prueba visual. Ver `NEXT_CHAT_START_HERE.md` y `PROJECT_CHANGELOG.md` para tareas precisas.
+
+
+
 **Website 17 (29 oct 2026):** HOME mantiene mensaje original Closing y dispone de una sola invitación clara a Other Projects (`mct-hero-other-projects`, hasta 8 tareas FREE y PRO solo preview). Commit `db193ea1639099d933dc22d774292fea157f3097`, `index.html`. Las seis tarjetas aprobadas (START HERE, Today & Tomorrow, Privacy First; Beyond Real Estate, FREE Timeline, privacidad local) permanecen sin alteraciones y siguen en 2 filas con reglas desktop/mobile. Inspección estática OK; **NO se ha certificado render de Cloudflare ni operatividad de D1/Resend/Stripe ni archivado de invitaciones en producción.** La continuidad detallada más reciente está al principio de `NEXT_CHAT_START_HERE.md`.
 
 
