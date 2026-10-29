@@ -292,7 +292,7 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
  html body #mpt-free-review-panel .mpt-free-live-list li{padding:8px!important;gap:6px!important}
  html body #mpt-free-review-panel .mpt-free-status-pill{min-width:56px!important;font-size:9px!important}
 }
-</style></head>
+</style><style id="mpt-hide-free-editor-public-v71">html:not([data-mpt-embed]) body #mpt-free-preview{display:none!important}</style></head>
 <body class="mct-layout-wide">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="/other-projects.html" aria-current="page" aria-current="page">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
 <div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div>
@@ -335,7 +335,181 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
  <p class="mpt-purpose-facts"><strong>FREE is available today:</strong> editable milestones, dates and live summary, without an account. <strong>PRO is planned:</strong> recurring follow-up and saved projects; activation and payments are not yet live.</p>
  <p class="mpt-first-credit-note"><strong>New here?</strong> <a href="/first-closing-free.html?audience=other">Reserve a first 90-day Other Projects PRO invitation</a> · Free reservation, subject to email verification; activation is not yet available.</p>
 </section>
-<section class="mpt-feedback-invite" aria-labelledby="mpt-feedback-title"><div><span class="mpt-compact-eyebrow">HELP US IMPROVE</span><h2 id="mpt-feedback-title">Your experience can make these planners better.</h2><p>Have an idea for clearer columns, useful tasks or better reminders? We welcome suggestions from professionals using our timelines. Please do not include client names or confidential information.</p></div><a class="mpt-button" href="/feedback.html?from=Other%20Projects%20FREE">Send Your Suggestions →</a></section>
+<section class="mpt-section" id="mpt-free-preview" aria-labelledby="mpt-free-title">
+  <h2 id="mpt-free-title">Other Projects FREE Timeline</h2>
+  <p class="mpt-free-tagline"><strong>Your Projects. Your Tasks. Your Timeline.</strong></p>
+  <p class="mpt-free-access-note">FREE Project Timeline · Up to 8 personalized tasks · No sign-up required · Free to use anytime</p>
+  <p class="mpt-free-intro"><strong>Every business is different.</strong> Start with six suggested tasks, or rename, replace and delete them to match your business. None is mandatory. The 20 examples below are ideas only — <strong>FREE allows eight tasks total; PRO is planned for unlimited custom tasks and continuing follow-up.</strong></p>
+  <div class="mpt-steps">
+   <div class="mpt-step"><span>1</span><h3>Project Details</h3><p>Enter a private project reference, choose a start date and set an optional finish date.</p></div>
+   <div class="mpt-step"><span>2</span><h3>Your Own Tasks &amp; Deadlines</h3><p>In FREE, write up to 8 tasks that matter to you. Give each its own deadline; no required presets.</p></div>
+   <div class="mpt-step"><span>✓</span><h3>Review &amp; Share</h3><p>See the live results, copy the timeline, prepare an email and download your calendar.</p></div>
+  </div>
+<div class="mpt-demo-board mpt-free-timeline-workspace" id="mpt-free-task-demo" aria-labelledby="mpt-free-demo-title">
+ <div class="mpt-demo-head">
+  <div><span class="mpt-demo-eyebrow">OTHER PROJECTS FREE TIMELINE · STEPS 1 &amp; 2</span>
+   <h3 id="mpt-free-demo-title">Your Project. Your Dates. Your Tasks.</h3>
+   <p>Six editable starter tasks are ready, with room for two more. Set a project start date to calculate deadlines and review your live summary. No registration required.</p>
+  </div>
+  <span class="mpt-demo-count" id="mpt-free-count">0 / 8 tasks</span>
+ </div>
+ <nav class="mpt-free-step-links" aria-label="FREE Project Timeline steps">
+  <a href="#mpt-free-project-details"><strong>01</strong><span>Step 1 · Project Details</span></a>
+  <a href="#mpt-free-tasks-step"><strong>02</strong><span>Step 2 · Tasks &amp; Deadlines</span></a>
+  <a href="#mpt-free-review-panel"><strong>✓</strong><span>Finish · Review &amp; Share</span></a>
+ </nav>
+ <div class="mpt-free-editor-layout">
+  <div class="mpt-free-left">
+   <section class="mpt-free-inner-card mpt-free-project-meta" id="mpt-free-project-details" aria-labelledby="mpt-free-step1-title">
+    <div class="mpt-demo-subheading"><span>STEP 1</span><strong id="mpt-free-step1-title">Project Details</strong></div>
+    <p class="mpt-free-help">Use a private reference, not a client or company name. Select the start and optional finish dates.</p>
+    <div class="mpt-free-project-grid">
+     <label for="mpt-free-project-ref">Private project reference<input id="mpt-free-project-ref" type="text" maxlength="40" placeholder="e.g., PRJ-2026-01" autocomplete="off"></label>
+     <label for="mpt-free-project-start">Project start<input id="mpt-free-project-start" type="date"></label>
+     <label for="mpt-free-project-end">Optional finish date<input id="mpt-free-project-end" type="date"></label>
+    </div>
+   </section>
+   <section class="mpt-free-inner-card mpt-free-step2" id="mpt-free-tasks-step" aria-labelledby="mpt-free-step2-title">
+    <div class="mpt-demo-subheading"><span>STEP 2</span><strong id="mpt-free-step2-title">Tasks &amp; Deadlines</strong><small>6 general starter tasks + 2 optional</small></div>
+    <div class="mpt-free-counting">
+     <div><strong>HOW SHOULD THE TIMELINE COUNT YOUR DAYS?</strong><p>Same calculations as Real Estate FREE: weekends and observed U.S. federal holidays are considered. Choose the rule that fits your project.</p></div>
+     <label for="mpt-free-day-count">Day counting<select id="mpt-free-day-count"><option value="calendar">Calendar Days (default)</option><option value="business">Business Days (skip weekends &amp; U.S. holidays)</option></select></label>
+    </div>
+    <div class="mpt-free-tasks-header"><strong>Your tasks <small>6 of 8</small></strong><p>All six starter tasks are optional and fully editable. Rename, reschedule or remove any; add two more or replace tasks to suit your project.</p></div>
+    <div class="mct-project-start-strip" aria-label="Project setup before adding tasks">
+      <div class="mct-project-start-heading"><strong>Start your project</strong><small>Enter your start date to calculate all six task deadlines automatically.</small></div>
+      <label>Start date <input id="mct-project-start-quick" type="date"></label>
+      <label>Target finish <input id="mct-project-end-quick" type="date"></label>
+      <span class="mct-project-quick-note">Optional finish date · You can adjust both dates in Step 1.</span>
+    </div>
+    <form id="mpt-free-demo-form" class="mpt-demo-form mpt-free-add-form" autocomplete="off">
+     <label for="mpt-free-task-name">Task / milestone<input id="mpt-free-task-name" type="text" maxlength="140" required placeholder="e.g., Order building materials"></label>
+     <label for="mpt-free-task-days">Days from project start<input id="mpt-free-task-days" type="number" min="0" max="3650" value="3" step="1"></label>
+     <label for="mpt-free-task-date">Exact date (optional)<input id="mpt-free-task-date" type="date"></label>
+     
+    </form>
+    <div class="mpt-demo-table-scroll mpt-free-editor-table-scroll"><table class="mpt-demo-table mpt-free-editor-table" aria-label="Editable FREE Project Timeline with the same deadline calculation options as Real Estate FREE">
+     <thead><tr><th scope="col">No.</th><th scope="col">Task / reminder</th><th scope="col">Days</th><th scope="col">Calendar / Business</th><th scope="col" class="mct-hidden-base">Base</th><th scope="col">When</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
+     <tbody id="mpt-free-demo-body"><tr><td colspan="9">Your task table will appear here. Add the first task above.</td></tr></tbody>
+    </table></div>
+    <div class="mpt-free-bottom-toolbar"><button id="mpt-free-add" type="submit" form="mpt-free-demo-form" class="mpt-demo-primary">+ Add Task</button>
+    <div class="mpt-free-edit-actions">
+     <button id="mpt-free-reset-last" type="button" class="mpt-demo-secondary">Reset Last</button>
+     <button id="mpt-free-sort" type="button" class="mpt-demo-secondary">Sort by Date</button>
+     <button id="mpt-free-clear" type="button" class="mpt-demo-secondary mpt-demo-clear">Clear All</button>
+    </div></div>
+    <p id="mpt-free-message" class="mpt-free-message" role="status" aria-live="polite">Six editable general tasks are ready; add up to two more. Set the project start date to calculate due dates.</p>
+    <p class="mpt-free-hint">Change the days or the Start/Finish calculation to recalculate a task automatically. Enter an exact due date to override the calculation. Dates are guidance; verify requirements for your particular project.</p>
+   </section>
+  </div>
+  <aside class="mpt-free-live-panel" id="mpt-free-review-panel" aria-labelledby="mpt-free-review-title">
+   <div class="mpt-free-live-header"><span>PROJECT DEADLINES · LIVE PREVIEW</span><h4 id="mpt-free-review-title">Project Timeline Summary</h4></div>
+   <div class="mpt-free-summary" id="mpt-free-summary" aria-live="polite">Your project timeline updates as you enter dates and tasks.</div>
+   <ol id="mpt-free-live-list" class="mpt-free-live-list" aria-live="polite"></ol>
+   <div class="mpt-free-live-finish"><strong>FINISH · REVIEW &amp; SHARE</strong><p>Your timeline is ready to copy, email, or add to your calendar.</p></div>
+   <div class="mpt-free-mail-steps"><span><b>1</b> Copy Timeline</span><span><b>2</b> Open in Mail</span><span><b>3</b> Paste in the email</span></div>
+   <div class="mpt-free-main-actions">
+    <button id="mpt-free-copy" type="button" class="mpt-demo-primary">▣ Copy Timeline</button>
+    <button id="mpt-free-mail" type="button" class="mpt-demo-secondary">✉ Open in Mail</button>
+   </div>
+   <div class="mpt-free-secondary-actions"><button id="mpt-free-calendar" type="button" class="mpt-demo-secondary">Download Calendar (.ics)</button></div>
+   <p class="mpt-free-note">The recipient is entered in your own mail app. The website does not send any email or store any project information.</p>
+  </aside>
+ </div>
+ <p class="mpt-demo-security"><strong>FREE · $0 · No account required.</strong> Up to eight editable tasks, Steps 1 and 2, and live review. Everything is local to this page and resets on reload. PRO project accounts, long-term saving and advanced recurring follow-up are not yet active. Do not enter identifying or confidential customer information.</p>
+</div>
+
+  <div class="mpt-workmode-explainer" aria-label="How your future project tasks will work">
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR BUSINESS</span><h3>You create the tasks</h3><p>Write tasks that fit your trade, profession or project. Nothing is compulsory.</p></div>
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">PRO · UNLIMITED TASKS</span><h3>As many as you need</h3><p>Add tasks without a fixed limit <strong>within each PRO project</strong>, and keep following them up. Each separate project would require its own credit.</p></div>
+   <div class="mpt-workmode"><span class="mpt-workmode-kicker">YOUR TIMEFRAME</span><h3>Finish or keep going</h3><p>Choose a completion date, or keep an ongoing project active with no end date.</p></div>
+  </div>
+  <div class="mpt-example"><div class="mpt-example-header"><strong>20 task examples for different businesses</strong><span class="mpt-example-counter">20 IDEAS · YOU CHOOSE</span></div><p class="mpt-example-note">These are suggestions to help you visualize your timeline. <strong>Every customer creates their own task names and dates.</strong> FREE will have up to 8 blank, editable tasks — the 20 examples below will <strong>not</strong> be inserted automatically.</p>
+   <div class="mpt-preview-table" aria-label="Read-only table of 20 sample tasks adaptable to any business">
+    <div class="mpt-preview-head"><span>Your Task / Milestone</span><span>Days</span><span>Due Date</span><span>Preview</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">01</span>Define project goals and priorities</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">02</span>Prepare the project schedule</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">03</span>Confirm client requirements</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">04</span>Prepare estimate or budget</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">05</span>Obtain project approval</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">06</span>Assign people responsible</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">07</span>Schedule kickoff meeting</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">08</span>Collect required information</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">09</span>Order supplies or materials</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">10</span>Confirm vendor delivery dates</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">11</span>Arrange equipment or resources</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">12</span>Begin scheduled work</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">13</span>Review work completed</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">14</span>Update client on progress</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">15</span>Check upcoming deadlines</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">16</span>Resolve pending questions</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">17</span>Inspect work or service quality</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">18</span>Review invoices and expenses</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">19</span>Confirm completion or next cycle</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+    <div class="mpt-preview-row"><span><span class="mpt-preview-task-num">20</span>Document results and next steps</span><span>Client sets</span><span>Client sets</span><span>Example only</span></div>
+   </div>
+  </div>
+  <div class="mpt-followup-showcase" id="mpt-followup-showcase" aria-labelledby="mpt-followup-title">
+   <div class="mpt-followup-header">
+    <div class="mpt-followup-copy">
+     <span class="mpt-followup-kicker">PRO · STEP 3 FOLLOW-UP PREVIEW</span>
+     <h3 id="mpt-followup-title">20 tasks worth keeping track of</h3>
+     <p><strong>Your business defines the checklist.</strong> These 20 tasks are illustrations, not required templates. The planned PRO Step 3 will let every customer create unlimited tasks for their own activity, including <strong>one-time, daily, weekly and monthly follow-ups</strong>, and keep tracking them until their chosen end date — or for an ongoing business with <strong>no end date</strong>.</p>
+    </div>
+    <div class="mpt-followup-value"><strong>20</strong><span>sample follow-up tasks</span></div>
+   </div>
+   <div class="mpt-task-frequency-preview" aria-label="Examples of future task repeat schedules"><span class="mpt-frequency-label">PLANNED PRO REPEAT OPTIONS</span><span class="mpt-frequency-chip">One-time task</span><span class="mpt-frequency-chip">Every day</span><span class="mpt-frequency-chip">Every week</span><span class="mpt-frequency-chip">Every month</span><span class="mpt-frequency-chip">Until a date or ongoing</span></div>
+   <p class="mpt-frequency-explanation">Set the repeat schedule for each task yourself. A task may repeat daily, weekly or monthly, even if your project has no planned finish date. Completing one occurrence should not cancel future reminders.</p>
+   <div class="mpt-followup-groups">
+   <div class="mpt-followup-group">
+    <div class="mpt-followup-group-head"><span>START THE PROJECT</span><h4>Planning & approvals</h4></div>
+    <ol class="mpt-followup-items">
+     <li><span class="mpt-followup-number" aria-hidden="true">01</span><span class="mpt-followup-detail"><strong>Confirm project scope and deliverables</strong><small>Clarify what work is included</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">02</span><span class="mpt-followup-detail"><strong>Schedule the kickoff meeting</strong><small>Agree on a start date</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">03</span><span class="mpt-followup-detail"><strong>Assign task owners</strong><small>Confirm who is responsible</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">04</span><span class="mpt-followup-detail"><strong>Review budget and expenses</strong><small>Monthly example · Check estimated and approved costs</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">05</span><span class="mpt-followup-detail"><strong>Obtain necessary approvals</strong><small>Follow up on pending decisions</small></span></li>
+    </ol>
+   </div>
+   <div class="mpt-followup-group">
+    <div class="mpt-followup-group-head"><span>GET EVERYONE READY</span><h4>People & resources</h4></div>
+    <ol class="mpt-followup-items">
+     <li><span class="mpt-followup-number" aria-hidden="true">06</span><span class="mpt-followup-detail"><strong>Confirm customer requirements</strong><small>Review goals and expectations</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">07</span><span class="mpt-followup-detail"><strong>Collect missing documents</strong><small>Request outstanding information</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">08</span><span class="mpt-followup-detail"><strong>Schedule staff or contractors</strong><small>Confirm people and availability</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">09</span><span class="mpt-followup-detail"><strong>Follow up on supplier orders</strong><small>Check delivery commitments</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">10</span><span class="mpt-followup-detail"><strong>Verify materials and equipment</strong><small>Confirm everything is ready</small></span></li>
+    </ol>
+   </div>
+   <div class="mpt-followup-group">
+    <div class="mpt-followup-group-head"><span>KEEP WORK MOVING</span><h4>Progress & quality</h4></div>
+    <ol class="mpt-followup-items">
+     <li><span class="mpt-followup-number" aria-hidden="true">11</span><span class="mpt-followup-detail"><strong>Send progress updates</strong><small>Weekly example · Keep the customer informed</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">12</span><span class="mpt-followup-detail"><strong>Review upcoming deadlines</strong><small>Weekly example · Check what is due next</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">13</span><span class="mpt-followup-detail"><strong>Follow up on open questions</strong><small>Get answers and decisions</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">14</span><span class="mpt-followup-detail"><strong>Inspect work quality</strong><small>Weekly example · Identify corrections needed</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">15</span><span class="mpt-followup-detail"><strong>Record changes to the project</strong><small>Confirm scope and schedule updates</small></span></li>
+    </ol>
+   </div>
+   <div class="mpt-followup-group">
+    <div class="mpt-followup-group-head"><span>FINISH WITH CONFIDENCE</span><h4>Completion & follow-through</h4></div>
+    <ol class="mpt-followup-items">
+     <li><span class="mpt-followup-number" aria-hidden="true">16</span><span class="mpt-followup-detail"><strong>Schedule a final review</strong><small>Arrange completion inspection</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">17</span><span class="mpt-followup-detail"><strong>Resolve outstanding issues</strong><small>Close open items and corrections</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">18</span><span class="mpt-followup-detail"><strong>Check invoices and payments</strong><small>Monthly example · Follow up on pending balances</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">19</span><span class="mpt-followup-detail"><strong>Request final approval</strong><small>Confirm customer sign-off</small></span></li>
+     <li><span class="mpt-followup-number" aria-hidden="true">20</span><span class="mpt-followup-detail"><strong>Send a completion summary</strong><small>Document handover and next steps</small></span></li>
+    </ol>
+   </div>
+   </div>
+   <div class="mpt-followup-bottom">
+    <p><strong>Why PRO?</strong> FREE allows up to 8 custom tasks in this browser. PRO is planned for unlimited customer-created tasks per project, with <strong>daily, weekly or monthly repeating follow-ups</strong> (or one-time tasks). The customer chooses a finish date or keeps the project running indefinitely.</p>
+    <a href="#mpt-pro-preview">See planned PRO features <span aria-hidden="true">↓</span></a>
+   </div>
+   <p class="mpt-followup-disclaimer">Illustrative, read-only sample. The FREE browser planner and PRO browser demonstration above can be tried now; account-based saving, notifications and Other Projects billing are not available yet.</p>
+  </div>
+ </section>
+ <section class="mpt-feedback-invite" aria-labelledby="mpt-feedback-title"><div><span class="mpt-compact-eyebrow">HELP US IMPROVE</span><h2 id="mpt-feedback-title">Your experience can make these planners better.</h2><p>Have an idea for clearer columns, useful tasks or better reminders? We welcome suggestions from professionals using our timelines. Please do not include client names or confidential information.</p></div><a class="mpt-button" href="/feedback.html?from=Other%20Projects%20FREE">Send Your Suggestions →</a></section>
 <section class="mpt-section mpt-public-pro-info" id="mpt-pro-preview" aria-labelledby="mpt-pro-title"><div class="mpt-public-pro-summary"><h2>From deadlines to daily follow-up</h2><p>FREE helps you plan. PRO is designed to help you keep projects moving with recurring tasks, future reminders and saved work.</p><div class="mpt-purpose-actions"><a class="mpt-button" href="/pro-get-started.html?auth=register">Explore PRO &amp; Register →</a><a class="mpt-button mpt-purpose-pro-link" href="/first-closing-free.html?audience=other">Request first PRO invitation FREE →</a></div><p class="mpt-caption">PRO accounts, purchases and ongoing reminders are not yet available for Other Projects.</p></div>
  <span class="mpt-compact-eyebrow">OTHER PROJECTS · PRO PREVIEW</span>
  <h2 id="mpt-pro-title">Keep every project on track.</h2>
