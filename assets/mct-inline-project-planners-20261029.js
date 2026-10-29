@@ -20,9 +20,13 @@
    markChoice(link);
    if(link.dataset.mctInlineChoice==="other"){
     event.preventDefault();
-    const targetSection=document.getElementById("mct-free-other-projects");
-    if(!targetSection)return;
-    if(history.replaceState)history.replaceState(null,"","#mct-free-other-projects");
+    const anchor=link.getAttribute("href")||"";
+    const targetId=anchor.startsWith("#")?anchor.slice(1):"";
+    const targetSection=targetId?document.getElementById(targetId):null;
+    if(!targetSection){window.location.href="/other-projects.html#mpt-pro-preview";return;}
+    if(history.replaceState)history.replaceState(null,"",anchor);
+    const demoFrame=targetSection.querySelector('iframe[data-mct-inline-project]');
+    if(demoFrame&&demoFrame.loading==="lazy")demoFrame.loading="eager";
     requestAnimationFrame(function(){
       const fixed=document.querySelector("#mct-fixed-header-spacer");
       const nav=document.querySelector(".apphead")||document.querySelector("header");
