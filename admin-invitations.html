@@ -10,7 +10,7 @@ for(const item of sorted){
  if(key&&!latestByEmail.has(key))latestByEmail.set(key,item);
 }
 const activeRows=[...latestByEmail.values()];
-const oldAttempts=d.requests.length-activeRows.length;
+const oldAttempts=d.requests.length-activeRows.length+Number(d.archived_count||0);
 document.getElementById("mct-unique-email-note").textContent=
  activeRows.length+" unique email(s) · "+oldAttempts+" earlier request(s) kept in history. Each email has one first-FREE entitlement; owner resets only allow repeat tests.";
 rows.replaceChildren();if(!activeRows.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.textContent="No invitation requests yet.";tr.append(td);rows.append(tr)}for(const x of activeRows){const tr=document.createElement("tr");function cell(s){const el=document.createElement("td");el.textContent=s;tr.append(el);return el}
