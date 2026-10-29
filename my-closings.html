@@ -69,7 +69,7 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
 .mct-contract-task-fields input,.mct-contract-task-fields select{padding:8px;font-size:12px;margin-top:4px}
 .mct-contract-task-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
 .mct-contract-task-controls .mct-contract-due{font-size:12px;color:#2b6176;font-weight:850;margin-right:auto}
-.mct-contract-task-controls button{min-height:38px}
+.mct-contract-task-controls button{min-height:38px}.mct-contract-task-controls button.danger{background:#fff7f5!important;border-color:#b96f62!important;color:#8e372c!important}
 .mct-contract-add-form{display:grid;grid-template-columns:minmax(155px,1.8fr) minmax(75px,.6fr) minmax(120px,1fr) minmax(115px,1fr) minmax(95px,.8fr);align-items:end;gap:9px;padding:13px;border:1px solid #c7dedc;border-radius:9px;background:#edf7f4}
 .mct-contract-add-form label{margin:0;font-size:11px}
 .mct-contract-add-form select,.mct-contract-add-form input{margin-top:4px;font-size:12px}
@@ -140,7 +140,11 @@ function mctContractFields(task,options,closing,readOnly){
  const done=n("button",task.status==="done"?"Reopen":"Mark Done");done.type="button";done.disabled=locked;done.onclick=async()=>{
   try{await api("closings/"+current+"/contract/update","POST",{task_id:task.id,done:task.status!=="done"});tell("Contract task updated.");await select(current)}catch(e){tell(e.message)}
  };
- buttons.append(save,done);row.append(buttons);return row;
+ const remove=n("button","Remove","danger");remove.type="button";remove.disabled=locked;remove.onclick=async()=>{
+  if(!confirm("Remove this future contractual task? It will no longer appear in Step 2."))return;
+  try{await api("closings/"+current+"/contract/delete","POST",{task_id:task.id,confirm:true});tell("Contract task removed.");await select(current)}catch(e){tell(e.message)}
+ };
+ buttons.append(save,done,remove);row.append(buttons);return row;
 }
 function showContractTasks(tasks,options,closing){
  const host=$("mct-contract-task-list");host.replaceChildren();
