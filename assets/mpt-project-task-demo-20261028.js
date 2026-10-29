@@ -124,8 +124,10 @@ function freeSummary(){
  keyRow("Project start date",freeProject.start?readable(freeProject.start):"Set project start date · KEY DATE");
  freeSorted().forEach(function(t,i){
   var li=make("li"),badge=make("b",null,String(i+1)),wrap=make("div"),title=make("strong",null,t.name);
-  var detail=make("span",null,(t.due?readable(t.due):"Set project start date")+" · "+freeStatus(t));
-  wrap.append(title,detail);li.append(badge,wrap);list.appendChild(li);
+  var detail=make("span",null,t.due?readable(t.due):"Set project start date");
+  var stateText=freeStatus(t);
+  var label=make("span","mpt-free-status-pill "+(stateText==="Done"?"is-done":stateText==="OVERDUE"?"is-late":"is-pending"),stateText);
+  wrap.append(title,detail);li.append(badge,wrap,label);list.appendChild(li);
  });
  if(!freeTasks.length){list.appendChild(make("li",null,"Add a task or reload to restore six suggested tasks."))}
  keyRow("Target finish date",freeProject.end?readable(freeProject.end):"Not selected · KEY DATE");
