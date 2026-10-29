@@ -67,7 +67,7 @@
  @media(max-width:800px){.mpt-choices{grid-template-columns:1fr}.mpt-steps{grid-template-columns:1fr}.mpt-hero{padding:45px 22px 52px}.mpt-intro,.mpt-section{padding:20px}.mpt-card{padding:20px}}
  </style>
  <script src="/assets/mct-header-height-20261027.js?v=1" defer></script>
- <script src="/assets/mct-task-rules-20261029.js?v=1" defer></script><script src="/assets/mct-private-pdf-20261028.js?v=6" defer></script><script src="/assets/mpt-project-task-demo-20261028.js?v=22" defer></script>
+ <script src="/assets/mct-task-rules-20261029.js?v=1" defer></script><script src="/assets/mct-private-pdf-20261028.js?v=6" defer></script><script src="/assets/mpt-project-task-demo-20261028.js?v=23" defer></script>
 <style id="mpt-twenty-followup-samples-20261028">
 /* Other Projects: read-only examples, not FREE presets or live PRO promises. */
 html body .mpt-pro-followup-link{display:block!important;margin:10px 0 0!important;color:#3a6070!important;font:700 13px/1.6 Manrope,Arial,sans-serif!important}
@@ -254,6 +254,45 @@ html[data-mpt-embed] #mpt-free-preview>h2,
 html[data-mpt-embed] #mpt-pro-preview>h2{margin:4px 0 7px!important;font-size:clamp(24px,2.8vw,30px)!important}
 html[data-mpt-embed="free"] #mpt-free-preview>.mpt-free-intro{margin:5px 0!important;font-size:13px!important;line-height:1.6!important}
 html[data-mpt-embed="pro"] #mpt-pro-preview>p{font-size:13px!important;line-height:1.65!important}
+</style><style id="mpt-free-structured-summary-20261029">
+/* Completed/Pending/Overdue align with the Real Estate LIVE PREVIEW while
+   project tasks remain fully customizable and from a separate data store. */
+html body #mpt-free-review-panel .mpt-free-live-list{
+ display:grid!important;gap:6px!important;max-height:none!important;overflow:visible!important;margin:12px 0!important;
+}
+html body #mpt-free-review-panel .mpt-free-live-list li{
+ display:flex!important;align-items:center!important;gap:9px!important;flex-wrap:nowrap!important;
+ box-sizing:border-box!important;min-height:57px!important;padding:9px 11px!important;
+ background:#fff!important;border:1px solid #dfe8eb!important;border-radius:7px!important;
+}
+html body #mpt-free-review-panel .mpt-free-live-list li:nth-child(2n+1):not(.mpt-free-key-date){background:#f8fafb!important}
+html body #mpt-free-review-panel .mpt-free-live-list li>b{flex:0 0 24px!important}
+html body #mpt-free-review-panel .mpt-free-live-list li>div{flex:1 1 auto!important;min-width:0!important}
+html body #mpt-free-review-panel .mpt-free-live-list li strong{
+ color:#1b4059!important;font:900 12px/1.42 Manrope,Arial,sans-serif!important
+}
+html body #mpt-free-review-panel .mpt-free-live-list li>div>span{
+ color:#667f89!important;font:650 11px/1.5 Manrope,Arial,sans-serif!important
+}
+html body #mpt-free-review-panel .mpt-free-live-list li.mpt-free-key-date{
+ background:#f6f2e9!important;border-left:3px solid #d1a75c!important
+}
+html body #mpt-free-review-panel .mpt-free-live-list li.mpt-free-key-date>b{
+ background:#e8dbc1!important;color:#7e613a!important
+}
+html body #mpt-free-review-panel .mpt-free-status-pill{
+ box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;min-width:68px!important;min-height:27px!important;
+ padding:4px 7px!important;border-radius:5px!important;background:#eaf0f4!important;
+ color:#536d80!important;font:900 10px/1.3 Manrope,Arial,sans-serif!important;
+ text-align:center!important
+}
+html body #mpt-free-review-panel .mpt-free-status-pill.is-done{background:#e0f4e9!important;color:#267a57!important}
+html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e9!important;color:#a3543b!important}
+@media(max-width:560px){
+ html body #mpt-free-review-panel .mpt-free-live-list li{padding:8px!important;gap:6px!important}
+ html body #mpt-free-review-panel .mpt-free-status-pill{min-width:56px!important;font-size:9px!important}
+}
 </style></head>
 <body class="mct-layout-wide">
 <header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="/free-timeline.html#mct-free-other-projects">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header>
@@ -365,7 +404,7 @@ html[data-mpt-embed="pro"] #mpt-pro-preview>p{font-size:13px!important;line-heig
    </section>
   </div>
   <aside class="mpt-free-live-panel" id="mpt-free-review-panel" aria-labelledby="mpt-free-review-title">
-   <div class="mpt-free-live-header"><span>PROJECT DEADLINES · LIVE PREVIEW</span><h4 id="mpt-free-review-title">Your Project Timeline</h4></div>
+   <div class="mpt-free-live-header"><span>PROJECT DEADLINES · LIVE PREVIEW</span><h4 id="mpt-free-review-title">Project Timeline Summary</h4></div>
    <div class="mpt-free-summary" id="mpt-free-summary" aria-live="polite">Your project timeline updates as you enter dates and tasks.</div>
    <ol id="mpt-free-live-list" class="mpt-free-live-list" aria-live="polite"></ol>
    <div class="mpt-free-live-finish"><strong>FINISH · REVIEW &amp; SHARE</strong><p>Your timeline is ready to copy, email, or add to your calendar.</p></div>
