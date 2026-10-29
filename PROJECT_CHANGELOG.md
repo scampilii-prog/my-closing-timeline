@@ -1,5 +1,13 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
 
+## Website 19 · October 29, 2026 — Equal elegance for FREE headers, 6 Other Projects starter tasks
+- Real Estate FREE: replaced oversized dual headings and standalone three-step guide with one luxury section header matching the approved Other Projects design, using gold/navy accent, three compact navigable steps, and next-to-header editor. Identified editor as `Contract Tasks & Deadlines` and results as `Closing Timeline Summary` to prevent repetition. Shared CSS v5.
+- Other Projects FREE: six fully editable, replaceable general starter tasks (1/3/5/7/14/21 calendar days) with two initially optional slots, maximum eight total. No start date invented; PENDING until input, shared day-counting engine recalculates after selection; project start/finish KEY DATE and status badges on live preview. No personal data or account storage. JS v23.
+- Files: `free-timeline.html`, `assets/mct-unified-free-design-20261029.css`, `assets/mpt-project-task-demo-20261028.js`, `other-projects.html`. Source changes in `NEXT_CHAT_START_HERE.md`.
+- 14 checks for functional consistency true and parse checks succeeded; no live Cloudflare/Chrome rendering verified.
+
+
+
 ## Website 19 · 29 oct 2026 — Simplificación FREE y flujo de primera invitación PRO
 - Terminadas las tablas FREE tanto Realtor como Other Projects con un panel final no invasivo: **FREE forever**, opción principal de **obtener el primer PRO Real Estate gratuito de 90 días** (Other Projects es reserva para el lanzamiento), link secundario a Plans & Pricing y enlace Back to Both FREE Timelines. Ningún precio de catálogo dentro de FREE, sin compras o renovación automática.
 - «I'm a Realtor» y «I'm another professional» siguen llevando en esta misma página a sus editores separados; se agregó Back tanto arriba como debajo de las tablas, acortados encabezados y texto de guía. Se retiró el colgante redundante 100% FREE/0 dólares.
