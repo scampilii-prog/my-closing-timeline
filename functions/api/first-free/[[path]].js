@@ -148,6 +148,29 @@ export async function onRequest({request:req,env}){
   const archive=await db.prepare("SELECT COUNT(*) AS n FROM first_free_archived_requests").first();
   return json({ok:true,archived_count:Number(archive?.n||0),requests:d.results.map(x=>({...x,status:x.redeemed?"redeemed":x.status}))});
  }
+ // OWNER ONLY: archive an obsolete, completely unused practice invitation.
+ // Never merge nearly identical addresses: they may belong to different people.
+ // Archiving affects invitation history ONLY; it never deletes a user account,
+ // customer credit, marketing consent, payment or saved transaction.
+ if(req.method==="POST"&&route==="admin/archive-unused-test"){
+  if(!await owner(req,env))return err("Owner access required.",403);
+  if(req.headers.get("Origin")!==u.origin)return err("Request origin not accepted.",403);
+  if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))return err("Expected JSON.",400);
+  if(Number(req.headers.get("Content-Length")||0)>3000)return err("Request too large.",400);
+  const data=await req.json(),id=String(data.id||""),email=String(data.email||"").trim().toLowerCase();
+  if(!/^[0-9a-f-]{36}$/.test(id)||!emailOK(email)||data.confirm!=="ARCHIVE UNUSED TEST: "+email)
+   return err("Confirm the exact email to archive this unused test.",400);
+  const row=await db.prepare("SELECT id,email FROM first_free_requests WHERE id=? AND email=? AND status='pending_verification' AND test_reset=1 AND verification_hash IS NULL AND verified_at IS NULL AND promo_code_id IS NULL").bind(id,email).first();
+  if(!row)return err("Only an unverified, unused, reset-ready test request may be archived. No credits or accounts were changed.",409);
+  // A single D1 batch executes in a transaction. Preserve audit history
+  // before deleting only the matching unused invitation row.
+  const changes=await db.batch([
+   db.prepare("INSERT OR IGNORE INTO first_free_archived_requests(id,email,status,verified_at,marketing_requested,requested_at,updated_at,sent_at,promo_code_id,test_reset) SELECT id,email,status,verified_at,marketing_requested,requested_at,updated_at,sent_at,promo_code_id,test_reset FROM first_free_requests WHERE id=? AND email=? AND status='pending_verification' AND test_reset=1 AND verification_hash IS NULL AND verified_at IS NULL AND promo_code_id IS NULL").bind(id,email),
+   db.prepare("DELETE FROM first_free_requests WHERE id=? AND email=? AND status='pending_verification' AND test_reset=1 AND verification_hash IS NULL AND verified_at IS NULL AND promo_code_id IS NULL").bind(id,email)
+  ]);
+  if(!changes[1]?.meta?.changes)return err("The unused invitation was not archived.",409);
+  return json({ok:true,message:"Unused test invitation archived. The history is preserved; no accounts, codes, credits or closings were deleted."});
+ }
  // Exceptional OWNER-ONLY practice reset. Does not delete any PRO closing,
  // purchased credits, original account or marketing-consent records.
  // Ordinary visitors cannot invoke it and automatic issuance still enforces
