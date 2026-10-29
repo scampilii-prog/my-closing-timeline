@@ -2223,16 +2223,45 @@ html body #contract-deadline-planner .mct-free-pro-right-column .mct-free-next-c
  font-size:14px!important;line-height:1.65!important;
 }
 </style>
-<script id="mct-free-pro-below-summary-v1">
+<style id="mct-free-pro-under-tasks-v2">
+html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realtor{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ gap:13px!important;max-width:none!important;width:100%!important;min-width:0!important;
+ margin:18px 0 12px!important;padding:19px!important;
+ border:2px solid #d7b777!important;border-left:5px solid #b88b45!important;
+ border-radius:12px!important;background:linear-gradient(140deg,#fffaf0,#f1f9f8)!important;
+}
+html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realtor .mct-free-next-links{
+ width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;
+}
+html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realtor .mct-free-next-primary{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-height:56px!important;font-size:17px!important;
+ background:#16576a!important;color:white!important;
+}
+html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realtor h3{
+ font-size:clamp(20px,2vw,25px)!important;line-height:1.3!important;
+}
+html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realtor p{
+ font-size:14px!important;line-height:1.65!important;
+}
+</style>
+<script id="mct-free-pro-under-tasks-v2">
 (function(){
  function place(){
   const grid=document.querySelector("#contract-deadline-planner .fc-simple-layout");
-  const summary=grid?.querySelector(":scope > .fc-simple-result");
+  const form=grid?.querySelector(".fc-simple-form");
+  const summary=document.querySelector("#contract-deadline-planner .fc-simple-result");
   const offer=document.querySelector("#contract-deadline-planner .mct-free-next-steps-realtor");
-  if(!grid||!summary||!offer)return;
-  const right=document.createElement("div");
-  right.className="mct-free-pro-right-column";
-  grid.insertBefore(right,summary);right.appendChild(summary);right.appendChild(offer);
+  if(!grid||!form||!offer)return;
+  const taskCard=form.querySelector(".mct-realty-step2-card");
+  const footnote=form.querySelector(".fc-simple-footnote");
+  if(taskCard)taskCard.insertAdjacentElement("afterend",offer);
+  else if(footnote)form.insertBefore(offer,footnote);
+  else form.appendChild(offer);
+  const right=grid.querySelector(".mct-free-pro-right-column");
+  if(right&&summary&&right.contains(summary))grid.insertBefore(summary,right);
+  if(right&&!right.children.length)right.remove();
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place();
 })();
