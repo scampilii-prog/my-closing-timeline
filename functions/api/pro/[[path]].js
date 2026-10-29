@@ -40,6 +40,42 @@ const allowedTask=v=>genericTasks.includes(v)||suggestedFollowUps.some(t=>t[0]==
 const genericForms=["Purchase Agreement","Contract Addendum","Condo Rider","HOA Addendum","Financing Addendum","Inspection Addendum","Lead Paint Disclosure","Seller Disclosure","Survey","Title Commitment","Estoppel","Loan Approval","Closing Disclosure","Settlement Statement","Other Generic Form"];
 const allowedForm=v=>genericForms.includes(v);
 const genericTemplateName=v=>/^(Standard Purchase|Condo \/ HOA|Cash Purchase|New Construction|Investment Purchase|Other Generic Package|Template Set (0[1-9]|1[0-9]|20))$/.test(v);
+
+/* Persist Step 2 separately from Step 3. No names, addresses or custom
+   sensitive descriptions are accepted into this account table. */
+const contractDefaultTasks=[
+ ["1st Deposit",3],["2nd Deposit",5],["Loan Application",5],
+ ["Condo Application",5],["Property Inspection deadline w/right to cancel",7],
+ ["LOAN APPROVAL - Notify seller if NO LOAN APPROVAL",30]
+];
+const contractTaskChoices=[
+ ...contractDefaultTasks.map(t=>t[0]),"Other Contract Deadline",
+ "Survey / Title Delivery","Financing Notice","Appraisal Deadline",
+ "HOA / Condo Approval","Buyer Walkthrough","Insurance Confirmation"
+];
+async function ensureContractTable(db){
+ await db.prepare("CREATE TABLE IF NOT EXISTS closing_contract_tasks(id TEXT PRIMARY KEY,closing_id TEXT NOT NULL REFERENCES closings(id) ON DELETE CASCADE,user_id TEXT NOT NULL REFERENCES users(id),title TEXT NOT NULL,days INTEGER NOT NULL,base TEXT NOT NULL,direction TEXT NOT NULL,day_type TEXT NOT NULL,exact_date TEXT,due_date TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'pending',created_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+ await db.prepare("CREATE INDEX IF NOT EXISTS idx_closing_contract_tasks ON closing_contract_tasks(closing_id,user_id,due_date)").run();
+}
+function contractDate(s,days,direction="after",type="calendar"){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(s||"")||!Number.isInteger(days)||days<0||days>3650)return "";
+ const date=new Date(s+"T12:00:00Z");if(Number.isNaN(date.valueOf())||date.toISOString().slice(0,10)!==s)return "";
+ const step=direction==="before"?-1:1,stamp=d=>d.toISOString().slice(0,10);
+ const fixed=(y,m,dd)=>{const d=new Date(Date.UTC(y,m,dd,12));const w=d.getUTCDay();if(w===6)d.setUTCDate(d.getUTCDate()-1);if(w===0)d.setUTCDate(d.getUTCDate()+1);return d};
+ const nth=(y,m,w,n)=>{const d=new Date(Date.UTC(y,m,1,12));d.setUTCDate(1+(w-d.getUTCDay()+7)%7+7*(n-1));return d};
+ const last=(y,m,w)=>{const d=new Date(Date.UTC(y,m+1,0,12));d.setUTCDate(d.getUTCDate()-(d.getUTCDay()-w+7)%7);return d};
+ const holiday=d=>{for(const y of [d.getUTCFullYear()-1,d.getUTCFullYear(),d.getUTCFullYear()+1]){
+  if([fixed(y,0,1),nth(y,0,1,3),nth(y,1,1,3),last(y,4,1),fixed(y,5,19),fixed(y,6,4),nth(y,8,1,1),nth(y,9,1,2),fixed(y,10,11),nth(y,10,4,4),fixed(y,11,25)].some(z=>stamp(z)===stamp(d)))return true;
+ }return false;};
+ const business=d=>d.getUTCDay()!==0&&d.getUTCDay()!==6&&!holiday(d);
+ if(!days)return stamp(date);
+ if(type==="business"){while(days>0){date.setUTCDate(date.getUTCDate()+step);if(business(date))days--}}
+ else{date.setUTCDate(date.getUTCDate()+days*step);while(!business(date))date.setUTCDate(date.getUTCDate()+step)}
+ return stamp(date);
+}
+const computeContractTask=(closing,days,base,direction,type,exact)=>exact||contractDate(base==="closing"?closing.closing_date:closing.effective_date,days,direction,type);
+const contractClean=t=>({id:t.id,title:t.title,days:t.days,base:t.base,direction:t.direction,day_type:t.day_type,exact_date:t.exact_date||"",due_date:t.due_date,status:t.status});
+
 const reasonDate=["Written Contract Amendment","Agreed Extension","Financing Timeline","Title / Closing Coordination","Association Approval","Other Contractual Adjustment"];
 const reasonCancel=["Mutual Agreement","Financing Contingency","Inspection Contingency","Title / Closing Issue","Association Approval","Other Contractual Reason"];
 const cleanClosing=c=>({id:c.id,name:/^CL-[A-F0-9]{8}$/.test(c.name||"")?c.name:"CL-"+String(c.id||"").replace(/[^a-f0-9]/gi,"").slice(0,8).toUpperCase(),effective_date:c.effective_date,closing_date:c.closing_date,status:c.status,completed_on:c.completed_on,cancelled_on:c.cancelled_on,created_at:c.created_at});
