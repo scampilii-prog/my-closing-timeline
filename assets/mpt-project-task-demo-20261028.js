@@ -78,7 +78,7 @@ function freeRender(){
   var direction=freeSelect([["after","After"],["before","Before"]],t.direction,"Before or after base date");direction.className="mpt-free-col-direction";direction.dataset.field="direction";direction.dataset.id=t.id;cell(row,direction);
   var due=input("date","Exact task due date",t.due);due.className="mpt-free-col-date";due.dataset.field="due";due.dataset.id=t.id;due.title=t.exact?"Exact date selected. Change days to recalculate.":"Calculated from "+t.base+". You may enter an exact date.";cell(row,due);
   cell(row,make("span","mpt-demo-status "+(t.done?"is-done":t.due<today()?"is-late":""),freeStatus(t)));
-  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.done?"Reopen":"Done","toggle",t.id));actions.appendChild(button("Remove","delete",t.id));cell(row,actions);body.appendChild(row);
+  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.done?"Reopen":"Done","toggle",t.id));actions.appendChild(button("Remove","delete",t.id));cell(row,actions);Array.from(row.cells).forEach(function(td,j){td.dataset.label=["#","Task / reminder","Days","Day count","Based on","When","Due date","Status","Actions"][j]});body.appendChild(row);
  });
  if(!freeTasks.length){var empty=make("tr");var td=cell(empty,"No tasks yet. Enter your first task above — all eight tasks are yours to create.");td.colSpan=9;td.className="mpt-demo-empty";body.appendChild(empty)}
  $("mpt-free-count").textContent=freeTasks.length+" / 8 tasks";
