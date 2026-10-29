@@ -200,3 +200,43 @@ html body .fc-simple-heading.mct-equal-realty-section .mct-free-hanging{
 @media(max-width:700px){
  html body .fc-simple-heading.mct-equal-realty-section{padding:15px!important}
 }
+
+/* Website 19 — the offer only appears AFTER finishing a FREE table;
+   it never interrupts task editing and contains no package prices. */
+html body .mct-free-next-steps{
+ box-sizing:border-box;width:min(1420px,calc(100% - 32px));max-width:1420px;
+ display:grid;grid-template-columns:minmax(0,1.6fr) minmax(255px,.9fr);
+ gap:22px;align-items:center;margin:20px auto 28px;padding:24px 26px;
+ border:1.5px solid #c1dbd8;border-left:5px solid #29877f;
+ border-radius:13px;background:linear-gradient(120deg,#f3fbf8 0%,#f8fbfa 70%,#fffdf7 100%);
+ box-shadow:0 6px 19px rgba(15,48,63,.07);font-family:Manrope,Arial,sans-serif;
+}
+html body .mct-free-next-steps-realtor{border-color:#decba8;border-left-color:#c4944b;background:linear-gradient(120deg,#fffdf7,#f6fafb 76%,#f2f9f7)}
+html body #mct-free-other-projects .mct-free-next-steps-other{width:100%;max-width:none;margin:16px 0 8px}
+html body .mct-free-next-eyebrow{display:block;color:#257c72;font:900 11px/1.5 Manrope,Arial,sans-serif;letter-spacing:.085em;margin-bottom:7px}
+html body .mct-free-next-steps-realtor .mct-free-next-eyebrow{color:#92703d}
+html body .mct-free-next-copy h3{
+ margin:0 0 10px!important;color:#183f54!important;letter-spacing:-.02em!important;
+ font:900 clamp(20px,2.2vw,26px)/1.25 Manrope,Arial,sans-serif!important;
+}
+html body .mct-free-next-copy p{margin:6px 0 10px!important;color:#4b6878!important;font:650 13px/1.7 Manrope,Arial,sans-serif!important}
+html body .mct-free-next-copy p.mct-free-next-reassurance{padding:10px 12px;background:#e5f4ee;border:1px solid #cce6dc;border-radius:7px;color:#256b61!important}
+html body .mct-free-next-steps-realtor .mct-free-next-copy p.mct-free-next-reassurance{background:#f1f7f6;border-color:#d7e7df;color:#41675e!important}
+html body .mct-free-next-links{display:grid;gap:9px;align-content:center;min-width:0}
+html body .mct-free-next-links>a{box-sizing:border-box;display:flex;min-height:45px;align-items:center;justify-content:center;padding:10px 13px;gap:7px;border-radius:8px;font:900 12px/1.5 Manrope,Arial,sans-serif;text-decoration:none;text-align:center}
+html body .mct-free-next-primary{background:#176c69;border:1px solid #176c69;color:#fff!important;box-shadow:0 3px 9px rgba(16,75,74,.13)}
+html body .mct-free-next-primary:hover{background:#104e57}
+html body .mct-free-next-steps-realtor .mct-free-next-primary{background:#18475c;border-color:#18475c}
+html body .mct-free-next-steps-realtor .mct-free-next-primary:hover{background:#102f44}
+html body .mct-free-next-secondary{border:1px solid #9bbebd;background:#fff;color:#1b6870!important}
+html body .mct-free-next-back{border:0;background:transparent;color:#527080!important;text-decoration:underline!important;text-underline-offset:3px}
+html body .mct-free-next-links>a:focus-visible{outline:3px solid #d0a55d;outline-offset:3px}
+html body .mct-free-next-links small{margin-top:4px;color:#71848e;font:650 10px/1.65 Manrope,Arial,sans-serif;text-align:center}
+html body .fc-simple-heading.mct-equal-realty-section .fc-heading-message #gce-timeline-heading{font-size:clamp(17px,1.8vw,23px)!important;line-height:1.4!important;margin:5px 0!important}
+html body .fc-simple-heading.mct-equal-realty-section .fc-heading-message p{font-size:12px!important;line-height:1.6!important}
+html body .fc-simple-heading.mct-equal-realty-section .mct-free-brief-instructions{margin:7px 0 0!important;font-size:12px!important}
+@media(max-width:750px){
+ html body .mct-free-next-steps{grid-template-columns:1fr;gap:8px;padding:18px}
+ html body .mct-free-next-links{grid-template-columns:1fr}
+ html body .mct-free-next-links>a{min-height:44px}
+}
