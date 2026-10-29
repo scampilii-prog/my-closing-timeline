@@ -1192,11 +1192,20 @@ if(["single","pack2","pack5"].includes(selectedFromPricing)){
 }
 if(offerFromPricing==="LAUNCH90")document.getElementById("mct-launch-input").value="LAUNCH90";
 const plans={single:{name:"1 Closing Credit",regular:"$29.90",launch:"$19.90"},pack2:{name:"2 Closing Credits",regular:"$59.80",launch:"$34.90"},pack5:{name:"5 Closing Credits",regular:"$149.50",launch:"$84.90"}};
-const $=id=>document.getElementById(id);let account=null,ready={},selectedAudience="realtor";
-function selectAudience(kind){
+const $=id=>document.getElementById(id);
+let account=null,ready={},selectedAudience=incomingSelection.get("audience")==="other"?"other":"realtor";
+function selectAudience(kind,persist=true){
  if(kind!=="realtor"&&kind!=="other")return;
  selectedAudience=kind;
  const isOther=kind==="other",gift=giftMode();
+ // Keep the visitor's chosen business category across refreshes. This only
+ // changes a public, nonsensitive URL parameter; gift codes remain private.
+ if(gift&&persist){
+  const page=new URL(location.href);
+  if(isOther)page.searchParams.set("audience","other");
+  else page.searchParams.delete("audience");
+  history.replaceState(null,"",page.pathname+page.search+page.hash);
+ }
  document.body.classList.toggle("mct-free-audience-other",gift&&isOther);
  for(const choice of ["realtor","other"]){
   const btn=$("mct-free-audience-"+choice);
@@ -1682,6 +1691,10 @@ document.querySelectorAll('#mct-account input[type="password"]').forEach((input,
 $("mct-free-audience-realtor").addEventListener("click",()=>selectAudience("realtor"));
 $("mct-free-audience-other").addEventListener("click",()=>selectAudience("other"));
 const cameWithGift=initializeGiftFromInvitation();
+// initializeGiftFromInvitation calls invitationActions, which builds a generic
+// header. Reapply the selected audience AFTER that initialization so the
+// correct category, warning and tasks are visible on the first paint/reload.
+if(cameWithGift)selectAudience(selectedAudience,false);
 updateProGuide();
 const requestedAuth=(new URLSearchParams(location.search).get("auth")||"").toLowerCase();
 pickPlan();
