@@ -428,3 +428,61 @@ html body #contract-deadline-planner .fc-simple-result button,
 html body #contract-deadline-planner .fc-simple-result a{
  font-size:clamp(12px,.95vw,15px)!important;
 }
+
+/* Website 20: final readable FREE Real Estate layout — 40% editor / 60% summary. */
+@media(min-width:1080px){
+ html body.mct-layout-wide main.workspace{width:min(98%,1530px)!important;max-width:1530px!important}
+ html body #contract-deadline-planner .fc-simple-layout{
+  display:grid!important;grid-template-columns:minmax(0,2fr) minmax(0,3fr)!important;
+  gap:20px!important;align-items:start!important;padding:12px!important;
+ }
+ html body #contract-deadline-planner .fc-simple-form,
+ html body #contract-deadline-planner .fc-simple-result{min-width:0!important;padding:17px!important}
+ html body #contract-deadline-planner .mct-realty-task-card .mct-realty-task-grid{
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:10px!important;
+ }
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-name{grid-column:1/-1!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-days{grid-column:span 3!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-type{grid-column:span 5!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-base{grid-column:span 4!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-direction{grid-column:span 5!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-due{grid-column:span 7!important}
+}
+@media(min-width:1080px) and (max-width:1260px){
+ html body #contract-deadline-planner .fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}
+}
+html body #contract-deadline-planner .fc-simple-form .mct-realty-task-card{
+ padding:14px!important;margin-bottom:10px!important;
+}
+html body #contract-deadline-planner .mct-realty-task-grid>label,
+html body #contract-deadline-planner .mct-realty-task-grid>label>span,
+html body #contract-deadline-planner .mct-realty-task-card .fc-task-label{
+ font-size:14px!important;line-height:1.45!important;
+}
+html body #contract-deadline-planner .mct-realty-task-grid>label>input,
+html body #contract-deadline-planner .mct-realty-task-grid>label>select{
+ font-size:14px!important;min-height:45px!important;height:45px!important;
+ padding:9px!important;
+}
+html body #contract-deadline-planner .fc-simple-result{
+ font-size:15px!important;line-height:1.55!important;
+}
+html body #contract-deadline-planner .fc-simple-result h4{font-size:clamp(21px,1.7vw,27px)!important}
+html body #contract-deadline-planner .fc-simple-result #timeline-live-list li,
+html body #contract-deadline-planner .fc-simple-result #timeline-live-list li *,
+html body #contract-deadline-planner .fc-simple-result p,
+html body #contract-deadline-planner .fc-simple-result small,
+html body #contract-deadline-planner .fc-simple-result button,
+html body #contract-deadline-planner .fc-simple-result a{
+ font-size:14px!important;line-height:1.5!important;
+}
+html body #contract-deadline-planner .fc-simple-result #timeline-live-list li{
+ min-height:54px!important;padding:10px 12px!important;
+}
+html body #contract-deadline-planner .fc-simple-result .fc-simple-preview-head{
+ padding:17px!important;
+}
+@media(max-width:700px){
+ html body #contract-deadline-planner .fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}
+ html body #contract-deadline-planner .mct-realty-task-grid>label>input{min-width:0!important}
+}
