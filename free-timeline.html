@@ -1344,7 +1344,7 @@ html[data-mct-free-view="other"] #contract-deadline-planner>.mct-free-next-steps
 <p class="mct-private-mail-note" style="font:650 12.5px/1.45 Manrope,Arial,sans-serif;color:#52717a;margin:8px 0">Recipient addresses are entered directly in your own Mail application, not on this website.</p><p id="closing-email-feedback" role="status" aria-live="polite"></p></aside></div><div class="mct-release-check" data-template-role="FREE" data-template-revision="2026.10.23-test.2" data-shared-engine="4ff08fb4896871efca8ef91df95af62dbb62ee37" style="max-width:100%;margin:13px 0;padding:12px 16px;background:#fbf8f0;border:1px solid #dac79e;border-radius:8px;color:#37566b;font:600 12px/1.6 Manrope,Arial,sans-serif"><strong>FREE Timeline · Template version 2026.10.23-test.2</strong><div>Master source reference: October 23, 2026 · 5:03 PM EDT</div><section class="fc-complementary-tasks" aria-labelledby="complementary-title"><span class="deadline-eyebrow">CLOSING COORDINATION &amp; FOLLOW-UP</span><h4 id="complementary-title">Closing Success Checklist</h4><p class="mct-section-purpose">Keep your closing on track with client communications, lender and title follow-ups, association approvals, document requests and other day-to-day actions.</p><p class="mct-done-help">PRO preview only. Step 3 daily follow-up management, editable reminders, alerts and saved closing history require a paid account. The free Step 2 contractual timeline remains available above.</p><div class="mct-reminder-pair"><div class="mct-extra-reminder"><div class="mct-extra-head"><strong>Personal reminder</strong></div><div class="mct-extra-fields mct-reminder-one-line"><label class="mct-inline-reminder-name"><span>Reminder</span><input id="mct-extra-name" type="text" maxlength="160" placeholder="Call client, send gift, dinner…"></label><label class="mct-inline-reminder-date"><span>Date</span><input id="mct-extra-date" type="date"></label><div class="mct-extra-actions"><button type="button" id="mct-extra-add">+ Add reminder</button><button type="button" id="mct-extra-sort">Update &amp; Sort</button></div></div><p id="mct-extra-message" role="status" aria-live="polite">Add a reminder, then choose Update &amp; Sort to arrange all checklist rows by date. Click a personal reminder to edit it.</p></div></div><div class="mct-alert-legend" aria-label="Reminder alert legend"><span><i class="mct-dot overdue"></i> Overdue</span><span><i class="mct-dot today"></i> Today</span><span><i class="mct-dot tomorrow"></i> Tomorrow</span><span><i class="mct-dot later"></i> Upcoming</span><span><i class="mct-dot done"></i> Done</span></div><aside class="mct-tomorrow-panel" aria-labelledby="mct-tomorrow-title"><div class="mct-tomorrow-title"><div class="mct-tomorrow-heading-text"><span class="mct-tomorrow-kicker">LIVE DEADLINES</span><h3 id="mct-tomorrow-title">Today &amp; Tomorrow</h3></div></div><p id="mct-tomorrow-date" class="mct-tomorrow-subdate">Preparing tomorrow’s schedule</p><div id="mct-tomorrow-list" aria-live="polite"><p class="mct-tomorrow-empty">Set your contract dates or add reminders to see tomorrow’s tasks.</p></div><p id="mct-today-count" class="mct-today-count"></p></aside><div class="mct-checklist-add-area"><div class="mct-step-three-label"><span class="mct-step-medallion" aria-hidden="true">3</span>STEP 3 · PRO PREVIEW ONLY</div><strong class="mct-checklist-hint mct-checklist-instruction">Example follow-up tasks are displayed for reference. FREE includes the complete contract timeline, closing summary and email tools; editable follow-up tracking belongs to PRO.</strong></div><div class="fc-reminder-scroll"><table><thead><tr><th>Task / reminder <small class="mct-edit-head-hint">Click to edit ✎</small></th><th>Days</th><th>Reminder date</th><th>Date type</th><th>When</th><th>Status</th><th>Alert</th><th>Done ✓</th></tr></thead><tbody id="mct-extra-reminder-rows"></tbody><tbody id="timeline-reminder-rows"></tbody></table></div><div class="mct-add-below-list"><button type="button" id="mct-add-checklist-task">+ Add checklist task</button></div></section><p class="fc-simple-footnote">Use the deadlines in your signed contract. Weekend, holiday and notice rules may affect dates.</p></section><section class="mct-free-next-steps mct-free-next-steps-realtor" aria-labelledby="mct-free-realtor-next-title">
  <div class="mct-free-next-copy"><span class="mct-free-next-eyebrow">YOUR NEXT STEP · YOUR CHOICE</span>
  <h3 id="mct-free-realtor-next-title">Your first Real Estate PRO closing is on us.</h3>
- <p>Use the FREE closing timeline as often as you want, without a login or card. To unlock saved closings and daily follow-up, request your first 90-day PRO closing credit. Verify your email, receive your personal code and register without entering payment information.</p>
+ <p>Use the FREE closing timeline as often as you want, without a login or card. To continue with PRO, keep your FREE work and confirm your email just once using PRO Express. If eligible, your first Real Estate closing benefit can be activated without a card; otherwise, choose a plan.</p>
  <details class="mct-step3-preview mct-step3-preview-realtor">
  <summary><span><strong>STEP 3 · PRO FOLLOW-UP</strong><small>Preview follow-up tasks and Today &amp; Tomorrow right here</small></span><span aria-hidden="true" class="mct-step3-chevron">+</span></summary>
  <div class="mct-step3-demo" aria-label="Sample of the PRO follow-up workspace, not an active saved account">
@@ -2193,5 +2193,47 @@ try{sessionStorage.setItem('mct-free-pro-draft',JSON.stringify({audience:audienc
   });
   try{sessionStorage.setItem("mct-free-pro-draft",JSON.stringify({audience:audience,fields:fields,savedAt:Date.now()}))}catch(e){}
  },true);
+})();
+</script><style id="mct-free-pro-below-summary-v1">
+/* FREE Real Estate: summary and PRO decision share one aligned right column. */
+html body #contract-deadline-planner .mct-free-pro-right-column{
+ display:flex!important;flex-direction:column!important;min-width:0!important;
+ width:100%!important;gap:17px!important;align-items:stretch!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column>.fc-simple-result{
+ position:static!important;top:auto!important;width:100%!important;max-width:none!important;
+ min-width:0!important;margin:0!important;box-sizing:border-box!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column>.mct-free-next-steps-realtor{
+ display:flex!important;flex-direction:column!important;gap:13px!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ margin:0!important;padding:19px!important;box-sizing:border-box!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column>.mct-free-next-steps-realtor .mct-free-next-links{
+ width:100%!important;display:grid!important;grid-template-columns:1fr!important;
+ gap:10px!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column .mct-free-next-primary{
+ width:100%!important;min-height:57px!important;font-size:17px!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column .mct-free-next-copy h3{
+ font-size:clamp(20px,2vw,26px)!important;line-height:1.25!important;
+}
+html body #contract-deadline-planner .mct-free-pro-right-column .mct-free-next-copy p{
+ font-size:14px!important;line-height:1.65!important;
+}
+</style>
+<script id="mct-free-pro-below-summary-v1">
+(function(){
+ function place(){
+  const grid=document.querySelector("#contract-deadline-planner .fc-simple-layout");
+  const summary=grid?.querySelector(":scope > .fc-simple-result");
+  const offer=document.querySelector("#contract-deadline-planner .mct-free-next-steps-realtor");
+  if(!grid||!summary||!offer)return;
+  const right=document.createElement("div");
+  right.className="mct-free-pro-right-column";
+  grid.insertBefore(right,summary);right.appendChild(summary);right.appendChild(offer);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place();
 })();
 </script></body></html>
