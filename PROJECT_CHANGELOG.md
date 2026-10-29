@@ -1,5 +1,13 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
 
+## Website 18 · Other Projects FREE ahora tiene las mismas tablas de Real Estate FREE (29 oct 2026)
+- Sustituida la antigua lista libre de 4 columnas por flujo completo a dos columnas: Step 1 Project Details, Step 2 Tasks & Deadlines (9 columnas/controles, editor móvil en tarjetas) y panel Live Preview / Share paralelo. Sin tasks de Realtor; 8 tareas propias por sesión, sin cuenta. Nombres homogéneos «Other Projects FREE Timeline» / «FREE Project Timeline».
+- `other-projects.html`: maquetación, CSS responsive, botón superior para ir directamente a FREE, versión script v20. `assets/mpt-project-task-demo-20261028.js`: motor compartido calendar/business con fechas Start/Finish, before/after, due exacto, recalcular fechas, reglas 8 tasks, Done/Remove, Reset Last, Sort by Date, copiar imagen/texto de timeline, mailto para colocar imagen y calendario .ics. `free-timeline.html` permite entrar por enlace directo al módulo correcto.
+- Commits: `ba96865cba3cc6db69c5c7fba342258f6be542e2`, `c51a5b8fa8820033ddc184d7778c055d8b2d99e4`, `20b94bb516e8fd819a1fa115a71310b34bbb2005`, `6dc1a647c8f3bd69dbed8af621009b35b8dbc14c`, `c5ec4d282e714127841c4f4576fc77ae8b2affaf`, `48ce5c57529cada4b06dc0e463bf6f0464f659dd`, `a54236a60ab451ca3b273e7661dd55f33651dbb0`.
+- QA de código: ids únicos, referencias DOM completas, sintaxis JS válida, 6 tests de fechas pasan; no se ha probado el despliegue ni la UI con navegador real. Otros proyectos PRO sigue en demo sin pagos/cuentas.
+
+
+
 ## Website 18 — 29 oct 2026 — Congratulations email y derecho PDF post-vence
 - `assets/buyer-timeline.js`: `Open in Mail` abre borrador respetuoso que felicita al Realtor por acuerdo firmado, agradece colaboración, incluye marcadores evidentes para pegar imagen/timeline copiada, solicita verificar fechas y se despide cordialmente. Asunto «Congratulations on Our Agreement | Closing Timeline & Next Steps»; `BuyerAgentNotice` y `.eml` unificados a la misma intención; el `mailto:` no adjunta tabla ni envía correos. Commit `0044a5c737f930526df891a8e7247fdd234a28e9`. JS parseado.
 - PDF posterior al plazo: `functions/api/pro/[[path]].js` diferencia READ ONLY de descarga; la información permanece legible para cliente autenticado aunque haya caducado 90 días o archivado el cierre; sin renovación ni otro crédito. Commit `da5e1b69ddce492a91b1772bc915259813c29727`. `my-closings.html` muestra mensaje y deja Download My PDF habilitado. Commit `c4dc95668538b172e84da4d8f29e5251f7505729`.
