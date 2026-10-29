@@ -37,14 +37,14 @@
     return;
    }
    if(link.dataset.mctInlineChoice!=="realtor")return;
-   const heading=document.getElementById("deadline-planner-title");
+   const heading=document.getElementById("mct-free-real-estate-landing")||document.getElementById("deadline-planner-title");
    if(!heading)return;
    event.preventDefault();
-   if(history.replaceState)history.replaceState(null,"","#deadline-planner-title");
+   if(history.replaceState)history.replaceState(null,"","#mct-free-real-estate-landing");
    const go=function(){
-    const header=document.querySelector(".apphead")||document.querySelector("header");
+    const header=document.getElementById("mct-site-header")||document.querySelector("header");
     const headerHeight=header?Math.max(0,header.getBoundingClientRect().height):85;
-    const target=heading.getBoundingClientRect().top+window.scrollY-headerHeight-14;
+    const target=heading.getBoundingClientRect().top+window.scrollY-headerHeight-46;
     window.scrollTo({top:Math.max(0,target),behavior:"smooth"});
    };
    requestAnimationFrame(go);
