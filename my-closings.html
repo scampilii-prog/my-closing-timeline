@@ -42,6 +42,11 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
   <p id="workspace-onboarding-text">Your account is active and ready for your transactions.</p>
   <a class="btn primary" id="workspace-primary-action" href="/pro-get-started.html#mct-gift-panel">Add or Redeem a Credit →</a>
  </section><div class="bar"><div><div id="member">Checking your secure account…</div><div class="summary" id="credits"></div></div><div class="actions"><a class="btn primary" href="/pro-get-started.html">Plans &amp; Gift Codes</a><button class="primary" type="button" id="new">+ Start New Closing</button></div></div><div id="message" class="status" role="status" aria-live="polite" hidden></div><section id="new-panel" class="panel" hidden><h2>Step 1 · Register a Closing</h2><p class="muted" style="margin:5px 0 14px;line-height:1.6">Starting a closing uses 1 PRO credit. Choose your real-estate role to get relevant suggested follow-up tasks. Verify every suggested date against the signed contract. Do not enter client names, addresses, prices or confidential information.</p><form id="new-form"><div class="mct-role-choice"><label for="mct-closing-role"><strong>What is your role in this closing?</strong></label><select id="mct-closing-role" name="role" required><option value="agent">Real Estate Agent / Brokerage · 40 suggestions</option><option value="title_closing">Title / Closing Company · 24 suggestions</option><option value="transaction_coordinator">Transaction Coordinator · 34 suggestions</option><option value="real_estate_other">Other Real Estate Professional · 28 suggestions</option></select><p id="mct-role-summary" aria-live="polite">Examples: deposits, inspections, financing, title, HOA, walkthrough, closing and client follow-ups.</p><small>These are optional starting tasks for this closing, not contract deadlines. Edit dates and add generic follow-ups as needed.</small></div><div class="dates"><label>Private Closing Reference<input name="name" maxlength="11" minlength="11" pattern="CL-[A-F0-9]{8}" required placeholder="CL-7C2D9A04" autocomplete="off"><small style="display:block;margin-top:4px;font-size:12px;color:#567281">Automatically generated. No names, address or property details are required.</small></label><label>Effective Date<input name="effective_date" type="date" required></label><label>Original Closing Date<input name="closing_date" type="date" required></label></div><p id="mct-new-duration-alert" class="mct-duration-alert" role="status" aria-live="polite" hidden></p><div class="actions"><button class="primary" type="submit">Register Closing · Use 1 Credit</button><button type="button" id="cancel-new">Cancel</button></div></form></section><section class="grid"><aside class="panel"><h2>My Transactions</h2><div class="actions"><button data-filter="all">All</button><button data-filter="in_progress">In Progress</button><button data-filter="completed">Completed</button><button data-filter="cancelled">Cancelled</button></div><div id="items"><p class="muted">No closings registered yet.</p></div></aside><article class="panel"><div id="empty"><h2>Select a Closing</h2><p class="muted">Choose a closing on the left or select + Start New Closing. Only your transactions are shown.</p></div><div id="detail" hidden><div class="eyebrow" id="transaction-status"></div><h2 id="transaction-name"></h2><div class="eyebrow">REGISTERED CLOSING</div><div class="dates"><div class="date">Effective Date<strong id="effective"></strong></div><div class="date">Closing Date<strong id="closing"></strong></div></div><div class="actions"><button id="change-date" type="button">Change Closing Date</button><button class="danger" id="cancel-closing" type="button">Cancel Contract</button><button class="primary" id="complete-closing" type="button">Record Closing</button></div><div id="action-form"></div>
+<section class="mct-pro-priority-strip" aria-labelledby="mct-pro-priority-title">
+ <div class="eyebrow">YOUR DAILY OVERVIEW</div>
+ <h2 id="mct-pro-priority-title">Today &amp; Tomorrow</h2>
+ <div id="mct-pro-priority-grid" class="mct-pro-priority-grid" aria-live="polite"></div>
+</section>
 <section id="mct-contract-step-two" class="mct-contract-step-two" aria-labelledby="mct-contract-step-two-title">
  <div class="eyebrow">STEP 2 · CONTRACT DEADLINES</div>
  <h2 id="mct-contract-step-two-title">Contract Tasks &amp; Deadlines</h2>
@@ -56,7 +61,18 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
   <div class="mct-contract-add-actions"><button class="primary" type="submit">+ Add Contract Task</button></div>
  </form>
 </section>
-<div class="actions mct-private-download" style="padding:14px;background:#f1faf7;border:1px solid #bed8d4;border-radius:9px;margin:14px 0"><button type="button" class="primary" id="mct-pro-private-pdf" disabled>Download Private Fillable PDF · 3 Columns</button><span style="font-size:12px;color:#41646c">Three-column private PDF with closing company, extension history and later milestones. Complete sensitive fields only on your device.</span></div><hr style="border:0;border-top:1px solid #d5e0e6;margin:22px 0"><div class="eyebrow">STEP 3 · DAILY FOLLOW-UP</div><h2>Closing Success Checklist</h2><p class="muted">Edit future tasks, mark completed work, and keep expired deadlines locked.</p><form id="task-form" class="row"><select name="title" required aria-label="Generic follow-up category" title="Choose a generic task, without names or property information"><option value="">Choose follow-up category</option><option value="General Follow-Up">General Follow-Up</option><option value="Document Review">Document Review</option><option value="Lender Follow-Up">Lender Follow-Up</option><option value="Title / Closing Follow-Up">Title / Closing Follow-Up</option><option value="Association Follow-Up">Association Follow-Up</option><option value="Inspection Follow-Up">Inspection Follow-Up</option><option value="Insurance Follow-Up">Insurance Follow-Up</option><option value="Client Communication">Client Communication</option><option value="Other General Task">Other General Task</option></select><input name="date" type="date" required><label style="font-size:11px"><input name="relative" type="checkbox" style="width:auto"> Adjust with closing date</label><button type="submit" class="primary">+ Add Task</button></form><div id="tasks"></div></div></article></section></main><footer>© 2026 My Closing Timeline · <a href="/privacy.html">Privacy &amp; Terms</a></footer><style id="mct-contract-step2-20261029">
+<div class="actions mct-private-download" style="padding:14px;background:#f1faf7;border:1px solid #bed8d4;border-radius:9px;margin:14px 0"><button type="button" class="primary" id="mct-pro-private-pdf" disabled>Download Private Fillable PDF · 3 Columns</button><span style="font-size:12px;color:#41646c">Three-column private PDF with closing company, extension history and later milestones. Complete sensitive fields only on your device.</span></div><hr style="border:0;border-top:1px solid #d5e0e6;margin:22px 0"><div class="eyebrow">STEP 3 · DAILY FOLLOW-UP</div><h2>Closing Success Checklist</h2><p class="muted">Edit future tasks, mark completed work, and keep expired deadlines locked.</p><form id="task-form" class="row"><select name="title" required aria-label="Generic follow-up category" title="Choose a generic task, without names or property information"><option value="">Choose follow-up category</option><option value="General Follow-Up">General Follow-Up</option><option value="Document Review">Document Review</option><option value="Lender Follow-Up">Lender Follow-Up</option><option value="Title / Closing Follow-Up">Title / Closing Follow-Up</option><option value="Association Follow-Up">Association Follow-Up</option><option value="Inspection Follow-Up">Inspection Follow-Up</option><option value="Insurance Follow-Up">Insurance Follow-Up</option><option value="Client Communication">Client Communication</option><option value="Other General Task">Other General Task</option></select><input name="date" type="date" required><label style="font-size:11px"><input name="relative" type="checkbox" style="width:auto"> Adjust with closing date</label><button type="submit" class="primary">+ Add Task</button></form><div id="tasks"></div></div></article></section></main><footer>© 2026 My Closing Timeline · <a href="/privacy.html">Privacy &amp; Terms</a></footer><style id="mct-priority-strip-20261029">
+.mct-pro-priority-strip{margin:20px 0 17px;padding:18px;border:1px solid #b8d6d7;border-radius:11px;background:#f5faf9}
+.mct-pro-priority-strip h2{color:#173e55;margin:6px 0 12px}
+.mct-pro-priority-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mct-pro-priority-card{padding:12px;background:white;border:1px solid #d4e1e5;border-top:4px solid #8bbdb9;border-radius:8px;min-height:105px}
+.mct-pro-priority-card h3{margin:0 0 7px;font:850 13px/1.45 Manrope,Arial,sans-serif;color:#204d59}
+.mct-pro-priority-card strong{display:block;font-size:23px;color:#215564;margin-bottom:7px}
+.mct-pro-priority-card p{font-size:11px;line-height:1.55;margin:3px 0;color:#48616b;overflow-wrap:anywhere}
+.mct-pro-priority-card.overdue{border-top-color:#c58161}.mct-pro-priority-card.overdue h3{color:#9a533f}
+.mct-pro-priority-card.today{border-top-color:#76ad8c}.mct-pro-priority-card.tomorrow{border-top-color:#d1b16e}
+@media(max-width:700px){.mct-pro-priority-grid{grid-template-columns:1fr}.mct-pro-priority-card{min-height:0}}
+</style><style id="mct-contract-step2-20261029">
 .mct-contract-step-two{margin:23px 0;padding:19px;border:1.5px solid #c2d9de;border-radius:12px;background:linear-gradient(130deg,#f8fcfc,#f4f8fb)}
 .mct-contract-step-two h2{margin:7px 0 4px;color:#173c54}
 .mct-contract-step-two>.muted{font-size:12.5px;line-height:1.65}
@@ -64,7 +80,7 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
 .mct-contract-task-row.overdue{border-left-color:#ad6c46;background:#fffaf5}
 .mct-contract-task-row.done{border-left-color:#30906e;background:#f3faf5}
 .mct-contract-task-row strong{display:block;font-size:13px;margin-bottom:8px;color:#21455b}
-.mct-contract-task-fields{display:grid;grid-template-columns:minmax(70px,.7fr) minmax(135px,1.1fr) minmax(140px,1.2fr) minmax(110px,.9fr) minmax(120px,1fr);gap:8px}
+.mct-contract-task-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .mct-contract-task-fields label{margin:0;font-size:11px;color:#536f7c}
 .mct-contract-task-fields input,.mct-contract-task-fields select{padding:8px;font-size:12px;margin-top:4px}
 .mct-contract-task-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
@@ -107,6 +123,26 @@ async function load(){try{const a=await api("me");if(!a.authenticated){location.
  $("new").title=user.credits<1?"You need 1 closing credit to create a PRO transaction.":"Start a new PRO closing";
  viewList();if(current&&all.some(x=>x.id===current))await select(current)}catch(e){tell(e.message)}}
 
+function showPriorityOverview(contractTasks,followUpTasks){
+ const root=$("mct-pro-priority-grid");root.replaceChildren();
+ const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
+ const tomorrow=window.MCTTaskRules.addDays(today,1);
+ const work=[...(contractTasks||[]).map(t=>({title:t.title,date:t.due_date,status:t.status,kind:"Contract"})),
+   ...(followUpTasks||[]).map(t=>({title:t.title,date:t.due_date,status:t.status,kind:"Follow-Up"}))]
+   .filter(t=>t.date&&t.status!=="done");
+ for(const [name,kind,predicate] of [
+   ["Due Today","today",t=>t.date===today],
+   ["Tomorrow","tomorrow",t=>t.date===tomorrow],
+   ["Overdue","overdue",t=>t.date<today]]){
+  const selected=work.filter(predicate).sort((a,b)=>a.date.localeCompare(b.date)||a.title.localeCompare(b.title));
+  const card=n("section",undefined,"mct-pro-priority-card "+kind);
+  card.append(n("h3",name),n("strong",String(selected.length)));
+  if(!selected.length)card.append(n("p","Nothing scheduled."));
+  else{selected.slice(0,5).forEach(t=>card.append(n("p",t.kind+" · "+t.title)));
+    if(selected.length>5)card.append(n("p","+"+(selected.length-5)+" more tasks"));}
+  root.append(card);
+ }
+}
 function mctContractFields(task,options,closing,readOnly){
  const row=n("div",undefined,"mct-contract-task-row"+(task.status==="done"?" done":"")+(task.due_date<new Date().toISOString().slice(0,10)?" overdue":""));
  const locked=readOnly||task.due_date<new Date().toISOString().slice(0,10);
@@ -166,7 +202,7 @@ function showContractTasks(tasks,options,closing){
  };
 }
 
-async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.status!=="in_progress"}$("task-form").hidden=c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.status);
+async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.status!=="in_progress"}$("task-form").hidden=c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.status);showPriorityOverview(a.contract_tasks||[],a.tasks||[]);
  const code=/^CL-[A-F0-9]{8}$/.test(c.name||'')?c.name:'CL-'+String(c.id||'').replace(/[^a-f0-9]/gi,'').slice(0,8).toUpperCase();
  privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:[...(a.contract_tasks||[]).map(t=>({name:"CONTRACT: "+t.title,date:t.due_date,status:t.status})),...(a.tasks||[]).map(t=>({name:"FOLLOW-UP: "+t.title,date:t.due_date,status:t.status}))]};
  $("mct-pro-private-pdf").disabled=false;
