@@ -61,7 +61,8 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
   <div class="mct-contract-add-actions"><button class="primary" type="submit">+ Add Contract Task</button></div>
  </form>
 </section>
-<div class="actions mct-private-download" style="padding:14px;background:#f1faf7;border:1px solid #bed8d4;border-radius:9px;margin:14px 0"><button type="button" class="primary" id="mct-pro-private-pdf" disabled>Download Private Fillable PDF · 3 Columns</button><span style="font-size:12px;color:#41646c">Three-column private PDF with closing company, extension history and later milestones. Complete sensitive fields only on your device.</span></div><hr style="border:0;border-top:1px solid #d5e0e6;margin:22px 0"><div class="eyebrow">STEP 3 · DAILY FOLLOW-UP</div><h2>Closing Success Checklist</h2><p class="muted">Edit future tasks, mark completed work, and keep expired deadlines locked.</p><form id="task-form" class="row"><select name="title" required aria-label="Generic follow-up category" title="Choose a generic task, without names or property information"><option value="">Choose follow-up category</option><option value="General Follow-Up">General Follow-Up</option><option value="Document Review">Document Review</option><option value="Lender Follow-Up">Lender Follow-Up</option><option value="Title / Closing Follow-Up">Title / Closing Follow-Up</option><option value="Association Follow-Up">Association Follow-Up</option><option value="Inspection Follow-Up">Inspection Follow-Up</option><option value="Insurance Follow-Up">Insurance Follow-Up</option><option value="Client Communication">Client Communication</option><option value="Other General Task">Other General Task</option></select><input name="date" type="date" required><label style="font-size:11px"><input name="relative" type="checkbox" style="width:auto"> Adjust with closing date</label><button type="submit" class="primary">+ Add Task</button></form><div id="tasks"></div></div></article></section></main><footer>© 2026 My Closing Timeline · <a href="/privacy.html">Privacy &amp; Terms</a></footer><style id="mct-priority-strip-20261029">
+<div id="mct-pro-pdf-access" class="mct-pro-pdf-access" role="status" aria-live="polite"><strong>Your PDF remains yours — even after your plan ends.</strong><p>Download your saved closing timeline whenever you sign in. No renewal, extra credit or payment is required.</p></div>
+<div class="actions mct-private-download" style="padding:14px;background:#f1faf7;border:1px solid #bed8d4;border-radius:9px;margin:14px 0"><button type="button" class="primary" id="mct-pro-private-pdf" disabled>Download My PDF · Anytime</button><span style="font-size:12px;color:#41646c">Private fillable PDF with contract deadlines, follow-up tasks and date history. Personal fields are completed on your device.</span></div><hr style="border:0;border-top:1px solid #d5e0e6;margin:22px 0"><div class="eyebrow">STEP 3 · DAILY FOLLOW-UP</div><h2>Closing Success Checklist</h2><p class="muted">Edit future tasks, mark completed work, and keep expired deadlines locked.</p><form id="task-form" class="row"><select name="title" required aria-label="Generic follow-up category" title="Choose a generic task, without names or property information"><option value="">Choose follow-up category</option><option value="General Follow-Up">General Follow-Up</option><option value="Document Review">Document Review</option><option value="Lender Follow-Up">Lender Follow-Up</option><option value="Title / Closing Follow-Up">Title / Closing Follow-Up</option><option value="Association Follow-Up">Association Follow-Up</option><option value="Inspection Follow-Up">Inspection Follow-Up</option><option value="Insurance Follow-Up">Insurance Follow-Up</option><option value="Client Communication">Client Communication</option><option value="Other General Task">Other General Task</option></select><input name="date" type="date" required><label style="font-size:11px"><input name="relative" type="checkbox" style="width:auto"> Adjust with closing date</label><button type="submit" class="primary">+ Add Task</button></form><div id="tasks"></div></div></article></section></main><footer>© 2026 My Closing Timeline · <a href="/privacy.html">Privacy &amp; Terms</a></footer><style id="mct-priority-strip-20261029">
 .mct-pro-priority-strip{margin:20px 0 17px;padding:18px;border:1px solid #b8d6d7;border-radius:11px;background:#f5faf9}
 .mct-pro-priority-strip h2{color:#173e55;margin:6px 0 12px}
 .mct-pro-priority-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -92,6 +93,11 @@ body.mct-first-free-welcome main>.bar .actions>a{display:none!important}
 .mct-contract-add-actions{grid-column:1/-1}
 @media(max-width:780px){.mct-contract-task-fields,.mct-contract-add-form{grid-template-columns:repeat(2,minmax(0,1fr))}.mct-contract-task-fields label:last-child{grid-column:auto}}
 @media(max-width:440px){.mct-contract-task-fields,.mct-contract-add-form{grid-template-columns:1fr}}
+</style><style id="mct-pdf-after-expiry-20261029">
+.mct-pro-pdf-access{padding:15px 17px;margin:17px 0 8px;border:1px solid #9acdbb;border-left:5px solid #328a78;background:#f2faf6;border-radius:9px;color:#275a51}
+.mct-pro-pdf-access strong{display:block;font:900 15px/1.5 Manrope,Arial,sans-serif}
+.mct-pro-pdf-access p{margin:5px 0 0;font-size:12px;line-height:1.6}
+.mct-pro-pdf-access[data-ended="true"]{border-color:#b4cbd5;border-left-color:#678da3;background:#f3f8fb;color:#21475d}
 </style><style id="mct-pro-duration-rule-20261029">.mct-duration-alert{margin:13px 0;padding:14px 16px;border:1.5px solid #c29d61;border-left:5px solid #ac7830;border-radius:8px;background:#fff6e7;color:#603e19;font:750 13px/1.6 Manrope,Arial,sans-serif}.mct-duration-alert[hidden]{display:none!important}</style><script src="/assets/mct-task-rules-20261029.js?v=1"></script><script>
 const $=id=>document.getElementById(id);let all=[],current=null,filter="all",user=null,privatePdfInfo=null;
 const mctClosingDays=(a,b)=>a&&b?Math.round((Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/86400000):null;
@@ -99,7 +105,7 @@ const mctDurationWarning=(days)=>"This closing is "+days+" calendar days after t
 function tell(message){$("message").hidden=!message;$("message").textContent=message}
 async function api(path,method="GET",data){const response=await fetch("/api/pro/"+path,{method,credentials:"same-origin",headers:data?{"Content-Type":"application/json"}:{},body:data?JSON.stringify(data):undefined});let result={};try{result=await response.json()}catch(_){}if(!response.ok)throw Error(result.error||"Server unavailable");return result}
 function n(tag,text,css){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(css)e.className=css;return e}
-function viewList(){const list=$("items");list.replaceChildren();const data=all.filter(x=>filter==="all"||x.status===filter);if(!data.length){list.append(n("p","No transactions in this category.","muted"));return}for(const item of data){const row=n("div",undefined,"item"+(current===item.id?" active":""));row.tabIndex=0;row.append(n("strong",item.name),n("div",item.effective_date+" · "+item.closing_date+" · "+item.status,"muted"));row.onclick=()=>select(item.id);row.onkeydown=e=>{if(e.key==="Enter")select(item.id)};list.append(row)}}
+function viewList(){const list=$("items");list.replaceChildren();const data=all.filter(x=>filter==="all"||x.status===filter);if(!data.length){list.append(n("p","No transactions in this category.","muted"));return}for(const item of data){const row=n("div",undefined,"item"+(current===item.id?" active":""));row.tabIndex=0;row.append(n("strong",item.name),n("div",item.effective_date+" · "+item.closing_date+" · "+(item.read_only?"Read-only · PDF available":item.status),"muted"));row.onclick=()=>select(item.id);row.onkeydown=e=>{if(e.key==="Enter")select(item.id)};list.append(row)}}
 async function load(){try{const a=await api("me");if(!a.authenticated){location.replace("/pro-get-started.html");return}user=a.user;all=a.closings||[];$("member").textContent=user.name+" · "+user.email;$("credits").textContent=user.credits+" credits available";
  const none=user.credits===0&&all.length===0;
  const onboard=$("workspace-onboarding");
@@ -184,7 +190,7 @@ function mctContractFields(task,options,closing,readOnly){
 }
 function showContractTasks(tasks,options,closing){
  const host=$("mct-contract-task-list");host.replaceChildren();
- const readOnly=closing.status!=="in_progress";
+ const readOnly=closing.read_only===true||closing.status!=="in_progress";
  if(!tasks.length)host.append(n("p","No contract tasks found. New PRO closings receive the same six defaults as FREE.","muted"));
  tasks.forEach(t=>host.append(mctContractFields(t,options,closing,readOnly)));
  const form=$("mct-contract-task-add");
@@ -202,7 +208,16 @@ function showContractTasks(tasks,options,closing){
  };
 }
 
-async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.status!=="in_progress"}$("task-form").hidden=c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.status);showPriorityOverview(a.contract_tasks||[],a.tasks||[]);
+async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.read_only===true||c.status!=="in_progress"}$("task-form").hidden=c.read_only===true||c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.read_only?"expired":c.status);showPriorityOverview(a.contract_tasks||[],a.tasks||[]);
+ const pdfAccess=$("mct-pro-pdf-access");pdfAccess.dataset.ended=String(c.read_only===true);
+ const pdfTitle=pdfAccess.querySelector("strong"),pdfText=pdfAccess.querySelector("p");
+ if(c.read_only){
+  pdfTitle.textContent="Your plan has ended or this closing is archived. Your PDF is still available.";
+  pdfText.textContent="Read-only closing · "+(c.plan_ends?"Plan end date: "+c.plan_ends+". ":"")+"Download your PDF whenever you sign in while this record remains in your account. No renewal or payment required.";
+ }else{
+  pdfTitle.textContent="Your PDF remains yours — even after your plan ends.";
+  pdfText.textContent="Save it now or download it after the 90-day period. No renewal, extra credit or payment is required.";
+ }
  const code=/^CL-[A-F0-9]{8}$/.test(c.name||'')?c.name:'CL-'+String(c.id||'').replace(/[^a-f0-9]/gi,'').slice(0,8).toUpperCase();
  privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:[...(a.contract_tasks||[]).map(t=>({name:"CONTRACT: "+t.title,date:t.due_date,status:t.status})),...(a.tasks||[]).map(t=>({name:"FOLLOW-UP: "+t.title,date:t.due_date,status:t.status}))]};
  $("mct-pro-private-pdf").disabled=false;
