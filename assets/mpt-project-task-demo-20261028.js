@@ -41,50 +41,142 @@ function make(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=
 function cell(row,child){var td=make("td");if(typeof child==="string")td.textContent=child;else td.appendChild(child);row.appendChild(td);return td}
 function button(text,action,id){var b=make("button","mpt-demo-btn",text);b.type="button";b.dataset.action=action;b.dataset.id=id;return b}
 function input(type,label,val){var e=make("input");e.type=type;e.value=val||"";e.setAttribute("aria-label",label);if(type==="text")e.maxLength=140;return e}
+
+/* Other Projects FREE uses the same date-only engine and side-by-side
+   Step 1 / Step 2 / live preview structure as Real Estate FREE.
+   Unlike Real Estate, all eight tasks are created by the customer. */
+function freeTaskDue(t){
+ if(t.exact&&parse(t.due))return t.due;
+ var anchor=t.base==="end"?freeProject.end:freeProject.start;
+ if(!parse(anchor))return "";
+ return rules.offsetDate(anchor,Number(t.days),t.direction,t.dayType,true);
+}
+function freeStatus(t){
+ if(t.done)return "Done";
+ if(!t.due)return "Set date";
+ if(t.due<today())return "Overdue";
+ if(t.due===today())return "Due today";
+ if(t.due===datePlus(today(),1))return "Tomorrow";
+ return "Pending";
+}
+function freeDatesOK(due){return !!parse(due)&&!(freeProject.start&&due<freeProject.start)&&!(freeProject.end&&due>freeProject.end)}
+function freeSorted(){return freeTasks.slice().sort(function(a,b){return String(a.due||"9999").localeCompare(String(b.due||"9999"))||a.name.localeCompare(b.name)})}
+function freeSelect(items,value,label){
+ var el=make("select");el.setAttribute("aria-label",label);
+ items.forEach(function(item){var opt=make("option",null,item[1]);opt.value=item[0];el.appendChild(opt)});
+ el.value=value;return el;
+}
 function freeRender(){
  var body=$("mpt-free-demo-body");if(!body)return;body.textContent="";
- freeTasks.forEach(function(t){
-  var row=make("tr");
-  var name=input("text","Edit FREE task",t.name);name.dataset.field="name";name.dataset.id=t.id;cell(row,name);
-  var due=input("date","Edit FREE due date",t.due);due.dataset.field="due";due.dataset.id=t.id;cell(row,due);
-  var badge=make("span","mpt-demo-status "+(t.done?"is-done":t.due<today()?"is-late":""),t.done?"Done":t.due<today()?"Overdue":"Pending");
-  cell(row,badge);
-  var actions=make("div","mpt-demo-actions");
-  actions.appendChild(button(t.done?"Reopen":"Done","toggle",t.id));
-  actions.appendChild(button("Remove","delete",t.id));
-  cell(row,actions);body.appendChild(row);
+ freeSorted().forEach(function(t,i){
+  var row=make("tr",t.done?"mpt-free-done":t.due&&t.due<today()?"mpt-free-overdue":"");
+  cell(row,String(i+1));
+  var name=input("text","Edit task / reminder",t.name);name.className="mpt-free-col-name";name.dataset.field="name";name.dataset.id=t.id;cell(row,name);
+  var days=input("number","Days",String(t.days));days.min="0";days.max="3650";days.step="1";days.className="mpt-free-col-days";days.dataset.field="days";days.dataset.id=t.id;cell(row,days);
+  var kind=freeSelect([["calendar","Calendar Days"],["business","Business Days"]],t.dayType,"Calendar or business days");kind.className="mpt-free-col-type";kind.dataset.field="dayType";kind.dataset.id=t.id;cell(row,kind);
+  var base=freeSelect([["start","Project Start"],["end","Project Finish"]],t.base,"Start or finish date");base.className="mpt-free-col-base";base.dataset.field="base";base.dataset.id=t.id;cell(row,base);
+  var direction=freeSelect([["after","After"],["before","Before"]],t.direction,"Before or after base date");direction.className="mpt-free-col-direction";direction.dataset.field="direction";direction.dataset.id=t.id;cell(row,direction);
+  var due=input("date","Exact task due date",t.due);due.className="mpt-free-col-date";due.dataset.field="due";due.dataset.id=t.id;due.title=t.exact?"Exact date selected. Change days to recalculate.":"Calculated from "+t.base+". You may enter an exact date.";cell(row,due);
+  cell(row,make("span","mpt-demo-status "+(t.done?"is-done":t.due<today()?"is-late":""),freeStatus(t)));
+  var actions=make("div","mpt-demo-actions");actions.appendChild(button(t.done?"Reopen":"Done","toggle",t.id));actions.appendChild(button("Remove","delete",t.id));cell(row,actions);body.appendChild(row);
  });
- if(!freeTasks.length){var row=make("tr");var td=cell(row,"No tasks yet. Add your own task above.");td.colSpan=4;td.className="mpt-demo-empty";body.appendChild(row)}
+ if(!freeTasks.length){var empty=make("tr");var td=cell(empty,"No tasks yet. Enter your first task above — all eight tasks are yours to create.");td.colSpan=9;td.className="mpt-demo-empty";body.appendChild(empty)}
  $("mpt-free-count").textContent=freeTasks.length+" / 8 tasks";
- freeSummary();
+ var sub=$("mpt-free-tasks-step").querySelector(".mpt-free-tasks-header small");if(sub)sub.textContent=freeTasks.length+" of 8";
  $("mpt-free-add").disabled=freeTasks.length>=8;
+ $("mpt-free-reset-last").disabled=!freeTasks.length;
+ $("mpt-free-sort").disabled=freeTasks.length<2;
+ freeSummary();
 }
 function freeSummaryText(){
- var label=freeProject.ref||"Unidentified project",parts=["FREE PROJECT TIMELINE", "Reference: "+label,"Start: "+(freeProject.start||"Not selected"),"Finish: "+(freeProject.end||"Ongoing / not selected"),""];
- freeTasks.slice().sort(function(a,b){return a.due.localeCompare(b.due)}).forEach(function(t,i){parts.push((i+1)+". "+t.name+" | "+t.due+" | "+(t.done?"Done":"Pending"))});
- return parts.join("\n");
+ var lines=["OTHER PROJECTS FREE TIMELINE","",
+ "Private reference: "+(freeProject.ref||"Not entered"),
+ "Project start: "+(freeProject.start||"Not selected"),
+ "Project finish: "+(freeProject.end||"Not selected"),"",
+ "TASK / REMINDER | DAYS | DUE DATE | STATUS",
+ "------------------------------------------------------------"];
+ freeSorted().forEach(function(t,i){lines.push((i+1)+". "+t.name+" | "+t.days+" "+t.dayType+" days | "+(t.due||"TBD")+" | "+freeStatus(t))});
+ return lines.join("\n");
 }
 function freeSummary(){
  var el=$("mpt-free-summary");if(!el)return;
- var n=freeTasks.filter(function(t){return t.done}).length;
- el.textContent=(freeProject.ref||"Your project")+" · "+freeTasks.length+" tasks · "+n+" done · "+(freeProject.end?"Finish "+readable(freeProject.end):"No fixed finish date")+". Dates and task names stay on this page until you reload.";
+ var completed=freeTasks.filter(function(t){return t.done}).length;
+ el.textContent=(freeProject.ref||"Your project")+" · "+freeTasks.length+" of 8 tasks · "+completed+" completed · "+(freeProject.end?"Finish "+readable(freeProject.end):"No finish date selected")+".";
+ var list=$("mpt-free-live-list");if(!list)return;list.textContent="";
+ freeSorted().forEach(function(t,i){
+  var li=make("li"),badge=make("b",null,String(i+1)),wrap=make("div"),title=make("strong",null,t.name);
+  var detail=make("span",null,(t.due?readable(t.due):"Due date not entered")+" · "+freeStatus(t));
+  wrap.append(title,detail);li.append(badge,wrap);list.appendChild(li);
+ });
+ if(!freeTasks.length){list.appendChild(make("li",null,"Add a task in Step 2 to see your live project timeline here."))}
 }
-function freeDatesOK(due){return !(freeProject.start&&due<freeProject.start)&&!(freeProject.end&&due>freeProject.end)}
 function freeMeta(){
+ var oldStart=freeProject.start,oldEnd=freeProject.end;
  freeProject.ref=($("mpt-free-project-ref").value||"").trim().slice(0,40);
  freeProject.start=parse($("mpt-free-project-start").value)?$("mpt-free-project-start").value:"";
  freeProject.end=parse($("mpt-free-project-end").value)?$("mpt-free-project-end").value:"";
- if(freeProject.start&&freeProject.end&&freeProject.end<freeProject.start){notify("mpt-free-message","Finish date cannot be before start date.","warn");freeProject.end="";$("mpt-free-project-end").value=""}
- freeSummary();
+ if(freeProject.start&&freeProject.end&&freeProject.end<freeProject.start){
+  notify("mpt-free-message","The project finish cannot be before its start.","warn");
+  freeProject.end=oldEnd; $("mpt-free-project-end").value=oldEnd;
+ }
+ if(oldStart!==freeProject.start||oldEnd!==freeProject.end){
+  freeTasks.forEach(function(t){if(!t.exact)t.due=freeTaskDue(t)});
+  if(freeTasks.some(function(t){return t.due&&!freeDatesOK(t.due)}))notify("mpt-free-message","Some calculated deadlines fall outside the selected project dates. Review Step 2.","warn");
+ }
+ freeRender();
 }
 function escapeICS(value){return String(value||"").replace(/\\/g,"\\\\").replace(/\r?\n/g,"\\n").replace(/[,;]/g,function(c){return "\\"+c})}
 function freeCalendar(){
- if(!freeTasks.length){notify("mpt-free-message","Add a task before downloading the calendar.","warn");return}
+ if(!freeTasks.some(function(t){return parse(t.due)})){notify("mpt-free-message","Enter at least one valid due date to create a calendar.","warn");return}
  var lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//My Closing Timeline//Other Projects FREE//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
- freeTasks.forEach(function(t){lines.push("BEGIN:VEVENT","UID:"+t.id+"@myclosingtimeline.com","DTSTAMP:"+new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""),"DTSTART;VALUE=DATE:"+t.due.replace(/-/g,""),"DTEND;VALUE=DATE:"+datePlus(t.due,1).replace(/-/g,""),"SUMMARY:"+escapeICS(t.name),"DESCRIPTION:"+escapeICS("Private project reference: "+(freeProject.ref||"Not selected")),"END:VEVENT")});
+ freeTasks.filter(function(t){return parse(t.due)}).forEach(function(t){lines.push("BEGIN:VEVENT","UID:"+t.id+"@myclosingtimeline.com","DTSTAMP:"+new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""),"DTSTART;VALUE=DATE:"+t.due.replace(/-/g,""),"DTEND;VALUE=DATE:"+datePlus(t.due,1).replace(/-/g,""),"SUMMARY:"+escapeICS(t.name),"DESCRIPTION:"+escapeICS("Private project reference: "+(freeProject.ref||"Not entered")),"END:VEVENT")});
  lines.push("END:VCALENDAR");
- var blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="my-project-timeline.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);notify("mpt-free-message","Calendar file created locally. Import it into your calendar app.","info");
+ var blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="other-projects-free-timeline.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1200);
+ notify("mpt-free-message","Calendar created on your device. Import it in your calendar app; nothing was sent by this website.","info");
 }
+function freePicture(){
+ var list=freeSorted(),canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");
+ var width=1020,rowH=86;canvas.width=width;canvas.height=183+Math.max(1,list.length)*rowH+45;
+ ctx.fillStyle="#ffffff";ctx.fillRect(0,0,width,canvas.height);
+ ctx.fillStyle="#143b54";ctx.fillRect(0,0,width,107);
+ ctx.fillStyle="#ffffff";ctx.font="bold 30px Arial";ctx.fillText("OTHER PROJECTS FREE TIMELINE",27,45);
+ ctx.fillStyle="#d6ecdf";ctx.font="18px Arial";ctx.fillText("Your Projects. Your Tasks. Your Timeline.",27,81);
+ ctx.fillStyle="#214c5e";ctx.font="bold 19px Arial";ctx.fillText("Reference: "+String(freeProject.ref||"Not entered").slice(0,40),27,140);
+ ctx.fillStyle="#466c78";ctx.font="16px Arial";ctx.fillText("Start: "+(freeProject.start||"Not entered")+"   |   Finish: "+(freeProject.end||"Not selected"),27,166);
+ if(!list.length){ctx.fillText("Add your tasks before copying this timeline.",27,222)}
+ list.forEach(function(t,i){
+  var y=185+i*rowH;ctx.fillStyle=i%2===0?"#f2f8f7":"#fffaf1";ctx.fillRect(16,y,width-32,rowH-6);
+  ctx.fillStyle="#1f5065";ctx.font="bold 20px Arial";ctx.fillText((i+1)+". "+t.name.slice(0,68),28,y+30);
+  ctx.fillStyle="#567481";ctx.font="16px Arial";ctx.fillText("Due: "+(t.due||"To be confirmed")+"     "+t.days+" "+t.dayType+" days     Status: "+freeStatus(t),28,y+58);
+ });
+ ctx.fillStyle="#71818c";ctx.font="14px Arial";ctx.fillText("Please verify the project dates and task requirements before sharing.",27,canvas.height-20);
+ return canvas;
+}
+function freeCopyPicture(){
+ var fallback=function(){
+  if(!navigator.clipboard||!navigator.clipboard.writeText){notify("mpt-free-message","This browser cannot copy the image. Use the summary preview or calendar download.","warn");return}
+  navigator.clipboard.writeText(freeSummaryText()).then(function(){notify("mpt-free-message","Timeline text copied. Paste it into your email.","info")}).catch(function(){notify("mpt-free-message","Clipboard access was blocked. Please copy from the on-page timeline.","warn")});
+ };
+ if(!freeTasks.length){notify("mpt-free-message","Add at least one task before copying the timeline.","warn");return}
+ if(!navigator.clipboard||!navigator.clipboard.write||!window.ClipboardItem){fallback();return}
+ try{
+  var png=new Promise(function(resolve,reject){freePicture().toBlob(function(blob){blob?resolve(blob):reject(Error("Image unavailable"))},"image/png")});
+  navigator.clipboard.write([new ClipboardItem({"image/png":png})]).then(function(){notify("mpt-free-message","Timeline copied as an image. Open Mail and paste it between the markers using ⌘V or Ctrl+V.","info")}).catch(fallback);
+ }catch(e){fallback()}
+}
+function freeOpenMail(){
+ var content=["Hello,","","I hope you are doing well.","",
+  "I am sharing our Project Timeline Summary to help us stay coordinated on the next steps, deadlines, and progress.","",
+  "================ PROJECT TIMELINE SUMMARY ================","",
+  ">>> PASTE YOUR COPIED PROJECT TIMELINE TABLE HERE <<<","",
+  "==========================================================","",
+  "Please review the dates and let me know if any milestones or requirements need to be updated.","",
+  "Thank you for your time and cooperation. I look forward to working together toward a successful project.","",
+  "Best regards,",""].join("\n");
+ notify("mpt-free-message","Mail draft opened. Paste the copied table between the markers. No email is sent automatically.","info");
+ window.location.href="mailto:?subject="+encodeURIComponent("Project Timeline Summary | Please Review Dates")+"&body="+encodeURIComponent(content);
+}
+
 function proRender(){
  var body=$("mpt-pro-demo-body");if(!body)return;body.textContent="";
  state.tasks.forEach(function(t){
