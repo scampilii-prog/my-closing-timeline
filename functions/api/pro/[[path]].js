@@ -65,6 +65,14 @@ async function pbkdf(password,salt){
 async function permit(db,kind,value,max,windowSeconds){const key=await digest(kind+":"+value);const previous=await db.prepare("SELECT attempts,expires_at FROM auth_attempts WHERE rate_key=?").bind(key).first();if(previous&&previous.expires_at>now()&&previous.attempts>=max)return false;await db.prepare("INSERT INTO auth_attempts(rate_key,attempts,expires_at) VALUES(?,1,?) ON CONFLICT(rate_key) DO UPDATE SET attempts=CASE WHEN expires_at<=? THEN 1 ELSE attempts+1 END,expires_at=CASE WHEN expires_at<=? THEN excluded.expires_at ELSE expires_at END").bind(key,now()+windowSeconds,now(),now()).run();return true}
 async function getAuth(req,db){const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));if(!cookie)return null;const token=cookie.slice(cookieName.length+1);if(!/^[A-Za-z0-9_-]{40,60}$/.test(token))return null;return db.prepare("SELECT u.id,u.email,u.full_name,u.verified,u.credits FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>?").bind(await digest(token),now()).first()}
 async function newSession(db,userId){const token=random();await db.prepare("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES (?,?,?)").bind(await digest(token),userId,now()+2592000).run();return sessionCookie(token)}
+// Sliding 30-day idle window: a user who returns regularly remains signed in.
+// A month without activity requires sign-in; explicit Logout invalidates the session.
+async function renewActiveSession(req,db){
+ const cookie=(req.headers.get("Cookie")||"").split(";").map(v=>v.trim()).find(v=>v.startsWith(cookieName+"="));if(!cookie)return null;
+ const token=cookie.slice(cookieName.length+1);if(!/^[A-Za-z0-9_-]{40,60}$/.test(token))return null;
+ const updated=await db.prepare("UPDATE sessions SET expires_at=? WHERE token_hash=? AND expires_at>?").bind(now()+2592000,await digest(token),now()).run();
+ return updated.meta?.changes?sessionCookie(token):null;
+}
 async function parseBody(req,maxBytes=10000){if(!(req.headers.get("Content-Type")||"").startsWith("application/json"))throw Error("Expected JSON");if(Number(req.headers.get("Content-Length")||0)>maxBytes)throw Error("Request too large");return await req.json()}
 function validOrigin(req){const origin=req.headers.get("Origin");return origin===new URL(req.url).origin}
 const corporateSignature="<table role=\"presentation\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-top:1px solid #e0e8eb;margin-top:21px\"><tr><td align=\"center\" style=\"padding:18px 0 5px\"><a href=\"https://myclosingtimeline.com\" style=\"text-decoration:none\"><img src=\"https://myclosingtimeline.com/assets/myclosingtimeline-email-signature.png\" width=\"490\" alt=\"MyClosingTimeline.com — Closing deadlines, follow-ups, one clear timeline\" style=\"max-width:100%;width:490px;height:auto;display:block;border:0\" /></a></td></tr><tr><td align=\"center\" style=\"padding:3px 0 0\"><a href=\"https://myclosingtimeline.com\" style=\"color:#116c9d;font-weight:800;font-size:13px;text-decoration:underline\">myclosingtimeline.com</a></td></tr></table>";
@@ -142,7 +150,8 @@ export async function onRequest(context){
  if(req.method==="GET"&&route==="me"){
   const user=await getAuth(req,db);if(!user)return reply({authenticated:false});
   const items=await db.prepare("SELECT id,name,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
-  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results.map(cleanClosing)});
+  const renewed=await renewActiveSession(req,db);
+  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results.map(cleanClosing)},200,renewed?{"Set-Cookie":renewed}:{});
  }
  if(req.method==="GET"&&route==="admin/codes"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
