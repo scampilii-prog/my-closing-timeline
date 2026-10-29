@@ -79,6 +79,7 @@ function freeSelect(items,value,label){
  el.value=value;return el;
 }
 function freeRender(){
+ freeTasks.forEach(function(t){if(t.direction!=="after"){t.direction="after";if(!t.exact)t.due=freeTaskDue(t);}});
  var body=$("mpt-free-demo-body");if(!body)return;body.textContent="";
  freeSorted().forEach(function(t,i){
   var row=make("tr",t.done?"mpt-free-done":t.due&&t.due<today()?"mpt-free-overdue":"");
