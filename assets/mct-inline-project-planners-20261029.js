@@ -1,62 +1,92 @@
-/* Website 19 — Same-page choice between Real Estate and Other Projects.
-   Displays the canonical Other Projects editor in a responsive same-origin
-   frame, without duplicating date formulas, saved state or task implementations.
-   No customer data or credentials flow through frame messages. */
+/* Website 19 — same-page, equal access to Real Estate and Other Projects.
+   Other Projects is one canonical task engine; the iframe is isolated from
+   Real Estate contract data. In-frame navigation and headers are never shown. */
 (function(){
  "use strict";
  function init(){
-  var links=Array.from(document.querySelectorAll('a[data-mct-inline-choice]'));
+  const links=Array.from(document.querySelectorAll('a[data-mct-inline-choice]'));
   function markChoice(link){
    if(!link)return;
-   var group=link.closest(".mct-product-path");
+   const group=link.closest(".mct-product-path");
    if(!group)return;
    group.querySelectorAll("a[data-mct-inline-choice]").forEach(function(a){
-    var selected=a===link;
-    a.classList.toggle("active",selected);
-    if(selected)a.setAttribute("aria-current","true");
+    const active=a===link;
+    a.classList.toggle("active",active);
+    if(active)a.setAttribute("aria-current","true");
     else a.removeAttribute("aria-current");
    });
   }
-  links.forEach(function(link){
-   link.addEventListener("click",function(){markChoice(link)});
-  });
-  if(location.hash){
-   var chosen=links.find(function(link){return link.getAttribute("href")===location.hash});
-   if(chosen)markChoice(chosen);
+  links.forEach(link=>link.addEventListener("click",()=>markChoice(link)));
+  function updateSelection(){
+   const match=links.find(link=>link.getAttribute("href")===location.hash);
+   if(match)markChoice(match);
   }
-  window.addEventListener("hashchange",function(){
-   var chosen=links.find(function(link){return link.getAttribute("href")===location.hash});
-   if(chosen)markChoice(chosen);
-  });
-  Array.from(document.querySelectorAll("iframe[data-mct-inline-project]")).forEach(function(frame){
-   var observer=null,doc=null,section=null;
+  updateSelection();window.addEventListener("hashchange",updateSelection);
+  document.querySelectorAll("iframe[data-mct-inline-project]").forEach(function(frame){
+   let observer=null,section=null,doc=null;
+   const mode=frame.dataset.mctInlineProject;
+   frame.style.visibility="hidden";
    function resize(){
     if(!section||!frame.isConnected)return;
-    // Same origin: measure the real editor, not a fixed-height iframe
-    // or the hidden website header/footer.
-    var height=Math.ceil(section.getBoundingClientRect().height)+24;
-    if(Number.isFinite(height))frame.style.height=Math.min(16000,Math.max(570,height))+"px";
+    const height=Math.ceil(section.getBoundingClientRect().height)+30;
+    if(Number.isFinite(height)&&height>0)frame.style.height=Math.min(16000,Math.max(560,height))+"px";
+   }
+   function fail(){
+    frame.style.display="none";
+    const msg=frame.parentElement.querySelector(".mct-inline-status");
+    if(msg){
+     msg.style.display="block";
+     msg.textContent="The project planner could not be loaded here. Open the Other Projects page to continue.";
+     const link=document.createElement("a");
+     link.href="/other-projects.html#"+(mode==="free"?"mpt-free-preview":"mpt-pro-preview");
+     link.textContent="Open Project Timeline";
+     link.style.cssText="display:inline-block;margin-left:10px;color:#176d78;font-weight:850";
+     msg.append(link);
+    }
    }
    frame.addEventListener("load",function(){
-    if(observer){observer.disconnect();observer=null}
     try{
+     if(observer){observer.disconnect();observer=null}
      doc=frame.contentDocument;
-     var mode=frame.dataset.mctInlineProject;
-     if(!doc||doc.documentElement.getAttribute("data-mpt-embed")!==mode)throw new Error("Unexpected embedded view");
+     if(!doc||!doc.documentElement)throw new Error("Project editor unavailable");
+     // The query can be stripped by hosting redirects; set the requested mode
+     // from the trusted parent control and then enforce the view explicitly.
+     doc.documentElement.setAttribute("data-mpt-embed",mode);
+     const main=doc.querySelector("main.mpt-main");
      section=doc.getElementById(mode==="free"?"mpt-free-preview":"mpt-pro-preview");
-     if(!section)throw new Error("Project timeline missing");
+     if(!main||!section)throw new Error("Project editor missing");
+     // Hide duplicate header, hero, navigation and footer even when the
+     // deployed child HTML is an older revision without embedding CSS.
+     doc.querySelectorAll("header,#mct-fixed-header-spacer,.mpt-hero,footer,.mct-back-to-top,.mct-back-top,[data-mct-back-to-top]").forEach(function(el){
+      el.style.setProperty("display","none","important");
+     });
+     Array.from(main.children).forEach(function(el){
+      if(el!==section)el.style.setProperty("display","none","important");
+     });
+     const sheet=doc.createElement("style");sheet.id="mct-inline-forced-clean-view-20261029";
+     sheet.textContent=[
+      "html,body{margin:0!important;padding:0!important;scroll-behavior:auto!important;overflow-x:hidden!important;background:#f8fafb!important}",
+      "body{min-height:0!important}",
+      "main.mpt-main{display:block!important;margin:0!important;padding:0!important;width:100%!important;max-width:none!important}",
+      "#mpt-free-preview,#mpt-pro-preview{display:block!important;box-sizing:border-box!important;width:100%!important;margin:0!important;padding:2px 0 9px!important;border:0!important;box-shadow:none!important;background:transparent!important}",
+      ".mpt-demo-board{margin:5px 0!important}",
+      ".mpt-demo-head,.mpt-free-step-links{display:none!important}",
+      "#mpt-free-preview>h2,#mpt-free-preview>.mpt-free-tagline,#mpt-free-preview>.mpt-free-access-note,#mpt-free-preview>.mpt-free-intro,#mpt-free-preview>.mpt-steps,#mpt-free-preview>.mpt-workmode-explainer,#mpt-free-preview>.mpt-example,#mpt-free-preview>.mpt-followup-showcase,#mpt-free-preview>.mpt-followup-bottom,#mpt-free-preview>.mpt-followup-disclaimer{display:none!important}",
+      "#mpt-pro-preview>h2,#mpt-pro-preview>p:not(.mpt-plan-offer-terms),#mpt-pro-preview>.mpt-steps,#mpt-pro-preview>.mpt-pro-followup-link,#mpt-pro-preview>.mpt-disclaimer{display:none!important}",
+      "#mpt-free-task-demo,#mpt-pro-task-demo{border-radius:10px!important;background:#fff!important;padding:14px!important}",
+      "#mpt-free-task-demo .mpt-free-inner-card{background:#fff!important}"
+     ].join("\n");
+     doc.head.appendChild(sheet);
+     // Keep the embedded header stripped from older deployments as well.
+     doc.querySelectorAll('a[href^="/"]').forEach(a=>a.target="_top");
      resize();
-     if(window.ResizeObserver){observer=new ResizeObserver(resize);observer.observe(section)}
-     // Links within an embedded editor leave the frame, not the website.
-     doc.querySelectorAll('a[href^="/"]').forEach(function(a){a.target="_top"});
-     var msg=frame.parentElement.querySelector(".mct-inline-status");
-     if(msg)msg.textContent=mode==="free"?"FREE project tasks are ready below.":"PRO project follow-up demonstration is ready below. No payments are active.";
-    }catch(e){
-     frame.style.height="650px";
-     var note=frame.parentElement.querySelector(".mct-inline-status");
-     if(note)note.textContent="The embedded planner could not be displayed. Please use the separate Other Projects page link below.";
-    }
+     if(typeof ResizeObserver==="function"){observer=new ResizeObserver(resize);observer.observe(section)}
+     frame.style.visibility="visible";
+     const note=frame.parentElement.querySelector(".mct-inline-status");
+     if(note){note.textContent="Project tasks ready.";note.style.display="none"}
+    }catch(e){fail()}
    });
+   frame.addEventListener("error",fail);
    window.addEventListener("resize",resize,{passive:true});
   });
  }
