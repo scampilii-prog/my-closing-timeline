@@ -2180,4 +2180,18 @@ try{sessionStorage.setItem('mct-free-pro-draft',JSON.stringify({audience:audienc
 });
 });
 })();
+</script><script id="mct-express-preserve-draft-v1">
+(function(){
+ document.addEventListener("click",function(event){
+  var link=event.target.closest('a[href*="/express-pro.html"]');
+  if(!link)return;
+  var audience=link.href.includes("audience=other")?"other":"realtor";
+  var root=audience==="other"?document.getElementById("mct-free-other-projects"):document.getElementById("contract-deadline-planner");
+  if(!root)return;
+  var fields=Array.from(root.querySelectorAll("input,select,textarea")).filter(function(el){return !["password","file","hidden"].includes(el.type)}).map(function(el,i){
+   return {id:el.id||"",name:el.name||"",index:i,type:el.type,value:el.type==="checkbox"?el.checked:el.value};
+  });
+  try{sessionStorage.setItem("mct-free-pro-draft",JSON.stringify({audience:audience,fields:fields,savedAt:Date.now()}))}catch(e){}
+ },true);
+})();
 </script></body></html>
