@@ -124,7 +124,7 @@ function freeSummary(){
  keyRow("Project start date",freeProject.start?readable(freeProject.start):"Set project start date · KEY DATE");
  freeSorted().forEach(function(t,i){
   var li=make("li"),badge=make("b",null,String(i+1)),wrap=make("div"),title=make("strong",null,t.name);
-  var detail=make("span",null,t.due?readable(t.due):"Set project start date");
+  var detail=make("span",null,(t.direction==="before"?"Before ":"After ")+(t.base==="end"?"project finish":"project start"));
   var stateText=freeStatus(t);
   var label=make("span","mpt-free-status-pill "+(stateText==="Done"?"is-done":stateText==="OVERDUE"?"is-late":"is-pending"),stateText);
   var dateCell=make("span","mpt-free-summary-date",t.due?readable(t.due):"Set start date");
