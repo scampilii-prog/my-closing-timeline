@@ -391,7 +391,7 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
      <button id="mpt-free-add" type="submit" class="mpt-demo-primary">+ Add Task</button>
     </form>
     <div class="mpt-demo-table-scroll mpt-free-editor-table-scroll"><table class="mpt-demo-table mpt-free-editor-table" aria-label="Editable FREE Project Timeline with the same deadline calculation options as Real Estate FREE">
-     <thead><tr><th scope="col">#</th><th scope="col">Task / reminder</th><th scope="col">Days</th><th scope="col">Calendar / Business</th><th scope="col">Based on</th><th scope="col">When</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
+     <thead><tr><th scope="col">No.</th><th scope="col">Task / reminder</th><th scope="col">Days</th><th scope="col">Calendar / Business</th><th scope="col" class="mct-hidden-base">Base</th><th scope="col">When</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
      <tbody id="mpt-free-demo-body"><tr><td colspan="9">Your task table will appear here. Add the first task above.</td></tr></tbody>
     </table></div>
     <div class="mpt-free-edit-actions">
@@ -706,6 +706,17 @@ html body .mpt-first-credit-note a{
  html body .mpt-free-editor-table tbody td:nth-child(9) button:first-child{background:#e5f4ec!important;border:1px solid #b3d9c2!important;color:#246746!important}
  html body .mpt-free-editor-table tbody td:nth-child(1){min-width:0!important;max-width:22px!important;overflow:hidden!important}
  html body .mpt-free-editor-table tbody td:nth-child(1)::before{display:none!important}
+}
+</style><style id="mct-v18-final-requested-correction">
+/* Keep underlying date anchor for calculations; hide redundant Base column. */
+@media(min-width:900px){
+html body .mpt-free-editor-layout{grid-template-columns:minmax(0,5.2fr) minmax(170px,1fr)!important;gap:9px!important}
+html body .mpt-free-editor-table tbody tr{grid-template-columns:21px minmax(180px,3.3fr) 42px minmax(89px,1.25fr) 57px minmax(112px,1.55fr) 69px 84px!important;gap:5px!important}
+html body .mpt-free-editor-table tbody td:nth-child(5){display:none!important}
+html body .mpt-free-editor-table tbody td:nth-child(1){max-width:21px!important;min-width:0!important;text-align:center!important}
+html body .mpt-free-editor-table tbody td:nth-child(2){min-width:0!important}
+html body .mpt-free-editor-table tbody td:nth-child(9) button:last-child{color:#a52c2c!important;border:1px solid #e5b5b5!important;background:#fff1f0!important}
+html body .mpt-free-editor-table tbody td[data-label]:before{white-space:nowrap!important;font-size:9px!important}
 }
 </style></body>
 </html>
