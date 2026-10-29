@@ -329,3 +329,33 @@ html body #contract-deadline-planner .fc-simple-result .mct-free-share-quiet{dis
  html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-direction{grid-column:span 6!important}
  html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-due{grid-column:1/-1!important}
 }
+
+/* Website 18 — wider desktop task editor, one aligned row per task.
+   Presentation only; FREE/PRO permissions and deadline formulas unchanged. */
+@media(min-width:1180px){
+ html body.mct-layout-wide main.workspace{max-width:1480px!important;width:min(97%,1480px)!important}
+ html body #contract-deadline-planner .fc-simple-layout{
+  grid-template-columns:minmax(0,2.7fr) minmax(290px,1fr)!important;
+  gap:15px!important
+ }
+ html body #contract-deadline-planner .mct-realty-task-card .mct-realty-task-grid{
+  grid-template-columns:minmax(150px,3fr) minmax(58px,.7fr) minmax(115px,1.5fr)
+  minmax(120px,1.6fr) minmax(95px,1.2fr) minmax(115px,1.5fr)!important;
+  gap:7px!important;align-items:end!important
+ }
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-name,
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-days,
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-type,
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-base,
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-direction,
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-due{
+  grid-column:auto!important;grid-row:auto!important
+ }
+ html body #contract-deadline-planner .mct-realty-task-grid>label>input,
+ html body #contract-deadline-planner .mct-realty-task-grid>label>select{
+  height:38px!important;min-height:38px!important;font-size:11px!important
+ }
+}
+@media(min-width:1180px) and (max-width:1360px){
+ html body #contract-deadline-planner .fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}
+}
