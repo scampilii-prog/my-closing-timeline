@@ -219,6 +219,10 @@ export async function onRequest({request:req,env}){
   // A previously used first credit is valid for a NEW owner-authorized test,
   // but not for an ordinary visitor or an un-reset returning account.
   if(!ownerResetReady&&!await eligible(db,email))return json({ok:true,message:publicReply});
+  // A historical code may have been archived during legacy duplicate cleanup
+  // before the customer registered. Do not send a misleading new verification
+  // mail or issue another welcome code without an explicit owner test reset.
+  if(!ownerResetReady&&await db.prepare("SELECT 1 FROM first_free_archived_requests WHERE email=? AND promo_code_id IS NOT NULL LIMIT 1").bind(email).first())return json({ok:true,message:publicReply});
   const t=token();
   if(prev)await db.prepare("UPDATE first_free_requests SET verification_hash=?,verification_expires=?,marketing_requested=?,customer_type=?,updated_at=? WHERE id=? AND status='pending_verification'").bind(await sha(t),now()+86400,b.marketingOptIn?1:0,type,now(),prev.id).run();
   else await db.prepare("INSERT INTO first_free_requests(id,email,verification_hash,verification_expires,marketing_requested,customer_type,updated_at) VALUES(?,?,?,?,?,?,?)").bind(guid(),email,await sha(t),now()+86400,b.marketingOptIn?1:0,type,now()).run();
