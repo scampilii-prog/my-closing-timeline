@@ -1,5 +1,16 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
 
+## Website 19 — 2026-10-29 — selector de FREE y PRO desplaza a ambas tablas sin abandonar página
+- `free-timeline.html`: `I'm a Realtor` → editor inmueble actual, `I'm another professional` → nueva sección `#mct-free-other-projects` debajo con tabla FREE ocho tareas y mismo diseño de dos pasos, panel live review y motores de tareas originales.
+- `pro-get-started.html`: selector inmobiliario conserva entrada a plan/cuenta, selector Other Projects → `#mct-pro-other-projects` con planificación y follow-up **DEMO**, 90/180/365 días y recordatorio visual. No pagos activos ni cuentas independientes Other Projects.
+- `other-projects.html`: modo de visualización para integrarse como sección en la misma pantalla de FREE/PRO sin duplicar encabezados, anuncios, footer o tablas (query `?embed=free|pro`). Página independiente intacta para uso futuro; sus tablas y JS son fuente única en ambos contextos.
+- `assets/mct-inline-project-planners-20261029.js`: sincroniza tarjeta activa, comprueba vista embebida same-origin y mide altura con ResizeObserver para evitar barras interiores y cortes de tablas; enlaces navegan en misma pestaña.
+- Corrigió antigua mención engañosa de 1/2/5 créditos en PRO Other Projects a las tres duraciones reales 90/180/365 días, recordando que solo son precios propuestos.
+- Commits: `54b5d5fa7718dde83ebd893c73599fd8d0aeecc0`, `7fabfcf40798b02a53af02185b5af984a6c6fccb`, `562c72c3f9443b93552e3a564e8cb7f5b33446c4`, `ca77239fe29c41c7d763268aeee029ecba76e90b`, `a2a8d511448316a31656abfe86091f7e5864d4ea`.
+- QA estática: los anchors existen, no hay ids duplicados, inline JS parsea, ambas páginas cargan el módulo único correctamente. Todavía sin QA de Cloudflare desplegado / uso de Chrome en vivo.
+
+
+
 ## Website 18 · Other Projects FREE ahora tiene las mismas tablas de Real Estate FREE (29 oct 2026)
 - Sustituida la antigua lista libre de 4 columnas por flujo completo a dos columnas: Step 1 Project Details, Step 2 Tasks & Deadlines (9 columnas/controles, editor móvil en tarjetas) y panel Live Preview / Share paralelo. Sin tasks de Realtor; 8 tareas propias por sesión, sin cuenta. Nombres homogéneos «Other Projects FREE Timeline» / «FREE Project Timeline».
 - `other-projects.html`: maquetación, CSS responsive, botón superior para ir directamente a FREE, versión script v20. `assets/mpt-project-task-demo-20261028.js`: motor compartido calendar/business con fechas Start/Finish, before/after, due exacto, recalcular fechas, reglas 8 tasks, Done/Remove, Reset Last, Sort by Date, copiar imagen/texto de timeline, mailto para colocar imagen y calendario .ics. `free-timeline.html` permite entrar por enlace directo al módulo correcto.
