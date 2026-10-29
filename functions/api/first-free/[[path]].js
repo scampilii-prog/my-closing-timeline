@@ -64,7 +64,7 @@ async function issueVerifiedInvite(db,env,r){
  const rid=r.id;
   const lock=await db.prepare("UPDATE first_free_requests SET status='approved',updated_at=? WHERE id=? AND status='pending' AND verified_at IS NOT NULL AND promo_code_id IS NULL").bind(now(),rid).run();
   if(!lock.meta?.changes)return "busy";
-  const t="MCT-"+token().toUpperCase(),codeId=guid(),link="https://myclosingtimeline.com/pro-get-started.html?auth=register&mode=gift#gift="+encodeURIComponent(t),isOther=r.customer_type==="other",typeLabel=isOther?"Other Projects":"Realtor";
+  const t="MCT-"+token().toUpperCase(),codeId=guid(),isOther=r.customer_type==="other",link="https://myclosingtimeline.com/pro-get-started.html?auth=register&mode=gift"+(isOther?"&audience=other":"")+"#gift="+encodeURIComponent(t),typeLabel=isOther?"Other Projects":"Real Estate & Closings";
   try{
    await db.prepare("INSERT INTO promo_codes(id,code_hash,credits,max_uses,expires_at,restricted_email) VALUES(?,?,1,1,?,?)").bind(codeId,await sha(t),r.customer_type==="other"?null:now()+2592000,r.email).run();
    await db.prepare("UPDATE first_free_requests SET promo_code_id=? WHERE id=? AND status='approved'").bind(codeId,rid).run();
