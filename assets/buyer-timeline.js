@@ -38,34 +38,17 @@ function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='nu
  }
  body.querySelectorAll('[data-index]').forEach(card=>{const i=Number(card.dataset.index),row=rows[i];const handle=card.querySelector('.fc-task-label');handle.addEventListener('dragstart',e=>{draggedTask=row;if(e.dataTransfer){e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(rows.indexOf(row)))}});handle.addEventListener('dragend',()=>{draggedTask=null});handle.addEventListener('keydown',e=>{if(e.altKey&&(e.key==='ArrowUp'||e.key==='ArrowDown')){e.preventDefault();const from=rows.indexOf(row);moveTask(from,from+(e.key==='ArrowUp'?-1:1))}});card.addEventListener('dragover',e=>{if(draggedTask)e.preventDefault()});card.addEventListener('drop',e=>{if(!draggedTask)return;e.preventDefault();const from=rows.indexOf(draggedTask),to=rows.indexOf(row);draggedTask=null;moveTask(from,to)});card.querySelectorAll('[data-field]').forEach(el=>{const update=()=>{row[el.dataset.field]=el.value;if(el.dataset.field==='name'){row.base=row.name.includes('lender closing funds')?'closing':row.name.includes('Force Majeure')?'closing':taskGuide(row.name)[4];row.override='';row.days=suggestedDays(row.name);row.direction=row.base==='closing'&&!row.name.includes('EXTENSION OF CLOSING')?'before':'after'}if(el.dataset.field==='days')row.override='';if(el.dataset.field==='name'||el.dataset.field==='base'){render();return}show()};el.addEventListener(el.tagName==='SELECT'?'change':'input',update)});card.querySelector('[data-change-task]')?.addEventListener('click',()=>{row.name='';row.custom='';row.days='';row.override='';render()});card.querySelector('[data-remove]').addEventListener('click',()=>{const index=rows.indexOf(row);if(index!==-1)rows.splice(index,1);render()})});show();
 }
-function utcDate(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s||''))return null;const d=new Date(s+'T12:00:00Z');return Number.isNaN(d.getTime())||d.toISOString().slice(0,10)!==s?null:d}function stamp(d){return d?d.toISOString().slice(0,10):''}function fmt(s){const d=utcDate(s);return d?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC',weekday:'short'}).format(d):'Not entered'}function mctFederalHoliday(date){
- const target=stamp(date),y=date.getUTCFullYear();
- const at=(year,month,day)=>new Date(Date.UTC(year,month,day,12));
- const observed=(year,month,day)=>{const d=at(year,month,day),w=d.getUTCDay();if(w===6)d.setUTCDate(d.getUTCDate()-1);else if(w===0)d.setUTCDate(d.getUTCDate()+1);return d};
- const nth=(year,month,weekday,n)=>{const d=at(year,month,1);d.setUTCDate(1+(weekday-d.getUTCDay()+7)%7+7*(n-1));return d};
- const last=(year,month,weekday)=>{const d=at(year,month+1,0);d.setUTCDate(d.getUTCDate()-(d.getUTCDay()-weekday+7)%7);return d};
- for(const year of [y-1,y,y+1]){
-  const holidays=[observed(year,0,1),nth(year,0,1,3),nth(year,1,1,3),last(year,4,1),
-   observed(year,5,19),observed(year,6,4),nth(year,8,1,1),nth(year,9,1,2),
-   observed(year,10,11),nth(year,10,4,4),observed(year,11,25)];
-  if(holidays.some(d=>stamp(d)===target))return true;
- }
- return false;
-}
-function mctBusinessDay(d){const day=d.getUTCDay();return day!==0&&day!==6&&!mctFederalHoliday(d)}
-function offsetDate(source,days,direction,type,applyContractRules=false){
- let d=utcDate(source);if(!d)return '';
- let n=Number(days),step=direction==='before'?-1:1;
- if(!Number.isInteger(n)||n<0||n>3650)return '';
- if(n===0)return stamp(d);
- if(type==='business'){
-  while(n>0){d.setUTCDate(d.getUTCDate()+step);if(mctBusinessDay(d))n--}
- }else{
-  d.setUTCDate(d.getUTCDate()+step*n);
-  if(applyContractRules)while(!mctBusinessDay(d))d.setUTCDate(d.getUTCDate()+step);
- }
- return stamp(d);
-}function rowDate(r){const base=r.base==='closing'?$('deadline-closing').value:r.base==='recovery'?r.recovery:r.base==='trigger'?r.trigger:$('deadline-effective').value;return r.override||(r.days!==''&&base?offsetDate(base,r.days,r.direction,r.type,true):'')}
+// FREE and PRO share the identical verified date engine, including US observed
+// holidays, business days, exact calendar dates and contract weekend guidance.
+const MCTDates=window.MCTTaskRules;
+if(!MCTDates)throw Error('The timeline date engine did not load. Please refresh the page.');
+function utcDate(s){return MCTDates.parseISO(s)}
+function stamp(d){return MCTDates.stamp(d)}
+function fmt(s){const d=utcDate(s);return d?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC',weekday:'short'}).format(d):'Not entered'}
+function mctFederalHoliday(d){return MCTDates.holiday(d)}
+function mctBusinessDay(d){return MCTDates.businessDay(d)}
+function offsetDate(source,days,direction,type,applyContractRules=false){return MCTDates.offsetDate(source,days,direction,type,applyContractRules)}
+function rowDate(r){const base=r.base==='closing'?$('deadline-closing').value:r.base==='recovery'?r.recovery:r.base==='trigger'?r.trigger:$('deadline-effective').value;return r.override||(r.days!==''&&base?offsetDate(base,r.days,r.direction,r.type,true):'')}
 function moveTask(from,to){if(from<0||to<0||from>=rows.length||to>=rows.length||from===to)return;const task=rows.splice(from,1)[0];rows.splice(to,0,task);manualOrder=true;render();timelineFeedback('Manual task order. Use Sort by date to restore chronological order.')}
 function pendingPeriodOrder(a,b){if(a.base!==b.base||a.date||b.date||a.override||b.override)return 0;const av=a.days===''||a.days===undefined?Infinity:Number(a.days)*(a.direction==='before'?-1:1),bv=b.days===''||b.days===undefined?Infinity:Number(b.days)*(b.direction==='before'?-1:1);return av===bv?0:av-bv}
 function sortRows(){manualOrder=false;const before=rows.slice();rows=rows.map((r,i)=>({r,i,date:rowDate(r)})).sort((a,b)=>(a.date||'9999-12-31').localeCompare(b.date||'9999-12-31')||pendingPeriodOrder(a.r,b.r)||a.i-b.i).map(x=>x.r);if(rows.some((r,i)=>r!==before[i]))render();else show()}
