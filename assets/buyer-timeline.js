@@ -21,22 +21,21 @@ function taskGuide(name){
 function taskGuideMarkup(row){const g=taskGuide(row.name);return '<details class="fc-task-guidance-disclosure"><summary>View deadline guidance</summary><aside class="fc-task-guide" aria-label="Task deadline guidance"><strong>'+esc(g[0])+'</strong><span>'+esc(g[1])+'</span><small>Count from: '+esc(g[2])+' · '+esc(g[3])+'</small><small>Skip or mark Not applicable if this task does not apply. Signed terms and time-computation rules control.</small></aside></details>'}
 function suggestedDays(name){const i=names.indexOf(name);return i>=0&&i<8?String([3,5,5,5,7,30,7,7][i]):''}
 function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='number'?names[n]:n};return {name:item.n,base:item.base||(item.n.includes('lender closing funds')?'closing':item.n.includes('Force Majeure')?'closing':taskGuide(item.n)[4]),recovery:'',trigger:'',direction:item.direction||(taskGuide(item.n)[4]==='closing'&&!item.n.includes('EXTENSION OF CLOSING')?'before':'after'),days:suggestedDays(item.n),type:(document.getElementById('mct-contract-day-count')?.value==='business'?'business':'calendar'),override:'',status:'pending',amount:'',note:'',custom:''}}function reset(){const template=$('deadline-template').value;rows=(maxFreeTasks>0&&template==='custom'?initialTasks:(presets[template]||presets.custom)).map(i=>baseRow(i));render()}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function selectOptions(options,selected){return options.map(([v,t])=>'<option value="'+esc(v)+'"'+(v===selected?' selected':'')+'>'+esc(t)+'</option>').join('')}function freeRealtyTaskRow(r,i){
- // FREE-only editorial layout. PRO keeps its existing renderer.
  const name=r.custom||(r.name===names[names.length-1]?'':r.name);
  const state=r.status==='done'?'DONE':r.status==='na'?'NOT APPLICABLE':'PENDING';
- const stateClass=r.status==='done'?'is-done':r.status==='na'?'is-na':'is-pending';
- return '<article class="fc-simple-task mct-realty-task-card" data-index="'+i+'">'
- +'<div class="mct-realty-task-card-top"><span class="fc-task-label" draggable="true" tabindex="0" role="button" title="Drag to reorder. Use Alt + Up or Down." aria-label="Move task '+(i+1)+'">'+(i+1)+'</span>'
- +'<span class="mct-realty-task-badge '+stateClass+'">'+state+'</span></div>'
- +'<div class="fc-simple-task-main mct-realty-task-grid">'
- +'<label class="fc-simple-task-name mct-realty-task-name"><span>Task / milestone</span><input data-field="custom" type="text" aria-label="Edit task '+(i+1)+' name" placeholder="Task or milestone" maxlength="180" value="'+esc(name)+'"></label>'
- +'<label class="fc-simple-task-days mct-realty-task-days"><span>Days</span><input data-field="days" type="number" min="0" max="3650" step="1" inputmode="numeric" placeholder="Days" value="'+esc(r.days)+'"></label>'
- +'<label class="mct-realty-task-type"><span>Day count</span><select data-field="type" aria-label="Task '+(i+1)+' day counting">'+selectOptions([['calendar','Calendar Days'],['business','Business Days']],r.type)+'</select></label>'
- +'<label class="mct-realty-task-base"><span>Based on</span><select data-field="base" aria-label="Task '+(i+1)+' date anchor">'+selectOptions([['effective','Effective Date'],['closing','Closing Date'],['recovery','Services Restored'],['trigger','Receipt / Event']],r.base)+'</select></label>'
- +'<label class="mct-realty-task-direction"><span>When</span><select data-field="direction" aria-label="Task '+(i+1)+' before or after">'+selectOptions([['after','After'],['before','Before']],r.direction)+'</select></label>'
- +'<label class="fc-task-due mct-realty-task-due"><span>Due date</span><input data-field="override" data-calculated-date type="date" aria-label="Task '+(i+1)+' due date or exact override" value="'+esc(rowDate(r))+'"></label>'
- +'<div class="mct-realty-task-actions"><button type="button" class="mct-realty-mark-done" data-mark-done="'+i+'" aria-label="Mark task '+(i+1)+' '+(r.status==='done'?'pending':'done')+'">'+(r.status==='done'?'Reopen':'Done')+'</button>'
- +'<button type="button" data-remove="'+i+'" class="fc-simple-remove mct-task-delete" aria-label="Remove task '+(i+1)+'">Remove</button></div></div></article>';
+ const cls=r.status==='done'?'is-done':r.status==='na'?'is-na':'is-pending';
+ return '<article class="fc-simple-task mct-realty-task-card mct-master-row" data-index="'+i+'">'
+ +'<span class="fc-task-label mct-master-number" draggable="true" tabindex="0" role="button" title="Drag to reorder; Alt + arrows" aria-label="Move task '+(i+1)+'">'+(i+1)+'</span>'
+ +'<label class="mct-realty-task-name"><span>Task</span><input data-field="custom" type="text" aria-label="Edit task '+(i+1)+' name" maxlength="180" value="'+esc(name)+'"></label>'
+ +'<label class="mct-realty-task-days"><span>Days</span><input data-field="days" type="number" min="0" max="3650" step="1" value="'+esc(r.days)+'"></label>'
+ +'<label class="mct-realty-task-direction"><span>When</span><select data-field="direction" aria-label="Before or after">'+selectOptions([['after','After'],['before','Before']],r.direction)+'</select></label>'
+ +'<label class="mct-realty-task-due"><span>Due</span><input data-field="override" data-calculated-date type="date" aria-label="Exact due date" value="'+esc(rowDate(r))+'"></label>'
+ +'<span class="mct-realty-task-badge '+cls+'">'+state+'</span>'
+ +'<div class="mct-realty-task-actions"><button type="button" data-mark-done="'+i+'" class="mct-realty-mark-done">'+(r.status==='done'?'Reopen':'Done')+'</button><button type="button" data-remove="'+i+'" class="mct-task-delete">Remove</button></div>'
+ +'<details class="mct-master-extra"><summary>Options</summary><div class="mct-master-extra-inner">'
+ +'<label>Day count<select data-field="type">'+selectOptions([['calendar','Calendar Days'],['business','Business Days']],r.type)+'</select></label>'
+ +'<label>Based on<select data-field="base">'+selectOptions([['effective','Effective Date'],['closing','Closing Date'],['recovery','Services Restored'],['trigger','Receipt / Event']],r.base)+'</select></label>'
+ +'</div></details></article>';
 }
 function render(){
  const body=$('deadline-editor-rows');
