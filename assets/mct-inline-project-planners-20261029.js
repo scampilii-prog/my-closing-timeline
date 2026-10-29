@@ -18,6 +18,20 @@
   }
   links.forEach(link=>link.addEventListener("click",function(event){
    markChoice(link);
+   if(link.dataset.mctInlineChoice==="other"){
+    event.preventDefault();
+    const targetSection=document.getElementById("mct-free-other-projects");
+    if(!targetSection)return;
+    if(history.replaceState)history.replaceState(null,"","#mct-free-other-projects");
+    requestAnimationFrame(function(){
+      const fixed=document.querySelector("#mct-fixed-header-spacer");
+      const nav=document.querySelector(".apphead")||document.querySelector("header");
+      const h=fixed?fixed.getBoundingClientRect().height:(nav?nav.getBoundingClientRect().height:85);
+      const y=targetSection.getBoundingClientRect().top+window.scrollY-Math.max(0,h)-8;
+      window.scrollTo({top:Math.max(0,y),behavior:"smooth"});
+    });
+    return;
+   }
    if(link.dataset.mctInlineChoice!=="realtor")return;
    const heading=document.getElementById("deadline-planner-title");
    if(!heading)return;
