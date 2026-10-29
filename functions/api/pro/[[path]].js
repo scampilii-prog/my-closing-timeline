@@ -395,6 +395,7 @@ export async function onRequest(context){
   if(!/^CL-[A-F0-9]{8}$/.test(name)||!isoDate(eff)||!isoDate(end)||end<eff)return error("Use an anonymous CL-XXXXXXXX reference and valid contract dates. Personal information is not accepted in this field.");
   // No credit is consumed before any additional-duration requirement is satisfied.
   if(closingExtensionNeeded(eff,end))return extensionNotLaunched();
+  await ensureContractTable(db);
   const id=guid();
   // The batch is atomic: no task is added and no credit is consumed if the
   // closing cannot be registered. Existing closings remain untouched.
@@ -406,15 +407,31 @@ export async function onRequest(context){
    const proposed=suggestedDate(closingBased?end:eff,closingBased?-days:days);
    statements.push(db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date,auto_shift) SELECT ?,id,user_id,?,?,? FROM closings WHERE id=? AND user_id=?").bind(guid(),title,proposed,closingBased,id,user.id));
   }
+  // Step 2 uses the same six contract milestones and default periods as FREE.
+  // The same atomic batch ensures there are no orphan tasks when credits run out.
+  for(const [title,days] of contractDefaultTasks){
+   statements.push(db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,due_date) SELECT ?,id,user_id,?,?,'effective','after','calendar',? FROM closings WHERE id=? AND user_id=?").bind(guid(),title,days,contractDate(eff,days),id,user.id));
+  }
   const res=await db.batch(statements);
   if(!res[0]?.meta?.changes)return error("No closing credits available. Purchase or redeem a credit first.",402);
   return reply({ok:true,id,role,task_count:selectedTasks.length},201);
  }
- const match=/^closings\/([0-9a-f-]{36})\/(details|change-date|cancel|complete|tasks\/add|tasks\/update)$/.exec(route);
+ const match=/^closings\/([0-9a-f-]{36})\/(details|change-date|cancel|complete|tasks\/add|tasks\/update|contract\/add|contract\/update)$/.exec(route);
  if(match){
   const id=match[1],act=match[2],closing=await db.prepare("SELECT * FROM closings WHERE id=? AND user_id=?").bind(id,user.id).first();
   if(!closing)return error("Closing not found",404);
-  if(act==="details"){const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask)})}
+  if(act==="details"){
+   await ensureContractTable(db);
+   const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();
+   let contract=await db.prepare("SELECT * FROM closing_contract_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date,id").bind(id,user.id).all();
+   // Earlier closings receive the same default Step 2 tasks on first read.
+   if(!contract.results.length){
+    const rows=contractDefaultTasks.map(([title,days])=>db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,due_date) VALUES(?,?,?,?,?,'effective','after','calendar',?)").bind(guid(),id,user.id,title,days,contractDate(closing.effective_date,days)));
+    await db.batch(rows);
+    contract=await db.prepare("SELECT * FROM closing_contract_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date,id").bind(id,user.id).all();
+   }
+   return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask),contract_tasks:contract.results.map(contractClean),contract_options:contractTaskChoices});
+  }
   if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
   if(act==="change-date"){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
