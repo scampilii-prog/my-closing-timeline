@@ -1,5 +1,14 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
 
+## Website 19 · 29 oct 2026 — Simplificación FREE y flujo de primera invitación PRO
+- Terminadas las tablas FREE tanto Realtor como Other Projects con un panel final no invasivo: **FREE forever**, opción principal de **obtener el primer PRO Real Estate gratuito de 90 días** (Other Projects es reserva para el lanzamiento), link secundario a Plans & Pricing y enlace Back to Both FREE Timelines. Ningún precio de catálogo dentro de FREE, sin compras o renovación automática.
+- «I'm a Realtor» y «I'm another professional» siguen llevando en esta misma página a sus editores separados; se agregó Back tanto arriba como debajo de las tablas, acortados encabezados y texto de guía. Se retiró el colgante redundante 100% FREE/0 dólares.
+- Nueva redacción en `first-closing-free.html`: las dos categorías comparten la oferta de primera experiencia sin tarjeta, pero la oferta Other Projects NO activa todavía PRO; solo reserva para lanzamiento, no presenta beneficios como activos. Link de vuelta a FREE correcto.
+- `pricing.html` concentra precios y aclara que invitación/registro son sin tarjeta y compras posteriores solo opcionales. Se mantuvieron Stripe Sandbox y el sistema original de códigos; no se tocó backend.
+- Archivos: `free-timeline.html`, `assets/mct-unified-free-design-20261029.css` (v4), `first-closing-free.html`, `pricing.html`. QA sintaxis, IDs y anchors sin errores; despliegue y navegador sin verificar.
+
+
+
 ## WEBSITE 19 — FREE Timeline, presentación igualitaria aprobada (2026-10-29)
 - Selector FREE reescrito: `Two powerful planners. One clear timeline.` y dos tarjetas iguales, paletas azul marino/dorado y turquesa/verde; arte vectorial SVG, beneficios reales de cada producto, CTA anclados en la misma página.
 - Other Projects FREE trasladado inmediatamente después de las tarjetas (antes de la tabla Realtor), con título y tres pasos visibles, sin duplicar navbar/header/hero. Real Estate FREE recibe encabezado con bordes dorados y jerarquía simétrica.
