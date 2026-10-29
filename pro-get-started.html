@@ -664,18 +664,26 @@ html body.mct-layout-pro .mct-pro-privacy-guide>small{
 }
 </style><link rel="stylesheet" href="/assets/mct-privacy-horizontal-20261028.css?v=1">
 <style id="mct-pro-privacy-approved-raised-angled-20261029">
-/* Website 19: approved PRO-only Privacy First badge position. */
+/* Website 19: PRO Privacy First full diagonal sash, descending left to right. */
 html body.mct-layout-pro main.mct-pro-registration-main .mct-pro-privacy-standalone>.mct-pro-privacy-guide{
- justify-content:flex-start!important;padding-top:17px!important;
+ justify-content:flex-start!important;overflow:visible!important;padding-top:23px!important;
 }
 html body.mct-layout-pro main.mct-pro-registration-main .mct-pro-privacy-guide-top{
- width:calc(100% - 9px)!important;margin:0 0 34px 4px!important;
- transform:rotate(-7deg)!important;transform-origin:center center!important;
- box-shadow:0 5px 12px rgba(3,44,27,.25)!important;
+ box-sizing:border-box!important;position:relative!important;z-index:2!important;
+ display:flex!important;flex-wrap:nowrap!important;
+ width:calc(100% + 18px)!important;max-width:none!important;
+ margin:-3px 0 46px -10px!important;padding:10px 12px!important;
+ transform:rotate(10deg)!important;transform-origin:9% 50%!important;
+ border:1.5px solid #9ed9b6!important;border-radius:9px!important;
+ box-shadow:0 7px 17px rgba(3,38,31,.32)!important;
+}
+html body.mct-layout-pro main.mct-pro-registration-main .mct-pro-privacy-guide-tag{
+ font-size:clamp(14px,1.15vw,18px)!important;letter-spacing:.035em!important;
 }
 @media(max-width:460px){
  html body.mct-layout-pro main.mct-pro-registration-main .mct-pro-privacy-guide-top{
-  transform:rotate(-4deg)!important;margin-bottom:27px!important;
+  width:calc(100% + 8px)!important;margin:0 0 33px -4px!important;
+  transform:rotate(7deg)!important;
  }
 }
 </style>
