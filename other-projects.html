@@ -789,5 +789,21 @@ html body .mpt-free-editor-table tbody td:nth-child(5){display:none!important}
 @media(min-width:1050px) and (max-width:1360px){
  html body .mpt-free-editor-layout{grid-template-columns:minmax(0,1fr)!important}
 }
+</style><style id="mct-two-columns-always-desktop-20261029">
+/* Final override: summary must sit beside the editor, never below on desktop. */
+@media(min-width:900px){
+ html body .mpt-free-editor-layout{
+  display:grid!important;grid-template-columns:minmax(0,65fr) minmax(265px,35fr)!important;
+  align-items:start!important;gap:12px!important
+ }
+ html body .mpt-free-left{width:100%!important;min-width:0!important}
+ html body .mpt-free-live-panel{grid-column:2!important;grid-row:1!important;align-self:start!important;position:static!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;box-sizing:border-box!important}
+ html body .mpt-free-editor-table tbody tr{
+  grid-template-columns:19px minmax(85px,1fr) 38px 49px minmax(100px,115px) 62px 82px!important;gap:4px!important
+ }
+ html body .mpt-free-editor-table tbody td:nth-child(2){min-width:0!important;max-width:none!important}
+ html body .mpt-free-editor-table tbody td:nth-child(2) input{width:100%!important;min-width:0!important}
+}
+@media(max-width:899px){html body .mpt-free-editor-layout{grid-template-columns:minmax(0,1fr)!important}}
 </style></body>
 </html>
