@@ -392,3 +392,39 @@ html body #contract-deadline-planner .mct-realty-step2-card .mct-step-two-headin
 html body #contract-deadline-planner .mct-realty-step2-card .mct-step-two-heading .mct-step-medallion{
  margin-left:0!important;flex-shrink:0!important;
 }
+
+/* Website 19: readable FREE tasks and balanced left/right work areas. */
+@media(min-width:1080px){
+ html body #contract-deadline-planner .fc-simple-layout{
+  grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;
+  gap:18px!important;align-items:start!important;
+ }
+ html body #contract-deadline-planner .mct-realty-task-card .mct-realty-task-grid{
+  display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  gap:9px!important;
+ }
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-name{grid-column:1/-1!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-days{grid-column:span 2!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-type{grid-column:span 4!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-base{grid-column:span 6!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-direction{grid-column:span 4!important}
+ html body #contract-deadline-planner .mct-realty-task-grid .mct-realty-task-due{grid-column:span 8!important}
+ html body #contract-deadline-planner .mct-realty-task-grid>label{
+  font-size:12px!important;line-height:1.45!important;
+ }
+ html body #contract-deadline-planner .mct-realty-task-grid>label>input,
+ html body #contract-deadline-planner .mct-realty-task-grid>label>select{
+  font-size:13px!important;min-height:42px!important;height:42px!important;
+  padding:8px 10px!important;
+ }
+}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .fc-task-label,
+html body #contract-deadline-planner .mct-realty-task-grid>label>span{
+ font-size:12px!important;
+}
+html body #contract-deadline-planner .fc-simple-result,
+html body #contract-deadline-planner .fc-simple-result p,
+html body #contract-deadline-planner .fc-simple-result button,
+html body #contract-deadline-planner .fc-simple-result a{
+ font-size:clamp(12px,.95vw,15px)!important;
+}
