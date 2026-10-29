@@ -1,4 +1,14 @@
 # MY CLOSING TIMELINE — REGISTRO DE CAMBIOS Y VERIFICACIÓN
+
+## Website 17 — 2026-10-29 — HOME para Real Estate y Other Projects
+- **Implementación:** revisión y mejora del único módulo `mct-hero-other-projects` en `index.html`; mensaje para empresarios, contratistas, consultores y proyectos personales con hasta 8 tareas propias FREE, plazos y estados. Botón «Try Other Projects FREE» enlaza `/other-projects.html`, con aviso explícito de PRO como demo. Lema original de cierres, explicaciones y CTA inmobiliarios intactos. Ajustado título y descripción de HOME para ambas audiencias.
+- **Presentación:** bloque azul marino/turquesa con tipografía de 13.5–23px y CTA claro; CSS responsive dentro de su estilo existente (sustituido, no duplicado).
+- **Verificación:** lectura posterior del archivo en `main` correcta; un solo bloque Other Projects y seis cuadros HOME conservados; existen en repo las rutas `other-projects.html`, `free-timeline.html`, `first-closing-free.html`, `privacy.html` y `pro-get-started.html`. Inspección de reglas CSS de las seis tarjetas: filas, colores y bordes presentes sin cambios adicionales. Consola/Admin y API revisadas en código: acciones reset/archive y restricción de email normalizado aparecen en fuente.
+- **Commit de código:** `db193ea1639099d933dc22d774292fea157f3097`.
+- **No verificado:** render real escritorio/móvil; despliegue Cloudflare (dominio inaccesible para herramientas); finalización en D1 del archivado; recorrido Resend, cuenta, regalo, código, canje, aislamiento de productos y Stripe Sandbox. No anunciar estos servicios como comprobados.
+- **Próximo paso:** QA visual de HOME publicada y ensayo propietario Admin → First FREE → PRO con revisión de DB; luego integrar tabla maestra en My Closings.
+
+
 **Proyecto:** https://myclosingtimeline.com · **Repositorio:** `scampilii-prog/my-closing-timeline` · **Rama:** `main`
 
 > Este registro es cronológico. Cada línea distingue **implementado en GitHub** de **verificado en sitio publicado**. Consultar `PROJECT_CONTINUITY_MASTER.md` para decisiones permanentes y tareas siguientes.
