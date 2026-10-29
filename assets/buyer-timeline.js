@@ -32,7 +32,7 @@ function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='nu
  +'<label class="mct-realty-task-due"><span>Due</span><input data-field="override" data-calculated-date type="date" aria-label="Exact due date" value="'+esc(rowDate(r))+'"></label>'
  +'<span class="mct-realty-task-badge '+cls+'">'+state+'</span>'
  +'<div class="mct-realty-task-actions"><button type="button" data-mark-done="'+i+'" class="mct-realty-mark-done">'+(r.status==='done'?'Reopen':'Done')+'</button><button type="button" data-remove="'+i+'" class="mct-task-delete">Remove</button></div>'
- +'<details class="mct-master-extra"><summary>Options</summary><div class="mct-master-extra-inner">'
+ +'<details class="mct-master-extra"><summary aria-label="Advanced task date settings" title="Day count and date basis">More</summary><div class="mct-master-extra-inner">'
  +'<label>Day count<select data-field="type">'+selectOptions([['calendar','Calendar Days'],['business','Business Days']],r.type)+'</select></label>'
  +'<label>Based on<select data-field="base">'+selectOptions([['effective','Effective Date'],['closing','Closing Date'],['recovery','Services Restored'],['trigger','Receipt / Event']],r.base)+'</select></label>'
  +'</div></details></article>';
