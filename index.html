@@ -2247,24 +2247,19 @@ html body main#home-overview #home-essentials
     <div class="mct-offer-content">
      <span class="mct-offer-kicker">NEW TO MY CLOSING TIMELINE?</span>
      <h2 id="mct-home-first-free-title">Your First PRO Closing is FREE.</h2>
-     <p class="mct-home-offer-intro">Real estate professionals: <strong>practice FREE or register for your first PRO closing.</strong></p>
+     <p class="mct-home-offer-intro">Real estate professionals: <strong>register for FREE and receive your first PRO Closing Credit at $0.00.</strong></p>
     </div>
-    <nav class="mct-home-start-choices" aria-label="Choose between the limited FREE practice and first PRO registration">
-     <a class="mct-home-start-choice is-free" href="/free-timeline.html" aria-label="Try the limited FREE timeline anytime without registration; practice dates and tasks without a saved PRO workspace.">
-      <span class="mct-home-start-eyebrow">OPTION 1 · FREE PRACTICE</span>
-      <strong>Try FREE Timeline <span aria-hidden="true">→</span></strong>
-      <small>Practice anytime · No account · Limited tools</small>
-     </a>
-     <a class="mct-home-start-choice is-pro" href="/first-closing-free.html" aria-label="Start registration for your first FREE PRO closing: request a code, confirm your email and create your PRO account.">
-      <span class="mct-home-start-eyebrow">OPTION 2 · YOUR PRO ACCOUNT</span>
-      <strong>Get My FREE PRO Code <span aria-hidden="true">→</span></strong>
-      <small>Verify email · Create account · First closing FREE</small>
+    <nav class="mct-home-start-choices mct-home-start-single" aria-label="Register for your first complimentary PRO closing">
+     <a class="mct-home-start-choice is-pro" href="/first-closing-free.html" aria-label="Request your first free PRO closing code. Verify your email, create a free account and use your first closing credit for zero dollars.">
+      <span class="mct-home-start-eyebrow">FIRST TIME HERE? REGISTER FREE</span>
+      <strong>Get My First FREE PRO Closing <span aria-hidden="true">→</span></strong>
+      <small>Verify your email · Create your FREE account · First closing $0.00</small>
      </a>
     </nav>
     <div class="mct-offer-actions">
      <a class="mct-offer-secondary" href="/pro-get-started.html?auth=register&amp;mode=gift#mct-account">Already have a code? Redeem &amp; start →</a>
     </div>
-    <span class="mct-offer-terms">FREE practice has limited features and needs no account. First PRO credit: one per verified email; later PRO closings require paid credits.</span>
+    <span class="mct-offer-terms">One complimentary first PRO Closing Credit per verified email. Later PRO closings require paid credits. You can also practice anytime through FREE Timeline in the menu.</span>
    </section>
   </div>
 
@@ -3179,6 +3174,64 @@ html body main#home-overview #home-essentials>.mct-home-bottom-slot a:focus-visi
  }
  html body main#home-overview #home-essentials>.mct-bottom-project>a.mct-home-project-link{
   min-height:120px!important;
+ }
+}
+</style>
+<style id="mct-home-one-clear-free-pro-registration-20261028">
+/* One full-width first-free registration call to action. Keep the separate
+   unrestricted FREE practice available in the top navigation / lower CTA. */
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-choices.mct-home-start-single{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ width:100%!important;margin:10px 0 3px!important;gap:0!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.mct-home-start-choice.is-pro{
+ box-sizing:border-box!important;width:100%!important;
+ min-height:128px!important;margin:0!important;
+ padding:21px 18px 16px!important;align-items:flex-start!important;
+ justify-content:center!important;gap:8px!important;
+ border:2px solid #bc893b!important;
+ border-radius:12px!important;
+ background:linear-gradient(112deg,#fff0cb 0%,#f5d594 70%,#edc177 100%)!important;
+ box-shadow:0 5px 15px rgba(121,80,28,.15)!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro .mct-home-start-eyebrow{
+ color:#85571f!important;font:900 10px/1.3 Manrope,Arial,sans-serif!important;
+ letter-spacing:.08em!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro>strong{
+ color:#183f52!important;font:900 clamp(17px,1.5vw,20px)/1.27 Manrope,Arial,sans-serif!important;
+ max-width:calc(100% - 19px)!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro>small{
+ display:block!important;color:#674f2c!important;
+ font:750 11px/1.5 Manrope,Arial,sans-serif!important;
+ max-width:calc(100% - 5px)!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro::before{
+ content:"FIRST FREE"!important;background:#176e6b!important;color:#fff!important;
+ top:11px!important;right:-33px!important;width:124px!important;
+ transform:rotate(33deg)!important;
+ font:900 10px/1.35 Manrope,Arial,sans-serif!important;
+}
+html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro:hover{
+ transform:translateY(-2px)!important;
+ box-shadow:0 8px 18px rgba(120,82,34,.21)!important;
+}
+@media(max-width:430px){
+ html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro{
+ min-height:130px!important;padding:27px 12px 12px!important;
+ }
+ html body main#home-overview #home-essentials
+ .mct-first-free-banner-home nav.mct-home-start-single a.is-pro>strong{
+ font-size:17px!important;
  }
 }
 </style></body></html>
