@@ -17,6 +17,17 @@ const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing Cr
 // Dates are suggestions only, never contractual deadlines.
 const suggestedFollowUps=[["Send client congratulations email",0,0],["Update brokerage transaction system to Pending",0,0],["Retrieve missing documents / signatures as required",0,0],["Confirm applicable property disclosures received",0,0],["Send transaction timeline email to client",0,0],["1st deposit — deliver or confirm earnest money receipt",1,0],["Review occupancy / leases and applicable notice period",2,0],["Confirm appraisal ordered by lender",2,0],["2nd deposit — deliver or confirm earnest money receipt",5,0],["Order survey",5,0],["Verify all title work is complete",20,0],["Confirm repair negotiations",20,0],["Send termite report to title and lender",20,0],["Verify appraisal has passed",20,0],["Lease information — obtain tenant estoppel letter",10,0],["Deliver or confirm lender clear to close",7,0],["Confirm closing time with title",7,0],["Send final walkthrough and closing email to client",7,0],["Purchase closing gift / thank-you card",7,0],["Verify condo association approval",5,0],["Title evidence and insurance",5,0],["Ensure no additional amendments are required",3,0],["Submit final documents to brokerage compliance",1,0],["Update brokerage transaction system to Closed",1,0],["Introduce buyer, seller, lender and settlement contacts",0,0],["Confirm all parties received executed agreement",0,0],["Confirm deposit receipt with escrow holder",2,0],["Schedule property inspections as applicable",3,0],["Follow up on inspection results and questions",7,0],["Coordinate agreed repair access and updates",10,0],["Confirm insurance application and coverage progress",10,0],["Check title or escrow outstanding requirements",14,1],["Follow up on appraisal appointment and access",14,1],["Review loan conditions with lender contact",10,1],["Confirm association documents or approval if applicable",10,1],["Check survey requirements with settlement team",10,1],["Confirm settlement statement review with parties",4,1],["Verify wire instructions independently by trusted phone number",3,1],["Schedule and coordinate final walkthrough",2,1],["Confirm funds, signing, keys and possession coordination",1,1]];
 
+
+/* Real-estate-wide follow-up presets, selected per closing, not per account.
+   Titles remain from the existing generic allowlist; no customer details are
+   collected. The agent default retains all original 40 tasks.
+   Other sectors have a separate product and must not use closing credits. */
+const realEstateRoleTemplates={
+ agent:suggestedFollowUps,
+ title_closing:[2,3,5,6,8,9,10,12,14,15,16,19,20,21,24,25,26,30,31,34,35,36,37,39].map(i=>suggestedFollowUps[i]),
+ transaction_coordinator:[0,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,19,21,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39].map(i=>suggestedFollowUps[i]),
+ real_estate_other:[2,3,4,5,6,7,8,9,10,15,16,19,20,21,24,25,26,27,28,30,31,33,34,35,36,37,38,39].map(i=>suggestedFollowUps[i])
+};
 /* Server-side transaction data boundary: only generic categories and dates. */
 const genericTasks=["General Follow-Up","Document Review","Lender Follow-Up","Title / Closing Follow-Up","Association Follow-Up","Inspection Follow-Up","Insurance Follow-Up","Client Communication","Other General Task"];
 const allowedTask=v=>genericTasks.includes(v)||suggestedFollowUps.some(t=>t[0]===v);
@@ -327,6 +338,9 @@ export async function onRequest(context){
  }
  if(route==="closings/create"){
   const name=String(body.name||"").trim().toUpperCase(),address="",eff=String(body.effective_date||""),end=String(body.closing_date||"");
+  const role=String(body.role||"agent");
+  if(!Object.prototype.hasOwnProperty.call(realEstateRoleTemplates,role))return error("Choose a valid real-estate role for the suggested closing tasks.",400);
+  const selectedTasks=realEstateRoleTemplates[role];
   if(!/^CL-[A-F0-9]{8}$/.test(name)||!isoDate(eff)||!isoDate(end)||end<eff)return error("Use an anonymous CL-XXXXXXXX reference and valid contract dates. Personal information is not accepted in this field.");
   const id=guid();
   // The batch is atomic: no task is added and no credit is consumed if the
@@ -335,13 +349,13 @@ export async function onRequest(context){
    db.prepare("INSERT INTO closings(id,user_id,name,address,effective_date,closing_date) SELECT ?,id,?,?,?,? FROM users WHERE id=? AND credits>0").bind(id,name,address,eff,end,user.id),
    db.prepare("UPDATE users SET credits=credits-1 WHERE id=? AND EXISTS(SELECT 1 FROM closings WHERE id=? AND user_id=?)").bind(user.id,id,user.id)
   ];
-  for(const [title,days,closingBased] of suggestedFollowUps){
+  for(const [title,days,closingBased] of selectedTasks){
    const proposed=suggestedDate(closingBased?end:eff,closingBased?-days:days);
    statements.push(db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date,auto_shift) SELECT ?,id,user_id,?,?,? FROM closings WHERE id=? AND user_id=?").bind(guid(),title,proposed,closingBased,id,user.id));
   }
   const res=await db.batch(statements);
   if(!res[0]?.meta?.changes)return error("No closing credits available. Purchase or redeem a credit first.",402);
-  return reply({ok:true,id},201);
+  return reply({ok:true,id,role,task_count:selectedTasks.length},201);
  }
  const match=/^closings\/([0-9a-f-]{36})\/(details|change-date|cancel|complete|tasks\/add|tasks\/update)$/.exec(route);
  if(match){
