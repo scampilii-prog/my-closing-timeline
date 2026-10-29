@@ -220,6 +220,22 @@ function proActions(){
   });
   save();proRender();notify("mpt-pro-message","Optional sample tasks added. Edit or remove any task to match your business.","info");
  });
+ // This is a local PRO demonstration, not a paid account. The final
+ // account feature will use saved, read-only records after expiration.
+ // PDF access must never require an active plan or a fresh payment.
+ $("mpt-pro-demo-pdf").addEventListener("click",function(){
+  if(typeof window.MCTPrivatePDFDownload!=="function"){notify("mpt-pro-message","The private PDF generator is unavailable. Reload the page and try again.","warn");return}
+  try{
+   var code="CL-"+Array.from(crypto.getRandomValues(new Uint8Array(4)),function(x){return x.toString(16).padStart(2,"0")}).join("").toUpperCase();
+   var tasks=[];
+   state.tasks.forEach(function(t){
+    tasks.push({name:t.name,date:t.due,status:t.finished?"Completed":status(t)});
+    (t.history||[]).forEach(function(h){tasks.push({name:t.name+" - completed occurrence",date:h.due,status:"Done "+h.at})});
+   });
+   window.MCTPrivatePDFDownload({projectType:"other",reference:code,effective:state.planStart||today(),closing:state.endDate||"",entries:tasks});
+   notify("mpt-pro-message","Demo PDF downloaded locally. Your actual future PRO account will keep PDF access after expiry without renewal.","info");
+  }catch(err){notify("mpt-pro-message","PDF export was not completed: "+String(err&&err.message||"Please try again."),"warn")}
+ });
  $("mpt-pro-clear").addEventListener("click",function(){
   if(!window.confirm("Delete all locally saved PRO demo tasks and their completion history from this browser?"))return;
   state={tasks:[],endDate:datePlus(today(),90),planStart:today(),planHorizon:"90d"};save();proRender();notify("mpt-pro-message","Demo reset to a 90-day planning period.","info");
