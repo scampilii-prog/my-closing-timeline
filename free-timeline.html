@@ -2057,4 +2057,24 @@ html body #contract-deadline-planner>.mct-version-current strong{font-size:10px!
  html body main.workspace>section#contract-deadline-planner[data-free-task-limit="8"].fc-simple-timeline{margin-top:0!important}
 }
 @media(max-width:700px){html body main.workspace{margin-top:-12px!important}}
-</style></body></html>
+</style><style id="mct-contextual-navigation-v48">
+.apphead nav a[aria-current="page"]{color:#f4cc80!important;border-bottom:2px solid #d9a84e!important}
+.apphead nav a.mct-nav-other-projects[aria-current="page"]{color:#a3eee3!important;border-bottom:2px solid #48bcb0!important}
+</style>
+<script id="mct-contextual-navigation-script-v48">
+(function(){
+ function sync(){
+  var nav=document.querySelector('.apphead nav');if(!nav)return;
+  var free=nav.querySelector('a[href="free-timeline.html"]');
+  var other=nav.querySelector('a.mct-nav-other-projects');
+  if(!free||!other)return;
+  var isOther=location.hash==='#mct-free-other-projects'||location.hash.indexOf('#mct-free-other-')===0;
+  if(isOther){free.removeAttribute('aria-current');other.setAttribute('aria-current','page')}
+  else {other.removeAttribute('aria-current');free.setAttribute('aria-current','page')}
+ }
+ window.addEventListener('hashchange',sync);
+ document.addEventListener('DOMContentLoaded',sync);
+ document.addEventListener('click',function(e){if(e.target.closest('[href="#mct-free-other-projects"]'))setTimeout(sync,0)});
+ sync();
+})();
+</script></body></html>
