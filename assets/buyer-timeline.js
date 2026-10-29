@@ -26,7 +26,7 @@ function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='nu
  const state=r.status==='done'?'DONE':r.status==='na'?'NOT APPLICABLE':'PENDING';
  const stateClass=r.status==='done'?'is-done':r.status==='na'?'is-na':'is-pending';
  return '<article class="fc-simple-task mct-realty-task-card" data-index="'+i+'">'
- +'<div class="mct-realty-task-card-top"><span class="fc-task-label" draggable="true" tabindex="0" role="button" title="Drag to reorder. Use Alt + Up or Down." aria-label="Move task '+(i+1)+'">⋮⋮ TASK '+(i+1)+'</span>'
+ +'<div class="mct-realty-task-card-top"><span class="fc-task-label" draggable="true" tabindex="0" role="button" title="Drag to reorder. Use Alt + Up or Down." aria-label="Move task '+(i+1)+'">'+(i+1)+'</span>'
  +'<span class="mct-realty-task-badge '+stateClass+'">'+state+'</span></div>'
  +'<div class="fc-simple-task-main mct-realty-task-grid">'
  +'<label class="fc-simple-task-name mct-realty-task-name"><span>Task / milestone</span><input data-field="custom" type="text" aria-label="Edit task '+(i+1)+' name" placeholder="Task or milestone" maxlength="180" value="'+esc(name)+'"></label>'
