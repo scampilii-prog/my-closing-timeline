@@ -10,19 +10,16 @@ var freeProject = {ref:"",start:"",end:""};
 function today(){var d=new Date();return iso(d)}
 function iso(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-")}
 function parse(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v||""))return null;var p=v.split("-").map(Number),d=new Date(p[0],p[1]-1,p[2],12);return d.getFullYear()===p[0]&&d.getMonth()===p[1]-1&&d.getDate()===p[2]?d:null}
-function datePlus(s,n){var d=parse(s);if(!d)return "";d.setDate(d.getDate()+n);return iso(d)}
-function addMonths(s,n){var d=parse(s);if(!d)return "";var day=d.getDate(),year=d.getFullYear(),month=d.getMonth()+Number(n),last=new Date(year,month+1,0,12).getDate();return iso(new Date(year,month,Math.min(day,last),12))}
-function nextDate(s,kind,anchor){
- var d=parse(s);if(!d)return "";
- if(kind==="daily"){d.setDate(d.getDate()+1);return iso(d)}
- if(kind==="weekly"){d.setDate(d.getDate()+7);return iso(d)}
- if(kind==="monthly"){var y=d.getFullYear(),m=d.getMonth()+1;var last=new Date(y,m+1,0,12).getDate();return iso(new Date(y,m,Math.min(Number(anchor)||d.getDate(),last),12))}
- return "";
-}
+// Business/personal project tasks use the very same date-only formulas as
+// Real Estate FREE and PRO. Keep account and local demo storage separate.
+var rules=window.MCTTaskRules;
+if(!rules)throw Error("Task date calculations are not available. Refresh the page.");
+function datePlus(s,n){return rules.addDays(s,n)}
+function nextDate(s,kind,anchor){return rules.nextOccurrence(s,kind,anchor)}
 function readable(s){var d=parse(s);return d?d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"—"}
 function taskId(){return "t"+Date.now().toString(36)+Math.random().toString(36).slice(2,9)}
 function notify(id,msg,kind){var el=$(id);if(!el)return;el.textContent=msg;el.dataset.kind=kind||"info"}
-function status(t){if(t.finished)return "Completed";if((state.endDate&&t.due>state.endDate)||(t.until&&t.due>t.until))return "After task end";var d=today();return t.due<d?"Overdue":t.due===d?"Due today":"Upcoming"}
+function status(t){if(t.finished)return "Completed";if((state.endDate&&t.due>state.endDate)||(t.until&&t.due>t.until))return "After task end";var current=rules.taskStatus(t.due,false,today());return current==="overdue"?"Overdue":current==="today"?"Due today":"Upcoming"}
 function load(){
  try{var val=localStorage.getItem(key);if(!val)return;var a=JSON.parse(val);if(!a||!Array.isArray(a.tasks))return;
  state.endDate=parse(a.endDate)?a.endDate:"";
