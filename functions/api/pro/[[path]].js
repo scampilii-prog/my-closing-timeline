@@ -433,6 +433,33 @@ export async function onRequest(context){
    return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask),contract_tasks:contract.results.map(contractClean),contract_options:contractTaskChoices});
   }
   if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
+  if(act==="contract/add"||act==="contract/update"){
+   await ensureContractTable(db);
+   const previous=act==="contract/update"?await db.prepare("SELECT * FROM closing_contract_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(String(body.task_id||""),id,user.id).first():null;
+   if(act==="contract/update"&&!previous)return error("Contract task not found",404);
+   const today=new Date().toISOString().slice(0,10);
+   if(previous&&previous.due_date<today)return error("Expired contract deadlines are locked.",409);
+   const title=String(body.title??previous?.title??"").trim();
+   const days=Number(body.days??previous?.days??0);
+   const base=String(body.base??previous?.base??"effective");
+   const direction=String(body.direction??previous?.direction??"after");
+   const dayType=String(body.day_type??previous?.day_type??"calendar");
+   const exactDate=String(body.exact_date??previous?.exact_date??"");
+   const status=body.done===true?"done":body.done===false?"pending":previous?.status||"pending";
+   if(!contractTaskChoices.includes(title)||!Number.isInteger(days)||days<0||days>3650||
+     !["effective","closing"].includes(base)||!["before","after"].includes(direction)||
+     !["calendar","business"].includes(dayType)||!["pending","done"].includes(status))
+      return error("Choose an approved contract task and valid date settings.",400);
+   if(exactDate&&!isoDate(exactDate))return error("Enter a valid exact date.",400);
+   const due=computeContractTask(closing,days,base,direction,dayType,exactDate);
+   if(!due||due<today)return error("Past deadlines cannot be created or edited. Choose a current or future date.",409);
+   if(act==="contract/add"){
+    await db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,exact_date,due_date,status) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(guid(),id,user.id,title,days,base,direction,dayType,exactDate||null,due,status).run();
+    return reply({ok:true},201);
+   }
+   await db.prepare("UPDATE closing_contract_tasks SET title=?,days=?,base=?,direction=?,day_type=?,exact_date=?,due_date=?,status=? WHERE id=? AND closing_id=? AND user_id=?").bind(title,days,base,direction,dayType,exactDate||null,due,status,previous.id,id,user.id).run();
+   return reply({ok:true});
+  }
   if(act==="change-date"){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
    if(!isoDate(value)||value<closing.effective_date||!reasonDate.includes(reason))return error("Select a generic closing date adjustment reason.");
@@ -440,10 +467,14 @@ export async function onRequest(context){
    // apply a second credit or a promotional price to a 90-day extension.
    if(closingExtensionNeeded(closing.effective_date,value))return extensionNotLaunched();
    const delta=Math.round((Date.parse(value)-Date.parse(closing.closing_date))/86400000);
+   await ensureContractTable(db);
+   const adjust=(await db.prepare("SELECT id,days,direction,day_type FROM closing_contract_tasks WHERE closing_id=? AND user_id=? AND base='closing' AND status='pending' AND (exact_date IS NULL OR exact_date='') AND due_date>=date('now')").bind(id,user.id).all()).results||[];
+   const contractUpdates=adjust.map(t=>db.prepare("UPDATE closing_contract_tasks SET due_date=? WHERE id=? AND closing_id=? AND user_id=?").bind(contractDate(value,t.days,t.direction,t.day_type),t.id,id,user.id));
    await db.batch([
     db.prepare("UPDATE closings SET closing_date=?,updated_at=datetime('now') WHERE id=? AND user_id=? AND status='in_progress'").bind(value,id,user.id),
     db.prepare("UPDATE follow_tasks SET due_date=date(due_date,?||' days') WHERE closing_id=? AND auto_shift=1 AND due_date>=date('now') AND status='pending'").bind(String(delta),id),
-    db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"closing_date_changed",JSON.stringify({from:closing.closing_date,to:value,reason}))
+    db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"closing_date_changed",JSON.stringify({from:closing.closing_date,to:value,reason})),
+    ...contractUpdates
    ]);
    return reply({ok:true});
   }
