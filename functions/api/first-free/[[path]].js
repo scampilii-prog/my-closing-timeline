@@ -35,6 +35,32 @@ async function tables(db){
   catch(e){if(!/duplicate column/i.test(String(e?.message||"")))throw e}
  }
  await db.prepare("CREATE TABLE IF NOT EXISTS first_free_test_reset_history(id TEXT PRIMARY KEY,email TEXT NOT NULL,previous_promo_code_id TEXT,previous_status TEXT NOT NULL,reset_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+ // Older D1 installations may lack a UNIQUE email constraint. Compact only
+ // redundant REQUEST rows once, before enforcing a normalized unique index.
+ // Issued/used first-free benefits are preserved in a permanent audit table;
+ // issued promo codes, closing records and purchased credits are never deleted.
+ await db.prepare("CREATE TABLE IF NOT EXISTS first_free_archived_requests(id TEXT PRIMARY KEY,email TEXT NOT NULL,status TEXT,verified_at TEXT,marketing_requested INTEGER,requested_at TEXT,updated_at INTEGER,sent_at TEXT,promo_code_id TEXT,test_reset INTEGER,archived_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
+ const uniqueIndex=await db.prepare("SELECT name FROM sqlite_master WHERE type='index' AND name='uq_first_free_one_normalized_email'").first();
+ if(!uniqueIndex){
+  const dupeGroups=await db.prepare("SELECT lower(trim(email)) AS email,COUNT(*) AS copies FROM first_free_requests GROUP BY lower(trim(email)) HAVING COUNT(*)>1").all();
+  for(const group of dupeGroups.results||[]){
+   const entries=await db.prepare("SELECT r.id,r.promo_code_id,r.status,r.requested_at,r.updated_at,COALESCE(p.active,0) AS code_active,COALESCE(p.uses,0) AS code_uses FROM first_free_requests r LEFT JOIN promo_codes p ON p.id=r.promo_code_id WHERE lower(trim(r.email))=? ORDER BY CASE WHEN r.status='approved' OR (r.promo_code_id IS NOT NULL AND (COALESCE(p.active,0)=1 OR COALESCE(p.uses,0)>0)) THEN 0 ELSE 1 END,r.requested_at DESC,r.updated_at DESC,r.id DESC").bind(group.email).all();
+   const older=(entries.results||[]).slice(1);
+   if(!older.length)continue;
+   const changes=[];
+   for(const row of older){
+    changes.push(db.prepare("INSERT OR IGNORE INTO first_free_archived_requests(id,email,status,verified_at,marketing_requested,requested_at,updated_at,sent_at,promo_code_id,test_reset) SELECT id,email,status,verified_at,marketing_requested,requested_at,updated_at,sent_at,promo_code_id,test_reset FROM first_free_requests WHERE id=?").bind(row.id));
+    // Older unused invitation codes must never remain active as a second
+    // benefit. A redeemed code's already-earned user credit is not changed.
+    if(row.promo_code_id)changes.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id=? AND uses=0").bind(row.promo_code_id));
+    changes.push(db.prepare("DELETE FROM first_free_requests WHERE id=?").bind(row.id));
+   }
+   await db.batch(changes);
+  }
+  // Database-enforced for ALL addresses, not only the admin table view.
+  await db.prepare("CREATE UNIQUE INDEX IF NOT EXISTS uq_first_free_one_normalized_email ON first_free_requests(lower(trim(email)))").run();
+ }
+
  await db.prepare("CREATE INDEX IF NOT EXISTS idx_first_free_status ON first_free_requests(status,updated_at)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS marketing_consents(email TEXT PRIMARY KEY,source TEXT NOT NULL,consented_at TEXT NOT NULL DEFAULT (datetime('now')))").run();
  // Discard abandoned, unverified requests older than 30 days.
@@ -52,7 +78,7 @@ async function send(env,to,subject,html,body){
 async function eligible(db,email){
  const u=await db.prepare("SELECT id FROM users WHERE email=?").bind(email).first();if(!u)return true;
  if(await db.prepare("SELECT 1 FROM closings WHERE user_id=? LIMIT 1").bind(u.id).first())return false;
- if(await db.prepare("SELECT 1 FROM promo_redemptions p JOIN first_free_requests r ON r.promo_code_id=p.code_id WHERE p.user_id=? LIMIT 1").bind(u.id).first())return false;
+ if(await db.prepare("SELECT 1 FROM promo_redemptions p WHERE p.user_id=? AND (p.code_id IN (SELECT promo_code_id FROM first_free_requests WHERE email=?) OR p.code_id IN (SELECT promo_code_id FROM first_free_archived_requests WHERE email=?)) LIMIT 1").bind(u.id,email,email).first())return false;
  return true;
 }
 /* Automatic first-time reward. Verification is mandatory; manual owner approval
@@ -62,6 +88,7 @@ async function issueVerifiedInvite(db,env,r){
  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return "not_configured";
  if(!r.test_reset){
   if(!await eligible(db,r.email))return "ineligible";
+  if(await db.prepare("SELECT 1 FROM first_free_archived_requests WHERE email=? AND promo_code_id IS NOT NULL LIMIT 1").bind(r.email).first())return "ineligible";
   // Older installations may have created duplicate email request rows
   // before the UNIQUE-email schema existed. A previous issued first-FREE
   // code for this address must still count, even when no account was made.
@@ -144,7 +171,7 @@ export async function onRequest({request:req,env}){
    if(paid)return err("This email has purchases. Use a separate unpaid practice email; customer purchase records cannot be reset.",409);
    // Check every prior request for this address, including legacy duplicate
    // rows. A previously redeemed, unspent FREE credit must be used first.
-   const redeemed=await db.prepare("SELECT 1 FROM promo_redemptions WHERE user_id=? AND code_id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL) LIMIT 1").bind(account.id,email).first();
+   const redeemed=await db.prepare("SELECT 1 FROM promo_redemptions WHERE user_id=? AND (code_id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL) OR code_id IN (SELECT promo_code_id FROM first_free_archived_requests WHERE email=? AND promo_code_id IS NOT NULL)) LIMIT 1").bind(account.id,email,email).first();
    if(redeemed){
     const balance=await db.prepare("SELECT credits FROM users WHERE id=?").bind(account.id).first();
     if(Number(balance?.credits||0)>0)return err("Use the remaining test credit before resetting. Existing account credits are never deleted.",409);
@@ -157,7 +184,7 @@ export async function onRequest({request:req,env}){
   // An owner-authorized reset invalidates ALL prior first-FREE codes tied
   // to this same practice email, including older duplicate request rows.
   // Nothing here removes user credits, purchases or saved closings.
-  updates.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL)").bind(email));
+  updates.push(db.prepare("UPDATE promo_codes SET active=0 WHERE id IN (SELECT promo_code_id FROM first_free_requests WHERE email=? AND promo_code_id IS NOT NULL UNION SELECT promo_code_id FROM first_free_archived_requests WHERE email=? AND promo_code_id IS NOT NULL)").bind(email,email));
   const changed=await db.batch(updates);
   if(!changed[0]?.meta?.changes)return err("Practice reset was not completed.",409);
   // Allow a new confirmation request for the exact reset email.
