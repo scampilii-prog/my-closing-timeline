@@ -127,7 +127,8 @@ function freeSummary(){
   var detail=make("span",null,t.due?readable(t.due):"Set project start date");
   var stateText=freeStatus(t);
   var label=make("span","mpt-free-status-pill "+(stateText==="Done"?"is-done":stateText==="OVERDUE"?"is-late":"is-pending"),stateText);
-  wrap.append(title,detail);li.append(badge,wrap,label);list.appendChild(li);
+  var dateCell=make("span","mpt-free-summary-date",t.due?readable(t.due):"Set start date");
+  wrap.append(title,detail);li.append(badge,wrap,dateCell,label);list.appendChild(li);
  });
  if(!freeTasks.length){list.appendChild(make("li",null,"Add a task or reload to restore six suggested tasks."))}
  keyRow("Target finish date",freeProject.end?readable(freeProject.end):"Not selected · KEY DATE");
