@@ -240,3 +240,22 @@ html body .fc-simple-heading.mct-equal-realty-section .mct-free-brief-instructio
  html body .mct-free-next-links{grid-template-columns:1fr}
  html body .mct-free-next-links>a{min-height:44px}
 }
+
+/* Compact in-section navigation: customers always know where they are
+   and can return without scrolling through a very long planner. */
+html body .mct-free-header-nav{
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ flex-wrap:wrap!important;gap:8px 18px!important;margin:0 0 12px!important;
+ border-bottom:1px solid #d8e4e7!important;padding:0 0 10px!important;
+}
+html body .mct-free-header-nav strong{font:900 11px/1.5 Manrope,Arial,sans-serif!important;letter-spacing:.06em!important;color:#2e746b!important}
+html body #mct-free-real-estate-landing .mct-free-header-nav strong{color:#906b3e!important}
+html body .mct-free-header-nav a{
+ display:inline-flex!important;align-items:center!important;min-height:36px!important;
+ padding:6px 11px!important;border-radius:7px!important;border:1px solid #c2d8d8!important;
+ background:#fff!important;color:#2d6870!important;text-decoration:none!important;
+ font:850 11px/1.45 Manrope,Arial,sans-serif!important
+}
+html body .mct-free-header-nav a:hover{background:#eff8f5!important}
+html body .mct-free-header-nav a:focus-visible{outline:3px solid #d6ac69;outline-offset:2px}
+@media(max-width:560px){html body .mct-free-header-nav{align-items:flex-start!important;flex-direction:column!important}}
