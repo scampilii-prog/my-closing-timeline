@@ -17,6 +17,11 @@ const extensionDays=90;
 const regularHalfBasicCents=plans.single.amount/2;
 const calendarDayDifference=(a,b)=>Math.round((Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/86400000);
 const closingExtensionNeeded=(effective,closing)=>calendarDayDifference(effective,closing)>includedClosingDays;
+// Access after expiry is READ-ONLY, never deleted and never tied to a new
+// checkout. Every paid or verified promotional PRO closing retains its
+// authorized PDF export from the existing saved timeline.
+const closingPlanEnds=effective=>{const d=new Date(effective+"T12:00:00Z");if(Number.isNaN(d.valueOf()))return "";d.setUTCDate(d.getUTCDate()+includedClosingDays);return d.toISOString().slice(0,10)};
+const closingPlanExpired=effective=>{const end=closingPlanEnds(effective);return !!end&&new Date().toISOString().slice(0,10)>end};
 const extensionNotLaunched=()=>reply({ok:false,code:"CLOSING_EXTENSION_PAYMENT_REQUIRED",extensionDays,regularPriceCents:regularHalfBasicCents,error:"This closing exceeds the included 90 days from its original Effective Date. An additional 90-day extension costs $14.95 (half the current regular basic price, no promotions). Extension checkout is not available in test mode yet. No closing has been changed or charged."},409);
 
 // The same 40 suggested Step 3 follow-ups used in the private Realtor test.
@@ -78,7 +83,7 @@ const contractClean=t=>({id:t.id,title:t.title,days:t.days,base:t.base,direction
 
 const reasonDate=["Written Contract Amendment","Agreed Extension","Financing Timeline","Title / Closing Coordination","Association Approval","Other Contractual Adjustment"];
 const reasonCancel=["Mutual Agreement","Financing Contingency","Inspection Contingency","Title / Closing Issue","Association Approval","Other Contractual Reason"];
-const cleanClosing=c=>({id:c.id,name:/^CL-[A-F0-9]{8}$/.test(c.name||"")?c.name:"CL-"+String(c.id||"").replace(/[^a-f0-9]/gi,"").slice(0,8).toUpperCase(),effective_date:c.effective_date,closing_date:c.closing_date,status:c.status,completed_on:c.completed_on,cancelled_on:c.cancelled_on,created_at:c.created_at});
+const cleanClosing=c=>({id:c.id,name:/^CL-[A-F0-9]{8}$/.test(c.name||"")?c.name:"CL-"+String(c.id||"").replace(/[^a-f0-9]/gi,"").slice(0,8).toUpperCase(),effective_date:c.effective_date,closing_date:c.closing_date,status:c.status,completed_on:c.completed_on,cancelled_on:c.cancelled_on,created_at:c.created_at,plan_ends:closingPlanEnds(c.effective_date),plan_expired:closingPlanExpired(c.effective_date),read_only:c.status!=="in_progress"||closingPlanExpired(c.effective_date),pdf_available:true});
 const cleanTask=t=>({id:t.id,title:allowedTask(t.title)?t.title:"General Follow-Up",due_date:t.due_date,status:t.status,auto_shift:t.auto_shift});
 
 function suggestedDate(iso,offset){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+offset);return d.toISOString().slice(0,10)}
@@ -434,7 +439,11 @@ export async function onRequest(context){
    if(!initialized)await db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"contract_tasks_initialized","{}").run();
    return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask),contract_tasks:contract.results.map(contractClean),contract_options:contractTaskChoices});
   }
-  if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
+  // The details route above remains accessible to the verified account owner
+  // after day 90, completed/cancelled status, and even with ZERO credits.
+  // PDF is generated client-side from those read-only records, no renewal.
+  if(closingPlanExpired(closing.effective_date))return reply({ok:false,code:"PRO_READ_ONLY_AFTER_EXPIRY",plan_ends:closingPlanEnds(closing.effective_date),pdf_available:true,error:"This 90-day PRO closing has ended. Your closing remains available in read-only mode and its PDF can still be downloaded without a renewal or another credit."},409);
+  if(closing.status!=="in_progress")return error("Archived transactions are read-only. PDF download remains available without payment.",409);
   if(act==="contract/delete"){
    await ensureContractTable(db);
    const previous=await db.prepare("SELECT id,due_date,title FROM closing_contract_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(String(body.task_id||""),id,user.id).first();
