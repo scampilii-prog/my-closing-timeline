@@ -416,7 +416,7 @@ export async function onRequest(context){
   if(!res[0]?.meta?.changes)return error("No closing credits available. Purchase or redeem a credit first.",402);
   return reply({ok:true,id,role,task_count:selectedTasks.length},201);
  }
- const match=/^closings\/([0-9a-f-]{36})\/(details|change-date|cancel|complete|tasks\/add|tasks\/update|contract\/add|contract\/update)$/.exec(route);
+ const match=/^closings\/([0-9a-f-]{36})\/(details|change-date|cancel|complete|tasks\/add|tasks\/update|contract\/add|contract\/update|contract\/delete)$/.exec(route);
  if(match){
   const id=match[1],act=match[2],closing=await db.prepare("SELECT * FROM closings WHERE id=? AND user_id=?").bind(id,user.id).first();
   if(!closing)return error("Closing not found",404);
@@ -425,14 +425,28 @@ export async function onRequest(context){
    const tasks=await db.prepare("SELECT id,title,due_date,status,auto_shift FROM follow_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date ASC").bind(id,user.id).all();
    let contract=await db.prepare("SELECT * FROM closing_contract_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date,id").bind(id,user.id).all();
    // Earlier closings receive the same default Step 2 tasks on first read.
-   if(!contract.results.length){
+   const initialized=await db.prepare("SELECT id FROM closing_events WHERE closing_id=? AND user_id=? AND event_type='contract_tasks_initialized' LIMIT 1").bind(id,user.id).first();
+   if(!contract.results.length&&!initialized){
     const rows=contractDefaultTasks.map(([title,days])=>db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,due_date) VALUES(?,?,?,?,?,'effective','after','calendar',?)").bind(guid(),id,user.id,title,days,contractDate(closing.effective_date,days)));
     await db.batch(rows);
     contract=await db.prepare("SELECT * FROM closing_contract_tasks WHERE closing_id=? AND user_id=? ORDER BY due_date,id").bind(id,user.id).all();
    }
+   if(!initialized)await db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"contract_tasks_initialized","{}").run();
    return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask),contract_tasks:contract.results.map(contractClean),contract_options:contractTaskChoices});
   }
   if(closing.status!=="in_progress")return error("Archived transactions cannot be changed",409);
+  if(act==="contract/delete"){
+   await ensureContractTable(db);
+   const previous=await db.prepare("SELECT id,due_date,title FROM closing_contract_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(String(body.task_id||""),id,user.id).first();
+   if(!previous)return error("Contract task not found",404);
+   if(previous.due_date<new Date().toISOString().slice(0,10))return error("Past deadlines are read-only.",409);
+   if(body.confirm!==true)return error("Please confirm contract task removal.",400);
+   await db.batch([
+    db.prepare("DELETE FROM closing_contract_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(previous.id,id,user.id),
+    db.prepare("INSERT INTO closing_events(id,closing_id,user_id,event_type,details) VALUES(?,?,?,?,?)").bind(guid(),id,user.id,"contract_task_removed",JSON.stringify({task:previous.title}))
+   ]);
+   return reply({ok:true});
+  }
   if(act==="contract/add"||act==="contract/update"){
    await ensureContractTable(db);
    const previous=act==="contract/update"?await db.prepare("SELECT * FROM closing_contract_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(String(body.task_id||""),id,user.id).first():null;
