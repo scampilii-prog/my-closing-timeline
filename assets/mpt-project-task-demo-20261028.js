@@ -216,36 +216,87 @@ function proRender(){
  var countdown=$("mpt-pro-renewal-preview");if(countdown){var remain=state.endDate?Math.round((Date.parse(state.endDate+"T00:00:00Z")-Date.parse(today()+"T00:00:00Z"))/86400000):null;countdown.hidden=remain===null||remain>15;if(!countdown.hidden)countdown.textContent=remain<0?"DEMO · Project period ended "+(-remain)+" days ago. Renewing a real account will require a new plan.":remain===0?"DEMO · Your project period ends today. Renewal will be available after PRO launch.":"DEMO · "+remain+" day"+(remain===1?"":"s")+" remaining in the selected period. Future PRO accounts will display a permanent renewal notice here during the last 15 days.";}
  if(memoryOnly)notify("mpt-pro-message","Local storage is unavailable. This demonstration will not be saved after leaving the page.","warn");
 }
+
 function freeActions(){
+ // No account, cookies or remote storage: the user owns these eight
+ // in-memory tasks. Re-loading clears them as advertised.
  $("mpt-free-demo-form").addEventListener("submit",function(e){
-  e.preventDefault();var name=$("mpt-free-task-name").value.trim(),due=$("mpt-free-task-date").value;
-  if(!name||!parse(due)){notify("mpt-free-message","Enter a task name and a valid date.","warn");return}
-  if(!freeDatesOK(due)){notify("mpt-free-message","Task date must be within your selected project dates.","warn");return}
-  if(freeTasks.length>=8){notify("mpt-free-message","FREE demo limit: 8 tasks. Remove one before adding another.","warn");return}
-  freeTasks.push({id:taskId(),name:name.slice(0,140),due:due,done:false});
-  $("mpt-free-task-name").value="";notify("mpt-free-message","Task added. FREE demo tasks reset when you reload this page.","info");freeRender();
- });
- ["mpt-free-project-ref","mpt-free-project-start","mpt-free-project-end"].forEach(function(id){$(id).addEventListener("change",freeMeta)});
- $("mpt-free-demo-body").addEventListener("change",function(e){
-  var el=e.target,id=el.dataset.id,field=el.dataset.field;if(!id||!field)return;var t=freeTasks.find(function(x){return x.id===id});if(!t)return;
-  if(field==="name"){if(!el.value.trim()){el.value=t.name;return}t.name=el.value.trim().slice(0,140)}
-  if(field==="due"){if(!parse(el.value)||!freeDatesOK(el.value)){el.value=t.due;notify("mpt-free-message","Use a valid date within the selected project period.","warn");return}t.due=el.value}
+  e.preventDefault();
+  var name=$("mpt-free-task-name").value.trim(),days=Number($("mpt-free-task-days").value),exact=$("mpt-free-task-date").value;
+  if(freeTasks.length>=8){notify("mpt-free-message","Eight tasks is the FREE limit. Remove one before adding another.","warn");return}
+  if(!name||!Number.isInteger(days)||days<0||days>3650){notify("mpt-free-message","Enter a task name and between 0 and 3650 days.","warn");return}
+  if(exact&&!parse(exact)){notify("mpt-free-message","Enter a valid exact date.","warn");return}
+  if(!exact&&!freeProject.start){notify("mpt-free-message","Select the project start date in Step 1, or enter an exact due date.","warn");return}
+  var kind=$("mpt-free-day-count").value==="business"?"business":"calendar";
+  var item={id:taskId(),name:name.slice(0,140),days:days,dayType:kind,base:"start",direction:"after",exact:!!exact,due:exact||"",done:false};
+  if(!item.exact)item.due=freeTaskDue(item);
+  if(!item.due||!freeDatesOK(item.due)){notify("mpt-free-message","Task due date must be inside your selected project period. Check your days or exact date.","warn");return}
+  freeTasks.push(item);
+  $("mpt-free-task-name").value="";$("mpt-free-task-date").value="";
+  notify("mpt-free-message","Task added. Dates recalculate automatically; eight FREE tasks maximum.","info");
   freeRender();
  });
- $("mpt-free-calendar").addEventListener("click",freeCalendar);
- $("mpt-free-copy").addEventListener("click",function(){
-  if(!navigator.clipboard||!navigator.clipboard.writeText){notify("mpt-free-message","Copy unavailable. Use the summary below or calendar download.","warn");return}
-  navigator.clipboard.writeText(freeSummaryText()).then(function(){notify("mpt-free-message","Project summary copied locally.","info")}).catch(function(){notify("mpt-free-message","Copy not permitted by this browser.","warn")});
+ ["mpt-free-project-ref","mpt-free-project-start","mpt-free-project-end"].forEach(function(id){$(id).addEventListener("change",freeMeta)});
+ $("mpt-free-day-count").addEventListener("change",function(){
+  var kind=this.value==="business"?"business":"calendar";
+  freeTasks.forEach(function(t){t.dayType=kind;if(!t.exact)t.due=freeTaskDue(t)});
+  freeRender();notify("mpt-free-message",kind==="business"?"Business Days: skip weekends and observed U.S. federal holidays.":"Calendar Days: include all days and adjust weekend/holiday deadlines.","info");
+ });
+ $("mpt-free-demo-body").addEventListener("change",function(e){
+  var el=e.target,id=el.dataset.id,field=el.dataset.field;
+  if(!id||!field)return;
+  var t=freeTasks.find(function(x){return x.id===id});if(!t)return;
+  var candidate=Object.assign({},t),v=el.value;
+  if(field==="name"){
+   if(!v.trim()){notify("mpt-free-message","A task name cannot be empty.","warn");freeRender();return}
+   candidate.name=v.trim().slice(0,140);
+  }else if(field==="due"){
+   if(!parse(v)){notify("mpt-free-message","Enter a valid due date.","warn");freeRender();return}
+   candidate.due=v;candidate.exact=true;
+  }else if(field==="days"){
+   if(v.trim()===""||!Number.isInteger(Number(v))||Number(v)<0||Number(v)>3650){notify("mpt-free-message","Days must be a whole number between 0 and 3650.","warn");freeRender();return}
+   candidate.days=Number(v);candidate.exact=false;candidate.due=freeTaskDue(candidate);
+  }else{
+   if(field==="dayType"&&!["calendar","business"].includes(v))return;
+   if(field==="base"&&!["start","end"].includes(v))return;
+   if(field==="direction"&&!["before","after"].includes(v))return;
+   candidate[field]=v;candidate.exact=false;candidate.due=freeTaskDue(candidate);
+  }
+  if(!candidate.due||!freeDatesOK(candidate.due)){
+   notify("mpt-free-message","The date falls outside your project, or its Start/Finish date is missing. Change the settings and try again.","warn");
+   freeRender();return;
+  }
+  Object.assign(t,candidate);
+  freeRender();
+  notify("mpt-free-message","Task updated; the live timeline reflects your changes.","info");
  });
  $("mpt-free-demo-body").addEventListener("click",function(e){
-  var b=e.target.closest("button[data-action]");if(!b)return;var ix=freeTasks.findIndex(function(t){return t.id===b.dataset.id});if(ix<0)return;
+  var b=e.target.closest("button[data-action]");if(!b)return;
+  var ix=freeTasks.findIndex(function(t){return t.id===b.dataset.id});if(ix<0)return;
   if(b.dataset.action==="delete")freeTasks.splice(ix,1);
   if(b.dataset.action==="toggle")freeTasks[ix].done=!freeTasks[ix].done;
   freeRender();
  });
- $("mpt-free-clear").addEventListener("click",function(){if(freeTasks.length&&!window.confirm("Clear all FREE demo tasks?"))return;freeTasks=[];freeRender();notify("mpt-free-message","FREE task list cleared.","info")});
- $("mpt-free-task-date").value=today();$("mpt-free-project-start").value=today();freeMeta();freeRender();
+ $("mpt-free-reset-last").addEventListener("click",function(){
+  if(!freeTasks.length)return;freeTasks.pop();freeRender();notify("mpt-free-message","Most recently added task removed.","info");
+ });
+ $("mpt-free-sort").addEventListener("click",function(){
+  freeRender();notify("mpt-free-message","Tasks displayed in due-date order.","info");
+ });
+ $("mpt-free-clear").addEventListener("click",function(){
+  if(freeTasks.length&&!window.confirm("Clear all eight FREE project tasks from this page?"))return;
+  freeTasks=[];freeRender();notify("mpt-free-message","Your FREE task list is clear.","info");
+ });
+ $("mpt-free-copy").addEventListener("click",freeCopyPicture);
+ $("mpt-free-mail").addEventListener("click",freeOpenMail);
+ $("mpt-free-calendar").addEventListener("click",freeCalendar);
+ // Do not fill up the table with defaults: Other Projects tasks belong to
+ // each individual customer, unlike six suggested Real Estate milestones.
+ $("mpt-free-project-start").value=today();
+ $("mpt-free-task-date").value="";
+ freeMeta();freeRender();
 }
+
 function proActions(){
  $("mpt-pro-demo-form").addEventListener("submit",function(e){
   e.preventDefault();var name=$("mpt-pro-task-name").value.trim(),due=$("mpt-pro-task-date").value,repeat=$("mpt-pro-repeat").value;
