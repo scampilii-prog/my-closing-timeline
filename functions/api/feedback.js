@@ -8,7 +8,7 @@ export async function onRequestPost({request,env}){
  if(d.website)return json({ok:true});
  const clean=(x,max)=>typeof x==="string"?x.trim().slice(0,max):"";
  const category=clean(d.category,80),type=clean(d.type,80),message=clean(d.message,3001),reply=clean(d.reply,150);
- if(message.length<10||message.length>3000||!["Real Estate FREE","Other Projects FREE","PRO / Registration","General website feedback"].includes(category)||!["Suggestion / Improvement","Something is not working","Question","Compliment"].includes(type))return json({ok:false,message:"Please review the form fields."},400);
+ if(message.length<10||message.length>3000||!["Real Estate FREE","Other Projects FREE","PRO / Registration","General website feedback","General information / contact"].includes(category)||!["Suggestion / Improvement","Something is not working","Question","Compliment"].includes(type))return json({ok:false,message:"Please review the form fields."},400);
  if(reply&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reply))return json({ok:false,message:"Please enter a valid reply email."},400);
  const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
  const subject="[MyClosingTimeline] "+type+" — "+category;
