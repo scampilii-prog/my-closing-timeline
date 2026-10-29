@@ -394,17 +394,18 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
      <label for="mpt-free-task-name">Task / milestone<input id="mpt-free-task-name" type="text" maxlength="140" required placeholder="e.g., Order building materials"></label>
      <label for="mpt-free-task-days">Days from project start<input id="mpt-free-task-days" type="number" min="0" max="3650" value="3" step="1"></label>
      <label for="mpt-free-task-date">Exact date (optional)<input id="mpt-free-task-date" type="date"></label>
-     <button id="mpt-free-add" type="submit" class="mpt-demo-primary">+ Add Task</button>
+     
     </form>
     <div class="mpt-demo-table-scroll mpt-free-editor-table-scroll"><table class="mpt-demo-table mpt-free-editor-table" aria-label="Editable FREE Project Timeline with the same deadline calculation options as Real Estate FREE">
      <thead><tr><th scope="col">No.</th><th scope="col">Task / reminder</th><th scope="col">Days</th><th scope="col">Calendar / Business</th><th scope="col" class="mct-hidden-base">Base</th><th scope="col">When</th><th scope="col">Due date</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
      <tbody id="mpt-free-demo-body"><tr><td colspan="9">Your task table will appear here. Add the first task above.</td></tr></tbody>
     </table></div>
+    <div class="mpt-free-bottom-toolbar"><button id="mpt-free-add" type="submit" form="mpt-free-demo-form" class="mpt-demo-primary">+ Add Task</button>
     <div class="mpt-free-edit-actions">
      <button id="mpt-free-reset-last" type="button" class="mpt-demo-secondary">Reset Last</button>
      <button id="mpt-free-sort" type="button" class="mpt-demo-secondary">Sort by Date</button>
      <button id="mpt-free-clear" type="button" class="mpt-demo-secondary mpt-demo-clear">Clear All</button>
-    </div>
+    </div></div>
     <p id="mpt-free-message" class="mpt-free-message" role="status" aria-live="polite">Six editable general tasks are ready; add up to two more. Set the project start date to calculate due dates.</p>
     <p class="mpt-free-hint">Change the days or the Start/Finish calculation to recalculate a task automatically. Enter an exact due date to override the calculation. Dates are guidance; verify requirements for your particular project.</p>
    </section>
@@ -863,5 +864,12 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
   gap:5px!important
  }
 }
-</style><style id="mct-lift-page-content-v49">@media(min-width:701px){html body .mpt-main{margin-top:0!important}html body .mpt-intro{margin-top:0!important}}</style></body>
+</style><style id="mct-lift-page-content-v49">@media(min-width:701px){html body .mpt-main{margin-top:0!important}html body .mpt-intro{margin-top:0!important}}</style><style id="mct-free-bottom-toolbar-v52">
+html body .mpt-free-bottom-toolbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:wrap!important;margin:11px 0!important}
+html body .mpt-free-bottom-toolbar>#mpt-free-add{margin:0!important;width:auto!important;min-width:116px!important;padding:10px 15px!important;white-space:nowrap!important}
+html body .mpt-free-bottom-toolbar>.mpt-free-edit-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:7px!important;margin:0!important;flex-wrap:nowrap!important}
+html body .mpt-free-bottom-toolbar>.mpt-free-edit-actions button{white-space:nowrap!important;margin:0!important}
+html body #mpt-free-demo-form{grid-template-columns:minmax(0,1fr) 82px minmax(130px,155px)!important}
+@media(max-width:600px){html body .mpt-free-bottom-toolbar{align-items:stretch!important}html body .mpt-free-bottom-toolbar>.mpt-free-edit-actions{flex-wrap:wrap!important}}
+</style></body>
 </html>
