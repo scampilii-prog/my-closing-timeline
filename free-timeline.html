@@ -3731,53 +3731,74 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-live-task{display:block;padding:7px 9px;margin:6px 0;border:1px solid #e4d5b9;border-radius:7px;background:#fff;color:#294b5e;font:700 12px/1.45 Manrope,Arial,sans-serif}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count{font-weight:850;color:#17394d}
 </style>
-<script id="mct-step3-today-tomorrow-sync-v1-script">
+<style id="mct-today-tomorrow-count-numbers-v2">
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:none!important}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day strong span:last-child{font-size:24px!important;font-weight:900!important}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-task{display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:start;padding:11px 9px;margin:8px 0;border:1px solid #dedbd3;border-radius:9px;background:#fff;color:#294b5e;font:700 13px/1.5 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-num{display:grid;place-items:center;border-radius:7px;background:#19394d;color:white;min-height:30px;font-weight:850}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-name{display:block;font-weight:800}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-date{display:block;color:#6d7f88;font-size:11px;margin-top:2px}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count{margin:11px 0!important;font-weight:800}
+</style>
+<script id="mct-step3-today-tomorrow-sync-v2-script">
 (function(){
- function sync(){
-  const root=document.getElementById('mct-free-followup-preview');
-  const preview=document.getElementById('mct-free-tomorrow-preview');
-  if(!root||!preview)return;
-  const now=new Date();
-  const base=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const today=[],tomorrow=[];
+ const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ function dateParts(text){
+  const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec((text||'').trim());
+  if(!m)return null;const mon=months.indexOf(m[1]);if(mon<0)return null;
+  return {timestamp:Date.UTC(+m[3],mon,+m[2]),text:m[1]+' '+m[2]+', '+m[3]};
+ }
+ function refresh(){
+  const panel=document.getElementById('mct-free-tomorrow-preview'),root=document.getElementById('mct-free-followup-preview');
+  if(!panel||!root)return;
+  const now=new Date(),today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+  const groups=[[],[]];
   root.querySelectorAll('table tbody tr').forEach(row=>{
-   const dateCell=row.cells[3],taskCell=row.cells[1],alertCell=row.cells[5];
-   if(!dateCell||!taskCell||!alertCell)return;
-   const txt=(dateCell.querySelector('.mct-step3-reminder-pill')?.textContent||dateCell.textContent||'').trim();
-   const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(txt);
-   const mo=m?months.indexOf(m[1]):-1;if(mo<0)return;
-   const delta=Math.round((Date.UTC(+m[3],mo,+m[2])-base)/86400000);
-   const done=row.querySelector('.mct-step3-done-toggle')?.getAttribute('aria-pressed')==='true';
-   const label=alertCell.querySelector('.mct-v7-state');
-   row.classList.toggle('mct-alert-today',delta===0&&!done);
-   row.classList.toggle('mct-alert-tomorrow',delta===1&&!done);
-   if(label&&delta===0&&!done)label.textContent='Today';
-   if(label&&delta===1&&!done)label.textContent='Tomorrow';
-   if(done||(delta!==0&&delta!==1))return;
-   (delta===0?today:tomorrow).push(taskCell.textContent.trim());
+    if(row.classList.contains('mct-v9-add-row'))return;
+    const cells=row.cells;if(cells.length<8)return;
+    const dateCell=cells[3],parsed=dateParts(dateCell.querySelector('.mct-step3-reminder-pill')?.textContent||dateCell.textContent);
+    if(!parsed)return;
+    const difference=Math.round((parsed.timestamp-today)/86400000);
+    if(difference!==0&&difference!==1)return;
+    const completed=row.querySelector('.mct-step3-done-toggle')?.getAttribute('aria-pressed')==='true';
+    if(completed)return;
+    const name=cells[1].textContent.trim(),number=cells[0].textContent.trim();
+    if(!name)return;
+    groups[difference].push({number,name,date:parsed.text});
   });
-  const cards=preview.querySelectorAll('.mct-v21-day');
-  [today,tomorrow].forEach((items,i)=>{
-   const card=cards[i];if(!card)return;
+  const cards=panel.querySelectorAll('.mct-v21-day');
+  groups.forEach((tasks,index)=>{
+   const card=cards[index];if(!card)return;
+   const num=card.querySelector('strong span:last-child');
+   if(num)num.textContent=String(tasks.length);
    let list=card.querySelector('.mct-live-tomorrow-tasks');
    if(!list){list=document.createElement('div');list.className='mct-live-tomorrow-tasks';card.appendChild(list);}
-   const signature=items.join('|');
+   const signature=JSON.stringify(tasks);
    if(list.dataset.signature===signature)return;
-   list.dataset.signature=signature;
-   list.replaceChildren();
-   const count=document.createElement('p');count.className='mct-live-tomorrow-count';
-   count.textContent=items.length+' task'+(items.length===1?'':'s')+' '+(i?'tomorrow':'due today');
-   list.appendChild(count);
-   items.forEach(name=>{const entry=document.createElement('span');entry.className='mct-live-task';entry.textContent=name;list.appendChild(entry);});
-   if(!items.length){const empty=document.createElement('p');empty.textContent='No follow-up tasks '+(i?'tomorrow.':'due today.');list.appendChild(empty);}
+   list.dataset.signature=signature;list.replaceChildren();
+   const summary=document.createElement('p');summary.className='mct-live-tomorrow-count';
+   summary.textContent=tasks.length+' task'+(tasks.length===1?'':'s')+(index?' tomorrow':' due today');
+   list.appendChild(summary);
+   if(!tasks.length){const empty=document.createElement('p');empty.textContent='No tasks scheduled '+(index?'for tomorrow.':'for today.');list.appendChild(empty);}
+   tasks.forEach(task=>{
+    const el=document.createElement('div');el.className='mct-tt-task';
+    const number=document.createElement('span');number.className='mct-tt-num';number.textContent='#'+task.number;
+    const detail=document.createElement('div'),name=document.createElement('span'),date=document.createElement('span');
+    name.className='mct-tt-name';name.textContent=task.name;
+    date.className='mct-tt-date';date.textContent='Reminder date: '+task.date;
+    detail.append(name,date);el.append(number,detail);list.appendChild(el);
+   });
   });
  }
  function init(){
-  sync();
-  for(const id of ['deadline-effective','deadline-closing'])for(const evt of ['change','input'])document.getElementById(id)?.addEventListener(evt,()=>setTimeout(sync,120));
-  document.getElementById('mct-free-followup-preview')?.addEventListener('click',()=>setTimeout(sync,0));
-  setInterval(sync,2400);
+  refresh();
+  ['deadline-effective','deadline-closing'].forEach(id=>{
+   const field=document.getElementById(id);
+   field?.addEventListener('change',()=>setTimeout(refresh,120));
+   field?.addEventListener('input',()=>setTimeout(refresh,120));
+  });
+  document.getElementById('mct-free-followup-preview')?.addEventListener('click',()=>setTimeout(refresh,10));
+  setInterval(refresh,2500);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
