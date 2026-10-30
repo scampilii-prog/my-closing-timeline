@@ -4048,4 +4048,74 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  margin:0 9px 0 0;border-radius:50%;background:#e8f2ef;color:#347761;font:800 11px/1 Manrope,Arial,sans-serif;
 }
 </style>
-</body></html>
+
+<style id="mct-contract-vs-followup-tools-separation-v1">
+/* Step 2 = contractual dates for sharing; Step 3 = personal follow-up + PRO extras */
+#contract-deadline-planner #mct-free-review #mct-free-finish-section .mct-finish-five-actions{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;
+}
+#contract-deadline-planner #mct-free-review #mct-free-finish-section .mct-finish-five-actions>button{
+ font:800 14px/1.35 Manrope,Arial,sans-serif!important;min-height:55px!important;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-tools{
+ margin:18px 20px 22px;padding:16px 18px;background:#fffdf7;
+ border:1px solid #d2b17b;border-radius:12px;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-tools h4{
+ color:#19394d;font:850 17px/1.35 Manrope,Arial,sans-serif;margin:0 0 6px;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-tools p{
+ color:#637988;font:650 12px/1.5 Manrope,Arial,sans-serif;margin:0 0 12px;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-buttons{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-buttons>button{
+ display:flex!important;align-items:center;justify-content:center;flex-wrap:wrap;
+ gap:8px;box-sizing:border-box;min-width:0;width:100%;min-height:62px;
+ padding:10px;background:#fff9ed!important;border:1px solid #d1ad6e!important;
+ border-radius:10px;color:#75572e!important;
+ font:800 13px/1.35 Manrope,Arial,sans-serif!important;opacity:1!important;cursor:not-allowed;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-buttons .mct-pro-lock{
+ background:#d5a85f!important;color:#3e2a10!important;padding:4px 8px;
+ border-radius:6px;font-weight:900;font-size:12px;box-shadow:0 1px 3px #a9814466;
+}
+@media(max-width:700px){
+ #contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-buttons{grid-template-columns:1fr}
+}
+</style>
+<script id="mct-contract-vs-followup-tools-separation-v1-script">
+(function(){
+ function separate(){
+  const review=document.getElementById('mct-free-review');
+  const follow=document.getElementById('mct-free-followup-preview');
+  const finish=document.getElementById('mct-free-finish-section');
+  if(!review||!follow||!finish)return;
+  const toolbar=finish.querySelector('.mct-finish-five-actions');
+  if(!toolbar)return;
+  const copy=document.getElementById('timeline-copy-picture'),mail=document.getElementById('deadline-email-btn');
+  if(copy&&mail){toolbar.append(copy,mail);}
+  let pro=follow.querySelector('.mct-followup-pro-tools');
+  if(!pro){
+    pro=document.createElement('section');pro.className='mct-followup-pro-tools';
+    const heading=document.createElement('h4');heading.textContent='PRO · Follow-Up Tools';
+    const details=document.createElement('p');details.textContent='Additional tools for the registered closing follow-up. Available after activation.';
+    const actions=document.createElement('div');actions.className='mct-followup-pro-buttons';
+    pro.append(heading,details,actions);
+    follow.appendChild(pro);
+  }
+  const buttons=['deadline-print','mct-calendar-action'].map(id=>document.getElementById(id));
+  const more=document.querySelector('.mct-free-more-locked');
+  if(buttons.every(Boolean)&&more){
+   buttons.concat(more).forEach(button=>pro.querySelector('.mct-followup-pro-buttons').appendChild(button));
+  }
+  const oldNote=finish.querySelector('.mct-free-pro-note');
+  if(oldNote)oldNote.textContent='FREE: copy and email the contract timeline. Follow-up tools are available in PRO after activation.';
+  // Preserve explanatory notes under the FREE sharing buttons.
+  const guide=finish.querySelector('.mct-share-simple-guide');
+  if(guide)guide.setAttribute('aria-label','How to share the contract deadlines with the concerned parties');
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',separate);else separate();
+})();
+</script></body></html>
