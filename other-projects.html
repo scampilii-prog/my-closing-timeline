@@ -925,5 +925,26 @@ html body .mpt-public-pro-summary h2{font-size:25px!important;margin:0 0 10px!im
 html body .mpt-public-pro-summary p{font-size:14px!important;line-height:1.6!important;max-width:850px!important}
 html body .mpt-public-pro-summary .mpt-caption{font-size:11px!important}
 html[data-mpt-embed] body .mpt-public-pro-summary{display:none!important}
-</style><style id="mct-feedback-v62">.mpt-feedback-invite{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;padding:23px 25px;margin:18px auto;border:1px solid #c8dbdb;border-radius:12px;background:#f5faf9}.mpt-feedback-invite>div{flex:1 1 400px}.mpt-feedback-invite h2{font-size:clamp(20px,2vw,27px);margin:4px 0 7px;color:#183c51}.mpt-feedback-invite p{font-size:13px;line-height:1.65;margin:0;color:#506977}.mpt-feedback-invite .mpt-button{white-space:nowrap}</style></body>
+</style><style id="mct-feedback-v62">.mpt-feedback-invite{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;padding:23px 25px;margin:18px auto;border:1px solid #c8dbdb;border-radius:12px;background:#f5faf9}.mpt-feedback-invite>div{flex:1 1 400px}.mpt-feedback-invite h2{font-size:clamp(20px,2vw,27px);margin:4px 0 7px;color:#183c51}.mpt-feedback-invite p{font-size:13px;line-height:1.65;margin:0;color:#506977}.mpt-feedback-invite .mpt-button{white-space:nowrap}</style><style id="mct-other-free-pro-express-v1">
+#mpt-free-review-panel .mct-express-project-offer{margin-top:14px;padding:16px;border:1px solid #b7d8d5;border-radius:11px;background:linear-gradient(135deg,#edfaf6,#fbf8f2);color:#174758}
+#mpt-free-review-panel .mct-express-project-offer .mct-express-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:11px}
+#mpt-free-review-panel .mct-express-project-offer a{display:flex;align-items:center;justify-content:center;min-height:49px;padding:11px;border-radius:8px;text-decoration:none;text-align:center;font:850 14px/1.35 Manrope,Arial,sans-serif;border:1px solid #9dbfbd;background:white;color:#17576a}
+#mpt-free-review-panel .mct-express-project-offer a.mct-express-primary{background:#087b76;color:white;border-color:#087b76}
+#mpt-free-review-panel .mct-express-project-offer h3{font:850 20px/1.35 Manrope,Arial,sans-serif;margin:5px 0 8px;color:#153e51}
+#mpt-free-review-panel .mct-express-project-offer p{font:550 14px/1.55 Manrope,Arial,sans-serif;margin:0 0 8px;color:#416371}
+#mpt-free-review-panel .mct-express-project-offer small{font:700 12px/1.5 Manrope,Arial,sans-serif;color:#306a61}
+@media(max-width:620px){#mpt-free-review-panel .mct-express-project-offer .mct-express-actions{grid-template-columns:1fr}}
+</style>
+<script id="mct-other-free-pro-express-v1">
+(function(){
+ function setup(){
+  var panel=document.getElementById("mpt-free-review-panel");
+  if(!panel||panel.querySelector(".mct-express-project-offer"))return;
+  var offer=document.createElement("section");offer.className="mct-express-project-offer";
+  offer.innerHTML='<div class="mct-express-actions"><a class="mct-express-primary" href="/express-pro.html?audience=other" target="_top">Continue to PRO Express →</a><a href="/pricing.html" target="_top">Explore Plans & Pricing</a></div><h3>Your first Other Projects PRO benefit is reserved.</h3><p>Track ongoing tasks, reminders and recurring projects. Continue with one secure email link, without a password. You can try PRO now; paid Other Projects activation is not yet available.</p><small>PRO preview: follow-up tasks · Today & Tomorrow · recurring reminders. No payment to explore.</small>';
+  panel.appendChild(offer);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
+})();
+</script></body>
 </html>
