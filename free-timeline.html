@@ -4513,4 +4513,55 @@ function setup(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
-</script></body></html>
+</script><!-- MCT Step 3 chronological move highlight v4 -->
+<style id="mct-step3-move-highlight-v4-style">
+@keyframes mct-moved-glow-v4{0%,100%{outline-color:transparent;filter:none}20%,60%{outline-color:#c78a23;filter:brightness(1.10)}40%,80%{outline-color:transparent;filter:none}}
+#mct-free-followup-preview tr.mct-moved-highlight-v4{outline:4px solid transparent;outline-offset:-4px;animation:mct-moved-glow-v4 1.6s ease-in-out 5;position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){#mct-free-followup-preview tr.mct-moved-highlight-v4{animation:none;outline:4px solid #c78a23}}
+</style>
+<script id="mct-step3-move-v4">
+(function(){
+ function init(){
+  const root=document.getElementById('mct-free-followup-preview');
+  const body=root?.querySelector('table tbody');if(!body)return;
+  const original=[...body.rows].filter(r=>!r.classList.contains('mct-v9-add-row')&&!r.classList.contains('mct-contract-source-row'));
+  original.forEach((r,i)=>{if(!r.dataset.mctMoveId)r.dataset.mctMoveId=String(i)});
+  const iso=(s)=>{
+   s=String(s||'').trim();
+   if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+   const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(s);
+   if(!m)return '';
+   const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(m[1]);
+   return mon<0?'':m[3]+'-'+String(mon+1).padStart(2,'0')+'-'+m[2].padStart(2,'0');
+  };
+  const dateOf=r=>iso(r.querySelector('input.mct-date-direct')?.value)||iso(r.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent);
+  let timer;
+  function move(changed){
+   const rows=original.filter(r=>r.parentElement===body);
+   const sorted=rows.slice().sort((a,b)=>(dateOf(a)||'9999-12-31').localeCompare(dateOf(b)||'9999-12-31')||Number(a.dataset.mctMoveId)-Number(b.dataset.mctMoveId));
+   const before=rows.indexOf(changed),after=sorted.indexOf(changed);
+   const fragment=document.createDocumentFragment();sorted.forEach(r=>fragment.appendChild(r));
+   body.insertBefore(fragment,body.querySelector('.mct-v9-add-row')||null);
+   if(changed&&before!==after&&after>=0){
+    changed.classList.remove('mct-moved-highlight-v4');void changed.offsetWidth;
+    changed.classList.add('mct-moved-highlight-v4');
+    clearTimeout(changed._mctHighlightTimer);
+    changed._mctHighlightTimer=setTimeout(()=>changed.classList.remove('mct-moved-highlight-v4'),8000);
+    changed.scrollIntoView({behavior:'smooth',block:'center'});
+   }
+  }
+  function schedule(row){clearTimeout(timer);timer=setTimeout(()=>move(row),300)}
+  root.addEventListener('change',e=>{
+   const target=e.target,row=target.closest('tr');if(!row||!original.includes(row))return;
+   if(target.matches('input.mct-date-direct,input.mct-day-spinner,.mct-edit-basis-select,.mct-edit-day-offset'))schedule(row);
+  });
+  root.addEventListener('click',e=>{
+   const button=e.target.closest('button'),row=button?.closest('tr');
+   if(!row||!original.includes(row))return;
+   if(button.closest('.mct-date-step-buttons'))schedule(row);
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+</body></html>
