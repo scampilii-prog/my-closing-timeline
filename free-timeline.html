@@ -2761,21 +2761,19 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 <script id="mct-step3-full-preview-20261030-script">
 (function(){
-const tasks=[
-'Confirm executed contract and effective date','Verify buyer and seller contact details','Confirm escrow holder and closing company','Verify first deposit receipt','Verify second deposit receipt','Confirm earnest money deadlines','Send contract to lender','Confirm loan application submitted','Verify lender documentation received','Follow up on underwriting status','Monitor loan commitment date','Check appraisal order','Confirm appraisal appointment','Review appraisal completion','Confirm loan approval notice','Monitor financing contingency','Order property inspection','Confirm inspection appointment','Receive inspection report','Track repair requests','Confirm repair agreement','Verify repair completion','Arrange reinspection if needed','Submit condominium / HOA application','Track association document requests','Confirm HOA / condo approval','Request estoppel information','Confirm title search status','Review survey requirements','Follow up on title exceptions','Verify payoff statements','Confirm property insurance binder','Confirm flood insurance if applicable','Verify property tax and assessment details','Confirm closing disclosure timeline','Verify buyer funds to close','Confirm seller documents','Confirm utilities transfer','Schedule final walk-through','Confirm final walk-through completion','Review final closing figures','Confirm signing appointment','Verify wire instructions through trusted channel','Confirm recording and funding','Confirm key and access delivery','Deliver closing confirmation to parties','Archive closing documents and final follow-up'
-];
+const tasks=[["Send client congratulations email",0,"effective"],["Update brokerage transaction system to Pending",0,"effective"],["Retrieve missing documents / signatures as required",0,"effective"],["Confirm applicable property disclosures received",0,"effective"],["Send transaction timeline email to client",0,"effective"],["1st deposit — deliver or confirm earnest money receipt",1,"effective"],["Review occupancy / leases and applicable notice period",2,"effective"],["Confirm appraisal ordered by lender",2,"effective"],["2nd deposit — deliver or confirm earnest money receipt",5,"effective"],["Order survey",5,"effective"],["Verify all title work is complete",20,"effective"],["Confirm repair negotiations",20,"effective"],["Send termite report to title and lender",20,"effective"],["Verify appraisal has passed",20,"effective"],["Lease information — obtain tenant estoppel letter",-10,"closing"],["Deliver or confirm lender clear to close",-7,"closing"],["Confirm closing time with title",-7,"closing"],["Send final walkthrough and closing email to client",-7,"closing"],["Purchase closing gift / thank-you card",-7,"closing"],["Verify condo association approval",-5,"closing"],["Title evidence and insurance",-5,"closing"],["Ensure no additional amendments are required",-3,"closing"],["Submit final documents to brokerage compliance",1,"closing"],["Update brokerage transaction system to Closed",1,"closing"],["Introduce buyer, seller, lender and settlement contacts",0,"effective"],["Confirm all parties received executed agreement",0,"effective"],["Confirm deposit receipt with escrow holder",2,"effective"],["Schedule property inspections as applicable",3,"effective"],["Follow up on inspection results and questions",7,"effective"],["Coordinate agreed repair access and updates",10,"effective"],["Confirm insurance application and coverage progress",10,"effective"],["Check title or escrow outstanding requirements",14,"effective"],["Follow up on appraisal appointment and access",14,"effective"],["Review loan conditions with lender contact",-10,"closing"],["Confirm association documents or approval if applicable",-10,"closing"],["Check survey requirements with settlement team",-10,"closing"],["Confirm settlement statement review with parties",-4,"closing"],["Verify wire instructions independently by trusted phone number",-3,"closing"],["Schedule and coordinate final walkthrough",-2,"closing"],["Confirm funds, signing, keys and possession coordination",-1,"closing"]];
 function render(){
  const root=document.getElementById('mct-free-followup-preview');
  if(!root||root.dataset.fullPreview==='yes')return;
  root.dataset.fullPreview='yes';
- const top=root.querySelector('.mct-v21-followup-top small');if(top)top.textContent='47 SUGGESTED TASKS · FULL PREVIEW · ACTIVATE TO EDIT';
+ const top=root.querySelector('.mct-v21-followup-top small');if(top)top.textContent='40 ORIGINAL SUGGESTED TASKS · FULL PREVIEW · ACTIVATE TO EDIT';
  const table=root.querySelector('table');if(!table)return;
  const tbody=table.querySelector('tbody');
  const head=table.querySelector('thead tr');
  if(head)head.innerHTML='<th>#</th><th>Task / reminder</th><th>Days</th><th>Reminder date</th><th>Status</th><th>Alert</th><th>Notes</th><th>Done</th>';
  tbody.innerHTML='';
- tasks.forEach((name,i)=>{
- const tr=document.createElement('tr');
+ tasks.forEach(([name,days,basis],i)=>{
+ const tr=document.createElement('tr');tr.dataset.mctOriginalIndex=String(i);tr.dataset.mctBasis=basis;tr.dataset.mctCustomOffset=String(days);
  [String(i+1),name,'—','Set after activation','Pending','Upcoming','Editable in PRO','○'].forEach((v,j)=>{
  const td=document.createElement('td');
  if(j===4){const b=document.createElement('span');b.className='mct-v21-tag';b.textContent=v;td.appendChild(b)}else td.textContent=v;
@@ -2783,7 +2781,7 @@ function render(){
  tbody.appendChild(tr);
  });
  const wrap=root.querySelector('.mct-v21-table-wrap');
- if(wrap)wrap.insertAdjacentHTML('afterend','<p class="mct-preview-explain"><strong>47 suggested follow-up tasks</strong> · Add unlimited tasks after activation. Set due dates, reminders, status, alerts and notes; track pending and completed items. This preview does not store changes.</p><div class="mct-preview-add" aria-label="Add task preview"><label>New task<input disabled placeholder="Write your next follow-up task"></label><label>Days<input disabled type="number" placeholder="Days"></label><label>Reminder date<input disabled type="date"></label><button type="button" disabled>+ Add Task</button></div>');
+ if(wrap)wrap.insertAdjacentHTML('afterend','<p class="mct-preview-explain"><strong>40 original suggested follow-up tasks</strong> · Add unlimited tasks after activation. Set due dates, reminders, status, alerts and notes; track pending and completed items. This preview does not store changes.</p><div class="mct-preview-add" aria-label="Add task preview"><label>New task<input disabled placeholder="Write your next follow-up task"></label><label>Days<input disabled type="number" placeholder="Days"></label><label>Reminder date<input disabled type="date"></label><button type="button" disabled>+ Add Task</button></div>');
  const pdf=root.querySelector('.mct-v21-actions button');if(pdf)pdf.textContent='Save as PDF · Unlock to use';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
@@ -2912,7 +2910,7 @@ function fill(){
  // Same illustrative day-offset convention as the existing date-preview calculator.
  rows.forEach(function(row,i){
    const cell=row.cells[2];if(!cell)return;
-   const days=i>=34?i-46:Math.min(i,30);
+   const days=Number(row.dataset.mctCustomOffset??0);
    let label=cell.querySelector('.mct-step3-days-number');
    if(!label){cell.textContent='';label=document.createElement('span');label.className='mct-step3-days-number';cell.appendChild(label);}
    label.textContent=days>0?'+'+days:String(days);
@@ -2953,10 +2951,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    rows.forEach((tr,i)=>{
     const cell=tr.cells[3],dayCell=tr.cells[2];
     if(!cell||!dayCell)return;
-    const basis=tr.dataset.mctBasis|| (Number(tr.dataset.mctOriginalIndex??i)>=34?'closing':'effective');
+    const basis=tr.dataset.mctBasis|| (tr.dataset.mctBasis||'effective');
     const closingBased=basis==='closing',base=closingBased?end:start;
     const original=Number(tr.dataset.mctOriginalIndex??i);
-    const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):(closingBased?original-46:Math.min(original,30));
+    const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):Number(tr.dataset.mctCustomOffset??0);
     cell.classList.add('mct-step3-reminder-cell');
     let pill=cell.querySelector('.mct-step3-reminder-pill');
     if(!pill){cell.textContent='';pill=document.createElement('span');pill.className='mct-step3-reminder-pill';cell.appendChild(pill);}
@@ -4233,7 +4231,7 @@ function init(){
  originalRows.forEach((row,i)=>{
   row.dataset.mctOriginalIndex=String(i);
   const input=row.querySelector('.mct-edit-day-offset');
-  const original=i>=34?i-46:Math.min(i,30);
+  const original=Number(row.dataset.mctCustomOffset??0);
   row.dataset.mctCustomOffset=row.dataset.mctCustomOffset??String(original);
   if(input){
    const pill=document.createElement('span');pill.className='mct-step3-days-number';
@@ -4463,7 +4461,7 @@ function setup(){
   const pill=dateCell.querySelector('.mct-step3-reminder-pill');
   if(!prior||!pill)return;
   const index=Number(row.dataset.mctOriginalIndex??i);
-  const original=row.dataset.mctCustomOffset!==undefined?Number(row.dataset.mctCustomOffset):(index>=34?index-46:Math.min(index,30));
+  const original=Number(row.dataset.mctCustomOffset??0);
   row.dataset.mctCustomOffset=String(original);
   prior.classList.add('mct-date-input-active');pill.classList.add('mct-date-input-active');
   const spin=document.createElement('input');spin.type='number';spin.step='1';spin.min='-3650';spin.max='3650';spin.className='mct-day-spinner';spin.setAttribute('aria-label','Editable days for task '+(i+1));const dwrap=document.createElement('div');dwrap.className='mct-day-wrap';const dbuttons=document.createElement('div');dbuttons.className='mct-date-step-buttons';const dup=document.createElement('button'),ddown=document.createElement('button');dup.type=ddown.type='button';dup.textContent='▲';ddown.textContent='▼';dup.setAttribute('aria-label','Increase days');ddown.setAttribute('aria-label','Decrease days');dbuttons.append(dup,ddown);dwrap.append(spin,dbuttons);dayCell.appendChild(dwrap);
@@ -4471,7 +4469,7 @@ function setup(){
   const date=document.createElement('input');date.type='date';date.className='mct-date-direct';date.setAttribute('aria-label','Editable reminder date for task '+(i+1));
   const buttons=document.createElement('div');buttons.className='mct-date-step-buttons';
   const up=document.createElement('button'),down=document.createElement('button');up.type='button';down.type='button';up.textContent='▲';down.textContent='▼';up.setAttribute('aria-label','Next day');down.setAttribute('aria-label','Previous day');buttons.append(up,down);wrap.append(date,buttons);dateCell.append(wrap);
-  const basis=()=>row.querySelector('.mct-edit-basis-select')?.value||row.dataset.mctBasis||(index>=34?'closing':'effective');
+  const basis=()=>row.querySelector('.mct-edit-basis-select')?.value||row.dataset.mctBasis||'effective';
   const base=()=>localDate((basis()==='closing'?closing:effective).value);
   const lock=()=>!base()||!date.value||date.value<today();
   const refresh=()=>{
