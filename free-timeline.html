@@ -2669,4 +2669,34 @@ function tidy(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tidy);else tidy();
 })();
 </script>
+
+<style id="mct-table-order-20261030-v22">
+html body #contract-deadline-planner>.fc-simple-layout{display:block!important;grid-template-columns:none!important;width:100%!important;max-width:100%!important;margin:10px 0 0!important}
+html body #contract-deadline-planner>.fc-simple-layout>.fc-simple-form{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;box-sizing:border-box!important}
+html body #contract-deadline-planner>#mct-simplified-summary-row{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;gap:16px!important;align-items:stretch!important;margin:16px 0 0!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important}
+html body #contract-deadline-planner>#mct-simplified-summary-row>#mct-free-review{grid-column:1!important;grid-row:1!important;min-width:0!important;width:100%!important;margin:0!important;box-sizing:border-box!important}
+html body #contract-deadline-planner>#mct-simplified-summary-row>#mct-free-tomorrow-preview{grid-column:2!important;grid-row:1!important;min-width:0!important;width:100%!important;margin:0!important;box-sizing:border-box!important}
+html body #contract-deadline-planner>#mct-free-followup-preview{display:block!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important;margin:16px 0 24px!important}
+@media(max-width:900px){html body #contract-deadline-planner>#mct-simplified-summary-row{grid-template-columns:minmax(0,1fr)!important}html body #contract-deadline-planner>#mct-simplified-summary-row>#mct-free-review{grid-column:1!important;grid-row:1!important}html body #contract-deadline-planner>#mct-simplified-summary-row>#mct-free-tomorrow-preview{grid-column:1!important;grid-row:2!important}}
+</style>
+<script id="mct-table-order-20261030-v22-script">
+(function(){
+function place(){
+ const planner=document.getElementById('contract-deadline-planner');
+ const header=document.getElementById('mct-free-real-estate-landing');
+ const form=planner&&planner.querySelector('.fc-simple-layout');
+ const row=document.getElementById('mct-simplified-summary-row');
+ const summary=document.getElementById('mct-free-review');
+ const today=document.getElementById('mct-free-tomorrow-preview');
+ const follow=document.getElementById('mct-free-followup-preview');
+ if(!planner||!header||!form||!row||!summary||!today||!follow)return;
+ header.insertAdjacentElement('afterend',form);
+ form.insertAdjacentElement('afterend',row);
+ row.appendChild(summary);
+ row.appendChild(today);
+ row.insertAdjacentElement('afterend',follow);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);else place();
+})();
+</script>
 </body></html>
