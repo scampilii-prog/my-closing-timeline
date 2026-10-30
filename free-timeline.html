@@ -2825,7 +2825,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const closingBased=i>=34;
     const base=closingBased?end:start;
     if(!base){cell.textContent='Set date to preview';return;}
-    const defaultOffset=closingBased?i-46:Math.min(i,30);
+    const original=Number(tr.dataset.mctOriginalIndex??i);
+    const defaultOffset=closingBased?original-46:Math.min(original,30);
     const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):defaultOffset;
     cell.textContent=human(addDays(base,offset));
     cell.title='Illustrative follow-up date only. Confirm or customize after activation; not a contractual deadline.';
@@ -4409,5 +4410,79 @@ function initialize(){
  setInterval(()=>{root.querySelectorAll('.mct-edit-basis-select').forEach(el=>{el.disabled=el.closest('tr')?.classList.contains('mct-v4-past')||false})},1800);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+<style id="mct-step3-restore-and-sort-v3">
+#contract-deadline-planner #mct-free-followup-preview .mct-edit-day-offset{display:none!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number{display:inline-flex!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-edit-basis-select{
+ font:750 12px/1.3 Manrope,Arial,sans-serif!important;background-color:#fff!important;
+ padding:6px 21px 6px 6px!important;overflow:hidden!important;
+}
+</style>
+<script id="mct-step3-restore-and-sort-v3-script">
+(function(){
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function iso(text){
+ const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec((text||'').trim());
+ if(!m)return '';
+ const mon=months.indexOf(m[1]);if(mon<0)return '';
+ return m[3]+'-'+String(mon+1).padStart(2,'0')+'-'+m[2].padStart(2,'0');
+}
+function init(){
+ const root=document.getElementById('mct-free-followup-preview'),table=root?.querySelector('table'),body=table?.querySelector('tbody');
+ if(!body)return;
+ const originalRows=Array.from(body.rows).filter(r=>!r.classList.contains('mct-v9-add-row'));
+ originalRows.forEach((row,i)=>{
+  row.dataset.mctOriginalIndex=String(i);
+  const input=row.querySelector('.mct-edit-day-offset');
+  const original=i>=34?i-46:Math.min(i,30);
+  row.dataset.mctCustomOffset=row.dataset.mctCustomOffset??String(original);
+  if(input){
+   const pill=document.createElement('span');pill.className='mct-step3-days-number';
+   pill.textContent=original>0?'+'+original:String(original);
+   input.replaceWith(pill);
+  }
+ });
+ const stableRefresh=()=>{
+  originalRows.forEach(row=>{
+   const n=Number(row.dataset.mctCustomOffset);
+   const label=row.querySelector('.mct-step3-days-number');
+   if(label)label.textContent=n>0?'+'+n:String(n);
+  });
+ };
+ function resort(){
+  const rows=originalRows.filter(r=>r.parentElement===body);
+  rows.sort((a,b)=>{
+   const da=iso(a.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||'');
+   const db=iso(b.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||'');
+   if(!da&&!db)return Number(a.dataset.mctOriginalIndex)-Number(b.dataset.mctOriginalIndex);
+   if(!da)return 1;if(!db)return -1;
+   return da.localeCompare(db)||Number(a.dataset.mctOriginalIndex)-Number(b.dataset.mctOriginalIndex);
+  });
+  rows.forEach((row,i)=>{
+   body.appendChild(row);
+   if(row.cells[0])row.cells[0].textContent=String(i+1);
+  });
+  const add=body.querySelector('.mct-v9-add-row');if(add)body.appendChild(add);
+  stableRefresh();
+ }
+ root.addEventListener('change',event=>{
+  const sel=event.target.closest('.mct-edit-basis-select');
+  if(!sel)return;
+  const row=sel.closest('tr');if(!row||row.classList.contains('mct-v4-past'))return;
+  const old=Number(row.dataset.mctCustomOffset||0);
+  row.dataset.mctCustomOffset=String(sel.value==='closing'?-Math.abs(old):Math.abs(old));
+  const label=row.querySelector('.mct-step3-days-number');
+  if(label){const n=Number(row.dataset.mctCustomOffset);label.textContent=n>0?'+'+n:String(n);}
+  // Date calculation runs in the existing Effective Date change handler.
+  document.getElementById('deadline-effective')?.dispatchEvent(new Event('change'));
+  setTimeout(resort,110);
+ });
+ // Restore original colored row layout (the existing grouping scripts handle colors).
+ stableRefresh();
+ // Reordering is user-triggered only; the initial 47-task display remains as originally designed.
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script></body></html>
