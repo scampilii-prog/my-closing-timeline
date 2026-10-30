@@ -3680,4 +3680,39 @@ border-left:1px solid rgba(151,118,62,.45)!important;
 border-right:1px solid rgba(151,118,62,.45)!important;
 }
 </style>
+
+<style id="mct-step3-countdown-alert-v1">
+#contract-deadline-planner #mct-free-followup-preview table thead tr,
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row){
+grid-template-columns:32px minmax(230px,1.8fr) 58px 158px 146px 86px 108px 58px minmax(170px,1.1fr)!important}
+#contract-deadline-planner #mct-free-followup-preview table{min-width:1195px!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-v7-state{white-space:nowrap!important;overflow-wrap:normal!important;font-size:11px!important;padding:5px 6px!important;display:inline-block!important}
+</style>
+<script id="mct-step3-countdown-alert-v1-script">
+(function(){
+function render(){
+ const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+ const n=new Date(),today=Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());
+ const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ Array.from(root.querySelectorAll('table tbody tr')).forEach(row=>{
+  const dateCell=row.cells[3],alert=row.cells[5],state=row.cells[4];if(!dateCell||!alert||!state)return;
+  const str=(dateCell.querySelector('.mct-step3-reminder-pill')?.textContent||dateCell.textContent||'').trim();
+  const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(str),month=m?months.indexOf(m[1]):-1;
+  if(month<0)return;
+  const days=Math.round((Date.UTC(+m[3],month,+m[2])-today)/86400000);
+  const done=row.querySelector('.mct-step3-done-toggle')?.getAttribute('aria-pressed')==='true';
+  const label=done?'Completed':days<0?'Overdue':days===0?'Today':days===1?'Tomorrow':'In '+days+' days';
+  let badge=alert.querySelector('.mct-v7-state');if(!badge){badge=document.createElement('span');badge.className='mct-v7-state';alert.textContent='';alert.appendChild(badge);}
+  badge.textContent=label;
+  badge.style.setProperty('--mct-v7-color',done?'#16734d':days<0?'#b12d3a':days===0?'#a66b13':'#215a91');
+ });
+}
+function init(){
+ render();
+ for(const id of ['deadline-effective','deadline-closing'])for(const ev of ['change','input'])document.getElementById(id)?.addEventListener(ev,()=>setTimeout(render,100));
+ setInterval(render,1700);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
