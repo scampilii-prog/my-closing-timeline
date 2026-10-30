@@ -521,7 +521,7 @@ export async function onRequest(context){
    const dayType=String(body.day_type??previous?.day_type??"calendar");
    const exactDate=String(body.exact_date??previous?.exact_date??"");
    const status=body.done===true?"done":body.done===false?"pending":previous?.status||"pending";
-   if(!contractTaskChoices.includes(title)||!Number.isInteger(days)||days<0||days>3650||
+   if((!contractTaskChoices.includes(title)&&!(previous&&title===previous.title))||title.length>180||!Number.isInteger(days)||days<0||days>3650||
      !["effective","closing"].includes(base)||!["before","after"].includes(direction)||
      !["calendar","business"].includes(dayType)||!["pending","done"].includes(status))
       return error("Choose an approved contract task and valid date settings.",400);
