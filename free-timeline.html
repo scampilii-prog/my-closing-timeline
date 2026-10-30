@@ -3993,4 +3993,36 @@ function relocate(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',relocate);else relocate();
 })();
-</script></body></html>
+</script>
+<style id="mct-tomorrow-activation-note-v1">
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-activation-note{
+ display:flex;align-items:center;gap:12px;margin:15px 17px 5px;padding:13px 15px;
+ background:#fff9eb;border:1px solid #d8b673;border-left:4px solid #c59643;
+ border-radius:10px;color:#63491f;font:700 13px/1.5 Manrope,Arial,sans-serif;
+ box-shadow:0 2px 8px rgba(41,57,63,.05)
+}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-activation-note .mct-tt-activation-symbol{
+ background:#f4e4bd;border-radius:8px;padding:7px;font-size:20px;line-height:1
+}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-activation-note strong{
+ display:block;font-size:14px;color:#664714;margin-bottom:2px
+}
+</style>
+<script id="mct-tomorrow-activation-note-v1-script">
+(function(){
+ function add(){
+ const panel=document.getElementById('mct-free-tomorrow-preview');
+ if(!panel||panel.querySelector('.mct-tt-activation-note'))return;
+ const note=document.createElement('div');note.className='mct-tt-activation-note';
+ const icon=document.createElement('span');icon.className='mct-tt-activation-symbol';icon.textContent='🔒';
+ const body=document.createElement('span');
+ const head=document.createElement('strong');head.textContent='Activate Step 3 to unlock live follow-up';
+ const detail=document.createElement('span');detail.textContent='Today & Tomorrow becomes fully available when your Closing Follow-Up is activated.';
+ body.append(head,detail);note.append(icon,body);
+ const title=panel.querySelector('.mct-v21-title');
+ if(title)title.insertAdjacentElement('afterend',note);else panel.prepend(note);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',add);else add();
+})();
+</script>
+</body></html>
