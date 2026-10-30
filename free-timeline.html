@@ -3884,4 +3884,58 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',organize);else organize();
 })();
 </script>
+
+<style id="mct-finish-five-actions-fix-v2">
+#contract-deadline-planner #mct-free-finish-section{display:block!important;max-width:100%!important}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ grid-auto-flow:row!important;gap:9px!important;align-items:stretch!important;
+}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions>button{
+ display:flex!important;float:none!important;position:relative!important;grid-column:auto!important;
+ width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;
+ min-height:64px!important;margin:0!important;padding:9px 7px!important;
+ box-sizing:border-box!important;font:800 13px/1.3 Manrope,Arial,sans-serif!important;
+ border-radius:10px!important;white-space:normal!important;text-align:center!important;
+ align-items:center!important;justify-content:center!important;
+}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions>button:nth-child(1){background:#19394d!important;color:#fff!important}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions>button:nth-child(2){background:#f4e5c6!important;color:#19394d!important;border:1px solid #cfa45e!important}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions>button:nth-child(n+3){background:#fffaf0!important;color:#8b6b39!important;border:1px solid #d6bd90!important}
+#contract-deadline-planner #mct-free-finish-section .mct-free-pro-locked{display:block!important;width:100%!important;padding:0!important;margin:10px 0 0!important;border:0!important;background:transparent!important}
+#contract-deadline-planner #mct-free-finish-section .mct-free-pro-buttons{display:none!important}
+#contract-deadline-planner #mct-free-review .mct-free-share-head,
+#contract-deadline-planner #mct-free-review .mct-free-share-actions,
+#contract-deadline-planner #mct-free-review .mct-free-pro-locked{display:none!important}
+@media(max-width:880px){
+ #contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:540px){
+ #contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+</style>
+<script id="mct-finish-five-actions-fix-v2-script">
+(function(){
+ function align(){
+  const planner=document.getElementById('contract-deadline-planner'),follow=document.getElementById('mct-free-followup-preview'),review=document.getElementById('mct-free-review');
+  if(!planner||!follow||!review)return;
+  let section=document.getElementById('mct-free-finish-section');
+  if(!section){section=document.createElement('section');section.id='mct-free-finish-section';section.setAttribute('aria-label','Finish, review and share');}
+  if(follow.nextElementSibling!==section)follow.insertAdjacentElement('afterend',section);
+  let toolbar=section.querySelector('.mct-finish-five-actions');
+  if(!toolbar){toolbar=document.createElement('div');toolbar.className='mct-finish-five-actions';section.appendChild(toolbar);}
+  const ids=['timeline-copy-picture','deadline-email-btn','deadline-print','mct-calendar-action'];
+  const buttons=ids.map(id=>document.getElementById(id));
+  const more=section.querySelector('.mct-free-more-locked')||review.querySelector('.mct-free-more-locked');
+  if(buttons.every(Boolean)&&more){
+   buttons.concat(more).forEach(button=>toolbar.appendChild(button));
+  }
+  const head=section.querySelector('.mct-free-share-head')||review.querySelector('.mct-free-share-head');
+  const guide=section.querySelector('.mct-share-simple-guide')||review.querySelector('.mct-share-simple-guide');
+  if(head)section.insertBefore(head,toolbar);
+  if(guide)section.insertBefore(guide,toolbar);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',align);else align();
+})();
+</script>
 </body></html>
