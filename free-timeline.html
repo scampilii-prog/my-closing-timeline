@@ -2388,4 +2388,21 @@ html body #contract-deadline-planner .fc-simple-result .mct-express-summary-conv
 </style><style id="mct-realty-four-table-font-parity-v3">
 html body #contract-deadline-planner .fc-simple-layout .fc-simple-form :is(label,input,select),
 html body #contract-deadline-planner .fc-simple-layout .fc-simple-result :is(li,span){font-size:13px!important;line-height:1.45!important}
+</style><style id="mct-free-compact-days-when-due-v1">
+/* Keep approved font size; reclaim horizontal room for full task names. */
+@media(min-width:1000px){
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card{
+ grid-template-columns:22px minmax(145px,1fr) 42px 65px minmax(102px,122px) 61px 86px!important;
+ column-gap:5px!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-grid{
+ grid-template-columns:minmax(0,1fr) 42px 65px minmax(102px,122px) 61px 86px!important;
+ gap:5px!important;
+}
+html body #contract-deadline-planner .mct-realty-task-days,
+html body #contract-deadline-planner .mct-realty-task-type,
+html body #contract-deadline-planner .mct-realty-task-due{min-width:0!important}
+html body #contract-deadline-planner .mct-realty-task-grid input,
+html body #contract-deadline-planner .mct-realty-task-grid select{box-sizing:border-box!important;width:100%!important;min-width:0!important}
+}
 </style></body></html>
