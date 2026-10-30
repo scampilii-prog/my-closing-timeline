@@ -24,6 +24,21 @@
  let saved=null;try{saved=JSON.parse(sessionStorage.getItem("mct-free-pro-draft")||"null")}catch(e){}
  const audience=params.get("audience")==="other"||saved?.audience==="other"?"other":"realtor";
  $("draft").textContent=saved?.fields?.length?("Your "+(audience==="other"?"Other Projects":"Real Estate")+" FREE draft ("+saved.fields.length+" fields) is preserved in this browser."):"You can continue without an existing FREE draft. No work has been uploaded.";
+ if(audience==="realtor"&&Array.isArray(saved?.contractTasks)&&saved.contractTasks.length){
+  const count=saved.contractTasks.length;
+  const panel=document.createElement('section');panel.setAttribute('aria-label','FREE contract task handoff preview');
+  panel.style.cssText='margin:18px 0;padding:16px;border:1px solid #d1b17b;border-radius:12px;background:#fffbf3;color:#214458';
+  const heading=document.createElement('h2');heading.textContent=count+' contract tasks from FREE';heading.style.cssText='font-size:19px;margin:0 0 8px';
+  const note=document.createElement('p');note.textContent='These tasks and dates are preserved in this browser for review. They are not yet imported or saved in a PRO closing.';note.style.cssText='font-size:13px;margin:0 0 12px';
+  const list=document.createElement('ol');list.style.cssText='padding-left:24px;margin:0;font-size:13px';
+  saved.contractTasks.forEach(task=>{
+   const li=document.createElement('li');
+   li.textContent=String(task.title||'Task')+' · +'+String(task.days||0)+' days · '+(task.exact_date||'Date not selected');
+   li.style.marginBottom='6px';list.appendChild(li);
+  });
+  panel.append(heading,note,list);
+  document.getElementById('draft').insertAdjacentElement('afterend',panel);
+ }
  $("back").href=audience==="other"?"/free-timeline.html?view=other#mct-free-other-projects":"/free-timeline.html?view=realtor#mct-free-real-estate-landing";
  async function check(){
   try{const r=await fetch("/api/pro/me",{credentials:"same-origin",cache:"no-store"}),j=await r.json();
