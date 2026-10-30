@@ -3488,7 +3488,9 @@ padding:5px 6px!important;white-space:normal!important;overflow-wrap:break-word!
 
 
 <style id="mct-step3-countdown-alert-v1">
-#contract-deadline-planner #mct-free-followup-preview .mct-v7-state{white-space:nowrap!important;overflow-wrap:normal!important;font-size:11px!important;padding:5px 6px!important;display:inline-block!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-v7-state{white-space:nowrap!important;overflow-wrap:normal!important;font-size:10px!important;line-height:1.2!important;padding:5px 3px!important;display:inline-flex!important;justify-content:center!important;align-items:center!important;max-width:100%!important;box-sizing:border-box!important;word-break:keep-all!important}
+
+#contract-deadline-planner #mct-free-followup-preview table tbody tr td:nth-child(6) .mct-v7-state{white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;letter-spacing:-.2px!important}
 </style>
 <script id="mct-step3-countdown-alert-v1-script">
 (function(){
@@ -3582,9 +3584,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    summary.textContent=tasks.length+' task'+(tasks.length===1?'':'s')+(index?' tomorrow':' due today');
    list.appendChild(summary);
    if(!tasks.length){const empty=document.createElement('p');empty.textContent='No tasks scheduled '+(index?'for tomorrow.':'for today.');list.appendChild(empty);}
-   tasks.forEach(task=>{
+   tasks.forEach((task,position)=>{
     const el=document.createElement('div');el.className='mct-tt-task';
-    const number=document.createElement('span');number.className='mct-tt-num';number.textContent='#'+task.number;
+    const number=document.createElement('span');number.className='mct-tt-num';number.textContent=String(position+1);number.title='Position in '+(index?'tomorrow':'today')+' checklist · Original task #'+task.number;
     const detail=document.createElement('div'),name=document.createElement('span'),date=document.createElement('span');
     name.className='mct-tt-name';name.textContent=task.name;
     date.className='mct-tt-date';date.textContent='Reminder date: '+task.date;
