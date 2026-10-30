@@ -3547,4 +3547,88 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-notes-last-and-add-v1">
+/* Visual order without changing the original indexed cells used by existing calculations. */
+#contract-deadline-planner #mct-free-followup-preview table{min-width:1210px!important}
+#contract-deadline-planner #mct-free-followup-preview table thead tr,
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row){
+ display:grid!important;grid-template-columns:32px minmax(230px,2fr) 60px 145px 122px 100px 100px 65px minmax(160px,1.2fr)!important;align-items:stretch!important;
+}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(1){grid-column:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(2){grid-column:2}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(3){grid-column:3}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(9){grid-column:4;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(4){grid-column:5;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(5){grid-column:6;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(6){grid-column:7;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(8){grid-column:8;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(7){grid-column:9;grid-row:1}
+#contract-deadline-planner #mct-free-followup-preview table tr>*{min-width:0;box-sizing:border-box;align-content:center}
+#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row td{background:#f4f8f9!important;padding:12px!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row form{display:grid;grid-template-columns:minmax(170px,2fr) 70px 175px 165px auto;gap:9px;align-items:end}
+#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row label{display:block;font:750 12px/1.4 Manrope,Arial,sans-serif;color:#31566b}
+#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row :is(input,select){display:block;width:100%;margin-top:4px;padding:9px 7px;box-sizing:border-box;background:#fff;border:1px solid #cbd9df;border-radius:7px;color:#24485d}
+#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row button{background:#17394d!important;color:#fff!important;border:0!important;border-radius:8px!important;padding:11px!important;cursor:pointer!important;opacity:1!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v9-added td{background:#f2f9f4!important}
+@media(max-width:750px){#contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row form{grid-template-columns:1fr 1fr}}
+</style>
+<script id="mct-step3-notes-last-and-add-v1-script">
+(function(){
+ function init(){
+  const root=document.getElementById('mct-free-followup-preview'),table=root&&root.querySelector('table'),body=table&&table.querySelector('tbody');
+  if(!body||document.getElementById('mct-v9-task-form'))return;
+  const row=document.createElement('tr');row.className='mct-v9-add-row';
+  const cell=document.createElement('td');cell.colSpan=9;
+  cell.innerHTML='<form id="mct-v9-task-form"><label>New task<input name="task" maxlength="160" required placeholder="Write a new task"></label><label>Days<input name="days" type="number" min="0" max="365" value="0" required></label><label>Date Basis<select name="basis"><option value="effective">After Effective Date</option><option value="closing">Before Closing Date</option></select></label><label>Reminder date<input name="due" type="date" readonly></label><button type="submit">+ Add Task</button></form>';
+  row.appendChild(cell);body.appendChild(row);
+  const f=cell.querySelector('form'),due=f.elements.due;
+  const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  function calculate(){
+   const base=document.getElementById(f.elements.basis.value==='effective'?'deadline-effective':'deadline-closing')?.value;
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(base||'')){due.value='';return ''}
+   const date=new Date(base+'T12:00:00');
+   date.setDate(date.getDate()+Number(f.elements.days.value||0)*(f.elements.basis.value==='closing'?-1:1));
+   due.value=iso(date);return due.value;
+  }
+  for(const x of [f.elements.days,f.elements.basis])x.addEventListener('input',calculate);
+  for(const id of ['deadline-effective','deadline-closing'])document.getElementById(id)?.addEventListener('change',calculate);
+  calculate();
+  // Distinct TBODY prevents original 47 indexed task-calculation listeners from assigning incorrect dates.
+  const custom=document.createElement('tbody');custom.id='mct-v9-added-tasks';table.appendChild(custom);
+  let count=0;
+  f.addEventListener('submit',ev=>{
+   ev.preventDefault();const date=calculate(),name=f.elements.task.value.trim();if(!date||!name){f.reportValidity();return;}
+   count++;
+   const d=new Date(date+'T12:00:00'),today=new Date();today.setHours(0,0,0,0);
+   const past=d.getTime()<today.getTime(),isToday=d.getFullYear()===today.getFullYear()&&d.getMonth()===today.getMonth()&&d.getDate()===today.getDate();
+   const tr=document.createElement('tr');tr.className='mct-v9-added';
+   const before=f.elements.basis.value==='closing',days=Number(f.elements.days.value);
+   const values=[String(47+count),name,(before?'-':'+')+days,
+     d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+     past?'Overdue':isToday?'Due Today':'Pending',past?'Overdue':isToday?'Today':'Upcoming','','',
+     (before?'Before Closing Date':'After Effective Date')];
+   values.forEach((v,i)=>{
+    const td=document.createElement('td');
+    if(i===6){const ta=document.createElement('textarea');ta.className='mct-step3-note-input';ta.placeholder='Add your note...';td.appendChild(ta)}
+    else if(i===7){const b=document.createElement('button');b.type='button';b.className='mct-step3-done-toggle';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Mark Done');b.disabled=past;b.addEventListener('click',()=>{
+      const done=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(done));
+      tr.cells[4].textContent=done?'Done':past?'Overdue':isToday?'Due Today':'Pending';
+      tr.cells[5].textContent=done?'Completed':past?'Overdue':isToday?'Today':'Upcoming';
+    });td.appendChild(b)}
+    else if(i===2){const span=document.createElement('span');span.className='mct-step3-days-number';span.textContent=v;td.appendChild(span)}
+    else if(i===3){const span=document.createElement('span');span.className='mct-step3-reminder-pill';span.textContent=v;td.appendChild(span)}
+    else if(i===8){const span=document.createElement('span');span.className='mct-step3-basis-pill';span.textContent=v;td.appendChild(span)}
+    else td.textContent=v;
+    tr.appendChild(td);
+   });
+   tr.dataset.customDue=date;
+   custom.appendChild(tr);
+   Array.from(custom.rows).sort((a,b)=>a.dataset.customDue.localeCompare(b.dataset.customDue)).forEach(r=>custom.appendChild(r));
+   f.elements.task.value='';
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
