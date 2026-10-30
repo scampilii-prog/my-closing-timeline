@@ -3134,4 +3134,52 @@ function install(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
 })();
 </script>
+
+<style id="mct-step3-date-group-colors-v1">
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td{background:var(--mct-group-bg)!important;border-bottom:1px solid var(--mct-group-border)!important}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:first-child{border-left:4px solid var(--mct-group-accent)!important}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-days-number,
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-reminder-pill{background:var(--mct-group-pill)!important;color:var(--mct-group-ink)!important;border:1px solid var(--mct-group-accent)!important;font-weight:850!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-step3-task-complete td{background:#e1f4e8!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-group-key{font:700 12px/1.5 Manrope,Arial,sans-serif;color:#426171;margin:12px 0}
+</style>
+<script id="mct-step3-date-group-colors-v1-script">
+(function(){
+ function install(){
+  const root=document.getElementById('mct-free-followup-preview');
+  if(!root)return;
+  const palette=[
+   ['#eef5fc','#c5d9ee','#3f77a5','#d8e9fa','#204e79'],
+   ['#f5effc','#ddc8ee','#8960ae','#e9ddf8','#603589'],
+   ['#eaf7f3','#bde3d6','#38957b','#d6f1e6','#236c57'],
+   ['#fff5e8','#edd4aa','#bb8640','#fce7c7','#80551e'],
+   ['#fceff3','#efcad8','#ba6484','#f9dfeb','#873952'],
+   ['#eff3fa','#d0d9ed','#697fb0','#dce5f7','#3f5687']
+  ];
+  const labels=new Map();
+  let observerBusy=false;
+  function paint(){
+   const rows=Array.from(root.querySelectorAll('table tbody tr'));
+   for(const tr of rows){
+    const cell=tr.cells[3],days=tr.cells[2];
+    if(!cell||!days)continue;
+    const value=(cell.querySelector('.mct-step3-reminder-pill')?.textContent||cell.textContent||'').trim();
+    const valid=/^[A-Za-z]{3}\s+\d{1,2},\s+\d{4}$/.test(value);
+    const key=valid?value:'';
+    if(!key){tr.removeAttribute('data-mct-date-group');tr.style.removeProperty('--mct-group-bg');continue;}
+    if(!labels.has(key))labels.set(key,labels.size);
+    const group=labels.get(key),p=palette[group%palette.length];
+    tr.dataset.mctDateGroup=String(group+1);
+    for(const [k,v] of [['--mct-group-bg',p[0]],['--mct-group-border',p[1]],['--mct-group-accent',p[2]],['--mct-group-pill',p[3]],['--mct-group-ink',p[4]]])tr.style.setProperty(k,v);
+   }
+  }
+  const e=document.getElementById('deadline-effective'),c=document.getElementById('deadline-closing');
+  for(const input of [e,c])if(input){input.addEventListener('input',()=>setTimeout(paint,0));input.addEventListener('change',()=>setTimeout(paint,0));}
+  paint();
+  // Date preview is updated asynchronously by existing calculator; reapply colors when its text changes.
+  setInterval(paint,1250);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+})();
+</script>
 </body></html>
