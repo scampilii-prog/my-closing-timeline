@@ -4523,4 +4523,56 @@ html body #contract-deadline-planner #mct-free-followup-preview tr[data-mct-date
  box-sizing:border-box!important;
 }
 </style>
+
+<style id="mct-contract-followup-linked-v1-style">
+#contract-deadline-planner #mct-free-followup-preview .mct-contract-linked-wrap{margin:14px 0 18px;border:2px solid #b98b46;border-radius:12px;overflow:auto;background:#fffaf2}
+#contract-deadline-planner #mct-free-followup-preview .mct-contract-linked-heading{padding:12px 14px;background:#f7ebd5;color:#183f56;font:800 15px/1.4 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-free-followup-preview .mct-contract-linked-sub{display:block;margin-top:3px;font:600 12px/1.5 Manrope,Arial,sans-serif;color:#566e7a}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table{width:100%;min-width:970px!important;border-collapse:collapse!important;table-layout:auto!important;font:650 12px/1.45 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table tr{display:table-row!important}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table th,#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table td{display:table-cell!important;width:auto!important;max-width:none!important;vertical-align:middle!important;padding:11px 9px!important;border-bottom:1px solid #d8dfe0!important;border-left:0!important;border-right:0!important;background:transparent!important;text-align:left!important;font-size:12px!important}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table th{background:#eaf1f3!important;color:#173f55!important;font-weight:800!important}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table tbody tr:nth-child(odd){background:#edf7f0!important}
+#contract-deadline-planner #mct-free-followup-preview table.mct-contract-linked-table tbody tr:nth-child(even){background:#fff2dd!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-linked-day,#contract-deadline-planner #mct-free-followup-preview .mct-linked-date{display:inline-block;border:2px solid #b77a32;border-radius:9px;padding:6px 8px;background:white;color:#23495d;font-weight:850;white-space:nowrap}
+#contract-deadline-planner #mct-free-followup-preview .mct-linked-pending{display:inline-block;background:#e7eff2;border-radius:7px;padding:6px 9px;color:#31596b;font-weight:800}
+#contract-deadline-planner #mct-free-followup-preview .mct-contract-linked-table textarea{width:100%;min-width:115px;min-height:35px;box-sizing:border-box;border:1px solid #c7d6dc;border-radius:7px;padding:6px;font:600 12px Manrope,Arial,sans-serif}
+</style>
+<script id="mct-contract-followup-linked-v1-script">
+(function(){
+const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function init(){
+ const source=document.getElementById('deadline-editor-rows');
+ const follow=document.getElementById('mct-free-followup-preview');
+ const wrap=follow?.querySelector('.mct-v21-table-wrap');
+ if(!source||!follow||!wrap||document.getElementById('mct-contract-linked-wrap'))return;
+ const section=document.createElement('section');section.id='mct-contract-linked-wrap';section.className='mct-contract-linked-wrap';
+ section.innerHTML='<div class="mct-contract-linked-heading">Contract tasks carried into Closing Follow-Up <span class="mct-contract-linked-sub">Your Step 2 tasks appear here with their exact names and due dates. FREE preview only; saved tracking, alerts and completion are unlocked in PRO.</span></div><table class="mct-contract-linked-table" aria-label="Contract tasks linked from Step 2"><thead><tr><th>#</th><th>Task / reminder</th><th>Days</th><th>Date Basis</th><th>Reminder date</th><th>Status</th><th>Alert</th><th>Done</th><th>Notes</th></tr></thead><tbody></tbody></table>';
+ wrap.parentNode.insertBefore(section,wrap);
+ const body=section.querySelector('tbody');
+ function refresh(){
+  const items=[...source.querySelectorAll('.mct-realty-task-card')].map((card,i)=>{
+   const name=card.querySelector('[data-field="custom"]')?.value?.trim()||'Task '+(i+1);
+   const days=card.querySelector('[data-field="days"]')?.value??'';
+   const date=card.querySelector('[data-field="override"]')?.value||'';
+   const done=!!card.querySelector('.mct-realty-task-badge.is-done');
+   return {name,days,date,done,i};
+  });
+  const oldNotes=new Map([...body.rows].map(tr=>[tr.dataset.taskIndex,tr.querySelector('textarea')?.value||'']));
+  body.innerHTML=items.map(x=>{
+   const alert=(!x.date?'Set Effective Date':x.done?'Completed':(x.date<new Date().toLocaleDateString('en-CA')?'Overdue':'Upcoming'));
+   return '<tr data-task-index="'+x.i+'"><td>'+(x.i+1)+'</td><td>'+esc(x.name)+'</td><td><span class="mct-linked-day">+'+esc(x.days)+'</span></td><td>After Effective Date</td><td><span class="mct-linked-date">'+esc(x.date||'Select Effective Date')+'</span></td><td><span class="mct-linked-pending">'+(x.done?'Done':'Pending')+'</span></td><td>'+esc(alert)+'</td><td><input type="checkbox" disabled '+(x.done?'checked':'')+' aria-label="PRO activation required to track '+esc(x.name)+'"></td><td><textarea aria-label="Preview note for '+esc(x.name)+'" placeholder="Follow-up note (preview only)">'+esc(oldNotes.get(String(x.i))||'')+'</textarea></td></tr>';
+  }).join('');
+  section.hidden=items.length===0;
+ }
+ let queued=false;
+ const schedule=()=>{if(queued)return;queued=true;queueMicrotask(()=>{queued=false;refresh()})};
+ source.addEventListener('input',schedule);source.addEventListener('change',schedule);
+ new MutationObserver(schedule).observe(source,{childList:true,subtree:true});
+ for(const id of ['deadline-effective','deadline-closing']){const field=document.getElementById(id);field?.addEventListener('input',()=>setTimeout(refresh,0));field?.addEventListener('change',()=>setTimeout(refresh,0))}
+ refresh();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
