@@ -2825,7 +2825,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const closingBased=i>=34;
     const base=closingBased?end:start;
     if(!base){cell.textContent='Set date to preview';return;}
-    const offset=closingBased?i-46:Math.min(i,30);
+    const defaultOffset=closingBased?i-46:Math.min(i,30);
+    const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):defaultOffset;
     cell.textContent=human(addDays(base,offset));
     cell.title='Illustrative follow-up date only. Confirm or customize after activation; not a contractual deadline.';
   });
@@ -4322,5 +4323,50 @@ function start(){
  .observe(node,{childList:true,subtree:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+<style id="mct-step3-editable-day-offset-v1">
+#contract-deadline-planner #mct-free-followup-preview .mct-edit-day-offset{
+ width:53px!important;max-width:100%!important;min-width:0!important;
+ border:1.5px solid #1d5687!important;border-radius:8px!important;background:white!important;
+ padding:5px 2px 5px 5px!important;box-sizing:border-box!important;
+ color:#174d79!important;font:800 12px/1.3 Manrope,Arial,sans-serif!important;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-edit-day-offset:disabled{
+ background:#fff!important;opacity:.75!important;cursor:not-allowed!important
+}
+</style>
+<script id="mct-step3-editable-day-offset-v1-script">
+(function(){
+function setup(){
+const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+root.querySelectorAll('table tbody tr').forEach((tr,i)=>{
+ const cell=tr.cells[2];if(!cell||tr.classList.contains('mct-v9-add-row')||cell.querySelector('input'))return;
+ const prior=cell.querySelector('.mct-step3-days-number');
+ if(!prior)return;
+ const value=Number(prior.textContent.trim());
+ if(!Number.isFinite(value))return;
+ const field=document.createElement('input');field.type='number';field.step='1';field.min=i>=34?'-60':'0';field.max='60';
+ field.value=String(value);field.className='mct-edit-day-offset';
+ field.setAttribute('aria-label','Days offset for task '+(i+1));
+ field.title='Adjust reminder day offset before it expires (FREE preview only)';
+ prior.replaceWith(field);
+ const locked=()=>tr.classList.contains('mct-v4-past');
+ field.disabled=locked();
+ field.addEventListener('change',()=>{
+  if(locked()){field.disabled=true;return;}
+  let n=Number(field.value);
+  if(!Number.isFinite(n))return;
+  n=Math.max(Number(field.min),Math.min(Number(field.max),Math.trunc(n)));
+  field.value=String(n);tr.dataset.mctCustomOffset=String(n);
+  const e=document.getElementById('deadline-effective');
+  e?.dispatchEvent(new Event('change',{bubbles:false}));
+ });
+});
+}
+function init(){setup();setInterval(()=>{
+ document.querySelectorAll('#mct-free-followup-preview .mct-edit-day-offset').forEach(field=>{field.disabled=field.closest('tr')?.classList.contains('mct-v4-past')||false;});
+},1800);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script></body></html>
