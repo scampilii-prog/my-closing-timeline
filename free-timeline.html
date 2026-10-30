@@ -3529,11 +3529,11 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const head=table.querySelector('thead tr');if(!head)return;
   if(!head.querySelector('.mct-step3-basis-head')){
    const th=document.createElement('th');th.className='mct-step3-basis-head';th.textContent='Date Basis';
-   head.children[2].insertAdjacentElement('afterend',th);
+   head.appendChild(th);
   }
   Array.from(table.querySelectorAll('tbody tr')).forEach((row,index)=>{
    let cell=row.querySelector('.mct-step3-basis-cell');
-   if(!cell){cell=document.createElement('td');cell.className='mct-step3-basis-cell';row.children[2].insertAdjacentElement('afterend',cell);}
+   if(!cell){cell=document.createElement('td');cell.className='mct-step3-basis-cell';row.appendChild(cell);}
    const base=index>=34?'Closing Date':'Effective Date';
    const val=Number((row.cells[2]?.textContent||'').trim().replace(/[^\d+-]/g,''));
    const relation=Number.isFinite(val)?(val<0?'Before ':val>0?'After ':'On '):'From ';
