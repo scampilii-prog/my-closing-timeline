@@ -4216,4 +4216,34 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <script id="mct-share-hover-click-v1-script">
 (function(){function setup(){for(const key of ['timeline-copy-picture','deadline-email-btn']){const el=document.getElementById(key);if(el){el.title='Click';el.setAttribute('aria-label',key==='timeline-copy-picture'?'Copy Timeline':'Open in Mail');}}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();})();
+</script>
+<style id="mct-editable-field-affordance-v1">
+/* Only actual editable selects and date pickers get an opening cue. */
+#contract-deadline-planner select:not(:disabled){
+ appearance:none!important;-webkit-appearance:none!important;
+ padding-right:29px!important;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23264e65' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;
+ background-repeat:no-repeat!important;background-position:right 8px center!important;
+ background-size:15px 15px!important;cursor:pointer!important;
+}
+#contract-deadline-planner input[type="date"]:not(:disabled):not([readonly]){
+ padding-right:7px!important;cursor:pointer!important;
+}
+#contract-deadline-planner input[type="date"]:not(:disabled):not([readonly])::-webkit-calendar-picker-indicator{
+ cursor:pointer!important;opacity:.9!important;width:16px;height:16px;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-basis-pill{
+ cursor:default!important;
+}
+/* Days are numbers, not dropdowns; future locked Step 3 fields never imply editability. */
+</style>
+<script id="mct-editable-field-affordance-v1-script">
+(function(){
+function label(){
+ const root=document.getElementById('contract-deadline-planner');if(!root)return;
+ root.querySelectorAll('select:not(:disabled)').forEach(el=>{if(!el.title)el.title='Click to choose an option';});
+ root.querySelectorAll('input[type="date"]:not(:disabled):not([readonly])').forEach(el=>{if(!el.title)el.title='Click to choose a date';});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',label);else label();
+})();
 </script></body></html>
