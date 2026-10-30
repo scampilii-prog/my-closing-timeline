@@ -2447,4 +2447,23 @@ html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card
  column-gap:3px!important;
  }
 }
+</style><style id="mct-master-six-columns-corrected-v1">
+/* Actual DOM is .mct-master-row: fix its occupied tracks (not just card wrapper). */
+@media(min-width:900px){
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row{
+ grid-template-columns:20px minmax(0,1fr) 42px 132px 72px 86px!important;
+ gap:5px!important;align-items:end!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-name{grid-column:2!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-days{grid-column:3!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-due{grid-column:4!important;grid-row:1!important;min-width:0!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-badge{grid-column:5!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-actions{grid-column:6!important;grid-row:1!important;display:flex!important;gap:3px!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-master-extra{grid-column:2/-1!important;grid-row:2!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-due input{font-size:12px!important;padding:3px 5px!important;width:100%!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-name input{font-size:12px!important;text-overflow:ellipsis!important}
+}
+@media(max-width:899px){
+html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-due{grid-column:4!important}
+}
 </style></body></html>
