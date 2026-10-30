@@ -3016,7 +3016,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(!cell||!dayCell)return;
     const basis=tr.dataset.mctBasis|| (Number(tr.dataset.mctOriginalIndex??i)>=34?'closing':'effective');
     const closingBased=basis==='closing',base=closingBased?end:start;
-    const offset=closingBased?i-46:Math.min(i,30);
+    const original=Number(tr.dataset.mctOriginalIndex??i);
+    const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):(closingBased?original-46:Math.min(original,30));
     cell.classList.add('mct-step3-reminder-cell');
     let pill=cell.querySelector('.mct-step3-reminder-pill');
     if(!pill){cell.textContent='';pill=document.createElement('span');pill.className='mct-step3-reminder-pill';cell.appendChild(pill);}
