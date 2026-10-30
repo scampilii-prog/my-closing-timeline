@@ -4519,7 +4519,7 @@ html body #contract-deadline-planner #mct-free-followup-preview .mct-day-spinner
 html body #contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons button:disabled{opacity:.52!important;cursor:not-allowed!important;background:#e9eef0!important}
 </style><script id="mct-step3-bidirectional-date-controls-v1-script">
 (function(){
-function localDate(iso){if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(iso||''))return null;const [y,m,d]=iso.split('-').map(Number);const x=new Date(y,m-1,d,12);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?x:null}
+function localDate(iso){if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return null;const [y,m,d]=iso.split('-').map(Number);const x=new Date(y,m-1,d,12);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?x:null}
 function fmt(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
 function add(x,days){const d=new Date(x);d.setDate(d.getDate()+days);return d}
 function today(){return fmt(new Date())}
@@ -4547,14 +4547,14 @@ function setup(){
   const up=document.createElement('button'),down=document.createElement('button');up.type='button';down.type='button';up.textContent='▲';down.textContent='▼';up.setAttribute('aria-label','Next day');down.setAttribute('aria-label','Previous day');buttons.append(up,down);wrap.append(date,buttons);dateCell.append(wrap);
   const basis=()=>row.querySelector('.mct-edit-basis-select')?.value||row.dataset.mctBasis||(index>=34?'closing':'effective');
   const base=()=>localDate((basis()==='closing'?closing:effective).value);
-  const lock=()=>!base()||!date.value||date.value<today()||row.classList.contains('mct-v4-past');
+  const lock=()=>!base()||!date.value||date.value<today();
   const refresh=()=>{
    const b=base(),n=Number(row.dataset.mctCustomOffset||0);
    const target=b?fmt(add(b,n)):'';
    if(document.activeElement!==spin)spin.value=String(n);
    if(document.activeElement!==date)date.value=target;
    if(target)date.setAttribute('min',today());else date.removeAttribute('min');
-   const locked=!target||target<today()||row.classList.contains('mct-v4-past');
+   const locked=!target||target<today();
    spin.disabled=locked;date.disabled=locked;up.disabled=locked;down.disabled=locked;dup.disabled=locked;ddown.disabled=locked;
    spin.title=date.title=locked?'Past deadlines are locked':'Editable PRO follow-up preview';
   };
@@ -4567,7 +4567,7 @@ function setup(){
    effective.dispatchEvent(new Event('change'));refresh();
   });
   date.addEventListener('change',()=>{
-   if(lock()||!localDate(date.value))return refresh();
+   if(!base()||!localDate(date.value)||row.dataset.mctLockedAtStart==='yes')return refresh();
    const b=base();if(!b)return refresh();
    const current=localDate(date.value);const difference=Math.round((Date.UTC(current.getFullYear(),current.getMonth(),current.getDate())-Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()))/86400000);
    if(date.value<today())return refresh();
