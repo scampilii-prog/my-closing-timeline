@@ -3515,4 +3515,36 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-date-basis-column-v1">
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-basis-cell{white-space:nowrap;font:750 11px/1.5 Manrope,Arial,sans-serif;color:#32576b}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-basis-pill{display:inline-block;background:#fff;border:1px solid #c4d4de;border-radius:7px;padding:5px 7px}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-basis-head{min-width:116px}
+</style>
+<script id="mct-step3-date-basis-column-v1-script">
+(function(){
+ function showBasis(){
+  const root=document.getElementById('mct-free-followup-preview');
+  const table=root&&root.querySelector('table');if(!table)return;
+  const head=table.querySelector('thead tr');if(!head)return;
+  if(!head.querySelector('.mct-step3-basis-head')){
+   const th=document.createElement('th');th.className='mct-step3-basis-head';th.textContent='Date Basis';
+   head.children[2].insertAdjacentElement('afterend',th);
+  }
+  Array.from(table.querySelectorAll('tbody tr')).forEach((row,index)=>{
+   let cell=row.querySelector('.mct-step3-basis-cell');
+   if(!cell){cell=document.createElement('td');cell.className='mct-step3-basis-cell';row.children[2].insertAdjacentElement('afterend',cell);}
+   const base=index>=34?'Closing Date':'Effective Date';
+   const val=Number((row.cells[2]?.textContent||'').trim().replace(/[^\d+-]/g,''));
+   const relation=Number.isFinite(val)?(val<0?'Before ':val>0?'After ':'On '):'From ';
+   const label=relation+base;
+   let span=cell.querySelector('.mct-step3-basis-pill');
+   if(!span){span=document.createElement('span');span.className='mct-step3-basis-pill';cell.appendChild(span);}
+   span.textContent=label;cell.title=label+' · '+(Number.isFinite(val)?Math.abs(val)+' calendar days':'example follow-up');
+  });
+ }
+ function init(){showBasis();const root=document.getElementById('mct-free-followup-preview');root?.querySelector('table')?.addEventListener('change',showBasis)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
