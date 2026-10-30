@@ -4118,4 +4118,34 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',separate);else separate();
 })();
+</script>
+<style id="mct-pro-tools-registration-gate-v2">
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-tools .mct-pro-activation-hint{
+ background:#fff7e7;border:1px solid #d6b57b;border-radius:9px;padding:12px 14px;
+ margin:12px 0;color:#65491f;font:700 13px/1.5 Manrope,Arial,sans-serif;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-tools .mct-pro-activation-hint a{color:#145777;text-decoration:underline;font-weight:850}
+#contract-deadline-planner #mct-free-followup-preview .mct-followup-pro-buttons>button:disabled{opacity:.82!important}
+</style>
+<script id="mct-pro-tools-registration-gate-v2-script">
+(function(){
+function gate(){
+ const root=document.querySelector('#mct-free-followup-preview .mct-followup-pro-tools');
+ if(!root)return;
+ const heading=root.querySelector('h4');
+ if(heading)heading.textContent='PRO Follow-Up Tools · Available with an active closing';
+ const p=root.querySelector('p');
+ if(p)p.textContent='These tools remain visible here. They unlock when you register, sign in, and activate an eligible closing (your first can be FREE).';
+ let note=root.querySelector('.mct-pro-activation-hint');
+ if(!note){
+  note=document.createElement('div');note.className='mct-pro-activation-hint';
+  const link=document.createElement('a');link.href='/pro-get-started.html';link.textContent='Register or activate your closing';
+  note.append('🔒 Unlock these three tools with your registered PRO closing. ',link,'.');
+  root.appendChild(note);
+ }
+ // FREE public preview must not grant privileged actions without verified server entitlement.
+ root.querySelectorAll('.mct-followup-pro-buttons button').forEach(b=>{b.disabled=true;b.setAttribute('aria-disabled','true');b.title='Requires signed-in, activated PRO closing';});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',gate);else gate();
+})();
 </script></body></html>
