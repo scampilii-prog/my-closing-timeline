@@ -28,11 +28,12 @@ function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='nu
  +'<span class="fc-task-label mct-master-number" draggable="true" tabindex="0" role="button" title="Drag to reorder; Alt + arrows" aria-label="Move task '+(i+1)+'">'+(i+1)+'</span>'
  +'<label class="mct-realty-task-name"><span>Task</span><input data-field="custom" type="text" aria-label="Edit task '+(i+1)+' name" maxlength="180" value="'+esc(name)+'"></label>'
  +'<label class="mct-realty-task-days"><span>Days</span><input data-field="days" type="number" min="0" max="3650" step="1" value="'+esc(r.days)+'"></label>'
- +'<label class="mct-realty-task-direction"><span>When</span><select data-field="direction" aria-label="Before or after">'+selectOptions([['after','After'],['before','Before']],r.direction)+'</select></label>'
+
  +'<label class="mct-realty-task-due"><span>Due</span><input data-field="override" data-calculated-date type="date" aria-label="Exact due date" value="'+esc(rowDate(r))+'"></label>'
  +'<span class="mct-realty-task-badge '+cls+'">'+state+'</span>'
  +'<div class="mct-realty-task-actions"><button type="button" data-mark-done="'+i+'" class="mct-realty-mark-done">'+(r.status==='done'?'Reopen':'Done')+'</button><button type="button" data-remove="'+i+'" class="mct-task-delete">Remove</button></div>'
  +'<details class="mct-master-extra"><summary aria-label="Advanced task date settings" title="Day count and date basis">More</summary><div class="mct-master-extra-inner">'
+ +'<label class="mct-realty-task-direction"><span>Before / After</span><select data-field="direction" aria-label="Before or after">'+selectOptions([['after','After'],['before','Before']],r.direction)+'</select></label>'
  +'<label>Day count<select data-field="type">'+selectOptions([['calendar','Calendar Days'],['business','Business Days']],r.type)+'</select></label>'
  +'<label>Based on<select data-field="base">'+selectOptions([['effective','Effective Date'],['closing','Closing Date'],['recovery','Services Restored'],['trigger','Receipt / Event']],r.base)+'</select></label>'
  +'</div></details></article>';
