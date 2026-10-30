@@ -3803,4 +3803,85 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-final-finish-and-tt-clean-v1">
+/* Today/Tomorrow: count in header is sufficient, no redundant date or instructions. */
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-date,
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count,
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:none!important}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day strong span:last-child{
+ min-width:42px;text-align:center;font-size:29px!important;font-weight:900!important;
+}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-task{align-items:center}
+#contract-deadline-planner #mct-free-finish-section{
+ width:100%;box-sizing:border-box;margin:20px 0 28px;padding:21px;
+ background:#fffdfa;border:1px solid #d2ad76;border-radius:15px;
+ box-shadow:0 5px 18px rgba(23,55,77,.06);
+}
+#contract-deadline-planner #mct-free-finish-section .mct-free-share-head{margin:0 0 12px!important}
+#contract-deadline-planner #mct-free-finish-section .mct-share-simple-guide{margin:8px 0 16px!important}
+#contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions{
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ gap:10px!important;align-items:stretch!important;width:100%!important;
+}
+#contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions>button{
+ min-width:0!important;width:100%!important;min-height:57px!important;
+ padding:9px 8px!important;margin:0!important;box-sizing:border-box!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex-wrap:wrap!important;gap:5px!important;text-align:center!important;
+ font:800 13px/1.3 Manrope,Arial,sans-serif!important;border-radius:10px!important;
+}
+#contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions>button:disabled{
+ opacity:.7!important;cursor:not-allowed!important;
+}
+#contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions .mct-pro-lock{font-size:10px!important}
+#contract-deadline-planner #mct-free-finish-section .mct-free-pro-note{margin:12px 0 4px!important}
+@media(max-width:900px){
+ #contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:520px){
+ #contract-deadline-planner #mct-free-finish-section{padding:14px!important}
+ #contract-deadline-planner #mct-free-finish-section .mct-finish-five-actions{grid-template-columns:1fr!important}
+}
+</style>
+<script id="mct-final-finish-and-tt-clean-v1-script">
+(function(){
+ function organize(){
+  const planner=document.getElementById('contract-deadline-planner'),
+        review=document.getElementById('mct-free-review'),
+        follow=document.getElementById('mct-free-followup-preview');
+  if(!planner||!review||!follow)return;
+  let section=document.getElementById('mct-free-finish-section');
+  if(!section){section=document.createElement('section');section.id='mct-free-finish-section';section.setAttribute('aria-label','Finish, review and share');}
+  follow.insertAdjacentElement('afterend',section);
+  const head=review.querySelector('.mct-free-share-head');
+  const guide=review.querySelector('.mct-share-simple-guide');
+  const free=review.querySelector('.mct-free-share-actions');
+  const pro=review.querySelector('.mct-free-pro-locked');
+  if(head)section.appendChild(head);
+  if(guide)section.appendChild(guide);
+  let actions=section.querySelector('.mct-finish-five-actions');
+  if(!actions){actions=document.createElement('div');actions.className='mct-finish-five-actions';}
+  section.appendChild(actions);
+  if(free)Array.from(free.querySelectorAll('button')).forEach(b=>actions.appendChild(b));
+  if(pro){
+   const buttons=pro.querySelector('.mct-free-pro-buttons');
+   if(buttons)Array.from(buttons.querySelectorAll('button')).forEach(b=>actions.appendChild(b));
+   section.appendChild(pro);
+  }
+  const mailHelp=review.querySelector('.mct-mail-signature-help');
+  const mailPrivacy=review.querySelector('.mct-private-mail-note');
+  const feedback=review.querySelector('#closing-email-feedback');
+  if(mailHelp)section.appendChild(mailHelp);
+  if(mailPrivacy)section.appendChild(mailPrivacy);
+  if(feedback)section.appendChild(feedback);
+  const panel=document.getElementById('mct-free-tomorrow-preview');
+  if(panel){
+    panel.querySelectorAll('.mct-tt-date').forEach(e=>e.remove());
+    panel.querySelectorAll('.mct-v21-day>p').forEach(e=>e.remove());
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',organize);else organize();
+})();
+</script>
 </body></html>
