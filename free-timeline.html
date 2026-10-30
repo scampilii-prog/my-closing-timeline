@@ -2423,4 +2423,35 @@ html body #contract-deadline-planner #deadline-editor-rows article.mct-master-ro
 html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-actions{grid-column:4!important;grid-row:2!important}
 html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-master-extra{grid-column:2!important;grid-row:2!important}
 }
-</style></body></html>
+</style><script id="mct-realtor-row-inline-grid-repair-v1">
+(function(){
+ function repair(){
+  const host=document.getElementById('deadline-editor-rows');
+  if(!host)return;
+  host.querySelectorAll('article.mct-master-row').forEach(function(row){
+   const put=(el,k,v)=>{if(el)el.style.setProperty(k,v,'important')};
+   put(row,'display','grid');
+   put(row,'grid-template-columns','20px minmax(0,1fr) 43px 154px 64px 82px');
+   put(row,'column-gap','5px');
+   put(row,'align-items','end');
+   [
+    ['.fc-task-label',1,1],['.mct-realty-task-name',2,1],
+    ['.mct-realty-task-days',3,1],['.mct-realty-task-due',4,1],
+    ['.mct-realty-task-badge',5,1],['.mct-realty-task-actions',6,1],
+    ['.mct-master-extra','2 / -1',2]
+   ].forEach(function(spec){
+    const el=row.querySelector(':scope > '+spec[0]);
+    put(el,'grid-column',String(spec[1]));put(el,'grid-row',String(spec[2]));
+   });
+   const date=row.querySelector(':scope > .mct-realty-task-due input');
+   put(date,'width','100%');put(date,'min-width','0');
+   put(date,'font-size','12px');put(date,'padding','3px 4px');
+  });
+ }
+ function init(){
+  const host=document.getElementById('deadline-editor-rows');if(!host)return;
+  repair();new MutationObserver(repair).observe(host,{childList:true,subtree:false});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></body></html>
