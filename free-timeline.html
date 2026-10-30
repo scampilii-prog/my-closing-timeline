@@ -4547,7 +4547,7 @@ function init(){
  const wrap=follow?.querySelector('.mct-v21-table-wrap');
  if(!source||!follow||!wrap||document.getElementById('mct-contract-linked-wrap'))return;
  const section=document.createElement('section');section.id='mct-contract-linked-wrap';section.className='mct-contract-linked-wrap';
- section.innerHTML='<div class="mct-contract-linked-heading">Contract tasks carried into Closing Follow-Up <span class="mct-contract-linked-sub">Your Step 2 tasks appear here with their exact names and due dates. FREE preview only; saved tracking, alerts and completion are unlocked in PRO.</span></div><table class="mct-contract-linked-table" aria-label="Contract tasks linked from Step 2"><thead><tr><th>#</th><th>Task / reminder</th><th>Days</th><th>Date Basis</th><th>Reminder date</th><th>Status</th><th>Alert</th><th>Done</th><th>Notes</th></tr></thead><tbody></tbody></table>';
+ section.innerHTML='<div class="mct-contract-linked-heading">Contract deadlines · Follow-Up preview <span class="mct-contract-linked-sub">Your Step 2 tasks appear here with their exact names and due dates. FREE preview only; saved tracking, alerts and completion are unlocked in PRO.</span></div><table class="mct-contract-linked-table" aria-label="Contract tasks linked from Step 2"><thead><tr><th>#</th><th>Task / reminder</th><th>Days</th><th>Date Basis</th><th>Reminder date</th><th>Status</th><th>Alert</th><th>Done</th><th>Notes</th></tr></thead><tbody></tbody></table>';
  wrap.parentNode.insertBefore(section,wrap);
  const body=section.querySelector('tbody');
  function refresh(){
@@ -4560,7 +4560,8 @@ function init(){
   });
   const oldNotes=new Map([...body.rows].map(tr=>[tr.dataset.taskIndex,tr.querySelector('textarea')?.value||'']));
   body.innerHTML=items.map(x=>{
-   const alert=(!x.date?'Set Effective Date':x.done?'Completed':(x.date<new Date().toLocaleDateString('en-CA')?'Overdue':'Upcoming'));
+   const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+   const alert=!x.date?'Set Effective Date':x.done?'Completed':x.date<today?'Overdue':x.date===today?'Due Today':'Upcoming';
    return '<tr data-task-index="'+x.i+'"><td>'+(x.i+1)+'</td><td>'+esc(x.name)+'</td><td><span class="mct-linked-day">+'+esc(x.days)+'</span></td><td>After Effective Date</td><td><span class="mct-linked-date">'+esc(x.date||'Select Effective Date')+'</span></td><td><span class="mct-linked-pending">'+(x.done?'Done':'Pending')+'</span></td><td>'+esc(alert)+'</td><td><input type="checkbox" disabled '+(x.done?'checked':'')+' aria-label="PRO activation required to track '+esc(x.name)+'"></td><td><textarea aria-label="Preview note for '+esc(x.name)+'" placeholder="Follow-up note (preview only)">'+esc(oldNotes.get(String(x.i))||'')+'</textarea></td></tr>';
   }).join('');
   section.hidden=items.length===0;
