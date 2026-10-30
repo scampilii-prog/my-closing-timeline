@@ -3632,40 +3632,40 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-<style id="mct-step3-grid-alignment-repair-v2">
-/* Fix overlap: Date Basis and Reminder date have independent, sufficiently wide tracks. */
-#contract-deadline-planner #mct-free-followup-preview table{min-width:1360px!important;border-collapse:separate!important;border-spacing:0!important}
+<style id="mct-step3-verified-grid-v4">
+/* Consistent nine-cell CSS grid, with DOM order unchanged for legacy date/status handlers.
+Visual: #, Task, Days, Date Basis, Reminder date, Status, Alert, Done, Notes. */
+#contract-deadline-planner #mct-free-followup-preview .mct-v21-table-wrap{overflow-x:auto!important;overflow-y:auto!important}
+#contract-deadline-planner #mct-free-followup-preview table{width:100%!important;min-width:1170px!important;border-collapse:separate!important;border-spacing:0!important;table-layout:auto!important;font:650 12px/1.45 Manrope,Arial,sans-serif!important}
 #contract-deadline-planner #mct-free-followup-preview table thead tr,
 #contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row){
- grid-template-columns:34px minmax(230px,2fr) 66px 185px 165px 95px 95px 65px minmax(185px,1.25fr)!important;
- column-gap:0!important;
-}
-#contract-deadline-planner #mct-free-followup-preview table tr>*{padding:11px 8px!important;overflow:visible!important;box-sizing:border-box!important}
-#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(9){grid-column:4!important;grid-row:1!important;z-index:1!important}
-#contract-deadline-planner #mct-free-followup-preview table tr>:nth-child(4){grid-column:5!important;grid-row:1!important;z-index:1!important}
-#contract-deadline-planner #mct-free-followup-preview .mct-step3-basis-pill{white-space:normal!important;overflow-wrap:normal!important;font-size:11px!important;line-height:1.35!important}
-#contract-deadline-planner #mct-free-followup-preview .mct-step3-reminder-pill{white-space:nowrap!important}
+display:grid!important;grid-template-columns:32px minmax(230px,1.8fr) 58px 158px 146px 86px 86px 58px minmax(170px,1.1fr)!important;gap:0!important;align-items:stretch!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>*{
+min-width:0!important;width:auto!important;max-width:none!important;padding:10px 6px!important;
+margin:0!important;box-sizing:border-box!important;align-content:center!important;
+font-family:Manrope,Arial,sans-serif!important;font-size:12px!important;line-height:1.4!important;letter-spacing:0!important;
+border-left:0!important;border-right:0!important;overflow:hidden!important;position:relative!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(1){grid-column:1!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(2){grid-column:2!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(3){grid-column:3!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(9){grid-column:4!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(4){grid-column:5!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(5){grid-column:6!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(6){grid-column:7!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(8){grid-column:8!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tr:not(.mct-v9-add-row)>:nth-child(7){grid-column:9!important;grid-row:1!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) :is(.mct-step3-days-number,.mct-step3-basis-pill,.mct-step3-reminder-pill,.mct-v7-state){
+font-family:Manrope,Arial,sans-serif!important;font-size:12px!important;line-height:1.35!important;
+font-weight:750!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+padding:5px 6px!important;white-space:normal!important;overflow-wrap:break-word!important;text-align:center!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) .mct-step3-basis-pill{display:block!important;width:100%!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) .mct-step3-reminder-pill{display:inline-block!important;white-space:nowrap!important;font-size:11px!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) textarea{width:100%!important;min-width:0!important;font-size:12px!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:not(:first-child):not(:last-child){border-left:0!important;border-right:0!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr.mct-v5-group td:first-child{border-left:2px solid #252525!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr.mct-v5-group td:nth-child(7){border-right:2px solid #252525!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr.mct-v5-group td:last-child{border-right:0!important}
+#contract-deadline-planner #mct-free-followup-preview table tbody tr.mct-v5-group td:nth-child(9){border-right:0!important}
 #contract-deadline-planner #mct-free-followup-preview .mct-v9-add-row td{display:table-cell!important}
-</style>
-
-<style id="mct-step3-typography-parity-v3">
-/* Match first two columns' typography and keep Date Basis inside its allocated grid track. */
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(3) .mct-step3-days-number,
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(4) .mct-step3-reminder-pill,
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(9) .mct-step3-basis-pill{
- font-family:Manrope,Arial,sans-serif!important;font-size:12px!important;line-height:1.45!important;
- font-weight:750!important;letter-spacing:0!important;max-width:100%!important;box-sizing:border-box!important;
-}
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(9) .mct-step3-basis-pill{
- display:block!important;white-space:normal!important;overflow-wrap:break-word!important;
- padding:5px 7px!important;width:100%!important;
-}
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(4) .mct-step3-reminder-pill{
- display:inline-block!important;white-space:nowrap!important;padding:5px 6px!important;
-}
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(3) .mct-step3-days-number{min-width:0!important;padding:5px 7px!important}
-#contract-deadline-planner #mct-free-followup-preview table tbody tr:not(.mct-v9-add-row) td:nth-child(9){
- overflow:hidden!important;min-width:0!important;
-}
 </style>
 </body></html>
