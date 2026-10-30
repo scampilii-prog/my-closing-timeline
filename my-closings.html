@@ -208,7 +208,7 @@ function showContractTasks(tasks,options,closing){
  };
 }
 
-async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.read_only===true||c.status!=="in_progress"}$("task-form").hidden=c.read_only===true||c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.read_only?"expired":c.status);showPriorityOverview(a.contract_tasks||[],a.tasks||[]);
+async function select(id){current=id;viewList();try{const a=await api("closings/"+id+"/details","POST",{});const c=a.closing;$("empty").hidden=true;$("detail").hidden=false;$("transaction-status").textContent=c.status;$("transaction-name").textContent=c.name;$("effective").textContent=c.effective_date;$("closing").textContent=c.closing_date;for(const key of ["change-date","cancel-closing","complete-closing"]){$(key).disabled=c.read_only===true||c.status!=="in_progress"}$("task-form").hidden=c.read_only===true||c.status!=="in_progress";$("action-form").replaceChildren();showContractTasks(a.contract_tasks||[],a.contract_options||[],c);showTasks(a.tasks,c.read_only?"expired":c.status,a.contract_tasks||[]);showPriorityOverview(a.contract_tasks||[],a.tasks||[]);
  const pdfAccess=$("mct-pro-pdf-access");pdfAccess.dataset.ended=String(c.read_only===true);
  const pdfTitle=pdfAccess.querySelector("strong"),pdfText=pdfAccess.querySelector("p");
  if(c.read_only){
@@ -222,7 +222,44 @@ async function select(id){current=id;viewList();try{const a=await api("closings/
  privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:[...(a.contract_tasks||[]).map(t=>({name:"CONTRACT: "+t.title,date:t.due_date,status:t.status})),...(a.tasks||[]).map(t=>({name:"FOLLOW-UP: "+t.title,date:t.due_date,status:t.status}))]};
  $("mct-pro-private-pdf").disabled=false;
  }catch(e){tell(e.message)}}
-function showTasks(tasks,closingStatus){const root=$("tasks");root.replaceChildren();if(!tasks.length){root.append(n("p","No suggested tasks saved for this earlier closing. Add a follow-up task below; new closings receive the suggested checklist automatically.","muted"));return}const today=new Date().toISOString().slice(0,10);for(const item of tasks){const row=n("div",undefined,"task"+(item.status==="done"?" done":"")+(item.due_date<today?" locked":""));const label=n("span",item.title+(item.due_date<today?" · Locked":""),"task-name");const due=n("span",item.due_date,"muted");const controls=n("div",undefined,"row");const locked=closingStatus!=="in_progress"||item.due_date<today;const btn=n("button",item.status==="done"?"Done ✓":"Done");btn.type="button";btn.disabled=locked;btn.onclick=async()=>{try{await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,done:item.status!=="done"});await select(current)}catch(e){tell(e.message)}};const edit=n("button","Change Date");edit.type="button";edit.disabled=locked;edit.onclick=async()=>{const title=item.title;const date=prompt("New reminder date (YYYY-MM-DD)",item.due_date);if(date===null)return;try{await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,title,date});await select(current)}catch(e){tell(e.message)}};controls.append(btn,edit);if(item.auto_shift)label.append(n("small"," · Closing-linked","muted"));row.append(label,due,controls);root.append(row)}}
+function showTasks(tasks,closingStatus,contractTasks=[]){
+ const root=$("tasks");root.replaceChildren();
+ const todayDate=new Date(),today=[todayDate.getFullYear(),String(todayDate.getMonth()+1).padStart(2,"0"),String(todayDate.getDate()).padStart(2,"0")].join("-");
+ const combined=[
+  ...(contractTasks||[]).map(item=>({...item,mctKind:"contract"})),
+  ...(tasks||[]).map(item=>({...item,mctKind:"followup"}))
+ ].map((item,index)=>({item,index}))
+  .sort((a,b)=>String(a.item.due_date||"9999-12-31").localeCompare(String(b.item.due_date||"9999-12-31"))||a.index-b.index);
+ if(!combined.length){root.append(n("p","No follow-up tasks yet. Start a new closing or add a task.","muted"));return}
+ const summary=n("p",combined.length+" tasks · "+(contractTasks||[]).length+" contract deadlines + "+(tasks||[]).length+" follow-ups · chronological order","muted");
+ root.append(summary);
+ for(const {item} of combined){
+  const expired=!!item.due_date&&item.due_date<today;
+  const locked=closingStatus!=="in_progress"||expired;
+  const row=n("div",undefined,"task"+(item.status==="done"?" done":"")+(expired?" locked":""));
+  const kind=item.mctKind==="contract";
+  const label=n("span",(kind?"CONTRACT · ":"FOLLOW-UP · ")+item.title+(expired?" · Locked":""),"task-name");
+  const due=n("span",item.due_date||"Date not set","muted");
+  const controls=n("div",undefined,"row");
+  const btn=n("button",item.status==="done"?"Done ✓":"Done");btn.type="button";btn.disabled=locked;
+  btn.onclick=async()=>{try{
+   if(kind)await api("closings/"+current+"/contract/update","POST",{task_id:item.id,done:item.status!=="done"});
+   else await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,done:item.status!=="done"});
+   await select(current)
+  }catch(e){tell(e.message)}};
+  const edit=n("button","Change Date");edit.type="button";edit.disabled=locked;
+  edit.onclick=async()=>{
+   const date=prompt("New reminder date (YYYY-MM-DD)",item.due_date||"");if(date===null)return;
+   if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)){tell("Please enter a valid YYYY-MM-DD date.");return}
+   try{
+    if(kind)await api("closings/"+current+"/contract/update","POST",{task_id:item.id,exact_date:date});
+    else await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,title:item.title,date});
+    await select(current)
+   }catch(e){tell(e.message)}
+  };
+  controls.append(btn,edit);row.append(label,due,controls);root.append(row)
+ }
+}
 function actionForm(type){const holder=$("action-form");holder.replaceChildren();const frm=n("form");const label=n("strong",type==="date"?"Change Closing Date":type==="cancel"?"Cancel Contract":"Record Completed Closing");frm.append(label);const date=n("input");date.type="date";date.required=true;date.value=new Date().toISOString().slice(0,10);date.style.marginTop="9px";frm.append(date);let durationInfo=null;if(type==="date"){durationInfo=n("p","", "mct-duration-alert");durationInfo.hidden=true;frm.append(durationInfo);const refresh=()=>{const original=all.find(x=>x.id===current);const days=mctClosingDays(original?.effective_date,date.value);durationInfo.hidden=days===null||days<=90;if(!durationInfo.hidden)durationInfo.textContent=mctDurationWarning(days)};date.addEventListener("change",refresh)}let reason;if(type!=="complete"){reason=n("select");reason.required=true;reason.style.marginTop="9px";reason.setAttribute("aria-label","Choose a generic reason without personal information");
 const allowed=type==="date"?["Written Contract Amendment","Agreed Extension","Financing Timeline","Title / Closing Coordination","Association Approval","Other Contractual Adjustment"]:["Mutual Agreement","Financing Contingency","Inspection Contingency","Title / Closing Issue","Association Approval","Other Contractual Reason"];
 reason.append(n("option","Select a reason"));reason.firstChild.value="";
