@@ -2959,4 +2959,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
 })();
 </script>
+
+<style id="mct-step3-days-values-v1">
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number{display:inline-flex;justify-content:center;align-items:center;min-width:34px;padding:5px 8px;border-radius:8px;background:#edf3f6;color:#19394d;font:800 13px/1.3 Manrope,Arial,sans-serif;font-variant-numeric:tabular-nums}
+</style>
+<script id="mct-step3-days-values-v1-script">
+(function(){
+function fill(){
+ const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+ const rows=Array.from(root.querySelectorAll('table tbody tr'));
+ // Same illustrative day-offset convention as the existing date-preview calculator.
+ rows.forEach(function(row,i){
+   const cell=row.cells[2];if(!cell)return;
+   const days=i>=34?i-46:Math.min(i,30);
+   let label=cell.querySelector('.mct-step3-days-number');
+   if(!label){cell.textContent='';label=document.createElement('span');label.className='mct-step3-days-number';cell.appendChild(label);}
+   label.textContent=days>0?'+'+days:String(days);
+   cell.title=i>=34?'Illustrative calendar days relative to Closing Date':'Illustrative calendar days relative to Effective Date';
+ });
+ const policy=root.querySelector('.mct-v21-policy');
+ if(policy&&!policy.textContent.includes('Days values are illustrative')){
+   policy.append(' Days values are illustrative calendar-day offsets, not contract deadlines. Negative values mean before Closing Date.');
+ }
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fill);else fill();
+})();
+</script>
 </body></html>
