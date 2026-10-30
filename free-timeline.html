@@ -4545,7 +4545,7 @@ function setup(){
    if(document.activeElement!==spin)spin.value=String(n);
    if(document.activeElement!==date)date.value=target;
    if(target)date.setAttribute('min',today());else date.removeAttribute('min');
-   const locked=lock();
+   const locked=!target||target<today()||row.classList.contains('mct-v4-past');
    spin.disabled=locked;date.disabled=locked;up.disabled=locked;down.disabled=locked;
    spin.title=date.title=locked?'Past deadlines are locked':'Editable PRO follow-up preview';
   };
@@ -4560,7 +4560,7 @@ function setup(){
   date.addEventListener('change',()=>{
    if(lock()||!localDate(date.value))return refresh();
    const b=base();if(!b)return refresh();
-   const difference=Math.round((localDate(date.value)-b)/86400000);
+   const current=localDate(date.value);const difference=Math.round((Date.UTC(current.getFullYear(),current.getMonth(),current.getDate())-Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()))/86400000);
    if(date.value<today())return refresh();
    row.dataset.mctCustomOffset=String(difference);
    spin.value=String(difference);
