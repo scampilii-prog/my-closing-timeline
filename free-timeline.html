@@ -4260,22 +4260,7 @@ function init(){
   if(label){const n=Number(row.dataset.mctCustomOffset);label.textContent=n>0?'+'+n:String(n);}
   // Date calculation runs in the existing Effective Date change handler.
   document.getElementById('deadline-effective')?.dispatchEvent(new Event('change'));
-  setTimeout(resort,110);
-  setTimeout(resort,350);
- });
- // Any change to Days, Reminder Date, or Date Basis must reposition the row.
- // Defer until the existing calculator has updated the reminder-date pill.
- let sortTimer;
- const queueSort=()=>{
-  clearTimeout(sortTimer);
-  sortTimer=setTimeout(()=>{resort();setTimeout(resort,220);},140);
- };
- root.addEventListener('change',event=>{
-  if(event.target.closest('.mct-edit-basis-select'))return;
-  if(event.target.closest('input[type="date"],input[type="number"],.mct-step3-date-controls'))queueSort();
- });
- root.addEventListener('click',event=>{
-  if(event.target.closest('button') && event.target.closest('tr') && event.target.closest('td:nth-child(3),td:nth-child(5)'))queueSort();
+  // The final sorting controller runs once editing is complete.
  });
  // Restore original colored row layout (the existing grouping scripts handle colors).
  stableRefresh();
@@ -4534,7 +4519,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(m[1]);
    return mon<0?'':m[3]+'-'+String(mon+1).padStart(2,'0')+'-'+m[2].padStart(2,'0');
   };
-  const dateOf=r=>iso(r.querySelector('input.mct-date-direct')?.value)||iso(r.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent);
+  const dateOf=r=>{
+   const sel=r.querySelector('.mct-edit-basis-select');
+   const basis=sel?.value||r.dataset.mctBasis||'effective';
+   const base=document.getElementById(basis==='closing'?'deadline-closing':'deadline-effective')?.value;
+   const offset=Number(r.dataset.mctCustomOffset);
+   if(/^\\d{4}-\\d{2}-\\d{2}$/.test(base)&&Number.isInteger(offset)){
+    const [y,m,d]=base.split('-').map(Number);
+    const dt=new Date(Date.UTC(y,m-1,d+offset));
+    return dt.toISOString().slice(0,10);
+   }
+   return iso(r.querySelector('input.mct-date-direct')?.value)||iso(r.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent);
+  };
   let timer;
   function move(changed){
    const rows=original.filter(r=>r.parentElement===body);
@@ -4550,15 +4546,27 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     changed.scrollIntoView({behavior:'smooth',block:'center'});
    }
   }
-  function schedule(row){clearTimeout(timer);timer=setTimeout(()=>move(row),300)}
+  // Reorder after a completed edit, never while the user is typing.
+  function schedule(row,delay=220){
+   clearTimeout(timer);
+   timer=setTimeout(()=>move(row),delay);
+  }
   root.addEventListener('change',e=>{
-   const target=e.target,row=target.closest('tr');if(!row||!original.includes(row))return;
-   if(target.matches('input.mct-date-direct,input.mct-day-spinner,.mct-edit-basis-select,.mct-edit-day-offset'))schedule(row);
+   const el=e.target,row=el.closest('tr');
+   if(!row||!original.includes(row))return;
+   if(el.matches('.mct-edit-basis-select,input.mct-date-direct'))schedule(row,260);
+   else if(el.matches('input.mct-day-spinner,input.mct-edit-day-offset')){
+    // A number field is still being edited: wait for focus to leave.
+    if(document.activeElement!==el)schedule(row,260);
+   }
+  });
+  root.addEventListener('focusout',e=>{
+   const el=e.target,row=el.closest('tr');
+   if(row&&original.includes(row)&&el.matches('input.mct-day-spinner,input.mct-edit-day-offset'))schedule(row,350);
   });
   root.addEventListener('click',e=>{
    const button=e.target.closest('button'),row=button?.closest('tr');
-   if(!row||!original.includes(row))return;
-   if(button.closest('.mct-date-step-buttons'))schedule(row);
+   if(row&&original.includes(row)&&button.closest('.mct-date-step-buttons'))schedule(row,950);
   });
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
