@@ -2301,4 +2301,64 @@ html body #contract-deadline-planner .fc-simple-options>summary span{font-size:1
   display:flex!important;flex-direction:column!important;align-items:stretch!important;
  }
 }
-</style></body></html>
+</style><style id="mct-free-compact-conversion-v4">
+/* Final arrangement: unified offer in the right summary, no tall duplicate marketing card. */
+@media(min-width:1000px){
+ html body main.workspace #contract-deadline-planner>.fc-simple-layout{
+  display:grid!important;grid-template-columns:minmax(0,47fr) minmax(0,53fr)!important;gap:15px!important;
+ }
+ html body main.workspace #contract-deadline-planner>.fc-simple-layout>.fc-simple-form,
+ html body main.workspace #contract-deadline-planner>.fc-simple-layout>.fc-simple-result{
+  width:100%!important;min-width:0!important;max-width:none!important;box-sizing:border-box!important;
+ }
+}
+@media(max-width:999px){html body main.workspace #contract-deadline-planner>.fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}}
+html body #contract-deadline-planner .mct-free-next-steps-realtor{display:none!important}
+html body #contract-deadline-planner .mct-express-summary-convert{
+ margin:15px 0 0;padding:16px;border:1px solid #cfb27d;border-radius:11px;
+ background:linear-gradient(125deg,#fff9ed,#f1faf8);
+}
+html body #contract-deadline-planner .mct-express-summary-convert .mct-express-actions{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px;
+}
+html body #contract-deadline-planner .mct-express-summary-convert a{
+ box-sizing:border-box;text-align:center;padding:13px 10px;border-radius:8px;
+ font:800 14px/1.35 Manrope,Arial,sans-serif;text-decoration:none;
+ border:1px solid #aec8cd;color:#16485b;background:#fff;
+}
+html body #contract-deadline-planner .mct-express-summary-convert .mct-express-primary{
+ background:#164b60;color:#fff;border-color:#164b60;
+}
+html body #contract-deadline-planner .mct-express-summary-convert h3{
+ color:#153d52;font:850 20px/1.35 Manrope,Arial,sans-serif;margin:8px 0 5px;
+}
+html body #contract-deadline-planner .mct-express-summary-convert p{
+ color:#436173;font:550 14px/1.55 Manrope,Arial,sans-serif;margin:0;
+}
+html body #contract-deadline-planner .mct-express-summary-convert .mct-express-extra{
+ font-size:12px;color:#637e89;margin-top:9px;
+}
+html body #contract-deadline-planner .fc-simple-footnote{
+ font-size:12px!important;color:#71838a!important;margin-top:12px!important;
+}
+@media(max-width:600px){
+ html body #contract-deadline-planner .mct-express-summary-convert .mct-express-actions{grid-template-columns:1fr}
+}
+</style>
+<script id="mct-free-compact-conversion-v4">
+(function(){
+ function setup(){
+  const root=document.getElementById("contract-deadline-planner");
+  const grid=root?.querySelector(".fc-simple-layout");
+  const summary=grid?.querySelector(".fc-simple-result")||grid?.querySelector(".mct-free-pro-right-column .fc-simple-result");
+  if(!grid||!summary)return;
+  const wrapper=grid.querySelector(".mct-free-pro-right-column");
+  if(wrapper){grid.insertBefore(summary,wrapper);wrapper.remove();}
+  if(summary.querySelector(".mct-express-summary-convert"))return;
+  const offer=document.createElement("section");offer.className="mct-express-summary-convert";
+  offer.innerHTML='<div class="mct-express-actions"><a class="mct-express-primary" href="/express-pro.html?audience=realtor">Continue to PRO Express →</a><a href="/pricing.html">Explore Plans & Pricing</a></div><h3>Your first Real Estate PRO closing is on us.</h3><p>Want to save this closing and continue with Step 3 follow-ups? Confirm your email once. Eligible first-time visitors receive a complimentary PRO credit; otherwise, choose a plan. No password required to request access.</p><p class="mct-express-extra">Prefer FREE? Keep working here without registering.</p>';
+  summary.appendChild(offer);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
+})();
+</script></body></html>
