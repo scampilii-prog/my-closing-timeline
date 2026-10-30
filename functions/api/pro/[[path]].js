@@ -448,10 +448,26 @@ export async function onRequest(context){
    const proposed=suggestedDate(closingBased?end:eff,closingBased?-days:days);
    statements.push(db.prepare("INSERT INTO follow_tasks(id,closing_id,user_id,title,due_date,auto_shift) SELECT ?,id,user_id,?,?,? FROM closings WHERE id=? AND user_id=?").bind(guid(),title,proposed,closingBased,id,user.id));
   }
-  // Step 2 uses the same six contract milestones and default periods as FREE.
-  // The same atomic batch ensures there are no orphan tasks when credits run out.
-  for(const [title,days] of contractDefaultTasks){
-   statements.push(db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,due_date) SELECT ?,id,user_id,?,?,'effective','after','calendar',? FROM closings WHERE id=? AND user_id=?").bind(guid(),title,days,contractDate(eff,days),id,user.id));
+  // Import the FREE contract deadlines in the same atomic credit-consuming batch.
+  // Untrusted draft input is strictly validated; absence of a draft preserves defaults.
+  const incoming=body.free_contract_tasks;
+  if(incoming!==undefined&&(!Array.isArray(incoming)||incoming.length>8||incoming.length<1))return error("Invalid FREE task transfer.",400);
+  const imported=[];
+  if(Array.isArray(incoming)){
+   for(const raw of incoming){
+    const title=String(raw?.title||"").trim();
+    const days=Number(raw?.days);
+    const due=String(raw?.exact_date||"");
+    if(!title||title.length>180||/[<>\\r\\n]/.test(title)||!Number.isInteger(days)||days<0||days>3650||
+       (due&&!isoDate(due)))return error("Check the transferred FREE tasks and dates.",400);
+    if(due&&due<eff)return error("A transferred deadline falls before the Effective Date.",400);
+    if(due&&closingExtensionNeeded(eff,due))return extensionNotLaunched();
+    imported.push({title,days,due:due||contractDate(eff,days)});
+   }
+  }
+  const chosen=Array.isArray(incoming)?imported:contractDefaultTasks.map(([title,days])=>({title,days,due:contractDate(eff,days)}));
+  for(const t of chosen){
+   statements.push(db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,exact_date,due_date) SELECT ?,id,user_id,?,?,'effective','after','calendar',?,? FROM closings WHERE id=? AND user_id=?").bind(guid(),t.title,t.days,t.due,t.due,id,user.id));
   }
   const res=await db.batch(statements);
   if(!res[0]?.meta?.changes)return error("No closing credits available. Purchase or redeem a credit first.",402);
