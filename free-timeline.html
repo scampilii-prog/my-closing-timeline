@@ -2431,4 +2431,20 @@ html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card
 html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-actions{display:flex!important;gap:2px!important;min-width:0!important}
 html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-actions button{min-width:0!important;padding:5px 1px!important;font-size:9px!important}
 }
+</style><style id="mct-task-name-visibility-fix-v1">
+/* Keep the compact columns, but prevent task names from visually disappearing. */
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-name{min-width:0!important;overflow:visible!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-name input{
+ display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ font-size:13px!important;font-weight:700!important;color:#163d50!important;
+ background:#fff!important;opacity:1!important;letter-spacing:-.025em!important;
+ text-overflow:clip!important;padding-inline:5px!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-name input:focus{outline:2px solid #16847f!important;outline-offset:1px!important}
+@media(min-width:900px){
+ html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card{
+ grid-template-columns:20px minmax(170px,1fr) 38px 119px 60px 58px!important;
+ column-gap:3px!important;
+ }
+}
 </style></body></html>
