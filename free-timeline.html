@@ -4246,4 +4246,42 @@ function label(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',label);else label();
 })();
+</script><style id="mct-selectable-fields-consistent-v2">
+/* Editable numeric inputs: show native up/down controls instead of a misleading dropdown. */
+#contract-deadline-planner input[type="number"]:not(:disabled):not([readonly]){
+ appearance:auto!important;-webkit-appearance:auto!important;cursor:text!important;
+}
+#contract-deadline-planner input[type="number"]:not(:disabled):not([readonly])::-webkit-inner-spin-button{
+ -webkit-appearance:auto!important;opacity:1!important;cursor:pointer!important;
+}
+#contract-deadline-planner select:disabled,
+#contract-deadline-planner input:disabled,
+#contract-deadline-planner input[readonly]{cursor:default!important}
+/* Date pickers: preserve calendar icon and readable values. */
+#contract-deadline-planner input[type="date"]:not(:disabled):not([readonly])::-webkit-calendar-picker-indicator{
+ display:block!important;opacity:1!important;cursor:pointer!important;
+}
+/* More remains a small optional control; only the real expanded panel opens when clicked. */
+#contract-deadline-planner details.fc-simple-options:not([open])>summary{cursor:pointer!important}
+#contract-deadline-planner .mct-contract-task-more-toggle{cursor:pointer!important}
+</style>
+<script id="mct-selectable-fields-consistent-v2-script">
+(function(){
+function init(){
+ const root=document.getElementById('contract-deadline-planner');if(!root)return;
+ // Do not open advanced task editors automatically. Keep the global document-options disclosure closed initially.
+ root.querySelectorAll('details.fc-simple-options').forEach(el=>el.removeAttribute('open'));
+ // Disclose actual control semantics through accessible titles.
+ root.querySelectorAll('input[type="number"]:not(:disabled):not([readonly])').forEach(el=>{
+   if(!el.title)el.title='Enter a number or use the arrows to adjust';
+ });
+ root.querySelectorAll('input[type="date"]:not(:disabled):not([readonly])').forEach(el=>{
+   if(!el.title)el.title='Choose a date using the calendar';
+ });
+ root.querySelectorAll('select:not(:disabled)').forEach(el=>{
+   if(!el.title)el.title='Click to choose an option';
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
 </script></body></html>
