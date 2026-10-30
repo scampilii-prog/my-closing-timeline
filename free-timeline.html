@@ -3326,4 +3326,79 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  border-bottom:3px solid #174D79!important;
 }
 </style>
+
+<style id="mct-step3-date-state-lock-v4">
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td{
+background:var(--mct-v4-bg,#f0f6fa)!important;border-top:0!important;border-bottom:0!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:first-child{border-left:2px solid #242c35!important}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:last-child{border-right:2px solid #242c35!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-frame-start td{
+border-top:2px solid #222b34!important;box-shadow:inset 0 3px 0 #c49b53!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-frame-end td{
+border-bottom:2px solid #222b34!important;box-shadow:inset 0 -3px 0 #c49b53!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-frame-start.mct-frame-end td{
+box-shadow:inset 0 3px 0 #c49b53,inset 0 -3px 0 #c49b53!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number,
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-reminder-pill{
+background:#fff!important;border:1.5px solid currentColor!important;font-weight:850!important;
+color:var(--mct-v4-ink,#215a91)!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-past{--mct-v4-ink:#b12d3a}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-today{--mct-v4-ink:#a66b13}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-future{--mct-v4-ink:#215a91}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-past td:nth-child(4)::after{
+content:"  · LOCKED";color:#a03039;font-size:10px;font-weight:800}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-past .mct-step3-done-toggle{
+opacity:.48!important;cursor:not-allowed!important;filter:grayscale(.6)}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-v4-past textarea.mct-step3-note-input{
+opacity:1!important;cursor:text!important}
+</style>
+<script id="mct-step3-date-state-lock-v4-script">
+(function(){
+ const colors=['#e8f5eb','#fff2dd','#e8f0fc','#fbe9f0','#f0e9fc','#e3f4f4'];
+ function isoDate(s){
+  const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(s||'');if(!m)return '';
+  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(m[1]);
+  if(mon<0)return '';
+  const d=new Date(+m[3],mon,+m[2],12);
+  if(d.getFullYear()!==+m[3]||d.getMonth()!==mon||d.getDate()!==+m[2])return '';
+  return d.getFullYear()+'-'+String(mon+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ }
+ function render(){
+  const root=document.getElementById('mct-free-followup-preview');
+  if(!root)return;
+  const rows=Array.from(root.querySelectorAll('table tbody tr'));
+  const dates=rows.map(tr=>isoDate((tr.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||tr.cells[3]?.textContent||'').trim()));
+  const unique=Array.from(new Set(dates.filter(Boolean))).sort();
+  const today=new Date(),now=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  rows.forEach((tr,i)=>{
+   const date=dates[i];if(!date)return;
+   const bg=colors[unique.indexOf(date)%colors.length];
+   tr.style.setProperty('--mct-v4-bg',bg,'important');
+   tr.style.setProperty('--mct-v4-ink',date<now?'#b12d3a':date===now?'#a66b13':'#215a91','important');
+   tr.dataset.mctDateGroup=String(unique.indexOf(date)+1);
+   tr.classList.toggle('mct-frame-start',i===0||dates[i-1]!==date);
+   tr.classList.toggle('mct-frame-end',i===rows.length-1||dates[i+1]!==date);
+   tr.classList.toggle('mct-v4-past',date<now);
+   tr.classList.toggle('mct-v4-today',date===now);
+   tr.classList.toggle('mct-v4-future',date>now);
+   // Preview: past rows remain readable, only Notes can be edited.
+   tr.querySelectorAll('input,select,button,textarea').forEach(control=>{
+    if(control.matches('textarea.mct-step3-note-input')){control.disabled=false;return;}
+    if(date<now){control.disabled=true;control.title='Past reminder: only Notes may be edited';}
+    else if(control.matches('.mct-step3-done-toggle')){control.disabled=false;control.title='Mark Done (preview only)';}
+   });
+  });
+ }
+ function init(){
+  render();
+  document.querySelectorAll('#deadline-effective,#deadline-closing').forEach(field=>{
+   field.addEventListener('input',()=>setTimeout(render,80));
+   field.addEventListener('change',()=>setTimeout(render,80));
+  });
+  setInterval(render,1800);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
