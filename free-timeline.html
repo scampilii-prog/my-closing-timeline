@@ -1256,7 +1256,30 @@ html[data-mct-free-view="other"] #contract-deadline-planner>.mct-free-next-steps
  window.addEventListener("load",schedule,{once:true});
  window.addEventListener("pageshow",schedule);
 })();
-</script></head><body class="mct-unified-internal-hero mct-layout-wide mct-layout-wide"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html" aria-current="page">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="/other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><section class="intro mct-photo-hero" aria-label="Real estate closing timeline"><div class="mct-photo-hero-content"><p class="mct-hero-kicker">REAL ESTATE CLOSINGS MADE SIMPLE</p><h1><span>From Contract to Closing.</span><span>Beautifully Organized.</span></h1><p class="mct-hero-description">Build, manage, print and share a clear closing timeline.<br>Start free, without an account.</p><div class="mct-hero-benefits"><span><b aria-hidden="true">▣</b> Stay on track with key dates</span><span><b aria-hidden="true">▤</b> Keep everyone informed</span><span><b aria-hidden="true">⌂</b> A smoother closing</span></div></div></section><main class="workspace"><div id="timeline" class="mct-timeline-anchor" aria-hidden="true"></div><div id="transaction-details" class="mct-timeline-anchor" aria-hidden="true"></div><section id="contract-deadline-planner" data-free-task-limit="8" class="deadline-planner fc-timeline fc-simple-timeline" aria-labelledby="deadline-planner-title"><section class="mct-product-path mct-audience-choice mct-unified-free-choices" id="mct-product-path-free" aria-labelledby="mct-product-path-title-free">
+</script><style id="mct-free-simplified-closing-v1">
+/* The contract planner stays intact; presentation only. */
+html body #mct-product-path-free,html body .mct-version-current,html body #mct-free-other-projects {display:none!important}
+html body #mct-free-real-estate-landing{margin-top:0!important}
+html body #mct-free-real-estate-landing .mct-free-header-nav a{display:none!important}
+html body #contract-deadline-planner{max-width:1420px!important;width:calc(100% - 28px)!important;margin-inline:auto!important}
+html body #contract-deadline-planner .fc-simple-layout{display:block!important}
+html body #contract-deadline-planner .fc-simple-layout>.fc-simple-form{width:100%!important;max-width:none!important;flex:none!important}
+html body #mct-simplified-summary-row{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;margin:19px 0 25px;align-items:stretch}
+html body #mct-simplified-summary-row>.fc-simple-result{width:100%!important;max-width:none!important;margin:0!important;min-width:0!important}
+html body #mct-simplified-summary-row>.mct-plus-preview{min-width:0;display:flex;flex-direction:column;border:1px solid #bdd8d2;border-radius:12px;background:#f9fcfc;box-shadow:0 5px 18px rgba(19,54,71,.06);overflow:hidden}
+html body #mct-simplified-summary-row .mct-plus-head{background:#e6f2ef;border-bottom:1px solid #c5ded8;padding:17px 20px}
+html body #mct-simplified-summary-row .mct-plus-head span{font:800 11px Manrope,Arial,sans-serif;letter-spacing:.09em;color:#356b65}
+html body #mct-simplified-summary-row .mct-plus-head h3{font:850 24px/1.3 Manrope,Arial,sans-serif;color:#173b50;margin:5px 0}
+html body #mct-simplified-summary-row .mct-plus-body{padding:20px;flex:1}
+html body #mct-simplified-summary-row .mct-plus-day{border:1px solid #dae5e8;background:white;border-radius:9px;margin:0 0 12px;padding:13px 15px}
+html body #mct-simplified-summary-row .mct-plus-day strong{color:#234d60;font-size:15px}
+html body #mct-simplified-summary-row .mct-plus-day p{font-size:13px;color:#6d7d87;margin:7px 0 0}
+html body #mct-simplified-summary-row .mct-plus-activation{padding:17px 20px;background:#f0f6f7;border-top:1px solid #d4e1e5}
+html body #mct-simplified-summary-row .mct-plus-activation strong{display:block;font-size:16px;color:#173c53}
+html body #mct-simplified-summary-row .mct-plus-activation p{font-size:13px;line-height:1.55;color:#4d6674}
+html body #mct-simplified-summary-row .mct-plus-activation a{display:block;text-align:center;border-radius:8px;background:#126e70;color:white;text-decoration:none;padding:12px 13px;font-size:15px;font-weight:850}
+@media(max-width:800px){html body #mct-simplified-summary-row{grid-template-columns:1fr}}
+</style></head><body class="mct-unified-internal-hero mct-layout-wide mct-layout-wide"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="free-timeline.html" aria-current="page">Free Timeline</a><a href="pro-get-started.html">PRO Timeline</a><a class="mct-nav-other-projects" href="/other-projects.html">Other Projects</a><a href="pricing.html">Plans & Pricing</a><a href="contact.html">Help & Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><section class="intro mct-photo-hero" aria-label="Real estate closing timeline"><div class="mct-photo-hero-content"><p class="mct-hero-kicker">REAL ESTATE CLOSINGS MADE SIMPLE</p><h1><span>From Contract to Closing.</span><span>Beautifully Organized.</span></h1><p class="mct-hero-description">Build, manage, print and share a clear closing timeline.<br>Start free, without an account.</p><div class="mct-hero-benefits"><span><b aria-hidden="true">▣</b> Stay on track with key dates</span><span><b aria-hidden="true">▤</b> Keep everyone informed</span><span><b aria-hidden="true">⌂</b> A smoother closing</span></div></div></section><main class="workspace"><div id="timeline" class="mct-timeline-anchor" aria-hidden="true"></div><div id="transaction-details" class="mct-timeline-anchor" aria-hidden="true"></div><section id="contract-deadline-planner" data-free-task-limit="8" class="deadline-planner fc-timeline fc-simple-timeline" aria-labelledby="deadline-planner-title"><section class="mct-product-path mct-audience-choice mct-unified-free-choices" id="mct-product-path-free" aria-labelledby="mct-product-path-title-free">
  <div class="mct-product-path-head">
   <span class="mct-product-path-eyebrow">CHOOSE YOUR FREE TIMELINE</span>
   <h3 id="mct-product-path-title-free">Two powerful planners. <span>One clear timeline.</span></h3>
@@ -2454,4 +2477,19 @@ html body #contract-deadline-planner #deadline-editor-rows article.mct-master-ro
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
-</script><link rel="stylesheet" href="/assets/mct-internal-hero-unified-20261029.css?v=1"></body></html>
+</script><link rel="stylesheet" href="/assets/mct-internal-hero-unified-20261029.css?v=1"><script id="mct-free-simplified-structure-script">
+document.addEventListener('DOMContentLoaded',function(){
+ const planner=document.getElementById('contract-deadline-planner');
+ if(!planner||document.getElementById('mct-simplified-summary-row'))return;
+ const form=planner.querySelector('.fc-simple-layout');
+ const summary=document.getElementById('mct-free-review');
+ if(!form||!summary)return;
+ const row=document.createElement('div');row.id='mct-simplified-summary-row';
+ form.insertAdjacentElement('afterend',row);
+ row.appendChild(summary);
+ const plus=document.createElement('aside');plus.className='mct-plus-preview';
+ plus.setAttribute('aria-label','Timeline PLUS preview');
+ plus.innerHTML='<div class="mct-plus-head"><span>TIMELINE PLUS · FOLLOW-UP PREVIEW</span><h3>Today &amp; Tomorrow</h3><span>Visible in FREE · Activates with PLUS</span></div><div class="mct-plus-body"><div class="mct-plus-day"><strong>Today</strong><p>Daily deadlines and follow-up tasks appear here after activation.</p></div><div class="mct-plus-day"><strong>Tomorrow</strong><p>Next-day reminders and pending follow-ups appear here after activation.</p></div><div class="mct-plus-day"><strong>Follow-up checklist</strong><p>Track progress, keep your closing organized and save a PDF.</p></div></div><div class="mct-plus-activation"><strong>First activation FREE · Then $20 per closing</strong><p>New pricing and registration rules are being implemented. This preview does not activate or charge your account.</p><a href="/pro-get-started.html">Explore Timeline PLUS registration</a></div>';
+ row.appendChild(plus);
+});
+</script></body></html>
