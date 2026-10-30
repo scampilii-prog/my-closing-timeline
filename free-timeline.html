@@ -2492,4 +2492,37 @@ document.addEventListener('DOMContentLoaded',function(){
  plus.innerHTML='<div class="mct-plus-head"><span>TIMELINE PLUS · FOLLOW-UP PREVIEW</span><h3>Today &amp; Tomorrow</h3><span>Visible in FREE · Activates with PLUS</span></div><div class="mct-plus-body"><div class="mct-plus-day"><strong>Today</strong><p>Daily deadlines and follow-up tasks appear here after activation.</p></div><div class="mct-plus-day"><strong>Tomorrow</strong><p>Next-day reminders and pending follow-ups appear here after activation.</p></div><div class="mct-plus-day"><strong>Follow-up checklist</strong><p>Track progress, keep your closing organized and save a PDF.</p></div></div><div class="mct-plus-activation"><strong>First activation FREE · Then $20 per closing</strong><p>New pricing and registration rules are being implemented. This preview does not activate or charge your account.</p><a href="/pro-get-started.html">Explore Timeline PLUS registration</a></div>';
  row.appendChild(plus);
 });
-</script></body></html>
+</script>
+<style id="mct-free-summary-tomorrow-live-v20">
+/* Website 20: prioritize the live summary and put the actual working Today & Tomorrow directly below it. */
+html body #contract-deadline-planner #mct-simplified-summary-row{display:flex!important;flex-direction:column!important;gap:16px!important;width:100%!important;max-width:100%!important;margin:12px 0 23px!important;align-items:stretch!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>#mct-free-review{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;min-width:0!important;margin:0!important;grid-column:auto!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0!important;border:1px solid #d3aa68!important;border-radius:17px!important;overflow:hidden!important;background:#fffdfa!important;box-shadow:0 7px 24px rgba(23,55,77,.07)!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-title{background:#19394d!important;color:#fff!important;padding:18px 23px!important;margin:0!important;border:0!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-title h3{color:#fff!important;font-size:clamp(24px,3vw,34px)!important;line-height:1.2!important;margin:3px 0!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-kicker{color:#f2c982!important;font-size:12px!important;letter-spacing:.08em!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-subdate{padding:11px 22px 0!important;color:#4d6877!important;font-weight:700!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel #mct-tomorrow-list{padding:8px 20px 18px!important;min-height:90px!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel #mct-today-count{padding:0 20px 14px!important;margin:0!important}
+html body #contract-deadline-planner #mct-simplified-summary-row>.mct-plus-preview{display:none!important}
+@media(max-width:700px){html body #contract-deadline-planner #mct-simplified-summary-row{gap:11px!important;margin-top:9px!important}html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-title{padding:15px!important}}
+</style>
+<script id="mct-free-summary-tomorrow-live-v20-script">
+(function(){
+ function arrange(){
+  const planner=document.getElementById('contract-deadline-planner');
+  const form=planner&&planner.querySelector('.fc-simple-layout');
+  const row=document.getElementById('mct-simplified-summary-row');
+  const summary=document.getElementById('mct-free-review');
+  const live=planner&&planner.querySelector('.mct-tomorrow-panel');
+  if(!planner||!form||!row||!summary||!live)return;
+  // Keep the existing calculator, event handlers and live reminder rendering intact.
+  if(row.parentElement!==form.parentElement||row.nextElementSibling!==form)form.parentElement.insertBefore(row,form);
+  if(summary.parentElement!==row)row.appendChild(summary);
+  if(live.parentElement!==row||live.previousElementSibling!==summary)summary.insertAdjacentElement('afterend',live);
+  row.querySelectorAll('.mct-plus-preview').forEach(el=>el.remove());
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',arrange);else arrange();
+})();
+</script>
+</body></html>
