@@ -2822,7 +2822,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const cell=tr.cells[3];
     if(!cell)return;
     // Demonstration dates only; never claim these optional follow-up targets are contractual.
-    const closingBased=i>=34;
+    const closingBased=(tr.dataset.mctBasis || (Number(tr.dataset.mctOriginalIndex??i)>=34?'closing':'effective'))==='closing';
     const base=closingBased?end:start;
     if(!base){cell.textContent='Set date to preview';return;}
     const original=Number(tr.dataset.mctOriginalIndex??i);
@@ -3014,7 +3014,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    rows.forEach((tr,i)=>{
     const cell=tr.cells[3],dayCell=tr.cells[2];
     if(!cell||!dayCell)return;
-    const basis=tr.dataset.mctBasis|| (i>=34?'closing':'effective');
+    const basis=tr.dataset.mctBasis|| (Number(tr.dataset.mctOriginalIndex??i)>=34?'closing':'effective');
     const closingBased=basis==='closing',base=closingBased?end:start;
     const offset=closingBased?i-46:Math.min(i,30);
     cell.classList.add('mct-step3-reminder-cell');
@@ -3427,7 +3427,7 @@ opacity:1!important;cursor:text!important}
    // For an unfilled preview use identical date base and day offset, never arbitrary row numbers alone.
    const offset=Number((row.cells[2]?.textContent||'').replace(/[^0-9+-]/g,''));
    if(!Number.isFinite(offset))return '';
-   const closingBased=i>=34,base=closingBased?c:e;
+   const closingBased=(row.dataset.mctBasis || (Number(row.dataset.mctOriginalIndex??i)>=34?'closing':'effective'))==='closing',base=closingBased?c:e;
    if(/^\d{4}-\d{2}-\d{2}$/.test(base)){const d=new Date(base+'T12:00:00');d.setDate(d.getDate()+offset);return 'date:'+d.toDateString()}
    return (closingBased?'closing:':'effective:')+offset;
   }
