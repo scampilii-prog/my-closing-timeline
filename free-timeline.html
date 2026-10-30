@@ -2408,7 +2408,7 @@ html body #contract-deadline-planner .mct-realty-task-grid select{box-sizing:bor
 </style><style id="mct-free-when-inside-more-v1">
 @media(min-width:900px){
 html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card{
- grid-template-columns:22px minmax(145px,1fr) 48px minmax(106px,135px) 62px 94px!important;
+ grid-template-columns:20px minmax(135px,1fr) 43px 137px 66px 64px!important;
 }
 html body #contract-deadline-planner .mct-realty-task-card .mct-realty-task-due{grid-column:4!important;grid-row:1!important}
 html body #contract-deadline-planner .mct-realty-task-card .mct-realty-task-badge{grid-column:5!important;grid-row:1!important}
@@ -2420,5 +2420,15 @@ html body #contract-deadline-planner .mct-realty-task-card .mct-master-extra-inn
 }
 html body #contract-deadline-planner .mct-realty-task-card .mct-master-extra-inner .mct-realty-task-direction select{
  width:100%!important;min-height:35px!important;font-size:13px!important;
+}
+</style><style id="mct-free-right-to-left-column-allocation-v2">
+@media(min-width:900px){
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card{column-gap:4px!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-name,
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-due{min-width:0!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-due input{width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:4px 5px!important;font-size:13px!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-days input{width:100%!important;min-width:0!important;box-sizing:border-box!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-actions{display:flex!important;gap:2px!important;min-width:0!important}
+html body #contract-deadline-planner #deadline-editor-rows .mct-realty-task-card .mct-realty-task-actions button{min-width:0!important;padding:5px 1px!important;font-size:9px!important}
 }
 </style></body></html>
