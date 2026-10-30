@@ -3084,4 +3084,54 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-key-dates-visual-range-v1">
+#contract-deadline-planner .fc-simple-dates label:has(#deadline-effective){background:#ecf7f1!important;border:2px solid #31916c!important;border-radius:12px!important;padding:12px 14px!important;box-shadow:0 3px 10px rgba(34,115,84,.1)!important;color:#215d46!important;font-weight:850!important}
+#contract-deadline-planner .fc-simple-dates label:has(#deadline-closing){background:#fff2e5!important;border:2px solid #cb8c49!important;border-radius:12px!important;padding:12px 14px!important;box-shadow:0 3px 10px rgba(157,102,47,.11)!important;color:#83501e!important;font-weight:850!important}
+#contract-deadline-planner .fc-simple-dates #deadline-effective{background:#fff!important;border:1px solid #81b69b!important}
+#contract-deadline-planner .fc-simple-dates #deadline-closing{background:#fff!important;border:1px solid #ddb37a!important}
+#contract-deadline-planner .mct-key-dates-guidance{margin:9px 0 3px;padding:11px 14px;border-radius:10px;border:1px solid #d8c4a0;background:#fffaf0;color:#4b6270;font:650 12px/1.55 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-v21-date-info{display:flex;flex-wrap:wrap;gap:9px;background:transparent!important;border:0!important;padding:0!important}
+#contract-deadline-planner #mct-v21-date-info .mct-date-chip{display:inline-block;padding:9px 12px;border:2px solid;border-radius:9px;font:800 13px/1.5 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-v21-date-info .mct-date-chip.effective{background:#ecf7f1;border-color:#31916c;color:#215d46}
+#contract-deadline-planner #mct-v21-date-info .mct-date-chip.closing{background:#fff2e5;border-color:#cb8c49;color:#83501e}
+</style>
+<script id="mct-key-dates-visual-range-v1-script">
+(function(){
+function install(){
+ const e=document.getElementById('deadline-effective'),c=document.getElementById('deadline-closing');
+ if(!e||!c)return;
+ const dates=e.closest('.fc-simple-dates');
+ if(dates&&!document.getElementById('mct-key-dates-guidance')){
+  const p=document.createElement('p');p.id='mct-key-dates-guidance';p.className='mct-key-dates-guidance';
+  p.textContent='Effective Date becomes permanent when the closing is activated. Closing Date may be changed only from Effective Date through 60 calendar days afterward. FREE is a preview; account enforcement requires activated PRO validation.';
+  dates.insertAdjacentElement('afterend',p);
+ }
+ function fmt(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v||''))return 'Not selected';const a=v.split('-');return new Date(+a[0],+a[1]-1,+a[2],12).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+ function sync(){
+  if(e.value){
+   const a=e.value.split('-').map(Number),start=new Date(a[0],a[1]-1,a[2],12),last=new Date(start);
+   last.setDate(last.getDate()+60);
+   const max=last.getFullYear()+'-'+String(last.getMonth()+1).padStart(2,'0')+'-'+String(last.getDate()).padStart(2,'0');
+   c.min=e.value;c.max=max;
+   c.title='Closing Date must be between Effective Date and '+fmt(max)+' (60 calendar days)';
+   if(c.value&&(c.value<e.value||c.value>max))c.setCustomValidity('Closing Date must be within 60 days after Effective Date.');
+   else c.setCustomValidity('');
+  }else{c.removeAttribute('min');c.removeAttribute('max');c.setCustomValidity('');}
+  const info=document.getElementById('mct-v21-date-info');
+  if(info){
+   info.textContent='';
+   for(const [kind,title,value] of [['effective','Effective Date',e.value],['closing','Closing Date',c.value]]){
+    const span=document.createElement('span');span.className='mct-date-chip '+kind;
+    span.textContent=title+': '+fmt(value);info.appendChild(span);
+   }
+  }
+ }
+ e.addEventListener('input',sync);e.addEventListener('change',sync);
+ c.addEventListener('input',sync);c.addEventListener('change',sync);
+ sync();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+})();
+</script>
 </body></html>
