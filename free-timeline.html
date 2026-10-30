@@ -2891,4 +2891,72 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
 </script>
+
+<style id="mct-step3-done-working-v1">
+#contract-deadline-planner #mct-free-followup-preview td:last-child{text-align:center;min-width:68px}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle{
+ appearance:none;-webkit-appearance:none;display:inline-grid;place-items:center;width:31px;height:31px;
+ min-width:31px;padding:0!important;margin:0 auto!important;box-sizing:border-box;
+ background:#fff!important;border:2px solid #9bb4a9!important;border-radius:10px!important;
+ color:transparent!important;opacity:1!important;cursor:pointer!important;
+ transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle::after{
+ content:'✓';font:900 21px/1 Arial,sans-serif;color:#b6c8c0;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle[aria-pressed="true"]{
+ background:#147a55!important;border-color:#147a55!important;
+ box-shadow:0 2px 8px rgba(20,122,85,.22);
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle[aria-pressed="true"]::after{color:white}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle:hover{transform:scale(1.07);border-color:#147a55!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-done-toggle:focus-visible{outline:3px solid #d5aa5f!important;outline-offset:3px}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-step3-task-complete td{background:#edf8f1!important}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-step3-task-complete td:nth-child(2){color:#527869!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-status-done{background:#dbf2e6!important;color:#146b46!important}
+#contract-deadline-planner #mct-free-followup-preview #mct-step3-preview-progress{font:750 13px/1.5 Manrope,Arial,sans-serif;color:#355a4c;margin:10px 0}
+</style>
+<script id="mct-step3-done-working-v1-script">
+(function(){
+ function initialize(){
+  const root=document.getElementById('mct-free-followup-preview');
+  if(!root||root.dataset.doneControlsReady==='yes')return;
+  root.dataset.doneControlsReady='yes';
+  const tbody=root.querySelector('table tbody');
+  if(!tbody)return;
+  const table=root.querySelector('table');
+  const progress=document.createElement('p');progress.id='mct-step3-preview-progress';progress.setAttribute('aria-live','polite');
+  if(table&&table.parentElement)table.parentElement.insertAdjacentElement('afterend',progress);
+  let completed=0;
+  function updateProgress(){progress.textContent=completed+' of '+tbody.rows.length+' tasks marked Done · Interactive preview only (not saved)';}
+  Array.from(tbody.rows).forEach(function(row,index){
+    const cell=row.cells[row.cells.length-1];
+    if(!cell)return;
+    cell.textContent='';
+    const button=document.createElement('button');
+    button.type='button';button.className='mct-step3-done-toggle';
+    button.setAttribute('aria-pressed','false');
+    button.setAttribute('aria-label','Mark task '+(index+1)+' as Done');
+    button.title='Mark Done (preview)';
+    cell.appendChild(button);
+    button.addEventListener('click',function(){
+      const on=button.getAttribute('aria-pressed')!=='true';
+      button.setAttribute('aria-pressed',String(on));
+      button.setAttribute('aria-label',(on?'Mark task ':'Mark task ')+(index+1)+(on?' as Pending':' as Done'));
+      button.title=on?'Mark Pending (preview)':'Mark Done (preview)';
+      row.classList.toggle('mct-step3-task-complete',on);
+      const status=row.cells[4];
+      if(status){
+        const tag=status.querySelector('.mct-v21-tag')||status;
+        tag.textContent=on?'Done':'Pending';
+        tag.classList.toggle('mct-step3-status-done',on);
+      }
+      completed+=on?1:-1;updateProgress();
+    });
+  });
+  updateProgress();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
 </body></html>
