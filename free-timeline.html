@@ -3440,4 +3440,44 @@ opacity:1!important;cursor:text!important}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-overdue-status-v1">
+#contract-deadline-planner #mct-free-followup-preview .mct-v6-overdue{background:#fbe1e2!important;color:#a42634!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-v6-today{background:#fff0ce!important;color:#926313!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-v6-done{background:#e1f4e8!important;color:#166944!important}
+</style>
+<script id="mct-step3-overdue-status-v1-script">
+(function(){
+function refresh(){
+ const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+ const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+ for(const row of root.querySelectorAll('table tbody tr')){
+  const statusCell=row.cells[4],alertCell=row.cells[5],dateCell=row.cells[3];
+  if(!statusCell||!dateCell)continue;
+  const status=statusCell.querySelector('.mct-v21-tag')||statusCell;
+  const dateString=(dateCell.querySelector('.mct-step3-reminder-pill')?.textContent||dateCell.textContent||'').trim();
+  const match=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(dateString);
+  if(!match)continue;
+  const month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(match[1]);
+  if(month<0)continue;
+  const time=new Date(+match[3],month,+match[2]).getTime();
+  const done=row.querySelector('.mct-step3-done-toggle')?.getAttribute('aria-pressed')==='true';
+  const state=done?'Done':time<today?'Overdue':time===today?'Due Today':'Pending';
+  status.textContent=state;
+  status.classList.toggle('mct-v6-overdue',state==='Overdue');
+  status.classList.toggle('mct-v6-today',state==='Due Today');
+  status.classList.toggle('mct-v6-done',done);
+  if(alertCell)alertCell.textContent=done?'Completed':time<today?'Overdue':time===today?'Today':'Upcoming';
+ }
+}
+function init(){
+ refresh();
+ const root=document.getElementById('mct-free-followup-preview');
+ root?.addEventListener('click',event=>{if(event.target.closest('.mct-step3-done-toggle'))queueMicrotask(refresh)});
+ for(const field of ['deadline-effective','deadline-closing'])for(const ev of ['input','change'])document.getElementById(field)?.addEventListener(ev,()=>setTimeout(refresh,100));
+ setInterval(refresh,1900);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
