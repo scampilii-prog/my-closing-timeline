@@ -250,7 +250,7 @@ function showTasks(tasks,closingStatus,contractTasks=[]){
   const edit=n("button","Change Date");edit.type="button";edit.disabled=locked;
   edit.onclick=async()=>{
    const date=prompt("New reminder date (YYYY-MM-DD)",item.due_date||"");if(date===null)return;
-   if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)){tell("Please enter a valid YYYY-MM-DD date.");return}
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){tell("Please enter a valid YYYY-MM-DD date.");return}
    try{
     if(kind)await api("closings/"+current+"/contract/update","POST",{task_id:item.id,exact_date:date});
     else await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,title:item.title,date});
