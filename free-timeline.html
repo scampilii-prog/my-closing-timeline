@@ -3938,4 +3938,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',align);else align();
 })();
 </script>
-</body></html>
+
+<style id="mct-finish-under-summary-v3">
+/* The five actions belong directly BELOW Closing Timeline Summary, not after Step 3. */
+#contract-deadline-planner #mct-free-finish-section{margin:12px 0 0!important;padding:15px!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:7px!important}
+#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions>button{font-size:12px!important;min-height:58px!important;padding:8px 5px!important}
+#contract-deadline-planner #mct-free-finish-section .mct-share-simple-guide{font-size:12px!important}
+@media(max-width:950px){#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:570px){#contract-deadline-planner #mct-free-finish-section>.mct-finish-five-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+<script id="mct-finish-under-summary-v3-script">
+(function(){
+function place(){
+ const review=document.getElementById('mct-free-review'),section=document.getElementById('mct-free-finish-section');
+ if(!review||!section)return;
+ // Append within the Summary card immediately below its live timeline, above Today & Tomorrow.
+ if(section.parentElement!==review||section!==review.lastElementChild)review.appendChild(section);
+ const toolbar=section.querySelector('.mct-finish-five-actions');
+ if(!toolbar)return;
+ const ids=['timeline-copy-picture','deadline-email-btn','deadline-print','mct-calendar-action'];
+ const buttons=ids.map(id=>document.getElementById(id));
+ const more=section.querySelector('.mct-free-more-locked')||document.querySelector('.mct-free-more-locked');
+ if(buttons.every(Boolean)&&more)buttons.concat(more).forEach(b=>toolbar.appendChild(b));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);else place();
+})();
+</script></body></html>
