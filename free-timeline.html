@@ -4470,4 +4470,29 @@ html body #contract-deadline-planner #mct-free-followup-preview tr[data-mct-date
 
 
 
-</body></html>
+<script id="mct-free-structured-task-handoff-v1">
+(function(){
+function capture(){
+ const root=document.getElementById('deadline-editor-rows');
+ if(!root)return [];
+ return Array.from(root.querySelectorAll('.mct-realty-task-card')).map(function(card,i){
+  const field=name=>card.querySelector('[data-field="'+name+'"]');
+  return {order:i+1,title:(field('custom')?.value||'').trim(),days:Number(field('days')?.value||0),base:'effective',direction:'after',day_type:'calendar',exact_date:field('override')?.value||'',done:!!card.querySelector('.mct-realty-task-badge.is-done')};
+ }).filter(x=>x.title);
+}
+function preserve(e){
+ const link=e.target.closest('a[href*="/express-pro.html"]');
+ const btn=e.target.closest('.mct-free-draft-handoff button');
+ if(!link&&!btn)return;
+ const bar=btn?.closest('.mct-free-draft-handoff');
+ const audience=(link?.href||'').includes('audience=other')||bar?.dataset.mctAudience==='other'?'other':'realtor';
+ if(audience!=='realtor')return;
+ try{
+  const draft=JSON.parse(sessionStorage.getItem('mct-free-pro-draft')||'{}');
+  draft.audience='realtor';draft.contractTasks=capture();draft.savedAt=Date.now();
+  sessionStorage.setItem('mct-free-pro-draft',JSON.stringify(draft));
+ }catch(e){}
+}
+document.addEventListener('click',preserve,false);
+})();
+</script></body></html>
