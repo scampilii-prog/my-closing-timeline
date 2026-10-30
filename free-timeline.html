@@ -3480,4 +3480,39 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-white-status-alert-v1">
+#contract-deadline-planner #mct-free-followup-preview .mct-v7-state{
+display:inline-block!important;background:#fff!important;border:1.5px solid var(--mct-v7-color,#215a91)!important;color:var(--mct-v7-color,#215a91)!important;
+border-radius:8px!important;padding:5px 9px!important;font:800 12px/1.35 Manrope,Arial,sans-serif!important;white-space:nowrap!important;
+}
+</style>
+<script id="mct-step3-white-status-alert-v1-script">
+(function(){
+function paint(){
+ const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+ root.querySelectorAll('table tbody tr').forEach(row=>{
+  [4,5].forEach(index=>{
+   const cell=row.cells[index];if(!cell)return;
+   let el=cell.querySelector('.mct-v7-state');
+   if(!el){
+    const existing=cell.querySelector('.mct-v21-tag');
+    el=existing||document.createElement('span');
+    if(!existing){el.textContent=cell.textContent;cell.textContent='';cell.appendChild(el);}
+    el.classList.add('mct-v7-state');
+   }
+   const value=el.textContent.trim().toLowerCase();
+   const color=/overdue|late/.test(value)?'#b12d3a':/today/.test(value)?'#a66b13':/done|completed/.test(value)?'#16734d':'#215a91';
+   el.style.setProperty('--mct-v7-color',color);
+  });
+ });
+}
+function init(){
+ paint();
+ document.getElementById('mct-free-followup-preview')?.addEventListener('click',()=>queueMicrotask(paint));
+ setInterval(paint,1900);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
