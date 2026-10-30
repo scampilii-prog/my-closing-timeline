@@ -4587,12 +4587,13 @@ function start(){
   const all=[...body.rows].filter(tr=>!tr.classList.contains('mct-v9-add-row'));
   const dateOf=tr=>tr.classList.contains('mct-contract-source-row')?tr.dataset.mctLinkedDate||'':(()=>{
    const str=tr.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||'';
-   const d=new Date(str);return isNaN(d.getTime())?'':d.toISOString().slice(0,10);
+   const d=new Date(str);return isNaN(d.getTime())?'':[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
   })();
   all.sort((a,b)=>(dateOf(a)||'9999-12-31').localeCompare(dateOf(b)||'9999-12-31'));
   all.forEach((tr,i)=>{tr.style.order=i;tr.cells[0].textContent=String(i+1)});
+  const extra=follow.querySelectorAll('#mct-v9-added-tasks > tr').length;
   const info=follow.querySelector('.mct-v21-followup-top small');
-  if(info)info.textContent=(47+cards.length)+' TASKS · CONTRACT + FOLLOW-UP · PRO TO TRACK';
+  if(info)info.textContent=(47+cards.length+extra)+' TASKS · CONTRACT + FOLLOW-UP · PRO TO TRACK';
  }
  let pending=false;
  const schedule=()=>{if(pending)return;pending=true;queueMicrotask(()=>{pending=false;calculate()})};
