@@ -278,7 +278,30 @@ $("mct-closing-role").addEventListener("change",()=>{$("mct-role-summary").textC
 $("cancel-new").onclick=()=>{$("new-panel").hidden=true};
 function mctUpdateNewClosingDuration(){const f=$("new-form");const data=Object.fromEntries(new FormData(f));const days=mctClosingDays(data.effective_date,data.closing_date);const notice=$("mct-new-duration-alert");notice.hidden=days===null||days<=90;if(!notice.hidden)notice.textContent=mctDurationWarning(days);return days!==null&&days>90}
 $("new-form").querySelectorAll('input[name="effective_date"],input[name="closing_date"]').forEach(input=>input.addEventListener("change",mctUpdateNewClosingDuration));
-$("new-form").onsubmit=async e=>{e.preventDefault();const form=Object.fromEntries(new FormData(e.target));if(mctUpdateNewClosingDuration())return;try{const a=await api("closings/create","POST",form);$("new-panel").hidden=true;e.target.reset();current=a.id;tell("New closing registered using one PRO credit, with "+(a.task_count||0)+" suggested tasks for your selected role. Review and adjust dates against your contract.");await load()}catch(err){tell(err.message)}};
+function mctFreeImportDraft(){
+ try{const draft=JSON.parse(sessionStorage.getItem("mct-free-pro-draft")||"null");
+ if(draft?.audience!=="realtor"||!Array.isArray(draft.contractTasks)||!draft.contractTasks.length)return null;
+ return draft.contractTasks.slice(0,8).map(t=>({title:String(t.title||"").trim(),days:Number(t.days||0),exact_date:String(t.exact_date||"")}));
+ }catch(e){return null}
+}
+const mctFreeDraft=mctFreeImportDraft();
+if(mctFreeDraft){
+ const target=$("new-panel");
+ const note=n("p",mctFreeDraft.length+" FREE contract tasks are ready to transfer into this PRO closing when you start it. They will be saved with the closing, alongside the follow-up checklist.","muted");
+ note.id="mct-free-import-confirm";note.style.cssText="padding:12px 15px;border:2px solid #b48742;border-radius:10px;background:#fff8e9;font-weight:800";
+ target.querySelector("h2")?.insertAdjacentElement("afterend",note);
+}
+$("new-form").onsubmit=async e=>{
+ e.preventDefault();const form=Object.fromEntries(new FormData(e.target));if(mctUpdateNewClosingDuration())return;
+ const imported=mctFreeImportDraft();if(imported)form.free_contract_tasks=imported;
+ try{
+  const a=await api("closings/create","POST",form);
+  if(imported){try{sessionStorage.removeItem("mct-free-pro-draft")}catch(e){}}
+  $("new-panel").hidden=true;e.target.reset();current=a.id;
+  tell("Closing registered. "+(imported?imported.length+" FREE contract deadlines transferred and saved. ":"")+(a.task_count||0)+" suggested follow-up tasks created.");
+  await load()
+ }catch(err){tell(err.message)}
+};
 $("task-form").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));d.relative=d.relative==="on";try{await api("closings/"+current+"/tasks/add","POST",d);e.target.reset();tell("Follow-up task added.");await select(current)}catch(err){tell(err.message)}};
 document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;viewList()});
 $("signout").onclick=async()=>{try{await api("logout","POST",{});location.assign("/pro-get-started.html")}catch(e){tell(e.message)}};
