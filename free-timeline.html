@@ -3198,4 +3198,42 @@ html body #contract-deadline-planner #mct-free-followup-preview .mct-step3-remin
  font-weight:850!important;
 }
 </style>
+
+<style id="mct-contrasting-date-groups-v2">
+/* White date/number pills, with clearly contrasting adjacent date-group backgrounds. */
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td{background:var(--mct-group-bg)!important;border-bottom:1px solid var(--mct-group-border)!important}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:first-child{border-left:4px solid var(--mct-group-accent)!important}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-days-number,
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-reminder-pill{
+background:#fff!important;color:var(--mct-group-ink)!important;border:1.5px solid var(--mct-group-accent)!important}
+</style>
+<script id="mct-contrasting-date-groups-v2-script">
+(function(){
+const colors=[
+ ['#e5f3e7','#a6d4ac','#23804b','#17633a'],
+ ['#fff0d8','#e9c68c','#ba751c','#845016'],
+ ['#e5efff','#afcaef','#356eb8','#244d8e'],
+ ['#f8e5ef','#e9b5cc','#ad4978','#81355b'],
+ ['#f0e7fc','#d1b7ef','#8251b3','#613487'],
+ ['#e1f5f4','#a4dcd7','#208a80','#17645e']
+];
+function update(){
+ const root=document.getElementById('mct-free-followup-preview');if(!root)return;
+ const rows=Array.from(root.querySelectorAll('table tbody tr'));
+ const unique=[...new Set(rows.map(r=>(r.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||r.cells[3]?.textContent||'').trim()).filter(v=>/^[A-Za-z]{3}\s+\d{1,2},\s+\d{4}$/.test(v)))].sort((a,b)=>new Date(a)-new Date(b));
+ const colorMap=new Map(unique.map((d,i)=>[d,colors[i%colors.length]]));
+ rows.forEach(row=>{
+  const val=(row.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||row.cells[3]?.textContent||'').trim();
+  const p=colorMap.get(val);
+  if(!p)return;
+  row.dataset.mctDateGroup=String(unique.indexOf(val)+1);
+  row.style.setProperty('--mct-group-bg',p[0]);
+  row.style.setProperty('--mct-group-border',p[1]);
+  row.style.setProperty('--mct-group-accent',p[2]);
+  row.style.setProperty('--mct-group-ink',p[3]);
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{update();setInterval(update,1500)});else{update();setInterval(update,1500)}
+})();
+</script>
 </body></html>
