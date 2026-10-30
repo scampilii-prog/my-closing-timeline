@@ -2789,4 +2789,58 @@ function render(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
 })();
 </script>
+
+<style id="mct-step3-connected-dates-20261030">
+#mct-free-followup-preview .mct-v21-date-info{padding:12px 15px;margin:0 0 14px;border:1px solid #d6c08e;background:#fff6e3;border-radius:10px;color:#334e60;font:750 14px/1.5 Manrope,Arial,sans-serif}
+#mct-free-followup-preview .mct-v21-date-info b{color:#80541f}
+#mct-free-followup-preview .mct-v21-table-wrap td:nth-child(4){font-variant-numeric:tabular-nums;white-space:nowrap}
+</style>
+<script id="mct-step3-connected-dates-20261030-script">
+(function(){
+ function parseDate(str){if(!/^\d{4}-\d{2}-\d{2}$/.test(str||''))return null;const d=new Date(str+'T12:00:00');return Number.isNaN(d.getTime())?null:d;}
+ function addDays(d,n){const c=new Date(d.getTime());c.setDate(c.getDate()+n);return c;}
+ function human(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+ function sync(){
+  const effective=document.getElementById('deadline-effective'),closing=document.getElementById('deadline-closing');
+  const root=document.getElementById('mct-free-followup-preview'),today=document.getElementById('mct-free-tomorrow-preview');
+  if(!root||!effective||!closing)return;
+  let info=document.getElementById('mct-v21-date-info');
+  if(!info){info=document.createElement('p');info.id='mct-v21-date-info';info.className='mct-v21-date-info';const body=root.querySelector('.mct-v21-followup-body');if(body)body.prepend(info);}
+  const start=parseDate(effective.value),end=parseDate(closing.value);
+  info.textContent='';
+  const e=document.createElement('span');const l=document.createElement('span');
+  e.innerHTML='<b>Effective Date:</b> ';e.append(document.createTextNode(start?human(start):'Enter a date in Step 2'));
+  l.innerHTML='<b>Closing Date:</b> ';l.append(document.createTextNode(end?human(end):'Not set'));
+  info.append(e,document.createTextNode('　 · 　'),l);
+  const cards=today&&today.querySelectorAll('.mct-v21-day p');
+  if(cards&&cards.length>=2){
+    cards[0].textContent=start?'Based on Effective Date '+human(start)+'. Live alerts become available after activation.':'Enter Effective Date to connect this preview to your contract.';
+    cards[1].textContent=end?'Closing currently scheduled for '+human(end)+'. Task alerts become available after activation.':'Enter Closing Date to complete your timeline.';
+  }
+  const rows=root.querySelectorAll('table tbody tr');
+  rows.forEach((tr,i)=>{
+    const cell=tr.cells[3];
+    if(!cell)return;
+    // Demonstration dates only; never claim these optional follow-up targets are contractual.
+    const closingBased=i>=34;
+    const base=closingBased?end:start;
+    if(!base){cell.textContent='Set date to preview';return;}
+    const offset=closingBased?i-46:Math.min(i,30);
+    cell.textContent=human(addDays(base,offset));
+    cell.title='Illustrative follow-up date only. Confirm or customize after activation; not a contractual deadline.';
+  });
+  const policy=root.querySelector('.mct-v21-policy');
+  if(policy&&!policy.textContent.includes('Illustrative follow-up dates'))policy.append(' Illustrative follow-up dates are not contract deadlines and can be customized after activation.');
+ }
+ function init(){
+  const e=document.getElementById('deadline-effective'),c=document.getElementById('deadline-closing'),root=document.getElementById('mct-free-followup-preview');
+  if(!e||!c||!root)return;
+  for(const input of [e,c])for(const ev of ['input','change'])input.addEventListener(ev,sync);
+  sync();
+  const body=root.querySelector('tbody');
+  if(body){let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;queueMicrotask(()=>{busy=false;sync()})}).observe(body,{childList:true});}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
