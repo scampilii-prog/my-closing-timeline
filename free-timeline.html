@@ -3401,4 +3401,43 @@ opacity:1!important;cursor:text!important}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-same-date-real-group-v5">
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group td{background:var(--mct-v5-bg,#e7f3ed)!important;border-top:0!important;border-bottom:0!important;box-shadow:none!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group td:first-child{border-left:3px solid #24272b!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group td:last-child{border-right:3px solid #24272b!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group.mct-v5-first td{border-top:2px solid #24272b!important;box-shadow:inset 0 3px 0 #caa35d!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group.mct-v5-last td{border-bottom:2px solid #24272b!important;box-shadow:inset 0 -3px 0 #caa35d!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group.mct-v5-first.mct-v5-last td{box-shadow:inset 0 3px 0 #caa35d,inset 0 -3px 0 #caa35d!important}
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group .mct-step3-days-number,
+#contract-deadline-planner #mct-free-followup-preview tbody tr.mct-v5-group .mct-step3-reminder-pill{background:#fff!important;color:var(--mct-v4-ink,#215a91)!important;border:1.5px solid currentColor!important}
+</style>
+<script id="mct-step3-same-date-real-group-v5-script">
+(function(){
+ const colors=['#e4f2ea','#fff0d7','#e7effd','#f9e6ee','#efe7fc','#e0f3f4'];
+ function regroup(){
+  const root=document.getElementById('mct-free-followup-preview'),body=root?.querySelector('table tbody');if(!body)return;
+  const rows=Array.from(body.rows),e=document.getElementById('deadline-effective')?.value||'',c=document.getElementById('deadline-closing')?.value||'';
+  function key(row,i){
+   const label=(row.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent||row.cells[3]?.textContent||'').trim();
+   if(/^[A-Za-z]{3}\s+\d{1,2},\s+\d{4}$/.test(label))return 'date:'+new Date(label).toDateString();
+   // For an unfilled preview use identical date base and day offset, never arbitrary row numbers alone.
+   const offset=Number((row.cells[2]?.textContent||'').replace(/[^0-9+-]/g,''));
+   if(!Number.isFinite(offset))return '';
+   const closingBased=i>=34,base=closingBased?c:e;
+   if(/^\d{4}-\d{2}-\d{2}$/.test(base)){const d=new Date(base+'T12:00:00');d.setDate(d.getDate()+offset);return 'date:'+d.toDateString()}
+   return (closingBased?'closing:':'effective:')+offset;
+  }
+  const keys=rows.map(key),unique=[...new Set(keys.filter(Boolean))];
+  rows.forEach((row,i)=>{
+   const k=keys[i];row.classList.toggle('mct-v5-group',!!k);
+   row.classList.toggle('mct-v5-first',!!k&&(i===0||keys[i-1]!==k));
+   row.classList.toggle('mct-v5-last',!!k&&(i===rows.length-1||keys[i+1]!==k));
+   if(k)row.style.setProperty('--mct-v5-bg',colors[unique.indexOf(k)%colors.length],'important');
+  });
+ }
+ function init(){regroup();['deadline-effective','deadline-closing'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(regroup,100)));setInterval(regroup,1700)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
