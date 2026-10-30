@@ -4495,4 +4495,84 @@ function preserve(e){
 }
 document.addEventListener('click',preserve,false);
 })();
+</script><style id="mct-step3-bidirectional-date-controls-v1-style">
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number.mct-date-input-active,
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-reminder-pill.mct-date-input-active{display:none!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-day-spinner,
+#contract-deadline-planner #mct-free-followup-preview .mct-date-direct{width:100%!important;max-width:100%!important;box-sizing:border-box!important;border:2px solid #b7782d!important;border-radius:10px!important;background:#fffdf9!important;color:#18465f!important;font:800 14px/1.2 Manrope,Arial,sans-serif!important;padding:7px 3px!important;min-height:39px!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-day-spinner{min-width:52px!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-date-direct{font-size:12px!important;min-width:0!important}
+#contract-deadline-planner #mct-free-followup-preview .mct-date-input-wrap{display:flex;align-items:center;gap:3px;width:100%;min-width:0}
+#contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons{display:flex;flex-direction:column;gap:2px;flex:0 0 19px}
+#contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons button{min-height:17px;line-height:15px;padding:0!important;font-size:11px;border:1px solid #b7782d;border-radius:4px;background:#fff8e9;color:#18465f;cursor:pointer}
+#contract-deadline-planner #mct-free-followup-preview .mct-date-direct:disabled,
+#contract-deadline-planner #mct-free-followup-preview .mct-day-spinner:disabled,
+#contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons button:disabled{opacity:.55!important;cursor:not-allowed!important;background:#e9eef0!important}
+</style><script id="mct-step3-bidirectional-date-controls-v1-script">
+(function(){
+function localDate(iso){if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(iso||''))return null;const [y,m,d]=iso.split('-').map(Number);const x=new Date(y,m-1,d,12);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?x:null}
+function fmt(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+function add(x,days){const d=new Date(x);d.setDate(d.getDate()+days);return d}
+function today(){return fmt(new Date())}
+function setup(){
+ const root=document.getElementById('mct-free-followup-preview');
+ const effective=document.getElementById('deadline-effective'),closing=document.getElementById('deadline-closing');
+ const body=root?.querySelector('.mct-v21-table-wrap table tbody');
+ if(!body||!effective||!closing)return;
+ const rows=[...body.rows].filter(row=>!row.classList.contains('mct-v9-add-row')&&!row.classList.contains('mct-contract-source-row'));
+ rows.forEach((row,i)=>{
+  if(row.querySelector('.mct-day-spinner'))return;
+  const dayCell=row.cells[2],dateCell=row.cells[3];
+  if(!dayCell||!dateCell)return;
+  const prior=dayCell.querySelector('.mct-step3-days-number');
+  const pill=dateCell.querySelector('.mct-step3-reminder-pill');
+  if(!prior||!pill)return;
+  const index=Number(row.dataset.mctOriginalIndex??i);
+  const original=row.dataset.mctCustomOffset!==undefined?Number(row.dataset.mctCustomOffset):(index>=34?index-46:Math.min(index,30));
+  row.dataset.mctCustomOffset=String(original);
+  prior.classList.add('mct-date-input-active');pill.classList.add('mct-date-input-active');
+  const spin=document.createElement('input');spin.type='number';spin.step='1';spin.min='-3650';spin.max='3650';spin.className='mct-day-spinner';spin.setAttribute('aria-label','Editable days for task '+(i+1));dayCell.appendChild(spin);
+  const wrap=document.createElement('div');wrap.className='mct-date-input-wrap';
+  const date=document.createElement('input');date.type='date';date.className='mct-date-direct';date.setAttribute('aria-label','Editable reminder date for task '+(i+1));
+  const buttons=document.createElement('div');buttons.className='mct-date-step-buttons';
+  const up=document.createElement('button'),down=document.createElement('button');up.type='button';down.type='button';up.textContent='▲';down.textContent='▼';up.setAttribute('aria-label','Next day');down.setAttribute('aria-label','Previous day');buttons.append(up,down);wrap.append(date,buttons);dateCell.append(wrap);
+  const basis=()=>row.querySelector('.mct-edit-basis-select')?.value||row.dataset.mctBasis||(index>=34?'closing':'effective');
+  const base=()=>localDate((basis()==='closing'?closing:effective).value);
+  const lock=()=>!date.value||date.value<today()||row.classList.contains('mct-v4-past');
+  const refresh=()=>{
+   const b=base(),n=Number(row.dataset.mctCustomOffset||0);
+   const target=b?fmt(add(b,n)):'';
+   if(document.activeElement!==spin)spin.value=String(n);
+   if(document.activeElement!==date)date.value=target;
+   if(target)date.setAttribute('min',today());else date.removeAttribute('min');
+   const locked=lock();
+   spin.disabled=locked;date.disabled=locked;up.disabled=locked;down.disabled=locked;
+   spin.title=date.title=locked?'Past deadlines are locked':'Editable PRO follow-up preview';
+  };
+  spin.addEventListener('change',()=>{
+   if(lock())return refresh();
+   const n=Number(spin.value);if(!Number.isInteger(n))return refresh();
+   const b=base();if(!b)return refresh();
+   const next=fmt(add(b,n));if(next<today())return refresh();
+   row.dataset.mctCustomOffset=String(n);date.value=next;
+   effective.dispatchEvent(new Event('change'));refresh();
+  });
+  date.addEventListener('change',()=>{
+   if(lock()||!localDate(date.value))return refresh();
+   const b=base();if(!b)return refresh();
+   const difference=Math.round((localDate(date.value)-b)/86400000);
+   if(date.value<today())return refresh();
+   row.dataset.mctCustomOffset=String(difference);
+   spin.value=String(difference);
+   effective.dispatchEvent(new Event('change'));refresh();
+  });
+  const shift=n=>{if(lock())return;const d=localDate(date.value);if(!d)return;const next=fmt(add(d,n));if(next<today())return;date.value=next;date.dispatchEvent(new Event('change'))};
+  up.addEventListener('click',()=>shift(1));down.addEventListener('click',()=>shift(-1));
+  [effective,closing,row.querySelector('.mct-edit-basis-select')].filter(Boolean).forEach(el=>el.addEventListener('change',()=>setTimeout(refresh,0)));
+  refresh();
+  setInterval(()=>{if(document.activeElement!==date&&document.activeElement!==spin)refresh()},1800);
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
 </script></body></html>
