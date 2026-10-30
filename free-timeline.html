@@ -2985,4 +2985,55 @@ function fill(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fill);else fill();
 })();
 </script>
+
+<style id="mct-step3-reminder-date-fix-v3">
+#contract-deadline-planner #mct-free-followup-preview td.mct-step3-reminder-cell{color:#214a60!important;font-weight:800!important;white-space:nowrap!important;font-variant-numeric:tabular-nums}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-reminder-pill{display:inline-block;background:#eff6f7;border:1px solid #d2e4e7;border-radius:7px;padding:5px 9px}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-date-warning{font:650 12px/1.6 Manrope,Arial,sans-serif;color:#805d27;background:#fff8e9;border:1px solid #ead6b1;border-radius:9px;padding:10px 13px;margin:11px 0}
+</style>
+<script id="mct-step3-reminder-date-fix-v3-script">
+(function(){
+ function init(){
+  const root=document.getElementById('mct-free-followup-preview');
+  const effective=document.getElementById('deadline-effective');
+  const closing=document.getElementById('deadline-closing');
+  if(!root||!effective||!closing)return;
+  function date(v){
+   const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');
+   if(!match)return null;
+   const x=new Date(+match[1],+match[2]-1,+match[3],12);
+   return x.getFullYear()===+match[1]&&x.getMonth()===+match[2]-1&&x.getDate()===+match[3]?x:null;
+  }
+  function add(d,n){const x=new Date(d.getTime());x.setDate(x.getDate()+n);return x;}
+  function fmt(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  function refresh(){
+   const start=date(effective.value),end=date(closing.value);
+   const rows=root.querySelectorAll('table tbody tr');
+   rows.forEach((tr,i)=>{
+    const cell=tr.cells[3],dayCell=tr.cells[2];
+    if(!cell||!dayCell)return;
+    const closingBased=i>=34,base=closingBased?end:start;
+    const offset=closingBased?i-46:Math.min(i,30);
+    cell.classList.add('mct-step3-reminder-cell');
+    let pill=cell.querySelector('.mct-step3-reminder-pill');
+    if(!pill){cell.textContent='';pill=document.createElement('span');pill.className='mct-step3-reminder-pill';cell.appendChild(pill);}
+    pill.textContent=base?fmt(add(base,offset)):'Select '+(closingBased?'Closing':'Effective')+' Date';
+    cell.title=(closingBased?'Closing Date':'Effective Date')+' '+(offset>=0?'+':'')+offset+' calendar days — example only, not a contractual deadline';
+   });
+  }
+  const body=root.querySelector('.mct-v21-followup-body');
+  if(body&&!root.querySelector('.mct-step3-date-warning')){
+   const warning=document.createElement('p');warning.className='mct-step3-date-warning';
+   warning.textContent='Dates shown in Step 3 are suggested calendar-day follow-up reminders, not contractual deadlines. Days may be calculated from Effective Date or Closing Date. Review, adjust and confirm each reminder after activation.';
+   const wrap=root.querySelector('.mct-v21-table-wrap');
+   if(wrap)wrap.insertAdjacentElement('beforebegin',warning);
+  }
+  for(const field of [effective,closing]){field.addEventListener('input',refresh);field.addEventListener('change',refresh);}
+  refresh();
+  // Existing legacy preview scripts also update these cells; restore the complete date label after their refresh.
+  setInterval(refresh,1200);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
