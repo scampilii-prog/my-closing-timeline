@@ -3036,4 +3036,52 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style id="mct-step3-notes-editable-v1">
+#contract-deadline-planner #mct-free-followup-preview td:nth-child(7){min-width:190px}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-note-input{
+ width:100%;min-width:160px;min-height:38px;max-height:125px;box-sizing:border-box;resize:vertical;
+ background:#fff!important;color:#23495b!important;border:1px solid #cad8dd!important;
+ border-radius:8px!important;padding:8px 10px!important;
+ font:600 12px/1.5 Manrope,Arial,sans-serif!important;cursor:text!important;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-note-input:focus{
+ outline:2px solid #cfad70!important;outline-offset:1px!important;border-color:#b58d4a!important;
+}
+#contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number{
+ display:inline-flex!important;background:#edf3f6!important;color:#19394d!important;
+ border-radius:8px!important;padding:5px 8px!important;font-weight:800!important;
+}
+</style>
+<script id="mct-step3-notes-editable-v1-script">
+(function(){
+ function init(){
+  const root=document.getElementById('mct-free-followup-preview');
+  if(!root)return;
+  const rows=root.querySelectorAll('table tbody tr');
+  rows.forEach(function(row,index){
+   const notes=row.cells[6],days=row.cells[2];
+   if(notes&&!notes.querySelector('textarea')){
+    const area=document.createElement('textarea');
+    area.className='mct-step3-note-input';area.rows=1;area.maxLength=1000;
+    area.setAttribute('aria-label','Notes for task '+(index+1));
+    area.placeholder='Add your note...';
+    notes.textContent='';notes.appendChild(area);
+   }
+   if(days&&!days.querySelector('.mct-step3-days-number')){
+    const n=index>=34?index-46:Math.min(index,30);
+    days.textContent='';
+    const badge=document.createElement('span');badge.className='mct-step3-days-number';
+    badge.textContent=n>0?'+'+n:String(n);
+    days.appendChild(badge);
+   }
+  });
+  const warning=root.querySelector('.mct-step3-date-warning');
+  if(warning&&!warning.textContent.includes('Notes in this FREE preview')){
+   warning.append(' Notes in this FREE preview can be edited for demonstration, but are not saved to your account.');
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
