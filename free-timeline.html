@@ -2817,20 +2817,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     cards[0].textContent=start?'Based on Effective Date '+human(start)+'. Live alerts become available after activation.':'Enter Effective Date to connect this preview to your contract.';
     cards[1].textContent=end?'Closing currently scheduled for '+human(end)+'. Task alerts become available after activation.':'Enter Closing Date to complete your timeline.';
   }
-  const rows=root.querySelectorAll('table tbody tr');
-  rows.forEach((tr,i)=>{
-    const cell=tr.cells[3];
-    if(!cell)return;
-    // Demonstration dates only; never claim these optional follow-up targets are contractual.
-    const closingBased=(tr.dataset.mctBasis || (Number(tr.dataset.mctOriginalIndex??i)>=34?'closing':'effective'))==='closing';
-    const base=closingBased?end:start;
-    if(!base){cell.textContent='Set date to preview';return;}
-    const original=Number(tr.dataset.mctOriginalIndex??i);
-    const defaultOffset=closingBased?original-46:Math.min(original,30);
-    const offset=tr.dataset.mctCustomOffset!==undefined?Number(tr.dataset.mctCustomOffset):defaultOffset;
-    cell.textContent=human(addDays(base,offset));
-    cell.title='Illustrative follow-up date only. Confirm or customize after activation; not a contractual deadline.';
-  });
+  // Reminder cells are exclusively managed by mct-step3-reminder-date-fix-v3.
   const policy=root.querySelector('.mct-v21-policy');
   if(policy&&!policy.textContent.includes('Illustrative follow-up dates'))policy.append(' Illustrative follow-up dates are not contract deadlines and can be customized after activation.');
  }
@@ -2839,8 +2826,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if(!e||!c||!root)return;
   for(const input of [e,c])for(const ev of ['input','change'])input.addEventListener(ev,sync);
   sync();
-  const body=root.querySelector('tbody');
-  if(body){let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;queueMicrotask(()=>{busy=false;sync()})}).observe(body,{childList:true});}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
