@@ -2494,4 +2494,21 @@ html body #contract-deadline-planner #deadline-editor-rows article.mct-master-ro
  width:100%!important;min-width:0!important;font-size:13px!important;
 }
 }
+</style><style id="mct-free-real-task-compact-fix-v3">
+/* One coherent six-column task row. Override previous two-row experiment. */
+@media(min-width:900px){
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row{
+ display:grid!important;grid-template-columns:20px minmax(0,1fr) 42px 132px 64px 78px!important;
+ gap:5px!important;align-items:end!important;min-height:0!important;padding:7px!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.fc-task-label{grid-column:1!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-name{grid-column:2!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-days{grid-column:3!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-due{grid-column:4!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-badge{grid-column:5!important;grid-row:1!important;overflow-wrap:normal!important;white-space:nowrap!important;font-size:9px!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-actions{grid-column:6!important;grid-row:1!important;display:flex!important;gap:2px!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-actions button{font-size:9px!important;padding:4px 1px!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-master-extra{grid-column:2/-1!important;grid-row:2!important;justify-self:end!important;margin:0!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-due input{width:100%!important;min-width:0!important;font-size:12px!important;padding:3px 5px!important;box-sizing:border-box!important}
+}
 </style></body></html>
