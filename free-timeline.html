@@ -2637,4 +2637,36 @@ html body #contract-deadline-planner .mct-free-next-steps-realtor{display:none!i
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
 })();
 </script>
+
+<style id="mct-free-final-cleanup-v20">
+/* Keep Your Closing as the first section and the true 60/40 results immediately below. */
+html body #contract-deadline-planner #mct-product-path-free,
+html body #contract-deadline-planner .mct-version-current,
+html body #contract-deadline-planner #mct-free-other-projects,
+html body #contract-deadline-planner .mct-release-check,
+html body #contract-deadline-planner .mct-free-next-steps-realtor,
+html body #contract-deadline-planner .mct-free-next-steps-other,
+html body #contract-deadline-planner .mct-plus-preview{display:none!important}
+html body #contract-deadline-planner #mct-free-real-estate-landing{margin-top:0!important}
+html body #contract-deadline-planner #mct-simplified-summary-row{grid-template-columns:minmax(0,60fr) minmax(0,40fr)!important}
+html body #contract-deadline-planner .fc-simple-layout,
+html body #contract-deadline-planner .fc-simple-form{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+html body #contract-deadline-planner #mct-free-followup-preview{margin-top:3px!important}
+@media(max-width:900px){html body #contract-deadline-planner #mct-simplified-summary-row{grid-template-columns:minmax(0,1fr)!important}}
+</style>
+<script id="mct-free-final-cleanup-v20-script">
+/* Keep project source intact for its future separate page, and align the public real-estate hierarchy. */
+(function(){
+function tidy(){
+ const planner=document.getElementById('contract-deadline-planner');
+ const top=document.getElementById('mct-free-real-estate-landing');
+ const form=planner&&planner.querySelector('.fc-simple-layout');
+ const row=document.getElementById('mct-simplified-summary-row');
+ if(!planner||!top||!form||!row)return;
+ if(top.nextElementSibling!==form)top.insertAdjacentElement('afterend',form);
+ if(form.nextElementSibling!==row)form.insertAdjacentElement('afterend',row);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tidy);else tidy();
+})();
+</script>
 </body></html>
