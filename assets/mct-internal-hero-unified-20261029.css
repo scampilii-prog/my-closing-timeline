@@ -1,0 +1,31 @@
+/* One canonical hero height + first-content overlap across primary internal pages. */
+@media (min-width:900px){
+ html body.mct-unified-internal-hero > section.intro.mct-photo-hero,
+ html body.mct-unified-internal-hero > section.mpt-hero {
+  min-height:430px!important;height:430px!important;max-height:430px!important;
+  box-sizing:border-box!important;padding:35px 22px 96px!important;
+  background-size:cover!important;background-position:center center!important;
+ }
+ html body.mct-unified-internal-hero > main.workspace,
+ html body.mct-unified-internal-hero > main.mct-pro-registration-main,
+ html body.mct-unified-internal-hero > main.mpt-main {
+  position:relative!important;margin-top:-54px!important;transform:none!important;
+  z-index:5!important;
+ }
+ html body.mct-unified-internal-hero > main.workspace > #contract-deadline-planner,
+ html body.mct-unified-internal-hero > main.workspace > .mct-price-clarity,
+ html body.mct-unified-internal-hero > main.mpt-main > .mpt-intro,
+ html body.mct-unified-internal-hero > main.mct-pro-registration-main > .mct-pro-category-privacy-row {
+  margin-top:0!important;transform:none!important;
+ }
+}
+@media (max-width:899px){
+ html body.mct-unified-internal-hero > section.intro.mct-photo-hero,
+ html body.mct-unified-internal-hero > section.mpt-hero {
+  height:auto!important;max-height:none!important;min-height:320px!important;
+  padding-bottom:40px!important;
+ }
+ html body.mct-unified-internal-hero > main.workspace,
+ html body.mct-unified-internal-hero > main.mct-pro-registration-main,
+ html body.mct-unified-internal-hero > main.mpt-main {margin-top:0!important;transform:none!important}
+}
