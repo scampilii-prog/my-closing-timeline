@@ -3964,4 +3964,33 @@ function place(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);else place();
 })();
+</script>
+<style id="mct-finish-exact-after-list-v4">
+#contract-deadline-planner #mct-free-review>#mct-free-finish-section{
+ margin:10px 0 15px!important;padding:12px 10px!important;border:1px solid #d6b87f!important;border-radius:12px!important;background:#fffdf9!important;
+}
+#contract-deadline-planner #mct-free-review>#mct-free-finish-section .mct-finish-five-actions{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:5px!important}
+#contract-deadline-planner #mct-free-review>#mct-free-finish-section .mct-finish-five-actions>button{
+ min-height:58px!important;font:800 11px/1.35 Manrope,Arial,sans-serif!important;padding:7px 4px!important;border-radius:8px!important;overflow-wrap:break-word!important
+}
+#contract-deadline-planner #mct-free-review>#mct-free-finish-section .mct-share-simple-guide{font:650 11px/1.5 Manrope,Arial,sans-serif!important;margin:7px 0 10px!important}
+#contract-deadline-planner #mct-free-review>#mct-free-finish-section .mct-free-share-head{margin:0 0 7px!important}
+@media(max-width:570px){#contract-deadline-planner #mct-free-review>#mct-free-finish-section .mct-finish-five-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+<script id="mct-finish-exact-after-list-v4-script">
+(function(){
+function relocate(){
+ const review=document.getElementById('mct-free-review'),list=document.getElementById('timeline-live-list'),finish=document.getElementById('mct-free-finish-section');
+ if(!review||!list||!finish||list.parentElement!==review)return;
+ // The exact requested position: after the last closing timeline item, before all upsell panels.
+ if(list.nextElementSibling!==finish)list.insertAdjacentElement('afterend',finish);
+ const toolbar=finish.querySelector('.mct-finish-five-actions');
+ if(toolbar){
+ const buttons=['timeline-copy-picture','deadline-email-btn','deadline-print','mct-calendar-action'].map(id=>document.getElementById(id));
+ const more=finish.querySelector('.mct-free-more-locked')||document.querySelector('.mct-free-more-locked');
+ if(buttons.every(Boolean)&&more)buttons.concat(more).forEach(b=>toolbar.appendChild(b));
+ }
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',relocate);else relocate();
+})();
 </script></body></html>
