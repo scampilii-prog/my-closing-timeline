@@ -3236,4 +3236,63 @@ function update(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{update();setInterval(update,1500)});else{update();setInterval(update,1500)}
 })();
 </script>
+
+<style id="mct-step3-horizontal-group-frames-v1">
+/* One horizontal frame for each contiguous block of identical reminder dates. */
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td{
+ border-top:0!important;border-bottom:0!important;
+ border-left:0!important;border-right:0!important;
+ background:var(--mct-group-bg)!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:first-child{
+ border-left:3px solid var(--mct-group-accent)!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] td:last-child{
+ border-right:3px solid var(--mct-group-accent)!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-frame-start td{
+ border-top:3px solid var(--mct-group-accent)!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr.mct-frame-end td{
+ border-bottom:3px solid var(--mct-group-accent)!important;
+}
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-days-number,
+#contract-deadline-planner #mct-free-followup-preview tr[data-mct-date-group] .mct-step3-reminder-pill{
+ background:white!important;color:var(--mct-group-ink)!important;
+ border:1.5px solid var(--mct-group-accent)!important;
+}
+</style>
+<script id="mct-step3-horizontal-group-frames-v1-script">
+(function(){
+ function frame(){
+  const body=document.querySelector('#mct-free-followup-preview table tbody');
+  if(!body)return;
+  const rows=Array.from(body.rows);
+  const dateOf=row=>{
+    const cell=row.cells[3];
+    if(!cell)return '';
+    const raw=(cell.querySelector('.mct-step3-reminder-pill')?.textContent||cell.textContent||'').trim();
+    return /^[A-Za-z]{3}\s+\d{1,2},\s+\d{4}$/.test(raw)?raw:'';
+  };
+  rows.forEach((row,i)=>{
+    const d=dateOf(row);
+    const before=i?dateOf(rows[i-1]):'';
+    const after=i+1<rows.length?dateOf(rows[i+1]):'';
+    row.classList.toggle('mct-frame-start',!!d&&d!==before);
+    row.classList.toggle('mct-frame-end',!!d&&d!==after);
+    if(!d)row.removeAttribute('data-mct-date-group');
+  });
+ }
+ function init(){
+  frame();
+  document.querySelectorAll('#deadline-effective,#deadline-closing').forEach(el=>{
+   el.addEventListener('change',()=>setTimeout(frame,80));
+   el.addEventListener('input',()=>setTimeout(frame,80));
+  });
+  // Existing live date/color renderers also refresh asynchronously.
+  setInterval(frame,1600);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
