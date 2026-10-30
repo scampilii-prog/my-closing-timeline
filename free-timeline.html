@@ -4284,4 +4284,43 @@ function init(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
+</script>
+<style id="mct-simple-contract-default-fields-v1">
+/* Contract task cards: keep simple Days + Due, without recurring advanced More disclosure. */
+#contract-deadline-planner .mct-simple-hide-more{display:none!important}
+</style>
+<script id="mct-simple-contract-default-fields-v1-script">
+(function(){
+function simplify(){
+ const root=document.getElementById('contract-deadline-planner');if(!root)return;
+ const labels=Array.from(root.querySelectorAll('button,summary,[role="button"]'));
+ labels.forEach(control=>{
+  if(control.closest('#mct-free-followup-preview'))return;
+  if(control.textContent.trim().replace(/[▼▲▾▴]/g,'').trim()!=='More')return;
+  const row=control.closest('.fc-simple-task-item,.fc-simple-task-row,.fc-task-row,.mct-task-row,li,article');
+  if(!row||!row.querySelector('input[type="number"]'))return;
+  // Close an opened disclosure without removing the underlying data/calculation logic.
+  const details=control.closest('details');
+  if(details){details.open=false;details.classList.add('mct-simple-hide-more');}
+  else {
+   control.classList.add('mct-simple-hide-more');
+   const more=Array.from(row.querySelectorAll('select')).filter(sel=>
+      /before|after|calendar|business|effective|closing/i.test((sel.parentElement?.textContent||'').slice(0,180))
+   );
+   more.forEach(sel=>{
+     const wrapper=sel.closest('label')||sel.parentElement;
+     if(wrapper)wrapper.classList.add('mct-simple-hide-more');
+   });
+  }
+ });
+}
+function start(){
+ simplify();
+ const node=document.getElementById('contract-deadline-planner');if(!node)return;
+ let busy=false;
+ new MutationObserver(()=>{if(busy)return;busy=true;queueMicrotask(()=>{busy=false;simplify();});})
+ .observe(node,{childList:true,subtree:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
 </script></body></html>
