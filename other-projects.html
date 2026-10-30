@@ -960,5 +960,33 @@ html body #mpt-free-preview .mpt-express-project-offer p{font-size:14px!importan
 </style><style id="mct-other-four-table-font-parity-v3">
 html body #mpt-free-preview .mpt-free-editor-layout :is(label,input,select),
 html body #mpt-free-preview .mpt-free-live-list :is(li,span){font-size:13px!important;line-height:1.45!important}
+</style><style id="mct-other-match-realty-compact-rows-v1">
+/* Match approved Real Estate FREE task density without changing project logic. */
+@media(min-width:900px){
+html body #mpt-free-preview .mpt-free-editor-table tbody{gap:4px!important;padding:3px!important}
+html body #mpt-free-preview .mpt-free-editor-table tbody tr{
+ grid-template-columns:20px minmax(0,1fr) 40px 124px 67px 92px!important;
+ gap:4px!important;padding:5px 6px!important;min-height:0!important;
+ align-items:end!important;
+}
+html body #mpt-free-preview .mpt-free-editor-table tbody td{min-width:0!important;padding:0!important}
+html body #mpt-free-preview .mpt-free-editor-table tbody td input{
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:27px!important;height:27px!important;padding:3px 4px!important;
+ font-size:11px!important;box-sizing:border-box!important;
+}
+html body #mpt-free-preview .mpt-free-editor-table tbody td[data-label]:before{
+ font-size:9px!important;line-height:1.1!important;
+}
+html body #mpt-free-preview .mpt-free-editor-table tbody td:nth-child(8) .mpt-demo-status{
+ font-size:9px!important;line-height:1.15!important;padding:4px 1px!important;
+}
+html body #mpt-free-preview .mpt-free-editor-table tbody td:nth-child(9) .mpt-demo-actions{
+ display:flex!important;gap:2px!important;flex-wrap:nowrap!important;
+}
+html body #mpt-free-preview .mpt-free-editor-table tbody td:nth-child(9) .mpt-demo-btn{
+ min-height:26px!important;padding:3px 2px!important;font-size:9px!important;
+}
+}
 </style></body>
 </html>
