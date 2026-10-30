@@ -2466,4 +2466,32 @@ html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-
 @media(max-width:899px){
 html body #contract-deadline-planner #deadline-editor-rows .mct-master-row>.mct-realty-task-due{grid-column:4!important}
 }
+</style><style id="mct-master-practical-two-row-v2">
+/* Four functional columns in first row; secondary controls on second row. */
+@media(min-width:700px){
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row{
+ display:grid!important;grid-template-columns:20px minmax(0,1fr) 46px 155px!important;
+ gap:6px!important;align-items:end!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.fc-task-label{grid-column:1!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-name{grid-column:2!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-days{grid-column:3!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-due{grid-column:4!important;grid-row:1!important}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-master-extra{
+ grid-column:2!important;grid-row:2!important;align-self:center!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-badge{
+ grid-column:3!important;grid-row:2!important;min-width:0!important;
+ font-size:8px!important;line-height:1.2!important;overflow-wrap:anywhere!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-actions{
+ grid-column:4!important;grid-row:2!important;display:flex!important;gap:6px!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-actions button{
+ font-size:10px!important;min-width:0!important;padding:5px 6px!important;
+}
+html body #contract-deadline-planner #deadline-editor-rows article.mct-master-row>.mct-realty-task-due input{
+ width:100%!important;min-width:0!important;font-size:13px!important;
+}
+}
 </style></body></html>
