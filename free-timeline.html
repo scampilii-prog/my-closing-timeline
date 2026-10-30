@@ -4245,7 +4245,7 @@ function init(){
   });
   rows.forEach((row,i)=>{
    body.appendChild(row);
-   if(row.cells[0])row.cells[0].textContent=String(i+1);
+   // Preserve the permanent task number: sorting changes position, not identity.
   });
   const add=body.querySelector('.mct-v9-add-row');if(add)body.appendChild(add);
   stableRefresh();
@@ -4261,6 +4261,21 @@ function init(){
   // Date calculation runs in the existing Effective Date change handler.
   document.getElementById('deadline-effective')?.dispatchEvent(new Event('change'));
   setTimeout(resort,110);
+  setTimeout(resort,350);
+ });
+ // Any change to Days, Reminder Date, or Date Basis must reposition the row.
+ // Defer until the existing calculator has updated the reminder-date pill.
+ let sortTimer;
+ const queueSort=()=>{
+  clearTimeout(sortTimer);
+  sortTimer=setTimeout(()=>{resort();setTimeout(resort,220);},140);
+ };
+ root.addEventListener('change',event=>{
+  if(event.target.closest('.mct-edit-basis-select'))return;
+  if(event.target.closest('input[type="date"],input[type="number"],.mct-step3-date-controls'))queueSort();
+ });
+ root.addEventListener('click',event=>{
+  if(event.target.closest('button') && event.target.closest('tr') && event.target.closest('td:nth-child(3),td:nth-child(5)'))queueSort();
  });
  // Restore original colored row layout (the existing grouping scripts handle colors).
  stableRefresh();
