@@ -4401,7 +4401,7 @@ function preserve(e){
 document.addEventListener('click',preserve,false);
 })();
 </script><style id="mct-step3-bidirectional-date-controls-v1-style">
-/* Single proportionate Day and Reminder editors. No duplicate numerical sizing overrides. */
+/* The original values remain in DOM for date grouping but must never render as duplicate controls. */
 #contract-deadline-planner #mct-free-followup-preview .mct-step3-days-number,
 #contract-deadline-planner #mct-free-followup-preview .mct-step3-reminder-pill,
 #contract-deadline-planner #mct-free-followup-preview .mct-edit-day-offset{display:none!important}
@@ -4423,6 +4423,10 @@ html body #contract-deadline-planner #mct-free-followup-preview .mct-date-step-b
 html body #contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons button{padding:0!important;min-height:17px!important;line-height:14px!important;font-size:10px!important;border:1px solid #b77a30!important;border-radius:4px!important;background:#fff8e9!important;color:#17445e!important;cursor:pointer!important}
 html body #contract-deadline-planner #mct-free-followup-preview :is(.mct-day-spinner,.mct-date-direct):disabled,
 html body #contract-deadline-planner #mct-free-followup-preview .mct-date-step-buttons button:disabled{opacity:.55!important;cursor:not-allowed!important;background:#e9eef0!important}
+
+html body #contract-deadline-planner #mct-free-followup-preview table tbody tr td:nth-child(3)>.mct-step3-days-number,
+html body #contract-deadline-planner #mct-free-followup-preview table tbody tr td:nth-child(4)>.mct-step3-reminder-pill{display:none!important;visibility:hidden!important;position:absolute!important;width:0!important;height:0!important;overflow:hidden!important}
+html body #contract-deadline-planner #mct-free-followup-preview table tbody tr .mct-v7-state{white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important}
 </style><script id="mct-step3-bidirectional-date-controls-v1-script">
 (function(){
 function localDate(iso){if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return null;const [y,m,d]=iso.split('-').map(Number);const x=new Date(y,m-1,d,12);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?x:null}
@@ -4445,7 +4449,7 @@ function setup(){
   const index=Number(row.dataset.mctOriginalIndex??i);
   const original=Number(row.dataset.mctCustomOffset??0);
   row.dataset.mctCustomOffset=String(original);
-  prior.classList.add('mct-date-input-active');pill.classList.add('mct-date-input-active');
+  prior.classList.add('mct-date-input-active');pill.classList.add('mct-date-input-active');prior.style.setProperty('display','none','important');pill.style.setProperty('display','none','important');prior.setAttribute('aria-hidden','true');pill.setAttribute('aria-hidden','true');
   const spin=document.createElement('input');spin.type='number';spin.step='1';spin.min='-3650';spin.max='3650';spin.className='mct-day-spinner';spin.setAttribute('aria-label','Editable days for task '+(i+1));const dwrap=document.createElement('div');dwrap.className='mct-day-wrap';const dbuttons=document.createElement('div');dbuttons.className='mct-date-step-buttons';const dup=document.createElement('button'),ddown=document.createElement('button');dup.type=ddown.type='button';dup.textContent='▲';ddown.textContent='▼';dup.setAttribute('aria-label','Increase days');ddown.setAttribute('aria-label','Decrease days');dbuttons.append(dup,ddown);dwrap.append(spin,dbuttons);dayCell.appendChild(dwrap);
   const wrap=document.createElement('div');wrap.className='mct-date-input-wrap';
   const date=document.createElement('input');date.type='date';date.className='mct-date-direct';date.setAttribute('aria-label','Editable reminder date for task '+(i+1));
