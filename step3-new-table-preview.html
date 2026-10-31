@@ -71,7 +71,8 @@ table tbody .notes{background:#fff;border:1px solid #c9d9e3;}
 .days .apply{flex:0 0 auto}tr.past-locked .day-adjust{opacity:.35;cursor:not-allowed}tr.past-locked .num, tr.past-locked .date, tr.past-locked select{background:#eef1f2!important}
 </style><style id="mct-step3-lock-explanation-20261031">#mct-lock-explanation{flex:1 1 100%;font-size:12px;color:#4a6475;font-weight:650;line-height:1.5;padding:3px 0 0}</style><style id="mct-step3-start-controls">
 .controls{column-gap:16px;row-gap:10px}.controls .mct-closing-date-control{margin-left:clamp(22px,5vw,90px)}
-#effective[readonly]{background:#eaf0f3;color:#2b4b5e;cursor:default}
+.controls .mct-closing-date-control input{cursor:pointer;border:1.5px solid #86aabd;background:#fff;font-weight:700}.controls .mct-closing-date-control input:hover{border-color:#2e799d;background:#f2f9fd}.controls .mct-closing-date-control input:focus-visible{outline:2px solid #247aa3;outline-offset:2px}
+#effective[readonly]{background:#fff6db;color:#173a50;cursor:default;border:2px solid #c89c49;border-radius:9px;font-size:19px;font-weight:850;letter-spacing:.025em;box-shadow:inset 4px 0 #c89c49;pointer-events:none}.controls label:has(#effective){color:#8b652c;font-size:13px}
 #mct-confirm-start{align-self:end;min-height:38px;border:1px solid #23766b;border-radius:7px;background:#177b6e;color:white;font:800 12px Manrope,Arial,sans-serif;padding:9px 14px;cursor:pointer}
 #mct-confirm-start:disabled{background:#e4f1ed;color:#32675e;cursor:default}
 #mct-start-note{flex-basis:100%;order:4;font-size:12px;color:#526a79;line-height:1.5}
@@ -160,7 +161,8 @@ startButton.addEventListener('click',()=>{
  validateRange();sortAndRender(null);
 });
 function updateBases(){if(!validateRange()){document.getElementById('mct-lock-explanation').textContent='Closing Date must be within 60 calendar days after Effective Date.';return;}sortAndRender(null)}
-closing.addEventListener('change',updateBases);closing.addEventListener('input',validateRange);validateRange();sortAndRender(null);
+closing.addEventListener('change',updateBases);closing.addEventListener('input',validateRange);
+closing.addEventListener('click',()=>{if(typeof closing.showPicker==='function'){try{closing.showPicker()}catch(_){}}});validateRange();sortAndRender(null);
 </script><style>body.embedded{background:transparent}body.embedded header{display:none}body.embedded main{padding:0;margin:0;max-width:none}body.embedded section{box-shadow:none;border-radius:10px}</style>
 <script>
 if(new URLSearchParams(location.search).has('embedded'))document.body.classList.add('embedded');
