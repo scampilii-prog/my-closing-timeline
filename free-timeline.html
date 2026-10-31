@@ -4667,6 +4667,28 @@ function start(){
   if(closing&&closing.value!==c){closing.value=c;closing.dispatchEvent(new Event('change',{bubbles:true}));}
  });
  window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3Summary')return;
+  const preview=document.getElementById('mct-free-tomorrow-preview');if(!preview)return;
+  const valid=Array.isArray(event.data.items)?event.data.items.filter(t=>typeof t?.name==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(t.date||'')):[];
+  const n=new Date(),fmt=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  const today=fmt(n),next=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),tomorrow=fmt(next);
+  const panels=preview.querySelectorAll('.mct-v21-day');
+  [today,tomorrow].forEach((day,i)=>{
+   const panel=panels[i];if(!panel)return;
+   const tasks=valid.filter(t=>t.date===day);
+   const count=panel.querySelector('strong span:last-child');
+   if(count)count.textContent=String(tasks.length);
+   const p=panel.querySelector('p');if(!p)return;
+   p.replaceChildren();
+   if(!tasks.length){p.textContent=i?'No tasks scheduled for tomorrow.':'No tasks scheduled for today.';return;}
+   const list=document.createElement('div');list.className='mct-step3-today-task-list';
+   tasks.forEach(t=>{const item=document.createElement('div');item.textContent=t.name;item.style.cssText='padding:5px 0;border-bottom:1px solid #e4e9ec;font-size:13px;line-height:1.4';list.appendChild(item);});
+   p.appendChild(list);
+  });
+  preview.style.opacity='.8';
+  preview.setAttribute('aria-label','Today and Tomorrow linked preview, activation required');
+ });
+ window.addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3Height')return;
   const height=Number(event.data.height);
   if(Number.isFinite(height)&&height>200&&height<30000)frame.style.height=(height+12)+'px';
