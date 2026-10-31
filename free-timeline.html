@@ -4499,77 +4499,66 @@ function setup(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script><!-- MCT Step 3 chronological move highlight v4 -->
-<style id="mct-step3-move-highlight-v4-style">
+<style id="mct-step3-apply-button-v1">
+#mct-free-followup-preview .mct-apply-reorder{display:inline-block;margin:4px 0 0;padding:4px 8px;border:1px solid #bd8743;border-radius:5px;background:#fff8e9;color:#173c54;font:750 11px Manrope,Arial,sans-serif;cursor:pointer}
+#mct-free-followup-preview .mct-apply-reorder:hover{background:#f3e2c3}
+</style><style id="mct-step3-move-highlight-v4-style">
 @keyframes mct-moved-glow-v4{0%,100%{outline-color:transparent;filter:none}20%,60%{outline-color:#c78a23;filter:brightness(1.10)}40%,80%{outline-color:transparent;filter:none}}
 #mct-free-followup-preview tr.mct-moved-highlight-v4{outline:4px solid transparent;outline-offset:-4px;animation:mct-moved-glow-v4 1.6s ease-in-out 5;position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){#mct-free-followup-preview tr.mct-moved-highlight-v4{animation:none;outline:4px solid #c78a23}}
 </style>
 <script id="mct-step3-move-v4">
 (function(){
- function init(){
-  const root=document.getElementById('mct-free-followup-preview');
-  const body=root?.querySelector('table tbody');if(!body)return;
-  const original=[...body.rows].filter(r=>!r.classList.contains('mct-v9-add-row')&&!r.classList.contains('mct-contract-source-row'));
-  original.forEach((r,i)=>{if(!r.dataset.mctMoveId)r.dataset.mctMoveId=String(i)});
-  const iso=(s)=>{
-   s=String(s||'').trim();
-   if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
-   const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec(s);
-   if(!m)return '';
-   const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(m[1]);
-   return mon<0?'':m[3]+'-'+String(mon+1).padStart(2,'0')+'-'+m[2].padStart(2,'0');
-  };
-  const dateOf=r=>{
-   const sel=r.querySelector('.mct-edit-basis-select');
-   const basis=sel?.value||r.dataset.mctBasis||'effective';
-   const base=document.getElementById(basis==='closing'?'deadline-closing':'deadline-effective')?.value;
-   const offset=Number(r.dataset.mctCustomOffset);
-   if(/^\\d{4}-\\d{2}-\\d{2}$/.test(base)&&Number.isInteger(offset)){
-    const [y,m,d]=base.split('-').map(Number);
-    const dt=new Date(Date.UTC(y,m-1,d+offset));
-    return dt.toISOString().slice(0,10);
-   }
-   return iso(r.querySelector('input.mct-date-direct')?.value)||iso(r.cells[3]?.querySelector('.mct-step3-reminder-pill')?.textContent);
-  };
-  let timer;
-  function move(changed){
-   const rows=original.filter(r=>r.parentElement===body);
-   const sorted=rows.slice().sort((a,b)=>(dateOf(a)||'9999-12-31').localeCompare(dateOf(b)||'9999-12-31')||Number(a.dataset.mctMoveId)-Number(b.dataset.mctMoveId));
-   const before=rows.indexOf(changed),after=sorted.indexOf(changed);
-   const fragment=document.createDocumentFragment();sorted.forEach(r=>fragment.appendChild(r));
-   body.insertBefore(fragment,body.querySelector('.mct-v9-add-row')||null);
-   if(changed&&before!==after&&after>=0){
-    changed.classList.remove('mct-moved-highlight-v4');void changed.offsetWidth;
-    changed.classList.add('mct-moved-highlight-v4');
-    clearTimeout(changed._mctHighlightTimer);
-    changed._mctHighlightTimer=setTimeout(()=>changed.classList.remove('mct-moved-highlight-v4'),8000);
-    changed.scrollIntoView({behavior:'smooth',block:'center'});
-   }
-  }
-  // Reorder after a completed edit, never while the user is typing.
-  function schedule(row,delay=220){
-   clearTimeout(timer);
-   timer=setTimeout(()=>move(row),delay);
-  }
-  root.addEventListener('change',e=>{
-   const el=e.target,row=el.closest('tr');
-   if(!row||!original.includes(row))return;
-   if(el.matches('.mct-edit-basis-select,input.mct-date-direct'))schedule(row,260);
-   else if(el.matches('input.mct-day-spinner,input.mct-edit-day-offset')){
-    // A number field is still being edited: wait for focus to leave.
-    if(document.activeElement!==el)schedule(row,260);
-   }
-  });
-  root.addEventListener('focusout',e=>{
-   const el=e.target,row=el.closest('tr');
-   if(row&&original.includes(row)&&el.matches('input.mct-day-spinner,input.mct-edit-day-offset'))schedule(row,350);
-  });
-  root.addEventListener('click',e=>{
-   const button=e.target.closest('button'),row=button?.closest('tr');
-   if(row&&original.includes(row)&&button.closest('.mct-date-step-buttons'))schedule(row,950);
-  });
+function init(){
+ const root=document.getElementById('mct-free-followup-preview');
+ const body=root?.querySelector('table tbody');if(!body)return;
+ const rows=[...body.rows].filter(r=>!r.classList.contains('mct-v9-add-row')&&!r.classList.contains('mct-contract-source-row'));
+ rows.forEach((r,i)=>{r.dataset.mctMoveId??=String(i)});
+ const dateBase=id=>document.getElementById(id)?.value||'';
+ function valid(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v||''))return false;
+  const [y,m,d]=v.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d));
+  return x.getUTCFullYear()===y&&x.getUTCMonth()===m-1&&x.getUTCDate()===d;}
+ function dateOf(row){
+  const input=row.querySelector('.mct-date-direct');
+  if(input&&valid(input.value))return input.value;
+  const basis=row.querySelector('.mct-edit-basis-select')?.value||row.dataset.mctBasis||'effective';
+  const base=dateBase(basis==='closing'?'deadline-closing':'deadline-effective');
+  const offset=Number(row.querySelector('.mct-day-spinner')?.value??row.dataset.mctCustomOffset);
+  if(!valid(base)||!Number.isInteger(offset))return '';
+  const [y,m,d]=base.split('-').map(Number);
+  return new Date(Date.UTC(y,m-1,d+offset)).toISOString().slice(0,10);
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ function apply(row,button){
+  const editedDate=dateOf(row);
+  if(!editedDate){button.textContent='Check date';return;}
+  const previous=rows.filter(r=>r.parentElement===body);
+  const sorted=previous.slice().sort((a,b)=>(dateOf(a)||'9999-12-31').localeCompare(dateOf(b)||'9999-12-31')||Number(a.dataset.mctMoveId)-Number(b.dataset.mctMoveId));
+  const was=previous.indexOf(row),now=sorted.indexOf(row);
+  const dateInput=row.querySelector('.mct-date-direct');
+  const spin=row.querySelector('.mct-day-spinner');
+  if(spin&&Number.isInteger(Number(spin.value)))row.dataset.mctCustomOffset=String(Number(spin.value));
+  if(dateInput)dateInput.value=editedDate;
+  const fragment=document.createDocumentFragment();sorted.forEach(r=>fragment.appendChild(r));
+  body.insertBefore(fragment,body.querySelector('.mct-v9-add-row')||null);
+  button.textContent='Apply & Reorder';
+  if(was!==now){
+   row.classList.remove('mct-moved-highlight-v4');void row.offsetWidth;
+   row.classList.add('mct-moved-highlight-v4');
+   setTimeout(()=>row.classList.remove('mct-moved-highlight-v4'),8000);
+   row.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+ }
+ rows.forEach(row=>{
+  const cell=row.cells[1];if(!cell||cell.querySelector('.mct-apply-reorder'))return;
+  const button=document.createElement('button');
+  button.type='button';button.className='mct-apply-reorder';
+  button.textContent='Apply & Reorder';
+  button.setAttribute('aria-label','Apply edited reminder date and reorder task '+row.cells[0]?.textContent.trim());
+  cell.appendChild(button);
+  button.addEventListener('click',()=>apply(row,button));
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 </body></html>
