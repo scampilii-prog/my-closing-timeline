@@ -254,64 +254,7 @@ html body .mct-hero-benefits span{max-width:210px!important}
  html body .intro.mct-photo-hero{min-height:480px!important;padding-top:35px!important;padding-bottom:110px!important;background-position:center 55%!important}
  html body .mct-hero-benefits span{max-width:190px!important}
 }
-</style><style id="mct-photo-header-finish-20261021">
-/* Match photograph copy's left edge with the existing centered Timeline card. */
-@media(min-width:701px){
- html body .intro.mct-photo-hero{padding-left:0!important;padding-right:0!important}
- html body .mct-photo-hero-content{box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:944px!important;margin-left:auto!important;margin-right:auto!important}
-}
-@media(min-width:1151px){}
-@media(min-width:701px) and (max-width:1150px){}
-@media(max-width:700px){}
-</style><style id="mct-hero-left-edge-align-20261021">
-/* Align all hero text with the left edge of the 944px Timeline panel below. */
-@media(min-width:851px){
- html body .intro.mct-photo-hero{justify-content:center!important}
- html body .intro.mct-photo-hero .mct-photo-hero-content{
-  box-sizing:border-box!important;
-  flex:0 1 944px!important;
-  width:calc(100% - 56px)!important;
-  max-width:944px!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
-  text-align:left!important;
- }
-}
-</style><style id="mct-photo-align-panel-20261021-final">
-/* Align hero copy with the outside left edge of the centered white timeline panel.
-   Earlier 944px fixed-width override moved the copy too far toward center. */
-@media(min-width:851px){
- html body .intro.mct-photo-hero{justify-content:center!important;padding-left:0!important;padding-right:0!important}
- html body .intro.mct-photo-hero>.mct-photo-hero-content{
-  box-sizing:border-box!important;
-  flex:0 1 1180px!important;
-  width:calc(100% - 56px)!important;
-  max-width:1180px!important;
-  margin-left:auto!important;margin-right:auto!important;
-  padding:0!important;
-  text-align:left!important
- }
-}
-</style><style id="mct-hero-true-left-edge-20261021">
-/* The timeline panel is 24px in from the outer viewport at desktop size.
-   Align hero copy to that exact panel border, not to a narrower centered column. */
-@media(min-width:851px){
- html body .intro.mct-photo-hero{
-  display:flex!important;justify-content:center!important;
-  padding-left:0!important;padding-right:0!important;
- }
- html body .intro.mct-photo-hero > .mct-photo-hero-content{
-  box-sizing:border-box!important;display:block!important;
-  flex:0 0 calc(100% - 56px)!important;
-  width:calc(100% - 56px)!important;
-  max-width:none!important;
-  margin-left:0!important;margin-right:0!important;
-  padding:0!important;min-width:0!important;
-  text-align:left!important;
- }
-}
-</style><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><meta name="theme-color" content="#087F8C"><style id="mct-brand-header-teal-20261021">
+</style><!-- Retired conflicting hero geometry mct-photo-header-finish-20261021 --><!-- Retired conflicting hero geometry mct-hero-left-edge-align-20261021 --><!-- Retired conflicting hero geometry mct-photo-align-panel-20261021-final --><!-- Retired conflicting hero geometry mct-hero-true-left-edge-20261021 --><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><meta name="theme-color" content="#087F8C"><style id="mct-brand-header-teal-20261021">
 @media(min-width:701px){
 }
 @media(max-width:950px){}
@@ -1739,25 +1682,7 @@ html body #contract-deadline-planner .fc-reminder-scroll table td *{font-size:16
 @media(min-width:1101px){
 }
 </style>
-<script id="mct-hero-matches-planner-width-20261021-sync">
-(function(){
- const hero=document.querySelector('.intro.mct-photo-hero');
- const panel=document.getElementById('contract-deadline-planner');
- if(!hero||!panel)return;
- function align(){
-  const r=panel.getBoundingClientRect();
-  if(!r.width)return;
-  hero.style.setProperty('--mct-panel-width',r.width+'px');
-  hero.style.setProperty('--mct-panel-left',Math.max(0,r.left)+'px');
-  document.documentElement.style.setProperty('--mct-panel-width',r.width+'px');
-  document.documentElement.style.setProperty('--mct-panel-left',Math.max(0,r.left)+'px');
- }
- align();
- window.addEventListener('load',align);
- window.addEventListener('resize',align,{passive:true});
- if(typeof ResizeObserver!=='undefined')new ResizeObserver(align).observe(panel);
-})();
-</script><script id="mct-relocate-active-workflow-20261021">
+<!-- Retired obsolete panel alignment script --><script id="mct-relocate-active-workflow-20261021">
 /* Move existing, already interactive elements; preserve their IDs and attached handlers. */
 document.addEventListener('DOMContentLoaded',function(){
  const rows=document.getElementById('deadline-editor-rows');
