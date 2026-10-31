@@ -245,7 +245,7 @@ html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects
 
 /* Consolidated masthead proportions — single final rule set. */
 html body header#mct-site-header.mct-unified-header{height:88px!important;min-height:88px!important}
-html body header#mct-site-header.mct-unified-header>.mct-header-inner{width:calc(100% - 64px)!important;height:86px!important;min-height:86px!important;margin:0 32px!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
+html body header#mct-site-header.mct-unified-header>.mct-header-inner{width:calc(100% - 48px)!important;max-width:1134px!important;height:86px!important;min-height:86px!important;margin:0 auto!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
 html body header#mct-site-header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;gap:11px!important;font:800 clamp(23px,1.9vw,29px)/1.15 Manrope,Arial,sans-serif!important}
 html body header#mct-site-header.mct-unified-header .mct-brand img.mct-brand-icon{display:block!important;width:43px!important;height:43px!important;min-width:43px!important;max-width:43px!important;max-height:43px!important;flex:0 0 43px!important}
 html body header#mct-site-header.mct-unified-header .mct-header-tools{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:15px!important;margin:0!important;flex:0 0 auto!important}
