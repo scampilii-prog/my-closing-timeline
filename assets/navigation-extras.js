@@ -59,7 +59,7 @@ const back=document.querySelector('#mct-back-top');if(back){function show(){back
   nav.querySelectorAll('a[href]').forEach(a=>{const link=a.cloneNode(true);link.removeAttribute('id');panel.appendChild(link)});
   // Navigation remains available in the dropdown, not duplicated across the masthead.
   nav.setAttribute('aria-hidden','true');nav.style.setProperty('display','none','important');
-  const tools=header.querySelector('.mct-header-tools');if(tools)tools.prepend(button);else inner.appendChild(button);
+  const tools=header.querySelector('.mct-header-tools');if(tools){tools.appendChild(button)}else inner.appendChild(button);
   header.appendChild(panel);
   const close=()=>{panel.hidden=true;button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open site menu')};
   button.addEventListener('click',()=>{const open=panel.hidden;panel.hidden=!open;button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Close site menu':'Open site menu')});
