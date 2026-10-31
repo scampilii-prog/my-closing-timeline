@@ -40,7 +40,7 @@ function mergeContract(tasks){
   if(typeof t?.name!=='string'||!Number.isInteger(t.days))return;
   const pair=links.find(([regex])=>regex.test(t.name));
   const rec=pair&&records.find(r=>r.id===pair[1]);
-  if(rec){rec.offset=t.days;rec.basis='effective';rec.contractDue=/^\\d{4}-\\d{2}-\\d{2}$/.test(t.due||'')?t.due:'';}
+  if(rec){rec.offset=t.days;rec.basis='effective';rec.contractDue=/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:'';}
  });
  // Contract items that have no equivalent preset remain separate, using stable IDs.
  const existing=records.filter(r=>r.fromContract);
@@ -48,7 +48,7 @@ function mergeContract(tasks){
  tasks.forEach((t,i)=>{
   if(!t.name||!Number.isInteger(t.days))return;
   if(links.some(([rx])=>rx.test(t.name)))return;
-  const rec={id:100+i,name:t.name,offset:t.days,basis:'effective',done:false,notes:'',fromContract:true,contractDue:/^\\d{4}-\\d{2}-\\d{2}$/.test(t.due||'')?t.due:''};
+  const rec={id:100+i,name:t.name,offset:t.days,basis:'effective',done:false,notes:'',fromContract:true,contractDue:/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:''};
   records.push(rec);
  });
 }
@@ -64,7 +64,7 @@ tr.querySelector('.notes').value=rec.notes;tr.querySelector('.done').checked=rec
 function staged(){tr.classList.add('dirty');button.textContent='Apply & Reorder';if(num.value.trim()===''){date.value='';return;}const n=Number(num.value);if(!Number.isSafeInteger(n)){date.value='';return;}const sign=sel.value==='closing'?-1:1;date.value=offsetToDate(sel.value==='closing'?closing.value:effective.value,n*sign)}
 num.addEventListener('input',staged);sel.addEventListener('change',staged);
 date.addEventListener('change',()=>{tr.classList.add('dirty');const base=sel.value==='closing'?closing.value:effective.value;if(!base||!date.value)return;const delta=Math.round((Date.parse(date.value+'T12:00:00Z')-Date.parse(base+'T12:00:00Z'))/86400000);num.value=sel.value==='closing'?-delta:delta});
-button.addEventListener('click',()=>{if(!validateRange()||calc(rec)<todayISO())return;if(num.value.trim()===''||!/^\\d{4}-\\d{2}-\\d{2}$/.test(date.value)){button.textContent='Check date';return;}const n=Number(num.value);if(!Number.isSafeInteger(n)){button.textContent='Check days';return;}const proposedBasis=sel.value,proposedOffset=proposedBasis==='closing'?-n:n;const base=proposedBasis==='closing'?closing.value:effective.value;const expected=offsetToDate(base,proposedOffset);if(!expected||expected!==date.value){button.textContent='Check date';return;}rec.basis=proposedBasis;rec.offset=proposedOffset;rec.contractDue='';sortAndRender(rec.id)});
+button.addEventListener('click',()=>{if(!validateRange()||calc(rec)<todayISO())return;if(num.value.trim()===''||!/^\d{4}-\d{2}-\d{2}$/.test(date.value)){button.textContent='Check date';return;}const n=Number(num.value);if(!Number.isSafeInteger(n)){button.textContent='Check days';return;}const proposedBasis=sel.value,proposedOffset=proposedBasis==='closing'?-n:n;const base=proposedBasis==='closing'?closing.value:effective.value;const expected=offsetToDate(base,proposedOffset);if(!expected||expected!==date.value){button.textContent='Check date';return;}rec.basis=proposedBasis;rec.offset=proposedOffset;rec.contractDue='';sortAndRender(rec.id)});
 tr.querySelector('.done').addEventListener('change',e=>{rec.done=e.target.checked;refreshRow(tr,rec)});
 tr.querySelector('.notes').addEventListener('input',e=>rec.notes=e.target.value);
 refreshRow(tr,rec);return tr}
@@ -105,13 +105,6 @@ if(window.parent!==window){
  };
  effective.addEventListener('change',send);
  closing.addEventListener('change',send);
- window.addEventListener('message',event=>{
-  if(event.origin!==location.origin||event.data?.type!=='mctStep3Dates')return;
-  fromParent=true;
-  if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.effective||''))effective.value=event.data.effective;
-  if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.closing||''))closing.value=event.data.closing;
-  validateRange();
-  fromParent=false;
- });
+
 })();
 </script></body></html>
