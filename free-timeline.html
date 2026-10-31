@@ -4640,7 +4640,19 @@ function start(){
  section.appendChild(frame);
  const effective=document.getElementById('deadline-effective');
  const closing=document.getElementById('deadline-closing');
- const transmit=()=>frame.contentWindow?.postMessage({type:'mctStep3Dates',effective:effective?.value||'',closing:closing?.value||''},location.origin);
+ const transmit=()=>{
+  const cards=[...document.querySelectorAll('#deadline-editor-rows .mct-realty-task-card')];
+  const contractTasks=cards.map((card,i)=>{
+   const name=card.querySelector('.mct-realty-task-name input')?.value||'';
+   const days=Number(card.querySelector('.mct-realty-task-days input')?.value);
+   const due=card.querySelector('.mct-realty-task-due input')?.value||'';
+   return {id:i+1,name,days:Number.isFinite(days)?days:null,due};
+  }).filter(t=>t.name&&t.days!==null);
+  frame.contentWindow?.postMessage({type:'mctStep3Dates',effective:effective?.value||'',closing:closing?.value||'',contractTasks},location.origin);
+ };
+ frame.addEventListener('load',transmit);
+ document.getElementById('deadline-editor-rows')?.addEventListener('change',()=>setTimeout(transmit,100));
+ document.getElementById('deadline-editor-rows')?.addEventListener('input',()=>setTimeout(transmit,100));
  frame.addEventListener('load',transmit);
  for(const field of [effective,closing])if(field)for(const type of ['input','change'])field.addEventListener(type,transmit);
  window.addEventListener('message',event=>{
