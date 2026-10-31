@@ -38,10 +38,10 @@ tr.cells[0].textContent=rec.id;tr.cells[1].textContent=rec.name;
 const num=tr.querySelector('.num'),sel=tr.querySelector('select'),date=tr.querySelector('.date'),button=tr.querySelector('.apply');
 num.value=rec.basis==='closing'?Math.abs(rec.offset):rec.offset;sel.value=rec.basis;date.value=calc(rec);
 tr.querySelector('.notes').value=rec.notes;tr.querySelector('.done').checked=rec.done;
-function staged(){tr.classList.add('dirty');const n=Number(num.value);if(!Number.isInteger(n))return;const sign=sel.value==='closing'?-1:1;date.value=offsetToDate(sel.value==='closing'?closing.value:effective.value,n*sign)}
+function staged(){tr.classList.add('dirty');button.textContent='Apply & Reorder';if(num.value.trim()===''){date.value='';return;}const n=Number(num.value);if(!Number.isSafeInteger(n)){date.value='';return;}const sign=sel.value==='closing'?-1:1;date.value=offsetToDate(sel.value==='closing'?closing.value:effective.value,n*sign)}
 num.addEventListener('input',staged);sel.addEventListener('change',staged);
 date.addEventListener('change',()=>{tr.classList.add('dirty');const base=sel.value==='closing'?closing.value:effective.value;if(!base||!date.value)return;const delta=Math.round((Date.parse(date.value+'T12:00:00Z')-Date.parse(base+'T12:00:00Z'))/86400000);num.value=sel.value==='closing'?-delta:delta});
-button.addEventListener('click',()=>{const n=Number(num.value);if(!Number.isInteger(n)||!date.value){button.textContent='Check date';return;}rec.basis=sel.value;rec.offset=rec.basis==='closing'?-n:n;const expected=calc(rec);if(expected!==date.value){button.textContent='Check date';return;}sortAndRender(rec.id)});
+button.addEventListener('click',()=>{if(num.value.trim()===''||!/^\\d{4}-\\d{2}-\\d{2}$/.test(date.value)){button.textContent='Check date';return;}const n=Number(num.value);if(!Number.isSafeInteger(n)){button.textContent='Check days';return;}const proposedBasis=sel.value,proposedOffset=proposedBasis==='closing'?-n:n;const base=proposedBasis==='closing'?closing.value:effective.value;const expected=offsetToDate(base,proposedOffset);if(!expected||expected!==date.value){button.textContent='Check date';return;}rec.basis=proposedBasis;rec.offset=proposedOffset;sortAndRender(rec.id)});
 tr.querySelector('.done').addEventListener('change',e=>{rec.done=e.target.checked;refreshRow(tr,rec)});
 tr.querySelector('.notes').addEventListener('input',e=>rec.notes=e.target.value);
 refreshRow(tr,rec);return tr}
