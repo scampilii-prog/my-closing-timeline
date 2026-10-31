@@ -4627,7 +4627,7 @@ html body #contract-deadline-planner #mct-free-followup-preview .mct-v21-table-w
 (function(){
 function start(){
  const section=document.getElementById('mct-free-followup-preview');
- if(!section)return;
+ if(!section||document.getElementById('mct-new-step3-frame'))return;
  // Detach legacy table and its controls. The new table has isolated styling and formulas.
  section.replaceChildren();
  section.style.setProperty('padding','0','important');
@@ -4650,7 +4650,7 @@ function start(){
   }).filter(t=>t.name&&t.days!==null);
   frame.contentWindow?.postMessage({type:'mctStep3Dates',effective:effective?.value||'',closing:closing?.value||'',contractTasks},location.origin);
  };
- frame.addEventListener('load',transmit);
+
  document.getElementById('deadline-editor-rows')?.addEventListener('change',()=>setTimeout(transmit,100));
  document.getElementById('deadline-editor-rows')?.addEventListener('input',()=>setTimeout(transmit,100));
  frame.addEventListener('load',transmit);
