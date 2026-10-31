@@ -4554,7 +4554,7 @@ html body section.intro.mct-photo-hero{
  column-gap:clamp(20px,3vw,40px)!important;
  box-sizing:border-box!important;width:100%!important;max-width:none!important;
  min-height:430px!important;height:auto!important;max-height:none!important;
- padding:30px 20px 55px max(20px,calc((100vw - 1130px)/2 + 36px))!important;
+ padding:30px 20px 55px 20px!important;
  background-position:center center!important;
 }
 html body section.intro.mct-photo-hero>.mct-photo-hero-content{
@@ -4632,4 +4632,25 @@ html body section.intro.mct-photo-hero .mct-privacy-tagline{
  html body section.intro.mct-photo-hero .mct-hero-benefits>span{font-size:13px!important}
 }
 </style>
+<script id="mct-free-hero-measured-alignment-20261031">
+/* Position hero text using the ACTUAL planner card instead of guessing viewport offsets. */
+(function(){
+ 'use strict';
+ function init(){
+  const hero=document.querySelector('section.intro.mct-photo-hero');
+  const panel=document.getElementById('contract-deadline-planner');
+  if(!hero||!panel)return;
+  const sync=()=>{
+   if(window.innerWidth<=990){hero.style.removeProperty('padding-left');return;}
+   const rect=panel.getBoundingClientRect();
+   if(rect.width>0)hero.style.setProperty('padding-left',Math.round(rect.left+36)+'px','important');
+  };
+  sync();
+  window.addEventListener('resize',sync,{passive:true});
+  window.addEventListener('load',sync,{once:true});
+  if(typeof ResizeObserver!=='undefined')new ResizeObserver(sync).observe(panel);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>
