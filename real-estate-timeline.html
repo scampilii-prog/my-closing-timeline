@@ -4571,7 +4571,7 @@ html body.mct-practice-mode #contract-deadline-planner #mct-free-tomorrow-previe
 <script id="mct-free-readonly-preview-20261030">
 (function(){
  function lock(){
-  const practice=new URLSearchParams(location.search).get('practice')==='1';
+  const practice=new URLSearchParams(location.search).get('practice')!=='0'; // Interactive local Step 3 demonstration by default; ?practice=0 retains locked preview.
   document.body.classList.toggle('mct-practice-mode',practice);
   const frame=document.getElementById('mct-new-step3-frame');
   const today=document.getElementById('mct-free-tomorrow-preview');
