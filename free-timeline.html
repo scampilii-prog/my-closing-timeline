@@ -4582,7 +4582,7 @@ function start(){
    const tasks=valid.filter(t=>t.date===day);
    const count=panel.querySelector('strong span:last-child');
    if(count)count.textContent=String(tasks.length);
-   const p=panel.querySelector('p');if(!p)return;
+   let p=panel.querySelector('p');if(!p){p=document.createElement('p');panel.appendChild(p);}
    p.replaceChildren();
    if(!tasks.length){p.textContent=i?'No tasks scheduled for tomorrow.':'No tasks scheduled for today.';return;}
    const list=document.createElement('div');list.className='mct-step3-today-task-list';
