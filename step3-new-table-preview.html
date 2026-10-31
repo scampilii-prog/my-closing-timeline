@@ -94,4 +94,24 @@ if(window.parent!==window){
  const resize=()=>window.parent.postMessage({type:'mctStep3Height',height:document.documentElement.scrollHeight},location.origin);
  new ResizeObserver(resize).observe(document.body);window.addEventListener('load',resize);
 }
+</script><script id="mct-step3-two-way-dates">
+(function(){
+ const embedded=window.parent!==window;
+ if(!embedded)return;
+ let fromParent=false;
+ const send=()=>{
+  if(fromParent||!validateRange())return;
+  window.parent.postMessage({type:'mctStep3DateEdit',effective:effective.value,closing:closing.value},location.origin);
+ };
+ effective.addEventListener('change',send);
+ closing.addEventListener('change',send);
+ window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.data?.type!=='mctStep3Dates')return;
+  fromParent=true;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.effective||''))effective.value=event.data.effective;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.closing||''))closing.value=event.data.closing;
+  validateRange();
+  fromParent=false;
+ });
+})();
 </script></body></html>
