@@ -54,11 +54,18 @@ table tbody .notes{background:#fff;border:1px solid #c9d9e3;}
 .closing-tools button[data-action="save"]{background:#e2f0e7!important;border-color:#9fc9b0!important;color:#255f47!important}
 .closing-tools button[data-action="load"]{background:#f9f6ee!important;border-color:#dccba7!important;color:#735a30!important}.closing-tools button[data-action="print"]{background:#e6f0f8!important;border-color:#a7c4d9!important;color:#244f6c!important}
 .closing-tools button[data-action="close"]{background:#f5e9e4!important;border-color:#d8b3a7!important;color:#895048!important}
+<style id="mct-step3-count-in-heading-20261031">
+/* One scoped layout adjustment; dates and Add Task remain the only controls in this row. */
+.controls #add-task-toggle{margin-left:auto;background:#174a42;color:#fff;border:1px solid #174a42;padding:13px 22px;font-size:16px;min-height:48px;box-shadow:0 3px 9px #174a4224}
+.controls #add-task-toggle:hover{background:#103f38}
+.mct-task-heading{display:block}
+.mct-task-count{display:block;font-size:11px;font-weight:750;line-height:1.35;color:#46677a;margin-top:5px;white-space:normal}
+@media(max-width:520px){.controls #add-task-toggle{margin-left:0;width:100%}}
 </style></head><body><header><strong>My Closing Timeline</strong><a href="/free-timeline.html">FREE Timeline</a></header>
 <main><section><div class="heading"><h1>Step 3 · Closing Follow-Up — New Table Preview</h1><p>Independent test version · Layout based on Step 2 · Not an activated client transaction</p></div>
-<div class="controls"><label>Effective Date<input id="effective" type="date"></label><label>Closing Date<input id="closing" type="date"></label><strong id="count"></strong><span id="range-error" role="alert" hidden>Closing Date must be within 60 days of Effective Date.</span><button id="add-task-toggle" type="button" aria-expanded="false">+ Add Task</button></div>
+<div class="controls"><label>Effective Date<input id="effective" type="date"></label><label>Closing Date<input id="closing" type="date"></label><span id="range-error" role="alert" hidden>Closing Date must be within 60 days of Effective Date.</span><button id="add-task-toggle" type="button" aria-expanded="false">+ Add Task</button></div>
 <form id="add-task-form" hidden><label>Task / reminder<input id="add-task-name" required maxlength="180" placeholder="New follow-up task"></label><label>Date Basis<select id="add-task-basis"><option value="effective">After Effective Date</option><option value="closing">Before Closing Date</option></select></label><label>Days<input id="add-task-days" type="number" step="1" required value="0"></label><label>Reminder Date<input id="add-task-date" type="date" required></label><button type="submit">Add & Position</button><button type="button" id="add-task-cancel">Cancel</button></form>
-<div class="wrap"><table><colgroup><col class="c1"><col class="c2"><col class="c3"><col class="cDelete"><col class="c4"><col class="c5"><col class="c6"><col class="c7"><col class="c8"><col class="c9"></colgroup><thead><tr><th>#</th><th>Task / reminder</th><th>Days</th><th>Delete</th><th>Date Basis</th><th>Reminder Date</th><th>Status</th><th>Alert</th><th>Notes</th><th>Done</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="wrap"><table><colgroup><col class="c1"><col class="c2"><col class="c3"><col class="cDelete"><col class="c4"><col class="c5"><col class="c6"><col class="c7"><col class="c8"><col class="c9"></colgroup><thead><tr><th>#</th><th><span class="mct-task-heading">Task / reminder</span><span id="count" class="mct-task-count" aria-live="polite"></span></th><th>Days</th><th>Delete</th><th>Date Basis</th><th>Reminder Date</th><th>Status</th><th>Alert</th><th>Notes</th><th>Done</th></tr></thead><tbody id="rows"></tbody></table></div>
 <div class="small">Preview uses the 40 suggested follow-up tasks. Contract tasks from Step 2 will be integrated after the shared data transfer is verified. Dates are planning reminders, not automatic contractual deadlines. Changes are local to this preview.</div>
 </section></main>
 <script>
