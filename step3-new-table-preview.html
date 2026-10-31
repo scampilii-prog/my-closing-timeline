@@ -31,10 +31,30 @@ const seeds=[["Send client congratulations email",0,"effective"],["Update broker
 const offsetToDate=(iso,delta)=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(iso))return '';const [y,m,d]=iso.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+delta)).toISOString().slice(0,10)};
 const effective=document.getElementById('effective'),closing=document.getElementById('closing'),tbody=document.getElementById('rows');
 const records=seeds.map(([name,offset,basis],i)=>({id:i+1,name,offset,basis,done:false,notes:''}));
+const contractMap=new Map([[1,6],[2,9],[3,null],[4,null],[5,null],[6,null]]);
+function mergeContract(tasks){
+ if(!Array.isArray(tasks))return;
+ const links=[[/1st deposit|first deposit/i,6],[/2nd deposit|second deposit/i,9]];
+ tasks.forEach(t=>{
+  if(typeof t?.name!=='string'||!Number.isInteger(t.days))return;
+  const pair=links.find(([regex])=>regex.test(t.name));
+  const rec=pair&&records.find(r=>r.id===pair[1]);
+  if(rec){rec.offset=t.days;rec.basis='effective';}
+ });
+ // Contract items that have no equivalent preset remain separate, using stable IDs.
+ const existing=records.filter(r=>r.fromContract);
+ existing.forEach(r=>records.splice(records.indexOf(r),1));
+ tasks.forEach((t,i)=>{
+  if(!t.name||!Number.isInteger(t.days))return;
+  if(links.some(([rx])=>rx.test(t.name)))return;
+  const rec={id:100+i,name:t.name,offset:t.days,basis:'effective',done:false,notes:'',fromContract:true};
+  records.push(rec);
+ });
+}
 function calc(rec){return offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
 function state(rec,date){if(rec.done)return ['Done','Completed'];if(!date)return ['Pending','No date'];const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const diff=Math.round((Date.parse(date+'T12:00:00Z')-Date.parse(today+'T12:00:00Z'))/86400000);return diff<0?['Pending','Overdue']:diff===0?['Pending','Today']:diff===1?['Pending','Tomorrow']:['Pending','In '+diff+' days']}
 function row(rec){const tr=document.createElement('tr');tr.dataset.id=rec.id;tr.innerHTML='<td></td><td></td><td><div class="days"><input class="num" type="number" step="1"><button class="apply" type="button">Apply &amp; Reorder</button></div></td><td><select><option value="effective">After Effective Date</option><option value="closing">Before Closing Date</option></select></td><td><input class="date" type="date"></td><td class="status"></td><td class="alert"></td><td><textarea class="notes" rows="1" placeholder="Notes"></textarea></td><td><input class="done" type="checkbox"></td>';
-tr.cells[0].textContent=rec.id;tr.cells[1].textContent=rec.name;
+tr.cells[0].textContent='';tr.cells[1].textContent=rec.name;
 const num=tr.querySelector('.num'),sel=tr.querySelector('select'),date=tr.querySelector('.date'),button=tr.querySelector('.apply');
 num.value=rec.basis==='closing'?Math.abs(rec.offset):rec.offset;sel.value=rec.basis;date.value=calc(rec);
 tr.querySelector('.notes').value=rec.notes;tr.querySelector('.done').checked=rec.done;
@@ -46,7 +66,7 @@ tr.querySelector('.done').addEventListener('change',e=>{rec.done=e.target.checke
 tr.querySelector('.notes').addEventListener('input',e=>rec.notes=e.target.value);
 refreshRow(tr,rec);return tr}
 function refreshRow(tr,rec){const d=calc(rec),[status,alert]=state(rec,d);tr.cells[5].textContent=status;tr.cells[6].textContent=alert;tr.dataset.date=d;tr.dataset.group='1'}
-function sortAndRender(changedId){const old=[...tbody.rows].findIndex(r=>Number(r.dataset.id)===changedId);records.sort((a,b)=>(calc(a)||'9999').localeCompare(calc(b)||'9999')||a.id-b.id);tbody.replaceChildren(...records.map(row));const dates=[...new Set(records.map(calc))].sort();[...tbody.rows].forEach(tr=>{tr.dataset.group=String(dates.indexOf(tr.dataset.date)%4+1)});const selected=changedId&&[...tbody.rows].find(r=>Number(r.dataset.id)===changedId);if(selected){const now=[...tbody.rows].indexOf(selected);if(old!==now){selected.classList.add('moved');selected.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>selected.classList.remove('moved'),8000)}}document.getElementById('count').textContent=records.length+' suggested follow-up tasks'}
+function sortAndRender(changedId){const old=[...tbody.rows].findIndex(r=>Number(r.dataset.id)===changedId);records.sort((a,b)=>(calc(a)||'9999').localeCompare(calc(b)||'9999')||a.id-b.id);tbody.replaceChildren(...records.map(row));[...tbody.rows].forEach((tr,i)=>tr.cells[0].textContent=String(i+1));const dates=[...new Set(records.map(calc))].sort();[...tbody.rows].forEach(tr=>{tr.dataset.group=String(dates.indexOf(tr.dataset.date)%4+1)});const selected=changedId&&[...tbody.rows].find(r=>Number(r.dataset.id)===changedId);if(selected){const now=[...tbody.rows].indexOf(selected);if(old!==now){selected.classList.add('moved');selected.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>selected.classList.remove('moved'),8000)}}document.getElementById('count').textContent=records.length+' suggested follow-up tasks'}
 function updateBases(){sortAndRender(null)}
 effective.addEventListener('change',updateBases);closing.addEventListener('change',updateBases);sortAndRender(null);
 </script><style>body.embedded{background:transparent}body.embedded header{display:none}body.embedded main{padding:0;margin:0;max-width:none}body.embedded section{box-shadow:none;border-radius:10px}</style>
@@ -55,7 +75,8 @@ if(new URLSearchParams(location.search).has('embedded'))document.body.classList.
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.data?.type!=='mctStep3Dates')return;
  if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.effective||''))effective.value=event.data.effective;
- if(/^\d{4}-\d{2}-\d{2}$/.test(event.data.closing||''))closing.value=event.data.closing;
+ if(/^\\d{4}-\\d{2}-\\d{2}$/.test(event.data.closing||''))closing.value=event.data.closing;
+ if(Array.isArray(event.data.contractTasks))mergeContract(event.data.contractTasks);
  sortAndRender(null);
 });
 if(window.parent!==window){
