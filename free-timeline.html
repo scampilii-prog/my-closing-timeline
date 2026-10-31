@@ -2119,7 +2119,7 @@ const audience=bar.getAttribute('data-mct-audience');
 const root=audience==='other'?document.querySelector('#mct-free-other-projects'):document.querySelector('#contract-deadline-planner');
 if(!root)return;
 const fields=Array.from(root.querySelectorAll('input[id],select[id],textarea[id]')).filter(x=>!['password','file','hidden'].includes(x.type)).map(function(x){return{id:x.id,value:x.type==='checkbox'?x.checked:x.value,type:x.type}}).filter(x=>x.id);
-try{sessionStorage.setItem('mct-free-pro-draft',JSON.stringify({audience:audience,fields:fields,savedAt:Date.now()}));location.href='/express-pro.html?audience='+encodeURIComponent(audience);}catch(err){alert('Unable to save a browser draft. Please copy your timeline before registering.');}
+try{const previous=JSON.parse(sessionStorage.getItem('mct-free-pro-draft')||'{}');const draft={audience:audience,fields:fields,savedAt:Date.now()};if(audience==='realtor'){draft.contractTasks=Array.from(document.querySelectorAll('#deadline-editor-rows .mct-realty-task-card')).map(function(card,i){const get=n=>card.querySelector('[data-field="'+n+'"]');return{order:i+1,title:(get('custom')?.value||'').trim(),days:Number(get('days')?.value||0),exact_date:get('override')?.value||'',done:!!card.querySelector('.mct-realty-task-badge.is-done')}}).filter(t=>t.title)}sessionStorage.setItem('mct-free-pro-draft',JSON.stringify(draft));location.href='/express-pro.html?audience='+encodeURIComponent(audience);}catch(err){alert('Unable to save a browser draft. Please copy your timeline before registering.');}
 });
 });
 })();
