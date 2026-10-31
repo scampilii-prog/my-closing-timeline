@@ -107,14 +107,17 @@ function mergeContract(tasks){
    records.push(rec);
   }
   // Do not change the user's completion state or notes while syncing deadlines.
-  rec.offset=t.days;
+  const due=typeof t.due==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(t.due)?t.due:'';
+  // Step 2 owns contractual calculations, including any business-day adjustments.
+  // Keep its exact date authoritative rather than silently substituting calendar days.
+  rec.offset=due&&effective.value?Math.round((Date.parse(due+'T12:00:00Z')-Date.parse(effective.value+'T12:00:00Z'))/86400000):t.days;
   rec.basis='effective';
-  rec.contractDue=''; // Preview dates follow the visible Date Basis and Days, never a stale imported due date.
+  rec.contractDue=due;
  });
  // Keep imported tasks even when a transient Step 2 DOM update omits them.
  // An explicit delete must be handled by a dedicated contract deletion action.
 }
-function calc(rec){return offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
+function calc(rec){return rec.contractDue||offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
 function state(rec,date){if(rec.done)return ['Done','Completed'];if(!date)return ['Pending','No date'];const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const diff=Math.round((Date.parse(date+'T12:00:00Z')-Date.parse(today+'T12:00:00Z'))/86400000);return diff<0?['Pending','Overdue']:diff===0?['Pending','Today']:diff===1?['Pending','Tomorrow']:['Pending','In '+diff+' days']}
 function todayISO(){const n=new Date();return [n.getFullYear(),String(n.getMonth()+1).padStart(2,'0'),String(n.getDate()).padStart(2,'0')].join('-')}
 function validateRange(){const e=effective.value,c=closing.value;closing.min=practiceStarted?(todayISO()>e?todayISO():e):(e||'');closing.max=e?offsetToDate(e,60):'';const minDate=practiceStarted?(todayISO()>e?todayISO():e):e;const ok=!e||!c||(c>=minDate&&c<=offsetToDate(e,60));closing.setCustomValidity(ok?'':(practiceStarted?'Closing Date cannot be before today and must remain within 60 calendar days after Effective Date.':'Closing Date must be between Effective Date and 60 calendar days after it.'));document.getElementById('range-error').hidden=ok;return ok}
