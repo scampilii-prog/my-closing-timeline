@@ -4473,10 +4473,10 @@ function start(){
   const rows=doc?.getElementById('rows');
   if(!rows)return;
   const read=()=>{
-    const items=[...rows.querySelectorAll('tr')].filter(tr=>!tr.querySelector('.done')?.checked).map(tr=>({
+    const items=[...rows.querySelectorAll('tr')].map((tr,index)=>({number:index+1,done:!!tr.querySelector('.done')?.checked,
       name:tr.querySelector('.task-name-input')?.value||tr.cells?.[1]?.textContent?.trim()||'',
       date:tr.dataset.date||''
-    })).filter(t=>t.name&&/^\d{4}-\d{2}-\d{2}$/.test(t.date));
+    })).filter(t=>!t.done&&t.name&&/^\d{4}-\d{2}-\d{2}$/.test(t.date));
     frame.contentWindow?.postMessage({type:'mctStep3RequestCurrentSummary'},location.origin);
     window.dispatchEvent(new MessageEvent('message',{data:{type:'mctStep3Summary',items},origin:location.origin,source:frame.contentWindow}));
   };
@@ -4515,7 +4515,7 @@ function start(){
    p.replaceChildren();
    if(!tasks.length){p.textContent=i?'No tasks scheduled for tomorrow.':'No tasks scheduled for today.';return;}
    const list=document.createElement('div');list.className='mct-step3-today-task-list';
-   tasks.forEach(t=>{const item=document.createElement('div');item.textContent=t.name;item.style.cssText='padding:5px 0;border-bottom:1px solid #e4e9ec;font-size:13px;line-height:1.4';list.appendChild(item);});
+   tasks.forEach((t,index)=>{const item=document.createElement('div');item.textContent=String(Number.isInteger(t.number)&&t.number>0?t.number:index+1)+'. '+t.name;item.style.cssText='padding:6px 0;border-bottom:1px solid #e4e9ec;font-size:13px;font-weight:500;line-height:1.45;color:#294d60;white-space:normal;overflow-wrap:anywhere';list.appendChild(item);});
    p.appendChild(list);
   });
   preview.style.opacity='.8';
