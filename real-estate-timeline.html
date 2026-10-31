@@ -4921,49 +4921,51 @@ window.addEventListener('pageshow',()=>{const el=document.getElementById('deadli
 </script><script id="mct-step2-add-opens-options-20261031">
 (function(){
 function init(){
- const area=document.querySelector('#contract-deadline-planner .mct-moved-contract-tasks');
  const add=document.getElementById('deadline-add');
- const details=area?.querySelector('details.fc-simple-options');
- if(!area||!add||!details)return;
- const toolbar=area.querySelector('.mct-add-task-area');
- if(toolbar){
-  toolbar.style.setProperty('display','flex','important');toolbar.style.setProperty('flex-wrap','nowrap','important');toolbar.style.setProperty('gap','8px','important');
-  for(const [id,width] of [['deadline-add','140px'],['deadline-sort','96px'],['deadline-update','118px']]){
-   const el=document.getElementById(id);if(!el)continue;
-   for(const [prop,value] of Object.entries({flex:'0 0 '+width,width:width,'max-width':width,'min-width':width,height:'38px','min-height':'38px','max-height':'38px'}))el.style.setProperty(prop,value,'important');
-   if(id==='deadline-add')el.style.setProperty('margin-right','auto','important');
-  }
- }
- // Open the existing dropdown on the main button without adding a task prematurely.
- let forwardAdd=false;
+ const area=document.querySelector('#contract-deadline-planner .mct-add-task-area');
+ const rows=document.getElementById('deadline-editor-rows');
+ if(!add||!area||!rows)return;
+ const choices=[
+  ['','Choose a task…'],['Inspection follow-up','Inspection follow-up'],
+  ['HOA / Condo approval','HOA / Condo approval'],
+  ['Appraisal deadline','Appraisal deadline'],
+  ['Insurance confirmation','Insurance confirmation'],
+  ['Title / Escrow documents','Title / Escrow documents'],
+  ['Final walk-through','Final walk-through'],
+  ['Other','Custom task (write my own)']
+ ];
+ const picker=document.createElement('select');
+ picker.id='mct-custom-task-picker';
+ picker.setAttribute('aria-label','Select a custom contract task');
+ picker.hidden=true;
+ picker.style.cssText='width:min(260px,100%);min-height:38px;border:1px solid #b9cbd5;border-radius:8px;background:#fff;color:#153c50;padding:6px 9px;font:700 12px Manrope,Arial,sans-serif';
+ for(const [value,label] of choices){const o=document.createElement('option');o.value=value;o.textContent=label;picker.appendChild(o)}
+ add.after(picker);
+ const oldDetails=document.querySelector('#contract-deadline-planner .mct-moved-contract-tasks details.fc-simple-options');
+ // Keep the document-reference feature intact, but remove the duplicate task insertion control.
+ oldDetails?.querySelector('#mct-add-custom-task-inside')?.remove();
+ let allowing=false;
  add.addEventListener('click',event=>{
-   if(forwardAdd)return;
-   event.preventDefault();
-   event.stopImmediatePropagation();
-   details.open=true;
-   add.setAttribute('aria-expanded','true');
-   const selector=details.querySelector('#mct-contract-form-input');
-   if(selector){
-     selector.scrollIntoView({behavior:'smooth',block:'nearest'});
-     selector.focus({preventScroll:true});
-     if(typeof selector.showPicker==='function'){try{selector.showPicker()}catch(_){/* select remains keyboard-accessible */}}
-   }else details.scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(allowing)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(add.disabled)return;
+  picker.hidden=false;picker.focus();
+  if(typeof picker.showPicker==='function'){try{picker.showPicker()}catch(_){}}
  },true);
- add.setAttribute('aria-expanded',String(details.open));
- details.addEventListener('toggle',()=>add.setAttribute('aria-expanded',String(details.open)));
- const inside=details.querySelector(':scope > div');
- if(inside&&!document.getElementById('mct-add-custom-task-inside')){
-  const b=document.createElement('button');
-  b.id='mct-add-custom-task-inside';b.type='button';b.textContent='+ Insert Custom Task';
-  b.className='mct-free-edit-button';
-  b.style.cssText='display:inline-flex;justify-content:center;align-items:center;border:1.5px solid #70a88a;border-radius:8px;background:#e6f5ec;color:#136344;padding:9px 14px;font:800 12px Manrope,Arial,sans-serif;cursor:pointer;margin:6px 0 10px';
-  inside.insertBefore(b,inside.firstChild);
-  b.addEventListener('click',()=>{
-   forwardAdd=true;
-   try{add.click();}finally{forwardAdd=false;}
-  });
- }
-
+ picker.addEventListener('change',()=>{
+  const chosen=picker.value;
+  if(!chosen)return;
+  const before=rows.querySelectorAll('.mct-realty-task-card').length;
+  allowing=true;try{add.click()}finally{allowing=false}
+  const cards=rows.querySelectorAll('.mct-realty-task-card');
+  if(cards.length>before){
+   const next=cards[cards.length-1].querySelector('[data-field="custom"]');
+   if(next){if(chosen!=='Other'){next.value=chosen;next.dispatchEvent(new Event('input',{bubbles:true}));next.dispatchEvent(new Event('change',{bubbles:true}))}next.focus({preventScroll:true});}
+   cards[cards.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  picker.value='';picker.hidden=true;
+ });
+ add.textContent='+ Add Custom Task ▾';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
