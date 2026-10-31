@@ -4792,27 +4792,32 @@ function setup(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script><style id="mct-free-registration-guide-20261030-style">
-#mct-free-registration-guide{margin:18px 0 0;border:1px solid #c5dcd7;border-radius:14px;background:#f8fcfa;padding:19px 21px;box-shadow:0 4px 15px rgba(23,58,70,.05);color:#193e50}
-#mct-free-registration-guide h3{margin:3px 0 9px;font:800 22px/1.25 Manrope,Arial,sans-serif;color:#173a50}
-#mct-free-registration-guide .guide-kicker{font:800 11px Manrope,Arial,sans-serif;letter-spacing:.08em;color:#167263}
-#mct-free-registration-guide p{font:600 14px/1.55 Manrope,Arial,sans-serif;margin:6px 0 12px}
-#mct-free-registration-guide .guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:11px 0 13px}
-#mct-free-registration-guide .guide-step{background:#fff;border:1px solid #d8e6e5;border-radius:9px;padding:11px;font:650 12px/1.5 Manrope,Arial,sans-serif}
-#mct-free-registration-guide .guide-step b{display:block;color:#174b60;font-size:13px;margin-bottom:2px}
-#mct-free-registration-guide .guide-actions{display:flex;gap:9px;flex-wrap:wrap}
-#mct-free-registration-guide .guide-actions a{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border-radius:8px;font:800 13px Manrope,Arial,sans-serif;padding:12px 15px}
+#mct-free-registration-guide{margin:18px 0 0;border:1px solid #d7bd88;border-radius:14px;background:linear-gradient(155deg,#fffaf0 0%,#f6fbf9 85%);padding:23px 24px;box-shadow:0 5px 17px rgba(23,58,70,.06);color:#193e50}
+#mct-free-registration-guide h3{margin:6px 0 10px;font:850 clamp(22px,2.1vw,27px)/1.25 Manrope,Arial,sans-serif;color:#173a50}
+#mct-free-registration-guide .guide-kicker{font:850 11px Manrope,Arial,sans-serif;letter-spacing:.09em;color:#97702f}
+#mct-free-registration-guide p{font:650 14px/1.65 Manrope,Arial,sans-serif;margin:7px 0 14px}
+#mct-free-registration-guide .guide-benefits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0}
+#mct-free-registration-guide .guide-benefit{background:#fff;border:1px solid #e1e6e2;border-radius:10px;padding:13px 14px;font:600 12px/1.5 Manrope,Arial,sans-serif;color:#456172}
+#mct-free-registration-guide .guide-benefit strong{display:block;font:850 13px/1.45 Manrope,Arial,sans-serif;color:#154b55;margin-bottom:3px}
+#mct-free-registration-guide .guide-offer{border-left:4px solid #c7a05c;background:#f7edda;border-radius:6px;padding:11px 13px;margin:15px 0;font:750 13px/1.55 Manrope,Arial,sans-serif;color:#654921}
+#mct-free-registration-guide .guide-actions{display:flex;gap:10px;flex-wrap:wrap}
+#mct-free-registration-guide .guide-actions a{display:inline-flex;justify-content:center;align-items:center;text-align:center;text-decoration:none;border-radius:8px;font:850 13px/1.4 Manrope,Arial,sans-serif;padding:12px 16px;min-height:44px}
 #mct-free-registration-guide .guide-primary{background:#087d76;color:#fff!important}
+#mct-free-registration-guide .guide-primary:hover{background:#05655f}
 #mct-free-registration-guide .guide-secondary{background:#fff;border:1px solid #91b3ba;color:#164d5e!important}
-#mct-free-registration-guide .guide-foot{font-size:12px;color:#58727b;margin-top:11px}
-@media(max-width:700px){#mct-free-registration-guide .guide-steps{grid-template-columns:1fr}}
+#mct-free-registration-guide .guide-foot{font-size:12px;color:#58727b;margin-top:13px;line-height:1.6}
+#mct-free-registration-guide .guide-signature{margin-top:12px;border-top:1px solid #e7ded0;padding-top:10px;font:750 11px Manrope,Arial,sans-serif;color:#83683d}
+@media(max-width:650px){#mct-free-registration-guide{padding:18px}#mct-free-registration-guide .guide-benefits{grid-template-columns:1fr}#mct-free-registration-guide .guide-actions a{width:100%}}
 </style>
 <script id="mct-free-registration-guide-20261030-script">
 (function(){
  function mount(){
-  const form=document.querySelector('#contract-deadline-planner .fc-simple-form');if(!form||document.getElementById('mct-free-registration-guide'))return;
-  const guide=document.createElement('section');guide.id='mct-free-registration-guide';
-  guide.setAttribute('aria-label','How to activate your first free closing');
-  guide.innerHTML='<div class="guide-kicker">YOUR FIRST CLOSING · FREE</div><h3>Ready to follow your closing?</h3><p>Practice and email your contract timeline free, without registering. When you are ready, register for your first eligible PRO closing <strong>at no charge and without a credit card.</strong> Subsequent closings: <strong>$20 each.</strong></p><div class="guide-steps"><div class="guide-step"><b>1 · Request your free code</b>Verify your email and claim your first eligible closing.</div><div class="guide-step"><b>2 · Create your account</b>Return with your timeline and review both closing dates.</div><div class="guide-step"><b>3 · Confirm & start</b>Confirm Effective Date to activate follow-up and Today &amp; Tomorrow.</div></div><div class="guide-actions"><a class="guide-primary" href="/first-closing-free.html">Get My First Closing FREE</a><a class="guide-secondary" href="/pro-get-started.html?auth=register">Register / Already Have an Account?</a></div><div class="guide-foot">Registering does not start your closing or use a credit. You start only after confirming your dates.</div>';
+  const form=document.querySelector('#contract-deadline-planner .fc-simple-form');
+  if(!form||document.getElementById('mct-free-registration-guide'))return;
+  const guide=document.createElement('section');
+  guide.id='mct-free-registration-guide';
+  guide.setAttribute('aria-label','Real Estate PRO benefits and first closing offer');
+  guide.innerHTML='<div class="guide-kicker">FROM FREE PRACTICE TO PRO FOLLOW-UP</div><h3>Ready to turn your timeline into a working closing?</h3><p>You have started organizing your contract dates. PRO is designed to help you continue from planning into daily follow-up, with your closing information and next steps together in one place.</p><div class="guide-benefits"><div class="guide-benefit"><strong>✓ Step 3 Follow-Up</strong>Track important tasks beyond contract deadlines.</div><div class="guide-benefit"><strong>✓ Today &amp; Tomorrow</strong>Review what needs attention now and next.</div><div class="guide-benefit"><strong>✓ Saved Closings</strong>Return to your closing timeline as work progresses.</div><div class="guide-benefit"><strong>✓ Date Control</strong>Manage future changes while keeping a clear timeline.</div></div><div class="guide-offer">FIRST ELIGIBLE PRO CLOSING: FREE · Request your code without a credit card.<span style="display:block;font-weight:650;margin-top:3px">Subsequent closings: $20 each · Up to 60 calendar days per closing.</span></div><div class="guide-actions"><a class="guide-primary" href="/first-closing-free.html">Get My First PRO Closing FREE</a><a class="guide-secondary" href="/pro-get-started.html">Explore PRO &amp; Pricing</a></div><div class="guide-foot">Prefer FREE? Keep practicing here without registering. Requesting a code does not activate PRO, charge your card, or start a closing. Account activation and payment features remain subject to launch testing.</div><div class="guide-signature">Your Clients. Your Records. Your Privacy.</div>';
   form.appendChild(guide);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
