@@ -101,12 +101,12 @@ function mergeContract(tasks){
   // Do not change the user's completion state or notes while syncing deadlines.
   rec.offset=t.days;
   rec.basis='effective';
-  rec.contractDue=/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:'';
+  rec.contractDue=''; // Preview dates follow the visible Date Basis and Days, never a stale imported due date.
  });
  // Keep imported tasks even when a transient Step 2 DOM update omits them.
  // An explicit delete must be handled by a dedicated contract deletion action.
 }
-function calc(rec){if(rec.contractDue)return rec.contractDue;return offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
+function calc(rec){return offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
 function state(rec,date){if(rec.done)return ['Done','Completed'];if(!date)return ['Pending','No date'];const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const diff=Math.round((Date.parse(date+'T12:00:00Z')-Date.parse(today+'T12:00:00Z'))/86400000);return diff<0?['Pending','Overdue']:diff===0?['Pending','Today']:diff===1?['Pending','Tomorrow']:['Pending','In '+diff+' days']}
 function todayISO(){const n=new Date();return [n.getFullYear(),String(n.getMonth()+1).padStart(2,'0'),String(n.getDate()).padStart(2,'0')].join('-')}
 function validateRange(){const e=effective.value,c=closing.value;closing.min=e||'';closing.max=e?offsetToDate(e,60):'';const ok=!e||!c||(c>=e&&c<=offsetToDate(e,60));closing.setCustomValidity(ok?'':'Closing Date must be between Effective Date and 60 calendar days after it.');document.getElementById('range-error').hidden=ok;return ok}
