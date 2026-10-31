@@ -4700,9 +4700,14 @@ function init(){
    if(forwardAdd)return;
    event.preventDefault();
    event.stopImmediatePropagation();
-   details.open=!details.open;
-   add.setAttribute('aria-expanded',String(details.open));
-   if(details.open)details.scrollIntoView({behavior:'smooth',block:'nearest'});
+   details.open=true;
+   add.setAttribute('aria-expanded','true');
+   const selector=details.querySelector('#mct-contract-form-input');
+   if(selector){
+     selector.scrollIntoView({behavior:'smooth',block:'nearest'});
+     selector.focus({preventScroll:true});
+     if(typeof selector.showPicker==='function'){try{selector.showPicker()}catch(_){/* select remains keyboard-accessible */}}
+   }else details.scrollIntoView({behavior:'smooth',block:'nearest'});
  },true);
  add.setAttribute('aria-expanded',String(details.open));
  details.addEventListener('toggle',()=>add.setAttribute('aria-expanded',String(details.open)));
