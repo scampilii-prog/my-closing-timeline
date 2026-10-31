@@ -62,7 +62,7 @@ function fmt(s){const d=utcDate(s);return d?new Intl.DateTimeFormat('en-US',{mon
 function mctFederalHoliday(d){return MCTDates.holiday(d)}
 function mctBusinessDay(d){return MCTDates.businessDay(d)}
 function offsetDate(source,days,direction,type,applyContractRules=false){return MCTDates.offsetDate(source,days,direction,type,applyContractRules)}
-function rowDate(r){const base=r.base==='closing'?$('deadline-closing').value:r.base==='recovery'?r.recovery:r.base==='trigger'?r.trigger:$('deadline-effective').value;return r.override||(r.days!==''&&base?offsetDate(base,r.days,r.direction,r.type,true):'')}
+function rowDate(r){const base=r.base==='closing'?$('deadline-closing').value:r.base==='recovery'?r.recovery:r.base==='trigger'?r.trigger:$('deadline-effective').value;return r.override||(r.days!==''&&base?offsetDate(base,r.days,r.direction,r.type,maxFreeTasks===0):'')}
 function moveTask(from,to){if(from<0||to<0||from>=rows.length||to>=rows.length||from===to)return;const task=rows.splice(from,1)[0];rows.splice(to,0,task);manualOrder=true;render();timelineFeedback('Manual task order. Use Sort by date to restore chronological order.')}
 function pendingPeriodOrder(a,b){if(a.base!==b.base||a.date||b.date||a.override||b.override)return 0;const av=a.days===''||a.days===undefined?Infinity:Number(a.days)*(a.direction==='before'?-1:1),bv=b.days===''||b.days===undefined?Infinity:Number(b.days)*(b.direction==='before'?-1:1);return av===bv?0:av-bv}
 function sortRows(){manualOrder=false;const before=rows.slice();rows=rows.map((r,i)=>({r,i,date:rowDate(r)})).sort((a,b)=>(a.date||'9999-12-31').localeCompare(b.date||'9999-12-31')||pendingPeriodOrder(a.r,b.r)||a.i-b.i).map(x=>x.r);if(rows.some((r,i)=>r!==before[i]))render();else show()}
