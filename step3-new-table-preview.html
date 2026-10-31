@@ -52,7 +52,7 @@ table tbody .notes{background:#fff;border:1px solid #c9d9e3;}
 .closing-tools h2{color:#433957!important}
 .closing-tools p{color:#625d70!important}
 .closing-tools button[data-action="save"]{background:#e2f0e7!important;border-color:#9fc9b0!important;color:#255f47!important}
-.closing-tools button[data-action="print"]{background:#e6f0f8!important;border-color:#a7c4d9!important;color:#244f6c!important}
+.closing-tools button[data-action="load"]{background:#f9f6ee!important;border-color:#dccba7!important;color:#735a30!important}.closing-tools button[data-action="print"]{background:#e6f0f8!important;border-color:#a7c4d9!important;color:#244f6c!important}
 .closing-tools button[data-action="close"]{background:#f5e9e4!important;border-color:#d8b3a7!important;color:#895048!important}
 </style></head><body><header><strong>My Closing Timeline</strong><a href="/free-timeline.html">FREE Timeline</a></header>
 <main><section><div class="heading"><h1>Step 3 · Closing Follow-Up — New Table Preview</h1><p>Independent test version · Layout based on Step 2 · Not an activated client transaction</p></div>
@@ -162,22 +162,46 @@ if(window.parent!==window){
 <script id="mct-step3-closing-tools-v1">
 (function(){
  const host=document.createElement('section');host.className='closing-tools';host.setAttribute('aria-label','Closing completion tools');
- host.innerHTML='<h2>Complete your Closing · Private Records</h2><p>Practice saving your follow-up record and preparing a private PDF. Your clients. Your records. Your privacy. No personal information is sent to My Closing Timeline by these preview tools.</p><div class="closing-buttons"><button type="button" data-action="save">Save Record to Device</button><button type="button" data-action="print">Prepare Private PDF / Print</button><button type="button" data-action="close">Complete &amp; Close</button></div><p class="result" role="status"></p>';
+ host.innerHTML='<h2>Complete your Closing · Private Records</h2><p>Practice saving your follow-up record and preparing a private PDF. Your clients. Your records. Your privacy. No personal information is sent to My Closing Timeline by these preview tools.</p><div class="closing-buttons"><button type="button" data-action="save">Save Record to Device</button><button type="button" data-action="load">Open Saved Record</button><button type="button" data-action="print">Prepare Private PDF / Print</button><button type="button" data-action="close">Complete &amp; Close</button></div><input id="mct-private-file-load" type="file" accept=".json,application/json" hidden><p class="result" role="status"></p>';
  document.querySelector('main section')?.append(host);
  const status=host.querySelector('.result');
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const snapshot=()=>({format:'My Closing Timeline preview',effectiveDate:effective.value,closingDate:closing.value,savedAt:new Date().toISOString(),tasks:records.map(r=>({name:r.name,due:calc(r),days:r.offset,dateBasis:r.basis,status:r.done?'Done':'Pending',notes:r.notes}))});
+ const fileInput=host.querySelector('#mct-private-file-load');
+ fileInput.addEventListener('change',async()=>{
+  const file=fileInput.files?.[0];if(!file)return;
+  try{
+   if(file.size>3000000)throw Error('File is too large.');
+   const data=JSON.parse(await file.text());
+   if(data.format!=='My Closing Timeline preview'||!Array.isArray(data.tasks)||data.tasks.length>400)throw Error('This is not a valid closing preview file.');
+   const iso=v=>/^\\d{4}-\\d{2}-\\d{2}$/.test(v||'');
+   if(!iso(data.effectiveDate)||!iso(data.closingDate))throw Error('Saved dates are invalid.');
+   const loaded=data.tasks.map((t,i)=>{
+    if(typeof t.name!=='string'||t.name.length>180||!Number.isSafeInteger(t.days)||!['effective','closing'].includes(t.dateBasis))throw Error('A saved task is invalid.');
+    return {id:5000+i,name:t.name,offset:t.days,basis:t.dateBasis,done:t.status==='Done',notes:String(t.notes||'').slice(0,10000)};
+   });
+   if(!confirm('Replace the current practice tasks with this saved record?'))return;
+   effective.value=data.effectiveDate;closing.value=data.closingDate;
+   if(!validateRange())throw Error('Dates fall outside the permitted closing range.');
+   records.splice(0,records.length,...loaded);
+   sortAndRender(null);
+   status.textContent='Saved practice record restored on this device. Review tasks before continuing.';
+  }catch(err){status.textContent='Could not open saved record: '+err.message;}
+  finally{fileInput.value='';}
+ });
  host.addEventListener('click',e=>{
   const action=e.target.closest('[data-action]')?.dataset.action;if(!action)return;
+  if(action==='load'){fileInput.click();return;}
   if(action==='save'){
    const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});
    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='closing-follow-up-preview.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-   status.textContent='Preview record prepared for download on this device. Not saved to an online account.';
+   status.textContent='Practice record downloaded to your device. To continue later, use Open Saved Record. No online account was changed.';
   }
   if(action==='close'){
    if(!effective.value||!closing.value){status.textContent='Enter and verify both dates before completing the closing.';return;}
    if(!confirm('Mark this preview as completed? This does not close a real account transaction.'))return;
-   status.textContent='Preview marked completed locally. Download your record or prepare a PDF for your files.';
+   host.dataset.completed='true';
+   status.textContent='Practice closing marked complete. Download your record or prepare your private PDF. This does not update a PRO account.';
   }
   if(action==='print'){
    const data=snapshot();
