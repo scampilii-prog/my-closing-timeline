@@ -63,22 +63,26 @@ const records=seeds.map(([name,offset,basis],i)=>({id:i+1,name,offset,basis,done
 const contractMap=new Map([[1,6],[2,9],[3,null],[4,null],[5,null],[6,null]]);
 function mergeContract(tasks){
  if(!Array.isArray(tasks))return;
+ // Merge contract records by stable source ID. Never destroy local notes or Done.
  const links=[[/1st deposit|first deposit/i,6],[/2nd deposit|second deposit/i,9]];
- tasks.forEach(t=>{
-  if(typeof t?.name!=='string'||!Number.isInteger(t.days))return;
-  const pair=links.find(([regex])=>regex.test(t.name));
-  const rec=pair&&records.find(r=>r.id===pair[1]);
-  if(rec){rec.offset=t.days;rec.basis='effective';rec.contractDue=/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:'';}
- });
- // Contract items that have no equivalent preset remain separate, using stable IDs.
- const existing=records.filter(r=>r.fromContract);
- existing.forEach(r=>records.splice(records.indexOf(r),1));
+ const seen=new Set();
  tasks.forEach((t,i)=>{
-  if(!t.name||!Number.isInteger(t.days))return;
-  if(links.some(([rx])=>rx.test(t.name)))return;
-  const rec={id:100+i,name:t.name,offset:t.days,basis:'effective',done:false,notes:'',fromContract:true,contractDue:/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:''};
-  records.push(rec);
+  if(typeof t?.name!=='string'||!t.name.trim()||!Number.isSafeInteger(t.days))return;
+  const matching=links.find(([regex])=>regex.test(t.name));
+  const id=matching?matching[1]:100+(Number.isSafeInteger(t.id)&&t.id>0?t.id:i+1);
+  seen.add(id);
+  let rec=records.find(r=>r.id===id);
+  if(!rec){
+   rec={id,name:t.name,offset:t.days,basis:'effective',done:false,notes:'',fromContract:true};
+   records.push(rec);
+  }
+  // Do not change the user's completion state or notes while syncing deadlines.
+  rec.offset=t.days;
+  rec.basis='effective';
+  rec.contractDue=/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:'';
  });
+ // Keep imported tasks even when a transient Step 2 DOM update omits them.
+ // An explicit delete must be handled by a dedicated contract deletion action.
 }
 function calc(rec){if(rec.contractDue)return rec.contractDue;return offsetToDate(rec.basis==='closing'?closing.value:effective.value,rec.offset)}
 function state(rec,date){if(rec.done)return ['Done','Completed'];if(!date)return ['Pending','No date'];const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const diff=Math.round((Date.parse(date+'T12:00:00Z')-Date.parse(today+'T12:00:00Z'))/86400000);return diff<0?['Pending','Overdue']:diff===0?['Pending','Today']:diff===1?['Pending','Tomorrow']:['Pending','In '+diff+' days']}
