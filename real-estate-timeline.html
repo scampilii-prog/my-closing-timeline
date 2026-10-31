@@ -4680,6 +4680,15 @@ function init(){
  const add=document.getElementById('deadline-add');
  const details=area?.querySelector('details.fc-simple-options');
  if(!area||!add||!details)return;
+ const toolbar=area.querySelector('.mct-add-task-area');
+ if(toolbar){
+  toolbar.style.setProperty('display','flex','important');toolbar.style.setProperty('flex-wrap','nowrap','important');toolbar.style.setProperty('gap','8px','important');
+  for(const [id,width] of [['deadline-add','140px'],['deadline-sort','96px'],['deadline-update','118px']]){
+   const el=document.getElementById(id);if(!el)continue;
+   for(const [prop,value] of Object.entries({flex:'0 0 '+width,width:width,'max-width':width,'min-width':width,height:'38px','min-height':'38px','max-height':'38px'}))el.style.setProperty(prop,value,'important');
+   if(id==='deadline-add')el.style.setProperty('margin-right','auto','important');
+  }
+ }
  let internalAdd=false;
  add.addEventListener('click',function(event){
    if(internalAdd)return;
