@@ -163,3 +163,14 @@ NEW definitive owner flow, superseding ambiguities in previous implementations:
 **Ubicación de la invitación de registro.** Aprovechar el espacio promocional cercano a Today & Tomorrow. Mantener Save PDF / Print, Calendar & Reminders y More Tools como presentación de beneficios PRO, diferenciados del botón de registro.
 
 **Prioridad antes de activar clientes:** probar por completo la nueva Step 3 y todos los cálculos. Este texto es una especificación definitiva, NO una afirmación de que la activación y persistencia ya funcionen en producción.
+
+
+## NORMA DE DISEÑO GLOBAL — 30 OCT 2026 (pendiente de auditoría)
+
+- Antes de extender la alineación del hero a páginas existentes, corregir y verificar los errores en la página de referencia FREE Timeline. **No propagar estilos rotos.**
+- Todo hero fotográfico debe alinear su contenido a los bordes reales del contenido principal inferior, con una sola regla de geometría activa por página; nada de padding/margins de generaciones anteriores que compitan.
+- Mantener las imágenes y textos propios de cada página; no forzar la fotografía FREE a PRO, PLUS, Home, Login, Registro o Administración.
+- Tarjeta Privacy First compacta, contenido comercial claro y sin superposición. Adaptación móvil real. Cabecera y navegación unificadas sin eliminar controles.
+- Auditar CSS heredado y eliminar solo reglas obsoletas verificadas; conservar código funcional de fechas, tablas, formularios, registros, privacidad y pagos.
+- Probar en el sitio publicado desktop y móvil antes de declarar todas las páginas arregladas.
+- Esta norma **no implica que la revisión de todas las páginas ya esté completada**. El usuario ha reportado nuevos problemas visuales y requieren diagnóstico antes de despliegues generales.
