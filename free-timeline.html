@@ -4656,6 +4656,17 @@ function start(){
  frame.addEventListener('load',transmit);
  for(const field of [effective,closing])if(field)for(const type of ['input','change'])field.addEventListener(type,transmit);
  window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3DateEdit')return;
+  const iso=/^\d{4}-\d{2}-\d{2}$/;
+  const e=event.data.effective,c=event.data.closing;
+  if(!iso.test(e||'')||!iso.test(c||''))return;
+  const [y,m,d]=e.split('-').map(Number);
+  const max=new Date(Date.UTC(y,m-1,d+60)).toISOString().slice(0,10);
+  if(c<e||c>max)return;
+  if(effective&&effective.value!==e){effective.value=e;effective.dispatchEvent(new Event('change',{bubbles:true}));}
+  if(closing&&closing.value!==c){closing.value=c;closing.dispatchEvent(new Event('change',{bubbles:true}));}
+ });
+ window.addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3Height')return;
   const height=Number(event.data.height);
   if(Number.isFinite(height)&&height>200&&height<30000)frame.style.height=(height+12)+'px';
