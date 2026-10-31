@@ -26,7 +26,28 @@ table tbody td:first-child{font-size:15px;font-weight:850}
 table tbody td:nth-child(2){font-size:15px;font-weight:750;line-height:1.4}
 table tbody .num{text-align:right;font-size:14px;font-weight:750;padding-right:9px}
 table tbody td:nth-child(3),table tbody td:nth-child(5){vertical-align:middle}
-</style><style id="mct-step3-delete-task-style">table .delete-cell{text-align:center;padding:6px 2px}.delete-task{font:750 11px Manrope,Arial,sans-serif;background:#fff6f4;color:#9b3e36;border:1px solid #d9a69e;border-radius:6px;padding:7px 5px;cursor:pointer}.delete-task:hover{background:#fbe5e1}.delete-task:focus-visible{outline:2px solid #9b3e36;outline-offset:2px}</style><style id="mct-step3-editable-task-name-layout">table tbody .task-name-input{display:block;width:100%;min-width:0;border:1px solid transparent;border-radius:5px;background:transparent;color:inherit;font:inherit;font-weight:750;padding:6px 2px}table tbody .task-name-input:not([readonly]):focus{background:white;border-color:#95b5cb;outline:2px solid #cadde9}table tbody .task-name-input[readonly]{cursor:default;opacity:.78}table tbody td:nth-child(9) .notes{min-width:0;width:100%}</style></head><body><header><strong>My Closing Timeline</strong><a href="/free-timeline.html">FREE Timeline</a></header>
+</style><style id="mct-step3-delete-task-style">table .delete-cell{text-align:center;padding:6px 2px}.delete-task{font:750 11px Manrope,Arial,sans-serif;background:#fff6f4;color:#9b3e36;border:1px solid #d9a69e;border-radius:6px;padding:7px 5px;cursor:pointer}.delete-task:hover{background:#fbe5e1}.delete-task:focus-visible{outline:2px solid #9b3e36;outline-offset:2px}</style><style id="mct-step3-editable-task-name-layout">table tbody .task-name-input{display:block;width:100%;min-width:0;border:1px solid transparent;border-radius:5px;background:transparent;color:inherit;font:inherit;font-weight:750;padding:6px 2px}table tbody .task-name-input:not([readonly]):focus{background:white;border-color:#95b5cb;outline:2px solid #cadde9}table tbody .task-name-input[readonly]{cursor:default;opacity:.78}table tbody td:nth-child(9) .notes{min-width:0;width:100%}</style><style id="mct-step3-editable-name-final-style">
+/* A quiet input affordance for editable task titles; past tasks remain read-only. */
+table tbody .task-name-input:not([readonly]){
+ background:#fff;
+ border:1px solid #c9d9e3;
+ border-radius:6px;
+ padding:6px 8px;
+ transition:border-color .15s ease,box-shadow .15s ease;
+}
+table tbody .task-name-input:not([readonly]):focus{
+ border-color:#789fb9;
+ box-shadow:0 0 0 2px rgba(120,159,185,.16);
+ outline:none;
+}
+table tbody .task-name-input[readonly]{
+ background:transparent;
+ border:1px solid transparent;
+ padding:6px 8px;
+ box-shadow:none;
+}
+table tbody .notes{background:#fff;border:1px solid #c9d9e3;}
+</style></head><body><header><strong>My Closing Timeline</strong><a href="/free-timeline.html">FREE Timeline</a></header>
 <main><section><div class="heading"><h1>Step 3 · Closing Follow-Up — New Table Preview</h1><p>Independent test version · Layout based on Step 2 · Not an activated client transaction</p></div>
 <div class="controls"><label>Effective Date<input id="effective" type="date"></label><label>Closing Date<input id="closing" type="date"></label><strong id="count"></strong><span id="range-error" role="alert" hidden>Closing Date must be within 60 days of Effective Date.</span><button id="add-task-toggle" type="button" aria-expanded="false">+ Add Task</button></div>
 <form id="add-task-form" hidden><label>Task / reminder<input id="add-task-name" required maxlength="180" placeholder="New follow-up task"></label><label>Date Basis<select id="add-task-basis"><option value="effective">After Effective Date</option><option value="closing">Before Closing Date</option></select></label><label>Days<input id="add-task-days" type="number" step="1" required value="0"></label><label>Reminder Date<input id="add-task-date" type="date" required></label><button type="submit">Add & Position</button><button type="button" id="add-task-cancel">Cancel</button></form>
