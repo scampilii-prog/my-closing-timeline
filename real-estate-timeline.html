@@ -4728,7 +4728,6 @@ function start(){
   new MutationObserver(read).observe(rows,{subtree:true,childList:true,attributes:true,attributeFilter:['data-date','checked','value']});
   read();
  });
- frame.addEventListener('load',transmit);
  document.getElementById('deadline-editor-rows')?.addEventListener('change',()=>setTimeout(transmit,100));
  document.getElementById('deadline-editor-rows')?.addEventListener('input',()=>setTimeout(transmit,100));
  frame.addEventListener('load',transmit);
