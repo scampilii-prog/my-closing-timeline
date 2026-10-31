@@ -4701,16 +4701,21 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #contract-deadline-planner #mct-free-tomorrow-preview{opacity:.8!important}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-today-inner,
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day{pointer-events:none!important}
+html body.mct-practice-mode #contract-deadline-planner #mct-free-followup-preview #mct-new-step3-frame{opacity:1!important;pointer-events:auto!important}
+html body.mct-practice-mode #contract-deadline-planner #mct-free-tomorrow-preview{opacity:1!important}
 </style>
 <script id="mct-free-readonly-preview-20261030">
 (function(){
  function lock(){
+  const practice=new URLSearchParams(location.search).get('practice')==='1';
+  document.body.classList.toggle('mct-practice-mode',practice);
   const frame=document.getElementById('mct-new-step3-frame');
   const today=document.getElementById('mct-free-tomorrow-preview');
-  if(frame){frame.setAttribute('inert','');frame.setAttribute('tabindex','-1');frame.setAttribute('aria-label','Step 3 preview — registration and closing activation required');}
+  if(frame){if(practice){frame.removeAttribute('inert');frame.removeAttribute('tabindex');frame.setAttribute('aria-label','Interactive practice; no account or credit activated');}else{frame.setAttribute('inert','');frame.setAttribute('tabindex','-1');frame.setAttribute('aria-label','Step 3 preview — registration and closing activation required');}}
   if(today){today.setAttribute('inert','');today.setAttribute('aria-label','Today and Tomorrow read-only preview — activation required');}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',lock);else lock();
  window.addEventListener('load',lock);
+ new MutationObserver(lock).observe(document.getElementById('mct-free-followup-preview')||document.body,{childList:true});
 })();
 </script><style id="mct-free-hero-privacy-message">.intro.mct-photo-hero .mct-hero-privacy-promise{color:#ffdf9b!important;font:750 14px/1.5 Manrope,Arial,sans-serif!important;margin:12px 0 0!important;max-width:750px!important;text-align:left!important}</style></body></html>
