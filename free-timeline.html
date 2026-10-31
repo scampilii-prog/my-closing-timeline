@@ -4664,4 +4664,20 @@ function start(){
 if(document.readyState==='complete')start();
 else window.addEventListener('load',start,{once:true});
 })();
+</script><script id="mct-free-closing-range-check-20261030">
+(function(){
+function setup(){
+ const e=document.getElementById('deadline-effective'),c=document.getElementById('deadline-closing');if(!e||!c)return;
+ const add60=iso=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return '';const [y,m,d]=iso.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+60)).toISOString().slice(0,10)};
+ const warning=document.createElement('span');warning.id='mct-free-60day-warning';warning.style.cssText='display:none;color:#a12f33;font-size:12px;font-weight:800;margin-top:5px';warning.textContent='Closing Date must be between Effective Date and 60 calendar days later.';c.parentElement.appendChild(warning);
+ function check(){
+  const min=e.value,max=add60(min),invalid=!!(min&&c.value&&(c.value<min||c.value>max));
+  c.min=min||'';c.max=max||'';warning.style.display=invalid?'block':'none';
+  c.setCustomValidity(invalid?warning.textContent:'');
+  c.setAttribute('aria-invalid',String(invalid));
+ }
+ [e,c].forEach(el=>{el.addEventListener('input',check);el.addEventListener('change',check)});check();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
 </script></body></html>
