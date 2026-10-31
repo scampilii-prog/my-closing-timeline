@@ -1269,6 +1269,18 @@ html body #contract-deadline-planner #mct-free-real-estate-landing .mct-free-nav
 html body #contract-deadline-planner #mct-free-real-estate-landing .mct-free-nav-privacy-row>nav.mct-inline-steps{width:100%!important;max-width:100%!important}
 html body #contract-deadline-planner #mct-free-real-estate-landing .mct-free-nav-privacy-row>.mct-hero-privacy-card{position:static!important;transform:none!important;width:255px!important;max-width:100%!important;margin-left:auto!important;box-sizing:border-box!important;padding:11px!important;background:#faf5fc!important;border:1px solid #b6a2b9!important;border-radius:12px!important}
 }
+</style><style id="mct-closing-duration-20261031">
+#contract-deadline-planner .fc-simple-dates{display:flex;align-items:stretch;flex-wrap:wrap;gap:15px}
+#contract-deadline-planner .mct-closing-adjust{display:flex;align-items:center;gap:7px}
+#contract-deadline-planner .mct-closing-stepper{display:flex;flex-direction:column;gap:3px}
+#contract-deadline-planner .mct-closing-stepper button{display:grid;place-items:center;min-width:24px;width:24px;height:23px;padding:0;background:#eff5f6;border:1px solid #be985d;border-radius:5px;color:#557688;font:800 12px Manrope,Arial,sans-serif;cursor:pointer}
+#contract-deadline-planner .mct-closing-stepper button:hover:not(:disabled){background:#dfeef3;color:#184e66}
+#contract-deadline-planner .mct-closing-stepper button:disabled{opacity:.35;cursor:not-allowed}
+#contract-deadline-planner .mct-closing-duration{box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;padding:10px 20px;border:2px solid #a9c9d5;border-radius:12px;background:#f5fafb;color:#19485d;text-align:center}
+#contract-deadline-planner .mct-closing-duration-label{font:800 13px Manrope,Arial,sans-serif}
+#contract-deadline-planner .mct-closing-duration strong{font:850 29px/1.2 Manrope,Arial,sans-serif;letter-spacing:-.02em}
+#contract-deadline-planner .mct-closing-duration small{font:650 11px Manrope,Arial,sans-serif;color:#5e7885}
+@media(max-width:620px){#contract-deadline-planner .mct-closing-duration{min-width:120px;padding:9px 14px}}
 </style></head><body class="mct-unified-internal-hero mct-layout-wide mct-layout-wide"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/real-estate-timeline.html" aria-current="page">Real Estate Closing Timeline</a><a href="/timeline-plus.html">Project Timeline</a><a href="/free-timeline.html">FREE Timeline</a><a href="/pro-get-started.html">PRO Timeline</a><a href="/contact.html">Help &amp; Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><section class="intro mct-photo-hero" aria-label="Real estate closing timeline"><div class="mct-photo-hero-content"><p class="mct-hero-kicker">REAL ESTATE CLOSINGS MADE SIMPLE</p><h1><span>From Contract to Closing.</span><span>Beautifully Organized.</span></h1><p class="mct-hero-description">Build, manage, print and share a clear closing timeline.<br>Start free, without an account.</p><div class="mct-hero-benefits"><span><b aria-hidden="true">▣</b> Stay on track with key dates</span><span><b aria-hidden="true">▤</b> Keep everyone informed</span><span><b aria-hidden="true">⌂</b> A smoother closing</span></div></div></section><main class="workspace"><div id="timeline" class="mct-timeline-anchor" aria-hidden="true"></div><div id="transaction-details" class="mct-timeline-anchor" aria-hidden="true"></div><section id="contract-deadline-planner" data-free-task-limit="8" class="deadline-planner fc-timeline fc-simple-timeline" aria-labelledby="deadline-planner-title"><section class="mct-product-path mct-audience-choice mct-unified-free-choices" id="mct-product-path-free" aria-labelledby="mct-product-path-title-free">
  <div class="mct-product-path-head">
   <span class="mct-product-path-eyebrow">CHOOSE YOUR FREE TIMELINE</span>
@@ -1325,7 +1337,7 @@ html body #contract-deadline-planner #mct-free-real-estate-landing .mct-free-nav
  </label>
  <p id="mct-day-count-help">Calendar Days counts every day; a weekend or observed U.S. federal-holiday deadline moves forward (or earlier if counted backward from Closing). Business Days excludes those days during counting. <strong>Always check the signed contract:</strong> acceptance, notices, exact dates and other terms may have exceptions.</p>
  <p id="mct-day-count-feedback" role="status" aria-live="polite">Calendar Days selected · suggested dates adjust for weekends and observed federal holidays.</p>
-</div><div class="fc-editor-toolbar"><div class="fc-simple-dates"><label for="deadline-effective">Effective date<input type="date" id="deadline-effective"></label><label for="deadline-closing">Closing date<input type="date" id="deadline-closing"></label></div><div class="fc-simple-task-heading"><h4>Your tasks <small class="mct-free-task-inline">6 suggested + 2 optional</small></h4><div class="fc-simple-task-controls mct-secondary-actions"></div></div></div><div id="deadline-editor-rows"></div><div class="mct-add-task-area"><button type="button" id="deadline-add" class="mct-free-edit-button" title="FREE allows two additional tasks beyond the six suggested tasks">+ Add Task</button><button type="button" id="deadline-reset" class="mct-free-edit-button" title="Remove the most recently added optional task">Reset Last</button><button type="button" id="deadline-sort" class="mct-free-edit-button">Sort by Date</button></div><p id="mct-free-task-cap" class="mct-task-hint" role="status" aria-live="polite">6 of 8 FREE tasks used · 2 remaining</p><p class="mct-task-hint">FREE starts with 6 suggested contract milestones (cash purchases omit inapplicable financing tasks) and lets you add up to 2 of your own. Add task creates another contractual milestone above. Choose a task and enter its days. The six suggested FREE contract tasks calculate after the Effective Date. Review the contract and adjust any exact due dates as needed. Only Step 2 contract deadlines appear in the FREE preview; PRO offers separate daily follow-up tasks.</p><details class="fc-simple-options"><summary><strong>More Options · Contract Forms, Addenda &amp; Notes</strong><span>Click to add your contract documents and additional details.</span></summary><div><div class="mct-contract-forms-editor" id="mct-contract-forms-editor">
+</div><div class="fc-editor-toolbar"><div class="fc-simple-dates"><label for="deadline-effective">Effective date<input type="date" id="deadline-effective"></label><label for="deadline-closing">Closing date<span class="mct-closing-adjust"><input type="date" id="deadline-closing"><span class="mct-closing-stepper"><button type="button" id="mct-closing-plus" aria-label="Move closing date one day later" title="One day later">▲</button><button type="button" id="mct-closing-minus" aria-label="Move closing date one day earlier" title="One day earlier">▼</button></span></span></label><div class="mct-closing-duration" role="status" aria-live="polite"><span class="mct-closing-duration-label">Duration</span><strong id="mct-closing-duration-value">—</strong><small>calendar days</small></div></div><div class="fc-simple-task-heading"><h4>Your tasks <small class="mct-free-task-inline">6 suggested + 2 optional</small></h4><div class="fc-simple-task-controls mct-secondary-actions"></div></div></div><div id="deadline-editor-rows"></div><div class="mct-add-task-area"><button type="button" id="deadline-add" class="mct-free-edit-button" title="FREE allows two additional tasks beyond the six suggested tasks">+ Add Task</button><button type="button" id="deadline-reset" class="mct-free-edit-button" title="Remove the most recently added optional task">Reset Last</button><button type="button" id="deadline-sort" class="mct-free-edit-button">Sort by Date</button></div><p id="mct-free-task-cap" class="mct-task-hint" role="status" aria-live="polite">6 of 8 FREE tasks used · 2 remaining</p><p class="mct-task-hint">FREE starts with 6 suggested contract milestones (cash purchases omit inapplicable financing tasks) and lets you add up to 2 of your own. Add task creates another contractual milestone above. Choose a task and enter its days. The six suggested FREE contract tasks calculate after the Effective Date. Review the contract and adjust any exact due dates as needed. Only Step 2 contract deadlines appear in the FREE preview; PRO offers separate daily follow-up tasks.</p><details class="fc-simple-options"><summary><strong>More Options · Contract Forms, Addenda &amp; Notes</strong><span>Click to add your contract documents and additional details.</span></summary><div><div class="mct-contract-forms-editor" id="mct-contract-forms-editor">
  <h5>Contract Forms &amp; Addenda <span>(optional)</span></h5>
  <p class="mct-contract-form-lead">Type the name of each contract, rider or addendum. Add, reuse or remove the names you need.</p>
  <input type="hidden" id="deadline-contract-form" value="">
@@ -4584,4 +4596,38 @@ html body.mct-practice-mode #contract-deadline-planner #mct-free-tomorrow-previe
 })();
 </script>
 
-</body></html>
+<script id="mct-closing-duration-20261031-script">
+(function(){
+ function ready(){
+  const effective=document.getElementById('deadline-effective'),closing=document.getElementById('deadline-closing');
+  const value=document.getElementById('mct-closing-duration-value'),up=document.getElementById('mct-closing-plus'),down=document.getElementById('mct-closing-minus');
+  if(!effective||!closing||!value||!up||!down)return;
+  function stamp(iso){if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return null;const [y,m,d]=iso.split('-').map(Number);const t=Date.UTC(y,m-1,d);return new Date(t).toISOString().slice(0,10)===iso?t:null;}
+  function iso(t){return new Date(t).toISOString().slice(0,10);}
+  function update(){
+   const start=stamp(effective.value),end=stamp(closing.value),day=86400000;
+   const n=start!==null&&end!==null?Math.round((end-start)/day):null;
+   value.textContent=n===null?'—':String(n);
+   const min=start===null?null:start,max=start===null?null:start+60*day;
+   up.disabled=end===null||max===null||end>=max;
+   down.disabled=end===null||min===null||end<=min;
+   value.parentElement.title=n===null?'Select both dates':'Closing duration: '+n+' calendar days (maximum 60)';
+  }
+  function shift(delta){
+   const start=stamp(effective.value),end=stamp(closing.value);
+   if(start===null||end===null)return;
+   const next=end+delta*86400000;
+   if(next<start||next>start+60*86400000)return;
+   closing.value=iso(next);
+   closing.dispatchEvent(new Event('input',{bubbles:true}));
+   closing.dispatchEvent(new Event('change',{bubbles:true}));
+   update();
+  }
+  up.addEventListener('click',()=>shift(1));down.addEventListener('click',()=>shift(-1));
+  for(const el of [effective,closing])for(const event of ['input','change'])el.addEventListener(event,update);
+  new MutationObserver(update).observe(closing,{attributes:true,attributeFilter:['value']});
+  update();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
+})();
+</script></body></html>
