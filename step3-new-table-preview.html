@@ -166,7 +166,7 @@ if(window.parent!==window){
  document.querySelector('main section')?.append(host);
  const status=host.querySelector('.result');
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const snapshot=()=>({format:'My Closing Timeline preview',effectiveDate:effective.value,closingDate:closing.value,savedAt:new Date().toISOString(),tasks:records.map(r=>({name:r.name,due:calc(r),days:r.offset,dateBasis:r.basis,status:r.done?'Done':'Pending',notes:r.notes}))});
+ const snapshot=()=>({format:'My Closing Timeline preview',effectiveDate:effective.value,closingDate:closing.value,savedAt:new Date().toISOString(),completed:host.dataset.completed==='true',tasks:records.map(r=>({name:r.name,due:calc(r),days:r.offset,dateBasis:r.basis,status:r.done?'Done':'Pending',notes:r.notes}))});
  const fileInput=host.querySelector('#mct-private-file-load');
  fileInput.addEventListener('change',async()=>{
   const file=fileInput.files?.[0];if(!file)return;
@@ -174,7 +174,7 @@ if(window.parent!==window){
    if(file.size>3000000)throw Error('File is too large.');
    const data=JSON.parse(await file.text());
    if(data.format!=='My Closing Timeline preview'||!Array.isArray(data.tasks)||data.tasks.length>400)throw Error('This is not a valid closing preview file.');
-   const iso=v=>/^\\d{4}-\\d{2}-\\d{2}$/.test(v||'');
+   const iso=v=>/^\d{4}-\d{2}-\d{2}$/.test(v||'');
    if(!iso(data.effectiveDate)||!iso(data.closingDate))throw Error('Saved dates are invalid.');
    const loaded=data.tasks.map((t,i)=>{
     if(typeof t.name!=='string'||t.name.length>180||!Number.isSafeInteger(t.days)||!['effective','closing'].includes(t.dateBasis))throw Error('A saved task is invalid.');
@@ -184,6 +184,7 @@ if(window.parent!==window){
    effective.value=data.effectiveDate;closing.value=data.closingDate;
    if(!validateRange())throw Error('Dates fall outside the permitted closing range.');
    records.splice(0,records.length,...loaded);
+   host.dataset.completed=data.completed===true?'true':'false';
    sortAndRender(null);
    status.textContent='Saved practice record restored on this device. Review tasks before continuing.';
   }catch(err){status.textContent='Could not open saved record: '+err.message;}
@@ -198,10 +199,10 @@ if(window.parent!==window){
    status.textContent='Practice record downloaded to your device. To continue later, use Open Saved Record. No online account was changed.';
   }
   if(action==='close'){
-   if(!effective.value||!closing.value){status.textContent='Enter and verify both dates before completing the closing.';return;}
+   if(!effective.value||!closing.value||!validateRange()){status.textContent='Enter and verify valid Effective and Closing Dates before completing the closing.';return;}
    if(!confirm('Mark this preview as completed? This does not close a real account transaction.'))return;
    host.dataset.completed='true';
-   status.textContent='Practice closing marked complete. Download your record or prepare your private PDF. This does not update a PRO account.';
+   status.textContent='Practice closing marked complete locally. Use Save Record to Device to retain this result. This does not update a PRO account.';
   }
   if(action==='print'){
    const data=snapshot();
