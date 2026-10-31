@@ -4215,7 +4215,7 @@ function initialize(){
   select.setAttribute('aria-label','Date Basis for task '+(i+1));
   const modes=[['effective','After Effective Date'],['closing','Before Closing Date']];
   modes.forEach(([v,l])=>{const option=document.createElement('option');option.value=v;option.textContent=l;select.appendChild(option)});
-  select.value=i>=34?'closing':'effective';row.dataset.mctBasis=select.value;
+  select.value=row.dataset.mctBasis==='closing'?'closing':'effective';row.dataset.mctBasis=select.value;
   const old=cell.querySelector('.mct-step3-basis-pill');if(old)old.replaceWith(select);else cell.appendChild(select);
   select.disabled=row.classList.contains('mct-v4-past');
   select.addEventListener('change',()=>{
