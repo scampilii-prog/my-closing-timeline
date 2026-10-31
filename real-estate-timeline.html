@@ -4694,8 +4694,30 @@ function init(){
    if(id==='deadline-add')el.style.setProperty('margin-right','auto','important');
   }
  }
- // Allow the existing Add Task handler to create a task directly.
- // Keep contract documents and notes accessible only through the separate disclosure.
+ // Open the existing dropdown on the main button without adding a task prematurely.
+ let forwardAdd=false;
+ add.addEventListener('click',event=>{
+   if(forwardAdd)return;
+   event.preventDefault();
+   event.stopImmediatePropagation();
+   details.open=!details.open;
+   add.setAttribute('aria-expanded',String(details.open));
+   if(details.open)details.scrollIntoView({behavior:'smooth',block:'nearest'});
+ },true);
+ add.setAttribute('aria-expanded',String(details.open));
+ details.addEventListener('toggle',()=>add.setAttribute('aria-expanded',String(details.open)));
+ const inside=details.querySelector(':scope > div');
+ if(inside&&!document.getElementById('mct-add-custom-task-inside')){
+  const b=document.createElement('button');
+  b.id='mct-add-custom-task-inside';b.type='button';b.textContent='+ Insert Custom Task';
+  b.className='mct-free-edit-button';
+  b.style.cssText='display:inline-flex;justify-content:center;align-items:center;border:1.5px solid #70a88a;border-radius:8px;background:#e6f5ec;color:#136344;padding:9px 14px;font:800 12px Manrope,Arial,sans-serif;cursor:pointer;margin:6px 0 10px';
+  inside.insertBefore(b,inside.firstChild);
+  b.addEventListener('click',()=>{
+   forwardAdd=true;
+   try{add.click();}finally{forwardAdd=false;}
+  });
+ }
 
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
