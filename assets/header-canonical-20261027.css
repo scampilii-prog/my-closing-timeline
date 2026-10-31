@@ -242,3 +242,15 @@ html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects
  color:#edc983!important;text-decoration:underline!important;
  text-decoration-thickness:1.5px!important;text-underline-offset:6px!important;
 }
+
+/* Refined unified masthead: shared vertical center and restrained account controls. */
+html body header#mct-site-header.mct-unified-header>.mct-header-inner{align-items:center!important}
+html body header#mct-site-header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;gap:10px!important;font-size:clamp(23px,1.5vw,28px)!important;line-height:1!important}
+html body header#mct-site-header.mct-unified-header .mct-brand img.mct-brand-icon{width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important;max-height:42px!important;flex-basis:42px!important}
+html body header#mct-site-header.mct-unified-header .mct-header-tools{align-items:center!important;gap:14px!important}
+html body header#mct-site-header.mct-unified-header #mct-language{width:50px!important;min-width:50px!important;height:39px!important;min-height:39px!important;background:transparent!important;border:1px solid transparent!important;border-radius:6px!important;font-size:13px!important;color:#e2edf2!important;padding:0 3px!important}
+html body header#mct-site-header.mct-unified-header #mct-language:focus-visible{border-color:#c7a876!important;outline:2px solid #c7a876!important}
+html body header#mct-site-header.mct-unified-header .mct-header-account{gap:12px!important;padding:0!important;border-left:0!important}
+html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-auth-link{height:39px!important;min-height:39px!important;color:#dfeaf0!important;font-weight:650!important;padding:0 5px!important}
+html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-auth-register{height:39px!important;min-height:39px!important;min-width:88px!important;border:1px solid #5b8792!important;background:#1c4353!important;color:#fff!important;border-radius:7px!important;font-weight:750!important}
+html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-auth-register:hover{background:#235c68!important;border-color:#c3a979!important}
