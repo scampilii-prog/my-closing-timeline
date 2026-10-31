@@ -47,12 +47,20 @@ function render(){
   add.title=slots===0?'FREE planner is full (8 tasks). Remove a task to add another.':slots+' task slot'+(slots===1?'':'s')+' available (8 total maximum)';
   const note=$('mct-free-task-cap');
   if(note){
+   let panel=document.getElementById('mct-free-pro-limit-panel');
+   if(!panel){
+    panel=document.createElement('div');panel.id='mct-free-pro-limit-panel';
+    note.insertAdjacentElement('afterend',panel);
+   }
    if(slots===0){
-    note.classList.add('mct-free-limit-reached');
-    note.innerHTML='<strong>All 8 FREE tasks are in use.</strong><span>Ready for more? Create your account and request your first eligible PRO closing free. Continue with saved closings, Step 3 and Today &amp; Tomorrow after activation.</span><span class="mct-free-limit-actions"><a href="/first-closing-free.html">Get My First PRO Closing FREE</a><a href="/pro-get-started.html?auth=register">Create / Access Account</a></span><small>No credit card required to request your code. PRO activation is subject to eligibility and launch verification.</small>';
+    note.hidden=true;
+    panel.hidden=false;
+    panel.innerHTML='<h4>All 8 FREE tasks are used!</h4><p>You have reached the FREE limit. <strong>Create your account to continue with PRO</strong> and access saved closings, Step 3 follow-up, and Today &amp; Tomorrow once activated.</p><div class="mct-limit-buttons"><a href="/first-closing-free.html">Get My First PRO Closing FREE</a><a href="/pro-get-started.html?auth=register">Create My Account</a></div><small>First eligible PRO closing free with a verified email. Requesting a code requires no credit card. PRO activation is not automatic.</small>';
    }else{
-    note.classList.remove('mct-free-limit-reached');
+    note.hidden=false;
     note.textContent=rows.length+' of '+maxFreeTasks+' FREE tasks · '+slots+' task '+(slots===1?'slot':'slots')+' remaining';
+    panel.hidden=true;
+    panel.replaceChildren();
    }
   }
  }
