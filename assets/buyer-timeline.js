@@ -24,7 +24,7 @@ function baseRow(n){const item=typeof n==='object'&&n!==null?n:{n:typeof n==='nu
  const name=r.custom||(r.name===names[names.length-1]?'':r.name);
  const state=r.status==='done'?'DONE':r.status==='na'?'NOT APPLICABLE':'PENDING';
  const cls=r.status==='done'?'is-done':r.status==='na'?'is-na':'is-pending';
- return '<article class="fc-simple-task mct-realty-task-card mct-master-row" data-index="'+i+'">'
+ return '<article class="fc-simple-task mct-realty-task-card mct-master-row" data-index="'+i+'" data-added-sequence="'+(r.addedSequence||'')+'">'
  +'<span class="fc-task-label mct-master-number" draggable="true" tabindex="0" role="button" title="Drag to reorder; Alt + arrows" aria-label="Move task '+(i+1)+'">'+(i+1)+'</span>'
  +'<label class="mct-realty-task-name"><span>Task</span><input data-field="custom" type="text" aria-label="Edit task '+(i+1)+' name" maxlength="180" value="'+esc(name)+'"></label>'
  +'<label class="mct-realty-task-days"><span>Days</span><input data-field="days" type="number" min="0" max="3650" step="1" value="'+esc(r.days)+'"></label>'
@@ -40,14 +40,14 @@ function render(){
  $('deadline-reset').disabled=maxFreeTasks>0?!rows.some(r=>r.userAdded):rows.length===0;
  if(maxFreeTasks>0){
   const add=$('deadline-add'),remainingTotal=Math.max(0,maxFreeTasks-rows.length);
-  const remainingCustom=Math.max(0,2-rows.filter(r=>r.userAdded).length);
+  const remainingCustom=remainingTotal;
   const slots=Math.min(remainingTotal,remainingCustom);
   add.disabled=slots===0;
   add.setAttribute('aria-disabled',String(slots===0));
-  add.title=slots===0?'FREE allows a maximum of 2 manually added tasks and 8 total.':slots+' manually added task'+(slots===1?'':'s')+' still available in FREE';
+  add.title=slots===0?'FREE planner is full (8 tasks). Remove a task to add another.':slots+' task slot'+(slots===1?'':'s')+' available (8 total maximum)';
   const note=$('mct-free-task-cap');
   if(note){
-   note.textContent=slots===0?'FREE includes 6 suggested tasks + up to 2 added tasks. To make room, remove one of the extra tasks.':rows.length+' of '+maxFreeTasks+' FREE tasks · '+slots+' optional '+(slots===1?'task':'tasks')+' remaining';
+   note.textContent=slots===0?'FREE planner is full (8 tasks). Remove a task to make room.':rows.length+' of '+maxFreeTasks+' FREE tasks · '+slots+' optional '+(slots===1?'task':'tasks')+' remaining';
   }
  }
  body.querySelectorAll('[data-index]').forEach(card=>{const i=Number(card.dataset.index),row=rows[i];const handle=card.querySelector('.fc-task-label');handle.addEventListener('dragstart',e=>{draggedTask=row;if(e.dataTransfer){e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(rows.indexOf(row)))}});handle.addEventListener('dragend',()=>{draggedTask=null});handle.addEventListener('keydown',e=>{if(e.altKey&&(e.key==='ArrowUp'||e.key==='ArrowDown')){e.preventDefault();const from=rows.indexOf(row);moveTask(from,from+(e.key==='ArrowUp'?-1:1))}});card.addEventListener('dragover',e=>{if(draggedTask)e.preventDefault()});card.addEventListener('drop',e=>{if(!draggedTask)return;e.preventDefault();const from=rows.indexOf(draggedTask),to=rows.indexOf(row);draggedTask=null;moveTask(from,to)});card.querySelectorAll('[data-field]').forEach(el=>{const update=()=>{row[el.dataset.field]=el.value;if(el.dataset.field==='name'){row.base=row.name.includes('lender closing funds')?'closing':row.name.includes('Force Majeure')?'closing':taskGuide(row.name)[4];row.override='';row.days=suggestedDays(row.name);row.direction=row.base==='closing'&&!row.name.includes('EXTENSION OF CLOSING')?'before':'after'}if(['days','base','direction','type'].includes(el.dataset.field))row.override='';if(el.dataset.field==='name'||el.dataset.field==='base'){render();return}show()};el.addEventListener(el.tagName==='SELECT'?'change':'input',update)});card.querySelector('[data-change-task]')?.addEventListener('click',()=>{row.name='';row.custom='';row.days='';row.override='';render()});card.querySelector('[data-mark-done]')?.addEventListener('click',()=>{row.status=row.status==='done'?'pending':'done';render()});card.querySelector('[data-remove]').addEventListener('click',()=>{const index=rows.indexOf(row);if(index!==-1)rows.splice(index,1);render()})});show();
@@ -273,7 +273,7 @@ if(dayCountSelect)dayCountSelect.addEventListener('change',()=>{
   'Business Days selected · weekends and observed U.S. federal holidays are excluded from the count.':
   'Calendar Days selected · all days count, with weekend/holiday deadline adjustment.';
  render();timelineFeedback('Deadline counting changed to '+(choice==='business'?'Business Days':'Calendar Days')+'. Verify every date against the signed contract.');
-});$('deadline-contract-form').addEventListener('change',render);$('deadline-add').addEventListener('click',()=>{if(maxFreeTasks>0&&(rows.length>=maxFreeTasks||rows.filter(r=>r.userAdded).length>=2))return;const custom=baseRow(names[names.length-1]);custom.userAdded=true;custom.addedSequence=++nextFreeAddedSequence;rows.push(custom);render();const cards=$('deadline-editor-rows').querySelectorAll('.fc-simple-task[data-index]');const last=cards[cards.length-1];if(last){last.querySelector('[data-field="custom"]')?.focus({preventScroll:true});last.scrollIntoView({behavior:'smooth',block:'center'})}});$('deadline-sort').addEventListener('click',sortRows);$('deadline-reset').addEventListener('click',()=>{if(!rows.length)return;if(maxFreeTasks>0){let last=-1;for(let i=0;i<rows.length;i++){if(rows[i].userAdded&&(last<0||Number(rows[i].addedSequence||0)>Number(rows[last].addedSequence||0)))last=i}if(last<0)return;rows.splice(last,1)}else{rows.pop()}render()});function buyerAgentNotice(){
+});$('deadline-contract-form').addEventListener('change',render);$('deadline-add').addEventListener('click',()=>{if(maxFreeTasks>0&&rows.length>=maxFreeTasks)return;const custom=baseRow(names[names.length-1]);custom.userAdded=true;custom.addedSequence=++nextFreeAddedSequence;rows.push(custom);render();const cards=$('deadline-editor-rows').querySelectorAll('.fc-simple-task[data-index]');const last=cards[cards.length-1];if(last){last.querySelector('[data-field="custom"]')?.focus({preventScroll:true});last.scrollIntoView({behavior:'smooth',block:'center'})}});$('deadline-sort').addEventListener('click',sortRows);$('deadline-reset').addEventListener('click',()=>{if(!rows.length)return;if(maxFreeTasks>0){let last=-1;for(let i=0;i<rows.length;i++){if(rows[i].userAdded&&(last<0||Number(rows[i].addedSequence||0)>Number(rows[last].addedSequence||0)))last=i}if(last<0)return;rows.splice(last,1)}else{rows.pop()}render()});function buyerAgentNotice(){
  return '<div style="font-family:Helvetica,Arial,sans-serif;color:#18374b;font-size:15px;line-height:1.7;margin:0 0 14px">'
  +'<p style="margin:0 0 13px">Hello,</p>'
  +'<p style="margin:0 0 13px;color:#174d57;font-weight:750;font-size:18px"><strong>Congratulations on reaching an agreement!</strong></p>'
