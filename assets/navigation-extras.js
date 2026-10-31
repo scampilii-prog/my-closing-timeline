@@ -57,6 +57,8 @@ const back=document.querySelector('#mct-back-top');if(back){function show(){back
   const button=document.createElement('button');button.type='button';button.id='mct-menu-toggle';button.setAttribute('aria-label','Open site menu');button.setAttribute('aria-controls','mct-menu-panel');button.setAttribute('aria-expanded','false');button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
   const panel=document.createElement('div');panel.id='mct-menu-panel';panel.hidden=true;
   nav.querySelectorAll('a[href]').forEach(a=>{const link=a.cloneNode(true);link.removeAttribute('id');panel.appendChild(link)});
+  // Navigation remains available in the dropdown, not duplicated across the masthead.
+  nav.setAttribute('aria-hidden','true');nav.style.setProperty('display','none','important');
   const tools=header.querySelector('.mct-header-tools');if(tools)tools.prepend(button);else inner.appendChild(button);
   header.appendChild(panel);
   const close=()=>{panel.hidden=true;button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open site menu')};
