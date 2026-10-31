@@ -4662,11 +4662,10 @@ html body.mct-practice-mode #contract-deadline-planner #mct-free-tomorrow-previe
 (function(){
 function init(){
  const form=document.querySelector('#contract-deadline-planner .fc-simple-form');
- if(form&&!document.getElementById('mct-toggle-step2')){
-   const head=form.querySelector('.mct-build-header');
-   if(head){
-     // Step 2 remains visible; no redundant Hide Tasks action.
-   }
+ if(form){
+   const rows=form.querySelector('#deadline-editor-rows');
+   const heading=form.querySelector('.fc-simple-task-heading');
+   for(const el of [rows,heading])if(el){el.hidden=false;el.removeAttribute('hidden');if(el.style.display==='none')el.style.removeProperty('display');}
  }
  const mountStep3=()=>{
  const section=document.getElementById('mct-free-followup-preview');
@@ -4683,5 +4682,6 @@ function init(){
  }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+window.addEventListener('pageshow',()=>{const el=document.getElementById('deadline-editor-rows');if(el){el.hidden=false;el.removeAttribute('hidden');el.style.removeProperty('display');}});
 })();
 </script></body></html>
