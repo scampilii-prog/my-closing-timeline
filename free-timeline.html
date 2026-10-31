@@ -4512,7 +4512,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script><!-- MCT Step 3 chronological move highlight v4 -->
 <style id="mct-step3-apply-button-v1">
-#mct-free-followup-preview .mct-apply-reorder{display:inline-block;margin:4px 0 0;padding:4px 8px;border:1px solid #bd8743;border-radius:5px;background:#fff8e9;color:#173c54;font:750 11px Manrope,Arial,sans-serif;cursor:pointer}
+#mct-free-followup-preview .mct-apply-reorder{display:inline-block;margin:4px 0 0 8px;padding:4px 8px;border:1px solid #bd8743;border-radius:5px;background:#fff8e9;color:#173c54;font:750 11px Manrope,Arial,sans-serif;cursor:pointer}
 #mct-free-followup-preview .mct-apply-reorder:hover{background:#f3e2c3}
 </style><style id="mct-step3-move-highlight-v4-style">
 @keyframes mct-moved-glow-v4{0%,100%{outline-color:transparent;filter:none}20%,60%{outline-color:#c78a23;filter:brightness(1.10)}40%,80%{outline-color:transparent;filter:none}}
@@ -4561,7 +4561,7 @@ function init(){
   }
  }
  rows.forEach(row=>{
-  const cell=row.cells[1];if(!cell||cell.querySelector('.mct-apply-reorder'))return;
+  const cell=row.cells[2];if(!cell||row.querySelector('.mct-apply-reorder'))return;
   const button=document.createElement('button');
   button.type='button';button.className='mct-apply-reorder';
   button.textContent='Apply & Reorder';
