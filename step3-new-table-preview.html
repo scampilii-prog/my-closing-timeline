@@ -141,4 +141,41 @@ if(window.parent!==window){
  closing.addEventListener('change',send);
 
 })();
+</script><style id="mct-step3-closing-tools-v1-styles">
+.closing-tools{padding:16px 20px 19px;border-top:1px solid #d6e4eb;background:#f8fbfd}
+.closing-tools h2{font-size:19px;margin:0 0 7px}.closing-tools p{font-size:13px;color:#496477;margin:0 0 11px;line-height:1.5}
+.closing-buttons{display:flex;gap:9px;flex-wrap:wrap}.closing-buttons button{border:1px solid #a9c5cc;background:#fff;border-radius:7px;color:#194459;padding:10px 13px;font:750 13px Manrope,Arial,sans-serif;cursor:pointer}
+.closing-buttons button:first-child{background:#e5f2ed;border-color:#8ab9a7}.closing-buttons button:last-child{background:#f5eeee;color:#753e42}
+.closing-tools .result{font-size:12px;margin-top:9px;min-height:16px}
+</style>
+<script id="mct-step3-closing-tools-v1">
+(function(){
+ const host=document.createElement('section');host.className='closing-tools';host.setAttribute('aria-label','Closing completion tools');
+ host.innerHTML='<h2>Complete your Closing · Private Records</h2><p>Practice saving your follow-up record and preparing a private PDF. Your clients. Your records. Your privacy. No personal information is sent to My Closing Timeline by these preview tools.</p><div class="closing-buttons"><button type="button" data-action="save">Save Record to Device</button><button type="button" data-action="print">Prepare Private PDF / Print</button><button type="button" data-action="close">Complete &amp; Close</button></div><p class="result" role="status"></p>';
+ document.querySelector('main section')?.append(host);
+ const status=host.querySelector('.result');
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const snapshot=()=>({format:'My Closing Timeline preview',effectiveDate:effective.value,closingDate:closing.value,savedAt:new Date().toISOString(),tasks:records.map(r=>({name:r.name,due:calc(r),days:r.offset,dateBasis:r.basis,status:r.done?'Done':'Pending',notes:r.notes}))});
+ host.addEventListener('click',e=>{
+  const action=e.target.closest('[data-action]')?.dataset.action;if(!action)return;
+  if(action==='save'){
+   const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});
+   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='closing-follow-up-preview.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+   status.textContent='Preview record prepared for download on this device. Not saved to an online account.';
+  }
+  if(action==='close'){
+   if(!effective.value||!closing.value){status.textContent='Enter and verify both dates before completing the closing.';return;}
+   if(!confirm('Mark this preview as completed? This does not close a real account transaction.'))return;
+   status.textContent='Preview marked completed locally. Download your record or prepare a PDF for your files.';
+  }
+  if(action==='print'){
+   const data=snapshot();
+   const win=window.open('','_blank');if(!win){status.textContent='Allow the print window, then try again.';return;}
+   const fields=['Buyer / Client','Seller','Property address','Email','Phone','Closing company'].map(name=>'<label>'+esc(name)+'<input aria-label="'+esc(name)+'" placeholder="Optional · private"></label>').join('');
+   const rows=data.tasks.map(t=>'<tr><td>'+esc(t.due)+'</td><td>'+esc(t.name)+'</td><td>'+esc(t.status)+'</td><td>'+esc(t.notes)+'</td></tr>').join('');
+   win.document.write('<!doctype html><html><head><title>Private Closing Record</title><style>body{font:14px Arial,sans-serif;color:#19394e;margin:28px}h1{font-size:23px}p{line-height:1.5}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0}.fields label{font-size:12px;font-weight:bold}.fields input{display:block;width:95%;padding:8px;margin-top:3px;border:1px solid #bbcbd4}table{width:100%;border-collapse:collapse}th,td{border:1px solid #c8d6df;padding:6px;text-align:left;vertical-align:top}th{background:#e8f0f4}.print{margin:10px 0;padding:9px 15px}@media print{.print{display:none}body{margin:8mm}}</style></head><body><h1>Private Closing Record</h1><p>Effective Date: '+esc(data.effectiveDate)+' · Closing Date: '+esc(data.closingDate)+'</p><p>Enter optional private details below on your device, then select Print / Save as PDF. These fields are not transmitted to the closing website.</p><div class="fields">'+fields+'</div><button class="print" onclick="window.print()">Print / Save as PDF</button><table><thead><tr><th>Reminder date</th><th>Task</th><th>Status</th><th>Notes</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>');
+   win.document.close();status.textContent='Private print sheet opened. Add personal details only in that window and save as PDF locally.';
+  }
+ });
+})();
 </script></body></html>
