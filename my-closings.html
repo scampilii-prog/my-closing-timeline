@@ -6,7 +6,7 @@
 .mct-workspace-nav a[aria-current="page"]{color:#f0cd90}
 @media(max-width:1000px){.mct-workspace-header-inner{justify-content:center}.mct-workspace-nav{justify-content:center}}
 @media(max-width:600px){.mct-workspace-nav{gap:9px 13px;justify-content:center}.mct-workspace-nav a{font-size:12px}}
-</style><link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=11"><script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><script src="/assets/mct-header-height-20261027.js?v=1" defer></script><link rel="stylesheet" href="/assets/page-layout-home-20261027.css?v=1"><link rel="stylesheet" href="/assets/mct-private-pdf-20261028.css?v=1">
+</style><script src="/assets/navigation-extras.js?v=20261028-other-projects" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3"><script src="/assets/mct-header-height-20261027.js?v=1" defer></script><link rel="stylesheet" href="/assets/page-layout-home-20261027.css?v=1"><link rel="stylesheet" href="/assets/mct-private-pdf-20261028.css?v=1">
 <style id="mct-free-welcome-workspace-20261028">
 body.mct-first-free-welcome #workspace-onboarding{
  background:linear-gradient(117deg,#ecf8ef,#fffdf5)!important;
@@ -306,4 +306,7 @@ $("task-form").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(
 document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;viewList()});
 $("signout").onclick=async()=>{try{await api("logout","POST",{});location.assign("/pro-get-started.html")}catch(e){tell(e.message)}};
 load();
-</script><script src="/assets/mct-private-pdf-20261028.js?v=5" defer></script><link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"></body></html>
+</script><script src="/assets/mct-private-pdf-20261028.js?v=5" defer></script><link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6">
+<!-- Website 24: canonical header loaded after legacy presentation styles. -->
+<link rel="stylesheet" href="/assets/header-canonical-20261027.css?v=12">
+</body></html>
