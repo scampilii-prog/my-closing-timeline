@@ -1693,7 +1693,7 @@ html body main.workspace #contract-deadline-planner .mct-moved-contract-tasks>de
  <a class="mct-free-next-back" href="#mct-product-path-free">← Back to Choose Your Timeline</a>
  <small>Reservation only for Other Projects PRO; activation and paid plans are not yet available. No payment is collected here.</small></div>
 </section>
-</section><p class="mct-timeline-legal-note">Dates are planning guidance only. Verify your signed contract, notices, and applicable deadline rules.</p></main></div><footer id="mct-site-footer" aria-label="Website footer"><div class="mct-footer-links"><span>© 2026 My Closing Timeline</span><a href="pricing.html">Plans &amp; Pricing</a><a href="privacy.html">Privacy &amp; Terms</a><a href="contact.html">Help &amp; Contact</a><a href="/personal-sabatino.html" rel="nofollow">Admin Console</a></div><div class="mct-footer-credit"><a href="https://acromatico.com/" rel="noopener noreferrer" aria-label="Created with love by Acromatico">Created with <span class="mct-footer-heart">♥</span> by Acromatico</a></div></footer><script src="/assets/mct-inline-project-planners-20261029.js?v=74" defer></script><script src="/assets/mct-task-rules-20261029.js?v=1" defer></script><script src="/assets/buyer-timeline.js?v=realty-master-36" defer></script><script src="/assets/mct-custom-contract-forms-20261028.js?v=4" defer></script><script id="mct-personal-reminders">(function(){
+</section><p class="mct-timeline-legal-note">Dates are planning guidance only. Verify your signed contract, notices, and applicable deadline rules.</p></main></div><footer id="mct-site-footer" aria-label="Website footer"><div class="mct-footer-links"><span>© 2026 My Closing Timeline</span><a href="pricing.html">Plans &amp; Pricing</a><a href="privacy.html">Privacy &amp; Terms</a><a href="contact.html">Help &amp; Contact</a><a href="/personal-sabatino.html" rel="nofollow">Admin Console</a></div><div class="mct-footer-credit"><a href="https://acromatico.com/" rel="noopener noreferrer" aria-label="Created with love by Acromatico">Created with <span class="mct-footer-heart">♥</span> by Acromatico</a></div></footer><script src="/assets/mct-inline-project-planners-20261029.js?v=74" defer></script><script src="/assets/mct-task-rules-20261029.js?v=1" defer></script><script src="/assets/buyer-timeline.js?v=realty-master-37" defer></script><script src="/assets/mct-custom-contract-forms-20261028.js?v=4" defer></script><script id="mct-personal-reminders">(function(){
 document.addEventListener('DOMContentLoaded',function(){
 const $=id=>document.getElementById(id),list=[],done=new Set();let nextId=1,editId=null;
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -4923,7 +4923,7 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 window.addEventListener('pageshow',()=>{const el=document.getElementById('deadline-editor-rows');if(el){el.hidden=false;el.removeAttribute('hidden');el.style.removeProperty('display');}});
 })();
-</script><script id="mct-step2-add-opens-options-20261031">
+</script><style id="mct-added-task-highlight-20261031">#contract-deadline-planner .mct-realty-task-card.mct-just-added{background:#eaf7eb!important;border:2px solid #23806b!important;box-shadow:0 0 0 3px rgba(35,128,107,.13)!important;transition:background .3s,border-color .3s}</style><script id="mct-step2-add-opens-options-20261031">
 (function(){
 function init(){
  const add=document.getElementById('deadline-add');
@@ -4964,9 +4964,22 @@ function init(){
   allowing=true;try{add.click()}finally{allowing=false}
   const cards=rows.querySelectorAll('.mct-realty-task-card');
   if(cards.length>before){
-   const next=cards[cards.length-1].querySelector('[data-field="custom"]');
-   if(next){if(chosen!=='Other'){next.value=chosen;next.dispatchEvent(new Event('input',{bubbles:true}));next.dispatchEvent(new Event('change',{bubbles:true}))}next.focus({preventScroll:true});}
-   cards[cards.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});
+   const inserted=cards[cards.length-1];
+   const sequence=inserted.dataset.addedSequence;
+   const next=inserted.querySelector('[data-field="custom"]');
+   if(next){if(chosen!=='Other'){next.value=chosen;next.dispatchEvent(new Event('input',{bubbles:true}));next.dispatchEvent(new Event('change',{bubbles:true}))}}
+   const highlight=()=>{
+    const target=[...rows.querySelectorAll('.mct-realty-task-card')].find(card=>card.dataset.addedSequence===sequence);
+    if(target){target.classList.add('mct-just-added');return target}
+    return null;
+   };
+   const target=highlight();
+   target?.scrollIntoView({behavior:'smooth',block:'center'});
+   const observer=new MutationObserver(highlight);
+   observer.observe(rows,{childList:true});
+   window.setTimeout(()=>{observer.disconnect();rows.querySelectorAll('.mct-just-added').forEach(el=>el.classList.remove('mct-just-added'));},8000);
+   const field=target?.querySelector('[data-field="custom"]');
+   if(field&&chosen==='Other')field.focus({preventScroll:true});
   }
   picker.value='';picker.hidden=true;
  });
