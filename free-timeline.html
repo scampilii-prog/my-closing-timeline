@@ -4633,17 +4633,27 @@ html body section.intro.mct-photo-hero .mct-privacy-tagline{
 }
 </style>
 <script id="mct-free-hero-measured-alignment-20261031">
-/* Position hero text using the ACTUAL planner card instead of guessing viewport offsets. */
+/* Align the ACTUAL headline text to the lower headline, without moving the hero grid or privacy card. */
 (function(){
  'use strict';
  function init(){
-  const hero=document.querySelector('section.intro.mct-photo-hero');
+  const content=document.querySelector('section.intro.mct-photo-hero > .mct-photo-hero-content');
   const title=document.getElementById('deadline-planner-title');
-  if(!hero||!title)return;
+  if(!content||!title)return;
+  let previous=0;
   const sync=()=>{
-   if(window.innerWidth<=990){hero.style.removeProperty('padding-left');return;}
-   const rect=title.getBoundingClientRect();
-   if(rect.width>0)hero.style.setProperty('padding-left',Math.round(rect.left)+'px','important');
+   if(window.innerWidth<=990){
+    content.style.removeProperty('transform');
+    previous=0;
+    return;
+   }
+   const target=title.getBoundingClientRect().left;
+   const current=content.getBoundingClientRect().left;
+   if(!Number.isFinite(target)||!Number.isFinite(current))return;
+   const desired=previous+(target-current);
+   if(Math.abs(desired-previous)<0.5)return;
+   previous=desired;
+   content.style.setProperty('transform','translateX('+Math.round(previous)+'px)','important');
   };
   sync();
   window.addEventListener('resize',sync,{passive:true});
