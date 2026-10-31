@@ -2832,41 +2832,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #mct-free-followup-preview .mct-v21-date-info b{color:#80541f}
 #mct-free-followup-preview .mct-v21-table-wrap td:nth-child(4){font-variant-numeric:tabular-nums;white-space:nowrap}
 </style>
-<script id="mct-step3-connected-dates-20261030-script">
-(function(){
- function parseDate(str){if(!/^\d{4}-\d{2}-\d{2}$/.test(str||''))return null;const d=new Date(str+'T12:00:00');return Number.isNaN(d.getTime())?null:d;}
- function addDays(d,n){const c=new Date(d.getTime());c.setDate(c.getDate()+n);return c;}
- function human(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
- function sync(){
-  const effective=document.getElementById('deadline-effective'),closing=document.getElementById('deadline-closing');
-  const root=document.getElementById('mct-free-followup-preview'),today=document.getElementById('mct-free-tomorrow-preview');
-  if(!root||!effective||!closing)return;
-  let info=document.getElementById('mct-v21-date-info');
-  if(!info){info=document.createElement('p');info.id='mct-v21-date-info';info.className='mct-v21-date-info';const body=root.querySelector('.mct-v21-followup-body');if(body)body.prepend(info);}
-  const start=parseDate(effective.value),end=parseDate(closing.value);
-  info.textContent='';
-  const e=document.createElement('span');const l=document.createElement('span');
-  e.innerHTML='<b>Effective Date:</b> ';e.append(document.createTextNode(start?human(start):'Enter a date in Step 2'));
-  l.innerHTML='<b>Closing Date:</b> ';l.append(document.createTextNode(end?human(end):'Not set'));
-  info.append(e,document.createTextNode('　 · 　'),l);
-  const cards=today&&today.querySelectorAll('.mct-v21-day p');
-  if(cards&&cards.length>=2){
-    cards[0].textContent=start?'Based on Effective Date '+human(start)+'. Live alerts become available after activation.':'Enter Effective Date to connect this preview to your contract.';
-    cards[1].textContent=end?'Closing currently scheduled for '+human(end)+'. Task alerts become available after activation.':'Enter Closing Date to complete your timeline.';
-  }
-  // Reminder cells are exclusively managed by mct-step3-reminder-date-fix-v3.
-  const policy=root.querySelector('.mct-v21-policy');
-  if(policy&&!policy.textContent.includes('Illustrative follow-up dates'))policy.append(' Illustrative follow-up dates are not contract deadlines and can be customized after activation.');
- }
- function init(){
-  const e=document.getElementById('deadline-effective'),c=document.getElementById('deadline-closing'),root=document.getElementById('mct-free-followup-preview');
-  if(!e||!c||!root)return;
-  for(const input of [e,c])for(const ev of ['input','change'])input.addEventListener(ev,sync);
-  sync();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
+<!-- Retired legacy Step 3 controller: mct-step3-connected-dates-20261030-script; new Step 3 iframe exclusively owns reminder data. -->
 
 
 
@@ -3583,69 +3549,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-date{display:block;color:#6d7f88;font-size:11px;margin-top:2px}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count{margin:11px 0!important;font-weight:800}
 </style>
-<script id="mct-step3-today-tomorrow-sync-v2-script">
-(function(){
- const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
- function dateParts(text){
-  const m=/^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$/.exec((text||'').trim());
-  if(!m)return null;const mon=months.indexOf(m[1]);if(mon<0)return null;
-  return {timestamp:Date.UTC(+m[3],mon,+m[2]),text:m[1]+' '+m[2]+', '+m[3]};
- }
- function refresh(){
-  const panel=document.getElementById('mct-free-tomorrow-preview'),root=document.getElementById('mct-free-followup-preview');
-  if(!panel||!root)return;
-  const now=new Date(),today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
-  const groups=[[],[]];
-  root.querySelectorAll('table tbody tr:not(.mct-contract-source-row)').forEach(row=>{
-    if(row.classList.contains('mct-v9-add-row'))return;
-    const cells=row.cells;if(cells.length<8)return;
-    const dateCell=cells[3],parsed=dateParts(dateCell.querySelector('.mct-step3-reminder-pill')?.textContent||dateCell.textContent);
-    if(!parsed)return;
-    const difference=Math.round((parsed.timestamp-today)/86400000);
-    if(difference!==0&&difference!==1)return;
-    const completed=row.querySelector('.mct-step3-done-toggle')?.getAttribute('aria-pressed')==='true';
-    if(completed)return;
-    const name=cells[1].textContent.trim(),number=cells[0].textContent.trim();
-    if(!name)return;
-    groups[difference].push({number,name,date:parsed.text});
-  });
-  const cards=panel.querySelectorAll('.mct-v21-day');
-  groups.forEach((tasks,index)=>{
-   const card=cards[index];if(!card)return;
-   const num=card.querySelector('strong span:last-child');
-   if(num)num.textContent=String(tasks.length);
-   let list=card.querySelector('.mct-live-tomorrow-tasks');
-   if(!list){list=document.createElement('div');list.className='mct-live-tomorrow-tasks';card.appendChild(list);}
-   const signature=JSON.stringify(tasks);
-   if(list.dataset.signature===signature)return;
-   list.dataset.signature=signature;list.replaceChildren();
-   const summary=document.createElement('p');summary.className='mct-live-tomorrow-count';
-   summary.textContent=tasks.length+' task'+(tasks.length===1?'':'s')+(index?' tomorrow':' due today');
-   list.appendChild(summary);
-   if(!tasks.length){const empty=document.createElement('p');empty.textContent='No tasks scheduled '+(index?'for tomorrow.':'for today.');list.appendChild(empty);}
-   tasks.forEach((task,position)=>{
-    const el=document.createElement('div');el.className='mct-tt-task';
-    const number=document.createElement('span');number.className='mct-tt-num';number.textContent=String(position+1);number.title='Position in '+(index?'tomorrow':'today')+' checklist · Original task #'+task.number;
-    const detail=document.createElement('div'),name=document.createElement('span'),date=document.createElement('span');
-    name.className='mct-tt-name';name.textContent=task.name;
-    date.className='mct-tt-date';date.textContent='Reminder date: '+task.date;
-    detail.append(name,date);el.append(number,detail);list.appendChild(el);
-   });
-  });
- }
- function init(){
-  refresh();
-  ['deadline-effective','deadline-closing'].forEach(id=>{
-   const field=document.getElementById(id);
-   field?.addEventListener('change',()=>setTimeout(refresh,120));
-   field?.addEventListener('input',()=>setTimeout(refresh,120));
-  });
-  document.getElementById('mct-free-followup-preview')?.addEventListener('click',()=>setTimeout(refresh,10));
-  setInterval(refresh,2500);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
+<!-- Retired legacy Step 3 controller: mct-step3-today-tomorrow-sync-v2-script; new Step 3 iframe exclusively owns reminder data. -->
 
 <style id="mct-final-finish-and-tt-clean-v1">
 /* Today/Tomorrow: count in header is sufficient, no redundant date or instructions. */
