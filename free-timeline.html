@@ -1356,6 +1356,21 @@ html body .mct-hero-privacy-card .mct-privacy-tagline{font-size:10px!important;f
  html body .intro.mct-photo-hero{grid-template-columns:minmax(0,1fr)!important;padding:30px 22px 56px!important;gap:20px!important}
  html body .mct-hero-privacy-card{justify-self:start!important;width:min(100%,360px)!important}
 }
+</style><style id="mct-hero-final-planner-edge-align">
+@media(min-width:901px){
+html body .intro.mct-photo-hero{
+width:100%!important;max-width:none!important;margin:0!important;
+box-sizing:border-box!important;
+padding-left:max(24px,calc((100vw - 1132px)/2))!important;
+padding-right:max(24px,calc((100vw - 1132px)/2))!important;
+grid-template-columns:minmax(0,1fr) 288px!important;column-gap:24px!important;
+}
+html body .intro.mct-photo-hero>.mct-photo-hero-content{
+margin:0!important;padding:0!important;width:auto!important;max-width:none!important;
+flex:none!important;transform:none!important;
+}
+html body .intro.mct-photo-hero>.mct-hero-privacy-card{margin:0!important;justify-self:end!important}
+}
 </style></head><body class="mct-unified-internal-hero mct-layout-wide mct-layout-wide"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><img class="mct-brand-icon" src="/favicon.svg" alt="" width="40" height="40"><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/free-timeline.html" aria-current="page">FREE Timeline</a><a href="/pro-get-started.html">PRO Timeline</a><a href="/timeline-plus.html">Timeline PLUS</a><a href="/contact.html">Help &amp; Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><section class="intro mct-photo-hero" aria-label="Real estate closing timeline"><div class="mct-photo-hero-content"><p class="mct-hero-kicker">REAL ESTATE CLOSINGS MADE SIMPLE</p><h1><span>From Contract to Closing.</span><span>Beautifully Organized.</span></h1><p class="mct-hero-description">Plan your closing, share deadlines, and follow every step.<br>Start FREE · First eligible closing PRO on us · No credit card required.</p><p class="mct-hero-privacy-promise">Your Clients. Your Records. Your Privacy. · Private details stay on your device in your personal PDF.</p><div class="mct-hero-benefits"><span><b aria-hidden="true">▣</b> Stay on track with key dates</span><span><b aria-hidden="true">▤</b> Keep everyone informed</span><span><b aria-hidden="true">⌂</b> A smoother closing</span></div></div><aside class="mct-hero-privacy-card" aria-label="Privacy first"><div class="mct-hero-privacy-head"><span class="mct-privacy-shield" aria-hidden="true">✓</span><strong>PRIVACY FIRST</strong></div><h2>Your closing. Your privacy.</h2><p class="mct-privacy-intro">Manage deadlines online. Keep client details in your private PDF, on your device.</p><div class="mct-privacy-item"><span aria-hidden="true">✓</span><div><strong>First eligible PRO closing FREE</strong><small>No credit card required.</small></div></div><a class="mct-privacy-cta" href="/first-closing-free.html">Get My First Closing FREE</a><p class="mct-privacy-tagline">Your Clients. Your Records. Your Privacy.</p></aside></section><main class="workspace"><div id="timeline" class="mct-timeline-anchor" aria-hidden="true"></div><div id="transaction-details" class="mct-timeline-anchor" aria-hidden="true"></div><section id="contract-deadline-planner" data-free-task-limit="8" class="deadline-planner fc-timeline fc-simple-timeline" aria-labelledby="deadline-planner-title"><section class="mct-product-path mct-audience-choice mct-unified-free-choices" id="mct-product-path-free" aria-labelledby="mct-product-path-title-free">
  <div class="mct-product-path-head">
   <span class="mct-product-path-eyebrow">CHOOSE YOUR FREE TIMELINE</span>
@@ -1587,42 +1602,7 @@ document.addEventListener('DOMContentLoaded',function(){
  for(const id of ['deadline-effective','deadline-closing'])document.getElementById(id)?.addEventListener('change',schedule);
  refresh();
 });})();</script><button type="button" id="mct-back-top" class="mct-back-top" hidden aria-label="Back to top"><span aria-hidden="true">↑</span> Back to Top</button><script src="assets/navigation-extras.js?v=20261028-other-projects" defer></script><script>document.getElementById("mct-contract-price")?.addEventListener("blur",function(){const v=Number(this.value.replace(/[^\d.]/g,""));if(this.value.trim()&&Number.isFinite(v))this.value=v.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2});});</script><style id="mct-hero-matches-planner-width-20261021">
-/* Photo banner and white timeline panel are one aligned visual column. */
-html body .intro.mct-photo-hero{
- box-sizing:border-box!important;
- width:var(--mct-panel-width,calc(100% - 32px))!important;
- max-width:100%!important;
- margin-left:var(--mct-panel-left,auto)!important;
- margin-right:0!important;
- overflow:hidden!important;
-}
-html body .intro.mct-photo-hero>.mct-photo-hero-content{
- box-sizing:border-box!important;
- width:100%!important;max-width:100%!important;flex:1 1 auto!important;
- margin:0!important;
- padding:0 24px!important;
- text-align:left!important;
-}
-@media(max-width:700px){
- html body .intro.mct-photo-hero{margin-left:auto!important;margin-right:auto!important}
- html body .intro.mct-photo-hero>.mct-photo-hero-content{padding:0 12px!important}
-}
-
-/* Full-bleed Home photograph, preserve text at original planner-aligned X position. */
-html body .intro.mct-photo-hero{
- width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
-}
-html body .intro.mct-photo-hero > .mct-photo-hero-content{
- box-sizing:border-box!important;width:100%!important;max-width:100%!important;
- margin:0!important;padding-left:calc(var(--mct-panel-left,0px) + 24px)!important;
- padding-right:24px!important;
-}
-@media(max-width:700px){
- html body .intro.mct-photo-hero > .mct-photo-hero-content{
-  padding-left:calc(var(--mct-panel-left,0px) + 12px)!important;padding-right:12px!important;
- }
-}
-
+/* Retained planner typography only; obsolete hero geometry removed. */
 /* Only enlarge brand and menu text; layout and hero unchanged. */
 @media(min-width:1151px){}
 @media(min-width:701px) and (max-width:1150px){}
