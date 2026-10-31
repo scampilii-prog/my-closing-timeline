@@ -17,7 +17,7 @@ function freeSeedSuggestions(){
 }
 var key = "mpt_other_projects_step3_local_demo_v1";
 var memoryOnly = false;
-var state = {tasks:[], endDate:"", planStart:"", planHorizon:"90d"};
+var state = {tasks:[], endDate:"", planStart:"", planHorizon:"60d"};
 var freeProject = {ref:"",start:"",end:""};
 function today(){var d=new Date();return iso(d)}
 function iso(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-")}
@@ -36,7 +36,7 @@ function load(){
  try{var val=localStorage.getItem(key);if(!val)return;var a=JSON.parse(val);if(!a||!Array.isArray(a.tasks))return;
  state.endDate=parse(a.endDate)?a.endDate:"";
  state.planStart=parse(a.planStart)?a.planStart:today();
- state.planHorizon=({"1m":"custom","3m":"90d","12m":"365d","6m":"custom"})[a.planHorizon]||(["90d","180d","365d","ongoing","custom"].includes(a.planHorizon)?a.planHorizon:(state.endDate?"custom":"90d"));
+ state.planHorizon=({"1m":"custom","3m":"custom","12m":"custom","6m":"custom","90d":"custom","180d":"custom","365d":"custom"})[a.planHorizon]||(["60d","ongoing","custom"].includes(a.planHorizon)?a.planHorizon:(state.endDate?"custom":"60d"));
  state.tasks=a.tasks.filter(function(t){return t&&typeof t.name==="string"&&parse(t.due)&&["once","daily","weekly","monthly"].includes(t.repeat)}).map(function(t){
  return {id:String(t.id||taskId()),name:t.name.slice(0,140),due:t.due,repeat:t.repeat,
  anchor:Number(t.anchor)||parse(t.due).getDate(),owner:String(t.owner||"").slice(0,60),note:String(t.note||"").slice(0,180),until:parse(t.until)?t.until:"",doneCount:Math.max(0,Number(t.doneCount)||0),
@@ -236,7 +236,7 @@ function proRender(){
  if($("mpt-pro-enddate"))$("mpt-pro-enddate").disabled=!state.endDate;
  document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.setAttribute("aria-pressed",String(state.planHorizon===btn.dataset.mptHorizon))});
  if($("mpt-pro-horizon-label"))$("mpt-pro-horizon-label").textContent=state.endDate?"Preview project period ends "+readable(state.endDate):"Ongoing project preview · an eventual paid account would still require renewal";
- if($("mpt-pro-offer-info"))$("mpt-pro-offer-info").textContent="PRO demo only. Preview project periods: 90 days, 180 days, or 1 year. For any proposed prices or promotions, visit Plans & Pricing. Paid project accounts and renewals are not active.";
+ if($("mpt-pro-offer-info"))$("mpt-pro-offer-info").textContent="PRO demo only. Initial project period: 60 days. The future PRO plan may continue monthly with explicit authorization. This is a browser-only demonstration; billing is not active.";
  var countdown=$("mpt-pro-renewal-preview");if(countdown){var remain=state.endDate?Math.round((Date.parse(state.endDate+"T00:00:00Z")-Date.parse(today()+"T00:00:00Z"))/86400000):null;countdown.hidden=remain===null||remain>15;if(!countdown.hidden)countdown.textContent=remain<0?"DEMO · Project period ended "+(-remain)+" days ago. Renewing a real account will require a new plan.":remain===0?"DEMO · Your project period ends today. Renewal will be available after PRO launch.":"DEMO · "+remain+" day"+(remain===1?"":"s")+" remaining in the selected period. Future PRO accounts will display a permanent renewal notice here during the last 15 days.";}
  if(memoryOnly)notify("mpt-pro-message","Local storage is unavailable. This demonstration will not be saved after leaving the page.","warn");
 }
@@ -360,10 +360,10 @@ function proActions(){
  });
  $("mpt-pro-ongoing").addEventListener("change",function(e){
   if(e.target.checked){state.endDate="";state.planHorizon="ongoing";save();proRender();notify("mpt-pro-message","Ongoing work preview: the future paid project account will still require a renewal at the end of its purchased term.","info")}
-  else{var input=$("mpt-pro-enddate");input.disabled=false;input.value=state.endDate||datePlus(state.planStart||today(),90);input.focus();notify("mpt-pro-message","Choose an end date or select a planning period.","info")}
+  else{var input=$("mpt-pro-enddate");input.disabled=false;input.value=state.endDate||datePlus(state.planStart||today(),60);input.focus();notify("mpt-pro-message","Choose an end date or select a planning period.","info")}
  });
  document.querySelectorAll("[data-mpt-horizon]").forEach(function(btn){btn.addEventListener("click",function(){
-  var v=btn.dataset.mptHorizon,days={"90d":90,"180d":180,"365d":365}[v];if(!days)return;
+  var v=btn.dataset.mptHorizon,days={"60d":60}[v];if(!days)return;
   state.planStart=parse($("mpt-pro-plan-start").value)?$("mpt-pro-plan-start").value:today();state.planHorizon=v;state.endDate=datePlus(state.planStart,days);
   save();proRender();notify("mpt-pro-message","Preview period: "+days+" calendar days, ending "+readable(state.endDate)+".","info");
  })});
