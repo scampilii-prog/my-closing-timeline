@@ -145,3 +145,21 @@ NEW definitive owner flow, superseding ambiguities in previous implementations:
 - Only after confirming dates and activation will Step 3 and Today & Tomorrow function for actual follow-up until closing. Only active paid/gift registered project can persist tasks, notes, Done, alerts and dates. Maintain single clock/date engine, edit pending then Apply & Reorder, stable task identity and 8-second moved-row indicator.
 - Current new Step 3 table is a PREVIEW embedded in FREE, not a completed integrated workflow. Legacy table is hidden, not removed from source. Do not claim complete activation, saved data, or production-tested behavior.
 - All these requirements are part of definitive WEBSITE 23 continuation and should be retrieved at every new chat. Verify actual production deployment and behavior, and do not mistake code writes for tests.
+
+### Texto explicativo aprobado para WEBSITE 23 — recorrido del cliente
+
+**Objetivo comercial y operativo:** Primero permitir que el visitante conozca y utilice FREE; después ofrecerle gratuitamente su primer closing PRO y finalmente convertirlo en cliente recurrente.
+
+**1. Visitante sin registro.** Utiliza Step 1 y Step 2, introduce fechas y obtiene Closing Timeline Summary, que coincide con la tabla contractual. Puede copiarlo y enviar desde su propio email la felicitación y el calendario a comprador, buyer agent o destinatario que elija, sin registrarse ni introducir tarjeta.
+
+**2. Vista previa PRO.** Today & Tomorrow y Step 3 permanecen visibles pero con aproximadamente 20 % menos de claridad y bloqueadas para mouse y teclado. El visitante observa lo que recibirá al registrarse, sin que la vista previa guarde notas o activos.
+
+**3. Registro y primer closing GRATIS.** Se ofrece Register — First Closing FREE y verificación de cuenta. El primer crédito PRO gratuito para quien reúna las condiciones no requiere tarjeta; los cierres siguientes son pagados al precio vigente que se deberá conciliar en todas las páginas.
+
+**4. Confirmación de fechas.** Al regresar autenticado, recuperar los datos verdaderos de Step 2 y mostrar Effective Date y Closing Date. Antes de activar podrá corregirlos. Pedir confirmación explícita, incluyendo aviso de que Effective Date quedará irreversible después de Start; Closing Date podrá cambiarse dentro del límite acordado de 60 días desde Effective Date (conciliar con la regla anterior de 90 días).
+
+**5. Seguimiento activo.** Se habilitan Step 3 y Today & Tomorrow; incorporar tareas de la tabla 2 y 40 tareas sugeridas sin duplicados innecesarios. Orden por fecha correcta; notas, alertas y Done funcionales, con cambios sujetos a Apply & Reorder y resaltado durante 8 segundos.
+
+**Ubicación de la invitación de registro.** Aprovechar el espacio promocional cercano a Today & Tomorrow. Mantener Save PDF / Print, Calendar & Reminders y More Tools como presentación de beneficios PRO, diferenciados del botón de registro.
+
+**Prioridad antes de activar clientes:** probar por completo la nueva Step 3 y todos los cálculos. Este texto es una especificación definitiva, NO una afirmación de que la activación y persistencia ya funcionen en producción.
