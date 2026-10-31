@@ -4638,17 +4638,17 @@ html body section.intro.mct-photo-hero .mct-privacy-tagline{
  'use strict';
  function init(){
   const hero=document.querySelector('section.intro.mct-photo-hero');
-  const panel=document.getElementById('contract-deadline-planner');
-  if(!hero||!panel)return;
+  const title=document.getElementById('deadline-planner-title');
+  if(!hero||!title)return;
   const sync=()=>{
    if(window.innerWidth<=990){hero.style.removeProperty('padding-left');return;}
-   const rect=panel.getBoundingClientRect();
-   if(rect.width>0)hero.style.setProperty('padding-left',Math.round(rect.left+36)+'px','important');
+   const rect=title.getBoundingClientRect();
+   if(rect.width>0)hero.style.setProperty('padding-left',Math.round(rect.left)+'px','important');
   };
   sync();
   window.addEventListener('resize',sync,{passive:true});
   window.addEventListener('load',sync,{once:true});
-  if(typeof ResizeObserver!=='undefined')new ResizeObserver(sync).observe(panel);
+  if(typeof ResizeObserver!=='undefined')new ResizeObserver(sync).observe(title);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
