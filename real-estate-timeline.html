@@ -4531,8 +4531,21 @@ function start(){
    tasks.forEach((task,index)=>{const item=document.createElement('div');item.textContent=String(Number.isInteger(task.number)&&task.number>0?task.number:index+1)+'. '+task.name;item.style.cssText='padding:6px 0;border-bottom:1px solid #e4e9ec;font-size:13px;font-weight:600;line-height:1.45;color:#294d60;overflow-wrap:anywhere';list.appendChild(item)});
    body.appendChild(list);
   });
-  let total=preview.querySelector('#mct-step3-total-count');if(!total){total=document.createElement('div');total.id='mct-step3-total-count';total.style.cssText='margin:9px 0 12px;font-weight:800;color:#194a62;font-size:13px';const anchor=pending||panels[0];anchor?.parentElement.insertBefore(total,anchor)}
-  total.textContent='Total Step 3 tasks: '+all.length+' · Open: '+active.length+' · Done: '+(all.length-active.length);
+  let total=preview.querySelector('#mct-step3-total-count');
+  if(!total){
+   total=document.createElement('div');total.id='mct-step3-total-count';
+   total.setAttribute('aria-label','Step 3 task totals');
+   total.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px;padding:10px;border:1px solid #dce5e9;border-radius:12px;background:#f7fafb';
+   for(const label of ['Total Tasks','Open','Done']){
+    const cell=document.createElement('div');cell.style.cssText='text-align:center;padding:8px 4px;border-radius:9px;background:#fff;border:1px solid #e5eaed';
+    const heading=document.createElement('span');heading.textContent=label;heading.style.cssText='display:block;color:#557082;font:750 11px/1.4 Manrope,Arial,sans-serif';
+    const number=document.createElement('strong');number.dataset.totalKey=label;number.style.cssText='display:block;color:#173e55;font:850 23px/1.3 Manrope,Arial,sans-serif';
+    cell.append(heading,number);total.appendChild(cell);
+   }
+   const anchor=pending||panels[0];anchor?.parentElement.insertBefore(total,anchor);
+  }
+  const counts={'Total Tasks':all.length,'Open':active.length,'Done':all.length-active.length};
+  total.querySelectorAll('[data-total-key]').forEach(el=>{el.textContent=String(counts[el.dataset.totalKey]??0)});
   preview.style.opacity='.8';
   preview.setAttribute('aria-label','Pending, Today and Tomorrow live task summary');
 
