@@ -24,7 +24,7 @@ Seleccionar eventos:
 - `checkout.session.async_payment_succeeded`
 Guardar `STRIPE_WEBHOOK_SECRET` (empieza por `whsec_`) como secreto Cloudflare.
 Redeploy Pages para aplicar secretos/bindings. La API solo admite claves `sk_test_`: no procesa cobros reales accidentalmente.
-Precios de referencia del código actual: 1 crédito $29.90 (LAUNCH90 $19.90), 2 créditos $59.80 (LAUNCH90 $34.90) y 5 créditos $149.50 (LAUNCH90 $84.90). **Son importes para Stripe Sandbox; no activar claves de pagos reales ni aceptar pagos en producción todavía.**
+**Catálogo aprobado (noviembre 2026):** 1 cierre Real Estate PRO = $20 por hasta 60 días; bienvenida 2 cierres por $35 solo durante los primeros 30 días desde el registro. La antigua campaña LAUNCH90 y los paquetes históricos de 5 créditos no forman parte del catálogo vigente. El cliente puede acumular cinco créditos comprados, por separado o combinando ofertas, para obtener un futuro crédito de fidelidad; las recompensas automáticas continúan desactivadas hasta completar pruebas de reembolsos y D1.\n\n**Activación restringida del checkout de prueba:** la API exige `PRO_TEST_CHECKOUT_ENABLED=true` y una clave `STRIPE_SECRET_KEY` que comience por `sk_test_`. No establecer el indicador hasta verificar bindings, secretos, webhook y migración; `PRO_LOYALTY_REWARDS_ENABLED` debe permanecer desactivado. No usar claves reales ni tarjetas reales.
 
 ## Paso 4. Comprobar antes de cobrar
 - `/api/pro/health` debe responder con `database:true`, `checkoutSandbox:true`, `webhook:true`, `email:true`.
