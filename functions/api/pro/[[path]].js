@@ -577,9 +577,9 @@ export async function onRequest(context){
    return reply({ok:true,closing:cleanClosing(closing),tasks:tasks.results.map(cleanTask),contract_tasks:contract.results.map(contractClean),contract_options:contractTaskChoices});
   }
   // The details route above remains accessible to the verified account owner
-  // after day 90, completed/cancelled status, and even with ZERO credits.
+  // after the included 60 days, completed/cancelled status, and even with ZERO credits.
   // PDF is generated client-side from those read-only records, no renewal.
-  if(closingPlanExpired(closing.effective_date))return reply({ok:false,code:"PRO_READ_ONLY_AFTER_EXPIRY",plan_ends:closingPlanEnds(closing.effective_date),pdf_available:true,error:"This 90-day PRO closing has ended. Your closing remains available in read-only mode and its PDF can still be downloaded without a renewal or another credit."},409);
+  if(closingPlanExpired(closing.effective_date))return reply({ok:false,code:"PRO_READ_ONLY_AFTER_EXPIRY",plan_ends:closingPlanEnds(closing.effective_date),pdf_available:true,error:"This 60-day PRO closing has ended. Your closing remains available in read-only mode and its PDF can still be downloaded without a renewal or another credit."},409);
   if(closing.status!=="in_progress")return error("Archived transactions are read-only. PDF download remains available without payment.",409);
   if(act==="contract/delete"){
    await ensureContractTable(db);
@@ -613,7 +613,7 @@ export async function onRequest(context){
    if(exactDate&&!isoDate(exactDate))return error("Enter a valid exact date.",400);
    const due=computeContractTask(closing,days,base,direction,dayType,exactDate);
    if(!due||due<today)return error("Past deadlines cannot be created or edited. Choose a current or future date.",409);
-   if(closingExtensionNeeded(closing.effective_date,due))return reply({ok:false,code:"CONTRACT_TASK_OUTSIDE_90_DAYS",error:"This task is beyond the included 90-day PRO period. An extension must be purchased before adding deadlines in the extra period. No charge has been made."},409);
+   if(closingExtensionNeeded(closing.effective_date,due))return reply({ok:false,code:"CONTRACT_TASK_OUTSIDE_60_DAYS",error:"This task is beyond the included 60-day PRO period. An extension must be purchased before adding deadlines in the extra period. No charge has been made."},409);
    if(act==="contract/add"){
     await db.prepare("INSERT INTO closing_contract_tasks(id,closing_id,user_id,title,days,base,direction,day_type,exact_date,due_date,status) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(guid(),id,user.id,title,days,base,direction,dayType,exactDate||null,due,status).run();
     return reply({ok:true},201);
@@ -625,7 +625,7 @@ export async function onRequest(context){
    const value=String(body.date||""),reason=String(body.reason||"").trim().slice(0,400);
    if(!isoDate(value)||value<closing.effective_date||!reasonDate.includes(reason))return error("Select a generic closing date adjustment reason.");
    // Only the original Effective Date determines included duration. Never quietly
-   // apply a second credit or a promotional price to a 90-day extension.
+   // apply a second credit or a promotional price to an extension.
    if(closingExtensionNeeded(closing.effective_date,value))return extensionNotLaunched();
    const delta=Math.round((Date.parse(value)-Date.parse(closing.closing_date))/86400000);
    await ensureContractTable(db);
