@@ -291,6 +291,20 @@ export async function onRequest(context){
   catch(_){await db.batch([db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),db.prepare("DELETE FROM users WHERE id=? AND verified=0").bind(id)]);return error("Could not send verification email. Try again later.",503)}
   return reply({ok:true,message:"Check your email for a verification link."},201);
  }
+ if(route==="resend-verification"){
+  const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
+  if(!emailOK(email)||!password||password.length>128)return error("Enter your account email and password.",400);
+  if(!await permit(db,"verify-resend",email,3,3600))return error("Too many verification requests. Try again later.",429);
+  const row=await db.prepare("SELECT id,password_salt,password_hash,verified FROM users WHERE email=?").bind(email).first();
+  if(!row||!String(row.password_hash||"").startsWith("v2:")||!safeEq(await pbkdf(password,row.password_salt),row.password_hash))return error("Invalid credentials. If needed, use Forgot Password.",401);
+  if(row.verified)return reply({ok:true,message:"This account is already verified. Please sign in."});
+  if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Verification email service is not configured.",503);
+  const token=random(32),tokenHash=await digest(token);
+  await db.prepare("INSERT INTO email_verifications(token_hash,user_id,expires_at) VALUES(?,?,?)").bind(tokenHash,row.id,now()+86400).run();
+  try{await sendVerification(env,email,url.origin+"/api/pro/verify?token="+encodeURIComponent(token))}
+  catch(e){await db.prepare("DELETE FROM email_verifications WHERE token_hash=?").bind(tokenHash).run();return error("Verification email could not be sent. Please try again later.",503)}
+  return reply({ok:true,message:"A new verification email was sent. Open the newest email and select Verify your email within 24 hours."});
+ }
  if(route==="login"){
   const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");if(!emailOK(email)||password.length>128)return error("Invalid credentials",401);if(!await permit(db,"login",email,8,900))return error("Too many sign-in attempts. Try again later.",429);
   const row=await db.prepare("SELECT id,password_salt,password_hash,verified FROM users WHERE email=?").bind(email).first();
