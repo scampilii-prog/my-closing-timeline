@@ -301,7 +301,7 @@ export async function onRequest(context){
   return reply({ok:true},200,{"Set-Cookie":await newSession(db,row.id)});
  }
  if(route==="admin/codes/disable"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const id=String(body.id||"");if(!/^[0-9a-f-]{36}$/.test(id))return error("Invalid code ID");await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(id).run();return reply({ok:true})}
- if(route==="admin/gift/send"){
+ if(route==="admin/gift/send"){ return error("The complimentary PRO promotion has ended; free credits can no longer be issued or redeemed.",410);
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return error("Branded email delivery is not configured",503);
   const recipient=String(body.email||"").trim().toLowerCase(),code=String(body.code||"").trim().toUpperCase();
@@ -381,7 +381,7 @@ export async function onRequest(context){
   return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
  }
  if(route==="forms/library")return error("Legacy free-text library disabled. Use generic templates.",409);
-  if(route==="promo/check"||route==="promo/redeem"){
+  if(route==="promo/check"||route==="promo/redeem"){ return error("The complimentary PRO promotion has ended; free credits can no longer be issued or redeemed.",410);
   const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
   const row=await db.prepare("SELECT id,credits,restricted_email FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?)").bind(await digest(code),now()).first();
