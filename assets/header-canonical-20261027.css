@@ -256,7 +256,23 @@ html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-au
 html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-auth-register:hover{background:#24717a!important}
 @media(max-width:700px){html body header#mct-site-header.mct-unified-header{height:auto!important;min-height:80px!important}html body header#mct-site-header.mct-unified-header>.mct-header-inner{width:calc(100% - 26px)!important;margin:0 13px!important;height:auto!important;min-height:78px!important;padding:11px 0!important;flex-wrap:wrap!important;gap:9px!important}html body header#mct-site-header.mct-unified-header .mct-brand{font-size:clamp(19px,4vw,25px)!important}html body header#mct-site-header.mct-unified-header .mct-header-tools{margin-left:auto!important;gap:8px!important;flex:0 0 auto!important;width:auto!important;min-width:0!important}html body header#mct-site-header.mct-unified-header .mct-header-account{gap:7px!important}html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-auth-register{min-width:76px!important;padding:0 9px!important}}
 
-#mct-site-header #mct-menu-toggle{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;align-self:center!important;vertical-align:middle!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:40px!important;min-height:40px!important;margin:0!important;padding:7px!important;line-height:1!important;transform:none!important;border:2px solid #e5bc75;border-radius:9px;background:#137d80;color:#fff;cursor:pointer;box-shadow:0 2px 10px #081c2b55}#mct-site-header #mct-menu-toggle svg{display:block!important;flex:none!important;width:25px!important;height:25px!important;margin:0 auto!important;transform:none!important}
+/* Single canonical geometry for the hamburger: same 40px vertical center as EN / Log In / Register. */
+#mct-site-header #mct-menu-toggle{
+ box-sizing:border-box!important;display:grid!important;place-items:center!important;
+ align-self:center!important;vertical-align:middle!important;
+ flex:0 0 44px!important;width:44px!important;min-width:44px!important;
+ height:40px!important;min-height:40px!important;max-height:40px!important;
+ margin:0!important;padding:0!important;line-height:0!important;
+ position:relative!important;inset:auto!important;transform:none!important;
+ border:2px solid #e5bc75!important;border-radius:9px!important;
+ background:#137d80!important;color:#fff!important;cursor:pointer!important;
+ box-shadow:0 2px 10px #081c2b55!important;
+}
+#mct-site-header #mct-menu-toggle svg{
+ display:block!important;position:static!important;place-self:center!important;
+ flex:none!important;width:25px!important;height:25px!important;
+ margin:0!important;padding:0!important;transform:none!important;
+}
 /* The six navigation links are source data for the hamburger; keep them out of first paint. */
 html body header#mct-site-header.mct-unified-header>.mct-header-inner>nav{display:none!important}
 
