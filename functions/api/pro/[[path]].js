@@ -660,6 +660,7 @@ export async function onRequest(context){
    const task=await db.prepare("SELECT * FROM follow_tasks WHERE id=? AND closing_id=? AND user_id=?").bind(body.task_id,id,user.id).first();
    if(!task)return error("Task not found",404);
    // Follow-up tasks may be completed or rescheduled even when previously overdue. Contract deadlines remain locked.
+   if(task.status==="done"&&body.done!==false&&(body.date!==undefined||body.title!==undefined))return error("Uncheck Done before editing a completed follow-up task.",409);
    const title=String(body.title||task.title).trim().slice(0,150),date=String(body.date||task.due_date),status=body.done===true?"done":body.done===false?"pending":task.status;
    if(!allowedTask(title)||!isoDate(date)||(date<new Date().toISOString().slice(0,10)&&date!==task.due_date))return error("Choose a generic follow-up task and a valid date today or later.");
    await db.prepare("UPDATE follow_tasks SET title=?,due_date=?,status=? WHERE id=? AND user_id=?").bind(title,date,status,task.id,user.id).run();return reply({ok:true});
