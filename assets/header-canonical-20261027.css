@@ -260,6 +260,11 @@ html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-au
 /* The six navigation links are source data for the hamburger; keep them out of first paint. */
 html body header#mct-site-header.mct-unified-header>.mct-header-inner>nav{display:none!important}
 
+/* Real Estate header: anchor both ends to the actual 1130px planner edges, not the inner flex offsets. */
+@media(min-width:701px){
+html body.mct-unified-internal-hero header#mct-site-header.mct-unified-header .mct-header-inner>a.mct-brand{position:fixed!important;left:max(14px,calc((100vw - 1130px)/2))!important;top:24px!important;margin:0!important;transform:none!important}
+html body.mct-unified-internal-hero header#mct-site-header.mct-unified-header .mct-header-inner>.mct-header-tools{position:fixed!important;right:max(14px,calc((100vw - 1130px)/2))!important;top:27px!important;margin:0!important;transform:none!important}
+}
 /* Approved account controls: Login unboxed, Register framed, all tools pinned right. */
 @media(min-width:701px){
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>.mct-header-tools{margin-left:auto!important;margin-right:0!important;justify-content:flex-end!important;flex-shrink:0!important;gap:15px!important}
