@@ -260,8 +260,6 @@ html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-au
 /* The six navigation links are source data for the hamburger; keep them out of first paint. */
 html body header#mct-site-header.mct-unified-header>.mct-header-inner>nav{display:none!important}
 
-/* Align both approved header ends with the 1130px content edges, independent of old flex margins. */
-@media(min-width:701px){html body header#mct-site-header.mct-unified-header .mct-header-inner>a.mct-brand{position:absolute!important;left:max(20px,calc((100vw - 1130px)/2))!important;margin:0!important}html body header#mct-site-header.mct-unified-header .mct-header-inner>.mct-header-tools{position:absolute!important;right:max(20px,calc((100vw - 1130px)/2))!important;margin:0!important}}
 /* Approved account controls: Login unboxed, Register framed, all tools pinned right. */
 @media(min-width:701px){
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>.mct-header-tools{margin-left:auto!important;margin-right:0!important;justify-content:flex-end!important;flex-shrink:0!important;gap:15px!important}
