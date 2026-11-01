@@ -319,8 +319,11 @@ export async function onRequest(context){
    db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),
    db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(id),
    db.prepare("DELETE FROM account_policy_acceptances WHERE user_id=?").bind(id),
+   db.prepare("DELETE FROM user_contract_form_templates WHERE user_id=?").bind(id),
    db.prepare("DELETE FROM users WHERE id=? AND email=? AND credits=0").bind(id,email)
   ]);}catch(e){return error("Account has linked records and cannot be safely deleted.",409);}
+  const remaining=await db.prepare("SELECT id FROM users WHERE id=?").bind(id).first();
+  if(remaining)return error("Account was not removed. Related records may require a manual review.",409);
   return reply({ok:true,message:"Empty test account deleted."});
  }
  if(route==="admin/codes/disable"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const id=String(body.id||"");if(!/^[0-9a-f-]{36}$/.test(id))return error("Invalid code ID");await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(id).run();return reply({ok:true})}
