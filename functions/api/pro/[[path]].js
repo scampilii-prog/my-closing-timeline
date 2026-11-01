@@ -454,11 +454,16 @@ export async function onRequest(context){
   return reply({ok:true,templates:await mctReadFormTemplates(db,user.id)});
  }
  if(route==="forms/library")return error("Legacy free-text library disabled. Use generic templates.",409);
-  if(route==="promo/check"||route==="promo/redeem"){ return error("The complimentary PRO promotion has ended; free credits can no longer be issued or redeemed.",410);
+  if(route==="promo/check"||route==="promo/redeem"){
   const code=String(body.code||"").trim().toUpperCase();if(code===launch.code)return error("LAUNCH90 is a purchase discount, not a free closing credit. Apply it at checkout.");if(!await permit(db,"promo",user.id,30,3600))return error("Too many code attempts. Please try again later.",429);
   if(code.length<12||code.length>64)return error("Invalid promotional code");
   const row=await db.prepare("SELECT id,credits,restricted_email FROM promo_codes WHERE code_hash=? AND active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?)").bind(await digest(code),now()).first();
   if(!row)return error("This private gift code has expired, has already been redeemed or is not available. Please contact the sender for a new invitation.",404);
+  const oldOfferTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='first_free_requests'").first();
+  if(oldOfferTable){
+   const retired=await db.prepare("SELECT 1 AS n FROM first_free_requests WHERE promo_code_id=? LIMIT 1").bind(row.id).first();
+   if(retired)return error("This public introductory promotion is no longer available.",410);
+  }
   if(row.restricted_email&&row.restricted_email!==user.email)return error("This private gift is restricted to a different email address. Sign out and register or sign in with the email that received the invitation.",403);
    // First-free invitation codes are reserved for eligible first-time PRO closings.
    // Ordinary owner gift codes continue to work under their existing rules.
