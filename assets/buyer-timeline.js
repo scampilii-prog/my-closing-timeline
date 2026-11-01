@@ -311,7 +311,91 @@ function buyerAgentPeriod(x){return x.days!==''&&x.days!==undefined?String(x.day
 function buyerAgentDue(x){return x.date?timelineShortDate(x.date):'To be confirmed'}
 function plainTimeline(){return closingMailIntro.join('\n')}
 const emailPreviewTrigger=$('mct-email-preview-trigger');if(emailPreviewTrigger)emailPreviewTrigger.addEventListener('click',viewEmailPreview);
-$('timeline-view-picture').addEventListener('click',viewPicture);$('timeline-download-picture').addEventListener('click',downloadPicture);$('timeline-copy-picture').addEventListener('click',copyPicture);$('deadline-email-btn').addEventListener('click',email);function printReport(){if(root.dataset.freeTaskLimit==='8'){timelineFeedback('Save PDF / Print is available with PRO. FREE lets you copy the timeline and email it.');return}if(!validateDeadlineReport())return;const data=collect(),effective=fmt($('deadline-effective').value),closing=fmt($('deadline-closing').value);const printable='<html><head><meta charset="utf-8"><title>Complete Contract Timeline</title><style>@page{size:letter portrait;margin:.58in}*{box-sizing:border-box}html{background:#edf1f4}body{font:13px Arial,sans-serif;color:#173248;margin:34px auto;padding:38px;max-width:920px;background:white;border-radius:12px;box-shadow:0 10px 45px #112d4320}h1{font-size:26px;margin:9px 0 14px;letter-spacing:-.5px}p{line-height:1.55}.subtitle{color:#95723b;font-weight:bold;letter-spacing:1.6px;font-size:10px}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:21px 0 26px}.summary .metric{background:#f1f5f8;border:1px solid #d8e0e6;border-radius:7px;padding:15px 12px;min-width:0;overflow-wrap:anywhere}.summary small{display:block;color:#536e80;font-size:10px;letter-spacing:.7px;text-transform:uppercase;margin-bottom:8px}.summary strong{font-size:15px;color:#0f3045}table{border-collapse:collapse;width:100%;table-layout:fixed}thead{display:table-header-group}th{background:#112d43;color:white;text-align:left;font-size:11px}td,th{padding:11px 9px;border:1px solid #c8d5de;overflow-wrap:anywhere;vertical-align:top}tr{break-inside:avoid;page-break-inside:avoid}th:nth-child(1){width:31%}th:nth-child(2){width:20%}th:nth-child(3){width:32%}th:nth-child(4){width:17%}.notice{margin-top:20px;border-top:2px solid #b6945c;padding-top:14px;font-size:11px}.print-btn{border:0;background:#112d43;color:white;padding:12px 20px;cursor:pointer;border-radius:5px;margin-bottom:20px}@media print{html{background:#fff}body{margin:0;max-width:none;padding:0;border-radius:0;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-btn{display:none}.summary{break-inside:avoid}.notice{break-inside:avoid}table{font-size:11px}td,th{padding:9px 7px}}</style></head><body><button class="print-btn" onclick="window.print()">Print all pages / Save as PDF</button><p class="subtitle">SOUTHWEST FLORIDA GULF COAST REAL ESTATE</p><h2>Buyer Closing Timeline — Complete Report</h2><div class="summary"><div class="metric"><small>Contract effective date</small><strong>'+esc(effective)+'</strong></div><div class="metric"><small>Scheduled closing</small><strong>'+esc(closing)+'</strong></div><div class="metric"><small>Milestones</small><strong>'+data.length+' total · '+data.filter(x=>x.status==='done').length+' completed</strong></div></div><table><thead><tr><th>Task / milestone</th><th>Due date</th><th>How date was entered</th><th>Progress</th></tr></thead><tbody>'+data.map(x=>'<tr><td>'+esc(x.name)+(x.amount?' · $'+Number(x.amount).toFixed(2):'')+(x.note?' — '+esc(x.note):'')+'</td><td>'+esc(x.date?timelineShortDate(x.date):'Not entered')+'</td><td>'+esc(x.detail)+'</td><td>'+esc(x.status==='done'?'Completed':x.status==='na'?'Not applicable':'Pending')+'</td></tr>').join('')+'</tbody></table><p class="notice"><strong>General notes:</strong> '+esc(generalNotes()||'None')+'</p><p class="notice">Planning aid only. Verify dates and contract terms with your real estate professional or closing attorney. Weekend, holiday, notice, and extension rules may change deadlines. This is not legal advice. Document prepared using MyClosingTimeline.com. No sender identity is supplied by this website.</p></body></html>';const win=window.open('','_blank');if(!win){alert('Allow pop-up windows for this site to open the complete printable report.');return}win.document.open();win.document.write(printable);win.document.close();win.focus()}$('deadline-print').addEventListener('click',printReport);reset()})();
+$('timeline-view-picture').addEventListener('click',viewPicture);$('timeline-download-picture').addEventListener('click',downloadPicture);$('timeline-copy-picture').addEventListener('click',copyPicture);$('deadline-email-btn').addEventListener('click',email);function printReport(){if(root.dataset.freeTaskLimit==='8'){timelineFeedback('Save PDF / Print is available with PRO. FREE lets you copy the timeline and email it.');return}if(!validateDeadlineReport())return;const data=collect(),effective=fmt($('deadline-effective').value),closing=fmt($('deadline-closing').value);const printable='<html><head><meta charset="utf-8"><title>Complete Contract Timeline</title><style>@page{size:letter portrait;margin:.58in}*{box-sizing:border-box}html{background:#edf1f4}body{font:13px Arial,sans-serif;color:#173248;margin:34px auto;padding:38px;max-width:920px;background:white;border-radius:12px;box-shadow:0 10px 45px #112d4320}h1{font-size:26px;margin:9px 0 14px;letter-spacing:-.5px}p{line-height:1.55}.subtitle{color:#95723b;font-weight:bold;letter-spacing:1.6px;font-size:10px}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:21px 0 26px}.summary .metric{background:#f1f5f8;border:1px solid #d8e0e6;border-radius:7px;padding:15px 12px;min-width:0;overflow-wrap:anywhere}.summary small{display:block;color:#536e80;font-size:10px;letter-spacing:.7px;text-transform:uppercase;margin-bottom:8px}.summary strong{font-size:15px;color:#0f3045}table{border-collapse:collapse;width:100%;table-layout:fixed}thead{display:table-header-group}th{background:#112d43;color:white;text-align:left;font-size:11px}td,th{padding:11px 9px;border:1px solid #c8d5de;overflow-wrap:anywhere;vertical-align:top}tr{break-inside:avoid;page-break-inside:avoid}th:nth-child(1){width:31%}th:nth-child(2){width:20%}th:nth-child(3){width:32%}th:nth-child(4){width:17%}.notice{margin-top:20px;border-top:2px solid #b6945c;padding-top:14px;font-size:11px}.print-btn{border:0;background:#112d43;color:white;padding:12px 20px;cursor:pointer;border-radius:5px;margin-bottom:20px}@media print{html{background:#fff}body{margin:0;max-width:none;padding:0;border-radius:0;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-btn{display:none}.summary{break-inside:avoid}.notice{break-inside:avoid}table{font-size:11px}td,th{padding:9px 7px}}</style></head><body><button class="print-btn" onclick="window.print()">Print all pages / Save as PDF</button><p class="subtitle">SOUTHWEST FLORIDA GULF COAST REAL ESTATE</p><h2>Buyer Closing Timeline — Complete Report</h2><div class="summary"><div class="metric"><small>Contract effective date</small><strong>'+esc(effective)+'</strong></div><div class="metric"><small>Scheduled closing</small><strong>'+esc(closing)+'</strong></div><div class="metric"><small>Milestones</small><strong>'+data.length+' total · '+data.filter(x=>x.status==='done').length+' completed</strong></div></div><table><thead><tr><th>Task / milestone</th><th>Due date</th><th>How date was entered</th><th>Progress</th></tr></thead><tbody>'+data.map(x=>'<tr><td>'+esc(x.name)+(x.amount?' · $'+Number(x.amount).toFixed(2):'')+(x.note?' — '+esc(x.note):'')+'</td><td>'+esc(x.date?timelineShortDate(x.date):'Not entered')+'</td><td>'+esc(x.detail)+'</td><td>'+esc(x.status==='done'?'Completed':x.status==='na'?'Not applicable':'Pending')+'</td></tr>').join('')+'</tbody></table><p class="notice"><strong>General notes:</strong> '+esc(generalNotes()||'None')+'</p><p class="notice">Planning aid only. Verify dates and contract terms with your real estate professional or closing attorney. Weekend, holiday, notice, and extension rules may change deadlines. This is not legal advice. Document prepared using MyClosingTimeline.com. No sender identity is supplied by this website.</p></body></html>';const win=window.open('','_blank');if(!win){alert('Allow pop-up windows for this site to open the complete printable report.');return}win.document.open();win.document.write(printable);win.document.close();win.focus()}$('deadline-print').addEventListener('click',printReport);reset();
+
+/* Website 29: browser-local, non-sensitive FREE draft handoff.
+   Never store names, addresses, accounts, tokens, or contract notes.
+   Restore only after the user explicitly leaves for registration/login.
+   A verified account and credit activation are separate server operations. */
+if(maxFreeTasks>0 && /real-estate-timeline\\.html$/i.test(location.pathname)){
+ const DRAFT_KEY='mct_free_step2_handoff_v1';
+ const MAX_AGE=7*24*60*60*1000;
+ let draftArmed=false;
+ const validDay=v=>typeof v==='string'&&/^\\d{4}-\\d{2}-\\d{2}$/.test(v)?v:'';
+ const readDraft=()=>{try{
+  const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
+  return d&&d.version===1&&d.armed===true&&Date.now()-d.savedAt<MAX_AGE?d:null;
+ }catch(_){return null}};
+ function snapshot(){
+  if(!draftArmed)return;
+  try{
+   const tasks=rows.slice(0,8).map(r=>({
+    name:String(r.custom||r.name||'').slice(0,180),
+    days:Number.isFinite(Number(r.days))?Math.max(0,Math.min(3650,Number(r.days))):0,
+    direction:r.direction==='before'?'before':'after',
+    override:validDay(r.override||''),
+    status:['done','na'].includes(r.status)?r.status:'pending',
+    userAdded:!!r.userAdded
+   }));
+   localStorage.setItem(DRAFT_KEY,JSON.stringify({
+    version:1,armed:true,savedAt:Date.now(),
+    effective:validDay($('deadline-effective').value),
+    closing:validDay($('deadline-closing').value),
+    counting:$('mct-contract-day-count')?.value==='business'?'business':'calendar',
+    tasks
+   }));
+  }catch(_){}
+ }
+ const d=readDraft();
+ if(d&&Array.isArray(d.tasks)&&d.tasks.length<=8&&d.tasks.length>0){
+  const original=rows.slice();
+  try{
+   $('deadline-effective').value=validDay(d.effective);
+   $('deadline-closing').value=validDay(d.closing);
+   if($('mct-contract-day-count'))$('mct-contract-day-count').value=d.counting==='business'?'business':'calendar';
+   rows=d.tasks.map((task,i)=>{
+    const row=baseRow(task.name||'Custom task');
+    row.custom=String(task.name||'').slice(0,180);
+    row.days=Number.isFinite(Number(task.days))?Math.max(0,Math.min(3650,Number(task.days))):0;
+    row.direction=task.direction==='before'?'before':'after';
+    row.override=validDay(task.override);
+    row.type=d.counting==='business'?'business':'calendar';
+    row.status=task.status==='done'||task.status==='na'?task.status:'pending';
+    row.userAdded=!!task.userAdded;
+    if(row.userAdded)row.addedSequence=++nextFreeAddedSequence;
+    return row;
+   });
+   draftArmed=true;
+   render();
+   const message=document.createElement('p');
+   message.id='mct-draft-restored-v29';
+   message.setAttribute('role','status');
+   message.style.cssText='padding:12px 15px;border:1px solid #c7ddcf;border-left:4px solid #2e8567;border-radius:7px;background:#f3faf6;color:#244d41;font:700 13px/1.6 Manrope,Arial,sans-serif';
+   message.textContent='Your FREE draft has been restored on this browser. Review dates and tasks before starting PRO. Your account and credit must still be verified.';
+   $('deadline-editor-rows').insertAdjacentElement('beforebegin',message);
+   show();
+  }catch(_){rows=original;render()}
+ }
+ const armOnLeave=e=>{
+  const link=e.target.closest('a[href]');
+  if(!link||!link.closest('#contract-deadline-planner'))return;
+  const u=new URL(link.href,location.href);
+  if(u.origin!==location.origin||!(/\\/pro-get-started\\.html$|\\/first-closing-free\\.html$|\\/login\\.html$/).test(u.pathname))return;
+  draftArmed=true;snapshot();
+ };
+ document.addEventListener('click',armOnLeave,true);
+ const record=e=>{
+  if(!draftArmed)return;
+  if(e.target.closest('#deadline-editor-rows')||['deadline-effective','deadline-closing','mct-contract-day-count','deadline-template'].includes(e.target.id))setTimeout(snapshot,0);
+ };
+ document.addEventListener('input',record,true);
+ document.addEventListener('change',record,true);
+ document.addEventListener('click',e=>{
+  if(draftArmed&&e.target.closest('#contract-deadline-planner button'))setTimeout(snapshot,0);
+ },true);
+ window.addEventListener('pagehide',snapshot);
+}
+})();
 
 /* The start button focuses the compact editor without resetting entered work. */
 document.querySelectorAll('[data-start-timeline]').forEach(function(link){link.addEventListener('click',function(e){e.preventDefault();const panel=document.getElementById('contract-deadline-planner');document.getElementById('deadline-effective').focus({preventScroll:true});const header=document.querySelector?document.querySelector('header'):null;if(panel.getBoundingClientRect&&window.scrollTo){const bottom=header?Math.max(0,header.getBoundingClientRect().bottom):100;window.scrollTo({top:panel.getBoundingClientRect().top+window.scrollY-bottom,behavior:'smooth'})}else panel.scrollIntoView({behavior:'smooth',block:'start'})})});
