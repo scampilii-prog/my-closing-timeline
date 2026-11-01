@@ -234,7 +234,7 @@ async function select(id){current=id;viewList();try{const a=await api("closings/
   pdfText.textContent="Read-only closing · "+(c.plan_ends?"Plan end date: "+c.plan_ends+". ":"")+"Download your PDF whenever you sign in while this record remains in your account. No renewal or payment required.";
  }else{
   pdfTitle.textContent="Your PDF remains yours — even after your plan ends.";
-  pdfText.textContent="Save it now or download it after the 90-day period. No renewal, extra credit or payment is required.";
+  pdfText.textContent="Save it now or download it after the included 60-day period. No renewal, extra credit or payment is required for PDF access.";
  }
  const code=/^CL-[A-F0-9]{8}$/.test(c.name||'')?c.name:'CL-'+String(c.id||'').replace(/[^a-f0-9]/gi,'').slice(0,8).toUpperCase();
  privatePdfInfo={reference:code,effective:c.effective_date,closing:c.closing_date,entries:[...(a.contract_tasks||[]).map(t=>({name:"CONTRACT: "+t.title,date:t.due_date,status:t.status})),...(a.tasks||[]).map(t=>({name:"FOLLOW-UP: "+t.title,date:t.due_date,status:t.status}))]};
