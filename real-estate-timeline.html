@@ -4804,7 +4804,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const heading=document.getElementById('mct-free-deadlines');
   if(heading&&!heading.querySelector('.mct-start-guide')){
    const guide=document.createElement('div');guide.className='mct-start-guide';
-   guide.innerHTML='<strong>START HERE · Build your FREE closing timeline</strong><span>Enter your Effective Date and Closing Date, review the six suggested contract tasks, and add up to two more. Step 2 is your starting point for Step 3.</span><small>FREE: review, copy and share your timeline. PRO: continue with the daily follow-up and completion history after account activation.</small>';
+   guide.innerHTML='<strong>START HERE · Your FREE closing timeline</strong><span>Start FREE. Continue with PRO only when you need daily follow-up.</span><div class="mct-entry-steps"><div><b>1 · START FREE</b><span>Enter your dates, review 6 tasks and add up to 2 more.</span></div><div><b>2 · REGISTER OR LOG IN</b><span>Create your account or sign in when ready.</span></div><div><b>3 · ACTIVATE & CONTINUE</b><span>Verify your email, activate an eligible FREE PRO credit, then review Step 2 and continue to Step 3.</span></div></div><small>FREE: prepare, copy and email your timeline. PRO: activate the professional follow-up after verification.</small>';
    heading.appendChild(guide);
   }
   const step3=document.getElementById('mct-free-followup-preview');
@@ -4817,4 +4817,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script>
-</body></html>
+<style id="mct-entry-steps-v2-20261101">
+#contract-deadline-planner #mct-free-deadlines .mct-start-guide{margin-top:11px!important;padding:17px 19px!important;border:1px solid #b9d8d5!important;border-left:5px solid #12887e!important;border-radius:11px!important;background:#f0f9f7!important}
+#contract-deadline-planner #mct-free-deadlines .mct-start-guide>strong{display:block!important;font:850 clamp(18px,1.6vw,23px)/1.28 Manrope,Arial,sans-serif!important;color:#124f58!important;margin:0 0 5px!important}
+#contract-deadline-planner #mct-free-deadlines .mct-start-guide>span{display:block!important;font:650 12.5px/1.5 Manrope,Arial,sans-serif!important;color:#426575!important}
+#contract-deadline-planner #mct-free-deadlines .mct-entry-steps{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;margin:13px 0!important}
+#contract-deadline-planner #mct-free-deadlines .mct-entry-steps>div{min-width:0;padding:12px 11px;border:1px solid #d5e5e5;border-radius:9px;background:white;box-shadow:0 2px 7px rgba(20,60,72,.035)}
+#contract-deadline-planner #mct-free-deadlines .mct-entry-steps b{display:block;color:#166177;font:850 11px/1.4 Manrope,Arial,sans-serif;margin-bottom:5px}
+#contract-deadline-planner #mct-free-deadlines .mct-entry-steps span{display:block;color:#3b5868;font:650 11px/1.45 Manrope,Arial,sans-serif}
+#contract-deadline-planner #mct-free-deadlines .mct-start-guide>small{font:600 11px/1.5 Manrope,Arial,sans-serif!important}
+@media(max-width:660px){#contract-deadline-planner #mct-free-deadlines .mct-entry-steps{grid-template-columns:1fr!important}}
+</style></body></html>
