@@ -11,7 +11,7 @@ const cookieName="mct_pro_session";
 const sessionCookie=v=>cookieName+"="+v+"; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=2592000";
 const clearCookie=()=>cookieName+"=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0";
 const guid=()=>crypto.randomUUID();
-const plans={single:{credits:1,amount:2000,launchAmount:2000,label:"1 Closing · up to 60 days"}};
+const plans={single:{credits:1,amount:2000,launchAmount:2000,label:"1 Closing · up to 60 days"},welcome2:{credits:2,amount:3500,launchAmount:3500,label:"2 Closings · 60 days each · introductory 30-day offer"}};
 const includedClosingDays=60;
 const extensionDays=60;
 const regularHalfBasicCents=plans.single.amount/2;
