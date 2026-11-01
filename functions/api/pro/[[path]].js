@@ -154,15 +154,9 @@ export async function onRequest(context){
  if(!env.PRO_DB)return error("PRO service is being configured. No payment or registration has been started.",503);
  const db=env.PRO_DB;
  if(req.method==="GET"&&route==="pricing"){
-  // D1 has its original fixed-price check constraint until migration 0002 is installed.
-  // Do not enable Stripe checkout while D1 cannot persist the real amount paid.
-  let catalogReady=false;
-  try{
-   const table=await db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='purchases'").first();
-   const sql=String(table?.sql||"");
-   catalogReady=[1990,3490,8490,2990,5980,14950].every(amount=>new RegExp("\\b"+amount+"\\b").test(sql));
-  }catch(e){console.error("PRO pricing readiness check failed",{type:e?.name||"Error"})}
-  return reply({ok:true,catalogReady,campaign:{code:launch.code,active:launchActive(),end:"2027-03-31",label:"Introductory launch offer"},plans:Object.fromEntries(Object.entries(plans).map(([id,p])=>[id,{credits:p.credits,regularAmount:p.amount,launchAmount:launchActive()?p.launchAmount:null}]))});
+  // Commercial catalog pending final approval and verified D1 migration.
+  // No payment session may be created from provisional terms.
+  return reply({ok:true,catalogReady:false,checkoutEnabled:false,campaign:{active:false},plans:{realEstate:{credits:1,regularAmount:2000,durationDays:60,status:"proposed"},project:{initialAmount:2000,initialDays:60,monthlyAmount:1000,status:"proposed"}}});
  }
  // Non-sensitive database readiness check (no account data is returned).
  if(req.method==="GET"&&route==="diagnostics"){
@@ -418,6 +412,7 @@ export async function onRequest(context){
   return reply({ok:true,credits_added:row.credits});
  }
  if(route==="checkout"){
+  return error("Checkout is temporarily unavailable while the revised commercial catalog and credit rules are being verified. No payment was taken.",503);
   const purchaseTable=await db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='purchases'").first();
   const purchaseSchema=String(purchaseTable?.sql||"");
   if(![1990,3490,8490,2990,5980,14950].every(value=>new RegExp("\\b"+value+"\\b").test(purchaseSchema)))return error("PRO purchase pricing upgrade is pending. No payment was taken.",503);
