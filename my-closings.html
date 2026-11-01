@@ -253,10 +253,10 @@ function showTasks(tasks,closingStatus,contractTasks=[]){
  root.append(summary);
  for(const {item} of combined){
   const expired=!!item.due_date&&item.due_date<today;
-  const locked=closingStatus!=="in_progress"||expired;
+  const locked=closingStatus!=="in_progress"||(item.mctKind==="contract"&&expired);
   const row=n("div",undefined,"task"+(item.status==="done"?" done":"")+(expired?" locked":""));
   const kind=item.mctKind==="contract";
-  const label=n("span",(kind?"CONTRACT · ":"FOLLOW-UP · ")+item.title+(expired?" · Locked":""),"task-name");
+  const label=n("span",(kind?"CONTRACT · ":"FOLLOW-UP · ")+item.title+(expired&&kind?" · Locked":expired?" · Overdue":""),"task-name");
   const due=n("span",item.due_date||"Date not set","muted");
   const controls=n("div",undefined,"row");
   const btn=n("button",item.status==="done"?"Done ✓":"Done");btn.type="button";btn.disabled=locked;
