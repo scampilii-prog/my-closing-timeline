@@ -1769,19 +1769,17 @@ function updateProGuide(){
  const root=$("mct-pro-guide");if(!root)return;
  const gift=giftMode(),credits=account?Number(account.credits||0):0;
  const awaiting=document.body.classList.contains("mct-pro-awaiting-verification")&&!account;
- const step=gift?
-  (credits>0?4:account?3:awaiting?2:1):
-  (credits>0?4:account?paidPlanChosen?3:2:awaiting?1:1);
+ const step=credits>0?4:account?3:awaiting?2:1;
  const values=gift?[
-  ["Create account or sign in","First, use the email that received your invitation.","#mct-account"],
-  ["Verify your email","Open the verification email and confirm your account.","#mct-account"],
-  ["Activate your private gift","Your invitation code is checked after login. $0.00.","#mct-gift-panel"],
-  ["Create PRO & save PDF","Open My Closings, select + Start New Closing, then download your private PDF.","/my-closings.html"]
+  ["Register or sign in","Use the email associated with your private invitation.","#mct-account"],
+  ["Verify your email","Confirm the secure link in your email.","#mct-account"],
+  ["Activate a private gift","Available only for an individual admin-issued invitation.","#mct-gift-panel"],
+  ["Open your PRO workspace","A valid credit is required to start a PRO closing.","/my-closings.html"]
  ]:[
-  ["Register or sign in","Create an account or access your existing account.","#mct-account"],
-  ["Choose a Closing Package","Choose 1 closing for $20 or, during the first 30 days after registration, 2 closings for $35. Each closing lasts up to 60 days.","#mct-pro-select-heading"],
-  ["Verify your email & checkout","Email verification first; Stripe is still test-only.","#mct-account"],
-  ["Create PRO & save PDF","Open My Closings, select + Start New Closing, then download your private PDF.","/my-closings.html"]
+  ["Register or sign in","Create an account or sign in.","#mct-account"],
+  ["Verify your email","Confirm your email address before purchasing.","#mct-account"],
+  ["Choose your PRO plan","1 closing for $20, or 2 for $35 during your first 30 days. Checkout is disabled during testing.","#mct-pro-select-heading"],
+  ["Activate PRO","After payment becomes available and a credit is issued, start your closing.","/my-closings.html"]
  ];
  values.forEach((v,i)=>{
   const n=i+1,el=root.querySelector('[data-mct-guide-step="'+n+'"]');
@@ -1803,7 +1801,7 @@ function updateProGuide(){
    step===2?"Step 2 · Check Your Verification Email →":
    step===3?"Step 3 · Activate Your Gift Code →":"Step 4 · Open My PRO Workspace →";
  }else{
-  desc.textContent="Register and confirm your email. Choose a package for a TEST checkout, or request First Closing FREE above. After a credit is available, start your closing and save a private PDF.";
+  desc.textContent="Register, verify your email, then choose an approved PRO plan. No card is requested during testing. After a credit is available, start your closing and save a private PDF.";
   note.textContent="Stripe is still in Sandbox; real card payments are not yet accepted.";
   primary.textContent=step===1?"Step 1 · Register or Sign In →":
    step===2?"Step 2 · Choose Your PRO Package →":
@@ -2025,6 +2023,7 @@ refreshAccount();
 // scroll-to-form (or #mct-start-choice hash) clipped the congratulation banner
 // behind the fixed header. Always start gift onboarding with the welcome
 // fully visible, while preserving the original scrolling for paid customers.
+const confirmedEmail=new URLSearchParams(location.search).get("verified")==="1";
 const firstFreeEntry=giftMode()&&!!savedGift();
 if(firstFreeEntry){
  if(location.hash==="#mct-start-choice"||location.hash==="#mct-account"||location.hash==="#mct-gift-panel"){
@@ -2034,7 +2033,7 @@ if(firstFreeEntry){
  requestAnimationFrame(()=>requestAnimationFrame(revealWelcome));
  if(document.readyState==="complete")revealWelcome();
  else window.addEventListener("load",revealWelcome,{once:true});
-}else if(requestedAuth==="register"||requestedAuth==="login"||(!cameWithGift&&location.hash==="#register")){
+}else if(confirmedEmail||requestedAuth==="register"||requestedAuth==="login"||(!cameWithGift&&location.hash==="#register")){
  const alignAccount=()=>{const title=document.getElementById("mct-pro-account-heading");if(!title)return;const header=document.getElementById("mct-site-header");const clearance=(header?.getBoundingClientRect().height||78)+24;const top=Math.max(0,window.scrollY+title.getBoundingClientRect().top-clearance);window.scrollTo({top,behavior:"instant"});};
  requestAnimationFrame(()=>requestAnimationFrame(alignAccount));
  if(document.readyState!=="complete")window.addEventListener("load",alignAccount,{once:true});
