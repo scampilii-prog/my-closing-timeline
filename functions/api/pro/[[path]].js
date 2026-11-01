@@ -11,9 +11,9 @@ const cookieName="mct_pro_session";
 const sessionCookie=v=>cookieName+"="+v+"; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=2592000";
 const clearCookie=()=>cookieName+"=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0";
 const guid=()=>crypto.randomUUID();
-const plans={single:{credits:1,amount:2990,launchAmount:1990,label:"1 Closing · up to 90 days"},pack2:{credits:2,amount:5980,launchAmount:3490,label:"2 Closings · 90 days each"},pack5:{credits:5,amount:14950,launchAmount:8490,label:"5 Closings · 90 days each"}};
-const includedClosingDays=90;
-const extensionDays=90;
+const plans={single:{credits:1,amount:2000,launchAmount:2000,label:"1 Closing · up to 60 days"}};
+const includedClosingDays=60;
+const extensionDays=60;
 const regularHalfBasicCents=plans.single.amount/2;
 const calendarDayDifference=(a,b)=>Math.round((Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/86400000);
 const closingExtensionNeeded=(effective,closing)=>calendarDayDifference(effective,closing)>includedClosingDays;
@@ -88,8 +88,8 @@ const cleanTask=t=>({id:t.id,title:allowedTask(t.title)?t.title:"General Follow-
 
 function suggestedDate(iso,offset){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+offset);return d.toISOString().slice(0,10)}
 const launch={code:"LAUNCH90",start:Date.UTC(2026,9,27),end:Date.UTC(2027,3,1)}; // Offer runs through March 31, 2027 (UTC end exclusive).
-const launchActive=()=>Date.now()>=launch.start&&Date.now()<launch.end;
-const launchValid=code=>launchActive()&&String(code||"").trim().toUpperCase()===launch.code;
+const launchActive=()=>false;
+const launchValid=()=>false;
 const emailOK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
 const isoDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||""))return false;const d=new Date(s+"T00:00:00Z");return !Number.isNaN(d.valueOf())&&d.toISOString().slice(0,10)===s};
 // Workers production limits each PBKDF2 call to 100,000 iterations.
