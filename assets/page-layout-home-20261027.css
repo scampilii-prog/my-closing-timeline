@@ -2,7 +2,7 @@
 /* HOME itself remains the visual benchmark; no changes to its content layout. */
 html body.mct-layout-wide{background:#f3f7f9;color:#183b52;font-family:Manrope,Arial,sans-serif}
 html body.mct-layout-wide main.workspace{
- box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1480px!important;
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1420px!important;
  margin:22px auto 52px!important;padding-left:0!important;padding-right:0!important;
 }
 html body.mct-layout-wide main.workspace>.home-like-panel{
@@ -16,7 +16,7 @@ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main{
  margin:0 auto 56px!important;padding:24px 0 60px!important;
 }
 html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main>section.card{
- box-sizing:border-box!important;width:100%!important;max-width:1360px!important;
+ box-sizing:border-box!important;width:100%!important;max-width:1420px!important;
  margin:0 auto!important;background:#fff!important;
  border:1px solid #d6e3e8!important;border-radius:14px!important;
  box-shadow:0 8px 26px rgba(15,46,66,.075)!important;overflow:hidden!important;
@@ -53,21 +53,21 @@ html body.mct-layout-wide.mct-layout-pro main.mct-pro-registration-main button{
  font-family:Manrope,Arial,sans-serif!important;
 }
 html body.mct-layout-wide.mct-layout-pricing main.workspace.mct-sales-page{
- box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1440px!important;
+ box-sizing:border-box!important;width:calc(100% - 56px)!important;max-width:1420px!important;
  margin:24px auto 58px!important;padding:0!important;
 }
 html body.mct-layout-wide.mct-layout-pricing main.workspace.mct-sales-page>section{
  box-sizing:border-box!important;width:100%!important;max-width:none!important;
 }
 html body.mct-layout-wide.mct-layout-reading main.workspace{
- max-width:1370px!important;
+ max-width:1420px!important;
 }
 html body.mct-layout-wide.mct-layout-reading main.workspace .mct-sub-content{
  max-width:1080px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;
  font:500 15px/1.75 Manrope,Arial,sans-serif!important;
 }
 html body.mct-layout-wide.mct-layout-dashboard main.workspace{
- width:calc(100% - 44px)!important;max-width:1600px!important;margin:20px auto 50px!important;
+ width:calc(100% - 44px)!important;max-width:1420px!important;margin:20px auto 50px!important;
  box-sizing:border-box!important;
 }
 html body.mct-layout-wide.mct-layout-dashboard main.workspace>section,
@@ -76,7 +76,7 @@ html body.mct-layout-wide.mct-layout-dashboard main.workspace>.home-like-panel{
 }
 html body.mct-layout-wide.mct-layout-secondary>main{
  box-sizing:border-box!important;width:calc(100% - 56px)!important;
- max-width:1400px!important;margin:24px auto 54px!important;
+ max-width:1420px!important;margin:24px auto 54px!important;
  padding-left:12px!important;padding-right:12px!important;
 }
 html body.mct-layout-wide.mct-layout-secondary>main>.panel,
@@ -88,7 +88,7 @@ html body.mct-layout-wide.mct-layout-secondary>main>section.panel{
  box-shadow:0 6px 22px rgba(20,48,67,.045)!important;
 }
 html body.mct-layout-wide.mct-layout-compact>main{
- box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:1050px!important;
+ box-sizing:border-box!important;width:calc(100% - 48px)!important;max-width:1420px!important;
  margin:25px auto 48px!important;
 }
 @media(max-width:850px){
