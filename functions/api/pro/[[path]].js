@@ -203,8 +203,10 @@ export async function onRequest(context){
  if(req.method==="GET"&&route==="me"){
   const user=await getAuth(req,db);if(!user)return reply({authenticated:false});
   const items=await db.prepare("SELECT id,name,effective_date,closing_date,status,created_at FROM closings WHERE user_id=? ORDER BY created_at DESC LIMIT 200").bind(user.id).all();
+  const eligible=await db.prepare("SELECT COALESCE(SUM(credit_quantity),0) AS units FROM purchases WHERE user_id=? AND status='paid' AND credited_at IS NOT NULL AND ((plan_id='single' AND amount_cents=2000 AND credit_quantity=1) OR (plan_id IN ('welcome2','pack2') AND amount_cents=3500 AND credit_quantity=2))").bind(user.id).first();
+  const paidUnits=Math.max(0,Number(eligible?.units||0));
   const renewed=await renewActiveSession(req,db);
-  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closings:items.results.map(cleanClosing)},200,renewed?{"Set-Cookie":renewed}:{});
+  return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closing_rewards:{paid_units:paidUnits,progress:paidUnits%5,goal:5,automatic_rewards_active:false},closings:items.results.map(cleanClosing)},200,renewed?{"Set-Cookie":renewed}:{});
  }
  if(req.method==="GET"&&route==="admin/codes"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
