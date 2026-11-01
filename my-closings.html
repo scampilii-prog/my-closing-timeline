@@ -265,7 +265,7 @@ function showTasks(tasks,closingStatus,contractTasks=[]){
    else await api("closings/"+current+"/tasks/update","POST",{task_id:item.id,done:item.status!=="done"});
    await select(current)
   }catch(e){tell(e.message)}};
-  const edit=n("button","Change Date");edit.type="button";edit.disabled=locked;
+  const edit=n("button","Change Date");edit.type="button";edit.disabled=locked||item.status==="done";edit.title=item.status==="done"?"Uncheck Done before changing this task date.":"Choose a new reminder date";
   const dateEditor=n("div",undefined,"mct-inline-date-editor");dateEditor.hidden=true;
   const dateInput=n("input");dateInput.type="date";dateInput.value=item.due_date||"";dateInput.min=today;dateInput.setAttribute("aria-label","New reminder date");
   const saveDate=n("button","Save Date");saveDate.type="button";saveDate.className="primary";
