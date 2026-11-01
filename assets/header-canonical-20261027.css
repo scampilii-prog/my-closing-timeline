@@ -245,7 +245,7 @@ html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects
 
 /* Consolidated masthead proportions — single final rule set. */
 html body header#mct-site-header.mct-unified-header{height:98px!important;min-height:98px!important}
-html body header#mct-site-header.mct-unified-header>.mct-header-inner{width:calc(100% - max(32px,calc((100vw - 1130px)/2 + 36px)) - 32px)!important;max-width:none!important;height:96px!important;min-height:96px!important;margin:0 32px 0 max(32px,calc((100vw - 1130px)/2 + 36px))!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
+html body header#mct-site-header.mct-unified-header>.mct-header-inner{width:calc(100% - 40px)!important;max-width:1130px!important;height:96px!important;min-height:96px!important;margin:0 auto!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
 html body header#mct-site-header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;gap:11px!important;font:800 clamp(26px,2.15vw,33px)/1.15 Manrope,Arial,sans-serif!important}
 html body header#mct-site-header.mct-unified-header .mct-brand img.mct-brand-icon{display:block!important;width:49px!important;height:49px!important;min-width:49px!important;max-width:49px!important;max-height:49px!important;flex:0 0 49px!important}
 html body header#mct-site-header.mct-unified-header .mct-header-tools{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:15px!important;margin:0!important;flex:0 0 auto!important}
