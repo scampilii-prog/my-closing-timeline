@@ -317,11 +317,11 @@ $('timeline-view-picture').addEventListener('click',viewPicture);$('timeline-dow
    Never store names, addresses, accounts, tokens, or contract notes.
    Restore only after the user explicitly leaves for registration/login.
    A verified account and credit activation are separate server operations. */
-if(maxFreeTasks>0 && /real-estate-timeline\\.html$/i.test(location.pathname)){
+if(maxFreeTasks>0 && /real-estate-timeline\.html$/i.test(location.pathname)){
  const DRAFT_KEY='mct_free_step2_handoff_v1';
  const MAX_AGE=7*24*60*60*1000;
  let draftArmed=false;
- const validDay=v=>typeof v==='string'&&/^\\d{4}-\\d{2}-\\d{2}$/.test(v)?v:'';
+ const validDay=v=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)?v:'';
  const readDraft=()=>{try{
   const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
   return d&&d.version===1&&d.armed===true&&Date.now()-d.savedAt<MAX_AGE?d:null;
@@ -380,7 +380,7 @@ if(maxFreeTasks>0 && /real-estate-timeline\\.html$/i.test(location.pathname)){
   const link=e.target.closest('a[href]');
   if(!link||!link.closest('#contract-deadline-planner'))return;
   const u=new URL(link.href,location.href);
-  if(u.origin!==location.origin||!(/\\/pro-get-started\\.html$|\\/first-closing-free\\.html$|\\/login\\.html$/).test(u.pathname))return;
+  if(u.origin!==location.origin||!(/\/pro-get-started\.html$|\/first-closing-free\.html$|\/login\.html$/).test(u.pathname))return;
   draftArmed=true;snapshot();
  };
  document.addEventListener('click',armOnLeave,true);
