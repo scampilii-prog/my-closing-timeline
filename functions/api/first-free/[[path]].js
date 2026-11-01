@@ -219,7 +219,7 @@ export async function onRequest({request:req,env}){
  if(req.headers.get("Origin")!==u.origin)return err("Request origin not accepted.",403);
  if(!(req.headers.get("Content-Type")||"").startsWith("application/json")||Number(req.headers.get("Content-Length")||0)>5000)return err("Invalid request.",400);
  const b=await req.json();
- if(route==="request"){
+ if(route==="request"){ return err("The first-free promotion has ended. PRO requires a paid closing credit.",410);
   if(!env.RESEND_API_KEY||!env.MCT_FROM_EMAIL)return err("Email invitations are not ready. Please try again later.",503);
   const email=String(b.email||"").trim().toLowerCase(),type=String(b.customerType||"");
   if(!emailOK(email)||typeof b.marketingOptIn!=="boolean"||!["realtor","other"].includes(type))return err("Select Realtor or Other Projects and provide a valid email.");
