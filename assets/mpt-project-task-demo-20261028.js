@@ -6,8 +6,8 @@ var freeTasks = [];
 // Six OPTIONAL general starter suggestions, never fixed contractual tasks.
 // Each customer may rename, reschedule, remove, or replace every task.
 var freeSuggestedTasks=[
- ["Project Setup",1],["Requirements Ready",3],["Budget Approved",5],
- ["Resources Confirmed",7],["Progress Review",14],["Final Delivery",21]
+ ["Project Planning",1],["Scope & Requirements",3],["Resources & Budget",5],
+ ["Begin Execution",7],["Review Progress",14],["Final Review & Completion",21]
 ];
 function freeSeedSuggestions(){
  freeTasks=freeSuggestedTasks.map(function(entry){
