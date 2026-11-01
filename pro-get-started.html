@@ -1864,7 +1864,7 @@ function pickPlan(){
  $("order").append(label,cost);
  return selected.value;
 }
-function refreshButtons(){const canPay=false;$("mct-secure-checkout").disabled=!canPay;$("mct-secure-checkout").textContent=canPay?"Pay Securely · Stripe Sandbox":!catalogReady?"Checkout Not Available · Testing":!ready.checkoutSandbox?"Secure Checkout · Not Yet Configured":"Sign In to Continue to Checkout"}
+function refreshButtons(){const canPay=!!(catalogReady&&ready.checkoutSandbox&&account);$("mct-secure-checkout").disabled=!canPay;$("mct-secure-checkout").textContent=canPay?"Pay Securely · Stripe Sandbox":!catalogReady?"Checkout Not Available · Testing":!ready.checkoutSandbox?"Secure Checkout · Not Yet Configured":"Sign In to Continue to Checkout"}
 async function refreshAccount(){try{const h=await api("health");ready=h.configured||{};const prices=await api("pricing");launchOfferActive=!!prices.campaign?.active;catalogReady=!!prices.catalogReady;
  launchCodeApplied=launchOfferActive;
  $("mct-coupon-panel").hidden=true;
