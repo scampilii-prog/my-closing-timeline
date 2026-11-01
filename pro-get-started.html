@@ -1890,6 +1890,9 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
  $("mct-coupon-panel").hidden=true;
  $("mct-launch-input").value=launchOfferActive?"LAUNCH90":"";
  pickPlan();const m=await api("me");account=m.authenticated?m.user:null;$("mct-logged-out").hidden=!!account;$("mct-logged-in").hidden=!account;if(account){
+ $("mct-pro-account-heading").textContent="1 · MY ACCOUNT";
+ $("mct-pro-account-section-title").textContent="Welcome back, "+(account.name.split(/\\s+/)[0]||"there")+".";
+ $("mct-pro-account-help").textContent="Your email is verified. Manage your workspace and review PRO options below.";
  $("mct-customer-name").textContent=account.name;
  $("mct-balance").textContent=account.credits+" available PRO closing credit"+(account.credits===1?"":"s");
  const verified=new URLSearchParams(location.search).get("verified")==="1";
@@ -1903,7 +1906,7 @@ async function refreshAccount(){try{const h=await api("health");ready=h.configur
   "Your account is active. You have 0 credits; redeem a private gift or purchase a credit when checkout is available to start a PRO closing.";
  $("mct-account-next-step").textContent=account.credits>0?
   "Ready to begin: open your workspace and select + Start New Closing.":
-  "Your workspace is accessible now. To start a new PRO closing, first redeem a complimentary credit or add a purchased credit. Checkout is still in Sandbox testing.";
+  "Your account is verified and ready. Explore your workspace; activating a new PRO closing requires a paid credit. Payments are disabled during testing.";
  setStatus(verified?"Email verified successfully. Your account is ready — open your PRO workspace.":"Signed in. Open your PRO workspace to continue.","success");
 }else{
  $("mct-verified-welcome").hidden=true;
