@@ -335,6 +335,27 @@ export async function onRequest(context){
   return reply({ok:true,code,credits:1,max_uses:1,notice:"This gift is valid for one free PRO closing only. Copy the private code now; it is not retrievable later."},201);
  }
  const user=await getAuth(req,db);if(!user||!user.verified)return error("Sign in to your verified account first",401);
+ if(route==="account/delete"){
+  const email=String(body.email||"").trim().toLowerCase();
+  const password=String(body.password||"");
+  if(email!==user.email||!password)return error("Confirm your registered email and password.",400);
+  if(!await permit(db,"account-delete",user.id,4,900))return error("Too many attempts. Try again later.",429);
+  const record=await db.prepare("SELECT password_salt,password_hash,credits FROM users WHERE id=?").bind(user.id).first();
+  if(!record||!String(record.password_hash||"").startsWith("v2:")||!safeEq(await pbkdf(password,record.password_salt),record.password_hash))return error("Incorrect password.",403);
+  const closings=await db.prepare("SELECT COUNT(*) AS n FROM closings WHERE user_id=?").bind(user.id).first();
+  const purchases=await db.prepare("SELECT COUNT(*) AS n FROM purchases WHERE user_id=?").bind(user.id).first();
+  if(Number(record.credits||0)>0||Number(closings?.n||0)>0||Number(purchases?.n||0)>0)return error("This account has credits, closings or purchase history. Contact support for a reviewed deletion; no data has been removed.",409);
+  try{
+   await db.batch([
+    db.prepare("DELETE FROM sessions WHERE user_id=?").bind(user.id),
+    db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(user.id),
+    db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(user.id),
+    db.prepare("DELETE FROM account_policy_acceptances WHERE user_id=?").bind(user.id),
+    db.prepare("DELETE FROM users WHERE id=?").bind(user.id)
+   ]);
+  }catch(e){return error("Account could not be safely deleted because related records exist. Contact support.",409);}
+  return reply({ok:true,message:"Account deleted. You can register again."},200,{"Set-Cookie":clearCookie()});
+ }
  if(route==="forms/templates"){
   const templates=await mctReadFormTemplates(db,user.id);
   const action=String(body.action||"");
