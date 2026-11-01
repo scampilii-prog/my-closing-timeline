@@ -10,20 +10,8 @@
   framePending=false;
   const height=Math.ceil(header.getBoundingClientRect().height);
   if(height>0)spacer.style.setProperty('height',height+'px','important');
-  if(!inner||!hero)return;
-  if(window.innerWidth<=700){
-   for(const p of ['width','margin-left','margin-right','max-width'])inner.style.removeProperty(p);
-   return;
-  }
-  // Match the actual hero title's left edge, irrespective of conflicting historical CSS.
-  const x=Math.max(20,Math.round(hero.getBoundingClientRect().left));
-  const planner=document.querySelector('#contract-deadline-planner');
-  const plannerEdge=planner?.getBoundingClientRect().right;
-  const right=plannerEdge>0?Math.max(14,Math.round(window.innerWidth-plannerEdge)):32;
-  inner.style.setProperty('margin-left',x+'px','important');
-  inner.style.setProperty('margin-right',right+'px','important');
-  inner.style.setProperty('width',Math.max(320,window.innerWidth-x-right)+'px','important');
-  inner.style.setProperty('max-width','none','important');
+  // Header horizontal alignment is fixed by canonical CSS at first paint.
+  // Do not remeasure and move the brand after fonts, images, or layout settle.
  }
  function schedule(){if(!framePending){framePending=true;requestAnimationFrame(update)}}
  schedule();
