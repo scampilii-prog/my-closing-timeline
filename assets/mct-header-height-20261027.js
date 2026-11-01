@@ -17,7 +17,9 @@
   }
   // Match the actual hero title's left edge, irrespective of conflicting historical CSS.
   const x=Math.max(20,Math.round(hero.getBoundingClientRect().left));
-  const right=32;
+  const planner=document.querySelector('#contract-deadline-planner');
+  const plannerEdge=planner?.getBoundingClientRect().right;
+  const right=plannerEdge>0?Math.max(14,Math.round(window.innerWidth-plannerEdge)):32;
   inner.style.setProperty('margin-left',x+'px','important');
   inner.style.setProperty('margin-right',right+'px','important');
   inner.style.setProperty('width',Math.max(320,window.innerWidth-x-right)+'px','important');
