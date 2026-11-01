@@ -245,7 +245,7 @@ html body header#mct-site-header.mct-unified-header nav a.mct-nav-other-projects
 
 /* Consolidated masthead proportions — single final rule set. */
 html body header#mct-site-header.mct-unified-header{height:98px!important;min-height:98px!important}
-html body header#mct-site-header.mct-unified-header>.mct-header-inner{box-sizing:border-box!important;width:calc(100% - 40px)!important;max-width:1130px!important;height:96px!important;min-height:96px!important;margin-left:auto!important;margin-right:auto!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
+html body header#mct-site-header.mct-unified-header>.mct-header-inner{box-sizing:border-box!important;width:calc(100% - 28px)!important;max-width:1420px!important;height:96px!important;min-height:96px!important;margin-left:auto!important;margin-right:auto!important;padding:10px 0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:18px!important}
 html body header#mct-site-header.mct-unified-header .mct-brand{display:inline-flex!important;align-items:center!important;gap:11px!important;font:800 clamp(26px,2.15vw,33px)/1.15 system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif!important}
 html body header#mct-site-header.mct-unified-header .mct-brand svg.mct-brand-icon{display:block!important;width:49px!important;height:49px!important;min-width:49px!important;max-width:49px!important;max-height:49px!important;flex:0 0 49px!important}
 html body header#mct-site-header.mct-unified-header .mct-header-tools{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:15px!important;margin:0!important;flex:0 0 310px!important;width:310px!important;min-width:310px!important}
@@ -260,11 +260,6 @@ html body header#mct-site-header.mct-unified-header .mct-header-account>a.mct-au
 /* The six navigation links are source data for the hamburger; keep them out of first paint. */
 html body header#mct-site-header.mct-unified-header>.mct-header-inner>nav{display:none!important}
 
-/* Real Estate header: anchor both ends to the actual 1130px planner edges, not the inner flex offsets. */
-@media(min-width:701px){
-html body.mct-unified-internal-hero header#mct-site-header.mct-unified-header .mct-header-inner>a.mct-brand{position:fixed!important;left:max(14px,calc((100vw - 1130px)/2))!important;top:24px!important;margin:0!important;transform:none!important}
-html body.mct-unified-internal-hero header#mct-site-header.mct-unified-header .mct-header-inner>.mct-header-tools{position:fixed!important;right:max(14px,calc((100vw - 1130px)/2))!important;top:27px!important;margin:0!important;transform:none!important}
-}
 /* Approved account controls: Login unboxed, Register framed, all tools pinned right. */
 @media(min-width:701px){
  html body header#mct-site-header.mct-unified-header>.mct-header-inner>.mct-header-tools{margin-left:auto!important;margin-right:0!important;justify-content:flex-end!important;flex-shrink:0!important;gap:15px!important}
