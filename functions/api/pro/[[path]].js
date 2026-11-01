@@ -208,6 +208,11 @@ export async function onRequest(context){
   const renewed=await renewActiveSession(req,db);
   return reply({authenticated:true,user:{name:user.full_name,email:user.email,credits:user.credits},closing_rewards:{paid_units:paidUnits,progress:paidUnits%5,goal:5,automatic_rewards_active:false},closings:items.results.map(cleanClosing)},200,renewed?{"Set-Cookie":renewed}:{});
  }
+ if(req.method==="GET"&&route==="admin/gift-summary"){
+  if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
+  const summary=await db.prepare("SELECT COUNT(*) AS generated, COALESCE(SUM(CASE WHEN active=1 AND uses<max_uses AND (expires_at IS NULL OR expires_at>?) THEN 1 ELSE 0 END),0) AS pending, COALESCE(SUM(CASE WHEN uses>=max_uses THEN 1 ELSE 0 END),0) AS fully_redeemed, COALESCE(SUM(CASE WHEN active=0 AND uses<max_uses THEN 1 ELSE 0 END),0) AS disabled FROM promo_codes").bind(now()).first();
+  return reply({ok:true,summary:{generated:summary?.generated||0,pending:summary?.pending||0,redeemed:summary?.fully_redeemed||0,disabled:summary?.disabled||0}});
+ }
  if(req.method==="GET"&&route==="admin/codes"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
   // Show ONLY unused, enabled, unexpired gift codes. Retain all redeemed codes
