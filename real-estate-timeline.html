@@ -4457,7 +4457,7 @@ function start(){
  section.style.setProperty('overflow','visible','important');
  section.setAttribute('aria-label','New Step 3 Closing Follow-Up preview');
  const frame=document.createElement('iframe');
- frame.id='mct-new-step3-frame';frame.src='/step3-new-table-preview.html?embedded=1&revision=20261031-step3-picker-width-v6';
+ frame.id='mct-new-step3-frame';frame.src='/step3-new-table-preview.html?embedded=1&revision=20261101-live-followup-v1';
  frame.title='New Step 3 Closing Follow-Up';frame.loading='eager';
  frame.style.cssText='display:block;width:100%;height:1800px;border:0;min-width:0;background:transparent;';
  section.appendChild(frame);
@@ -4482,7 +4482,7 @@ function start(){
     const items=[...rows.querySelectorAll('tr')].map((tr,index)=>({number:index+1,done:!!tr.querySelector('.done')?.checked,
       name:tr.querySelector('.task-name-input')?.value||tr.cells?.[1]?.textContent?.trim()||'',
       date:tr.dataset.date||''
-    })).filter(t=>!t.done&&t.name&&/^\d{4}-\d{2}-\d{2}$/.test(t.date));
+    })).filter(t=>t.name&&/^\d{4}-\d{2}-\d{2}$/.test(t.date));
     frame.contentWindow?.postMessage({type:'mctStep3RequestCurrentSummary'},location.origin);
     window.dispatchEvent(new MessageEvent('message',{data:{type:'mctStep3Summary',items},origin:location.origin,source:frame.contentWindow}));
   };
@@ -4507,24 +4507,32 @@ function start(){
  window.addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3Summary')return;
   const preview=document.getElementById('mct-free-tomorrow-preview');if(!preview)return;
-  const valid=Array.isArray(event.data.items)?event.data.items.filter(t=>typeof t?.name==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(t.date||'')):[];
+  const all=Array.isArray(event.data.items)?event.data.items.filter(t=>typeof t?.name==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(t.date||'')):[];
+  const active=all.filter(t=>!t.done);
   const n=new Date(),fmt=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
   const today=fmt(n),next=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),tomorrow=fmt(next);
-  const panels=preview.querySelectorAll('.mct-v21-day');
-  [today,tomorrow].forEach((day,i)=>{
-   const panel=panels[i];if(!panel)return;
-   const tasks=valid.filter(t=>t.date===day);
-   const count=panel.querySelector('strong span:last-child');
-   if(count)count.textContent=String(tasks.length);
-   let p=panel.querySelector('p');if(!p){p=document.createElement('p');panel.appendChild(p);}
-   p.replaceChildren();
-   if(!tasks.length){p.textContent=i?'No tasks scheduled for tomorrow.':'No tasks scheduled for today.';return;}
+  const panels=[...preview.querySelectorAll('.mct-v21-day')];
+  let pending=preview.querySelector('.mct-v21-day.mct-pending-bucket');
+  if(!pending&&panels.length){
+    pending=document.createElement('div');pending.className='mct-v21-day mct-pending-bucket';
+    pending.innerHTML='<strong><span>Pending</span><span>0</span></strong><p></p>';
+    panels[0].parentElement.insertBefore(pending,panels[0]);
+  }
+  const groups=[[pending,active.filter(t=>t.date<today),'No overdue tasks.'],[panels[0],active.filter(t=>t.date===today),'No tasks scheduled for today.'],[panels[1],active.filter(t=>t.date===tomorrow),'No tasks scheduled for tomorrow.']];
+  groups.forEach(([panel,tasks,empty])=>{
+   if(!panel)return;
+   const count=panel.querySelector('strong span:last-child');if(count)count.textContent=String(tasks.length);
+   let body=panel.querySelector('p');if(!body){body=document.createElement('p');panel.appendChild(body)}body.replaceChildren();
+   if(!tasks.length){body.textContent=empty;return}
    const list=document.createElement('div');list.className='mct-step3-today-task-list';
-   tasks.forEach((t,index)=>{const item=document.createElement('div');item.textContent=String(Number.isInteger(t.number)&&t.number>0?t.number:index+1)+'. '+t.name;item.style.cssText='padding:6px 0;border-bottom:1px solid #e4e9ec;font-size:13px;font-weight:500;line-height:1.45;color:#294d60;white-space:normal;overflow-wrap:anywhere';list.appendChild(item);});
-   p.appendChild(list);
+   tasks.forEach((task,index)=>{const item=document.createElement('div');item.textContent=String(Number.isInteger(task.number)&&task.number>0?task.number:index+1)+'. '+task.name;item.style.cssText='padding:6px 0;border-bottom:1px solid #e4e9ec;font-size:13px;font-weight:600;line-height:1.45;color:#294d60;overflow-wrap:anywhere';list.appendChild(item)});
+   body.appendChild(list);
   });
+  let total=preview.querySelector('#mct-step3-total-count');if(!total){total=document.createElement('div');total.id='mct-step3-total-count';total.style.cssText='margin:9px 0 12px;font-weight:800;color:#194a62;font-size:13px';const anchor=pending||panels[0];anchor?.parentElement.insertBefore(total,anchor)}
+  total.textContent='Total Step 3 tasks: '+all.length+' · Open: '+active.length+' · Done: '+(all.length-active.length);
   preview.style.opacity='.8';
-  preview.setAttribute('aria-label','Today and Tomorrow linked preview, activation required');
+  preview.setAttribute('aria-label','Pending, Today and Tomorrow live task summary');
+
  });
  window.addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=='mctStep3Height')return;
