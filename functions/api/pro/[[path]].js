@@ -150,7 +150,7 @@ async function mctReadFormTemplates(db,userId){
 
 export async function onRequest(context){
  const {request:req,env}=context;const url=new URL(req.url),route=url.pathname.replace(/^\/api\/pro\/?/,"").replace(/\/$/,"");
- if(req.method==="GET"&&route==="health")return reply({ok:true,configured:{database:!!env.PRO_DB,checkoutSandbox:!!env.STRIPE_SECRET_KEY,webhook:!!env.STRIPE_WEBHOOK_SECRET,email:!!env.RESEND_API_KEY&&!!env.MCT_FROM_EMAIL}});
+ if(req.method==="GET"&&route==="health")return reply({ok:true,configured:{database:!!env.PRO_DB,checkoutSandbox:String(env.STRIPE_SECRET_KEY||"").startsWith("sk_test_"),webhook:String(env.STRIPE_WEBHOOK_SECRET||"").startsWith("whsec_"),email:!!env.RESEND_API_KEY&&!!env.MCT_FROM_EMAIL},checkoutTestEnabled:env.PRO_TEST_CHECKOUT_ENABLED==="true",liveCheckoutEnabled:false});
  if(!env.PRO_DB)return error("PRO service is being configured. No payment or registration has been started.",503);
  const db=env.PRO_DB;
  if(req.method==="GET"&&route==="pricing"){
