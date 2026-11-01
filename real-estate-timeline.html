@@ -4786,4 +4786,35 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #mct-free-followup-preview .mct-step3-task-choice label{font:800 12px/1.35 Manrope,Arial,sans-serif;color:#274f64}
 #mct-free-followup-preview .mct-step3-task-choice select{min-height:37px;max-width:100%;width:min(390px,100%);border:1px solid #a8c7d2;border-radius:7px;background:#fff;color:#173c52;padding:7px 9px;font:700 13px Manrope,Arial,sans-serif}
 </style>
+<style id="mct-step2-step3-entry-guide-20261101">
+#mct-free-deadlines .mct-start-guide{display:block;margin-top:9px;padding:12px 15px;border:1px solid #c5dedc;border-left:4px solid #208378;border-radius:9px;background:#edf7f5;color:#194b53;font:700 13px/1.55 Manrope,Arial,sans-serif}
+#mct-free-deadlines .mct-start-guide strong{display:block;font-size:16px;color:#155468;margin-bottom:2px}
+#mct-free-deadlines .mct-start-guide small{display:block;color:#416678;font:600 12px/1.5 Manrope,Arial,sans-serif}
+#mct-step3-access-guide{margin:12px 0 15px;padding:16px 18px;border:1px solid #d4e3e6;border-left:4px solid #bd9256;border-radius:12px;background:#fffaf0;color:#24465b;font:650 13px/1.55 Manrope,Arial,sans-serif}
+#mct-step3-access-guide strong{display:block;font-size:17px;margin-bottom:5px}
+#mct-step3-access-guide p{margin:6px 0 11px}
+#mct-step3-access-guide .mct-access-actions{display:flex;gap:9px;flex-wrap:wrap}
+#mct-step3-access-guide a{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border-radius:7px;background:#164b62;color:#fff;text-decoration:none;font-weight:800}
+#mct-step3-access-guide a.mct-login{background:#fff;color:#164b62;border:1px solid #b9cdd5}
+#mct-step3-access-guide .mct-access-note{display:block;margin-top:10px;font-size:12px;color:#596e77}
+</style>
+<script id="mct-step2-step3-entry-guide-script-20261101">
+(function(){
+ function setup(){
+  const heading=document.getElementById('mct-free-deadlines');
+  if(heading&&!heading.querySelector('.mct-start-guide')){
+   const guide=document.createElement('div');guide.className='mct-start-guide';
+   guide.innerHTML='<strong>START HERE · Build your FREE closing timeline</strong><span>Enter your Effective Date and Closing Date, review the six suggested contract tasks, and add up to two more. Step 2 is your starting point for Step 3.</span><small>FREE: review, copy and share your timeline. PRO: continue with the daily follow-up and completion history after account activation.</small>';
+   heading.appendChild(guide);
+  }
+  const step3=document.getElementById('mct-free-followup-preview');
+  if(step3&&!document.getElementById('mct-step3-access-guide')){
+   const guide=document.createElement('section');guide.id='mct-step3-access-guide';guide.setAttribute('aria-label','How to continue with professional follow-up');
+   guide.innerHTML='<strong>Continue from FREE to PRO · Daily Follow-Up</strong><p>First time? Register, check your email and open the verification link. Then sign in, activate your available first-free-closing credit, and return to Step 2 to review the dates before starting Step 3. Already registered? Sign in to continue.</p><div class="mct-access-actions"><a href="/pro-get-started.html?auth=register">Register · First Closing FREE</a><a class="mct-login" href="/pro-get-started.html?auth=login">Log In</a></div><span class="mct-access-note">Important: automatic restoration of this FREE practice after email verification is not yet certified. Copy your timeline before leaving this page; upon return, confirm or re-enter your Step 2 dates and tasks. Registration alone does not consume a credit.</span>';
+   step3.parentElement.insertBefore(guide,step3);
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
 </body></html>
