@@ -156,7 +156,7 @@ export async function onRequest(context){
  if(req.method==="GET"&&route==="pricing"){
   // Commercial catalog pending final approval and verified D1 migration.
   // No payment session may be created from provisional terms.
-  return reply({ok:true,catalogReady:false,checkoutEnabled:false,campaign:{active:false},plans:{realEstate:{single:{credits:1,amountCents:2000,durationDays:60},welcome:{credits:2,amountCents:3500,availableWithinDaysOfRegistration:30,creditsExpireAfterOffer:false}},project:{initialAmountCents:2000,initialDays:60,monthlyAmountCents:1000,perActiveProject:true}},automaticFreeCredits:false,privateGiftsOnly:true});
+  return reply({ok:true,catalogReady:env.PRO_TEST_CHECKOUT_ENABLED==="true"&&String(env.STRIPE_SECRET_KEY||"").startsWith("sk_test_"),checkoutEnabled:env.PRO_TEST_CHECKOUT_ENABLED==="true"&&String(env.STRIPE_SECRET_KEY||"").startsWith("sk_test_"),campaign:{active:false},plans:{realEstate:{single:{credits:1,amountCents:2000,durationDays:60},welcome:{credits:2,amountCents:3500,availableWithinDaysOfRegistration:30,creditsExpireAfterOffer:false}},project:{initialAmountCents:2000,initialDays:60,monthlyAmountCents:1000,perActiveProject:true}},automaticFreeCredits:false,privateGiftsOnly:true});
  }
  // Non-sensitive database readiness check (no account data is returned).
  if(req.method==="GET"&&route==="diagnostics"){
