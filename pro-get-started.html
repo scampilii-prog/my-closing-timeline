@@ -33,7 +33,7 @@ html{scroll-padding-top:118px}
 #mct-gift-enroll-actions .mct-gift-switch-button{background:#fff8e9;border:1px solid #be9961;color:#78521e;flex:1 1 220px}
 #mct-gift-panel.mct-invited-gift{scroll-margin-top:125px}
 #mct-gift-panel.mct-invited-gift .mct-coupon-heading strong{font-size:14px}
-body.mct-gift-visit #mct-coupon-panel{opacity:.48}
+body.mct-retired-gift-visit #mct-coupon-panel{opacity:.48}
 body.mct-gift-visit #mct-gift-panel{border-color:#1b805f!important;border-width:2px}
 body.mct-gift-visit #mct-account+div,body.mct-gift-visit #mct-secure-checkout{display:none!important}
 body.mct-gift-visit #mct-gift-panel::before{content:"COMPLIMENTARY INVITATION  ·  $0.00 TO REDEEM";display:block;margin:0 0 12px;color:#156a4f;font:850 12px/1.4 Manrope,Arial,sans-serif;letter-spacing:.045em}
@@ -1418,14 +1418,14 @@ html.mct-first-free-incoming #mct-pro-two-paths{display:none}
  <li data-mct-guide-state="next"><a href="#mct-account" data-mct-guide-step="4"><span class="mct-pro-guide-number" aria-hidden="true">4</span><span class="mct-pro-guide-copy"><strong id="mct-pro-guide-title-4">Open your workspace</strong><small id="mct-pro-guide-desc-4">Start and track a closing with an active credit.</small></span></a></li>
  </ol>
  <div class="mct-pro-guide-bottom"><button type="button" id="mct-pro-guide-next" class="mct-pro-guide-next">Step 1 · Choose a package →</button><p id="mct-pro-guide-footnote">Your progress is highlighted. Purchases are not live while Stripe remains in test mode.</p></div>
- </section><div class="mct-pro-simple-grid"><div class="mct-pro-offers-column"><div class="eyebrow">YOUR INVITATION OR CHECKOUT</div><section class="mct-coupon-panel" id="mct-coupon-panel" aria-label="Public introductory offer">
+ </section><div class="mct-pro-simple-grid"><div class="mct-pro-offers-column"><div class="eyebrow">YOUR INVITATION OR CHECKOUT</div><section hidden class="mct-coupon-panel" id="mct-coupon-panel" aria-label="Public introductory offer">
 <div class="mct-coupon-heading"><strong>1 · PUBLIC LAUNCH OFFER</strong><button type="button" id="mct-launch-code" class="mct-coupon-token" title="Apply the public promotional discount">APPLY LAUNCH90</button></div>
 <p class="mct-coupon-explainer">Available during the planned offer period through March 31, 2027 · Select 1, 2 or 5 separate closings above. <strong>This is a discount, not a free credit.</strong></p>
 <label for="mct-launch-input" class="mct-coupon-label">Public offer code — LAUNCH90</label>
 <div class="mct-coupon-input-row"><input type="text" id="mct-launch-input" placeholder="LAUNCH90" autocomplete="off" maxlength="20" aria-describedby="mct-code-status"><button type="button" class="btn" id="mct-check-code">Apply Offer</button></div>
 <p id="mct-code-status" class="mct-coupon-feedback" role="status" aria-live="polite">Click APPLY LAUNCH90 or enter LAUNCH90 above. Your selected package total updates automatically.</p>
 </section>
-<section class="mct-gift-panel" id="mct-gift-panel" aria-label="Private complimentary closing credit">
+<section hidden class="mct-gift-panel" id="mct-gift-panel" aria-label="Private complimentary closing credit">
 <div class="mct-coupon-heading"><strong>RETIRED PROMOTION · NO LONGER AVAILABLE</strong><span class="mct-gift-label">By invitation only</span></div>
 <p class="mct-coupon-explainer">Complimentary credits are discontinued. Register or sign in with your verified account; paid checkout will be enabled after testing.</p>
 <label for="mct-code" class="mct-coupon-label">Private invitation code (if provided)</label>
@@ -1569,8 +1569,8 @@ function savedGift(){
 }
 function clearSavedGift(){try{localStorage.removeItem(giftStorageKey)}catch(_){}try{sessionStorage.removeItem("mct-activation-code-pending-v1")}catch(_){}}
 
-let paidPlanChosen=["single","pack2","pack5"].includes(selectedFromPricing);
-function giftMode(){return document.body.classList.contains("mct-gift-visit")}
+let paidPlanChosen=selectedFromPricing==="single";
+function giftMode(){return false}
 function holdGiftForVerification(){
  if(!giftMode())return true;
  const code=($("mct-code")?.value||"").trim().toUpperCase();
@@ -1585,7 +1585,7 @@ function holdGiftForVerification(){
  return true;
 }
 function setAccessMode(mode){
- const gift=mode==="gift";
+ const gift=false;
  document.body.classList.toggle("mct-gift-visit",gift);
  $("mct-pro-flow-card-title").textContent=gift?"Create Your FREE PRO Account":"Get Started with PRO";
  $("mct-pro-flow-card-eyebrow").textContent=gift?"WELCOME · FREE PRO":"MY CLOSING TIMELINE · PRO";
@@ -1725,9 +1725,9 @@ function initializeGiftFromInvitation(){
  }
  let rememberedMode="";
  try{rememberedMode=localStorage.getItem("mct-last-onboarding-mode")||""}catch(e){}
- const explicitGift=!!code||incomingSelection.get("mode")==="gift"||
+ const explicitGift=false&& (!!code||incomingSelection.get("mode")==="gift"||
   (incomingSelection.get("verified")==="1"&&(!!savedGift()||rememberedMode==="gift"))||
-  location.hash==="#mct-gift-panel";
+  location.hash==="#mct-gift-panel");
  if(explicitGift&&savedGift())$("mct-code").value=savedGift();
  setAccessMode(explicitGift?"gift":"buy");
  if(fromLink&&!code){
@@ -1883,7 +1883,7 @@ function pickPlan(){
  if(discount){const note=document.createElement("small");note.textContent="Automatic launch offer · LAUNCH90";note.style.color="#15704d";note.style.fontWeight="800";$("order").append(note)}
  return el.value;
 }
-function refreshButtons(){const canPay=!!account&&!!ready.checkoutSandbox&&catalogReady;$("mct-secure-checkout").disabled=!canPay;$("mct-secure-checkout").textContent=canPay?"Pay Securely · Stripe Sandbox":!catalogReady?"Secure Checkout · Pricing Upgrade Pending":!ready.checkoutSandbox?"Secure Checkout · Not Yet Configured":"Sign In to Continue to Checkout"}
+function refreshButtons(){const canPay=!!account&&!!ready.checkoutSandbox&&catalogReady;$("mct-secure-checkout").disabled=!canPay;$("mct-secure-checkout").textContent=canPay?"Pay Securely · Stripe Sandbox":!catalogReady?"Checkout Not Available · Testing":!ready.checkoutSandbox?"Secure Checkout · Not Yet Configured":"Sign In to Continue to Checkout"}
 async function refreshAccount(){try{const h=await api("health");ready=h.configured||{};const prices=await api("pricing");launchOfferActive=!!prices.campaign?.active;catalogReady=!!prices.catalogReady;
  launchCodeApplied=launchOfferActive;
  $("mct-coupon-panel").hidden=true;
