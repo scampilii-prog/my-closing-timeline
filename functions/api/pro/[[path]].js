@@ -314,14 +314,19 @@ export async function onRequest(context){
   const c=await db.prepare("SELECT COUNT(*) AS n FROM closings WHERE user_id=?").bind(id).first();
   const p=await db.prepare("SELECT COUNT(*) AS n FROM purchases WHERE user_id=?").bind(id).first();
   if(Number(u.credits||0)!==0||Number(c?.n||0)!==0||Number(p?.n||0)!==0)return error("Protected: account has credits, closings or purchase records.",409);
-  try{await db.batch([
-   db.prepare("DELETE FROM sessions WHERE user_id=?").bind(id),
-   db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),
-   db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(id),
-   db.prepare("DELETE FROM account_policy_acceptances WHERE user_id=?").bind(id),
-   db.prepare("DELETE FROM user_contract_form_templates WHERE user_id=?").bind(id),
-   db.prepare("DELETE FROM users WHERE id=? AND email=? AND credits=0").bind(id,email)
-  ]);}catch(e){return error("Account has linked records and cannot be safely deleted.",409);}
+  try{
+   const optionalTables=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('account_policy_acceptances','user_contract_form_templates')").all();
+   const existing=new Set((optionalTables.results||[]).map(row=>row.name));
+   const statements=[
+    db.prepare("DELETE FROM sessions WHERE user_id=?").bind(id),
+    db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),
+    db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(id)
+   ];
+   if(existing.has("account_policy_acceptances"))statements.push(db.prepare("DELETE FROM account_policy_acceptances WHERE user_id=?").bind(id));
+   if(existing.has("user_contract_form_templates"))statements.push(db.prepare("DELETE FROM user_contract_form_templates WHERE user_id=?").bind(id));
+   statements.push(db.prepare("DELETE FROM users WHERE id=? AND email=? AND credits=0").bind(id,email));
+   await db.batch(statements);
+  }catch(e){return error("The account could not be removed safely. The deletion service encountered an account-related database constraint.",409);}
   const remaining=await db.prepare("SELECT id FROM users WHERE id=?").bind(id).first();
   if(remaining)return error("Account was not removed. Related records may require a manual review.",409);
   return reply({ok:true,message:"Empty test account deleted."});
