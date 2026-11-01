@@ -4781,12 +4781,13 @@ const choices=[
 'Client follow-up call','Custom task (write my own)'
 ];
 function setup(){
-const root=document.getElementById('mct-free-followup-preview');
-if(!root||root.querySelector('.mct-step3-task-choice'))return;
-const labels=[...root.querySelectorAll('label,strong,span,h3,h4')];
-const label=labels.find(n=>n.textContent.trim().toLowerCase()==='new follow-up task');
-let field=label?.querySelector('input')||label?.parentElement?.querySelector('input[type=text]')||root.querySelector('input[placeholder*="follow-up"]');
+const root=document.getElementById('mct-free-followup-preview')||document;
+const candidates=[...document.querySelectorAll('input[type="text"],input:not([type])')];
+const field=candidates.find(el=>/new follow-up task/i.test(el.getAttribute('placeholder')||'') && el.offsetParent!==null)
+ || candidates.find(el=>/new follow-up task/i.test(el.getAttribute('placeholder')||''));
+if(field?.dataset.mctTaskPickerAttached)return;
 if(!field)return;
+field.dataset.mctTaskPickerAttached='1';
 const holder=document.createElement('div');holder.className='mct-step3-task-choice';
 const title=document.createElement('label');title.textContent='Choose a suggested task';
 const select=document.createElement('select');select.setAttribute('aria-label','Select a suggested closing follow-up task');
@@ -4798,10 +4799,13 @@ select.addEventListener('change',()=>{
  else{field.value=select.value;field.dispatchEvent(new Event('input',{bubbles:true}));field.dispatchEvent(new Event('change',{bubbles:true}));}
 });
 holder.append(title,select);
-const container=field.closest('label')||field.parentElement;
-container.parentElement.insertBefore(holder,container);
+const section=field.closest('label')||field.parentElement;
+section.parentElement.insertBefore(holder,section);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
-let cycles=0;const check=setInterval(()=>{setup();if(++cycles>=24)clearInterval(check)},500);
+const observer=new MutationObserver(()=>{if(!document.querySelector('.mct-step3-task-choice'))setup()});
+observer.observe(document.body,{childList:true,subtree:true});
+window.addEventListener('load',setup);
+let cycles=0;const check=setInterval(()=>{setup();if(++cycles>=30)clearInterval(check)},500);
 })();
 </script></body></html>
