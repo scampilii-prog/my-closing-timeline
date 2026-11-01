@@ -490,16 +490,28 @@ export async function onRequest(context){
   return reply({ok:true,credits_added:row.credits});
  }
  if(route==="checkout"){
-  return error("Checkout is temporarily unavailable while the revised commercial catalog and credit rules are being verified. No payment was taken.",503);
-  const purchaseTable=await db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='purchases'").first();
-  const purchaseSchema=String(purchaseTable?.sql||"");
-  if(![1990,3490,8490,2990,5980,14950].every(value=>new RegExp("\\b"+value+"\\b").test(purchaseSchema)))return error("PRO purchase pricing upgrade is pending. No payment was taken.",503);
-  const plan=plans[String(body.plan||"")];if(!plan)return error("Choose a valid closing credit plan");
-  const promotional=launchValid(body.code),amount=promotional?plan.launchAmount:plan.amount;
-  const order=guid();await db.prepare("INSERT INTO purchases(id,user_id,plan_id,credit_quantity,amount_cents) VALUES(?,?,?,?,?)").bind(order,user.id,body.plan,plan.credits,amount).run();
-  let result;try{result=await stripeRequest(env,{"mode":"payment","line_items[0][price_data][currency]":"usd","line_items[0][price_data][unit_amount]":String(amount),"line_items[0][price_data][product_data][name]":plan.label,"line_items[0][quantity]":"1","client_reference_id":user.id,"customer_email":user.email,"metadata[order_id]":order,"metadata[plan_id]":body.plan,"metadata[launch]":promotional?"LAUNCH90":"none","success_url":url.origin+"/my-closings.html?checkout=complete","cancel_url":url.origin+"/pro-get-started.html?checkout=cancelled"})}catch(_){await db.prepare("DELETE FROM purchases WHERE id=? AND status='pending'").bind(order).run();return error("Checkout is not available yet. No payment was taken.",503)}
-  await db.prepare("UPDATE purchases SET checkout_session_id=? WHERE id=?").bind(result.id,order).run();
-  return reply({ok:true,checkout_url:result.url});
+  // Disabled by default. Sandbox only; never accept a live Stripe key.
+  if(env.PRO_TEST_CHECKOUT_ENABLED!=="true"||!String(env.STRIPE_SECRET_KEY||"").startsWith("sk_test_"))return error("Checkout Not Available · Testing. No payment was taken.",503);
+  const selection=String(body.plan||"");
+  const plan=plans[selection==="pack2"?"welcome2":selection];
+  if(!plan)return error("Choose 1 Closing or the 2 Closings welcome offer.");
+  if(plan.credits===2){
+   const registered=await db.prepare("SELECT created_at FROM users WHERE id=?").bind(user.id).first();
+   const registrationMs=Date.parse(String(registered?.created_at||"").replace(" ","T")+"Z");
+   if(!Number.isFinite(registrationMs)||Date.now()-registrationMs>30*86400000)return error("The 2 Closings welcome offer is limited to the first 30 days after registration.",403);
+  }
+  const amount=plan.amount;
+  const order=guid();
+  await db.prepare("INSERT INTO purchases(id,user_id,plan_id,credit_quantity,amount_cents) VALUES(?,?,?,?,?)").bind(order,user.id,plan.credits===2?"welcome2":"single",plan.credits,amount).run();
+  let session;
+  try{
+   session=await stripeRequest(env,{"mode":"payment","line_items[0][price_data][currency]":"usd","line_items[0][price_data][unit_amount]":String(amount),"line_items[0][price_data][product_data][name]":plan.label,"line_items[0][quantity]":"1","client_reference_id":user.id,"customer_email":user.email,"metadata[order_id]":order,"metadata[plan_id]":plan.credits===2?"welcome2":"single","success_url":url.origin+"/my-closings.html?checkout=complete","cancel_url":url.origin+"/pro-get-started.html?checkout=cancelled"});
+  }catch(_){
+   await db.prepare("DELETE FROM purchases WHERE id=? AND status='pending'").bind(order).run();
+   return error("Stripe test checkout could not be started. No payment was taken.",503);
+  }
+  await db.prepare("UPDATE purchases SET checkout_session_id=? WHERE id=?").bind(session.id,order).run();
+  return reply({ok:true,checkout_url:session.url});
  }
  if(route==="closings/create"){
   const name=String(body.name||"").trim().toUpperCase(),address="",eff=String(body.effective_date||""),end=String(body.closing_date||"");
