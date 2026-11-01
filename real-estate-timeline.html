@@ -4810,7 +4810,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const step3=document.getElementById('mct-free-followup-preview');
   if(step3&&!document.getElementById('mct-step3-access-guide')){
    const guide=document.createElement('section');guide.id='mct-step3-access-guide';guide.setAttribute('aria-label','How to continue with professional follow-up');
-   guide.innerHTML='<strong>STEP 3 · Continue with PRO Daily Follow-Up</strong><p><b>New here?</b> Register → verify your email → activate your eligible first FREE closing. <b>Already registered?</b> Log in and continue.</p><div class="mct-access-actions"><a href="/pro-get-started.html?auth=register">Register · First Closing FREE</a><a class="mct-login" href="/pro-get-started.html?auth=login">Log In</a></div><span class="mct-access-note">Before leaving, copy your FREE timeline. Automatic recovery of draft tasks after email verification has not yet been certified; review or re-enter your Step 2 details when returning.</span>';
+   guide.innerHTML='<strong>CONTINUE TO PRO · ACCOUNT ACCESS</strong><p><b>New here?</b> Register → verify your email → activate your eligible first FREE closing. <b>Already registered?</b> Log in and continue.</p><div class="mct-access-actions"><a href="/pro-get-started.html?auth=register">Register · First Closing FREE</a><a class="mct-login" href="/pro-get-started.html?auth=login">Log In</a></div><span class="mct-access-note">Before leaving, copy your FREE timeline. Automatic recovery of draft tasks after email verification has not yet been certified; review or re-enter your Step 2 details when returning.</span>';
    step3.parentElement.insertBefore(guide,step3);
   }
  }
@@ -4883,4 +4883,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  color:#276b65!important;font:750 12px/1.45 Manrope,Arial,sans-serif!important;
 }
 @media(max-width:650px){#contract-deadline-planner .mct-step-three-label{padding:13px!important}}
+</style><style id="mct-step-hierarchy-final-20261101">
+/* Three unmistakable process headings; account access is a separate CTA. */
+#contract-deadline-planner #mct-free-transaction .mct-unified-fields-title,
+#contract-deadline-planner #mct-free-deadlines.mct-step-two-heading{
+ border-radius:13px!important;box-shadow:0 7px 20px rgba(23,50,68,.10)!important;
+}
+#contract-deadline-planner #mct-free-transaction .mct-unified-fields-title{background:#dff2ed!important;border:1px solid #9fcdbf!important;border-left:7px solid #167f72!important}
+#contract-deadline-planner #mct-free-deadlines.mct-step-two-heading{background:#fff0d1!important;border:1px solid #e2c084!important;border-left:7px solid #ae7c31!important}
+#contract-deadline-planner #mct-step3-access-guide{background:#f8fafc!important;border:1px solid #cbd9e2!important;border-left:4px solid #6c8799!important;box-shadow:none!important}
+#contract-deadline-planner #mct-step3-access-guide>strong{font:850 16px/1.4 Manrope,Arial,sans-serif!important;letter-spacing:.025em!important;color:#234b61!important}
+#contract-deadline-planner .mct-step-three-label{background:#dcebf8!important;border:1px solid #a6c7e0!important;border-left:7px solid #28658f!important;box-shadow:0 7px 20px rgba(23,50,68,.10)!important}
+#contract-deadline-planner .mct-step-three-label .mct-step-medallion{background:#28658f!important}
 </style></body></html>
