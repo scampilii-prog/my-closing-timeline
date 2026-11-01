@@ -4690,19 +4690,7 @@ function init(){
    const heading=form.querySelector('.fc-simple-task-heading');
    for(const el of [rows,heading])if(el){el.hidden=false;el.removeAttribute('hidden');if(el.style.display==='none')el.style.removeProperty('display');}
  }
- const mountStep3=()=>{
- const section=document.getElementById('mct-free-followup-preview');
- const frame=document.getElementById('mct-new-step3-frame');
- if(!section||!frame||document.getElementById('mct-toggle-step3'))return false;
- const button=document.createElement('button');button.id='mct-toggle-step3';button.type='button';button.className='mct-section-toggle mct-section-toggle-3';button.setAttribute('aria-expanded','true');button.textContent='Hide Step 3';
- section.insertBefore(button,frame);
- button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';frame.style.display=open?'block':'none';button.setAttribute('aria-expanded',String(open));button.textContent=open?'Hide Step 3':'Show Step 3';});
- return true;
- };
- if(!mountStep3()){
-  const observer=new MutationObserver(()=>{if(mountStep3())observer.disconnect()});
-  observer.observe(document.getElementById('contract-deadline-planner')||document.body,{childList:true,subtree:true});
- }
+
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 window.addEventListener('pageshow',()=>{const el=document.getElementById('deadline-editor-rows');if(el){el.hidden=false;el.removeAttribute('hidden');el.style.removeProperty('display');}});
