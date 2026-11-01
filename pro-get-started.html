@@ -1449,7 +1449,7 @@ html body.mct-layout-pro .mct-pro-registration-main .mct-first-visitor-finish{ba
  <li data-mct-guide-state="next"><a href="#mct-account" data-mct-guide-step="3"><span class="mct-pro-guide-number" aria-hidden="true">3</span><span class="mct-pro-guide-copy"><strong id="mct-pro-guide-title-3">Verify your email</strong><small id="mct-pro-guide-desc-3">Account verification requires no card.</small></span></a></li>
  <li data-mct-guide-state="next"><a href="#mct-account" data-mct-guide-step="4"><span class="mct-pro-guide-number" aria-hidden="true">4</span><span class="mct-pro-guide-copy"><strong id="mct-pro-guide-title-4">Open your workspace</strong><small id="mct-pro-guide-desc-4">Review your workspace; starting paid PRO requires a credit.</small></span></a></li>
  </ol>
- <div class="mct-pro-guide-bottom"><button type="button" id="mct-pro-guide-next" class="mct-pro-guide-next">Step 1 · Choose a package →</button><p id="mct-pro-guide-footnote">Your progress is highlighted. Purchases are not live while Stripe remains in test mode.</p></div>
+ <div class="mct-pro-guide-bottom"><button type="button" id="mct-pro-guide-next" class="mct-pro-guide-next">Step 1 · Choose a package →</button><p id="mct-pro-guide-footnote">Your progress is highlighted. Stripe Sandbox accepts test payments only; no real charges.</p></div>
  </section><div class="mct-pro-simple-grid"><div class="mct-pro-offers-column"><div class="eyebrow">ACCOUNT ACCESS · PAYMENT TESTING</div><section hidden class="mct-coupon-panel" id="mct-coupon-panel" aria-label="Public introductory offer">
 <div class="mct-coupon-heading"><strong>1 · PUBLIC LAUNCH OFFER</strong><button type="button" id="mct-launch-code" class="mct-coupon-token" title="Apply the public promotional discount">APPLY LAUNCH90</button></div>
 <p class="mct-coupon-explainer">Available during the planned offer period through March 31, 2027 · Select 1, 2 or 5 separate closings above. <strong>This is a discount, not a free credit.</strong></p>
@@ -1817,8 +1817,8 @@ function updateProGuide(){
  ]:[
   ["Register or sign in","Create an account or sign in.","#mct-account"],
   ["Verify your email","Confirm your email address before purchasing.","#mct-account"],
-  ["Choose your PRO plan","1 closing for $20, or 2 for $35 during your first 30 days. Checkout is disabled during testing.","#mct-pro-select-heading"],
-  ["Activate PRO","After payment becomes available and a credit is issued, start your closing.","/my-closings.html"]
+  ["Choose your PRO plan","1 closing for $20, or 2 for $35 during your first 30 days. Stripe Sandbox accepts test payments only.","#mct-pro-select-heading"],
+  ["Activate PRO","After your simulated payment is confirmed and a credit appears, open My Closings.","/my-closings.html"]
  ];
  values.forEach((v,i)=>{
   const n=i+1,el=root.querySelector('[data-mct-guide-step="'+n+'"]');
@@ -1840,11 +1840,11 @@ function updateProGuide(){
    step===2?"Step 2 · Check Your Verification Email →":
    step===3?"Step 3 · Activate Your Gift Code →":"Step 4 · Open My PRO Workspace →";
  }else{
-  desc.textContent="Register, verify your email, then choose an approved PRO plan. No card is requested during testing. After a credit is available, start your closing and save a private PDF.";
+  desc.textContent="Register, verify your email, select a PRO plan and use Stripe Sandbox for a simulated payment. Then open My Closings.";
   note.textContent="Stripe is still in Sandbox; real card payments are not yet accepted.";
   primary.textContent=step===1?"Step 1 · Register or Sign In →":
-   step===2?"Step 2 · Choose Your PRO Package →":
-   step===3?"Step 3 · Verify & Continue →":"Step 4 · Open My PRO Workspace →";
+   step===2?"Step 2 · Verify Account & Choose Plan →":
+   step===3?"Step 3 · Secure Test Checkout →":"Step 4 · Open My PRO Workspace →";
  }
  if(awaiting)status.textContent="CHECK YOUR VERIFICATION EMAIL";
 }
