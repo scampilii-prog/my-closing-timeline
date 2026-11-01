@@ -2041,4 +2041,30 @@ if(firstFreeEntry){
 }else if(requestedAuth==="register"||requestedAuth==="login"||(!cameWithGift&&location.hash==="#register")){
  requestAnimationFrame(()=>document.getElementById("mct-account")?.scrollIntoView({block:"center"}));
 }
-</script><script src="/assets/mct-first-free-20261028.js?v=2" defer></script><link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"><style id="mct-pro-closing-plan-clarity-20261029">.mct-pro-90-explainer{box-sizing:border-box;padding:13px 16px;margin:11px 0;border:1px solid #dbcaac;border-left:4px solid #b98a4d;border-radius:9px;background:#fffbf4;color:#315268;font:700 12.5px/1.6 Manrope,Arial,sans-serif}</style><link rel="stylesheet" href="/assets/mct-internal-hero-unified-20261029.css?v=1"></body></html>
+</script><script src="/assets/mct-first-free-20261028.js?v=2" defer></script><link rel="stylesheet" href="/assets/mct-hero-left-edge-20261028.css?v=6"><style id="mct-pro-closing-plan-clarity-20261029">.mct-pro-90-explainer{box-sizing:border-box;padding:13px 16px;margin:11px 0;border:1px solid #dbcaac;border-left:4px solid #b98a4d;border-radius:9px;background:#fffbf4;color:#315268;font:700 12.5px/1.6 Manrope,Arial,sans-serif}</style><link rel="stylesheet" href="/assets/mct-internal-hero-unified-20261029.css?v=1"><script id="mct-website29-draft-return">(function(){
+ function showReturn(){
+  var raw;try{raw=localStorage.getItem('mct_free_step2_handoff_v1')}catch(e){return}
+  if(!raw)return;
+  var d;try{d=JSON.parse(raw)}catch(e){return}
+  if(!d||d.version!==1||!d.armed||!d.savedAt||Date.now()-d.savedAt>7*86400000)return;
+  var target=document.getElementById('mct-account');
+  if(!target||document.getElementById('mct-draft-return-v29'))return;
+  var section=document.createElement('section');
+  section.id='mct-draft-return-v29';
+  section.style.cssText='margin:16px 0;padding:15px 17px;border:1px solid #d2dfd7;border-left:4px solid #338367;border-radius:9px;background:#f4faf6;color:#214a43;font:650 13px/1.6 Manrope,Arial,sans-serif';
+  var title=document.createElement('strong');
+  title.textContent='Your FREE timeline draft is waiting';
+  title.style.cssText='display:block;font-size:16px;margin-bottom:5px';
+  var p=document.createElement('p');
+  p.textContent='After signing in and verifying your account, return to Step 2 and review the dates and tasks saved in this browser. PRO still requires an active credit.';
+  p.style.margin='5px 0 10px';
+  var a=document.createElement('a');
+  a.href='/real-estate-timeline.html#contract-deadline-planner';
+  a.textContent='Return to My FREE Timeline';
+  a.style.cssText='display:inline-block;padding:10px 13px;border-radius:7px;background:#174c5f;color:white;text-decoration:none;font-weight:800';
+  section.append(title,p,a);
+  target.insertAdjacentElement('beforebegin',section);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showReturn);
+ else showReturn();
+})();</script></body></html>
