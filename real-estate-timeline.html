@@ -4457,7 +4457,7 @@ function start(){
  section.style.setProperty('overflow','visible','important');
  section.setAttribute('aria-label','New Step 3 Closing Follow-Up preview');
  const frame=document.createElement('iframe');
- frame.id='mct-new-step3-frame';frame.src='/step3-new-table-preview.html?embedded=1&revision=20261031-step3-contract-date-v4';
+ frame.id='mct-new-step3-frame';frame.src='/step3-new-table-preview.html?embedded=1&revision=20261031-step3-picker-v5';
  frame.title='New Step 3 Closing Follow-Up';frame.loading='eager';
  frame.style.cssText='display:block;width:100%;height:1800px;border:0;min-width:0;background:transparent;';
  section.appendChild(frame);
@@ -4762,50 +4762,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #mct-free-followup-preview .mct-step3-task-choice label{font:800 12px/1.35 Manrope,Arial,sans-serif;color:#274f64}
 #mct-free-followup-preview .mct-step3-task-choice select{min-height:37px;max-width:100%;width:min(390px,100%);border:1px solid #a8c7d2;border-radius:7px;background:#fff;color:#173c52;padding:7px 9px;font:700 13px Manrope,Arial,sans-serif}
 </style>
-<script id="mct-step3-task-picker-script">
-(()=>{
-const choices=[
-'Inspection follow-up','HOA / Condo approval','Appraisal deadline','Insurance confirmation',
-'Title / Escrow documents','Final walk-through','Loan application follow-up','Loan approval status',
-'Lender document request','Verify earnest money deposit','Second deposit confirmation',
-'Condo application submission','HOA / Condo interview','Association approval letter',
-'Estoppel certificate request','Condo questionnaire','Review inspection report',
-'Inspection repair negotiations','Verify appraisal ordered','Appraisal report received',
-'Insurance binder / declarations','Survey status','Title commitment review',
-'Resolve title exceptions','Lien / payoff verification','Mortgage payoff statement',
-'Verify closing disclosure','Closing disclosure 3-day review','Confirm cash to close',
-'Verify wire instructions by trusted phone number','Schedule closing appointment',
-'Confirm notary / signing','Final utilities transfer','Seller move-out confirmation',
-'Keys, codes and access','Final property condition','Closing funds received',
-'Recording confirmation','Send congratulations email','Post-closing document delivery',
-'Client follow-up call','Custom task (write my own)'
-];
-function setup(){
-const root=document.getElementById('mct-free-followup-preview')||document;
-const candidates=[...document.querySelectorAll('input[type="text"],input:not([type])')];
-const field=candidates.find(el=>/new follow-up task/i.test(el.getAttribute('placeholder')||'') && el.offsetParent!==null)
- || candidates.find(el=>/new follow-up task/i.test(el.getAttribute('placeholder')||''));
-if(field?.dataset.mctTaskPickerAttached)return;
-if(!field)return;
-field.dataset.mctTaskPickerAttached='1';
-const holder=document.createElement('div');holder.className='mct-step3-task-choice';
-const title=document.createElement('label');title.textContent='Choose a suggested task';
-const select=document.createElement('select');select.setAttribute('aria-label','Select a suggested closing follow-up task');
-select.appendChild(new Option('Select a task or write your own…',''));
-choices.forEach(v=>select.appendChild(new Option(v,v)));
-select.addEventListener('change',()=>{
- if(!select.value)return;
- if(select.value==='Custom task (write my own)'){field.value='';field.focus();}
- else{field.value=select.value;field.dispatchEvent(new Event('input',{bubbles:true}));field.dispatchEvent(new Event('change',{bubbles:true}));}
-});
-holder.append(title,select);
-const section=field.closest('label')||field.parentElement;
-section.parentElement.insertBefore(holder,section);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
-const observer=new MutationObserver(()=>{if(!document.querySelector('.mct-step3-task-choice'))setup()});
-observer.observe(document.body,{childList:true,subtree:true});
-window.addEventListener('load',setup);
-let cycles=0;const check=setInterval(()=>{setup();if(++cycles>=30)clearInterval(check)},500);
-})();
-</script></body></html>
+</body></html>
