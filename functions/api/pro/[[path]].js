@@ -300,6 +300,29 @@ export async function onRequest(context){
   if(!row.verified)return error("Verify your email before signing in",403);
   return reply({ok:true},200,{"Set-Cookie":await newSession(db,row.id)});
  }
+ if(route==="admin/accounts"){
+  if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
+  const rows=await db.prepare("SELECT u.id,u.email,u.full_name,u.verified,u.credits,u.created_at,(SELECT COUNT(*) FROM closings c WHERE c.user_id=u.id) AS closings,(SELECT COUNT(*) FROM purchases p WHERE p.user_id=u.id) AS purchases FROM users u ORDER BY u.created_at DESC LIMIT 200").all();
+  return reply({ok:true,accounts:rows.results||[]});
+ }
+ if(route==="admin/accounts/delete"){
+  if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
+  const id=String(body.id||""),email=String(body.email||"").trim().toLowerCase();
+  if(!/^[0-9a-f-]{36}$/i.test(id)||!email||body.confirm!=="DELETE TEST ACCOUNT")return error("Confirm account ID, email and deletion phrase.");
+  const u=await db.prepare("SELECT id,email,credits FROM users WHERE id=?").bind(id).first();
+  if(!u||u.email!==email)return error("Account details do not match.",409);
+  const c=await db.prepare("SELECT COUNT(*) AS n FROM closings WHERE user_id=?").bind(id).first();
+  const p=await db.prepare("SELECT COUNT(*) AS n FROM purchases WHERE user_id=?").bind(id).first();
+  if(Number(u.credits||0)!==0||Number(c?.n||0)!==0||Number(p?.n||0)!==0)return error("Protected: account has credits, closings or purchase records.",409);
+  try{await db.batch([
+   db.prepare("DELETE FROM sessions WHERE user_id=?").bind(id),
+   db.prepare("DELETE FROM email_verifications WHERE user_id=?").bind(id),
+   db.prepare("DELETE FROM password_resets WHERE user_id=?").bind(id),
+   db.prepare("DELETE FROM account_policy_acceptances WHERE user_id=?").bind(id),
+   db.prepare("DELETE FROM users WHERE id=? AND email=? AND credits=0").bind(id,email)
+  ]);}catch(e){return error("Account has linked records and cannot be safely deleted.",409);}
+  return reply({ok:true,message:"Empty test account deleted."});
+ }
  if(route==="admin/codes/disable"){if(!await ownerAuthenticated(req,env))return error("Owner access required",403);const id=String(body.id||"");if(!/^[0-9a-f-]{36}$/.test(id))return error("Invalid code ID");await db.prepare("UPDATE promo_codes SET active=0 WHERE id=?").bind(id).run();return reply({ok:true})}
  if(route==="admin/gift/send"){ return error("The complimentary PRO promotion has ended; free credits can no longer be issued or redeemed.",410);
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
