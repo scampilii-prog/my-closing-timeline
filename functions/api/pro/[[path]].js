@@ -22,7 +22,7 @@ const closingExtensionNeeded=(effective,closing)=>calendarDayDifference(effectiv
 // authorized PDF export from the existing saved timeline.
 const closingPlanEnds=effective=>{const d=new Date(effective+"T12:00:00Z");if(Number.isNaN(d.valueOf()))return "";d.setUTCDate(d.getUTCDate()+includedClosingDays);return d.toISOString().slice(0,10)};
 const closingPlanExpired=effective=>{const end=closingPlanEnds(effective);return !!end&&new Date().toISOString().slice(0,10)>end};
-const extensionNotLaunched=()=>reply({ok:false,code:"CLOSING_EXTENSION_PAYMENT_REQUIRED",extensionDays,regularPriceCents:regularHalfBasicCents,error:"This closing exceeds the included 90 days from its original Effective Date. An additional 90-day extension costs $14.95 (half the current regular basic price, no promotions). Extension checkout is not available in test mode yet. No closing has been changed or charged."},409);
+const extensionNotLaunched=()=>reply({ok:false,code:"CLOSING_EXTENSION_PAYMENT_REQUIRED",extensionDays,regularPriceCents:regularHalfBasicCents,error:"This closing exceeds the included 60 days from its original Effective Date. Extensions are not available during testing. No closing has been changed and no payment or credit has been taken."},409);
 
 // The same 40 suggested Step 3 follow-ups used in the private Realtor test.
 // Dates are suggestions only, never contractual deadlines.
