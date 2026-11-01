@@ -13,6 +13,17 @@ export async function onRequestPost({request,env}){
  const db=env.PRO_DB;
  const order=await db.prepare("SELECT * FROM purchases WHERE id=? AND checkout_session_id=? AND user_id=?").bind(s.metadata.order_id,s.id,s.client_reference_id).first();if(!order)return new Response("Unknown order",{status:400});
  if(order.amount_cents!==s.amount_total||s.currency!=="usd"||s.livemode!==false)return new Response("Order amount or environment mismatch",{status:400});
+ // Safety gate: honor verified paid test orders, but do not automatically issue
+ // loyalty bonuses until refunds, D1 migrations and replay tests are certified.
+ // Explicitly enabling this flag is a separate launch decision.
+ if(env.PRO_LOYALTY_REWARDS_ENABLED!=="true"){
+  await db.batch([
+   db.prepare("UPDATE purchases SET status='paid' WHERE id=? AND status='pending' AND credited_at IS NULL").bind(order.id),
+   db.prepare("UPDATE users SET credits=credits+? WHERE id=? AND EXISTS(SELECT 1 FROM purchases WHERE id=? AND status='paid' AND credited_at IS NULL)").bind(order.credit_quantity,order.user_id,order.id),
+   db.prepare("UPDATE purchases SET credited_at=datetime('now') WHERE id=? AND status='paid' AND credited_at IS NULL").bind(order.id)
+  ]);
+  return new Response("ok",{status:200,headers:{"Cache-Control":"no-store"}});
+ }
  // Reward ledger is independent of private gift codes. Unique user/milestone
  // prevents reissuance when Stripe retries or multiple purchases arrive together.
  // Only confirmed, non-refunded purchases at the approved $20/$35 prices qualify.
