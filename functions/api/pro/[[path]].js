@@ -374,7 +374,7 @@ export async function onRequest(context){
   if(!response.ok){console.error("PRO gift invitation provider rejected request",{status:response.status});return error("The email service could not send your invitation. Please check the recipient and try again.",503)}
   return reply({ok:true,message:"Branded invitation submitted to email service",recipient});
  }
- if(route==="admin/code"){ return error("New complimentary PRO codes are discontinued.",410);
+ if(route==="admin/code"){
   if(!await ownerAuthenticated(req,env))return error("Owner access required",403);
   // Every private invitation grants exactly ONE closing credit to ONE redemption.
   const email=String(body.email||"").trim().toLowerCase();
