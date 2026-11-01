@@ -1421,7 +1421,7 @@ html body.mct-layout-pro .mct-pro-registration-main .mct-first-visitor-finish{ba
  <a class="mct-welcome-cta" href="/my-closings.html">Go to My PRO Workspace →</a>
  <span class="mct-welcome-fine" id="mct-verified-credits">Registration is free. One credit starts one PRO closing; a first-time email-verified FREE code provides one credit at no charge.</span>
  </section>
- <section class="card" style="max-width:940px;margin:0 auto"><div class="head" id="mct-first-free-welcome-header"><small id="mct-pro-flow-card-eyebrow">MY CLOSING TIMELINE · PRO</small><h2 id="mct-pro-flow-card-title">Get Started with PRO</h2><p id="mct-first-free-congratulations" class="mct-first-free-congratulations" hidden>Welcome! Your <strong>first PRO Closing is complimentary</strong>. Register using the email that received your invitation. After account verification, your FREE credit is added automatically — <strong>no payment or extra activation</strong>.</p><p id="mct-other-projects-welcome" class="mct-other-projects-welcome" hidden>Organize business and personal projects with <strong>your own tasks, deadlines and daily, weekly or monthly follow-ups</strong>. Explore the FREE planner and PRO task demo. <strong>Account-based Other Projects PRO is coming later.</strong></p></div><div class="content"><section id="mct-free-audience-choice" class="mct-free-audience-choice" aria-label="Choose your professional timeline" hidden>
+ <section class="card" style="max-width:940px;margin:0 auto"><div class="head" id="mct-first-free-welcome-header"><small id="mct-pro-flow-card-eyebrow">MY CLOSING TIMELINE · PRO</small><h2 id="mct-pro-flow-card-title">Get Started with PRO</h2><p id="mct-first-free-congratulations" class="mct-first-free-congratulations" hidden>Private invitation: if an administrator has issued a valid gift to your verified email, any eligible credit will be shown in your account. There is no public free-closing promotion.</p><p id="mct-other-projects-welcome" class="mct-other-projects-welcome" hidden>Organize business and personal projects with <strong>your own tasks, deadlines and daily, weekly or monthly follow-ups</strong>. Explore the FREE planner and PRO task demo. <strong>Account-based Other Projects PRO is coming later.</strong></p></div><div class="content"><section id="mct-free-audience-choice" class="mct-free-audience-choice" aria-label="Choose your professional timeline" hidden>
  <span class="mct-free-audience-caption">WHAT WILL YOU ORGANIZE?</span>
  <div class="mct-free-audience-options" role="group" aria-label="Choose Timeline PRO use">
   <button type="button" class="mct-free-audience-option" id="mct-free-audience-realtor" aria-pressed="true"><span class="mct-free-audience-icon" aria-hidden="true">⌂</span><span><strong>Real Estate &amp; Closings</strong><small>Agents, title teams &amp; coordinators</small></span></button>
@@ -1538,9 +1538,9 @@ function updateAudienceWelcome(){
  realtorText.hidden=!hasCode||other;
  otherText.hidden=!other;
  title.textContent=other?"Other Projects · Manage Your Work Your Way":hasCode?
-  "Congratulations! Your First PRO Closing Is FREE.":gift?"Create Your FREE PRO Account":"Get Started with PRO";
+  "Private PRO Invitation":gift?"Create Your FREE PRO Account":"Get Started with PRO";
  eyebrow.textContent=other?"BUSINESS · SERVICES · PERSONAL PROJECTS":hasCode?
-  "YOUR EMAIL IS CONFIRMED · YOU'RE INVITED":gift?"FREE PRO · ACCOUNT SETUP":"MY CLOSING TIMELINE · PRO";
+  "PRIVATE INVITATION · VERIFY ELIGIBILITY":gift?"PRIVATE INVITATION · ACCOUNT SETUP":"MY CLOSING TIMELINE · PRO";
  const palette=other?
   {background:"linear-gradient(115deg,#40324e,#765b78)",title:"#ffffff",eyebrow:"#eed1a6",text:"#f9f4fb"}:
   {background:"linear-gradient(118deg,#153b52,#176572)",title:"#ffffff",eyebrow:"#ffe0a6",text:"#f2f8f8"};
@@ -1688,8 +1688,8 @@ function invitationActions(){
   if(invitationPresent)element.style.setProperty(prop,value,"important");
   else element.style.removeProperty(prop);
  }
- $("mct-pro-flow-card-title").textContent=invitationPresent?"Congratulations! Your First PRO Closing Is FREE.":gift?"Create Your FREE PRO Account":"Get Started with PRO";
- $("mct-pro-flow-card-eyebrow").textContent=invitationPresent?"YOUR EMAIL IS CONFIRMED · YOU'RE INVITED":gift?"FREE PRO · ACCOUNT SETUP":"MY CLOSING TIMELINE · PRO";
+ $("mct-pro-flow-card-title").textContent=invitationPresent?"Private PRO Invitation":gift?"Create Your FREE PRO Account":"Get Started with PRO";
+ $("mct-pro-flow-card-eyebrow").textContent=invitationPresent?"PRIVATE INVITATION · VERIFY ELIGIBILITY":gift?"PRIVATE INVITATION · ACCOUNT SETUP":"MY CLOSING TIMELINE · PRO";
  document.body.classList.toggle("mct-first-free-confirmed",invitationPresent);
  updateAudienceWelcome();
  document.body.classList.toggle("mct-gift-code-saved",gift&&pending);
