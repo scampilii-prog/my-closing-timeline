@@ -3463,7 +3463,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count{font-weight:850;color:#17394d}
 </style>
 <style id="mct-today-tomorrow-count-numbers-v2">
-#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:none!important}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:block!important}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day strong span:last-child{font-size:24px!important;font-weight:900!important}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-task{display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:start;padding:11px 9px;margin:8px 0;border:1px solid #dedbd3;border-radius:9px;background:#fff;color:#294b5e;font:700 13px/1.5 Manrope,Arial,sans-serif}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-num{display:grid;place-items:center;border-radius:7px;background:#19394d;color:white;min-height:30px;font-weight:850}
@@ -3477,7 +3477,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 /* Today/Tomorrow: count in header is sufficient, no redundant date or instructions. */
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-tt-date,
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-live-tomorrow-count,
-#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:none!important}
+#contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day>p{display:block!important}
 #contract-deadline-planner #mct-free-tomorrow-preview .mct-v21-day strong span:last-child{
  display:inline-grid;place-items:center;min-width:42px;min-height:42px;padding:3px 9px;border-radius:11px;background:rgba(255,255,255,.65);text-align:center;font-size:26px!important;font-weight:900!important;line-height:1.1!important;
 }
@@ -4514,7 +4514,7 @@ function start(){
   const active=all.filter(t=>!t.done);
   const n=new Date(),fmt=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
   const today=fmt(n),next=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),tomorrow=fmt(next);
-  const panels=[...preview.querySelectorAll('.mct-v21-day')];
+  const panels=[...preview.querySelectorAll('.mct-v21-day:not(.mct-pending-bucket)')];
   let pending=preview.querySelector('.mct-v21-day.mct-pending-bucket');
   if(!pending&&panels.length){
     pending=document.createElement('div');pending.className='mct-v21-day mct-pending-bucket';
