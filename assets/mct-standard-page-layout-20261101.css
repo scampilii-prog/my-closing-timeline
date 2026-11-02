@@ -67,3 +67,9 @@ html body.mct-standard-page > section.hero{
  }
  html body.mct-standard-page > main#mpt-page-main{margin-top:-23px!important}
 }
+
+/* Home is a richer decision hero; never clip its two choice panels. */
+html body.mct-standard-page main#home-overview > section.mct-home-opening{
+ box-sizing:border-box!important;min-height:var(--mct-photo-height)!important;
+ max-height:none!important;
+}
