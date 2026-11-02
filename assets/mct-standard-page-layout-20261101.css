@@ -73,3 +73,32 @@ html body.mct-standard-page main#home-overview > section.mct-home-opening{
  box-sizing:border-box!important;min-height:var(--mct-photo-height)!important;
  max-height:none!important;
 }
+
+/* Standard visual language: geometry and promotional cards only.
+   Do not style operational task-table cells, date inputs, or status controls. */
+html body.mct-standard-page{
+ --mct-card-radius:10px;
+ --mct-card-border:#d8e4e9;
+ --mct-card-space:16px;
+ --mct-card-gap:14px;
+ --mct-card-title:#173d54;
+ --mct-card-muted:#587182;
+}
+html body.mct-standard-page main{box-sizing:border-box}
+html body.mct-standard-page main :where(.mct-home-essentials,.grid,.mct-home-paths){column-gap:var(--mct-card-gap);row-gap:var(--mct-card-gap)}
+html body.mct-standard-page main :where(.mct-home-block,.mct-home-why,.mct-home-next,.mct-clean-section,.mct-re-faq,.mpt-hero-overlap,.mct-pro-guide,.mct-gift-panel,.mpt-intro,.mpt-section,.contact-readable-lower){
+ border-radius:var(--mct-card-radius);
+}
+html body.mct-standard-page main :where(.mct-home-block,.mct-home-why,.mct-home-next,.mct-clean-section,.mpt-hero-overlap,.mpt-intro,.contact-readable-lower){
+ box-sizing:border-box;
+ min-width:0;
+}
+html body.mct-standard-page main :where(.mct-home-essentials,.grid,.mct-home-paths) > *{min-width:0}
+html body.mct-standard-page main :where(.mct-home-essentials,.grid,.mct-home-paths) :where(h2,h3){overflow-wrap:break-word}
+html body.mct-standard-page main :where(.mct-home-essentials,.grid,.mct-home-paths) :where(p,small){line-height:1.48}
+/* Keep bottom edges natural rather than stretching dashboard cards to match. */
+html body.mct-standard-page main#home-overview #home-essentials > *{align-self:start}
+html body.mct-standard-page main#home-overview #home-essentials .mct-home-paths article{border-radius:var(--mct-card-radius)}
+@media(max-width:760px){
+ html body.mct-standard-page{--mct-card-gap:12px;--mct-card-space:13px}
+}
