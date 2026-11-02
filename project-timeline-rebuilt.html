@@ -264,29 +264,34 @@ html body #mpt-free-review-panel .mpt-free-status-pill.is-late{background:#fff0e
  html body #mpt-free-review-panel .mpt-free-status-pill{min-width:56px!important;font-size:9px!important}
 }
 </style><style id="mpt-rebuilt-shell">
+/* Clean photo + content shell: no legacy hero selector is used. */
 html body{margin:0;background:#f1f5f7;color:#193d51;font-family:Manrope,Arial,sans-serif}
-html body .mct-clean-hero{box-sizing:border-box;display:flex;align-items:center;width:100%;max-width:none;min-height:440px;height:auto;overflow:visible;margin:0;padding:36px max(24px,calc((100vw - 1420px)/2));background:linear-gradient(90deg,#102c45 0%,rgba(16,44,69,.95) 25%,rgba(16,44,69,.66) 50%,rgba(16,44,69,.08) 88%),url("https://images.pexels.com/photos/7278606/pexels-photo-7278606.jpeg?auto=compress&cs=tinysrgb&w=2200") center/cover no-repeat;color:white}
-html body .mct-clean-hero>.mct-photo-hero-content{max-width:780px;width:100%;margin:0}
-html body .mct-clean-hero h1{font:800 clamp(34px,3.35vw,56px)/1.15 Manrope,Arial,sans-serif;color:#fff;margin:12px 0 16px}
-html body .mct-clean-hero h1 span{display:block}
-html body .mct-clean-hero h1 span+span{color:#efc779}
-html body .mct-clean-hero .mct-hero-kicker{font-size:12px;font-weight:800;letter-spacing:.13em;color:#efc779}
-html body .mct-clean-hero .mct-hero-description{font-size:17px;line-height:1.5;color:#fff}
-html body .mct-clean-hero .actions{display:flex;gap:12px;flex-wrap:wrap}
-html body main#mpt-page-main{width:min(calc(100% - 48px),1420px);max-width:1420px;margin:0 auto;padding:20px 0 60px}
-html body main#mpt-page-main>.mpt-hero-overlap{margin:0 0 16px;transform:none}
-@media(max-width:760px){html body .mct-clean-hero{min-height:380px;padding:30px 22px}html body main#mpt-page-main{width:calc(100% - 24px)}}
-</style><style id="mpt-rebuilt-visual-fix">
-/* Independent new-page layout: photograph and text share the same 1420px left edge. */
-html body>section.mct-clean-hero{background-image:linear-gradient(90deg,rgba(16,44,69,.95) 0%,rgba(16,44,69,.82) 40%,rgba(16,44,69,.12) 90%),url("https://images.pexels.com/photos/7278606/pexels-photo-7278606.jpeg?auto=compress&cs=tinysrgb&w=2200")!important;background-position:center center!important;background-size:cover!important;background-color:#102c45!important;min-height:440px!important;display:flex!important;align-items:center!important;padding:36px max(24px,calc((100vw - 1420px)/2))!important}
-html body>section.mct-clean-hero>.mct-photo-hero-content{position:relative!important;left:auto!important;right:auto!important;top:auto!important;transform:none!important;margin:0!important;padding:0!important;max-width:780px!important;width:100%!important;text-align:left!important}
-html body>section.mct-clean-hero h1{font:800 clamp(34px,3.35vw,56px)/1.15 Manrope,Arial,sans-serif!important;margin:12px 0 16px!important;color:#fff!important}
-html body>section.mct-clean-hero .mct-hero-description,html body>section.mct-clean-hero .mct-hero-benefits{color:#fff!important}
-html body main#mpt-page-main>.mpt-hero-overlap{background:#fff!important;border:1px solid #d7e3ea!important;border-radius:10px!important;padding:18px!important;box-shadow:none!important;margin:0 0 16px!important}
+html body>section.mct-clean-hero{
+box-sizing:border-box!important;display:flex!important;align-items:center!important;
+width:100%!important;max-width:none!important;min-height:440px!important;
+height:auto!important;overflow:visible!important;margin:0!important;
+padding:32px max(24px,calc((100vw - 1130px)/2))!important;
+background-color:#102c45!important;
+background-image:linear-gradient(90deg,rgba(16,44,69,.94) 0%,rgba(16,44,69,.78) 42%,rgba(16,44,69,.10) 100%),url("https://images.pexels.com/photos/7278606/pexels-photo-7278606.jpeg?auto=compress&cs=tinysrgb&w=2200")!important;
+background-size:cover!important;background-position:center center!important;
+color:#fff!important
+}
+html body>section.mct-clean-hero>.mct-photo-hero-content{position:relative!important;max-width:780px!important;width:100%!important;margin:0!important;padding:0!important;transform:none!important;left:auto!important;top:auto!important;text-align:left!important}
+html body>section.mct-clean-hero h1{font:800 clamp(34px,3.35vw,56px)/1.14 Manrope,Arial,sans-serif!important;margin:12px 0 16px!important;color:white!important}
+html body>section.mct-clean-hero h1 span{display:block!important}
+html body>section.mct-clean-hero h1 span+span{color:#efc779!important}
+html body>section.mct-clean-hero .mct-hero-kicker{font-size:12px!important;font-weight:800!important;letter-spacing:.13em!important;color:#efc779!important}
+html body>section.mct-clean-hero .mct-hero-description{font-size:17px!important;line-height:1.5!important;color:#fff!important}
+html body>section.mct-clean-hero .mct-hero-benefits{display:flex!important;gap:14px!important;flex-wrap:wrap!important;color:#fff!important;font-size:13px!important;font-weight:700!important}
+html body>section.mct-clean-hero .actions{display:flex!important;gap:12px!important;flex-wrap:wrap!important;margin-top:16px!important}
+html body>section.mct-clean-hero .actions a{display:inline-block!important;padding:12px 16px!important;background:#efc779!important;color:#15384c!important;text-decoration:none!important;border-radius:7px!important;font-weight:800!important}
+html body>section.mct-clean-hero .actions a.secondary{background:#fff!important}
+html body main#mpt-page-main{width:min(calc(100% - 48px),1130px)!important;max-width:1130px!important;margin:0 auto!important;padding:16px 0 60px!important}
+html body main#mpt-page-main>.mpt-hero-overlap{background:#fff!important;border:1px solid #d7e3ea!important;border-radius:10px!important;padding:18px!important;box-shadow:none!important;margin:0 0 16px!important;transform:none!important}
 html body main#mpt-page-main>.mpt-hero-overlap .mpt-guide-qa{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px 12px!important}
 html body main#mpt-page-main>.mpt-hero-overlap details{border:1px solid #d7e3ea!important;border-radius:6px!important;padding:7px 10px!important}
 html body main#mpt-page-main>.mpt-hero-overlap .mpt-guide-actions{display:flex!important;gap:10px!important;flex-wrap:wrap!important;margin-top:10px!important}
-@media(max-width:760px){html body>section.mct-clean-hero{padding:28px 20px!important;min-height:380px!important}html body main#mpt-page-main>.mpt-hero-overlap .mpt-guide-qa{grid-template-columns:1fr!important}}
+@media(max-width:760px){html body>section.mct-clean-hero{padding:30px 22px!important;min-height:380px!important}html body main#mpt-page-main{width:calc(100% - 24px)!important}html body main#mpt-page-main>.mpt-hero-overlap .mpt-guide-qa{grid-template-columns:1fr!important}}
 </style></head><body class="mct-standard-page"><header id="mct-site-header" class="mct-unified-header"><div class="mct-header-inner"><a class="mct-brand" href="index.html" aria-label="MyClosingTimeline.com home"><svg class="mct-brand-icon" viewBox="0 0 64 64" width="49" height="49" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="15" fill="#087F8C"/><rect x="12" y="15" width="40" height="38" rx="6" fill="#fff"/><path d="M12 26h40" stroke="#087F8C" stroke-width="4"/><path d="M22 11v10M42 11v10" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="m21 39 8 7 15-17" stroke="#087F8C" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>MyClosing<span class="mct-brand-timeline">Timeline</span><span class="mct-brand-domain">.com</span></span></a><nav aria-label="Primary navigation"><a href="/index.html">Home</a><a href="/real-estate-timeline.html">Real Estate Closing Timeline</a><a href="/project-timeline.html" aria-current="page">Project Timeline</a><a href="/free-timeline.html">FREE Timeline</a><a href="/pro-get-started.html">PRO Timeline</a><a href="/contact.html">Help &amp; Contact</a></nav><div class="mct-header-tools"><label class="mct-lang-label" for="mct-language">Language</label><select id="mct-language" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option><option value="it">IT</option><option value="pt">PT</option></select><span class="mct-header-account" aria-label="Account access"><a class="mct-auth-link" href="/pro-get-started.html?auth=login">Log In</a><a class="mct-auth-register" href="/pro-get-started.html?auth=register">Register</a></span><button type="button" id="mct-menu-toggle" aria-label="Open site menu" aria-controls="mct-menu-panel" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></div></header><div id="mct-fixed-header-spacer" aria-hidden="true" style="height:var(--mct-fixed-header-height,108px)"></div><section class="mct-clean-hero" aria-label="Project Timeline"><div class="mct-photo-hero-content"><p class="mct-hero-kicker">PROJECT TIMELINE · FOR EVERY PROFESSIONAL</p><h1><span>Project Timeline.</span><span>Plan clearly. Finish confidently.</span></h1><p class="mct-hero-description">Organize general projects, tasks and deadlines in one clear workspace.<br>Designed for consultants, contractors, designers and independent professionals.</p><div class="mct-hero-benefits"><span>✓ Plan deadlines</span><span>✓ Track tasks</span><span>✓ Follow progress</span></div><div class="actions"><a href="#project-free-workspace">Start FREE Practice →</a><a class="secondary" href="#project-pro-preview">Explore PRO Preview</a></div></div></section>
 <main id="mpt-page-main">
 <section class="mpt-hero-overlap" aria-labelledby="mpt-start-guide-title"><div class="mpt-guide-intro"><span class="eyebrow">BEFORE YOU START</span><h2 id="mpt-start-guide-title">Your project questions, clearly answered.</h2><p>Choose FREE to plan your deadlines, or explore the PRO follow-up preview.</p></div><div class="mpt-guide-qa"><details><summary>What is Project Timeline?</summary><p>A planning workspace for projects, tasks, deadlines and progress.</p></details><details><summary>Can I start without paying?</summary><p>Yes. FREE practice supports six starter tasks and two additional tasks.</p></details><details><summary>Can I change project dates?</summary><p>Yes. Relative deadlines can be recalculated; manually chosen exact dates should remain unchanged.</p></details><details><summary>Are PRO payments active?</summary><p>No. The PRO workspace is a demonstration while billing and account safeguards are being tested.</p></details></div><div class="mpt-guide-actions"><a href="#project-free-workspace">Start FREE Practice →</a><a href="#project-pro-preview">Explore PRO Preview →</a></div></section>
