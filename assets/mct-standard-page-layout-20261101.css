@@ -2,7 +2,7 @@
    Page-specific artwork and content remain independent. */
 html body.mct-standard-page{
  --mct-page-width:1420px;
- --mct-photo-height:360px;
+ --mct-photo-height:440px;
  --mct-photo-overlap:40px;
 }
 html body.mct-standard-page > section.mct-photo-hero,
@@ -12,10 +12,10 @@ html body.mct-standard-page > section.mct-photo-hero.mpt-project-hero{
  align-items:center!important;
  width:100%!important;
  max-width:none!important;
- height:var(--mct-photo-height)!important;
+ height:auto!important;
  min-height:var(--mct-photo-height)!important;
- max-height:var(--mct-photo-height)!important;
- overflow:hidden!important;
+ max-height:none!important;
+ overflow:visible!important;
  margin:0!important;
  border:0!important;
  border-radius:0!important;
@@ -35,13 +35,6 @@ html body.mct-standard-page > main:not([class]):not([id]){
  max-width:var(--mct-page-width)!important;
  margin-left:auto!important;
  margin-right:auto!important;
-}
-/* Project Timeline: no hero overlap. Keep the full heading and actions visible. */
-html body.mct-standard-page > section.mct-photo-hero.mpt-project-hero{
- height:auto!important;
- min-height:360px!important;
- max-height:none!important;
- overflow:visible!important;
 }
 html body.mct-standard-page > main#mpt-page-main{
  margin-top:20px!important;
@@ -69,7 +62,7 @@ html body.mct-standard-page > section.hero{
 }
 @media(max-width:760px){
  html body.mct-standard-page > section.mct-photo-hero{
-  height:auto!important;min-height:360px!important;max-height:none!important;
+  height:auto!important;min-height:var(--mct-photo-height)!important;max-height:none!important;
   overflow:visible!important;
  }
  html body.mct-standard-page > main#mpt-page-main{margin-top:16px!important}
