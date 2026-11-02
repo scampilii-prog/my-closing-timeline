@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Timeline · MyClosingTimeline.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--navy:#102b40;--gold:#efc779;--ink:#173b50;--paper:#f3f7f9;--max:1420px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,Arial,sans-serif}
+a{color:inherit}
+.site-header{background:var(--navy);color:white;border-bottom:2px solid var(--gold)}
+.site-header__inner,.hero__inner,.page-content,.site-footer__inner{width:min(calc(100% - 48px),var(--max));margin-inline:auto}
+.site-header__inner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-logo{font-size:22px;font-weight:800;text-decoration:none}
+.site-logo span{color:var(--gold)}
+.site-header nav{display:flex;gap:20px;flex-wrap:wrap}
+.hero{min-height:440px;background:linear-gradient(90deg,rgba(13,42,63,.94),rgba(13,42,63,.35)),var(--hero-photo,linear-gradient(120deg,#153a51,#457789));background-size:cover;background-position:center;display:flex;align-items:center;color:white}
+.hero__inner{padding-block:55px}
+.hero__copy{max-width:740px}
+.hero__eyebrow{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.12em}
+.hero h1{font-size:clamp(32px,4vw,56px);line-height:1.14;margin:14px 0 18px;font-weight:800}
+.hero p{font-size:17px;line-height:1.6}
+.page-content{padding-block:24px 72px}
+.panel{background:white;border:1px solid #d4e2e9;border-radius:12px;padding:24px;margin-block:16px}
+.site-footer{background:var(--navy);color:white}
+.site-footer__inner{padding-block:28px}
+@media(max-width:720px){.site-header__inner{align-items:flex-start;flex-direction:column;padding-block:18px}.site-header__inner,.hero__inner,.page-content,.site-footer__inner{width:min(calc(100% - 32px),var(--max))}.hero{min-height:380px}.hero__inner{padding-block:36px}}
+</style>
+<style>
+:root{--hero-photo:url('/assets/project-timeline-hero.jpg')}
+.site-header__inner{min-height:78px}
+.hero{background-image:linear-gradient(90deg,rgba(13,42,63,.94) 0%,rgba(13,42,63,.72) 45%,rgba(13,42,63,.1) 100%),url('/assets/project-timeline-hero.jpg')}
+.hero__copy{max-width:750px}
+.hero-actions,.choice-grid{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+.cta{display:inline-flex;padding:13px 20px;border-radius:9px;font-weight:800;text-decoration:none;background:#efc779;color:#15384c;border:2px solid #efc779}
+.cta.secondary{background:white;border-color:white}
+.panel h2{margin-top:0}
+.choice-grid .panel{flex:1 1 270px;margin:0}
+.eyebrow{font-size:12px;letter-spacing:.12em;font-weight:800;color:#a36d1b}
+details{padding:15px 0;border-bottom:1px solid #d8e4ea}
+summary{font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="site-header__inner"><a class="site-logo" href="/">MyClosing<span>Timeline</span>.com</a><nav aria-label="Account"><a href="/login.html">Sign in</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header>
+<section class="hero" aria-labelledby="page-title"><div class="hero__inner"><div class="hero__copy"><p class="hero__eyebrow">PROJECT TIMELINE · FREE PRACTICE</p><h1 id="page-title">Project Timeline. Plan clearly. Finish confidently.</h1><p>Plan milestones, assign due dates and stay organized. Start with a free practice timeline—no account or payment required.</p><div class="hero-actions"><a class="cta" href="/project-timeline.html#mpt-free-project-details">Start FREE Practice →</a><a class="cta secondary" href="#pro">Explore PRO Preview ↓</a></div></div></div></section>
+<main class="page-content" id="main-content">
+<section class="panel"><div class="eyebrow">BEFORE YOU START</div><h2>Your project questions, clearly answered.</h2><p>Choose the free planner or learn about the PRO preview, without mixing in real estate offers.</p><details><summary>Can I try Project Timeline without paying?</summary><p>Yes. Practice with six suggested tasks and two additional tasks. No account or payment is required.</p></details><details><summary>Can I change my dates and tasks?</summary><p>The FREE planner lets you adjust project dates and tasks. Check the live planner for available controls.</p></details><details><summary>Can I purchase Project PRO today?</summary><p>Not yet. The PRO features are currently a preview; account subscriptions and real payments are not active.</p></details></section>
+<div class="choice-grid"><section class="panel"><div class="eyebrow">FREE · START NOW</div><h2>Plan and practice.</h2><p>Organize your project using general milestones, dates and task reminders.</p><a class="cta" href="/project-timeline.html#mpt-free-project-details">Open FREE Planner →</a></section><section class="panel" id="pro"><div class="eyebrow">PRO · INTERACTIVE PREVIEW</div><h2>More follow-up control.</h2><p>Explore additional follow-up tasks and progress tracking. Purchases are not active.</p><a class="cta secondary" style="background:#173b50;color:white;border-color:#173b50" href="/project-timeline.html#mpt-pro-preview">View PRO Preview →</a></section></div>
+<section class="panel"><div class="eyebrow">PRIVACY FIRST</div><h2>Your tasks. Your dates. Your control.</h2><p>Use project milestones without entering sensitive client or business information.</p></section>
+</main>
+<footer class="site-footer"><div class="site-footer__inner">Your Clients. Your Records. Your Privacy.</div></footer>
+</body></html>
