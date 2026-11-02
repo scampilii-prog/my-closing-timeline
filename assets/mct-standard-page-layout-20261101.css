@@ -32,3 +32,11 @@ html body.mct-standard-page > section.mct-photo-hero > .mct-photo-hero-content{
   width:calc(100% - 24px)!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;
  }
 }
+
+/* Secondary landing pages use the same container edges, with independent hero copy. */
+html body.mct-standard-page > section.hero,
+html body.mct-standard-page > section.mpt-hero-wide{
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;border-radius:0!important;
+}
+html body.mct-standard-page > main:not(.workspace):not(.mpt-main):not(.mct-pro-registration-main):not(#mpt-page-main){box-sizing:border-box!important;width:calc(100% - 24px)!important;max-width:1420px!important;margin-left:auto!important;margin-right:auto!important}
+html body.mct-standard-page > main.mpt-main{box-sizing:border-box!important;width:calc(100% - 24px)!important;max-width:1420px!important;margin-left:auto!important;margin-right:auto!important}
