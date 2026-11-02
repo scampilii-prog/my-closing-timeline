@@ -1,0 +1,19 @@
+/* One reusable hero geometry for Home and product pages. */
+html body.mct-standard-page .mct-pattern-hero{
+ box-sizing:border-box!important;position:relative!important;
+ width:100%!important;max-width:none!important;
+ min-height:440px!important;height:auto!important;max-height:none!important;
+ margin:0!important;overflow:visible!important;
+ display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr)!important;
+ align-items:center!important;gap:32px!important;
+ padding:24px max(24px,calc((100vw - 1420px)/2))!important;
+ background-size:cover!important;background-position:center!important;
+}
+html body.mct-standard-page .mct-pattern-hero.mct-pattern-hero--project{
+ grid-template-columns:minmax(0,1fr)!important;
+ background-image:linear-gradient(90deg,#102c45 0%,rgba(16,44,69,.95) 25%,rgba(16,44,69,.66) 50%,rgba(16,44,69,.08) 88%),url("https://images.pexels.com/photos/7278606/pexels-photo-7278606.jpeg?auto=compress&cs=tinysrgb&w=2200")!important;
+}
+html body.mct-standard-page .mct-pattern-hero.mct-pattern-hero--project .mct-photo-hero-content{max-width:780px!important;width:100%!important;margin:0!important}
+html body.mct-standard-page .mct-pattern-hero.mct-pattern-hero--project h1{font-family:Manrope,Arial,sans-serif!important;font-weight:800!important}
+html body.mct-standard-page .mct-pattern-hero.mct-pattern-hero--project + main#mpt-page-main{margin-top:0!important;padding-top:16px!important}
+@media(max-width:900px){html body.mct-standard-page .mct-pattern-hero{grid-template-columns:minmax(0,1fr)!important;padding:30px 22px!important;min-height:380px!important;gap:18px!important}}
