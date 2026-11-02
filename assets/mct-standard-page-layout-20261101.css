@@ -36,8 +36,15 @@ html body.mct-standard-page > main:not([class]):not([id]){
  margin-left:auto!important;
  margin-right:auto!important;
 }
+/* Project Timeline: no hero overlap. Keep the full heading and actions visible. */
+html body.mct-standard-page > section.mct-photo-hero.mpt-project-hero{
+ height:auto!important;
+ min-height:360px!important;
+ max-height:none!important;
+ overflow:visible!important;
+}
 html body.mct-standard-page > main#mpt-page-main{
- margin-top:calc(-1 * var(--mct-photo-overlap))!important;
+ margin-top:20px!important;
  padding:0!important;
 }
 /* Legacy Other Projects landing: same left/right edges, but taller when
@@ -65,7 +72,7 @@ html body.mct-standard-page > section.hero{
   height:auto!important;min-height:360px!important;max-height:none!important;
   overflow:visible!important;
  }
- html body.mct-standard-page > main#mpt-page-main{margin-top:-23px!important}
+ html body.mct-standard-page > main#mpt-page-main{margin-top:16px!important}
 }
 
 /* Home is a richer decision hero; never clip its two choice panels. */
