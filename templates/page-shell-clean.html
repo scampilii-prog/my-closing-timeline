@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page title · MyClosingTimeline.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--navy:#102b40;--gold:#efc779;--ink:#173b50;--paper:#f3f7f9;--max:1420px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,Arial,sans-serif}
+a{color:inherit}
+.site-header{background:var(--navy);color:white;border-bottom:2px solid var(--gold)}
+.site-header__inner,.hero__inner,.page-content,.site-footer__inner{width:min(calc(100% - 48px),var(--max));margin-inline:auto}
+.site-header__inner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-logo{font-size:22px;font-weight:800;text-decoration:none}
+.site-logo span{color:var(--gold)}
+.site-header nav{display:flex;gap:20px;flex-wrap:wrap}
+.hero{min-height:440px;background:linear-gradient(90deg,rgba(13,42,63,.94),rgba(13,42,63,.35)),var(--hero-photo,linear-gradient(120deg,#153a51,#457789));background-size:cover;background-position:center;display:flex;align-items:center;color:white}
+.hero__inner{padding-block:55px}
+.hero__copy{max-width:740px}
+.hero__eyebrow{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.12em}
+.hero h1{font-size:clamp(32px,4vw,56px);line-height:1.14;margin:14px 0 18px;font-weight:800}
+.hero p{font-size:17px;line-height:1.6}
+.page-content{padding-block:24px 72px}
+.panel{background:white;border:1px solid #d4e2e9;border-radius:12px;padding:24px;margin-block:16px}
+.site-footer{background:var(--navy);color:white}
+.site-footer__inner{padding-block:28px}
+@media(max-width:720px){.site-header__inner{align-items:flex-start;flex-direction:column;padding-block:18px}.site-header__inner,.hero__inner,.page-content,.site-footer__inner{width:min(calc(100% - 32px),var(--max))}.hero{min-height:380px}.hero__inner{padding-block:36px}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="site-header__inner"><a class="site-logo" href="/">MyClosing<span>Timeline</span>.com</a><nav aria-label="Account"><a href="/login.html">Sign in</a><a href="/contact.html">Help &amp; Contact</a></nav></div></header>
+<section class="hero" aria-labelledby="page-title"><div class="hero__inner"><div class="hero__copy"><p class="hero__eyebrow">PRODUCT · PAGE CATEGORY</p><h1 id="page-title">Page title</h1><p>Page-specific introduction goes here.</p></div></div></section>
+<main class="page-content" id="main-content"><section class="panel"><h2>Page-specific content</h2><p>Transfer functional content and scripts from the original page only after auditing dependencies.</p></section></main>
+<footer class="site-footer"><div class="site-footer__inner">Your Clients. Your Records. Your Privacy.</div></footer>
+</body></html>
