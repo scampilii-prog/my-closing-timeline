@@ -5061,22 +5061,7 @@ html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row>#m
 html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row>#mct-free-tomorrow-preview{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}
 @media(max-width:900px){html body #mct-new-primary-table.fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}html body #mct-new-primary-table.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important}html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}}
 </style>
-<script id="mct-primary-layout-actual-dom-fix-script-20261103">
-(function(){
- function align(){
-  const table=document.getElementById('mct-new-primary-table');
-  const summary=document.getElementById('mct-free-review');
-  if(!table||!summary)return;
-  let row=document.getElementById('mct-simplified-summary-row');
-  if(!row){row=document.createElement('div');row.id='mct-simplified-summary-row'}
-  if(row.parentElement!==table)table.appendChild(row);
-  if(summary.parentElement!==row)row.insertBefore(summary,row.firstChild);
-  const tomorrow=document.getElementById('mct-free-tomorrow-preview');
-  if(tomorrow&&tomorrow.parentElement!==row)row.appendChild(tomorrow);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{align();requestAnimationFrame(align)});else{align();requestAnimationFrame(align)}
-})();
-</script><style id="mct-preview-grid-root-authority-20261103">
+<style id="mct-preview-grid-root-authority-20261103">
 html body main.workspace>section#contract-deadline-planner.fc-simple-timeline{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow:visible!important}
 html body main.workspace>section#contract-deadline-planner #mct-new-primary-table.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;gap:16px!important;align-items:start!important;float:none!important;clear:both!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;margin:16px 0!important}
 html body main.workspace>section#contract-deadline-planner #mct-new-primary-table.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important;min-width:0!important;max-width:100%!important;width:100%!important;float:none!important}
@@ -5084,29 +5069,4 @@ html body main.workspace>section#contract-deadline-planner #mct-new-primary-tabl
 html body main.workspace>section#contract-deadline-planner #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row>#mct-free-review{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;float:none!important}
 @media(max-width:850px){html body main.workspace>section#contract-deadline-planner #mct-new-primary-table.fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}html body main.workspace>section#contract-deadline-planner #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}}
 </style>
-<script id="mct-preview-grid-root-authority-script-20261103">
-(function(){
-let busy=false;
-function place(){
-if(busy)return;
-const table=document.getElementById('mct-new-primary-table'),summary=document.getElementById('mct-free-review');
-if(!table||!summary)return;
-busy=true;
-try{
-const planner=document.getElementById('contract-deadline-planner');
-if(planner&&table.parentNode!==planner)planner.appendChild(table);
-let row=document.getElementById('mct-simplified-summary-row');
-if(!row){row=document.createElement('div');row.id='mct-simplified-summary-row'}
-if(row.parentNode!==table)table.appendChild(row);
-if(summary.parentNode!==row)row.insertBefore(summary,row.firstChild);
-const tomorrow=document.getElementById('mct-free-tomorrow-preview');
-if(tomorrow&&tomorrow.parentNode!==row)row.appendChild(tomorrow);
-const follow=document.getElementById('mct-free-followup-preview');
-if(follow&&(follow.parentNode!==planner||follow.previousElementSibling!==table))table.insertAdjacentElement('afterend',follow);
-const placeholder=row.querySelector(':scope > .mct-plus-preview');if(placeholder)placeholder.remove();
-}finally{busy=false}
-}
-function start(){place();window.addEventListener('load',place,{once:true});const root=document.getElementById('contract-deadline-planner');if(root){let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;place()})}).observe(root,{childList:true,subtree:true})}}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
-})();
-</script></body></html>
+</body></html>
