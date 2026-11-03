@@ -61,8 +61,8 @@ const back=document.querySelector('#mct-back-top');if(back){function show(){back
   const groups=[
     [{label:'Home',href:'/index.html',level:'main'}],
     [{label:'Real Estate Timeline',href:'/real-estate-timeline.html',level:'main'},
-     {label:'Explore Real Estate',href:'/real-estate-timeline.html',level:'sub'},
-     {label:'FREE Timeline',href:'/real-estate-free-rebuilt-preview',level:'sub'},
+     {label:'Explore Real Estate',href:'/real-estate-timeline.html#real-estate-quick-answers',level:'sub'},
+     {label:'FREE Timeline',href:'/real-estate-free-rebuilt-preview.html#contract-deadline-planner',level:'sub'},
      {label:'Register / Activate PRO',href:'/pro-get-started.html?auth=register',level:'sub'}],
     [{label:'Project Timeline',href:'/project-timeline.html',level:'main'},
      {label:'Explore Projects',href:'/project-timeline.html',level:'sub'},
