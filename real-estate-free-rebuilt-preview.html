@@ -2727,21 +2727,7 @@ html body #contract-deadline-planner .fc-simple-form{width:100%!important;max-wi
 html body #contract-deadline-planner #mct-free-followup-preview{margin-top:3px!important}
 @media(max-width:900px){html body #contract-deadline-planner #mct-simplified-summary-row{grid-template-columns:minmax(0,1fr)!important}}
 </style>
-<script id="mct-free-final-cleanup-v20-script">
-/* Keep project source intact for its future separate page, and align the public real-estate hierarchy. */
-(function(){
-function tidy(){
- const planner=document.getElementById('contract-deadline-planner');
- const top=document.getElementById('mct-free-real-estate-landing');
- const form=planner&&planner.querySelector('.fc-simple-layout');
- const row=document.getElementById('mct-simplified-summary-row');
- if(!planner||!top||!form||!row)return;
- if(top.nextElementSibling!==form)top.insertAdjacentElement('afterend',form);
- if(form.nextElementSibling!==row)form.insertAdjacentElement('afterend',row);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tidy);else tidy();
-})();
-</script>
+
 
 
 
@@ -5181,4 +5167,34 @@ html body.mct-model31-integrated .mct-re-pro-promo .mct-re-pro-detail{margin-bot
 html body .mct-home-opening,html body #real-estate-quick-answers,html body #mct-product-path-free,html body #mct-free-other-projects{display:none!important}
 html body #contract-deadline-planner{display:block!important;margin-top:20px!important}
 html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-deadline-planner .mct-step3-preview{display:none!important}
+</style><script id="mct-free-two-column-final-20261103">
+(function(){
+function alignFreePanels(){
+ const planner=document.getElementById('contract-deadline-planner');
+ const layout=planner&&planner.querySelector('.fc-simple-layout');
+ const form=layout&&layout.querySelector('.fc-simple-form');
+ const summary=document.getElementById('mct-free-review');
+ if(!planner||!layout||!form||!summary)return;
+ let row=document.getElementById('mct-simplified-summary-row');
+ if(!row){row=document.createElement('div');row.id='mct-simplified-summary-row';}
+ if(row.parentElement!==layout)layout.appendChild(row);
+ if(summary.parentElement!==row)row.prepend(summary);
+ const today=document.getElementById('mct-free-tomorrow-preview');
+ if(today&&today.parentElement!==row)row.appendChild(today);
+ const follow=document.getElementById('mct-free-followup-preview');
+ if(follow&&follow.parentElement!==planner)planner.appendChild(follow);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',alignFreePanels);else alignFreePanels();
+})();
+</script>
+<style id="mct-free-two-column-final-20261103-style">
+@media(min-width:901px){
+html body #contract-deadline-planner>.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;gap:16px!important;align-items:start!important}
+html body #contract-deadline-planner>.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important;min-width:0!important;width:100%!important}
+html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;min-width:0!important;width:100%!important;gap:14px!important;margin:0!important}
+}
+@media(max-width:900px){
+html body #contract-deadline-planner>.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}
+}
 </style></body></html>
