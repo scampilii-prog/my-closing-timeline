@@ -2447,10 +2447,8 @@ html body #contract-deadline-planner .fc-simple-footnote{
   if(!grid||!summary)return;
   const wrapper=grid.querySelector(".mct-free-pro-right-column");
   if(wrapper){grid.insertBefore(summary,wrapper);wrapper.remove();}
-  if(summary.querySelector(".mct-express-summary-convert"))return;
-  const offer=document.createElement("section");offer.className="mct-express-summary-convert";
-  offer.innerHTML='<div class="mct-express-actions"><a class="mct-express-primary" href="/pro-get-started.html?auth=register">Register &amp; View PRO Plans →</a><a href="/pricing#pro-offers">Real Estate PRO Prices</a></div><h3>Choose Real Estate PRO when you are ready.</h3><p>Want to save this closing and continue with Step 3 follow-ups? Confirm your email once. Real Estate PRO requires a paid closing credit or a valid private administrator gift. Register and verify your email before choosing a plan.</p><p class="mct-express-extra">Prefer FREE? Keep working here without registering.</p>';
-  summary.appendChild(offer);
+  // PRO workspace: no registration or pricing promotion inside the active closing.
+  summary.querySelector(".mct-express-summary-convert")?.remove();
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
 })();
