@@ -5337,4 +5337,26 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;box-sizing:border-box!important;margin:0!important;padding:10px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:auto!important}
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{align-self:stretch!important;height:auto!important;margin:0!important;box-sizing:border-box!important}
 }
-</style></body></html>
+</style><style id="mct-step3-tomorrow-inset-20261103">
+@media(min-width:900px){
+#mct-step3-tomorrow-slot{min-width:0!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;padding:8px!important;box-sizing:border-box!important}
+#mct-step3-tomorrow-slot>.mct-tomorrow-panel{display:block!important;position:static!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;box-sizing:border-box!important}
+#mct-pro-tomorrow-row:empty{display:none!important}
+}
+</style><script id="mct-step3-tomorrow-inset-controller-20261103">(function(){
+function arrange(){
+const planner=document.getElementById("contract-deadline-planner");if(!planner)return;
+const panel=planner.querySelector(".mct-tomorrow-panel");if(!panel)return;
+let slot=document.getElementById("mct-step3-tomorrow-slot");
+if(!slot){
+const nodes=[...planner.querySelectorAll("div,aside,section")].filter(el=>el.children.length<5&&el.textContent.trim()==="Today & Tomorrow here");
+const placeholder=nodes.sort((a,b)=>a.querySelectorAll("*").length-b.querySelectorAll("*").length)[0];
+if(placeholder){slot=placeholder;slot.id="mct-step3-tomorrow-slot";slot.textContent=""}
+}
+if(!slot)return;
+if(panel.parentElement!==slot)slot.append(panel);
+const row=document.getElementById("mct-pro-tomorrow-row");if(row){row.querySelector("#mct-pro-tomorrow-note")?.remove();if(!row.children.length)row.remove()}
+}
+function init(){arrange();setTimeout(arrange,500);setTimeout(arrange,1800)}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();</script></body></html>
