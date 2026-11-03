@@ -5117,7 +5117,8 @@ if(summary.parentNode!==row)row.insertBefore(summary,row.firstChild);
 const tomorrow=document.getElementById('mct-free-tomorrow-preview');
 if(tomorrow&&tomorrow.parentNode!==row)row.appendChild(tomorrow);
 const follow=document.getElementById('mct-free-followup-preview');
-if(follow&&follow.parentNode!==table.parentNode)table.insertAdjacentElement('afterend',follow);
+if(follow&&(follow.parentNode!==planner||follow.previousElementSibling!==table))table.insertAdjacentElement('afterend',follow);
+const placeholder=row.querySelector(':scope > .mct-plus-preview');if(placeholder)placeholder.remove();
 }finally{busy=false}
 }
 function start(){place();window.addEventListener('load',place,{once:true});const root=document.getElementById('contract-deadline-planner');if(root){let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;place()})}).observe(root,{childList:true,subtree:true})}}
