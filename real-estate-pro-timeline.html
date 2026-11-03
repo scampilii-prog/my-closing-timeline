@@ -5276,7 +5276,7 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-dates-pair .mct-key-dates-guidance{margin:0!important;font-size:12px!important;line-height:1.5!important}
 }
 @media(max-width:1049px){#mct-pro-balanced-left{display:flex;flex-direction:column;gap:12px}}
-</style><script id="mct-pro-balanced-unified-controller">(function(){function arrange(){const pair=document.getElementById("mct-pro-top-pair"),step1=document.getElementById("mct-free-transaction"),head=document.getElementById("mct-free-deadlines"),picker=document.getElementById("mct-day-count-picker"),dates=document.getElementById("mct-pro-dates-pair");if(!pair||!step1||!head||!picker||!dates)return;let left=document.getElementById("mct-pro-balanced-left");if(!left){left=document.createElement("div");left.id="mct-pro-balanced-left";pair.prepend(left)}left.append(step1,head,picker);pair.appendChild(dates);const old=document.getElementById("mct-pro-step2-integrated");if(old&&old.parentElement===pair&&old.childElementCount===0)old.remove()}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arrange);else arrange()})();</script><style id="mct-pro-top-balance-refinement">
+</style><style id="mct-pro-top-balance-refinement">
 @media(min-width:1050px){
 #mct-pro-full-width-intro #mct-pro-top-pair{align-items:start!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important}
 #mct-pro-full-width-intro #mct-pro-balanced-left{gap:10px!important}
@@ -5304,7 +5304,7 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-day-count-picker #mct-day-count-help{grid-column:1 / -1!important}
 #mct-pro-full-width-intro #mct-pro-balanced-left #mct-free-transaction .mct-step-one-heading{min-height:0!important}
 }
-</style><script id="mct-pro-final-compact-controller">(function(){function align(){const pair=document.getElementById("mct-pro-top-pair"),left=document.getElementById("mct-pro-balanced-left"),dates=document.getElementById("mct-pro-dates-pair"),head=document.getElementById("mct-free-deadlines"),picker=document.getElementById("mct-day-count-picker");if(!pair||!left||!dates||!head||!picker)return;dates.insertBefore(head,dates.firstChild);pair.appendChild(picker)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",align);else align()})();</script><style id="mct-pro-count-inline-20261103">
+</style><style id="mct-pro-count-inline-20261103">
 @media(min-width:1050px){
 #mct-pro-full-width-intro #mct-pro-top-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:14px!important}
 #mct-pro-full-width-intro #mct-pro-dates-pair #mct-day-count-picker{display:flex!important;flex-direction:column!important;gap:4px!important;margin:0!important;padding:8px 10px!important;min-height:0!important;grid-column:auto!important;grid-row:auto!important}
@@ -5316,7 +5316,7 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-dates-pair .mct-count-more summary{cursor:pointer;color:#245c61;font-weight:600}
 #mct-pro-full-width-intro #mct-pro-dates-pair #mct-day-count-help{font-size:11px!important;line-height:1.45!important;margin:5px 0!important}
 }
-</style><script id="mct-pro-count-inline-controller">(function(){function place(){const dates=document.getElementById("mct-pro-dates-pair"),count=document.getElementById("mct-day-count-picker"),head=document.getElementById("mct-free-deadlines"),toolbar=dates?.querySelector(".fc-editor-toolbar");if(!dates||!count||!head||!toolbar)return;head.insertAdjacentElement("afterend",count);const help=document.getElementById("mct-day-count-help");if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place()})();</script><style id="mct-pro-two-panels-single-border">
+</style><style id="mct-pro-two-panels-single-border">
 @media(min-width:1050px){
 #mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;gap:16px!important;grid-auto-rows:auto!important}
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left,
@@ -5327,4 +5327,18 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair>#mct-free-deadlines{border:0!important;background:transparent!important;padding:0!important;margin:0!important}
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair>#mct-day-count-picker{border:1px solid #d6e4e7!important;border-radius:8px!important}
 }
-</style></body></html>
+</style><script id="mct-pro-single-pair-controller-20261103">(function(){
+function arrange(){
+const intro=document.getElementById("mct-pro-full-width-intro"),pair=document.getElementById("mct-pro-top-pair"),step1=document.getElementById("mct-free-transaction"),head=document.getElementById("mct-free-deadlines"),picker=document.getElementById("mct-day-count-picker"),dates=document.getElementById("mct-pro-dates-pair");
+if(!intro||!pair||!step1||!head||!picker||!dates)return;
+let left=document.getElementById("mct-pro-balanced-left");if(!left){left=document.createElement("div");left.id="mct-pro-balanced-left"}
+if(left.parentElement!==pair)pair.prepend(left);
+if(step1.parentElement!==left)left.append(step1);
+if(dates.parentElement!==pair)pair.append(dates);
+if(head.parentElement!==dates)dates.prepend(head);
+if(picker.parentElement!==dates)head.insertAdjacentElement("afterend",picker);
+const help=document.getElementById("mct-day-count-help");
+if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arrange);else arrange();
+})();</script></body></html>
