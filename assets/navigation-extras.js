@@ -53,10 +53,28 @@ const back=document.querySelector('#mct-back-top');if(back){function show(){back
   const style=document.createElement('style');
   style.id='mct-header-menu-style';
   style.textContent='#mct-site-header #mct-menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 48px;width:48px;height:44px;padding:8px;border:2px solid #e5bc75;border-radius:9px;background:#137d80;color:#fff;cursor:pointer;box-shadow:0 2px 10px #081c2b55}#mct-site-header #mct-menu-toggle svg{width:29px;height:29px}#mct-site-header #mct-menu-toggle[aria-expanded="true"]{background:#0b786f}#mct-site-header #mct-menu-panel{position:absolute;right:35px;top:calc(100% - 2px);z-index:100001;background:#112f48;border:1px solid #c7a876;border-radius:0 0 12px 12px;box-shadow:0 12px 26px #06182748;width:min(320px,calc(100vw - 24px));max-height:calc(100vh - 130px);overflow:auto;padding:9px}#mct-site-header #mct-menu-panel[hidden]{display:none!important}#mct-site-header #mct-menu-panel a{display:block;color:#fff!important;padding:12px 13px;border-radius:6px;text-decoration:none;font:750 14px/1.4 Manrope,Arial,sans-serif}#mct-site-header #mct-menu-panel a:hover,#mct-site-header #mct-menu-panel a:focus-visible{background:#24526c;color:#f5d59c!important}@media(max-width:600px){#mct-site-header #mct-menu-panel{right:12px}}';
+  style.textContent+='#mct-site-header #mct-menu-panel{width:min(370px,calc(100vw - 24px));padding:13px 11px}#mct-site-header #mct-menu-panel a.mct-menu-parent{font-size:17px!important;font-weight:850!important;letter-spacing:.01em;padding:11px 12px!important}#mct-site-header #mct-menu-panel a.mct-menu-child{font-size:13px!important;font-weight:600!important;color:#d9e9ef!important;padding:7px 12px 7px 29px!important}#mct-site-header #mct-menu-panel .mct-menu-divider{height:1px;background:#ffffff29;margin:6px 10px}';
   document.head.appendChild(style);
   const button=header.querySelector('#mct-menu-toggle')||document.createElement('button');button.type='button';button.id='mct-menu-toggle';button.setAttribute('aria-label','Open site menu');button.setAttribute('aria-controls','mct-menu-panel');button.setAttribute('aria-expanded','false');button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
   const panel=document.createElement('div');panel.id='mct-menu-panel';panel.hidden=true;
-  nav.querySelectorAll('a[href]').forEach(a=>{const link=a.cloneNode(true);link.removeAttribute('id');panel.appendChild(link)});
+  // Clear specialty navigation: one large parent link, indented smaller child links.
+  const groups=[
+    [{label:'Home',href:'/index.html',level:'main'}],
+    [{label:'Real Estate Timeline',href:'/real-estate-timeline.html',level:'main'},
+     {label:'Explore Real Estate',href:'/real-estate-timeline.html',level:'sub'},
+     {label:'FREE Timeline',href:'/real-estate-free-rebuilt-preview',level:'sub'},
+     {label:'Register / Activate PRO',href:'/pro-get-started.html?auth=register',level:'sub'}],
+    [{label:'Project Timeline',href:'/project-timeline.html',level:'main'},
+     {label:'Explore Projects',href:'/project-timeline.html',level:'sub'},
+     {label:'FREE Timeline',href:'/project-timeline.html',level:'sub'},
+     {label:'Register / Activate PRO',href:'/pro-get-started.html?auth=register',level:'sub'}],
+    [{label:'Help & Contact',href:'/contact.html',level:'main'}]
+  ];
+  groups.forEach((group,index)=>{
+    if(index){const sep=document.createElement('div');sep.className='mct-menu-divider';panel.appendChild(sep)}
+    group.forEach(item=>{const link=document.createElement('a');link.href=item.href;link.textContent=item.label;link.className=item.level==='main'?'mct-menu-parent':'mct-menu-child';panel.appendChild(link)})
+  });
+
   // Navigation remains available in the dropdown, not duplicated across the masthead.
   nav.setAttribute('aria-hidden','true');nav.style.setProperty('display','none','important');
   const tools=header.querySelector('.mct-header-tools');if(!button.isConnected){if(tools){tools.appendChild(button)}else inner.appendChild(button);}
