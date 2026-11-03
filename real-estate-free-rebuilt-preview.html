@@ -2340,24 +2340,7 @@ html body #contract-deadline-planner .fc-simple-form>.mct-free-next-steps-realto
  font-size:14px!important;line-height:1.65!important;
 }
 </style>
-<script id="mct-free-pro-under-tasks-v3">
-(function(){
- function place(){
-  const grid=document.querySelector("#contract-deadline-planner .fc-simple-layout");
-  const form=grid?.querySelector(".fc-simple-form");
-  const offer=document.querySelector("#contract-deadline-planner .mct-free-next-steps-realtor");
-  if(!form||!offer)return;
-  /* Always anchor the upgrade inside the LEFT task panel, beneath its existing information. */
-  if(offer.parentElement!==form)form.appendChild(offer);
-  const right=grid.querySelector(".mct-free-pro-right-column");
-  const summary=right?.querySelector(".fc-simple-result");
-  if(summary)grid.insertBefore(summary,right);
-  if(right&&!right.children.length)right.remove();
- }
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place();
- window.addEventListener("load",place,{once:true});
-})();
-</script><style id="mct-pro-cta-and-options-refinement-v3">
+<style id="mct-pro-cta-and-options-refinement-v3">
 /* Compact options and prominent arrow, without hiding the disclosure contents. */
 html body #contract-deadline-planner .fc-simple-options>summary{
  box-sizing:border-box!important;min-height:56px!important;
@@ -2439,23 +2422,7 @@ html body #contract-deadline-planner .fc-simple-footnote{
  html body #contract-deadline-planner .mct-express-summary-convert .mct-express-actions{grid-template-columns:1fr}
 }
 </style>
-<script id="mct-free-compact-conversion-v4-script">
-(function(){
- function setup(){
-  const root=document.getElementById("contract-deadline-planner");
-  const grid=root?.querySelector(".fc-simple-layout");
-  const summary=grid?.querySelector(".fc-simple-result")||grid?.querySelector(".mct-free-pro-right-column .fc-simple-result");
-  if(!grid||!summary)return;
-  const wrapper=grid.querySelector(".mct-free-pro-right-column");
-  if(wrapper){grid.insertBefore(summary,wrapper);wrapper.remove();}
-  if(summary.querySelector(".mct-express-summary-convert"))return;
-  const offer=document.createElement("section");offer.className="mct-express-summary-convert";
-  offer.innerHTML='<div class="mct-express-actions"><a class="mct-express-primary" href="/pro-get-started.html?auth=register">Register &amp; View PRO Plans →</a><a href="/pricing#pro-offers">Real Estate PRO Prices</a></div><h3>Choose Real Estate PRO when you are ready.</h3><p>Want to save this closing and continue with Step 3 follow-ups? Confirm your email once. Real Estate PRO requires a paid closing credit or a valid private administrator gift. Register and verify your email before choosing a plan.</p><p class="mct-express-extra">Prefer FREE? Keep working here without registering.</p>';
-  summary.appendChild(offer);
- }
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
-})();
-</script><style id="mct-free-one-offer-v5">html body .mct-free-next-steps-realtor{display:none!important}html body #contract-deadline-planner .mct-express-summary-convert:after{content:"PRO includes Step 3 follow-ups, Today & Tomorrow, saved closings and reminders.";display:block;margin-top:12px;padding:11px;border-radius:8px;background:#e8f4f0;color:#245d54;font:700 13px/1.5 Manrope,Arial,sans-serif}</style><style id="mct-free-two-professions-pro-express-v6">
+<style id="mct-free-one-offer-v5">html body .mct-free-next-steps-realtor{display:none!important}html body #contract-deadline-planner .mct-express-summary-convert:after{content:"PRO includes Step 3 follow-ups, Today & Tomorrow, saved closings and reminders.";display:block;margin-top:12px;padding:11px;border-radius:8px;background:#e8f4f0;color:#245d54;font:700 13px/1.5 Manrope,Arial,sans-serif}</style><style id="mct-free-two-professions-pro-express-v6">
 /* One unique conversion per mode; strong teal means continue. */
 html body #contract-deadline-planner .mct-express-summary-convert a.mct-express-primary{
  background:#087b76!important;border-color:#087b76!important;color:#fff!important;
