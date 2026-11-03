@@ -2577,24 +2577,7 @@ html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-p
 html body #contract-deadline-planner #mct-simplified-summary-row>.mct-plus-preview{display:none!important}
 @media(max-width:700px){html body #contract-deadline-planner #mct-simplified-summary-row{gap:11px!important;margin-top:9px!important}html body #contract-deadline-planner #mct-simplified-summary-row>.mct-tomorrow-panel .mct-tomorrow-title{padding:15px!important}}
 </style>
-<script id="mct-free-summary-tomorrow-live-v20-script">
-(function(){
- function arrange(){
-  const planner=document.getElementById('contract-deadline-planner');
-  const form=planner&&planner.querySelector('.fc-simple-layout');
-  const row=document.getElementById('mct-simplified-summary-row');
-  const summary=document.getElementById('mct-free-review');
-  const live=planner&&planner.querySelector('.mct-tomorrow-panel');
-  if(!planner||!form||!row||!summary||!live)return;
-  // Keep the existing calculator, event handlers and live reminder rendering intact.
-  if(row.parentElement!==form.parentElement||row.nextElementSibling!==form)form.parentElement.insertBefore(row,form);
-  if(summary.parentElement!==row)row.appendChild(summary);
-  if(live.parentElement!==row||live.previousElementSibling!==summary)summary.insertAdjacentElement('afterend',live);
-  row.querySelectorAll('.mct-plus-preview').forEach(el=>el.remove());
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',arrange);else arrange();
-})();
-</script>
+
 
 <style id="mct-free-definitive-20261030">
 /* Final real-estate FREE hierarchy: planner, 60/40 preview, full locked follow-up. */
