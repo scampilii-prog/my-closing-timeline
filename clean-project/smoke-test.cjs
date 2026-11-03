@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const assert=require('node:assert/strict');
 const html=fs.readFileSync(__dirname+'/free-real-estate.html','utf8');
-const ids=['effective','closing','days','add','sort','reset','contractRows','followRows','total','open','done','summary','copy','feedback','today','tomorrow','overdue','addFollow'];
+const ids=['effective','closing','confirmDates','days','add','sort','reset','contractRows','followRows','total','open','done','summary','copy','feedback','today','tomorrow','overdue','addFollow'];
 for(const id of ids){const occurrences=html.match(new RegExp('id="'+id+'"','g'))||[];assert.equal(occurrences.length,1,'Expected exactly one #'+id);}
 assert.equal((html.match(/<script>/g)||[]).length,1,'Only one application script');
 assert.equal((html.match(/<style>/g)||[]).length,1,'Only one stylesheet');
