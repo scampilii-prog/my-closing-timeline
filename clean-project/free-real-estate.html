@@ -16,7 +16,7 @@
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),key='mct-clean-free-test-v2';
-const defaults=[['Initial escrow deposit','effective',3],['Inspection period','effective',5],['Loan application','effective',5],['Condo/HOA application','effective',5],['Additional deposit','effective',7],['Loan commitment','effective',30]];
+const defaults=[['Initial escrow deposit','effective',3],['Inspection period','effective',5],['Loan application','effective',5],['Condo/HOA application','effective',5],['Additional deposit','effective',7],['Final walk-through','closing',-1]];
 const today=new Date(),iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const addDays=(base,n)=>{if(!base)return '';const [y,m,d]=base.split('-').map(Number);const x=new Date(y,m-1,d,12);x.setDate(x.getDate()+Number(n));return iso(x)};
 const diff=(a,b)=>{if(!a||!b)return null;const parse=x=>{const [y,m,d]=x.split('-').map(Number);return Date.UTC(y,m-1,d)};return Math.round((parse(b)-parse(a))/86400000)};
