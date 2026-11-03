@@ -5068,4 +5068,27 @@ html body main.workspace>section#contract-deadline-planner[data-free-task-limit=
 </style><style id="mct-empty-legacy-layout-cleanup-20261103">
 html body #contract-deadline-planner>.fc-simple-layout[data-mct-empty-layout="true"]{display:none!important}
 html body #contract-deadline-planner>#mct-new-primary-table{display:grid!important;visibility:visible!important}
-</style></body></html>
+</style><style id="mct-primary-layout-actual-dom-fix-20261103">
+html body #mct-new-primary-table.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;gap:16px!important;align-items:start!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+html body #mct-new-primary-table.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important}
+html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;gap:14px!important;width:100%!important;min-width:0!important;max-width:100%!important}
+html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row>#mct-free-review,
+html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row>#mct-free-tomorrow-preview{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}
+@media(max-width:900px){html body #mct-new-primary-table.fc-simple-layout{grid-template-columns:minmax(0,1fr)!important}html body #mct-new-primary-table.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important}html body #mct-new-primary-table.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}}
+</style>
+<script id="mct-primary-layout-actual-dom-fix-script-20261103">
+(function(){
+ function align(){
+  const table=document.getElementById('mct-new-primary-table');
+  const summary=document.getElementById('mct-free-review');
+  if(!table||!summary)return;
+  let row=document.getElementById('mct-simplified-summary-row');
+  if(!row){row=document.createElement('div');row.id='mct-simplified-summary-row'}
+  if(row.parentElement!==table)table.appendChild(row);
+  if(summary.parentElement!==row)row.insertBefore(summary,row.firstChild);
+  const tomorrow=document.getElementById('mct-free-tomorrow-preview');
+  if(tomorrow&&tomorrow.parentElement!==row)row.appendChild(tomorrow);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{align();requestAnimationFrame(align)});else{align();requestAnimationFrame(align)}
+})();
+</script></body></html>
