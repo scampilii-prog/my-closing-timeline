@@ -5341,4 +5341,21 @@ const help=document.getElementById("mct-day-count-help");
 if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arrange);else arrange();
+})();</script><script id="mct-pro-align-visible-cards-20261103">(function(){
+let observer,queued=false;
+function align(){
+const left=document.getElementById("mct-free-transaction"),right=document.getElementById("mct-pro-dates-pair"),wrapper=document.getElementById("mct-pro-balanced-left"),pair=document.getElementById("mct-pro-top-pair");
+if(!left||!right||!wrapper||!pair)return;
+if(innerWidth<1050){left.style.removeProperty("min-height");wrapper.style.removeProperty("min-height");return}
+left.style.setProperty("height","auto","important");
+left.style.setProperty("min-height","0px","important");
+wrapper.style.setProperty("min-height","0px","important");
+const rightHeight=Math.ceil(right.getBoundingClientRect().height);
+const leftHeight=Math.ceil(left.getBoundingClientRect().height);
+if(rightHeight>leftHeight+1){left.style.setProperty("min-height",rightHeight+"px","important");left.style.setProperty("height",rightHeight+"px","important")}
+else if(leftHeight>rightHeight+1){right.style.setProperty("min-height",leftHeight+"px","important")}
+}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;align()})}
+function init(){schedule();setTimeout(schedule,300);setTimeout(schedule,1200);window.addEventListener("resize",schedule);document.fonts?.ready.then(schedule)}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();</script></body></html>
