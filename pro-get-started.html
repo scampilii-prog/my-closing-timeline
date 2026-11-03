@@ -1973,6 +1973,9 @@ const requestedAuth=(new URLSearchParams(location.search).get("auth")||"").toLow
 pickPlan();
 showTab(requestedAuth==="login"?"login":"register");
 refreshAccount();
+// Revalidate the existing server session when returning via browser Back/Forward.
+window.addEventListener("pageshow",function(event){if(event.persisted)void refreshAccount();});
+window.addEventListener("focus",function(){if(document.visibilityState==="visible")void refreshAccount();});
 // An email invitation is already at the correct page. The old automatic
 // scroll-to-form (or #mct-start-choice hash) clipped the congratulation banner
 // behind the fixed header. Always start gift onboarding with the welcome
