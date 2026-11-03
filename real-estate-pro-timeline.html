@@ -5330,4 +5330,18 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{flex:1 1 100%!important;align-self:stretch!important;height:auto!important;min-height:100%!important;box-sizing:border-box!important;justify-content:flex-start!important}
 #mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{align-self:stretch!important;height:auto!important;min-height:100%!important;box-sizing:border-box!important}
 }
-</style></body></html>
+</style><script id="mct-pro-equal-bottoms-measured-20261103">(function(){
+function equalize(){
+if(window.innerWidth<1050)return;
+const pair=document.getElementById("mct-pro-top-pair"),left=document.getElementById("mct-pro-balanced-left"),right=document.getElementById("mct-pro-dates-pair"),step1=document.getElementById("mct-free-transaction");
+if(!pair||!left||!right||!step1)return;
+step1.style.setProperty("min-height","0px","important");
+left.style.setProperty("min-height","0px","important");
+const rightRect=right.getBoundingClientRect(),leftRect=left.getBoundingClientRect();
+if(!rightRect.height||!leftRect.height)return;
+const bottomDifference=rightRect.bottom-leftRect.bottom;
+if(bottomDifference>2){step1.style.setProperty("min-height",Math.ceil(step1.getBoundingClientRect().height+bottomDifference)+"px","important")}
+}
+function start(){equalize();requestAnimationFrame(equalize);window.addEventListener("resize",equalize);if(document.fonts?.ready)document.fonts.ready.then(equalize)}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();</script></body></html>
