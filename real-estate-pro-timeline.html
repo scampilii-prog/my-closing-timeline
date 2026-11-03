@@ -5316,32 +5316,11 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-dates-pair .mct-count-more summary{cursor:pointer;color:#245c61;font-weight:600}
 #mct-pro-full-width-intro #mct-pro-dates-pair #mct-day-count-help{font-size:11px!important;line-height:1.45!important;margin:5px 0!important}
 }
-</style><script id="mct-pro-count-inline-controller">(function(){function place(){const dates=document.getElementById("mct-pro-dates-pair"),count=document.getElementById("mct-day-count-picker"),head=document.getElementById("mct-free-deadlines"),toolbar=dates?.querySelector(".fc-editor-toolbar");if(!dates||!count||!head||!toolbar)return;head.insertAdjacentElement("afterend",count);const help=document.getElementById("mct-day-count-help");if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place()})();</script><style id="mct-pro-equal-bottoms-20261103">
+</style><script id="mct-pro-count-inline-controller">(function(){function place(){const dates=document.getElementById("mct-pro-dates-pair"),count=document.getElementById("mct-day-count-picker"),head=document.getElementById("mct-free-deadlines"),toolbar=dates?.querySelector(".fc-editor-toolbar");if(!dates||!count||!head||!toolbar)return;head.insertAdjacentElement("afterend",count);const help=document.getElementById("mct-day-count-help");if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",place);else place()})();</script><style id="mct-pro-bottom-align-clean">
 @media(min-width:1050px){
-#mct-pro-full-width-intro #mct-pro-top-pair{align-items:stretch!important}
-#mct-pro-full-width-intro #mct-pro-balanced-left{height:100%!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;min-height:0!important}
-#mct-pro-full-width-intro #mct-pro-balanced-left>#mct-free-transaction{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;justify-content:center!important;margin:0!important}
-#mct-pro-full-width-intro #mct-pro-dates-pair{height:100%!important;align-self:stretch!important}
+#mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:14px!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left{display:grid!important;grid-template-rows:minmax(0,1fr)!important;align-self:stretch!important;height:auto!important;min-height:0!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{height:100%!important;min-height:0!important;box-sizing:border-box!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{height:100%!important;align-self:stretch!important;box-sizing:border-box!important}
 }
-</style><style id="mct-pro-equal-panels-structural-20261103">
-@media(min-width:1050px){
-#mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;grid-auto-rows:1fr!important;gap:14px!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left{display:flex!important;flex-direction:column!important;align-self:stretch!important;height:auto!important;min-height:100%!important;gap:0!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{flex:1 1 100%!important;align-self:stretch!important;height:auto!important;min-height:100%!important;box-sizing:border-box!important;justify-content:flex-start!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{align-self:stretch!important;height:auto!important;min-height:100%!important;box-sizing:border-box!important}
-}
-</style><script id="mct-pro-equal-bottoms-measured-20261103">(function(){
-function equalize(){
-if(window.innerWidth<1050)return;
-const pair=document.getElementById("mct-pro-top-pair"),left=document.getElementById("mct-pro-balanced-left"),right=document.getElementById("mct-pro-dates-pair"),step1=document.getElementById("mct-free-transaction");
-if(!pair||!left||!right||!step1)return;
-step1.style.setProperty("min-height","0px","important");
-left.style.setProperty("min-height","0px","important");
-const rightRect=right.getBoundingClientRect(),leftRect=left.getBoundingClientRect();
-if(!rightRect.height||!leftRect.height)return;
-const bottomDifference=rightRect.bottom-leftRect.bottom;
-if(bottomDifference>2){step1.style.setProperty("min-height",Math.ceil(step1.getBoundingClientRect().height+bottomDifference)+"px","important")}
-}
-function start(){equalize();requestAnimationFrame(equalize);window.addEventListener("resize",equalize);if(document.fonts?.ready)document.fonts.ready.then(equalize)}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
-})();</script></body></html>
+</style></body></html>
