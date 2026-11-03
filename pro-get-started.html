@@ -1709,6 +1709,7 @@ async function automaticallyApplySavedGift(){
   if(latest.authenticated&&latest.user){
    account=latest.user;
    $("mct-balance").textContent=account.credits+" available PRO closing credit"+(account.credits===1?"":"s");
+ const workspaceCTA=document.querySelector("#mct-logged-in .mct-account-cta");if(workspaceCTA){workspaceCTA.textContent=Number(account.credits||0)>0?"Start New Closing · "+account.credits+" Credit"+(Number(account.credits)===1?"":"s")+" Available →":"Open My PRO Workspace →";workspaceCTA.href="/my-closings.html";}
    $("mct-verified-credits").textContent=account.credits+" PRO closing credit(s) ready to use in your workspace.";
    $("mct-account-next-step").textContent="Your complimentary credit is saved to your account. Select Open My PRO Workspace, then + Start New Closing to use one credit.";
   }
