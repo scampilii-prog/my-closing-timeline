@@ -5316,17 +5316,6 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-dates-pair .mct-count-more summary{cursor:pointer;color:#245c61;font-weight:600}
 #mct-pro-full-width-intro #mct-pro-dates-pair #mct-day-count-help{font-size:11px!important;line-height:1.45!important;margin:5px 0!important}
 }
-</style><style id="mct-pro-two-panels-single-border">
-@media(min-width:1050px){
-#mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;gap:16px!important;grid-auto-rows:auto!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left,
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{align-self:stretch!important;height:auto!important;min-height:0!important;box-sizing:border-box!important;border:1px solid #d5bc8c!important;border-radius:12px!important;background:#fffdf8!important;overflow:hidden!important;margin:0!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left{display:flex!important;flex-direction:column!important;gap:0!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{border:0!important;box-shadow:none!important;border-radius:0!important;background:transparent!important;min-height:0!important;height:auto!important;flex:1 1 auto!important;margin:0!important;padding:16px!important;box-sizing:border-box!important;justify-content:flex-start!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;padding:16px!important;gap:12px!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair>#mct-free-deadlines{border:0!important;background:transparent!important;padding:0!important;margin:0!important}
-#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair>#mct-day-count-picker{border:1px solid #d6e4e7!important;border-radius:8px!important}
-}
 </style><script id="mct-pro-single-pair-controller-20261103">(function(){
 function arrange(){
 const intro=document.getElementById("mct-pro-full-width-intro"),pair=document.getElementById("mct-pro-top-pair"),step1=document.getElementById("mct-free-transaction"),head=document.getElementById("mct-free-deadlines"),picker=document.getElementById("mct-day-count-picker"),dates=document.getElementById("mct-pro-dates-pair");
@@ -5341,21 +5330,11 @@ const help=document.getElementById("mct-day-count-help");
 if(help&&!help.closest("details")){const details=document.createElement("details");details.className="mct-count-more";const summary=document.createElement("summary");summary.textContent="How are contract days counted?";help.parentNode.insertBefore(details,help);details.append(summary,help)}
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arrange);else arrange();
-})();</script><script id="mct-pro-align-visible-cards-20261103">(function(){
-let observer,queued=false;
-function align(){
-const left=document.getElementById("mct-free-transaction"),right=document.getElementById("mct-pro-dates-pair"),wrapper=document.getElementById("mct-pro-balanced-left"),pair=document.getElementById("mct-pro-top-pair");
-if(!left||!right||!wrapper||!pair)return;
-if(innerWidth<1050){left.style.removeProperty("min-height");wrapper.style.removeProperty("min-height");return}
-left.style.setProperty("height","auto","important");
-left.style.setProperty("min-height","0px","important");
-wrapper.style.setProperty("min-height","0px","important");
-const rightHeight=Math.ceil(right.getBoundingClientRect().height);
-const leftHeight=Math.ceil(left.getBoundingClientRect().height);
-if(rightHeight>leftHeight+1){left.style.setProperty("min-height",rightHeight+"px","important");left.style.setProperty("height",rightHeight+"px","important")}
-else if(leftHeight>rightHeight+1){right.style.setProperty("min-height",leftHeight+"px","important")}
+})();</script><style id="mct-pro-rebuilt-step1-card-20261103">
+@media(min-width:1050px){
+#mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:12px!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left{position:relative!important;display:block!important;align-self:stretch!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;border:1px solid #d5bc8c!important;border-radius:12px!important;background:#f8fafb!important;box-sizing:border-box!important;overflow:hidden!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-balanced-left>#mct-free-transaction{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;box-sizing:border-box!important;margin:0!important;padding:10px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:auto!important}
+#mct-pro-full-width-intro #mct-pro-top-pair>#mct-pro-dates-pair{align-self:stretch!important;height:auto!important;margin:0!important;box-sizing:border-box!important}
 }
-function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;align()})}
-function init(){schedule();setTimeout(schedule,300);setTimeout(schedule,1200);window.addEventListener("resize",schedule);document.fonts?.ready.then(schedule)}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
-})();</script></body></html>
+</style></body></html>
