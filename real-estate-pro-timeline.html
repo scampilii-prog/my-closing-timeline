@@ -5359,4 +5359,15 @@ const row=document.getElementById("mct-pro-tomorrow-row");if(row){row.querySelec
 }
 function init(){arrange();setTimeout(arrange,500);setTimeout(arrange,1800)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();</script><script id="mct-pro-refresh-position-20261103">(function(){
+const key="mct-pro-scroll:"+location.pathname+location.search.replace(/([?&])v=[^&]*/g,"$1").replace(/([?&])utm_[^&]*/g,"$1");
+let restoring=true,desired=0;
+try{const saved=JSON.parse(sessionStorage.getItem(key)||"null");if(saved&&Date.now()-saved.at<7200000)desired=Math.max(0,Number(saved.y)||0)}catch(e){}
+try{history.scrollRestoration="manual"}catch(e){}
+function restore(){if(!restoring)return;window.scrollTo({top:Math.min(desired,Math.max(0,document.documentElement.scrollHeight-innerHeight)),behavior:"instant"})}
+function save(){if(restoring)return;try{sessionStorage.setItem(key,JSON.stringify({y:window.scrollY,at:Date.now()}))}catch(e){}}
+window.addEventListener("scroll",save,{passive:true});
+window.addEventListener("pagehide",function(){try{sessionStorage.setItem(key,JSON.stringify({y:window.scrollY,at:Date.now()}))}catch(e){}});
+window.addEventListener("pageshow",function(){restore();setTimeout(restore,250);setTimeout(restore,850);setTimeout(function(){restore();restoring=false},1700)});
+if(document.readyState==="complete"){restore();setTimeout(function(){restore();restoring=false},1700)}
 })();</script></body></html>
