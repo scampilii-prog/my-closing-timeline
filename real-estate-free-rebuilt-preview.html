@@ -5108,6 +5108,8 @@ const table=document.getElementById('mct-new-primary-table'),summary=document.ge
 if(!table||!summary)return;
 busy=true;
 try{
+const planner=document.getElementById('contract-deadline-planner');
+if(planner&&table.parentNode!==planner)planner.appendChild(table);
 let row=document.getElementById('mct-simplified-summary-row');
 if(!row){row=document.createElement('div');row.id='mct-simplified-summary-row'}
 if(row.parentNode!==table)table.appendChild(row);
