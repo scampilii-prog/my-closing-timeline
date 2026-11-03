@@ -5289,4 +5289,19 @@ html body #contract-deadline-planner .mct-free-pro-preview,html body #contract-d
 #mct-pro-full-width-intro #mct-pro-balanced-left #mct-free-deadlines{padding:12px!important}
 #mct-pro-full-width-intro #mct-pro-balanced-left #mct-day-count-picker{padding:14px!important}
 }
-</style></body></html>
+</style><style id="mct-pro-final-compact-layout">
+@media(min-width:1050px){
+#mct-pro-full-width-intro #mct-pro-top-pair{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px 16px!important;align-items:start!important;padding:14px!important}
+#mct-pro-full-width-intro #mct-pro-balanced-left{grid-column:1!important;grid-row:1!important;display:block!important;min-width:0!important}
+#mct-pro-full-width-intro #mct-pro-balanced-left #mct-free-transaction{margin:0!important;height:auto!important;min-height:0!important}
+#mct-pro-full-width-intro #mct-pro-dates-pair{grid-column:2!important;grid-row:1!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;gap:10px!important;justify-content:flex-start!important;margin:0!important;padding:0!important;min-width:0!important}
+#mct-pro-full-width-intro #mct-pro-dates-pair #mct-free-deadlines{margin:0!important;padding:12px!important;min-height:0!important;flex:none!important}
+#mct-pro-full-width-intro #mct-pro-dates-pair .fc-editor-toolbar{margin:0!important;padding:0!important;gap:10px!important}
+#mct-pro-full-width-intro #mct-pro-dates-pair .fc-simple-dates{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#mct-pro-full-width-intro #mct-day-count-picker{grid-column:1 / -1!important;grid-row:2!important;margin:0!important;padding:12px 16px!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px 16px!important;min-height:0!important}
+#mct-pro-full-width-intro #mct-day-count-picker .mct-day-count-copy{min-width:0!important}
+#mct-pro-full-width-intro #mct-day-count-picker label{min-width:0!important}
+#mct-pro-full-width-intro #mct-day-count-picker #mct-day-count-help{grid-column:1 / -1!important}
+#mct-pro-full-width-intro #mct-pro-balanced-left #mct-free-transaction .mct-step-one-heading{min-height:0!important}
+}
+</style><script id="mct-pro-final-compact-controller">(function(){function align(){const pair=document.getElementById("mct-pro-top-pair"),left=document.getElementById("mct-pro-balanced-left"),dates=document.getElementById("mct-pro-dates-pair"),head=document.getElementById("mct-free-deadlines"),picker=document.getElementById("mct-day-count-picker");if(!pair||!left||!dates||!head||!picker)return;dates.insertBefore(head,dates.firstChild);pair.appendChild(picker)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",align);else align()})();</script></body></html>
