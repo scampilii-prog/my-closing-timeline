@@ -5171,13 +5171,28 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <style id="mct-free-two-column-final-20261103-style">
-@media(min-width:901px){
-html body #contract-deadline-planner>.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;gap:16px!important;align-items:start!important}
-html body #contract-deadline-planner>.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important;min-width:0!important;width:100%!important}
-html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;min-width:0!important;width:100%!important;gap:14px!important;margin:0!important}
+/* A single framed work area: contract tasks at left, calculated summary at right. */
+html body #contract-deadline-planner>.fc-simple-layout{
+ display:grid!important;grid-template-columns:minmax(0,3fr) minmax(0,2fr)!important;
+ gap:16px!important;align-items:start!important;width:100%!important;max-width:100%!important;
+ padding:16px!important;border:1px solid #d8b36d!important;border-radius:14px!important;
+ background:#fff!important;box-sizing:border-box!important;
+}
+html body #contract-deadline-planner>.fc-simple-layout>.fc-simple-form{
+ grid-column:1!important;grid-row:1!important;min-width:0!important;width:100%!important;
+ max-width:100%!important;margin:0!important;box-sizing:border-box!important;
+}
+html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{
+ grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;
+ min-width:0!important;width:100%!important;max-width:100%!important;gap:14px!important;
+ margin:0!important;align-self:start!important;box-sizing:border-box!important;
+}
+html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row>#mct-free-review{
+ width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;
 }
 @media(max-width:900px){
-html body #contract-deadline-planner>.fc-simple-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
-html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}
+ html body #contract-deadline-planner>.fc-simple-layout{grid-template-columns:minmax(0,1fr)!important;padding:12px!important}
+ html body #contract-deadline-planner>.fc-simple-layout>.fc-simple-form{grid-column:1!important;grid-row:1!important}
+ html body #contract-deadline-planner>.fc-simple-layout>#mct-simplified-summary-row{grid-column:1!important;grid-row:2!important}
 }
 </style></body></html>
