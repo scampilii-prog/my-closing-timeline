@@ -123,9 +123,13 @@ function render(){
  }
 }
 async function archiveClosing(c){
- if(!confirm("Cancel closing "+(c.name||"")+"? This archives the record and does not return its used credit."))return;
- if(!confirm("Final confirmation: cancel this closing and make its record read-only?"))return;
- try{await api("closings/"+encodeURIComponent(c.id)+"/cancel","POST",{confirm:true});status("Closing archived. Your record remains available.");await load()}catch(e){status(e.message)}
+ const reasons=["Mutual Agreement","Financing Contingency","Inspection Contingency","Title / Closing Issue","Association Approval","Other Contractual Reason"];
+ const answer=prompt("Cancellation reason (enter a number 1–6):\\n"+reasons.map((r,i)=>(i+1)+". "+r).join("\\n"));
+ if(answer===null)return;const reason=reasons[Number(answer)-1];if(!reason){status("Choose a valid cancellation reason (1–6).");return}
+ if(!confirm("Cancel closing "+(c.name||"")+"? The credit will not be refunded."))return;
+ if(!confirm("Final confirmation: archive this closing permanently as read-only?"))return;
+ const date=new Date();const local=[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
+ try{await api("closings/"+encodeURIComponent(c.id)+"/cancel","POST",{confirm:true,date:local,reason});status("Closing archived. Your record remains available.");await load()}catch(e){status(e.message)}
 }
 async function load(){
  try{
