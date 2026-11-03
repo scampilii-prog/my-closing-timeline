@@ -1,0 +1,19 @@
+name: Clean FREE Timeline checks
+on:
+  push:
+    branches: [clean-rebuild-20261103]
+    paths:
+      - 'clean-project/**'
+      - '.github/workflows/clean-free-check.yml'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node clean-project/smoke-test.cjs
