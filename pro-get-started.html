@@ -1593,9 +1593,9 @@ $("mct-pro-flow-gift").addEventListener("click",()=>{
 
 function invitationActions(){
  const gift=giftMode(),pending=!!savedGift();
- $("mct-free-audience-choice").hidden=!gift;
+ ($("mct-free-audience-choice")||{hidden:false}).hidden=!gift;
  document.body.classList.toggle("mct-free-audience-other",gift&&selectedAudience==="other");
- $("mct-free-other-preview").hidden=!(gift&&selectedAudience==="other");
+ ($("mct-free-other-preview")||{hidden:false}).hidden=!(gift&&selectedAudience==="other");
  // Only congratulate a verified invitation when an actual private code is
  // present. A bare ?mode=gift URL is not proof of eligibility.
  const invitationPresent=gift&&pending;
