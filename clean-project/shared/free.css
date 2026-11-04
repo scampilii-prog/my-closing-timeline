@@ -198,3 +198,20 @@
 .activity-grid .activity-history:not([hidden]){max-height:190px;overflow-y:auto;overflow-x:hidden;padding:4px 8px 8px 0;scrollbar-gutter:stable}
 .activity-grid .activity-history .activity-entry{min-height:37px;align-items:flex-start}
 .activity-grid .activity-history .activity-entry small{line-height:1.4;overflow-wrap:anywhere}
+
+/* Step 3: FREE shows PRO benefits, not the paid follow-up task library. */
+.step3-preview{margin-top:22px;border:1px solid #d6e3e4;border-top:3px solid #c49a52;border-radius:12px;background:#fff;overflow:hidden}
+.step3-preview-head{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 22px;background:#18394d;color:#fff}
+.step3-preview-kicker{font-size:10px;letter-spacing:.1em;color:#e8bc75;font-weight:800}
+.step3-preview-head h2{font-size:clamp(19px,2vw,25px);margin:5px 0 0;color:#fff}
+.step3-preview-head h2 em{font-family:Georgia,serif;font-weight:500;color:#f2c77e}
+.step3-preview-tag{white-space:nowrap;color:#173b49;background:#f3d396;border-radius:6px;padding:7px 10px;font-size:10px;font-weight:800}
+.step3-preview-lead{margin:18px 22px;color:#395a65;font-size:14px;line-height:1.65}
+.step3-preview-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 22px 20px}
+.step3-preview-benefits>div{background:#f2f8f8;border:1px solid #deebec;border-radius:9px;padding:14px;display:grid;gap:6px}
+.step3-preview-benefits strong{font-size:13px;color:#193e4e}
+.step3-preview-benefits span{font-size:12px;color:#58747c;line-height:1.5}
+.step3-preview-bottom{border-top:1px solid #e4ebeb;padding:14px 22px;display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+.step3-preview-bottom span{font-size:11px;color:#647e86;max-width:620px}
+.step3-preview-bottom strong{font-size:12px;color:#8b631e}
+@media(max-width:700px){.step3-preview-benefits{grid-template-columns:1fr}.step3-preview-head{align-items:flex-start;flex-direction:column}}
