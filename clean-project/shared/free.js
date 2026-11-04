@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id), KEY='mct-clean-free-v13';
-const defaults=[['Final walk-through',-1,'closing'],['1st Deposit',3,'effective'],['2nd Deposit',5,'effective'],['Loan Application',5,'effective'],['Condo Application',5,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective']];
+const defaults=[['Condo Application',3,'effective'],['1st Deposit',6,'effective'],['Loan Application',6,'effective'],['2nd Deposit',7,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective'],['Final walk-through',-1,'closing']];
 const initial=()=>({effective:'',closing:'',propertyReference:'',transactionSide:'',confirmed:false,counting:'calendar',activity:[],tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
 // Restore the browser's saved practice, including both transaction dates.
 // A refresh must never erase the user's changes.
