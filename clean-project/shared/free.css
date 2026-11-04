@@ -319,3 +319,10 @@
 .pro-followup-table tr.pro-new-task,.pro-followup-table tr.pro-new-task:nth-child(even){background:#e5f5fa}
 .pro-followup-table tr.pro-new-task td{border-top:2px solid #3a9eaf;border-bottom:2px solid #8acbd5}
 .pro-followup-table tr.pro-new-task input:focus{outline:2px solid #278ba2;outline-offset:1px}
+
+/* Confirm schedule edits before the row moves; keep existing columns. */
+.pro-followup-table .pro-date-controls{display:flex;align-items:center;gap:5px;min-width:0}
+.pro-followup-table .pro-date-controls .pro-date-input{min-width:105px;flex:1}
+.pro-followup-table .pro-apply{background:#e7bd70;color:#18394d;border:1px solid #c89a49;border-radius:6px;padding:7px 9px;font:800 11px Manrope,sans-serif;cursor:pointer;white-space:nowrap}
+.pro-followup-table .pro-apply:hover{background:#f3cf87;box-shadow:0 0 0 2px rgba(200,154,73,.2)}
+.pro-followup-table .pro-apply[hidden]{display:none}
