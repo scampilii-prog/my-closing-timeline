@@ -385,15 +385,15 @@
 
 /* PRO Step 2 approved six-task reference: one canonical, page-scoped layout.
    FREE page, global header and Step 3 are deliberately untouched. */
-body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,1fr)}
+body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
 body:has(#proFollowupRows) .free-grid .free-left,
 body:has(#proFollowupRows) .free-grid .free-right{min-width:0}
 body:has(#proFollowupRows) .free-grid .task-rows{gap:2px}
 body:has(#proFollowupRows) .free-grid .task-row{
   display:grid!important;
-  grid-template-columns:28px minmax(240px,1fr) 78px minmax(175px,.42fr) 102px 66px 72px!important;
-  gap:8px!important;align-items:end!important;
-  padding:17px 10px 8px!important;min-height:82px;
+  grid-template-columns:20px minmax(115px,1fr) 52px minmax(105px,.65fr) 67px 50px 54px!important;
+  gap:4px!important;align-items:end!important;
+  padding:13px 6px 7px!important;min-height:66px;
   background:#f7fafb;border:1px solid #d2e1e7;border-left:5px solid #c6a064;border-radius:10px;
 }
 body:has(#proFollowupRows) .contract-row-index{align-self:center;text-align:center;font-size:15px;font-weight:900;color:#183e50}
@@ -402,8 +402,8 @@ body:has(#proFollowupRows) .free-grid .task-row .days-control,
 body:has(#proFollowupRows) .free-grid .task-row .due input,
 body:has(#proFollowupRows) .free-grid .task-row .task-status,
 body:has(#proFollowupRows) .free-grid .task-row .done-btn,
-body:has(#proFollowupRows) .free-grid .task-row .remove-task{height:45px!important;font-size:13px}
-body:has(#proFollowupRows) .free-grid .task-row .task-label{font-size:15px;font-weight:800;padding:8px 10px}
+body:has(#proFollowupRows) .free-grid .task-row .remove-task{height:36px!important;font-size:10px}
+body:has(#proFollowupRows) .free-grid .task-row .task-label{font-size:11px;font-weight:800;padding:5px 6px}
 body:has(#proFollowupRows) .free-grid .task-row .due span{bottom:calc(100% + 3px);font-size:11px}
 body:has(#proFollowupRows) .free-grid .task-row .due{grid-column:auto!important;grid-row:auto!important}
 body:has(#proFollowupRows) .free-grid .task-row .task-status,
@@ -411,5 +411,5 @@ body:has(#proFollowupRows) .free-grid .task-row .done-btn,
 body:has(#proFollowupRows) .free-grid .task-row .remove-task{grid-row:auto!important;grid-column:auto!important}
 @media(max-width:1000px){
  body:has(#proFollowupRows) .free-grid .task-rows{overflow-x:auto;padding-bottom:6px}
- body:has(#proFollowupRows) .free-grid .task-row{min-width:820px}
+ body:has(#proFollowupRows) .free-grid .task-row{min-width:560px}
 }
