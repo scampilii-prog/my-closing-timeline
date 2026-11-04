@@ -137,3 +137,6 @@ Added separate Step 3 Due Today (green), Tomorrow (yellow) and Overdue (red) com
 
 ## Transaction Overview layout — 2026-11-04
 User requested more elegant, prominent placement INSIDE existing Step 1 Transaction Overview card. Applied CSS-only redesign: centered larger turquoise days countdown, centered gold kicker, two balanced metadata rows, subtle separators and soft background. Preserve fields, calculations and Step 1 position. Commit 66d51c6; live browser verification pending.
+
+## Step 1 compact identity — 2026-11-04
+User approved shortening date inputs and using unused space in Transaction Details for indispensable information. Added optional Property / Closing Reference and Representing (Buyer, Seller, Both) in a compact two-column row under Effective and Closing dates. Values persist in browser demo localStorage; not server-account records. Date input height reduced to 39px; original calculations and overview preserved. Commits f5d0c7d, 6d7b757, dfa64a9; visual verification pending. Do not touch production.
