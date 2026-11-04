@@ -134,3 +134,6 @@ Approved vivid teal Apply with white lettering in the existing Delete column. Ad
 
 ## Step 3 daily priority panel — 2026-11-04
 Added separate Step 3 Due Today (green), Tomorrow (yellow) and Overdue (red) compact cards with counts and scrollable task lists, calculated from Step 3 follow-ups, excluding Done tasks. This replaces an unreadable single-line list. The existing upper Today & Tomorrow remains Step 2 only; these two sources have NOT yet been merged into one panel. Code committed to clean-project/real-estate-pro.html, shared/pro-followups.js and shared/free.css. Browser verification pending. Do not claim live notifications or account persistence.
+
+## Transaction Overview layout — 2026-11-04
+User requested more elegant, prominent placement INSIDE existing Step 1 Transaction Overview card. Applied CSS-only redesign: centered larger turquoise days countdown, centered gold kicker, two balanced metadata rows, subtle separators and soft background. Preserve fields, calculations and Step 1 position. Commit 66d51c6; live browser verification pending.
