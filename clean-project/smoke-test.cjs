@@ -38,6 +38,22 @@ assert.match(css,/@media\(max-width:1000px\)\{body:has\(#proFollowupRows\) \.fre
 assert.match(script,/const defaults=\[\['1st Deposit',3,'effective'\]/,'PRO/FREE baseline begins with the approved first task');
 assert.match(script,/IS_PRO\?'mct-clean-pro-step2-v1'/,'PRO Step 2 storage must remain distinct from FREE');
 assert.match(proFollowups,/const defaults=\[/,'PRO Step 3 must retain suggested follow-ups');
+
+// Full restore must discard only PRO browser-preview data, not the FREE practice or paid records.
+const restoreBlock=proHtml.slice(proHtml.indexOf("const button=document.getElementById('restoreOriginalSetup')"));
+for(const key of ['mct-clean-pro-step2-v1','mct-clean-pro-followups-demo-v2','mct-clean-pro-followups-demo-v1','mct-clean-pro-demo-completed-v1']){
+ assert.ok(restoreBlock.includes("'"+key+"'"),'Restore must clear '+key);
+}
+assert.doesNotMatch(restoreBlock,/mct-clean-free-v13/,'Restore must never delete FREE practice');
+assert.match(restoreBlock,/window\.confirm\([\s\S]*?window\.confirm\(/,'Full restore requires two confirmations');
+assert.match(restoreBlock,/window\.location\.reload\(\)/,'Full restore must reload defaults');
+assert.match(script,/const defaults=\[\['1st Deposit',3,'effective'\]/,'Step 2 restores six approved baseline tasks');
+const defaultTaskCount=(script.match(/\['(?:1st Deposit|2nd Deposit|Loan Application|Condo Application|Property Inspection deadline w\/right to cancel|LOAN APPROVAL - Notify seller if NO LOAN APPROVAL)',(?:3|5|7|30),'effective'\]/g)||[]).length;
+assert.equal(defaultTaskCount,6,'Exactly six contract defaults must exist');
+const followDefaultLine=proFollowups.match(/const defaults=(\[[^;]+\]);const defaultOffsets=/);
+assert.ok(followDefaultLine,'Follow-up defaults must be declared');
+assert.equal(JSON.parse(followDefaultLine[1]).length,44,'Step 3 must restore exactly 44 original follow-ups');
+
 new vm.Script(proFollowups,{filename:'shared/pro-followups.js'});
 
 new vm.Script(script,{filename:'shared/free.js'});
