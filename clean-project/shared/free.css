@@ -333,3 +333,8 @@
 .pro-followup-table .pro-delete.pro-apply-mode:hover{background:#f3d28d}
 .pro-followup-table td:nth-child(6),.pro-followup-table th:nth-child(6){min-width:110px;width:auto}
 .pro-followup-table .pro-date-input{width:100%;min-width:110px}
+
+/* High-contrast pending action: Apply must be immediately recognizable. */
+.pro-followup-table button.pro-delete.pro-apply-mode{background:#087e77!important;color:#fff!important;border:2px solid #05645f!important;font-weight:900!important;box-shadow:0 0 0 2px rgba(8,126,119,.18);letter-spacing:.15px}
+.pro-followup-table button.pro-delete.pro-apply-mode:hover{background:#045d58!important;box-shadow:0 0 0 3px rgba(8,126,119,.28),0 3px 8px rgba(0,0,0,.12)}
+.pro-followup-table button.pro-delete.pro-apply-mode:focus-visible{outline:3px solid #f3c85b;outline-offset:2px}
