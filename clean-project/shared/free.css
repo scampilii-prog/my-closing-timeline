@@ -374,3 +374,6 @@
 .transaction-form #dateInfo{margin:7px 0 11px}
 .transaction-form .date-buttons{gap:8px}
 @media(max-width:540px){.transaction-identity{grid-template-columns:1fr}}
+
+/* Step 1 privacy reminder: legible, compact and within the anonymous ID field. */
+.transaction-identity .privacy-inline{display:block;color:#54747b;font-size:10px;line-height:1.4;font-weight:600;margin-top:2px}
