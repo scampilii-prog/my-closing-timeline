@@ -363,3 +363,14 @@
 .transaction-overview .overview-meta span{color:#53727b;font-weight:650}
 .transaction-overview .overview-meta strong{font-size:12px;font-weight:850;color:#173e4b;text-align:right;overflow-wrap:anywhere}
 @media(max-width:480px){.transaction-overview{padding:17px}.transaction-overview .overview-meta{gap:9px}}
+
+/* Step 1 compact contract identity, without enlarging the transaction card. */
+.transaction-form .fields{gap:10px}
+.transaction-form .fields input[type=date]{height:39px}
+.transaction-identity{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(135px,.8fr);gap:10px;margin:13px 0 10px}
+.transaction-identity label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:800;color:#173e4b;min-width:0}
+.transaction-identity input,.transaction-identity select{box-sizing:border-box;width:100%;height:39px;border:1px solid #c8dade;border-radius:7px;background:#fff;color:#173e4b;padding:0 10px;font:600 12px Manrope,sans-serif;min-width:0}
+.transaction-identity input:focus,.transaction-identity select:focus{outline:2px solid #087e77;outline-offset:1px}
+.transaction-form #dateInfo{margin:7px 0 11px}
+.transaction-form .date-buttons{gap:8px}
+@media(max-width:540px){.transaction-identity{grid-template-columns:1fr}}
