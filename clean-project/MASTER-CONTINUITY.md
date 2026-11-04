@@ -131,3 +131,6 @@ User rejected the Apply button next to Reminder Date because it compressed later
 
 ## Step 3 refinement — 2026-11-04
 Approved vivid teal Apply with white lettering in the existing Delete column. Additional code fix committed: staged unsaved Days, Reminder Date and Date Basis values remain visible if another row causes a redraw, rather than silently reverting. Tomorrow tasks now show Tomorrow in both Status and Alert. Browser testing still pending; no production changes.
+
+## Step 3 daily priority panel — 2026-11-04
+Added separate Step 3 Due Today (green), Tomorrow (yellow) and Overdue (red) compact cards with counts and scrollable task lists, calculated from Step 3 follow-ups, excluding Done tasks. This replaces an unreadable single-line list. The existing upper Today & Tomorrow remains Step 2 only; these two sources have NOT yet been merged into one panel. Code committed to clean-project/real-estate-pro.html, shared/pro-followups.js and shared/free.css. Browser verification pending. Do not claim live notifications or account persistence.
