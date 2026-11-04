@@ -3,9 +3,16 @@
 const $=id=>document.getElementById(id), KEY='mct-clean-free-v13';
 const defaults=[['Final walk-through',-1,'closing'],['1st Deposit',3,'effective'],['2nd Deposit',5,'effective'],['Loan Application',5,'effective'],['Condo Application',5,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective']];
 const initial=()=>({effective:'',closing:'',confirmed:false,counting:'calendar',tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
-// FREE is a fresh practice on every page load: no saved edits, deletions or dates.
-// All seven original tasks return with their original offsets and no custom tasks.
+// Restore the browser's saved practice, including both transaction dates.
+// A refresh must never erase the user's changes.
 let state=initial();
+try {
+  const stored=JSON.parse(localStorage.getItem(KEY)||'null');
+  if(stored && typeof stored==='object' && Array.isArray(stored.tasks) && stored.tasks.length<=8 &&
+     typeof stored.effective==='string' && typeof stored.closing==='string') {
+    state={...initial(),...stored,tasks:stored.tasks};
+  }
+} catch (_) { /* Keep defaults if browser storage is unavailable. */ }
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
 const iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const addDays=(date,n)=>{if(!date)return '';const [y,m,d]=date.split('-').map(Number),x=new Date(y,m-1,d,12);x.setDate(x.getDate()+Number(n));return iso(x)};
@@ -93,8 +100,26 @@ const url='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURICompo
 if(url.length>1800){$('summaryFeedback').textContent='Email is too long for a mail link. Use Copy Timeline instead.';return}
 window.location.href=url;
 });
-for(const id of ['effective','closing'])$(id).addEventListener('change',e=>{state[id]=e.target.value;state.tasks.forEach(t=>delete t.manualDue);freezeOrder=false;change()});
+for(const id of ['effective','closing']) {
+  const el=$(id);
+  // Persist immediately when the date changes, not only after confirming.
+  el.addEventListener('change',()=>{
+    if(state[id]===el.value)return;
+    state[id]=el.value;
+    state.tasks.forEach(t=>delete t.manualDue);
+    freezeOrder=false;
+    change();
+  });
+}
 for(const id of ['effective','closing']){const el=$(id);el.addEventListener('click',()=>{if(typeof el.showPicker==='function'){try{el.showPicker()}catch(_){}}});}
+$('resetDates').addEventListener('click',()=>{
+  if(!state.effective&&!state.closing)return;
+  if(!confirm('Clear Effective Date and Closing Date? Your task names, day offsets, and completion status will be kept.'))return;
+  state.effective='';state.closing='';state.confirmed=false;
+  state.tasks.forEach(t=>delete t.manualDue);
+  freezeOrder=false;change();
+  $('dateInfo').textContent='Dates cleared. Choose new dates to calculate your timeline.';
+});
 $('start').addEventListener('click',()=>{if(!state.effective||!state.closing||state.closing<state.effective){$('dateInfo').textContent='Enter valid dates. Closing must not precede Effective Date.';return}state.confirmed=true;change()});
 $('addTask').addEventListener('click',()=>{if(state.tasks.length>=8){render();return}const name=$('taskName').value.trim();if(!name){$('taskMessage').textContent='Enter a task name.';return}const days=Math.max(-365,Math.min(365,Number($('taskDays').value)||0));state.tasks.push({id:'custom'+Date.now(),name,days,basis:days<0?'closing':'effective',done:false,completedAt:''});$('taskName').value='';$('addTaskPanel').hidden=true;change()});
 render();
