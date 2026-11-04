@@ -293,3 +293,11 @@
 .pro-learning .pro-learning-legal{background:#fbf5e9;border:1px solid #f1e2c3;border-radius:9px;padding:13px 15px;color:#6e5b3b}
 @media(max-width:900px){.pro-records-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.pro-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:580px){.pro-records-actions,.pro-learning-grid{grid-template-columns:1fr}.pro-records-body{padding:16px}.pro-records>.step3-preview-head{padding:17px}}
+
+/* Approved action priority: hover highlight, strong gold final action, no layout shifts. */
+.pro-records-actions button,.pro-records-actions .pro-open-record{position:relative;transform:none;transition:background .18s ease,box-shadow .18s ease,filter .18s ease,border-color .18s ease}
+.pro-records-actions button:hover,.pro-records-actions .pro-open-record:hover{transform:none;filter:brightness(1.12) saturate(1.13);box-shadow:0 0 0 3px rgba(20,122,152,.16),0 7px 19px rgba(10,53,75,.23)}
+.pro-records-actions #proCompleteRecord{background:linear-gradient(180deg,#ffdf6e 0%,#efad0a 100%);border:2px solid #c88a00;color:#122f42;font-weight:900;box-shadow:0 3px 0 #b77b00,0 5px 17px rgba(191,130,0,.27)}
+.pro-records-actions #proCompleteRecord:hover{background:linear-gradient(180deg,#ffe58a 0%,#ffb900 100%);filter:brightness(1.08);box-shadow:0 0 0 3px rgba(235,173,30,.27),0 7px 22px rgba(184,124,0,.37)}
+.pro-records-actions button:active,.pro-records-actions .pro-open-record:active{filter:brightness(.96)}
+@media(prefers-reduced-motion:reduce){.pro-records-actions button,.pro-records-actions .pro-open-record{transition:none}}
