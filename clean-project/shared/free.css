@@ -378,8 +378,7 @@
 /* Step 1 privacy reminder: legible, compact and within the anonymous ID field. */
 .transaction-identity .privacy-inline{display:block;color:#54747b;font-size:10px;line-height:1.4;font-weight:600;margin-top:2px}
 
-/* PRO preview: one consistent horizontal alignment for logo, hero and all workspace panels. Preserve full-size typography and Step 3 table width. */
-body:has(#proFollowupRows) .header .inner,
-body:has(#proFollowupRows) .free-hero .inner,
-body:has(#proFollowupRows) main.inner.free-main{max-width:1420px;width:100%;padding-inline:24px;margin-inline:auto}
-@media(max-width:700px){body:has(#proFollowupRows) .header .inner,body:has(#proFollowupRows) .free-hero .inner,body:has(#proFollowupRows) main.inner.free-main{padding-inline:16px}}
+/* PRO workspace only: keep the approved header and hero unchanged. Align the content's left edge with the original 1140px header container, while allowing the wider workspace to extend right. */
+@media(min-width:1181px){body:has(#proFollowupRows) main.inner.free-main{max-width:1420px;width:calc(100% - max(40px, (100% - 1140px)));margin-left:max(20px, calc((100% - 1140px)/2));margin-right:0;padding-left:0;padding-right:20px}}
+@media(max-width:1180px){body:has(#proFollowupRows) main.inner.free-main{width:100%;max-width:1140px;margin-inline:auto;padding-inline:20px}}
+@media(max-width:700px){body:has(#proFollowupRows) main.inner.free-main{padding-inline:16px}}
