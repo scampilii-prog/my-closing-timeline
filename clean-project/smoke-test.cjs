@@ -19,14 +19,14 @@ for(const href of ['shared/site.css','shared/free.css']){
  assert.ok(html.includes('href="'+href+'"'),'Missing stylesheet '+href);
 }
 assert.match(css,/grid-template-columns:\s*3fr\s+2fr/,'Step 2 / Summary layout must remain 60/40');
-assert.match(script,/\['Final walk-through',-1,'closing'\]/,'Walk-through must be one day before closing');
+assert.doesNotMatch(script,/\['Final walk-through',-1,'closing'\]/,'Walk-through is not one of the six original defaults');
 for(const [name,days] of [['1st Deposit',3],['2nd Deposit',5],['Loan Application',5],['Condo Application',5],['Property Inspection deadline w/right to cancel',7],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30]]){
  assert.ok(script.includes("['"+name+"',"+days+",'effective']"),'Missing baseline task: '+name);
 }
-assert.match(script,/let state=initial\(\)/,'FREE practice must reset to defaults on reload');
-assert.doesNotMatch(script,/state\s*=\s*saved/,'FREE practice must not restore deleted tasks or old dates');
+assert.match(script,/let state=initial\(\)/,'Practice initializes from the original defaults');
+assert.match(script,/localStorage\.getItem\(KEY\)/,'Browser-only practice state must persist on reload');
 assert.match(script,/state\.tasks\.length>=8/,'FREE task limit must be enforced');
 new vm.Script(script,{filename:'shared/free.js'});
 new vm.Script(siteScript,{filename:'shared/site.js'});
-console.log('PASS: HTML IDs, external assets, 60/40 layout, seven baseline tasks, -1 walk-through, browser persistence, balanced progress row, FREE limit and JS syntax.');
+console.log('PASS: HTML IDs, external assets, 60/40 layout, six baseline tasks, browser persistence, balanced progress row, FREE limit and JS syntax.');
 console.log('NOTE: Browser interactions and Cloudflare deployment require separate testing.');
