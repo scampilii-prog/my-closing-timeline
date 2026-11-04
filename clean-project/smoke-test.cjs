@@ -7,7 +7,7 @@ const html=read('free-real-estate.html');
 const css=read('shared/free.css');
 const script=read('shared/free.js');
 const siteScript=read('shared/site.js');
-const ids=['effective','closing','start','dayCounting','taskRows','resetTasks','sortTasks','updateTable','toggleAddTask','addTaskPanel','taskName','taskDays','addTask','totalCount','openCount','doneCount','closingSummary','copyTimeline','mailTimeline','summaryFeedback','todayCount','tomorrowCount','overdueCount','todayList','tomorrowList','overdueList','followRows'];
+const ids=['effective','closing','start','dayCounting','taskRows','resetTasks','sortTasks','updateTable','toggleAddTask','addTaskPanel','taskName','taskDays','addTask','totalCount','openCount','doneCount','closingSummary','copyTimeline','mailTimeline','summaryFeedback','todayCount','tomorrowCount','overdueCount','todayList','tomorrowList','overdueList','progressTotal','progressDone','progressRemaining','progressPercent','progressTrack','progressFill','activityCount','recentActivity','activityToggle','activityHistory','resetDates'];
 for(const id of ids){
  const occurrences=html.match(new RegExp('id="'+id+'"','g'))||[];
  assert.equal(occurrences.length,1,'Expected exactly one #'+id);
@@ -28,5 +28,5 @@ assert.doesNotMatch(script,/state\s*=\s*saved/,'FREE practice must not restore d
 assert.match(script,/state\.tasks\.length>=8/,'FREE task limit must be enforced');
 new vm.Script(script,{filename:'shared/free.js'});
 new vm.Script(siteScript,{filename:'shared/site.js'});
-console.log('PASS: HTML IDs, external assets, 60/40 layout, seven baseline tasks, -1 walk-through, refresh reset, FREE limit and JS syntax.');
+console.log('PASS: HTML IDs, external assets, 60/40 layout, seven baseline tasks, -1 walk-through, browser persistence, balanced progress row, FREE limit and JS syntax.');
 console.log('NOTE: Browser interactions and Cloudflare deployment require separate testing.');
