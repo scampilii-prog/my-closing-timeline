@@ -122,3 +122,6 @@ Changing Days, Reminder Date, or Date Basis must NOT immediately reposition a ro
 
 ## Step 3 Apply implementation — 2026-11-04
 Implemented per-row Apply inside Reminder Date column (no extra table column) in clean-project/shared/pro-followups.js and shared/free.css. Editing Days, Date Basis or Reminder Date stages changes without immediately moving the row. Apply validates Days 0–365, synchronizes days/date, persists and then chronologically reorders. New custom draft stays at top until Apply. This is committed to GitHub but browser/live Cloudflare testing is still required. Existing local demo records remain in browser.
+
+## Approved Apply no-layout-shift improvement — 2026-11-04
+Keep Apply in a permanently reserved 48px slot beside Reminder Date, invisible when not needed (visibility:hidden, not display:none); changing days/date/basis reveals it without moving inputs, columns, or rows. Only pressing Apply commits and chronologically reorders. Implemented in clean-project/shared/free.css; Cloudflare visual verification pending.
