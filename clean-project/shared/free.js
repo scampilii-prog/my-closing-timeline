@@ -34,7 +34,7 @@ $('taskRows').addEventListener('pointerenter',()=>{freezeOrder=true;});
 $('taskRows').addEventListener('pointerleave',()=>{if(freezeOrder){freezeOrder=false;render();}});
 
 const taskStatus=t=>{if(t.done)return 'DONE';const d=due(t),today=iso(new Date());if(!d)return 'SET DATES';if(d<today)return 'OVERDUE';if(d===today)return 'DUE TODAY';return 'PENDING'};
-for(const id of ['propertyReference','transactionSide']){$(id)?.addEventListener('change',e=>{state[id]=e.target.value;save()})}
+for(const id of ['propertyReference','transactionSide']){$(id)?.addEventListener('change',e=>{if(id==='propertyReference'){const value=e.target.value.trim().toUpperCase();if(value&&!/^CL-[A-Z0-9-]{4,24}$/.test(value)){e.target.setCustomValidity('Use an anonymous ID such as CL-7C2D9A04. No names or addresses.');e.target.reportValidity();return}e.target.setCustomValidity('');state[id]=value;e.target.value=value}else{state[id]=e.target.value}save()})}
 function render(){
 $('propertyReference').value=state.propertyReference||'';$('transactionSide').value=state.transactionSide||'';
 $('effective').value=state.effective;$('closing').value=state.closing;$('dayCounting').value=state.counting||'calendar';
