@@ -54,6 +54,14 @@ const followDefaultLine=proFollowups.match(/const defaults=(\[[^;]+\]);const def
 assert.ok(followDefaultLine,'Follow-up defaults must be declared');
 assert.equal(JSON.parse(followDefaultLine[1]).length,44,'Step 3 must restore exactly 44 original follow-ups');
 
+
+// A post-closing follow-up is not a pre-closing task.
+assert.match(proFollowups,/basis:i===43\?'afterClosing':/,'Final follow-up must use a distinct after-closing basis');
+assert.match(proFollowups,/\['afterClosing','After Closing Date'\]/,'Step 3 must expose after-closing basis');
+assert.match(proFollowups,/row\.basis==='closing'\|\|row\.basis==='afterClosing'\?'closing':'effective'/,'Both closing-relative bases must use Closing Date');
+assert.match(proFollowups,/\(row\.basis==='closing'\?-1:1\)\*Number\(row\.days\|\|0\)/,'Only pre-closing tasks subtract days');
+assert.match(proFollowups,/29,29,1\];const closingOffsets=/,'Post-closing default must be one day');
+
 new vm.Script(proFollowups,{filename:'shared/pro-followups.js'});
 
 new vm.Script(script,{filename:'shared/free.js'});
