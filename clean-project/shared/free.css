@@ -301,3 +301,16 @@
 .pro-records-actions #proCompleteRecord:hover{background:linear-gradient(180deg,#ffe58a 0%,#ffb900 100%);filter:brightness(1.08);box-shadow:0 0 0 3px rgba(235,173,30,.27),0 7px 22px rgba(184,124,0,.37)}
 .pro-records-actions button:active,.pro-records-actions .pro-open-record:active{filter:brightness(.96)}
 @media(prefers-reduced-motion:reduce){.pro-records-actions button,.pro-records-actions .pro-open-record{transition:none}}
+
+/* PRO Step 3 date-group and priority states. */
+.pro-followup-table tr.pro-today{background:#d9f4e5}
+.pro-followup-table tr.pro-tomorrow{background:#fff0bd}
+.pro-followup-table tr.pro-overdue{background:#fbe2df}
+.pro-followup-table tr.pro-done{background:#e5ecec}
+.pro-followup-table tr.pro-same-date td{border-top:0}
+.pro-followup-table tr:not(.pro-same-date) td{border-top:2px solid #b9d1db}
+.pro-followup-table tr.pro-today:nth-child(even){background:#d9f4e5}
+.pro-followup-table tr.pro-tomorrow:nth-child(even){background:#fff0bd}
+.pro-followup-table tr.pro-overdue:nth-child(even){background:#fbe2df}
+.pro-followup-table tr.pro-done:nth-child(even){background:#e5ecec}
+.pro-followup-table .pro-date-input{min-width:112px}
