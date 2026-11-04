@@ -215,3 +215,29 @@
 .step3-preview-bottom span{font-size:11px;color:#647e86;max-width:620px}
 .step3-preview-bottom strong{font-size:12px;color:#8b631e}
 @media(max-width:700px){.step3-preview-benefits{grid-template-columns:1fr}.step3-preview-head{align-items:flex-start;flex-direction:column}}
+
+/* PRO Step 3 functional demonstration — clean design, independent of legacy styles. */
+.pro-followup-panel{margin:22px 0;background:#fff;border:1px solid #d9e6e8;border-radius:12px;overflow:hidden}
+.pro-followup-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;color:#17394a}
+.pro-followup-toolbar button{border:1px solid #bfd4d9;border-radius:7px;padding:9px 12px;background:#f0f7f8;color:#173b4c;font:700 12px Manrope,sans-serif;cursor:pointer}
+.pro-followup-toolbar button:first-child{background:#e7bd70;border-color:#d2a65a}
+.pro-followup-scroll{width:100%;overflow-x:auto}
+.pro-followup-table{width:100%;min-width:1120px;border-collapse:collapse;font:600 11px Manrope,sans-serif;color:#18394d}
+.pro-followup-table th{background:#dceaf0;color:#173c50;padding:12px 7px;text-align:left;white-space:nowrap;border-bottom:2px solid #bdd3db}
+.pro-followup-table td{padding:7px 6px;border-bottom:1px solid #e1eaee;vertical-align:middle}
+.pro-followup-table tr:nth-child(even){background:#f4f9fa}
+.pro-followup-table tr.pro-done{background:#e9f3ee;color:#547167}
+.pro-followup-table input:not([type=checkbox]),.pro-followup-table select{box-sizing:border-box;width:100%;border:1px solid #c7d9e0;border-radius:6px;background:#fff;padding:7px 6px;font:600 11px Manrope,sans-serif;color:#18394d}
+.pro-followup-table input[type=checkbox]{width:17px;height:17px;accent-color:#24836e}
+.pro-followup-table td:nth-child(2){min-width:260px}
+.pro-followup-table td:nth-child(3){min-width:60px}
+.pro-followup-table td:nth-child(5){min-width:142px}
+.pro-followup-table td:nth-child(6){min-width:110px}
+.pro-followup-table td:nth-child(9){min-width:150px}
+.pro-followup-table input:disabled,.pro-followup-table select:disabled{background:#eaf0ef;color:#6c817c}
+.pro-delete{background:#fff3ee;border:1px solid #e6b7a8;border-radius:5px;color:#a84b37;padding:7px;font:700 10px Manrope,sans-serif;cursor:pointer}
+.pro-delete:disabled{opacity:.4}
+.pro-row-number,.pro-date,.pro-status,.pro-alert{white-space:nowrap}
+.pro-followup-foot{padding:15px 20px;background:#f3f8f8;border-top:1px solid #dce8e9;color:#25495a}
+.pro-followup-foot p{font-size:12px;line-height:1.6}
+.pro-followup-foot small{color:#67818b;font-size:11px}
