@@ -113,3 +113,6 @@ User explicitly approved the visual mockup of Private Records and Understanding 
 
 ## Approved button hover and priority — 2026-11-04
 Four bottom Private Records action buttons highlight on hover with brightness, saturation and shadow, without changing size/position or causing layout shifts; respect reduced-motion preferences. Complete & Close is the most prominent final action with stronger gold background/border, still requires explicit confirmation. Implemented in clean-project/shared/free.css; verify after Cloudflare deployment.
+
+## Step 3 date behavior, approved 2026-11-04
+Group same-date tasks visually. Automatically reorder when dates or day offsets change. Date and days must stay synchronized. Today green, tomorrow yellow, overdue red; update by calendar date. Keep completed tasks locked until reopened, notes and change history. These behaviors remain to be implemented and tested in clean PRO.
