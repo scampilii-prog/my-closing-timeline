@@ -119,3 +119,6 @@ Group same-date tasks visually. Automatically reorder when dates or day offsets 
 
 ## Approved 2026-11-04: Apply before moving Step 3 row
 Changing Days, Reminder Date, or Date Basis must NOT immediately reposition a row while the user is editing. Add a small Apply action in the same row; on Apply, synchronize Days and Reminder Date, save and reposition chronologically. Keep all existing columns in the same order; avoid a long days dropdown. Newly added rows stay at top until Apply. Implementation pending verification.
+
+## Step 3 Apply implementation — 2026-11-04
+Implemented per-row Apply inside Reminder Date column (no extra table column) in clean-project/shared/pro-followups.js and shared/free.css. Editing Days, Date Basis or Reminder Date stages changes without immediately moving the row. Apply validates Days 0–365, synchronizes days/date, persists and then chronologically reorders. New custom draft stays at top until Apply. This is committed to GitHub but browser/live Cloudflare testing is still required. Existing local demo records remain in browser.
