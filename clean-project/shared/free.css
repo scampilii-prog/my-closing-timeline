@@ -144,3 +144,30 @@
 
 /* Date reset beside confirmation in Step 1 */
 .date-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.reset-dates{border:1px solid #a9c1c5;border-radius:8px;padding:11px 15px;background:#eef5f5;color:#173e4b;font:inherit;font-size:12px;font-weight:800;cursor:pointer}.reset-dates:hover{background:#dceaea}
+
+/* v40 — balanced second row: progress and daily priorities */
+.activity-grid{display:grid;grid-template-columns:3fr 2fr;gap:22px;align-items:stretch;margin-top:18px}
+.activity-grid>.activity-left,.activity-grid>.activity-right{min-width:0;display:flex}
+.activity-grid .free-card{width:100%;margin:0;min-height:0}
+.progress-card{padding:0;overflow:hidden}
+.progress-body{padding:16px 20px 17px}
+.progress-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.progress-stats>div{background:#f1f7f7;border:1px solid #dce9e9;border-radius:9px;text-align:center;padding:9px 5px}
+.progress-stats strong{display:block;font-size:24px;line-height:1.2;color:#087b78}
+.progress-stats span{display:block;font-size:11px;color:#55717b;margin-top:3px}
+.progress-line{display:flex;justify-content:space-between;gap:12px;margin:14px 0 7px;font-size:12px;color:#193e4e}
+.progress-track{height:9px;border-radius:20px;background:#e3ebec;overflow:hidden}
+#progressFill{height:100%;width:0;background:#0d857c;border-radius:20px;transition:width .2s}
+.activity-title{display:flex;align-items:center;justify-content:space-between;margin:14px 0 6px;font-size:12px;font-weight:800;color:#193e4e}
+.activity-title span{font-size:10px;font-weight:600;color:#647e86}
+.activity-list{min-height:52px}
+.activity-list .muted{margin:8px 0;font-size:12px}
+.activity-entry{display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #e6eeee;min-width:0}
+.activity-entry:last-child{border-bottom:0}
+.activity-dot{display:grid;place-items:center;flex:none;width:23px;height:23px;border-radius:50%;background:#e3f2ee;color:#087b78;font-weight:800}
+.activity-entry>div{min-width:0;display:grid;gap:2px}
+.activity-entry strong{font-size:12px;color:#193e4e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.activity-entry small{font-size:10px;color:#647e86}
+.activity-toggle{margin-top:7px;background:transparent;border:0;padding:3px 0;color:#087b78;font-weight:800;font-size:11px;cursor:pointer}
+.activity-history{max-height:210px;overflow:auto;border-top:1px solid #e4ecee;margin-top:7px}
+@media(max-width:850px){.activity-grid{grid-template-columns:1fr}}
