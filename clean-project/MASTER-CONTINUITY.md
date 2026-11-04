@@ -110,3 +110,6 @@ User said 'sigue' following proposed refinements; proceeded with compact clean-d
 
 ## Approved elegant records design — 2026-11-04
 User explicitly approved the visual mockup of Private Records and Understanding Your Closing Timeline ('perfecto. sigue'). Implemented clean CSS/markup: prominent navy gradient records heading, four equally prominent full-width responsive buttons in a row with clear priorities (teal Save, pale-blue Open, blue PDF/Print, gold Complete & Close), visible status pill, six icon-led educational cards in 3x2 grid, collapsible Helpful Resources and subtle legal notice. No legacy CSS reused; screenshot is visual direction, implementation in clean-project/real-estate-pro.html and shared/free.css. Confirm GitHub checks and live screenshot separately. These remain local DEMO functions; account-backed completion/read-only not yet implemented.
+
+## Approved button hover and priority — 2026-11-04
+Four bottom Private Records action buttons highlight on hover with brightness, saturation and shadow, without changing size/position or causing layout shifts; respect reduced-motion preferences. Complete & Close is the most prominent final action with stronger gold background/border, still requires explicit confirmation. Implemented in clean-project/shared/free.css; verify after Cloudflare deployment.
