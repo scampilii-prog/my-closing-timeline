@@ -125,3 +125,6 @@ Implemented per-row Apply inside Reminder Date column (no extra table column) in
 
 ## Approved Apply no-layout-shift improvement — 2026-11-04
 Keep Apply in a permanently reserved 48px slot beside Reminder Date, invisible when not needed (visibility:hidden, not display:none); changing days/date/basis reveals it without moving inputs, columns, or rows. Only pressing Apply commits and chronologically reorders. Implemented in clean-project/shared/free.css; Cloudflare visual verification pending.
+
+## SUPERSEDING Step 3 Apply placement — 2026-11-04
+User rejected the Apply button next to Reminder Date because it compressed later columns. FINAL approved behavior: reuse the existing Delete button in its original column. When Days, Reminder Date or Date Basis is edited, Delete becomes gold Apply; on Apply the edit is saved and the row reorders, and the same button returns to Delete. No extra button, no new column, no hover-only dependency. Previous Apply-in-date-cell and reserved-width CSS approaches are superseded and must NOT be restored. Code and CSS updated; live browser verification pending.
