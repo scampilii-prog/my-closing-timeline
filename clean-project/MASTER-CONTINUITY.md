@@ -82,3 +82,10 @@ Do NOT use earlier slogan "One Payment. Until It's Done." without qualification:
 
 ## Continuity procedure
 At the start of each new CLEAN BUILD chat, read THIS FILE first and inspect current GitHub branch/files/commits; do not rely on chat memory alone. Summarize only pending action and relevant approved rules. Update THIS FILE whenever a commercial or technical decision changes, including superseding older statements. Do not change production. Distinguish AGREED / IMPLEMENTED / TESTED / DEPLOYED.
+
+## Step 2 vs Step 3 — approved 2026-11-04
+- NEVER duplicate Step 2 contract deadline tasks inside Step 3.
+- Step 2 = contractual milestones, due dates, deposit/inspection/loan obligations and recalculation.
+- Step 3 = distinct practical follow-up actions: contact, request, verify, coordinate, confirm, review, chase outstanding items. E.g., Step 2 'Inspection Deadline'; Step 3 'Confirm inspection appointment' or 'Follow up on inspection report', not a second Inspection Deadline.
+- Step 3 may reference/link Step 2 milestones for timing and reminders without duplicating their task records or counting them twice.
+- FREE previews Step 3 benefits but does not reveal full PRO task library.
