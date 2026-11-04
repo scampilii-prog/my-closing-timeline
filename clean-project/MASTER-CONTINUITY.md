@@ -128,3 +128,6 @@ Keep Apply in a permanently reserved 48px slot beside Reminder Date, invisible w
 
 ## SUPERSEDING Step 3 Apply placement — 2026-11-04
 User rejected the Apply button next to Reminder Date because it compressed later columns. FINAL approved behavior: reuse the existing Delete button in its original column. When Days, Reminder Date or Date Basis is edited, Delete becomes gold Apply; on Apply the edit is saved and the row reorders, and the same button returns to Delete. No extra button, no new column, no hover-only dependency. Previous Apply-in-date-cell and reserved-width CSS approaches are superseded and must NOT be restored. Code and CSS updated; live browser verification pending.
+
+## Step 3 refinement — 2026-11-04
+Approved vivid teal Apply with white lettering in the existing Delete column. Additional code fix committed: staged unsaved Days, Reminder Date and Date Basis values remain visible if another row causes a redraw, rather than silently reverting. Tomorrow tasks now show Tomorrow in both Status and Alert. Browser testing still pending; no production changes.
