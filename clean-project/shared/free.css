@@ -338,3 +338,16 @@
 .pro-followup-table button.pro-delete.pro-apply-mode{background:#087e77!important;color:#fff!important;border:2px solid #05645f!important;font-weight:900!important;box-shadow:0 0 0 2px rgba(8,126,119,.18);letter-spacing:.15px}
 .pro-followup-table button.pro-delete.pro-apply-mode:hover{background:#045d58!important;box-shadow:0 0 0 3px rgba(8,126,119,.28),0 3px 8px rgba(0,0,0,.12)}
 .pro-followup-table button.pro-delete.pro-apply-mode:focus-visible{outline:3px solid #f3c85b;outline-offset:2px}
+
+/* Step 3 daily priority cards: consistent with approved Today & Tomorrow colors. */
+.pro-followup-daily{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}
+.pro-daily-group{border:1px solid #d6e2e8;border-radius:10px;overflow:hidden;background:#fff;min-width:0}
+.pro-daily-group h3{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;padding:11px 13px;font-size:13px;font-weight:800}
+.pro-daily-group h3 span{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.7);font-weight:900}
+.pro-daily-group>div{padding:12px 13px;color:#4b6772;font-size:12px;line-height:1.55;max-height:175px;overflow-y:auto}
+.pro-daily-today h3{background:#d6f2e2;color:#155b40}
+.pro-daily-tomorrow h3{background:#ffedb7;color:#79520b}
+.pro-daily-overdue h3{background:#fae0de;color:#a3322c}
+.pro-daily-tasks{padding-left:17px;margin:0}.pro-daily-tasks li+li{margin-top:6px}
+.pro-followup-foot .pro-daily-summary{font-size:12px;color:#526d77;margin:8px 0}
+@media(max-width:700px){.pro-followup-daily{grid-template-columns:1fr}}
