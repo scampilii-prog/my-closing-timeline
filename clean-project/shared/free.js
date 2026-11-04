@@ -26,7 +26,16 @@ const recordActivity=(action,task,detail='')=>{state.activity=Array.isArray(stat
 const change=()=>{save();render()};
 let freezeOrder=false;
 let visibleIds=[];
-const dateSorted=()=>state.tasks.slice().sort((a,b)=>(due(a)||'9999-12-31').localeCompare(due(b)||'9999-12-31')||a.name.localeCompare(b.name));
+// Stable baseline order: contractual offsets first, closing-relative final steps last.
+// Explicit task dates take precedence only when the user has supplied both contract dates.
+const originalRank=t=>{const match=/^base(\d+)$/.exec(t.id||'');return match?Number(match[1]):defaults.length+state.tasks.findIndex(x=>x.id===t.id)};
+const recommendedRank=t=>t.basis==='closing'?10000+Number(t.days||0):Number(t.days||0);
+const dateSorted=()=>state.tasks.slice().sort((a,b)=>{
+  const da=state.effective&&state.closing?due(a):'',db=state.effective&&state.closing?due(b):'';
+  if(da&&db&&da!==db)return da.localeCompare(db);
+  if(da&&!db)return -1;if(db&&!da)return 1;
+  return recommendedRank(a)-recommendedRank(b)||originalRank(a)-originalRank(b);
+});
 const ordered=()=>{
   if(!freezeOrder){visibleIds=dateSorted().map(t=>t.id);}
   const rank=new Map(visibleIds.map((id,i)=>[id,i]));
