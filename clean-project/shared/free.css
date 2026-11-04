@@ -181,3 +181,15 @@
 .activity-right .daily h3:nth-of-type(3){background:#fce9e7;color:#a23535;border-color:#f0cbc7}
 .activity-right .daily h3:nth-of-type(3) span{background:#b63d3d;color:#fff}
 .activity-right .daily h3 span{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;padding:0 7px;border-radius:999px;font-size:13px;font-weight:850;line-height:1}
+
+/* Restore the approved matching navy feature headers for both activity cards. */
+.activity-grid .free-card{padding:18px;overflow:hidden}
+.activity-grid .feature-heading{display:flex;align-items:center;gap:11px;background:#18394d;color:#fff;border-radius:11px 11px 0 0;padding:14px 13px;margin:-18px -18px 15px;min-width:0}
+.activity-grid .feature-icon{display:grid;place-items:center;background:#087f89;color:#fff;border-radius:9px;flex:0 0 37px;height:37px;font-size:24px;font-weight:800}
+.activity-grid .feature-rule{width:1px;height:42px;background:#d5ad6d;flex:none}
+.activity-grid .feature-heading>div:last-child{min-width:0}
+.activity-grid .feature-kicker{color:#e8bc75;font-size:9px;letter-spacing:.1em;font-weight:800;margin-bottom:4px}
+.activity-grid .feature-heading h2{color:#fff;font-size:clamp(17px,1.65vw,23px);line-height:1.12;margin:0;letter-spacing:-.025em}
+.activity-grid .feature-heading h2 em{font-family:Georgia,serif;font-weight:500;color:#f2c77e}
+.activity-grid .progress-card .progress-body{padding:0 2px 2px}
+@media(max-width:520px){.activity-grid .feature-heading{gap:8px;padding:12px 10px}.activity-grid .feature-heading h2{font-size:17px}}
