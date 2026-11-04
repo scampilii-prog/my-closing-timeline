@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id), KEY='mct-clean-free-v13';
 const defaults=[['Final walk-through',-1,'closing'],['1st Deposit',3,'effective'],['2nd Deposit',5,'effective'],['Loan Application',5,'effective'],['Condo Application',5,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective']];
-const initial=()=>({effective:'',closing:'',confirmed:false,counting:'calendar',activity:[],tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
+const initial=()=>({effective:'',closing:'',propertyReference:'',transactionSide:'',confirmed:false,counting:'calendar',activity:[],tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
 // Restore the browser's saved practice, including both transaction dates.
 // A refresh must never erase the user's changes.
 let state=initial();
@@ -34,7 +34,9 @@ $('taskRows').addEventListener('pointerenter',()=>{freezeOrder=true;});
 $('taskRows').addEventListener('pointerleave',()=>{if(freezeOrder){freezeOrder=false;render();}});
 
 const taskStatus=t=>{if(t.done)return 'DONE';const d=due(t),today=iso(new Date());if(!d)return 'SET DATES';if(d<today)return 'OVERDUE';if(d===today)return 'DUE TODAY';return 'PENDING'};
+for(const id of ['propertyReference','transactionSide']){$(id)?.addEventListener('change',e=>{state[id]=e.target.value;save()})}
 function render(){
+$('propertyReference').value=state.propertyReference||'';$('transactionSide').value=state.transactionSide||'';
 $('effective').value=state.effective;$('closing').value=state.closing;$('dayCounting').value=state.counting||'calendar';
 $('effective').disabled=false;$('start').disabled=false;
 $('start').textContent=state.confirmed?'Timeline started':'Confirm & Start';
