@@ -64,6 +64,15 @@ assert.match(proFollowups,/29,29,1\];const closingOffsets=/,'Post-closing defaul
 
 new vm.Script(proFollowups,{filename:'shared/pro-followups.js'});
 
+
+// Date changes must invalidate manual due-date overrides and refresh all summaries.
+assert.match(script,/for\(const id of \['effective','closing'\]\) \{[\s\S]*?el\.addEventListener\('change',[\s\S]*?state\[id\]=el\.value;[\s\S]*?state\.tasks\.forEach\(t=>delete t\.manualDue\);[\s\S]*?change\(\);/,'Contract date changes must recalculate tasks');
+assert.match(script,/const due=t=>t\.manualDue\|\|/,'Due dates must use manual override or calculated offset');
+assert.match(script,/\$\('closingSummary'\)\.replaceChildren\(\)/,'Closing summary must rerender');
+assert.match(script,/\$\('todayCount'\)\.textContent/,'Today counter must rerender');
+assert.match(script,/\$\('tomorrowCount'\)\.textContent/,'Tomorrow counter must rerender');
+assert.match(script,/\$\('overdueCount'\)\.textContent/,'Overdue counter must rerender');
+
 new vm.Script(script,{filename:'shared/free.js'});
 new vm.Script(siteScript,{filename:'shared/site.js'});
 console.log('PASS: HTML IDs, external assets, 60/40 layout, six baseline tasks, browser persistence, balanced progress row, FREE limit and JS syntax.');
