@@ -377,3 +377,9 @@
 
 /* Step 1 privacy reminder: legible, compact and within the anonymous ID field. */
 .transaction-identity .privacy-inline{display:block;color:#54747b;font-size:10px;line-height:1.4;font-weight:600;margin-top:2px}
+
+/* Real Estate PRO workspace width: restore spacious original page geometry without touching other pages. */
+body:has(#proFollowupRows) main.inner.free-main{max-width:1420px;width:100%;padding-left:24px;padding-right:24px}
+body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+@media(max-width:850px){body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){body:has(#proFollowupRows) main.inner.free-main{padding-left:16px;padding-right:16px}}
