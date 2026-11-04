@@ -385,7 +385,8 @@
 
 /* PRO Step 2 approved six-task reference: one canonical, page-scoped layout.
    FREE page, global header and Step 3 are deliberately untouched. */
-body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+@media(min-width:1001px){body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}}
+@media(max-width:1000px){body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,1fr)}}
 body:has(#proFollowupRows) .free-grid .free-left,
 body:has(#proFollowupRows) .free-grid .free-right{min-width:0}
 body:has(#proFollowupRows) .free-grid .task-rows{gap:2px}
