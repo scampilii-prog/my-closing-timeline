@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id), IS_PRO=location.pathname.includes('real-estate-pro'), KEY=IS_PRO?'mct-clean-pro-step2-v1':'mct-clean-free-v13';
-const defaults=[['Condo Application',3,'effective'],['1st Deposit',6,'effective'],['Loan Application',6,'effective'],['2nd Deposit',7,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective'],['Final walk-through',-1,'closing']];
+const defaults=[['1st Deposit',3,'effective'],['2nd Deposit',5,'effective'],['Loan Application',5,'effective'],['Condo Application',5,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective']];
 const initial=()=>({effective:'',closing:'',propertyReference:'',transactionSide:'',confirmed:false,counting:'calendar',activity:[],tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
 // Restore the browser's saved practice, including both transaction dates.
 // A refresh must never erase the user's changes.
@@ -104,7 +104,7 @@ lines.push('','Planning assistance only. Verify all dates against your signed co
 return lines.join('\n');
 }
 $('dayCounting').addEventListener('change',e=>{state.counting=e.target.value;state.tasks.forEach(t=>delete t.manualDue);recordActivity('Updated','Deadline counting');freezeOrder=false;change()});
-$('resetTasks').addEventListener('click',()=>{if(!confirm('Restore the 7 original tasks and day offsets? Your edited tasks and their completion status will be replaced.'))return;state.tasks=initial().tasks;recordActivity('Restored','Original task list');freezeOrder=false;change();$('summaryFeedback').textContent='Original task list restored.'});
+$('resetTasks').addEventListener('click',()=>{if(!confirm('Restore the 6 original contract tasks and day offsets? Your edited tasks and their completion status will be replaced.'))return;state.tasks=initial().tasks;recordActivity('Restored','Original task list');freezeOrder=false;change();$('summaryFeedback').textContent='Original task list restored.'});
 $('sortTasks').addEventListener('click',()=>{freezeOrder=false;render();$('summaryFeedback').textContent='Tasks automatically sorted by due date.'});
 $('updateTable').addEventListener('click',()=>{freezeOrder=false;change();$('summaryFeedback').textContent='Table updated.'});
 $('toggleAddTask').addEventListener('click',()=>{$('addTaskPanel').hidden=!$('addTaskPanel').hidden});
