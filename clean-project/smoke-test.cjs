@@ -69,9 +69,10 @@ new vm.Script(proFollowups,{filename:'shared/pro-followups.js'});
 assert.match(script,/for\(const id of \['effective','closing'\]\) \{[\s\S]*?el\.addEventListener\('change',[\s\S]*?state\[id\]=el\.value;[\s\S]*?state\.tasks\.forEach\(t=>delete t\.manualDue\);[\s\S]*?change\(\);/,'Contract date changes must recalculate tasks');
 assert.match(script,/const due=t=>t\.manualDue\|\|/,'Due dates must use manual override or calculated offset');
 assert.match(script,/\$\('closingSummary'\)\.replaceChildren\(\)/,'Closing summary must rerender');
-assert.match(script,/\$\('todayCount'\)\.textContent/,'Today counter must rerender');
-assert.match(script,/\$\('tomorrowCount'\)\.textContent/,'Tomorrow counter must rerender');
-assert.match(script,/\$\('overdueCount'\)\.textContent/,'Overdue counter must rerender');
+assert.match(script,/\['today',state\.tasks\.filter/,'Today tasks must be recalculated');
+assert.match(script,/\['tomorrow',state\.tasks\.filter/,'Tomorrow tasks must be recalculated');
+assert.match(script,/\['overdue',state\.tasks\.filter/,'Overdue tasks must be recalculated');
+assert.match(script,/\$\(id\+'Count'\)\.textContent=items\.length/,'Daily counters must rerender from their computed groups');
 
 new vm.Script(script,{filename:'shared/free.js'});
 new vm.Script(siteScript,{filename:'shared/site.js'});
