@@ -194,5 +194,7 @@
 .activity-grid .progress-card .progress-body{padding:0 2px 2px}
 @media(max-width:520px){.activity-grid .feature-heading{gap:8px;padding:12px 10px}.activity-grid .feature-heading h2{font-size:17px}}
 
-/* Clean build: expanded activity history must show every recorded row, not clip the final entry. */
-.activity-grid .activity-history:not([hidden]){max-height:none;overflow:visible;padding-bottom:8px}
+/* Expanded history: compact scrollable dropdown; keeps both activity cards balanced. */
+.activity-grid .activity-history:not([hidden]){max-height:190px;overflow-y:auto;overflow-x:hidden;padding:4px 8px 8px 0;scrollbar-gutter:stable}
+.activity-grid .activity-history .activity-entry{min-height:37px;align-items:flex-start}
+.activity-grid .activity-history .activity-entry small{line-height:1.4;overflow-wrap:anywhere}
