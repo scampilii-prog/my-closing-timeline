@@ -193,3 +193,6 @@
 .activity-grid .feature-heading h2 em{font-family:Georgia,serif;font-weight:500;color:#f2c77e}
 .activity-grid .progress-card .progress-body{padding:0 2px 2px}
 @media(max-width:520px){.activity-grid .feature-heading{gap:8px;padding:12px 10px}.activity-grid .feature-heading h2{font-size:17px}}
+
+/* Clean build: expanded activity history must show every recorded row, not clip the final entry. */
+.activity-grid .activity-history:not([hidden]){max-height:none;overflow:visible;padding-bottom:8px}
