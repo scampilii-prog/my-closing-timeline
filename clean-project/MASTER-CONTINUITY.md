@@ -116,3 +116,6 @@ Four bottom Private Records action buttons highlight on hover with brightness, s
 
 ## Step 3 date behavior, approved 2026-11-04
 Group same-date tasks visually. Automatically reorder when dates or day offsets change. Date and days must stay synchronized. Today green, tomorrow yellow, overdue red; update by calendar date. Keep completed tasks locked until reopened, notes and change history. These behaviors remain to be implemented and tested in clean PRO.
+
+## Approved 2026-11-04: Apply before moving Step 3 row
+Changing Days, Reminder Date, or Date Basis must NOT immediately reposition a row while the user is editing. Add a small Apply action in the same row; on Apply, synchronize Days and Reminder Date, save and reposition chronologically. Keep all existing columns in the same order; avoid a long days dropdown. Newly added rows stay at top until Apply. Implementation pending verification.
