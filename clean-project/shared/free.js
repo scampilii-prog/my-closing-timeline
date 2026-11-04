@@ -11,6 +11,8 @@ try {
   if(stored && typeof stored==='object' && Array.isArray(stored.tasks) && stored.tasks.length<=8 &&
      typeof stored.effective==='string' && typeof stored.closing==='string') {
     state={...initial(),...stored,tasks:stored.tasks};
+    // Do not carry legacy property names or addresses into the anonymous closing reference.
+    if(!/^CL-[A-Z0-9-]{4,24}$/.test(state.propertyReference||''))state.propertyReference='';
   }
 } catch (_) { /* Keep defaults if browser storage is unavailable. */ }
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
@@ -41,7 +43,7 @@ $('effective').value=state.effective;$('closing').value=state.closing;$('dayCoun
 $('effective').disabled=false;$('start').disabled=false;
 $('start').textContent=state.confirmed?'Timeline started':'Confirm & Start';
 const days=state.effective&&state.closing?Math.round((Date.parse(state.closing+'T12:00:00')-Date.parse(state.effective+'T12:00:00'))/86400000):null;
-$('overviewDays').textContent=days===null?'—':String(days);$('overviewMethod').textContent=state.counting==='business'?'Business Days (Mon–Fri)':'Calendar Days';$('overviewStatus').textContent=state.confirmed?'Active · Auto-updating':'Awaiting confirmation';
+$('overviewDays').textContent=days===null?'—':String(days);$('overviewMethod').textContent=state.counting==='business'?'Business Days (Mon–Fri)':'Calendar Days';$('overviewStatus').textContent=days===null?'Waiting for Contract Dates':days<0?'Check Closing Date':state.confirmed?'Active · Auto-updating':'Ready to Confirm';
 $('dateInfo').textContent=days===null?'Choose both dates to calculate your timeline.':days<0?'Closing Date must not precede Effective Date.':days+' calendar days between Effective Date and Closing Date.';
 const done=state.tasks.filter(t=>t.done).length;
 $('totalCount').textContent=state.tasks.length;$('openCount').textContent=state.tasks.length-done;$('doneCount').textContent=done;
