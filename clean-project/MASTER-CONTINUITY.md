@@ -95,3 +95,6 @@ User provided screenshot of legacy /real-estate-free-rebuilt-preview#contract-de
 
 ## Step 3 visual design rule — user confirmed 2026-11-04
 The legacy screenshot is a FUNCTIONAL and MICRO-DETAIL reference only, NOT a visual theme/template. Preserve the clean-build visual design currently approved for the new site (navy, turquoise, gold, Manrope, unified headers/cards, spacing and responsive layout). Transfer all row fields, small controls, interactions, behavior, calculation rules, notes, Done, alerts and history from the legacy Step 3, adapting their presentation to the NEW design. Do not copy legacy CSS, HTML styling, or visual appearance. Functional parity with legacy details + new clean design are BOTH mandatory.
+
+## Agreement recording protocol — 2026-11-04
+User may say 'Recuérdalo' to explicitly request immediate GitHub documentation of an approved decision. Important agreements should be saved proactively without requiring that phrase. Update/supersede earlier contradictory decisions instead of merely accumulating conflicting rules. Confirm 'saved in GitHub' only after successful write. Distinguish approved design, code committed, deployment and visually/functionally verified.
