@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-const $=id=>document.getElementById(id), KEY='mct-clean-free-v13';
+const $=id=>document.getElementById(id), IS_PRO=location.pathname.includes('real-estate-pro'), KEY=IS_PRO?'mct-clean-pro-step2-v1':'mct-clean-free-v13';
 const defaults=[['Condo Application',3,'effective'],['1st Deposit',6,'effective'],['Loan Application',6,'effective'],['2nd Deposit',7,'effective'],['Property Inspection deadline w/right to cancel',7,'effective'],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30,'effective'],['Final walk-through',-1,'closing']];
 const initial=()=>({effective:'',closing:'',propertyReference:'',transactionSide:'',confirmed:false,counting:'calendar',activity:[],tasks:defaults.map((x,i)=>({id:'base'+i,name:x[0],days:x[1],basis:x[2],done:false,completedAt:''}))});
 // Restore the browser's saved practice, including both transaction dates.
@@ -8,7 +8,7 @@ const initial=()=>({effective:'',closing:'',propertyReference:'',transactionSide
 let state=initial();
 try {
   const stored=JSON.parse(localStorage.getItem(KEY)||'null');
-  if(stored && typeof stored==='object' && Array.isArray(stored.tasks) && stored.tasks.length<=8 &&
+  if(stored && typeof stored==='object' && Array.isArray(stored.tasks) && (IS_PRO || stored.tasks.length<=8) &&
      typeof stored.effective==='string' && typeof stored.closing==='string') {
     state={...initial(),...stored,tasks:stored.tasks};
     // Do not carry legacy property names or addresses into the anonymous closing reference.
@@ -95,10 +95,10 @@ const activityRow=entry=>{const row=document.createElement('div');row.className=
 $('recentActivity').replaceChildren();if(!activity.length){const empty=document.createElement('p');empty.className='muted';empty.textContent='Activity will appear when tasks are completed or updated.';$('recentActivity').append(empty)}else activity.slice(0,2).forEach(x=>$('recentActivity').append(activityRow(x)));
 $('activityToggle').hidden=activity.length<=2;
 $('activityHistory').replaceChildren();activity.forEach(x=>$('activityHistory').append(activityRow(x)));
-$('taskMessage').textContent=state.tasks.length>=8?'FREE limit reached: 8 tasks. Registration is required to continue in PRO.':'FREE practice: '+(8-state.tasks.length)+' additional tasks available.';
+$('taskMessage').textContent=IS_PRO?'PRO preview: unlimited contract tasks. Changes are saved only in this browser.':(state.tasks.length>=8?'FREE limit reached: 8 tasks. Registration is required to continue in PRO.':'FREE practice: '+(8-state.tasks.length)+' additional tasks available.');
 }
 function timelineText(){
-const lines=['MY CLOSING TIMELINE · FREE PRACTICE','Effective Date: '+fmt(state.effective),'Closing Date: '+fmt(state.closing),''];
+const lines=[IS_PRO?'MY CLOSING TIMELINE · PRO PREVIEW':'MY CLOSING TIMELINE · FREE PRACTICE','Effective Date: '+fmt(state.effective),'Closing Date: '+fmt(state.closing),''];
 for(const t of ordered())lines.push((due(t)?fmt(due(t)):'Date not set')+' | '+t.name+' | '+(t.done?'Done':'Pending'));
 lines.push('','Planning assistance only. Verify all dates against your signed contract.');
 return lines.join('\n');
@@ -141,7 +141,7 @@ $('resetDates').addEventListener('click',()=>{
   $('dateInfo').textContent='Dates cleared. Choose new dates to calculate your timeline.';
 });
 $('start').addEventListener('click',()=>{if(!state.effective||!state.closing||state.closing<state.effective){$('dateInfo').textContent='Enter valid dates. Closing must not precede Effective Date.';return}state.confirmed=true;change()});
-$('addTask').addEventListener('click',()=>{if(state.tasks.length>=8){render();return}const name=$('taskName').value.trim();if(!name){$('taskMessage').textContent='Enter a task name.';return}const days=Math.max(-365,Math.min(365,Number($('taskDays').value)||0));state.tasks.push({id:'custom'+Date.now(),name,days,basis:days<0?'closing':'effective',done:false,completedAt:''});recordActivity('Added',name);$('taskName').value='';$('addTaskPanel').hidden=true;change()});
+$('addTask').addEventListener('click',()=>{if(!IS_PRO && state.tasks.length>=8){render();return}const name=$('taskName').value.trim();if(!name){$('taskMessage').textContent='Enter a task name.';return}const days=Math.max(-365,Math.min(365,Number($('taskDays').value)||0));state.tasks.push({id:'custom'+Date.now(),name,days,basis:days<0?'closing':'effective',done:false,completedAt:''});recordActivity('Added',name);$('taskName').value='';$('addTaskPanel').hidden=true;change()});
 $('activityToggle').addEventListener('click',()=>{const panel=$('activityHistory');panel.hidden=!panel.hidden;$('activityToggle').textContent=panel.hidden?'View Activity History':'Hide Activity History'});
 render();
 })();
