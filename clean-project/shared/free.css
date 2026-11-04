@@ -382,3 +382,34 @@
 @media(min-width:1181px){body:has(#proFollowupRows) main.inner.free-main{max-width:1420px;width:calc(100% - max(40px, (100% - 1140px)));margin-left:max(20px, calc((100% - 1140px)/2));margin-right:0;padding-left:0;padding-right:20px}}
 @media(max-width:1180px){body:has(#proFollowupRows) main.inner.free-main{width:100%;max-width:1140px;margin-inline:auto;padding-inline:20px}}
 @media(max-width:700px){body:has(#proFollowupRows) main.inner.free-main{padding-inline:16px}}
+
+/* PRO Step 2 approved six-task reference: one canonical, page-scoped layout.
+   FREE page, global header and Step 3 are deliberately untouched. */
+body:has(#proFollowupRows) .free-grid{grid-template-columns:minmax(0,1fr)}
+body:has(#proFollowupRows) .free-grid .free-left,
+body:has(#proFollowupRows) .free-grid .free-right{min-width:0}
+body:has(#proFollowupRows) .free-grid .task-rows{gap:2px}
+body:has(#proFollowupRows) .free-grid .task-row{
+  display:grid!important;
+  grid-template-columns:28px minmax(240px,1fr) 78px minmax(175px,.42fr) 102px 66px 72px!important;
+  gap:8px!important;align-items:end!important;
+  padding:17px 10px 8px!important;min-height:82px;
+  background:#f7fafb;border:1px solid #d2e1e7;border-left:5px solid #c6a064;border-radius:10px;
+}
+body:has(#proFollowupRows) .contract-row-index{align-self:center;text-align:center;font-size:15px;font-weight:900;color:#183e50}
+body:has(#proFollowupRows) .free-grid .task-row .task-label,
+body:has(#proFollowupRows) .free-grid .task-row .days-control,
+body:has(#proFollowupRows) .free-grid .task-row .due input,
+body:has(#proFollowupRows) .free-grid .task-row .task-status,
+body:has(#proFollowupRows) .free-grid .task-row .done-btn,
+body:has(#proFollowupRows) .free-grid .task-row .remove-task{height:45px!important;font-size:13px}
+body:has(#proFollowupRows) .free-grid .task-row .task-label{font-size:15px;font-weight:800;padding:8px 10px}
+body:has(#proFollowupRows) .free-grid .task-row .due span{bottom:calc(100% + 3px);font-size:11px}
+body:has(#proFollowupRows) .free-grid .task-row .due{grid-column:auto!important;grid-row:auto!important}
+body:has(#proFollowupRows) .free-grid .task-row .task-status,
+body:has(#proFollowupRows) .free-grid .task-row .done-btn,
+body:has(#proFollowupRows) .free-grid .task-row .remove-task{grid-row:auto!important;grid-column:auto!important}
+@media(max-width:1000px){
+ body:has(#proFollowupRows) .free-grid .task-rows{overflow-x:auto;padding-bottom:6px}
+ body:has(#proFollowupRows) .free-grid .task-row{min-width:820px}
+}
