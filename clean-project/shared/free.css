@@ -314,3 +314,8 @@
 .pro-followup-table tr.pro-overdue:nth-child(even){background:#fbe2df}
 .pro-followup-table tr.pro-done:nth-child(even){background:#e5ecec}
 .pro-followup-table .pro-date-input{min-width:112px}
+
+/* Newly added follow-up stays at top until its date is selected. */
+.pro-followup-table tr.pro-new-task,.pro-followup-table tr.pro-new-task:nth-child(even){background:#e5f5fa}
+.pro-followup-table tr.pro-new-task td{border-top:2px solid #3a9eaf;border-bottom:2px solid #8acbd5}
+.pro-followup-table tr.pro-new-task input:focus{outline:2px solid #278ba2;outline-offset:1px}
