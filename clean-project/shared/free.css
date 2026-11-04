@@ -241,3 +241,24 @@
 .pro-followup-foot{padding:15px 20px;background:#f3f8f8;border-top:1px solid #dce8e9;color:#25495a}
 .pro-followup-foot p{font-size:12px;line-height:1.6}
 .pro-followup-foot small{color:#67818b;font-size:11px}
+
+/* PRO records and learning panels: clean-build design only. */
+.pro-records,.pro-learning{background:#fff;border:1px solid #dbe6e8;border-radius:12px;margin:22px 0;overflow:hidden}
+.pro-records-body{padding:18px 22px;color:#46626c;font-size:13px}
+.pro-records-status{font-weight:700;color:#1b4353;margin-bottom:9px}
+.pro-records-status strong{color:#227b6b}
+.pro-records-actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.pro-records-actions button,.pro-open-record{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border-radius:7px;border:1px solid #c2d7d9;background:#eaf6f4;color:#1c5360;font:700 12px Manrope,sans-serif;cursor:pointer}
+.pro-records-actions .pro-complete{background:#fff0e9;color:#a44e36;border-color:#e6b7a5}
+.pro-learning{padding:20px 22px}
+.pro-learning h2{color:#18394d;font-size:22px;margin:0 0 6px}
+.pro-learning>p{color:#617c85;font-size:13px}
+.pro-learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px 0}
+.pro-learning-grid>div{border:1px solid #e0e9eb;border-radius:9px;padding:15px;display:grid;gap:9px;min-height:78px}
+.pro-learning-grid strong{color:#1c4252;font-size:12px}
+.pro-learning-grid span{color:#59737d;font-size:12px;line-height:1.5}
+.pro-resources{background:#f1f7f8;border:1px solid #cbdfe3;border-radius:9px;padding:14px;color:#1c4858;font-size:13px}
+.pro-resources summary{cursor:pointer;font-weight:800}
+.pro-resources a{color:#166a7b}
+.pro-learning .pro-learning-legal{font-size:11px;color:#70818a;margin:14px 0 0}
+@media(max-width:760px){.pro-learning-grid{grid-template-columns:1fr}}
