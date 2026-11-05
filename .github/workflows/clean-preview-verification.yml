@@ -1,0 +1,21 @@
+name: Verify isolated Workers preview version
+on:
+  workflow_dispatch:
+  push:
+    branches: [clean-rebuild-20261103]
+    paths:
+      - 'clean-project/real-estate-pro-v3.html'
+      - 'clean-project/shared/pro-v3.css'
+      - 'clean-project/verify-preview.cjs'
+      - '.github/workflows/clean-preview-verification.yml'
+jobs:
+  verify-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node clean-project/verify-preview.cjs
