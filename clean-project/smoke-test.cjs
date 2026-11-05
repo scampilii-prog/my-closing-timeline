@@ -105,6 +105,7 @@ assert.match(v3Html,/id="clearDates"/,'V3 must provide Clear Dates');
 assert.match(v3Html,/id="dateHint"/,'V3 must explain the closing date range');
 assert.match(v3Js,/addDays\(state\.effective,60,false\)/,'Closing Date must use 60 calendar days');
 assert.match(v3Js,/state\.effective='';state\.closing='';save\(\);render\(\)/,'Clear Dates must clear both dates');
+assert.match(v3Js,/state\.effective='';state\.closing='';const selected=new Set\(\)/,'V3 preview must reopen with blank dates after refresh');
 assert.match(v3Js,/field\.addEventListener\('mouseenter'/,'Date picker must attempt hover opening');
 assert.match(v3Js,/\$\('closing'\)\.min=state\.effective/,'Closing Date must be bounded by Effective Date');
 new vm.Script(v3Js,{filename:'shared/pro-v3.js'});
