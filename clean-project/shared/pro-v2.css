@@ -17,3 +17,10 @@ body.pro-v2 .pro-followup-scroll{max-height:690px;overflow:auto}
 body.pro-v2 .pro-followup-table thead th{position:sticky;top:0;z-index:2}
 body.pro-v2 .pro-followup-table th.pro-select-heading{z-index:3}
 @media(max-width:850px){body.pro-v2 .pro-v2-middle .pro-v2-summary-grid,body.pro-v2 .pro-v2-middle .activity-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* V2 report actions: one shared style, no duplicate card blocks. */
+body.pro-v2 .pro-v2-report-tools{display:flex;flex-wrap:wrap;gap:7px;padding:12px 2px}
+body.pro-v2 .pro-v2-report-tools button{border:1px solid #b8cbd2;border-radius:7px;background:#eef7f8;color:#18445b;font:700 11px Manrope,sans-serif;padding:8px 11px;cursor:pointer}
+body.pro-v2 .pro-v2-report-tools button:disabled{opacity:.55;cursor:not-allowed}
+body.pro-v2 .pro-v2-contract-summary,body.pro-v2 .pro-v2-follow-summary{display:flex;flex-direction:column}
+body.pro-v2 .pro-v2-contract-summary>.free-card,body.pro-v2 .pro-v2-follow-summary>.free-card{flex:1}
