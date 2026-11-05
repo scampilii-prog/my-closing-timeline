@@ -310,3 +310,9 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — V3 selected-task badge
 - Replace plain `Selected: 0` with compact teal pill `0 tasks selected`, updating singular/plural dynamically. Keep in same action toolbar and avoid enlarging section. No production changes. Await Cloudflare visual verification.
+
+## 2026-11-05 — Approved two-step workspace first implementation
+- Keep existing V3 Step 1 contract tasks, dates, email and formatted-table dialog.
+- Add 2x2 dashboard: Closing Timeline Summary, Follow-Up Summary, Closing Progress & Activity, Today & Tomorrow. Cards derive from Step 1 and Step 2 task state, with overdue and upcoming deadlines computed locally.
+- Add Step 2 Follow-Up Tasks (former Step 3) with ten starter tasks, editable names and due dates, Done/Reopen, Delete, Add Custom Task. Local browser demo only, not server-saved or production ready.
+- Both task tables have sticky headers and a bounded internal scroll area; no separate old CSS imported. Next: browser verify live deployment and refine semantics/behavior against approved wireframe. Production untouched.
