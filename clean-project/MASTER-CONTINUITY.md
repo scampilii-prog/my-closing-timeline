@@ -274,3 +274,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — One identical report for Copy Selected and email
 - User explicitly approved the PNG pasted in email (first screenshot) and requested that the Copy Selected modal (second screenshot) show that same design. `openCopyReport()` now renders the exact PNG produced by `reportPng()` as an image inside the modal. `Copy Formatted Table` uses the same PNG generator, so both views share one design source. HTML report remains as fallback when image preview is unavailable. The modal's temporary object URL is revoked on close. This avoids maintaining two competing report layouts. Requires preview deployment and browser test; production unchanged.
+
+## 2026-11-05 — Copy Selected preview not updating
+- User reports Copy Selected still showing old HTML report instead of the approved PNG copied to Apple Mail. The branch already contains the image preview implementation; changed the V3 page script URL to `shared/pro-v3.js?v=20261105-copy-preview-2` to invalidate a potentially cached old JavaScript file. Verify that preview deployment actually serves this HTML/JS version. Do not claim the issue is resolved without browser confirmation.
