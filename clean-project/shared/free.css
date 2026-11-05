@@ -427,3 +427,8 @@ body:has(#proFollowupRows) .free-grid .task-row .remove-task{grid-row:auto!impor
 .pro-followup-table th.pro-select-heading,.pro-followup-table td.pro-select-cell{background:#e3f2ee;text-align:center;width:43px;min-width:43px;max-width:43px}
 .pro-select-task{width:17px;height:17px;accent-color:#087e71;cursor:pointer}
 .pro-followup-table th:nth-child(7),.pro-followup-table td:nth-child(7){min-width:112px;width:112px}
+
+/* Contract task email-selection column, PRO preview only. */
+body:has(#contractSelectedCount) .task-row{grid-template-columns:22px 22px minmax(110px,1fr) 60px 145px 70px 60px 60px;gap:5px}
+body:has(#contractSelectedCount) .contract-select-task{width:17px;height:17px;accent-color:#087e71;align-self:center;justify-self:center;cursor:pointer}
+body:has(#contractSelectedCount) .task-rows{max-height:720px;overflow-y:auto}
