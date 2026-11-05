@@ -101,6 +101,12 @@ assert.equal(JSON.parse(v3Defaults[1].replace(/'/g,'"')).length,6,'V3 must start
 for(const id of ['emailDialog','recipientList','addRecipient','saveRecipient','recipientName','recipientEmail','recipientRole','emailSubject','emailMessage','includeCongrats','emailPreview','openMail'])assert.equal((v3Html.match(new RegExp('id="'+id+'"','g'))||[]).length,1,'V3 composer must have '+id);
 assert.match(v3Js,/mct-clean-v3-recipients-demo/,'V3 demo contacts use separate local storage');
 assert.match(v3Js,/chosenRecipients/,'V3 supports multiple recipients');
+assert.match(v3Html,/id="clearDates"/,'V3 must provide Clear Dates');
+assert.match(v3Html,/id="dateHint"/,'V3 must explain the closing date range');
+assert.match(v3Js,/addDays\(state\.effective,60,false\)/,'Closing Date must use 60 calendar days');
+assert.match(v3Js,/state\.effective='';state\.closing='';save\(\);render\(\)/,'Clear Dates must clear both dates');
+assert.match(v3Js,/field\.addEventListener\('mouseenter'/,'Date picker must attempt hover opening');
+assert.match(v3Js,/\$\('closing'\)\.min=state\.effective/,'Closing Date must be bounded by Effective Date');
 new vm.Script(v3Js,{filename:'shared/pro-v3.js'});
 console.log('PASS: isolated V3 Step 1 assets, six original tasks, selection, Done, restore and JS syntax.');
 
