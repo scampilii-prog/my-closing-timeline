@@ -73,3 +73,12 @@
 .v3-dashboard-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.v3-stat{border:1px solid #dce5e9;border-radius:10px;padding:10px 4px;text-align:center;background:#f9fbfc}.v3-stat span{display:block;font-size:11px;font-weight:700;color:#60798a}.v3-stat strong{display:block;font-size:25px;color:#193b50}
 .v3-near-panel{border:1px solid #dbe4e9;border-radius:12px;padding:10px;margin:10px 0}.v3-near-heading{display:flex;justify-content:space-between;align-items:center;border-radius:9px;padding:12px;font-size:18px}.v3-near-heading span{background:#ffffffa8;border-radius:10px;min-width:33px;text-align:center;padding:5px;font-size:20px}.v3-near-panel p{margin:10px 5px 2px;color:#365b6f;font-size:12px;font-weight:600}.v3-pending .v3-near-heading{background:#fbe2e2;color:#a53f3f}.v3-today .v3-near-heading{background:#fff0b7;color:#80601a}.v3-tomorrow .v3-near-heading{background:#deedf9;color:#28628a}
 @media(max-width:650px){.v3-timeline-status{display:none}.v3-timeline-date{font-size:10px}.v3-dashboard .v3-summary-body{padding:10px!important}}
+
+/* Step-to-result hierarchy and the original site's calendar-check motif. */
+.v3-dashboard .v3-summary-title{min-height:83px;gap:12px!important}
+.v3-dashboard .v3-summary-icon{background:#07818d;flex:0 0 42px;width:42px;height:42px;border-radius:9px}
+.v3-summary-icon svg{display:block}
+.v3-summary-heading-text{display:flex;flex-direction:column;gap:5px;min-width:0}
+.v3-summary-heading-text small{font-size:10px;font-weight:800;letter-spacing:.075em;color:#efc581;line-height:1.25}
+.v3-summary-heading-text>span{display:block;color:#fff;font-weight:800}
+.v3-followup-frame .v3-head small,.v3-frame>.v3-head small{letter-spacing:.065em}
