@@ -2,7 +2,7 @@
 // It never publishes anything or touches production.
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
-const base='https://plain-mouse-a4cc.scampilii.workers.dev';
+const base=process.env.MCT_PREVIEW_URL||'https://plain-mouse-a4cc.scampilii.workers.dev';
 const html=fs.readFileSync(__dirname+'/real-estate-pro-v3.html','utf8');
 assert.match(html,/>View Formatted Table<\/button>/,'Expected approved V3 button in repository');
 assert.match(html,/shared\/pro-v3\.css\?v=20261105-aligned-frame/,'Expected versioned stylesheet');
