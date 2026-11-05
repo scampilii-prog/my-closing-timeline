@@ -271,3 +271,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Remove report icon/title divider
 - User requested removal of the thick vertical gold separator between the calendar icon and `Closing Timeline Summary` title, both in the on-screen report and in the PNG copied for email. Removed divider cell from `buildReport()` and the gold vertical rectangle from `reportPng()` in `shared/pro-v3.js`. Other report styling unchanged; verify after preview refresh.
+
+## 2026-11-05 — One identical report for Copy Selected and email
+- User explicitly approved the PNG pasted in email (first screenshot) and requested that the Copy Selected modal (second screenshot) show that same design. `openCopyReport()` now renders the exact PNG produced by `reportPng()` as an image inside the modal. `Copy Formatted Table` uses the same PNG generator, so both views share one design source. HTML report remains as fallback when image preview is unavailable. The modal's temporary object URL is revoked on close. This avoids maintaining two competing report layouts. Requires preview deployment and browser test; production unchanged.
