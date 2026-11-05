@@ -1,7 +1,19 @@
-/* Real Estate PRO V2 — dedicated stylesheet.
-   V2 currently retains the working preview modules while the approved layout
-   is migrated. Do not copy legacy overrides into this file. */
-body.pro-v2 .pro-followup-scroll{max-height:740px;overflow:auto}
+/* V2 page layout — single dedicated source of layout rules. */
+body.pro-v2 .pro-v2-contract,body.pro-v2 .pro-v2-middle,body.pro-v2 .pro-followup-panel{margin:20px 0}
+body.pro-v2 .pro-v2-contract{border:1px solid #d9b67c;border-radius:15px;background:#fcfaf5;padding:16px}
+body.pro-v2 .pro-v2-section-head{padding:4px 8px 15px;color:#173e54}
+body.pro-v2 .pro-v2-section-head span{font-size:11px;font-weight:800;letter-spacing:1px;color:#9c773d}
+body.pro-v2 .pro-v2-section-head h2{font-size:26px;margin:4px 0}
+body.pro-v2 .pro-v2-section-head p{font-size:13px;margin:0;color:#617b84}
+body.pro-v2 .pro-v2-contract .free-card{max-width:none}
+body.pro-v2 .pro-v2-contract .task-rows{max-height:690px;overflow-y:auto}
+body.pro-v2 .pro-v2-middle .pro-v2-summary-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-bottom:18px}
+body.pro-v2 .pro-v2-middle .pro-v2-summary-grid>*{min-width:0}
+body.pro-v2 .pro-v2-middle .pro-v2-summary-grid .free-card{height:100%;box-sizing:border-box}
+body.pro-v2 .pro-v2-middle .activity-grid{margin:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+body.pro-v2 .pro-v2-follow-summary #proSelectedSummary{max-height:280px;overflow:auto;min-height:90px}
+body.pro-v2 .pro-v2-follow-summary .pro-selected-actions{margin-top:16px}
+body.pro-v2 .pro-followup-scroll{max-height:690px;overflow:auto}
 body.pro-v2 .pro-followup-table thead th{position:sticky;top:0;z-index:2}
 body.pro-v2 .pro-followup-table th.pro-select-heading{z-index:3}
-body.pro-v2 .pro-followup-panel{min-width:0}
+@media(max-width:850px){body.pro-v2 .pro-v2-middle .pro-v2-summary-grid,body.pro-v2 .pro-v2-middle .activity-grid{grid-template-columns:minmax(0,1fr)}}
