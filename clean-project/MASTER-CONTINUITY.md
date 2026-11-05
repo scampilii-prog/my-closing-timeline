@@ -236,3 +236,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 - User's screenshots show copied summary missing the DUE DATE column, while approved reference has four columns (#, TASK / MILESTONE, DAYS, DUE DATE), navy-and-gold header, circular milestone numbering, blue effective-date row and rose closing-date row.
 - Root cause verified in `shared/pro-v3.css`: global `table{min-width:1020px}` applied to the report nested inside a ~850px dialog, clipping the fourth column. Fixed the existing `.v3-report-table` declaration with `min-width:0;max-width:100%;table-layout:fixed` and explicit second/fourth column widths. Did not change contract task table, selection behavior, or production.
 - Next: user browser verification of due-date column and actual pasted HTML in Apple Mail; source change alone does not prove mail-client rendering.
+
+## 2026-11-05 — Header alignment reference screenshot 1:30 PM
+- User requested the Step 1 contract table and site header/logo aligned at their left edges. Screenshot shows logo visible start ~x248 and table left edge ~x217, a ~31px discrepancy. Replaced the earlier unverified -82px V3-only logo margin with -31px at desktop widths >=1181px; no changes to the table or shared site header. Requires browser screenshot confirmation, because preview deployment timing can differ.
