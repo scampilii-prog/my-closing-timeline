@@ -268,3 +268,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 ## 2026-11-05 — Preserve report appearance when pasting into Apple Mail
 - User requires pasted report to look like the browser preview. Apple Mail reformats HTML tables and strips or changes typography, spacing, image positioning and circular milestone badges.
 - The `Copy Formatted Table` action now first creates a PNG rendering of the selected Closing Timeline Summary and copies it as `image/png` through the Clipboard API, retaining a consistent fixed visual design when pasted into Apple Mail. It includes the navy/gold header, drawn calendar mark, numbered circles, four columns, colored Effective/Closing rows and disclaimer. If PNG clipboard is unavailable, it falls back to the existing HTML clipboard. `Copy Text` remains editable plain text. Note: pasted PNG is an image, not editable table text. Requires actual Apple Mail paste test; no production changes.
+
+## 2026-11-05 — Remove report icon/title divider
+- User requested removal of the thick vertical gold separator between the calendar icon and `Closing Timeline Summary` title, both in the on-screen report and in the PNG copied for email. Removed divider cell from `buildReport()` and the gold vertical rectangle from `reportPng()` in `shared/pro-v3.js`. Other report styling unchanged; verify after preview refresh.
