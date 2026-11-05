@@ -232,10 +232,10 @@
 .pro-followup-table input[type=checkbox]{width:17px;height:17px;accent-color:#24836e}
 .pro-followup-table th:nth-child(1),.pro-followup-table td:nth-child(1){width:37px}
 .pro-followup-table th:nth-child(2),.pro-followup-table td:nth-child(2){width:24px}
-.pro-followup-table th:nth-child(3),.pro-followup-table td:nth-child(3){width:205px}
+.pro-followup-table th:nth-child(3),.pro-followup-table td:nth-child(3){width:260px}
 .pro-followup-table th:nth-child(4),.pro-followup-table td:nth-child(4){width:42px}
 .pro-followup-table th:nth-child(5),.pro-followup-table td:nth-child(5){width:51px}
-.pro-followup-table th:nth-child(6),.pro-followup-table td:nth-child(6){width:113px}
+.pro-followup-table th:nth-child(6),.pro-followup-table td:nth-child(6){width:116px}
 .pro-followup-table th:nth-child(7),.pro-followup-table td:nth-child(7){width:116px}
 .pro-followup-table th:nth-child(8),.pro-followup-table td:nth-child(8){width:58px}
 .pro-followup-table th:nth-child(9),.pro-followup-table td:nth-child(9){width:59px}
@@ -340,7 +340,6 @@
 /* One action column: Delete becomes Apply only while schedule edits are pending. */
 .pro-followup-table .pro-delete.pro-apply-mode{background:#e7bd70;border-color:#c5984a;color:#18394d;font-weight:800}
 .pro-followup-table .pro-delete.pro-apply-mode:hover{background:#f3d28d}
-.pro-followup-table td:nth-child(6),.pro-followup-table th:nth-child(6){min-width:110px;width:auto}
 .pro-followup-table .pro-date-input{width:100%;min-width:110px}
 
 /* High-contrast pending action: Apply must be immediately recognizable. */
