@@ -277,3 +277,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Copy Selected preview not updating
 - User reports Copy Selected still showing old HTML report instead of the approved PNG copied to Apple Mail. The branch already contains the image preview implementation; changed the V3 page script URL to `shared/pro-v3.js?v=20261105-copy-preview-2` to invalidate a potentially cached old JavaScript file. Verify that preview deployment actually serves this HTML/JS version. Do not claim the issue is resolved without browser confirmation.
+
+## 2026-11-05 — Report divider and size control
+- User still saw a thick vertical gold divider beside the report icon. Removed the unused `dividerCell` declaration entirely and reduced icon/title gap in HTML fallback; PNG canvas already draws no gold divider. Added a 55–100% Report size slider to Copy Selected modal for manual on-screen resizing and cache-busted V3 script. The PNG copied to clipboard retains full resolution and is resized in Apple Mail after paste using Mail's image resizing behavior (dependent on Mail version). The modal slider does not alter PNG dimensions. Preview deployment/browser verification pending; production untouched.
