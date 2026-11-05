@@ -261,3 +261,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Date action buttons visibility
 - Clear Dates and Restore Original Tasks must stay grouped and immediately beside Start Closing on wide screens, not isolated at the far right. In V3 CSS removed automatic left margin on date-tools group, aligned it to the left, and retained a visible light-blue bordered panel with larger buttons. On narrow screens wrapping is permitted. Do not hide these actions or detach them from date controls.
+
+## 2026-11-05 — Email report visual refinements
+- User screenshot shows too-short navy report header, a broken image icon, and heavy type in pasted email. Increased report header padding, changed heading to 25px weight 600, body to 13px weight 500 with 1.5 line-height and taller rows. Calendar icon now references the published website asset at myclosingtimeline.com/assets/myclosingtimeline-email-icon.png rather than raw GitHub. Verify actual email image loading; remote images may be blocked by mail client. Only clean rebuild branch changed.
