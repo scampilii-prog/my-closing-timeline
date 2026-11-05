@@ -304,3 +304,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Deployment workflow hardened
 - Updated manual preview deployment workflow to remove the undeclared `clean-preview` GitHub Environment dependency and to require remote verification after deployment; missing `CF_PREVIEW_SUBDOMAIN` now fails rather than claiming success. A dedicated worker name remains enforced. GitHub secrets `CF_PREVIEW_API_TOKEN`, `CF_PREVIEW_ACCOUNT_ID`, and `CF_PREVIEW_SUBDOMAIN` must be configured by the repository owner; the assistant cannot read or create Cloudflare credentials via current tools. The workflow is not executed and no public preview URL is yet verified.
+
+## 2026-11-05 — Fix V3 header logo / main content left alignment
+- User screenshot shows visible logo about 96px left of main content frame at 80% browser zoom. Root cause: `shared/pro-v3.css` desktop `margin-left:-124px` on `.header .logo`, while header `.inner` and `.v3-wrap` already use matching 1140px centered containers. Removed the negative logo offset instead of adding another override. Bumped V3 stylesheet URL and updated remote preview verification to reject the obsolete offset. Await visual verification after Cloudflare publishes this commit. Production untouched.
