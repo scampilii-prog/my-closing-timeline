@@ -81,7 +81,7 @@ new vm.Script(siteScript,{filename:'shared/site.js'});
 const v3Html=read('real-estate-pro-v3.html');
 const v3Css=read('shared/pro-v3.css');
 const v3Js=read('shared/pro-v3.js');
-for(const id of ['effective','closing','counting','restore','rows','selectedCount','email','copy','clear','add','sort','total']){
+for(const id of ['effective','closing','counting','restore','rows','selectedCount','email','copy','selectHeader','add','sort','total']){
  assert.equal((v3Html.match(new RegExp('id="'+id+'"','g'))||[]).length,1,'V3 must have one '+id);
 }
 assert.match(v3Html,/shared\/pro-v3\.css/);
@@ -92,6 +92,9 @@ assert.match(v3Css,/thead th\{position:sticky/,'V3 table header remains visible'
 assert.match(v3Js,/mct-clean-v3-step1-demo/,'V3 has its own browser practice key');
 assert.match(v3Js,/localStorage\.setItem\(key/,'V3 saves changes locally');
 assert.match(v3Js,/selected\.clear\(\)/,'V3 supports deselect all');
+assert.match(v3Js,/\$\('selectHeader'\)\.onclick=/,'V3 Deselect must live in the Select header');
+assert.doesNotMatch(v3Html,/id="clear"/,'V3 must not duplicate Deselect in the toolbar');
+assert.match(v3Css,/\.v3-actions \.v3-share/,'Email and Copy share the same distinct styling');
 assert.match(v3Js,/mailto:/,'V3 email prepares a draft');
 assert.match(v3Js,/t\.done=done\.checked/,'V3 Done is independent of selection');
 assert.match(v3Js,/state\.tasks=fresh\(\)\.tasks/,'V3 can restore six original tasks');
