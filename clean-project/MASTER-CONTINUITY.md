@@ -258,3 +258,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Step 1 right-side action buttons
 - Group Clear Dates and Restore Original Tasks in a single softly bordered light-blue panel on the right of the date controls. Both buttons have larger 13px labels, at least 40px height, clear hover/focus treatment and an 8px gap, so they are easy to locate. Keep Start Closing separate as the primary action. Change scoped to clean-project/shared/pro-v3.css on isolated branch; production untouched.
+
+## 2026-11-05 — Date action buttons visibility
+- Clear Dates and Restore Original Tasks must stay grouped and immediately beside Start Closing on wide screens, not isolated at the far right. In V3 CSS removed automatic left margin on date-tools group, aligned it to the left, and retained a visible light-blue bordered panel with larger buttons. On narrow screens wrapping is permitted. Do not hide these actions or detach them from date controls.
