@@ -24,6 +24,7 @@ const offsetBetween=(base,target)=>{if(!base||!target)return 0;if(state.counting
 const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
 const recordActivity=(action,task,detail='')=>{state.activity=Array.isArray(state.activity)?state.activity:[];state.activity.unshift({action,task,detail,at:new Date().toISOString()});state.activity=state.activity.slice(0,50)};
 const change=()=>{save();render()};
+const contractSelected=new Set();
 let freezeOrder=false;
 let visibleIds=[];
 // Stable baseline order: contractual offsets first, closing-relative final steps last.
@@ -59,6 +60,7 @@ $('totalCount').textContent=state.tasks.length;$('openCount').textContent=state.
 $('taskRows').replaceChildren();
 for(const [rowIndex,t] of ordered().entries()){
 const row=document.createElement('div');row.className='task-row'+(t.done?' done':'');
+if(IS_PRO){const check=document.createElement('input');check.type='checkbox';check.className='contract-select-task';check.checked=contractSelected.has(t.id);check.setAttribute('aria-label','Select '+t.name+' for email');check.addEventListener('change',()=>{check.checked?contractSelected.add(t.id):contractSelected.delete(t.id);renderContractSelection()});row.append(check)}
 if(IS_PRO){const index=document.createElement('span');index.className='contract-row-index';index.textContent=String(rowIndex+1);row.append(index)}
 const name=document.createElement('input');name.type='text';name.className='task-label';name.value=t.name;name.disabled=t.done;name.setAttribute('aria-label','Contract task name');name.addEventListener('change',()=>{t.name=name.value.trim()||'Unnamed task';recordActivity('Renamed',t.name);change()});
 const numWrap=document.createElement('div');numWrap.className='days-control';const num=document.createElement('input');num.type='number';num.value=t.days;num.min=-365;num.max=365;num.disabled=t.done;num.setAttribute('aria-label','Days offset for '+t.name);num.addEventListener('change',()=>{const before=due(t);const next=Math.max(-365,Math.min(365,Number(num.value)||0));if(next===Number(t.days))return;t.days=next;delete t.manualDue;recordActivity('Rescheduled',t.name,fmt(before)+' → '+fmt(due(t)));change()});const stepper=document.createElement('div');stepper.className='days-stepper';for(const [symbol,delta] of [['▲',1],['▼',-1]]){const btn=document.createElement('button');btn.type='button';btn.textContent=symbol;btn.setAttribute('aria-label',(delta>0?'Increase':'Decrease')+' days for '+t.name);btn.disabled=t.done;btn.addEventListener('click',()=>{const before=due(t);const next=Math.max(-365,Math.min(365,Number(t.days)+delta));if(next===Number(t.days))return;t.days=next;delete t.manualDue;recordActivity('Rescheduled',t.name,fmt(before)+' → '+fmt(due(t)));change()});stepper.append(btn)}numWrap.append(num,stepper);
@@ -66,7 +68,7 @@ const date=document.createElement('div');date.className='due';const dueLabel=doc
 const status=document.createElement('span');status.className='task-status'+(t.done?' completed':'');status.textContent=taskStatus(t);
 const doneBtn=document.createElement('button');doneBtn.type='button';doneBtn.className='done-btn';doneBtn.textContent=t.done?'Reopen':'Done';doneBtn.addEventListener('click',()=>{t.done=!t.done;t.completedAt=t.done?iso(new Date()):'';recordActivity(t.done?'Completed':'Reopened',t.name);change()});
 row.append(name,numWrap,date,status,doneBtn);
-const remove=document.createElement('button');remove.type='button';remove.className='remove-task';remove.textContent='Remove';remove.disabled=t.done;remove.addEventListener('click',()=>{if(confirm('Remove this task?')){state.tasks=state.tasks.filter(x=>x.id!==t.id);recordActivity('Removed',t.name);change()}});row.append(remove);$('taskRows').append(row);
+const remove=document.createElement('button');remove.type='button';remove.className='remove-task';remove.textContent='Remove';remove.disabled=t.done;remove.addEventListener('click',()=>{if(confirm('Remove this task?')){state.tasks=state.tasks.filter(x=>x.id!==t.id);contractSelected.delete(t.id);recordActivity('Removed',t.name);change()}});row.append(remove);$('taskRows').append(row);
 
 }
 const list=ordered();
@@ -96,6 +98,7 @@ const activityRow=entry=>{const row=document.createElement('div');row.className=
 $('recentActivity').replaceChildren();if(!activity.length){const empty=document.createElement('p');empty.className='muted';empty.textContent='Activity will appear when tasks are completed or updated.';$('recentActivity').append(empty)}else activity.slice(0,2).forEach(x=>$('recentActivity').append(activityRow(x)));
 $('activityToggle').hidden=activity.length<=2;
 $('activityHistory').replaceChildren();activity.forEach(x=>$('activityHistory').append(activityRow(x)));
+renderContractSelection();
 $('taskMessage').textContent=IS_PRO?'PRO preview: unlimited contract tasks. Changes are saved only in this browser.':(state.tasks.length>=8?'FREE limit reached: 8 tasks. Registration is required to continue in PRO.':'FREE practice: '+(8-state.tasks.length)+' additional tasks available.');
 }
 function timelineText(){
@@ -105,7 +108,7 @@ lines.push('','Planning assistance only. Verify all dates against your signed co
 return lines.join('\n');
 }
 $('dayCounting').addEventListener('change',e=>{state.counting=e.target.value;state.tasks.forEach(t=>delete t.manualDue);recordActivity('Updated','Deadline counting');freezeOrder=false;change()});
-$('resetTasks').addEventListener('click',()=>{if(!confirm('Restore the 6 original contract tasks and day offsets? Your edited tasks and their completion status will be replaced.'))return;state.tasks=initial().tasks;recordActivity('Restored','Original task list');freezeOrder=false;change();$('summaryFeedback').textContent='Original task list restored.'});
+$('resetTasks').addEventListener('click',()=>{if(!confirm('Restore the 6 original contract tasks and day offsets? Your edited tasks and their completion status will be replaced.'))return;state.tasks=initial().tasks;contractSelected.clear();recordActivity('Restored','Original task list');freezeOrder=false;change();$('summaryFeedback').textContent='Original task list restored.'});
 $('sortTasks').addEventListener('click',()=>{freezeOrder=false;render();$('summaryFeedback').textContent='Tasks automatically sorted by due date.'});
 $('updateTable').addEventListener('click',()=>{freezeOrder=false;change();$('summaryFeedback').textContent='Table updated.'});
 $('toggleAddTask').addEventListener('click',()=>{$('addTaskPanel').hidden=!$('addTaskPanel').hidden});
