@@ -92,12 +92,15 @@ assert.match(v3Css,/thead th\{position:sticky/,'V3 table header remains visible'
 assert.match(v3Js,/mct-clean-v3-step1-demo/,'V3 has its own browser practice key');
 assert.match(v3Js,/localStorage\.setItem\(key/,'V3 saves changes locally');
 assert.match(v3Js,/selected\.clear\(\)/,'V3 supports deselect all');
-assert.match(v3Js,/mailto:\?subject=/,'V3 email prepares a draft');
+assert.match(v3Js,/mailto:/,'V3 email prepares a draft');
 assert.match(v3Js,/t\.done=done\.checked/,'V3 Done is independent of selection');
 assert.match(v3Js,/state\.tasks=fresh\(\)\.tasks/,'V3 can restore six original tasks');
 const v3Defaults=v3Js.match(/const baseline=(\[[^;]+\]);const fresh=/);
 assert.ok(v3Defaults,'V3 must declare six contract defaults');
 assert.equal(JSON.parse(v3Defaults[1].replace(/'/g,'"')).length,6,'V3 must start with six contract tasks');
+for(const id of ['emailDialog','recipientList','addRecipient','saveRecipient','recipientName','recipientEmail','recipientRole','emailSubject','emailMessage','includeCongrats','emailPreview','openMail'])assert.equal((v3Html.match(new RegExp('id="'+id+'"','g'))||[]).length,1,'V3 composer must have '+id);
+assert.match(v3Js,/mct-clean-v3-recipients-demo/,'V3 demo contacts use separate local storage');
+assert.match(v3Js,/chosenRecipients/,'V3 supports multiple recipients');
 new vm.Script(v3Js,{filename:'shared/pro-v3.js'});
 console.log('PASS: isolated V3 Step 1 assets, six original tasks, selection, Done, restore and JS syntax.');
 
