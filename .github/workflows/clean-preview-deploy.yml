@@ -7,7 +7,6 @@ jobs:
   deploy-preview:
     if: github.ref == 'refs/heads/clean-rebuild-20261103'
     runs-on: ubuntu-latest
-    environment: clean-preview
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,12 +30,14 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PREVIEW_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_PREVIEW_ACCOUNT_ID }}
         run: npx --yes wrangler@4 deploy --config wrangler-preview.json
+      - name: Wait for Workers assets to become available
+        run: sleep 8
       - name: Verify deployed preview matches branch
         env:
           MCT_PREVIEW_URL: https://mct-clean-preview-20261103.${{ secrets.CF_PREVIEW_SUBDOMAIN }}.workers.dev
         run: |
           if [ -z "${{ secrets.CF_PREVIEW_SUBDOMAIN }}" ]; then
-            echo "::notice::Deployment complete; verify URL in Wrangler output. Add CF_PREVIEW_SUBDOMAIN to enable remote check."
-            exit 0
+            echo "::error::CF_PREVIEW_SUBDOMAIN is required to verify the deployed version; no success claim without verification."
+            exit 1
           fi
           node clean-project/verify-preview.cjs
