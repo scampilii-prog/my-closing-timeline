@@ -1,0 +1,7 @@
+/* Real Estate PRO V2 — dedicated stylesheet.
+   V2 currently retains the working preview modules while the approved layout
+   is migrated. Do not copy legacy overrides into this file. */
+body.pro-v2 .pro-followup-scroll{max-height:740px;overflow:auto}
+body.pro-v2 .pro-followup-table thead th{position:sticky;top:0;z-index:2}
+body.pro-v2 .pro-followup-table th.pro-select-heading{z-index:3}
+body.pro-v2 .pro-followup-panel{min-width:0}
