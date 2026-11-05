@@ -34,3 +34,27 @@
 
 /* Selected task count: compact, high-contrast status pill. */
 .v3-actions .v3-selected-pill{display:inline-flex;align-items:center;justify-content:center;min-width:108px;min-height:35px;padding:7px 12px;margin:0;border:1px solid #9dc6c3;border-radius:999px;background:#e5f5f1;color:#126258;font-size:13px;font-weight:800;line-height:1.2;white-space:nowrap;letter-spacing:.01em}
+
+/* Approved clean workspace: compact two-column summaries and fixed-height task tables. */
+.v3-scroll-fixed{max-height:510px;overflow:auto;overscroll-behavior:contain}
+.v3-scroll-fixed thead th{position:sticky;top:0;z-index:2}
+.v3-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.v3-summary-card{min-width:0;min-height:165px;padding:17px 19px;border:1px solid #d4e3e8;border-radius:12px;background:#fff;box-shadow:0 2px 8px #173e5408}
+.v3-summary-card h2{font-size:17px;color:#173e54;margin:0 0 12px}
+.v3-summary-body{font-size:12px;color:#244b60}
+.v3-summary-line{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid #e8eff2}
+.v3-summary-line span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v3-summary-line strong{flex:none;color:#0d766d}
+.v3-summary-empty{color:#617987;font-size:12px;line-height:1.5}
+.v3-progress-count{font-size:16px;font-weight:800;margin:0 0 12px}
+.v3-progress-track{height:11px;background:#e6eef1;border-radius:12px;overflow:hidden}
+.v3-progress-fill{height:100%;background:#0d8375;border-radius:12px}
+.v3-near-group{border-left:4px solid #c5a65c;padding:7px 10px;margin-bottom:8px;background:#fff8e6;border-radius:4px}
+.v3-near-group.v3-tomorrow{border-left-color:#0d8375;background:#eaf7f2}
+.v3-near-group p{margin:5px 0 0}
+.v3-followup-frame{margin-bottom:18px}
+.v3-followup-frame .v3-head h2{font-size:24px;margin:4px 0;color:#173e54}
+.v3-followup-frame .v3-actions #addFollowup{background:#d6f1e4;border:2px solid #58a889;color:#14563f;font-weight:800}
+.v3-followup-table{width:100%;min-width:650px}
+.v3-followup-table input[type=text]{min-width:180px;width:100%}
+@media(max-width:760px){.v3-dashboard{grid-template-columns:1fr}.v3-scroll-fixed{max-height:470px}}
