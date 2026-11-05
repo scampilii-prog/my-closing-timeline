@@ -280,3 +280,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Report divider and size control
 - User still saw a thick vertical gold divider beside the report icon. Removed the unused `dividerCell` declaration entirely and reduced icon/title gap in HTML fallback; PNG canvas already draws no gold divider. Added a 55–100% Report size slider to Copy Selected modal for manual on-screen resizing and cache-busted V3 script. The PNG copied to clipboard retains full resolution and is resized in Apple Mail after paste using Mail's image resizing behavior (dependent on Mail version). The modal slider does not alter PNG dimensions. Preview deployment/browser verification pending; production untouched.
+
+## 2026-11-05 — Clarify View Formatted Table action
+- User observed `Copy Selected` was misleading: it opens a report preview, not immediately copying. Renamed button to `View Formatted Table`, made its padding/font compact, and clarified dialog help. Retained `Copy Formatted Table` as the actual copy action. Reduced HTML report icon/title gap; PNG already has no gold divider. Cache-bust references adjusted. The preview host still appeared to serve old assets in the user's screenshot; changes are committed to isolated branch but deployment/browser visibility is not confirmed. Production untouched.
