@@ -239,3 +239,8 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Header alignment reference screenshot 1:30 PM
 - User requested the Step 1 contract table and site header/logo aligned at their left edges. Screenshot shows logo visible start ~x248 and table left edge ~x217, a ~31px discrepancy. Replaced the earlier unverified -82px V3-only logo margin with -31px at desktop widths >=1181px; no changes to the table or shared site header. Requires browser screenshot confirmation, because preview deployment timing can differ.
+
+## 2026-11-05 — Approved report heading style and all section titles
+- User explicitly approved restoring the original branded title treatment across reports and future sections, based on screenshots: navy header, teal square icon, vertical gold separator, small uppercase gold eyebrow (for Closing Timeline Summary: `YOUR CLOSING AT A GLANCE`), main white title with the final accent word `Summary` in gold italic serif. Keep the distinct approved title wording for each section (e.g., `Closing Progress & Activity`, `Today & Tomorrow`, `Daily Follow-Up Checklist`); apply the same coherent heading system rather than generic plain titles.
+- Updated `clean-project/shared/pro-v3.js` `buildReport()` to render the approved `Closing Timeline Summary` branded heading both in the preview and copied HTML, using inline styles for mail-client compatibility. Preserved selected task rows, four columns and dates. Teal square uses a text glyph rather than an embedded image to keep clipboard HTML self-contained. Requires browser/Apple Mail verification.
+- Work only in isolated `clean-rebuild-20261103` branch; no production changes. Do not reintroduce legacy contradictory CSS rules.
