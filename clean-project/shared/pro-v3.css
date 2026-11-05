@@ -31,3 +31,6 @@
 .v3-date-tool-buttons{transform:translateY(7px)}
 .v3-date-tools .v3-plan-hint{position:absolute;left:20px;bottom:7px;max-width:none;margin:0;text-align:left;white-space:normal}
 @media(max-width:720px){.v3-dates{padding-bottom:43px}.v3-date-tool-buttons{transform:none}.v3-date-tools .v3-plan-hint{right:20px;bottom:8px}}
+
+/* Selected task count: compact, high-contrast status pill. */
+.v3-actions .v3-selected-pill{display:inline-flex;align-items:center;justify-content:center;min-width:108px;min-height:35px;padding:7px 12px;margin:0;border:1px solid #9dc6c3;border-radius:999px;background:#e5f5f1;color:#126258;font-size:13px;font-weight:800;line-height:1.2;white-space:nowrap;letter-spacing:.01em}
