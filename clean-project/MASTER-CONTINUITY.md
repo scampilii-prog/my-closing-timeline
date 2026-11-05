@@ -307,3 +307,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Fix V3 header logo / main content left alignment
 - User screenshot shows visible logo about 96px left of main content frame at 80% browser zoom. Root cause: `shared/pro-v3.css` desktop `margin-left:-124px` on `.header .logo`, while header `.inner` and `.v3-wrap` already use matching 1140px centered containers. Removed the negative logo offset instead of adding another override. Bumped V3 stylesheet URL and updated remote preview verification to reject the obsolete offset. Await visual verification after Cloudflare publishes this commit. Production untouched.
+
+## 2026-11-05 — V3 selected-task badge
+- Replace plain `Selected: 0` with compact teal pill `0 tasks selected`, updating singular/plural dynamically. Keep in same action toolbar and avoid enlarging section. No production changes. Await Cloudflare visual verification.
