@@ -264,3 +264,7 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Email report visual refinements
 - User screenshot shows too-short navy report header, a broken image icon, and heavy type in pasted email. Increased report header padding, changed heading to 25px weight 600, body to 13px weight 500 with 1.5 line-height and taller rows. Calendar icon now references the published website asset at myclosingtimeline.com/assets/myclosingtimeline-email-icon.png rather than raw GitHub. Verify actual email image loading; remote images may be blocked by mail client. Only clean rebuild branch changed.
+
+## 2026-11-05 — Preserve report appearance when pasting into Apple Mail
+- User requires pasted report to look like the browser preview. Apple Mail reformats HTML tables and strips or changes typography, spacing, image positioning and circular milestone badges.
+- The `Copy Formatted Table` action now first creates a PNG rendering of the selected Closing Timeline Summary and copies it as `image/png` through the Clipboard API, retaining a consistent fixed visual design when pasted into Apple Mail. It includes the navy/gold header, drawn calendar mark, numbered circles, four columns, colored Effective/Closing rows and disclaimer. If PNG clipboard is unavailable, it falls back to the existing HTML clipboard. `Copy Text` remains editable plain text. Note: pasted PNG is an image, not editable table text. Requires actual Apple Mail paste test; no production changes.
