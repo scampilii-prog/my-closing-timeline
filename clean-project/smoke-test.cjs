@@ -108,6 +108,9 @@ assert.match(v3Js,/state\.effective='';state\.closing='';save\(\);render\(\)/,'C
 assert.match(v3Js,/state\.effective='';state\.closing='';const selected=new Set\(\)/,'V3 preview must reopen with blank dates after refresh');
 assert.match(v3Js,/field\.addEventListener\('mouseenter'/,'Date picker must attempt hover opening');
 assert.match(v3Js,/\$\('closing'\)\.min=state\.effective/,'Closing Date must be bounded by Effective Date');
+assert.match(v3Js,/const validEmail=value=>\/\^\[\^\\s@\]\+@\[\^\\s@\]\+\\\.\[\^\\s@\]\+\$\//,'Email validation must use real whitespace escapes');
+assert.match(v3Html,/class="v3-dialog-footer"/,'Composer must show a persistent footer');
+assert.match(v3Css,/\.v3-dialog-footer\{position:sticky/,'Composer actions must remain visible while scrolling');
 new vm.Script(v3Js,{filename:'shared/pro-v3.js'});
 console.log('PASS: isolated V3 Step 1 assets, six original tasks, selection, Done, restore and JS syntax.');
 
