@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const base=process.env.MCT_PREVIEW_URL||'https://plain-mouse-a4cc.scampilii.workers.dev';
 const html=fs.readFileSync(__dirname+'/real-estate-pro-v3.html','utf8');
 assert.match(html,/>View Formatted Table<\/button>/,'Expected approved V3 button in repository');
-assert.match(html,/shared\/pro-v3\.css\?v=20261105-aligned-frame/,'Expected versioned stylesheet');
+assert.match(html,/shared\/pro-v3\.css\?v=20261105-logo-frame-aligned/,'Expected versioned stylesheet');
 async function check(){
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);
  try{
@@ -13,11 +13,12 @@ async function check(){
   assert.equal(response.status,200,'Preview must return HTTP 200');
   const served=await response.text();
   assert.match(served,/>View Formatted Table<\/button>/,'STALE DEPLOYMENT: preview still serves old Copy Selected button');
-  assert.match(served,/shared\/pro-v3\.css\?v=20261105-aligned-frame/,'STALE DEPLOYMENT: preview HTML does not reference current CSS');
+  assert.match(served,/shared\/pro-v3\.css\?v=20261105-logo-frame-aligned/,'STALE DEPLOYMENT: preview HTML does not reference current CSS');
   const asset=await fetch(base+'/shared/pro-v3.css?deploy_check='+Date.now(),{signal:controller.signal});
   assert.equal(asset.status,200,'Preview CSS must be accessible');
   const css=await asset.text();
   assert.match(css,/max-width:1140px;margin:24px auto;padding:0/,'STALE DEPLOYMENT: preview CSS does not match approved width');
+  assert.doesNotMatch(css,/margin-left:-124px/,'STALE DEPLOYMENT: old logo offset is still served');
   console.log('PASS: isolated preview HTML and CSS contain current V3 updates');
  }finally{clearTimeout(timer)}
 }
