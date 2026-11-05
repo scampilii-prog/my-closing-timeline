@@ -255,3 +255,6 @@ User screenshot showed Step 2 original reset order broken (Final walk-through fi
 
 ## 2026-11-05 — Restore classic copied-report design
 - User rejected the newly added full MyClosingTimeline logo and giant header after pasting in Apple Mail. Reverted the copied-report header in `shared/pro-v3.js` to the original visual language: navy banner, gold house symbol, thin gold vertical divider, white `Closing Timeline` and gold italic `Summary`; removed full-width commercial logo and `YOUR CLOSING AT A GLANCE` from copied report. Retained email-compatible HTML table cells rather than flex. This is a visual approximation of the original approved reference screenshots; Apple Mail paste needs user verification.
+
+## 2026-11-05 — Step 1 right-side action buttons
+- Group Clear Dates and Restore Original Tasks in a single softly bordered light-blue panel on the right of the date controls. Both buttons have larger 13px labels, at least 40px height, clear hover/focus treatment and an 8px gap, so they are easy to locate. Keep Start Closing separate as the primary action. Change scoped to clean-project/shared/pro-v3.css on isolated branch; production untouched.
