@@ -7,15 +7,31 @@ let followups;try{followups=JSON.parse(localStorage.getItem(followupKey))||defau
 const saveFollowups=()=>localStorage.setItem(followupKey,JSON.stringify(followups));
 const followupDue=t=>t.date||((t.basis==='closing'?state.closing:state.effective)?iso(addDays(t.basis==='closing'?state.closing:state.effective,t.basis==='closing'?-Number(t.offset||0):Number(t.offset||0),false)):'');
 function renderDashboard(){
- const tasks=state.tasks.map(t=>({name:t.name,date:due(t),done:t.done,kind:'Contract'}));
- const ft=followups.map(t=>({name:t.name,date:followupDue(t),done:t.done,kind:'Follow-Up'}));
- const setLines=(id,items,empty)=>{const root=$(id);root.replaceChildren();if(!items.length){root.append(el('p',{className:'v3-summary-empty'},empty));return}for(const t of items.slice(0,6)){const line=el('div',{className:'v3-summary-line'});line.append(el('span',{},t.name));line.append(el('strong',{},t.date||'Set dates'));root.append(line)}};
- const chronological=items=>items.filter(t=>!t.done&&t.date).sort((a,b)=>a.date.localeCompare(b.date));
- setLines('closingSummary',chronological(tasks),'Set the contract dates to see upcoming deadlines.');
- setLines('followupSummary',chronological(ft),'Set dates or add follow-up tasks.');
- const all=[...tasks,...ft],completed=all.filter(t=>t.done).length;
- const progress=$('progressSummary');progress.replaceChildren();progress.append(el('p',{className:'v3-progress-count'},completed+' of '+all.length+' tasks completed'));const bar=el('div',{className:'v3-progress-track'});const fill=el('div',{className:'v3-progress-fill'});fill.style.width=(all.length?Math.round(100*completed/all.length):0)+'%';bar.append(fill);progress.append(bar);progress.append(el('p',{className:'v3-summary-empty'},'Updates automatically when tasks are marked Done.'));
- const near=chronological(all).filter(t=>t.date===today||t.date===tomorrow);const todayBox=$('todaySummary');todayBox.replaceChildren();for(const [label,date,cl] of [['Due Today',today,'v3-today'],['Tomorrow',tomorrow,'v3-tomorrow']]){const group=el('div',{className:'v3-near-group '+cl});const matches=near.filter(t=>t.date===date);group.append(el('strong',{},label+' · '+matches.length));for(const t of matches.slice(0,5))group.append(el('p',{},t.name));todayBox.append(group)}
+ const tasks=state.tasks.map((t,i)=>({name:t.name,date:due(t),done:t.done,kind:'Contract',number:i+1,days:t.days}));
+ const ft=followups.map((t,i)=>({name:t.name,date:followupDue(t),done:t.done,kind:'Follow-Up',number:i+1}));
+ const all=[...tasks,...ft],open=all.filter(t=>!t.done),completed=all.length-open.length;
+ const format=d=>d?new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}):'Set dates';
+ const line=(root,t,extra='')=>{const item=el('div',{className:'v3-timeline-entry'+(t.done?' is-done':'')});item.append(el('span',{className:'v3-timeline-number'},t.number===undefined?'–':String(t.number)));const desc=el('div',{className:'v3-timeline-desc'});desc.append(el('strong',{},t.name));if(extra)desc.append(el('small',{},extra));item.append(desc);item.append(el('span',{className:'v3-timeline-date'},format(t.date)));item.append(el('span',{className:'v3-timeline-status'},t.done?'DONE':t.date?'PENDING':'SET DATE'));root.append(item)};
+ const closing=$('closingSummary');closing.replaceChildren();
+ const available=tasks.filter(t=>t.date).length+(state.effective?1:0)+(state.closing?1:0);
+ closing.append(el('p',{className:'v3-dashboard-lead'},available+' of '+(tasks.length+2)+' dates entered · '+(state.effective?'Review deadlines against your contract.':'Enter the effective date above to calculate deadlines.')));
+ line(closing,{name:'Effective date',date:state.effective,done:false},'KEY DATE');
+ tasks.forEach(t=>line(closing,t,'After Acceptance'));
+ line(closing,{name:'Closing date',date:state.closing,done:false},'KEY DATE');
+ const follow=$('followupSummary');follow.replaceChildren();follow.append(el('p',{className:'v3-dashboard-lead'},ft.length+' follow-up tasks · '+ft.filter(t=>t.done).length+' completed'));
+ ft.filter(t=>!t.done).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')).slice(0,8).forEach(t=>line(follow,t));
+ const progress=$('progressSummary');progress.replaceChildren();
+ const stats=el('div',{className:'v3-dashboard-stats'});for(const [label,n] of [['Total Tasks',all.length],['Open',open.length],['Done',completed]]){const box=el('div',{className:'v3-stat'});box.append(el('span',{},label),el('strong',{},String(n)));stats.append(box)}progress.append(stats);
+ const pct=all.length?Math.round(100*completed/all.length):0;
+ progress.append(el('p',{className:'v3-dashboard-lead'},pct+'% completed · '+completed+' of '+all.length+' tasks'));
+ const track=el('div',{className:'v3-progress-track'}),fill=el('div',{className:'v3-progress-fill'});fill.style.width=pct+'%';track.append(fill);progress.append(track);
+ progress.append(el('p',{className:'v3-summary-empty'},'Progress updates when a contract or follow-up task is marked Done.'));
+ const near=$('todaySummary');near.replaceChildren();const stats2=stats.cloneNode(true);near.append(stats2);
+ for(const [label,filter,cl,empty] of [
+ ['Pending',t=>t.date&&t.date<today,'v3-pending','No overdue tasks.'],
+ ['Due Today',t=>t.date===today,'v3-today','No tasks scheduled for today.'],
+ ['Tomorrow',t=>t.date===tomorrow,'v3-tomorrow','No tasks scheduled for tomorrow.']
+ ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
 }
 function renderFollowups(){const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';followups.forEach((t,i)=>{const tr=el('tr',{className:t.done?'done':''});const td=node=>{const cell=el('td');cell.append(node);tr.append(cell)};td(el('span',{},String(i+1)));const name=el('input',{type:'text','aria-label':'Follow-up task'});name.value=t.name;name.onchange=()=>{t.name=name.value;saveFollowups();renderDashboard()};td(name);const date=el('input',{type:'date','aria-label':'Follow-up due date'});date.value=followupDue(t);date.onchange=()=>{t.date=date.value;saveFollowups();renderDashboard()};td(date);const notes=el('input',{type:'text','aria-label':'Notes for '+t.name});notes.value=t.notes||'';notes.onchange=()=>{t.notes=notes.value;saveFollowups()};td(notes);td(el('span',{},t.done?'Done':'Pending'));const check=el('input',{type:'checkbox','aria-label':'Done '+t.name});check.checked=t.done;check.onchange=()=>{t.done=check.checked;saveFollowups();renderFollowups()};td(check);const remove=el('button',{type:'button',className:'remove'},'Delete');remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};td(remove);root.append(tr)});renderDashboard()}
 $('addFollowup').onclick=()=>{followups.push({id:Math.max(0,...followups.map(t=>t.id))+1,name:'New follow-up task',offset:0,basis:'effective',date:'',notes:'',done:false});saveFollowups();renderFollowups()};
