@@ -174,3 +174,11 @@
    Prevent wheel events from getting trapped in a nested vertical scroll region. */
 .v3-scroll,.v3-scroll-fixed{max-height:none!important;overflow-x:auto!important;overflow-y:visible!important;overscroll-behavior-y:auto!important;scrollbar-gutter:auto!important}
 .v3-dashboard .v3-summary-body{max-height:none!important;overflow-y:visible!important}
+
+/* Distinguish Step 1 and Step 2 contribution inside combined progress. */
+.v3-progress-breakdown{margin-top:16px;padding:12px 13px;border:1px solid #dce7eb;border-radius:10px;background:#f8fbfc}
+.v3-progress-breakdown-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 5px;font-size:12px;color:#244b61}
+.v3-progress-breakdown-row:first-child{margin-top:0}
+.v3-progress-breakdown-row span{color:#567184;font-weight:750}
+.v3-progress-breakdown .v3-progress-mini{height:7px;margin:0 0 10px}
+.v3-progress-breakdown .v3-progress-mini:last-child{margin-bottom:0}
