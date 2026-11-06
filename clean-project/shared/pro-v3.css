@@ -267,3 +267,6 @@ html{scroll-behavior:smooth}
 .v3-section-nav a.v3-result-jump:hover,.v3-section-nav a.v3-result-jump:focus-visible{background:#d2e9f8;outline:2px solid #397eae;outline-offset:2px}
 #contract-summary{scroll-margin-top:110px}
 #contract-summary:target{outline:3px solid #8bbbd9;outline-offset:4px}
+
+#contract-summary>.v3-summary-email{display:block;margin:12px 16px 4px auto;background:#e5f2fb;color:#164f76;border:1px solid #8bbbd9;font-weight:800}
+#contract-summary>.v3-summary-email:hover,#contract-summary>.v3-summary-email:focus-visible{background:#cce7f8;outline:2px solid #397eae;outline-offset:2px}
