@@ -536,3 +536,10 @@ html{scroll-behavior:smooth}
 #contract-input .v3-head-result-link:focus-visible,#followup-input .v3-head-result-link:focus-visible{outline:3px solid #fff!important;outline-offset:4px!important}
 #contract-input .v3-head-stats .v3-counter,#followup-input .v3-head-stats .v3-counter{background:#eaf0f4!important;color:#24536e!important;border:1px solid #d5e2e9!important;box-shadow:none!important;font-size:17px!important;font-weight:800!important}
 #contract-input .v3-head-stats .v3-remaining{background:#dff2e8!important;color:#16583e!important;border:1px solid #8fc8ad!important;box-shadow:none!important;font-size:17px!important}
+
+/* Distinguish routine date clearing from full task restoration. */
+#contract-input #clearDates{background:#e8f3fb!important;border:1.5px solid #83b5d5!important;color:#195d82!important;font-weight:800!important}
+#contract-input #clearDates:hover{background:#d2e9f8!important;border-color:#428ebd!important}
+#contract-input #restore{background:#fff2e4!important;border:1.5px solid #d9a16c!important;color:#95501d!important;font-weight:800!important}
+#contract-input #restore:hover{background:#ffe1c5!important;border-color:#bf783c!important}
+#contract-input #clearDates:focus-visible,#contract-input #restore:focus-visible{outline:3px solid #203f58!important;outline-offset:2px!important}
