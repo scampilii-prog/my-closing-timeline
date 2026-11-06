@@ -182,3 +182,29 @@
 .v3-progress-breakdown-row span{color:#567184;font-weight:750}
 .v3-progress-breakdown .v3-progress-mini{height:7px;margin:0 0 10px}
 .v3-progress-breakdown .v3-progress-mini:last-child{margin-bottom:0}
+
+/* STEP 2 follows the exact STEP 1 eleven-column proportions and row rhythm. */
+.v3-followup-frame .v3-followup-table{min-width:1020px;width:100%;table-layout:fixed}
+.v3-followup-frame .v3-followup-table th:nth-child(1){width:4.5%}
+.v3-followup-frame .v3-followup-table th:nth-child(2){width:3.5%}
+.v3-followup-frame .v3-followup-table th:nth-child(3){width:23%}
+.v3-followup-frame .v3-followup-table th:nth-child(4){width:5%}
+.v3-followup-frame .v3-followup-table th:nth-child(5){width:11.5%}
+.v3-followup-frame .v3-followup-table th:nth-child(6){width:11.5%}
+.v3-followup-frame .v3-followup-table th:nth-child(7){width:6%}
+.v3-followup-frame .v3-followup-table th:nth-child(8){width:7%}
+.v3-followup-frame .v3-followup-table th:nth-child(9){width:16%}
+.v3-followup-frame .v3-followup-table th:nth-child(10){width:7%}
+.v3-followup-frame .v3-followup-table th:nth-child(11){width:5%}
+.v3-followup-frame .v3-followup-table td:nth-child(3){min-width:0}
+.v3-followup-frame .v3-followup-table td:nth-child(4) button{font-size:9px}
+.v3-followup-frame .v3-followup-table td:nth-child(9) textarea{width:100%;max-width:100%;min-width:0;height:30px;min-height:30px;resize:vertical}
+.v3-followup-frame .v3-followup-table td:nth-child(10){text-align:left}
+.v3-followup-frame .v3-followup-table td:nth-child(11){text-align:center}
+.v3-followup-frame .v3-followup-table td:nth-child(11) button{font-size:10px;padding:7px 3px}
+.v3-followup-frame .v3-followup-table td:nth-child(1){background:#e1f2eb;text-align:center}
+.v3-followup-frame .v3-followup-table td:nth-child(1) input{width:17px;height:17px}
+.v3-followup-frame .v3-followup-table .v3-days-control{gap:2px}
+.v3-followup-frame .v3-followup-table .v3-days-control input{width:26px!important;min-width:26px!important;flex:0 0 26px}
+.v3-followup-frame .v3-followup-table .v3-done{font-size:10px;gap:3px}
+.v3-followup-frame .v3-followup-table .v3-done input{width:15px;height:15px}
