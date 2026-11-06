@@ -261,3 +261,9 @@ html{scroll-behavior:smooth}
 .v3-section-groups .v3-nav-contract{border-top:4px solid #7caecf}
 .v3-section-groups .v3-nav-followup{border-top:4px solid #79b593}
 .v3-section-groups .v3-nav-overview{border-top:4px solid #d9b46d}
+
+/* Direct result access: Step 1 → its automatically updated summary. */
+.v3-section-nav a.v3-result-jump{display:block;background:#e5f2fb;border:1px solid #8bbbd9;border-radius:8px;padding:10px 12px;color:#164f76;font-weight:800;text-decoration:none}
+.v3-section-nav a.v3-result-jump:hover,.v3-section-nav a.v3-result-jump:focus-visible{background:#d2e9f8;outline:2px solid #397eae;outline-offset:2px}
+#contract-summary{scroll-margin-top:110px}
+#contract-summary:target{outline:3px solid #8bbbd9;outline-offset:4px}
