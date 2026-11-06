@@ -208,36 +208,29 @@ for(const [target,type] of [['contract-input','contract'],['followup-input','fol
  del.onclick=()=>{if(type==='contract'){const count=selected.size;if(!count)return alert('Select tasks first.');if(!confirm('Delete '+count+' selected contract tasks?'))return;state.tasks=state.tasks.filter(t=>!selected.has(t.id));selected.clear();save();render()}else{const count=followups.filter(t=>t.selected).length;if(!count)return alert('Select follow-up tasks first.');if(!confirm('Delete '+count+' selected follow-up tasks?'))return;followups=followups.filter(t=>!t.selected);saveFollowups();renderFollowups()}};
  toolbar.append(del);
 }
-/* Guided setup: choose original, saved or blank; customize existing tables, then create recipient page. */
-const setup=el('section',{id:'templateSetup'});setup.style.cssText='background:#fff;border:1px solid #cadde6;border-radius:14px;padding:20px;margin:18px 0;display:grid;gap:12px';
-setup.append(el('h2',{},'1 · Choose Your Template'));
-setup.append(el('p',{},'Start with the original tasks, a saved reusable template, or a blank list. Customize in Table 01 or 02 below, then create a dedicated task page. Original templates are always preserved.'));
-const setupRow=el('div');setupRow.style.cssText='display:flex;gap:10px;flex-wrap:wrap;align-items:end';
-const typeLabel=el('label',{},'Table');typeLabel.style.cssText='display:grid;gap:6px;font-weight:700';const typeSelect=el('select',{id:'setupTableType'});for(const [v,label] of [['contract','Table 01 · Contract Tasks'],['followup','Table 02 · Follow-Up Tasks']])typeSelect.append(el('option',{value:v},label));typeLabel.append(typeSelect);setupRow.append(typeLabel);
-const sourceLabel=el('label',{},'Starting point');sourceLabel.style.cssText='display:grid;gap:6px;font-weight:700';const sourceSelect=el('select',{id:'setupSource'});sourceLabel.append(sourceSelect);setupRow.append(sourceLabel);
-const loadButton=el('button',{type:'button'},'2 · Load into Table');loadButton.style.cssText='padding:10px 14px;border:1px solid #1c647b;border-radius:9px;background:#1c647b;color:#fff;font-weight:750;cursor:pointer';setupRow.append(loadButton);setup.append(setupRow);
-const setupHint=el('p',{},'Your current tasks are kept until you explicitly choose to replace them.');setupHint.style.cssText='font-size:13px;color:#527083';setup.append(setupHint);
+/* Compact reusable library. Working tables are the primary editor. */
 const templateStorageKey='mct-v3-reusable-task-templates';
-const getSavedTemplates=()=>{try{return Object.values(JSON.parse(localStorage.getItem(templateStorageKey)||'{}'))}catch{return []}};
-function refreshSetupSources(){const prev=sourceSelect.value;sourceSelect.replaceChildren();sourceSelect.append(el('option',{value:'original'},'Original Template'),el('option',{value:'blank'},'Start Blank'));getSavedTemplates().filter(t=>t.type===typeSelect.value).sort((a,b)=>a.name.localeCompare(b.name)).forEach(t=>sourceSelect.append(el('option',{value:'saved:'+t.id},'Saved · '+t.name)));if([...sourceSelect.options].some(o=>o.value===prev))sourceSelect.value=prev}
-typeSelect.onchange=refreshSetupSources;refreshSetupSources();
-loadButton.onclick=()=>{
- const type=typeSelect.value,source=sourceSelect.value;
- if(!confirm('Replace the current '+(type==='contract'?'Table 01':'Table 02')+' working tasks? Save any work you want to reuse before continuing. Original templates and previously saved lists will not change.'))return;
- if(type==='contract'){
-   if(source==='original'){state.tasks=fresh().tasks;state.next=7}
-   else if(source==='blank')state.tasks=[];
-   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;state.tasks=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',days:Number.isFinite(x.daysFromEffective)?Math.max(0,x.daysFromEffective):0,basis:'effective',notes:'',done:false}));state.next=state.tasks.length+1}
-   selected.clear();save();render();$('contract-input')?.scrollIntoView({behavior:'smooth',block:'start'});
- }else{
-   if(source==='original')followups=defaultFollowups();
-   else if(source==='blank')followups=[];
-   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;followups=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',offset:Number.isFinite(x.daysFromEffective)&&x.daysFromEffective>=0?x.daysFromEffective:0,basis:'effective',date:'',notes:'',done:false,selected:false}))}
-   saveFollowups();renderFollowups();$('followup-input')?.scrollIntoView({behavior:'smooth',block:'start'});
- }
-};
-const firstSetup=$('contract-input');firstSetup?.parentElement?.insertBefore(setup,firstSetup);
-window.addEventListener('focus',refreshSetupSources);
+const getSavedTemplates=()=>{try{const v=JSON.parse(localStorage.getItem(templateStorageKey)||'{}');return Object.values(v).filter(x=>x&&Array.isArray(x.tasks))}catch{return []}};
+const templateLibrary=el('section',{id:'templateLibrary',className:'v3-template-library'});
+templateLibrary.append(el('h2',{},'My Template Library'));
+templateLibrary.append(el('p',{},'Edit tasks directly in Table 01 or 02. Select multiple tasks to delete them together, then save your model for future closings. Original templates are always available.'));
+const libraryControls=el('div',{className:'v3-library-controls'});
+const tableLabel=el('label',{},'Working table');const tableSelect=el('select',{id:'libraryTable'});for(const [v,n] of [['contract','Table 01 · Contract'],['followup','Table 02 · Follow-Up']])tableSelect.append(el('option',{value:v},n));tableLabel.append(tableSelect);
+const savedLabel=el('label',{},'Saved models');const savedSelect=el('select',{id:'librarySaved'});savedLabel.append(savedSelect);
+const openSaved=el('button',{type:'button'},'Open Saved Template');
+const blank=el('button',{type:'button'},'Start Blank');
+libraryControls.append(tableLabel,savedLabel,openSaved,blank);templateLibrary.append(libraryControls);
+const saveRow=el('div',{className:'v3-library-save'});const nameLabel=el('label',{},'Name your model');const templateName=el('input',{type:'text',id:'libraryName',placeholder:'e.g. Buyer Closing Checklist',maxlength:'100'});nameLabel.append(templateName);const saveButton=el('button',{type:'button'},'Save My Template');saveRow.append(nameLabel,saveButton);templateLibrary.append(saveRow);
+const libraryNote=el('p',{className:'v3-library-note'},'Templates save task names and deadline rules—not completion marks or private recipients. Preview: saved in this browser only.');templateLibrary.append(libraryNote);
+function refreshLibrary(){const current=savedSelect.value;savedSelect.replaceChildren();savedSelect.append(el('option',{value:''},'Choose saved template'));for(const t of getSavedTemplates().filter(t=>t.type===tableSelect.value).sort((a,b)=>a.name.localeCompare(b.name)))savedSelect.append(el('option',{value:t.id},t.name));if([...savedSelect.options].some(x=>x.value===current))savedSelect.value=current}
+tableSelect.onchange=refreshLibrary;refreshLibrary();
+const replaceWarning=()=>confirm('Replace the working tasks in '+(tableSelect.value==='contract'?'Table 01':'Table 02')+'? Save your current model first if you wish to reuse it. Original templates and saved models will remain unchanged.');
+function loadTemplateTasks(t){if(tableSelect.value==='contract'){state.tasks=t?t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',days:Number(x.days)||0,basis:x.basis==='closing'?'closing':'effective',notes:x.notes||'',done:false})):[];state.next=state.tasks.length+1;selected.clear();save();render();$('contract-input')?.scrollIntoView({behavior:'smooth',block:'start'})}else{followups=t?t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',offset:Number(x.offset)||0,basis:x.basis==='closing'?'closing':'effective',date:'',notes:x.notes||'',done:false,selected:false})):[];saveFollowups();renderFollowups();$('followup-input')?.scrollIntoView({behavior:'smooth',block:'start'})}}
+openSaved.onclick=()=>{const t=getSavedTemplates().find(x=>x.id===savedSelect.value);if(!t)return alert('Choose a saved template first.');if(replaceWarning())loadTemplateTasks(t)};
+blank.onclick=()=>{if(replaceWarning())loadTemplateTasks(null)};
+saveButton.onclick=()=>{const name=templateName.value.trim();if(!name)return alert('Enter a name for your template.');const type=tableSelect.value;const tasks=type==='contract'?state.tasks.map(x=>({name:x.name,days:x.days,basis:x.basis,notes:x.notes||''})):followups.map(x=>({name:x.name,offset:x.offset,basis:x.basis,notes:x.notes||''}));const all={};for(const t of getSavedTemplates())all[t.id]=t;const id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);all[id]={id,name,type,tasks,createdAt:new Date().toISOString()};localStorage.setItem(templateStorageKey,JSON.stringify(all));refreshLibrary();savedSelect.value=id;libraryNote.textContent='Saved: '+name+' · '+tasks.length+' tasks. Available to reuse in this browser preview.'};
+const firstLibrary=$('contract-input');firstLibrary?.parentElement?.insertBefore(templateLibrary,firstLibrary);
+window.addEventListener('focus',refreshLibrary);
 for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
  const bar=$(target)?.querySelector('.v3-actions');if(!bar)continue;
  const selectAll=el('button',{type:'button'},'Select All');const clearAll=el('button',{type:'button'},'Clear All Tasks');
