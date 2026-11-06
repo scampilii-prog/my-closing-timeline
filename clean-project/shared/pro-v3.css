@@ -431,3 +431,7 @@ html{scroll-behavior:smooth}
 #followup-summary .v3-result-tools button{background:#edf8f1;color:#206d49;border-color:#a8d0b9}
 #followup-summary .v3-result-tools button:hover{background:#d8f0e2}
 @media(max-width:520px){.v3-result-tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Match the original two selected-task controls in both result cards. */
+.v3-result-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.v3-result-tools button:disabled{opacity:.45;cursor:not-allowed;background:#edf2f5!important;color:#66869a!important}
