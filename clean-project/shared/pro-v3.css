@@ -476,3 +476,21 @@ html{scroll-behavior:smooth}
 #contract-input .v3-date-tools .v3-plan-hint{position:static!important;display:inline-flex!important;align-items:center;gap:5px;margin:0!important;max-width:none!important;font-size:11px!important;white-space:normal!important}
 @media(max-width:1100px){#contract-input .v3-dates{grid-template-columns:repeat(2,minmax(0,1fr))!important}#contract-input .v3-counting-group{grid-column:1/-1}}
 @media(max-width:620px){#contract-input .v3-dates{grid-template-columns:1fr!important}#contract-input .v3-counting-group{grid-column:1}#contract-input .v3-date-tools{flex-wrap:wrap!important}#contract-input .v3-date-tool-buttons{flex-wrap:wrap!important}}
+
+/* Clear functional hierarchy for closing setup controls. */
+#contract-input .v3-dates>label{position:relative!important;gap:9px!important;font-size:15px!important;font-weight:900!important;box-shadow:0 4px 12px rgba(27,80,115,.07)!important}
+#contract-input .v3-dates>label:first-child{border:2px solid #6aa9d1!important;background:#e8f3fd!important;color:#185d88!important}
+#contract-input .v3-dates>label:nth-child(2){border:2px solid #65b59b!important;background:#e5f7ee!important;color:#176b52!important}
+#contract-input .v3-dates>label input{background:#fff!important;border-width:2px!important;font-size:19px!important;font-weight:800!important;min-height:54px!important}
+#contract-input .v3-dates>label:first-child input{border-color:#67a6ce!important}
+#contract-input .v3-dates>label:nth-child(2) input{border-color:#60af96!important}
+#contract-input .v3-dates>label:focus-within{outline:3px solid #dfb45c!important;outline-offset:3px}
+#contract-input .v3-day-counter{background:#f0f5f7!important;border:1px dashed #9eb7c4!important;color:#436577!important;box-shadow:none!important}
+#contract-input .v3-counting-group label{color:#536e7d!important;font-size:13px!important}
+#contract-input .v3-counting-group select{border:1px solid #aabfca!important;background:#fff!important;font-size:15px!important}
+#contract-input #startClosing{min-height:54px!important;background:#087a62!important;border:2px solid #07664f!important;color:white!important;font-weight:900!important;font-size:16px!important;border-radius:11px!important;box-shadow:0 4px 12px rgba(8,122,98,.22)!important}
+#contract-input #startClosing:hover:not(:disabled){background:#065e4b!important;transform:translateY(-1px)}
+#contract-input #startClosing:disabled{background:#b6c8c5!important;border-color:#a6b9b5!important;color:#f8fbfa!important;box-shadow:none!important;opacity:1!important;cursor:not-allowed}
+#contract-input .v3-date-tool-buttons button{border:1px solid #bdcbd3!important;background:#fff!important;color:#536a77!important;box-shadow:none!important;font-size:12px!important}
+#contract-input .v3-date-tool-buttons button:hover:not(:disabled){background:#edf4f7!important;color:#214e68!important;border-color:#7ba6bd!important}
+#contract-input .v3-date-tools .v3-plan-hint{font-size:11px!important;color:#947044!important}
