@@ -35,9 +35,9 @@ function renderDashboard(){
   breakdown.append(row,bar);
  }
  progress.append(breakdown);
- const near=$('todaySummary');near.replaceChildren();const todayLocal=iso(new Date()),tomorrowLocal=iso(addDays(todayLocal,1,false));const stats2=stats.cloneNode(true);near.append(stats2);
+ const near=$('todaySummary');near.replaceChildren();const todayLocal=iso(new Date()),tomorrowLocal=iso(addDays(todayLocal,1,false));near.append(el('p',{className:'v3-dashboard-lead v3-near-intro'},'Immediate deadlines and overdue tasks · Updated from Tables 01 + 02'));
  for(const [label,filter,cl,empty] of [
- ['Pending',t=>t.date&&t.date<todayLocal,'v3-pending','No overdue tasks.'],
+ ['Overdue',t=>t.date&&t.date<todayLocal,'v3-pending','No overdue tasks.'],
  ['Due Today',t=>t.date===todayLocal,'v3-today','No tasks scheduled for today.'],
  ['Tomorrow',t=>t.date===tomorrowLocal,'v3-tomorrow','No tasks scheduled for tomorrow.']
  ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
