@@ -53,13 +53,8 @@ function renderFollowups(){
   cell(tr,el('strong',{},String(i+1)));
   const name=el('input',{type:'text','aria-label':'Follow-up task '+(i+1)});name.value=t.name;
   name.onchange=()=>{t.name=name.value;update(t)};cell(tr,name);
-  const daysWrap=el('div',{className:'v3-days-control'});
   const days=el('input',{type:'number',min:'0',max:'365','aria-label':'Days for '+t.name});days.value=String(Math.max(0,Number(t.offset)||0));
-  const changeDays=v=>{t.offset=Math.max(0,Math.min(365,Number(v)||0));t.date='';update(t,true)};
-  days.onchange=()=>changeDays(days.value);
-  const arrows=el('div',{className:'v3-days-arrows'});
-  for(const [symbol,delta] of [['▲',1],['▼',-1]]){const btn=el('button',{type:'button','aria-label':delta>0?'Increase days':'Decrease days'},symbol);btn.onclick=()=>changeDays((Number(t.offset)||0)+delta);arrows.append(btn)}
-  daysWrap.append(days,arrows);cell(tr,daysWrap);
+  days.onchange=()=>{t.offset=Math.max(0,Math.min(365,Number(days.value)||0));t.date='';update(t,true)};cell(tr,days);
   const remove=el('button',{type:'button',className:'remove'},'Delete');
   remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};
   const basis=el('select',{'aria-label':'Date basis for '+t.name});
@@ -71,7 +66,7 @@ function renderFollowups(){
   cell(tr,el('span',{className:'v3-followup-status'},status));
   const alert=t.done?'Completed':!dueDate?'No date':dueDate<current?'Overdue':dueDate===current?'Due Today':dueDate===next?'Tomorrow':'Scheduled';
   cell(tr,el('span',{className:'v3-followup-alert '+(alert==='Overdue'?'late':alert==='Due Today'?'today':alert==='Tomorrow'?'tomorrow':'')},alert));
-  const notes=el('textarea',{'aria-label':'Notes for '+t.name,rows:'2',placeholder:'Notes'});notes.value=t.notes||'';
+  const notes=el('input',{type:'text','aria-label':'Notes for '+t.name,placeholder:'Notes'});notes.value=t.notes||'';
   notes.onchange=()=>{t.notes=notes.value;update(t)};cell(tr,notes);
   const check=el('input',{type:'checkbox','aria-label':'Done / reopen '+t.name});check.checked=!!t.done;
   check.onchange=()=>{t.done=check.checked;update(t,true)};const doneWrap=el('div',{className:'v3-done'});doneWrap.append(check,el('span',{},t.done?'Reopen':'Done'));cell(tr,doneWrap);cell(tr,remove);
