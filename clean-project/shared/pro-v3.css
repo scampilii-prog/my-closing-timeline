@@ -639,3 +639,24 @@ html{scroll-behavior:smooth}
 #contract-input .v3-date-tools .v3-plan-hint{max-width:none;text-align:right;font-size:11px}
 @media(max-width:1050px){.v3-control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.v3-control-grid{grid-template-columns:1fr}.v3-control-panel{padding:12px}.v3-control-buttons button{flex:1 1 auto}#contract-input .v3-date-tools{align-items:flex-start;flex-direction:column}#contract-input .v3-date-tools .v3-plan-hint{text-align:left}}
+
+/* Compact customer-first template library. The editable tables remain primary. */
+.v3-template-library{background:#fff;border:1px solid #c9dce6;border-radius:13px;padding:17px 20px;margin:12px 0 17px;box-shadow:0 2px 9px #173e5407}
+.v3-template-library h2{font-size:19px;line-height:1.25;margin:0 0 5px;color:#183f57}
+.v3-template-library>p{font-size:12px;line-height:1.5;color:#607b89;margin:0 0 13px}
+.v3-library-controls,.v3-library-save{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.v3-library-controls label,.v3-library-save label{display:grid;gap:5px;font-size:11px;font-weight:800;color:#35566b}
+.v3-library-controls select,.v3-library-save input{height:38px;border:1px solid #b8d0dc;border-radius:8px;background:#fff;color:#173e54;font:700 12px Manrope,Arial,sans-serif;padding:7px 10px;min-width:180px}
+.v3-library-controls label:nth-child(2) select{min-width:230px}
+.v3-library-controls button,.v3-library-save button{height:38px;padding:8px 14px;font-size:12px;border-radius:8px}
+.v3-library-controls button:nth-of-type(1){background:#e6f1f9;color:#215c81;border-color:#a8c9dd}
+.v3-library-save{border-top:1px solid #e0eaf0;margin-top:13px;padding-top:12px}
+.v3-library-save label{flex:1 1 260px}
+.v3-library-save input{width:100%;min-width:180px}
+.v3-library-save button{background:#167a65;border-color:#167a65;color:#fff;font-weight:800}
+.v3-library-save button:hover{background:#126653;color:#fff}
+.v3-template-library .v3-library-note{margin:9px 0 0;font-size:11px}
+.v3-saved-pages{border-top:1px solid #e0eaf0;margin-top:12px;padding-top:10px}
+.v3-saved-pages summary{cursor:pointer;color:#2c6380;font-size:12px;font-weight:800}
+.v3-saved-pages #personalSavedLists{margin-top:10px}
+@media(max-width:650px){.v3-library-controls label,.v3-library-controls select,.v3-library-controls button,.v3-library-save button{width:100%}.v3-template-library{padding:14px}}
