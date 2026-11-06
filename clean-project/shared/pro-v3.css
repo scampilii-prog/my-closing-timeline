@@ -559,3 +559,8 @@ html{scroll-behavior:smooth}
 #contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:#ffffff19!important;color:#f5faff!important}
 #contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{background:#ffffff19!important;color:#e2f3e9!important}
 @media(max-width:1050px){#contract-input>.v3-head,#followup-input>.v3-head{flex-wrap:wrap!important}#contract-input>.v3-head .v3-head-stats,#followup-input>.v3-head .v3-head-stats{justify-content:flex-start!important;flex-wrap:wrap!important}}
+
+/* Balanced, clearly legible header metrics in both tables. */
+#contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:#e5f1f9!important;color:#164f74!important;border:1px solid #a8cde2!important;font-weight:850!important;font-size:16px!important}
+#contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{background:#e0f3e9!important;color:#145e42!important;border:1px solid #9fd0b7!important;font-weight:850!important;font-size:16px!important}
+#contract-input>.v3-head .v3-remaining.v3-past,#followup-input>.v3-head .v3-remaining.v3-past{background:#fff0e9!important;color:#a34731!important;border-color:#e7b4a6!important}
