@@ -105,3 +105,27 @@
 .v3-followup-alert.late{color:#a92d32}.v3-followup-alert.today{color:#98620b}.v3-followup-alert.tomorrow{color:#14734f}
 .v3-followup-table tr.done{opacity:.7}
 .v3-followup-table tr.done td:nth-child(2) input{text-decoration:line-through}
+
+/* V3 Follow-Up: override generic contract-table nth-child widths.
+   Keep each control inside its own cell; scroll the grid horizontally. */
+.v3-followup-frame .v3-scroll{overflow-x:auto;overflow-y:auto;max-width:100%}
+.v3-followup-frame .v3-followup-table{width:100%;min-width:1560px;table-layout:fixed}
+.v3-followup-frame .v3-followup-table th:nth-child(1){width:40px}
+.v3-followup-frame .v3-followup-table th:nth-child(2){width:310px}
+.v3-followup-frame .v3-followup-table th:nth-child(3){width:86px}
+.v3-followup-frame .v3-followup-table th:nth-child(4){width:72px}
+.v3-followup-frame .v3-followup-table th:nth-child(5){width:178px}
+.v3-followup-frame .v3-followup-table th:nth-child(6){width:155px}
+.v3-followup-frame .v3-followup-table th:nth-child(7){width:83px}
+.v3-followup-frame .v3-followup-table th:nth-child(8){width:88px}
+.v3-followup-frame .v3-followup-table th:nth-child(9){width:175px}
+.v3-followup-frame .v3-followup-table th:nth-child(10){width:58px}
+.v3-followup-frame .v3-followup-table th,.v3-followup-frame .v3-followup-table td{box-sizing:border-box;overflow:hidden}
+.v3-followup-frame .v3-followup-table td:nth-child(2){min-width:0}
+.v3-followup-frame .v3-followup-table td input[type=text]{width:100%;min-width:0}
+.v3-followup-frame .v3-followup-table td input[type=date]{width:100%;min-width:0}
+.v3-followup-frame .v3-followup-table td select{width:100%;min-width:0}
+.v3-followup-frame .v3-followup-table td textarea{width:100%;min-width:0;max-width:100%;min-height:34px}
+.v3-followup-frame .v3-followup-table .v3-days-control{width:100%;min-width:0;justify-content:center}
+.v3-followup-frame .v3-followup-table .v3-days-control input{width:42px!important;min-width:42px!important;flex:0 0 42px}
+.v3-followup-frame .v3-followup-table td:nth-child(10){text-align:center}
