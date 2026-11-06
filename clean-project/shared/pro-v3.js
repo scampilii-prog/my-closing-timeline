@@ -177,4 +177,30 @@ document.querySelectorAll('.v3-result-tools').forEach(toolbar=>{
  });
  setInterval(sync,500);sync();
 });
+/* Independent task workspaces: copy selected tasks into a named, recipient-specific list. */
+const personalKey='mct-v3-personal-lists';
+function personalLists(){try{return JSON.parse(localStorage.getItem(personalKey)||'{}')}catch{return {}}}
+function openPersonalList(type){
+ const name=prompt('Name this activity or task list (e.g. Open House — Saturday):',type==='contract'?'Contract task list':'Follow-up task list');
+ if(!name||!name.trim())return;
+ const recipient=prompt('Assigned to / recipient (optional):','')||'';
+ const source=type==='contract'?state.tasks.filter(t=>selected.has(t.id)).map(t=>({name:t.name,date:due(t),done:t.done})):followups.filter(t=>t.selected).map(t=>({name:t.name,date:followupDue(t),done:t.done}));
+ if(!source.length&&!confirm('No tasks selected. Create an empty task list?'))return;
+ const id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+ const item={id,type,name:name.trim(),recipient,effective:state.effective,closing:state.closing,tasks:source.map((t,i)=>({...t,id:id+'-'+i,selected:false}))};
+ const all=personalLists();all[id]=item;localStorage.setItem(personalKey,JSON.stringify(all));
+ renderPersonalListLinks();
+ window.open('personal-task-workspace.html?id='+encodeURIComponent(id),'_blank','noopener');
+}
+function renderPersonalListLinks(){
+ const list=document.getElementById('personalSavedLists');if(!list)return;list.replaceChildren();
+ const all=Object.values(personalLists()).sort((a,b)=>b.id.localeCompare(a.id));
+ if(!all.length){list.append(el('span',{},'No personal lists saved yet.'));return}
+ all.forEach(t=>{const a=el('a',{href:'personal-task-workspace.html?id='+encodeURIComponent(t.id),target:'_blank',rel:'noopener'},t.name+' · '+(t.recipient||'Unassigned'));a.style.cssText='display:inline-block;padding:8px 12px;margin:3px;border:1px solid #b7d1d9;border-radius:8px;color:#174e69;background:#fff;text-decoration:none;font-weight:650';list.append(a)})
+}
+for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
+ const root=$(target),toolbar=root?.querySelector('.v3-toolbar')||root?.querySelector('.v3-tools')||root?.querySelector('button[id="addFollowup"]')?.parentElement||root?.querySelector('button[id="add"]')?.parentElement;
+ if(toolbar){const button=el('button',{type:'button'},'Create Personal Task Page ↗');button.style.cssText='background:#fff8e8;color:#77561c;border:1px solid #d4ad60;border-radius:8px;padding:9px 12px;font-weight:750;cursor:pointer';button.onclick=()=>openPersonalList(type);toolbar.append(button)}
+}
+const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();
 render();renderFollowups()})();
