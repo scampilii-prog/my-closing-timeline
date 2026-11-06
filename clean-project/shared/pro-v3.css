@@ -306,3 +306,11 @@ html{scroll-behavior:smooth}
 #followup-input.v3-followup-frame table.v3-followup-table td select,
 #followup-input.v3-followup-frame table.v3-followup-table td textarea{font-size:12px}
 #followup-input.v3-followup-frame table.v3-followup-table td:nth-child(1){background:#d4ecdd}
+
+/* STEP 2 uses the same clean table-body background as STEP 1; green header identifies its section. */
+#followup-input .v3-scroll,#followup-input .v3-table-wrap{background:#f1f7fc}
+#followup-input.v3-followup-frame table.v3-followup-table tbody tr{background:#f5faff}
+#followup-input.v3-followup-frame table.v3-followup-table tbody tr:nth-child(even){background:#eaf4fc}
+#followup-input.v3-followup-frame table.v3-followup-table tbody tr.done{background:#dcebf5}
+#followup-input.v3-followup-frame table.v3-followup-table tbody td{border-bottom-color:#c8ddeb}
+#followup-input.v3-followup-frame table.v3-followup-table td:nth-child(1){background:#d5eafa}
