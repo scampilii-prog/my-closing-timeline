@@ -150,3 +150,22 @@
 .v3-followup-frame .v3-followup-table .v3-days-control input{width:31px!important;min-width:31px!important;flex:0 0 31px;padding:5px 1px}
 .v3-followup-frame .v3-followup-table .v3-days-arrows button{padding:0 2px;font-size:9px}
 .v3-followup-frame .v3-followup-table .v3-followup-status,.v3-followup-frame .v3-followup-table .v3-followup-alert{font-size:10px}
+
+/* Match STEP 1 contract table: identical visual rhythm, fields and column order. */
+.v3-followup-frame .v3-followup-table{min-width:1050px}
+.v3-followup-frame .v3-followup-table th:nth-child(1){width:4%}
+.v3-followup-frame .v3-followup-table th:nth-child(2){width:25%}
+.v3-followup-frame .v3-followup-table th:nth-child(3){width:7%}
+.v3-followup-frame .v3-followup-table th:nth-child(4){width:14%}
+.v3-followup-frame .v3-followup-table th:nth-child(5){width:13%}
+.v3-followup-frame .v3-followup-table th:nth-child(6){width:7%}
+.v3-followup-frame .v3-followup-table th:nth-child(7){width:8%}
+.v3-followup-frame .v3-followup-table th:nth-child(8){width:12%}
+.v3-followup-frame .v3-followup-table th:nth-child(9){width:5%}
+.v3-followup-frame .v3-followup-table th:nth-child(10){width:5%}
+.v3-followup-frame .v3-followup-table thead th{background:#dcebf0;color:#183e54;border-bottom:2px solid #b5cfd9;padding:12px 5px;font-size:11px}
+.v3-followup-frame .v3-followup-table tbody td{height:40px;padding:7px 5px;font-size:11px}
+.v3-followup-frame .v3-followup-table tbody tr:nth-child(even){background:#f7fafb}
+.v3-followup-frame .v3-followup-table input[type=text],.v3-followup-frame .v3-followup-table input[type=date],.v3-followup-frame .v3-followup-table select,.v3-followup-frame .v3-followup-table textarea{border:1px solid #c6d9e0;border-radius:6px;font:600 11px Manrope,Arial,sans-serif;padding:7px 5px}
+.v3-followup-frame .v3-followup-table td:nth-child(9){text-align:center}
+.v3-followup-frame .v3-followup-table td:nth-child(10) button{color:#a34c38;border:1px solid #e7b7a9;background:#fff8f5;font-size:10px;padding:7px 3px}
