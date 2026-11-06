@@ -49,6 +49,7 @@ function renderFollowups(){
  const update=(task,rerender=false)=>{saveFollowups();if(rerender)renderFollowups();else renderDashboard()};
  followups.forEach((t,i)=>{
   const tr=el('tr',{className:t.done?'done':''});
+  const selectedFollowup=el('input',{type:'checkbox','aria-label':'Select follow-up '+t.name});selectedFollowup.checked=!!t.selected;selectedFollowup.onchange=()=>{t.selected=selectedFollowup.checked;saveFollowups()};cell(tr,selectedFollowup);
   cell(tr,el('strong',{},String(i+1)));
   const name=el('input',{type:'text','aria-label':'Follow-up task '+(i+1)});name.value=t.name;
   name.onchange=()=>{t.name=name.value;update(t)};cell(tr,name);
@@ -73,7 +74,7 @@ function renderFollowups(){
   const notes=el('textarea',{'aria-label':'Notes for '+t.name,rows:'2',placeholder:'Notes'});notes.value=t.notes||'';
   notes.onchange=()=>{t.notes=notes.value;update(t)};cell(tr,notes);
   const check=el('input',{type:'checkbox','aria-label':'Done / reopen '+t.name});check.checked=!!t.done;
-  check.onchange=()=>{t.done=check.checked;update(t,true)};cell(tr,check);cell(tr,remove);
+  check.onchange=()=>{t.done=check.checked;update(t,true)};const doneWrap=el('div',{className:'v3-done'});doneWrap.append(check,el('span',{},t.done?'Reopen':'Done'));cell(tr,doneWrap);cell(tr,remove);
   for(const control of [name,days,basis,date,notes])control.disabled=!!t.done;
   root.append(tr);
  });
