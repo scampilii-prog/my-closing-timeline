@@ -374,3 +374,10 @@ html{scroll-behavior:smooth}
 .v3-dashboard #closing-progress .v3-summary-heading-text small,
 .v3-dashboard #today-tomorrow .v3-summary-heading-text small{font-size:12px!important;line-height:1.35;opacity:1!important}
 .v3-dashboard .v3-near-intro{margin:0 0 13px;padding:10px 12px;background:#fff7e8;border-left:4px solid #b47d24;border-radius:6px;color:#78551f;font-size:12px}
+
+/* Original task numbers in live deadline panels, matching input tables. */
+.v3-near-task{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:9px 0!important;line-height:1.45}
+.v3-near-task-id{display:inline-flex;align-items:center;flex:none;padding:3px 8px;border-radius:6px;font:900 11px Manrope,Arial,sans-serif;white-space:nowrap}
+.v3-near-contract{background:#d9ebf9;color:#155c8b;border:1px solid #9fc5e2}
+.v3-near-followup{background:#dff3e7;color:#206d49;border:1px solid #9acbab}
+.v3-near-task-name{font-weight:750;color:#244c60;min-width:0}
