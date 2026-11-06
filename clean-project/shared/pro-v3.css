@@ -348,3 +348,17 @@ html{scroll-behavior:smooth}
 .v3-dashboard #contract-summary:target{outline:4px solid #398bc2;outline-offset:3px}
 .v3-dashboard #followup-summary:target{outline:4px solid #3b9a68;outline-offset:3px}
 .v3-dashboard #closing-progress:target,.v3-dashboard #today-tomorrow:target{outline:4px solid #c79b46;outline-offset:3px}
+
+/* Matching high-contrast headers link each work table to its corresponding result. */
+#contract-input>.v3-head,.v3-dashboard #contract-summary>.v3-summary-title{background:#185b89!important;border-color:#185b89!important;color:#fff!important}
+#followup-input>.v3-head,.v3-dashboard #followup-summary>.v3-summary-title{background:#23734d!important;border-color:#23734d!important;color:#fff!important}
+#contract-input>.v3-head h1,#followup-input>.v3-head h2,#contract-input>.v3-head p,#followup-input>.v3-head p{color:#fff!important}
+#contract-input>.v3-head small,#followup-input>.v3-head small{color:#fff!important;opacity:.86}
+#contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:#fff;color:#164b70;border-color:#fff}
+#contract-input>.v3-head .v3-remaining{background:#e4f2e8;color:#23613d}
+#contract-input .v3-head-result-link,#followup-input .v3-head-result-link{background:#fff!important;color:#174c6d!important;border:1px solid #fff!important;box-shadow:0 2px 7px #102d4030}
+#contract-input .v3-head-result-link .v3-link-kicker,#followup-input .v3-head-result-link .v3-link-kicker{color:#385c71!important;opacity:1}
+#contract-input .v3-head-result-link strong,#followup-input .v3-head-result-link strong{color:#174c6d!important}
+#followup-input .v3-head-result-link strong{color:#226846!important}
+.v3-pair-note{display:inline-block;margin-right:6px;color:#fff;font-weight:900;letter-spacing:.025em}
+.v3-dashboard #contract-summary .v3-summary-title,.v3-dashboard #followup-summary .v3-summary-title{border-radius:0}
