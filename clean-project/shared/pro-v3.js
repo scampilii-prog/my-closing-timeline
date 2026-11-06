@@ -5,6 +5,17 @@ const followupPresets=[{"name":"Send client congratulations email","days":0,"cal
 const defaultFollowups=()=>followupPresets.map((t,i)=>({id:i+1,name:t.name,offset:t.days,basis:t.calculationBase,date:'',notes:'',done:false}));
 let followups;try{followups=JSON.parse(localStorage.getItem(followupKey))||defaultFollowups();if(!Array.isArray(followups))followups=defaultFollowups()}catch{followups=defaultFollowups()}
 const saveFollowups=()=>localStorage.setItem(followupKey,JSON.stringify(followups));
+$('clearFollowupDates').onclick=()=>{
+ if(!followups.some(t=>t.date))return;
+ if(!confirm('Clear manually entered due dates in Table 02? Tasks, notes, selections and Done marks will be preserved.'))return;
+ followups.forEach(t=>{t.date=''});
+ saveFollowups();renderFollowups();
+};
+$('restoreFollowups').onclick=()=>{
+ if(!confirm('Restore the 40 original follow-up tasks in Table 02? Custom tasks, selections, notes, manually entered dates and Done marks in Table 02 will be cleared. Table 01 will not change.'))return;
+ followups=defaultFollowups();saveFollowups();renderFollowups();
+};
+
 const followupDue=t=>t.date||((t.basis==='closing'?state.closing:state.effective)?iso(addDays(t.basis==='closing'?state.closing:state.effective,t.basis==='closing'?-Number(t.offset||0):Number(t.offset||0),false)):'');
 function renderDashboard(){
  refreshCalendar();const tasks=state.tasks.map((t,i)=>({name:t.name,date:due(t),done:t.done,kind:'Contract',number:i+1,days:t.days}));
