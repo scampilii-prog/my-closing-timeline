@@ -362,3 +362,8 @@ html{scroll-behavior:smooth}
 #followup-input .v3-head-result-link strong{color:#226846!important}
 .v3-pair-note{display:inline-block;margin-right:6px;color:#fff;font-weight:900;letter-spacing:.025em}
 .v3-dashboard #contract-summary .v3-summary-title,.v3-dashboard #followup-summary .v3-summary-title{border-radius:0}
+
+/* Short explanations make the input-to-result relationship clear without extra actions. */
+.v3-dashboard .v3-result-context{margin:12px 16px 0;padding:10px 12px;border-radius:8px;font:700 12px/1.5 Manrope,Arial,sans-serif}
+.v3-dashboard .v3-context-contract{background:#e6f2fb;color:#174f76;border-left:4px solid #185b89}
+.v3-dashboard .v3-context-followup{background:#e5f5ea;color:#226744;border-left:4px solid #23734d}
