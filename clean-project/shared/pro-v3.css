@@ -400,3 +400,10 @@ html{scroll-behavior:smooth}
 .v3-near-task-link .v3-near-task-name{color:#244c60;text-decoration:none}
 #contract-input tr:target,#followup-input tr:target{outline:3px solid #e3a744;outline-offset:-3px;background:#fff3d8!important}
 #contract-input tr,#followup-input tr{scroll-margin-top:225px}
+
+#contract-input tbody tr.v3-row-overdue td,#followup-input tbody tr.v3-row-overdue td{background:#fde7e7!important}
+#contract-input tbody tr.v3-row-today td,#followup-input tbody tr.v3-row-today td{background:#fff1b9!important}
+#contract-input tbody tr.v3-row-tomorrow td,#followup-input tbody tr.v3-row-tomorrow td{background:#dceeff!important}
+#contract-input tbody tr.done td,#followup-input tbody tr.done td{background:#e5f3ea!important}
+#todaySummary .v3-near-panel{padding:10px!important;margin-bottom:9px!important}
+#todaySummary .v3-near-heading{margin-bottom:0!important}
