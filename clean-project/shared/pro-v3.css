@@ -527,3 +527,12 @@ html{scroll-behavior:smooth}
 #contract-input .v3-date-tools .v3-plan-hint{font-size:10px!important}
 @media(max-width:1000px){#contract-input .v3-dates{grid-template-columns:repeat(2,minmax(0,1fr)) 120px!important}#contract-input .v3-counting-group>label{grid-column:1/3!important}#contract-input #startClosing{grid-column:3!important}}
 @media(max-width:580px){#contract-input .v3-dates{grid-template-columns:repeat(2,minmax(0,1fr))!important}#contract-input .v3-date-primary .v3-day-counter{grid-column:1!important}#contract-input .v3-counting-group>label{grid-column:2!important}#contract-input #startClosing{grid-column:1/-1!important}}
+
+/* Header hierarchy: unmistakable action, quiet counts, clear remaining time. */
+#contract-input .v3-head-result-link,#followup-input .v3-head-result-link{background:#f9c95a!important;color:#163d55!important;border:2px solid #ffdf86!important;border-radius:11px!important;box-shadow:0 4px 0 #9e6d22,0 7px 14px #082c4540!important;padding:10px 17px!important;min-width:175px!important;min-height:64px!important;transition:transform .15s,box-shadow .15s!important}
+#contract-input .v3-head-result-link .v3-link-kicker,#followup-input .v3-head-result-link .v3-link-kicker{color:#694917!important;font-size:11px!important;letter-spacing:.06em!important}
+#contract-input .v3-head-result-link strong,#followup-input .v3-head-result-link strong{color:#163d55!important;font-size:19px!important;font-weight:900!important}
+#contract-input .v3-head-result-link:hover,#followup-input .v3-head-result-link:hover{background:#ffe08b!important;transform:translateY(-2px)!important;box-shadow:0 6px 0 #9e6d22,0 10px 16px #082c4540!important}
+#contract-input .v3-head-result-link:focus-visible,#followup-input .v3-head-result-link:focus-visible{outline:3px solid #fff!important;outline-offset:4px!important}
+#contract-input .v3-head-stats .v3-counter,#followup-input .v3-head-stats .v3-counter{background:#eaf0f4!important;color:#24536e!important;border:1px solid #d5e2e9!important;box-shadow:none!important;font-size:17px!important;font-weight:800!important}
+#contract-input .v3-head-stats .v3-remaining{background:#dff2e8!important;color:#16583e!important;border:1px solid #8fc8ad!important;box-shadow:none!important;font-size:17px!important}
