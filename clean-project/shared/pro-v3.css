@@ -575,3 +575,8 @@ html{scroll-behavior:smooth}
 .v3-preview-actions .v3-preview-formatted{background:#e6f3f9!important;border:1px solid #8ebbd3!important;color:#165879!important;font-weight:800!important}
 #followup-input #viewFollowupFormatted{background:#e7f4ec!important;border:1px solid #8fc4a5!important;color:#176447!important;font-weight:800!important}
 #followup-input #viewFollowupFormatted:disabled{opacity:.45!important}
+
+#emailDialog .v3-email-column:first-child .v3-email-panel:first-child .v3-panel-title{background:#195d85!important;color:white!important}
+#emailDialog .v3-email-column:first-child .v3-email-panel:nth-child(2) .v3-panel-title{background:#176c56!important;color:white!important}
+#emailDialog #addRecipient,#emailDialog #addEmailType{background:#f8d77e!important;color:#523a12!important;border:2px solid #fff2c5!important;font-weight:900!important;min-height:34px!important;min-width:65px!important}
+#emailDialog #addRecipient:hover,#emailDialog #addEmailType:hover{background:#ffe6a5!important}
