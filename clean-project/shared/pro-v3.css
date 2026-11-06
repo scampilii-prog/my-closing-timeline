@@ -381,3 +381,8 @@ html{scroll-behavior:smooth}
 .v3-near-contract{background:#d9ebf9;color:#155c8b;border:1px solid #9fc5e2}
 .v3-near-followup{background:#dff3e7;color:#206d49;border:1px solid #9acbab}
 .v3-near-task-name{font-weight:750;color:#244c60;min-width:0}
+
+/* Emphasize the two critical contract dates without affecting other controls. */
+#contract-input .v3-dates label:has(#effective),#contract-input .v3-dates label:has(#closing){padding:10px 12px;border-radius:10px;background:#e5f1fa;border:1px solid #91b9d5;color:#164f77;font-size:14px;font-weight:900;box-shadow:0 2px 5px #163e5410}
+#contract-input .v3-dates label:has(#effective) input,#contract-input .v3-dates label:has(#closing) input{background:#fff;border:2px solid #4c91bd;border-radius:8px;min-height:44px;font-size:16px;font-weight:750;color:#173e54}
+#contract-input .v3-dates label:has(#effective) input:focus,#contract-input .v3-dates label:has(#closing) input:focus{outline:3px solid #b9dff4;outline-offset:2px;border-color:#145f90}
