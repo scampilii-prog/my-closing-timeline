@@ -107,8 +107,8 @@ function showSelectedFormattedReport(){
  if(selectedContract){buildReport()}else if(selectedFollowup){
   const chosen=followups.filter(t=>t.selected).sort((a,b)=>(followupDue(a)||'9999').localeCompare(followupDue(b)||'9999'));
   const wrap=$('copyReport');wrap.replaceChildren();
-  wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:1px solid #a9d2bd;border-radius:10px;padding:14px;box-sizing:border-box';
-  const heading=el('h2',{},'Follow-Up Summary');heading.style.color='#176e50';wrap.append(heading);
+  wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:2px solid #9cbdaa;border-radius:14px;overflow:hidden;padding:0;box-sizing:border-box';
+  const heading=el('h2',{},'Follow-Up Summary');heading.style.cssText='margin:0;padding:24px;background:#155844;color:#fff;font-size:25px';wrap.append(heading);
   const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;font:14px Arial';
   const head=el('thead'),tr=el('tr');
   for(const title of ['#','Task / Reminder','Due Date','Status','Notes']){const th=el('th',{},title);th.style.cssText='padding:10px;background:#176e50;color:#fff;text-align:left';tr.append(th)}
