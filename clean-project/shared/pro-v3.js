@@ -33,6 +33,42 @@ function renderDashboard(){
  ['Tomorrow',t=>t.date===tomorrow,'v3-tomorrow','No tasks scheduled for tomorrow.']
  ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
 }
-function renderFollowups(){const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';followups.forEach((t,i)=>{const tr=el('tr',{className:t.done?'done':''});const td=node=>{const cell=el('td');cell.append(node);tr.append(cell)};td(el('span',{},String(i+1)));const name=el('input',{type:'text','aria-label':'Follow-up task'});name.value=t.name;name.onchange=()=>{t.name=name.value;saveFollowups();renderDashboard()};td(name);const date=el('input',{type:'date','aria-label':'Follow-up due date'});date.value=followupDue(t);date.onchange=()=>{t.date=date.value;saveFollowups();renderDashboard()};td(date);const notes=el('input',{type:'text','aria-label':'Notes for '+t.name});notes.value=t.notes||'';notes.onchange=()=>{t.notes=notes.value;saveFollowups()};td(notes);td(el('span',{},t.done?'Done':'Pending'));const check=el('input',{type:'checkbox','aria-label':'Done '+t.name});check.checked=t.done;check.onchange=()=>{t.done=check.checked;saveFollowups();renderFollowups()};td(check);const remove=el('button',{type:'button',className:'remove'},'Delete');remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};td(remove);root.append(tr)});renderDashboard()}
+function renderFollowups(){
+ const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';
+ const current=iso(new Date()),next=iso(new Date(Date.now()+86400000));
+ const cell=(row,node)=>{const td=el('td');td.append(node);row.append(td);return td};
+ const update=(task,rerender=false)=>{saveFollowups();if(rerender)renderFollowups();else renderDashboard()};
+ followups.forEach((t,i)=>{
+  const tr=el('tr',{className:t.done?'done':''});
+  cell(tr,el('strong',{},String(i+1)));
+  const name=el('input',{type:'text','aria-label':'Follow-up task '+(i+1)});name.value=t.name;
+  name.onchange=()=>{t.name=name.value;update(t)};cell(tr,name);
+  const daysWrap=el('div',{className:'v3-days-control'});
+  const days=el('input',{type:'number',min:'0',max:'365','aria-label':'Days for '+t.name});days.value=String(Math.max(0,Number(t.offset)||0));
+  const changeDays=v=>{t.offset=Math.max(0,Math.min(365,Number(v)||0));t.date='';update(t,true)};
+  days.onchange=()=>changeDays(days.value);
+  const arrows=el('div',{className:'v3-days-arrows'});
+  for(const [symbol,delta] of [['▲',1],['▼',-1]]){const btn=el('button',{type:'button','aria-label':delta>0?'Increase days':'Decrease days'},symbol);btn.onclick=()=>changeDays((Number(t.offset)||0)+delta);arrows.append(btn)}
+  daysWrap.append(days,arrows);cell(tr,daysWrap);
+  const remove=el('button',{type:'button',className:'remove'},'Delete');
+  remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};cell(tr,remove);
+  const basis=el('select',{'aria-label':'Date basis for '+t.name});
+  for(const [value,label] of [['effective','After Effective Date'],['closing','Before Closing Date']]){const opt=el('option',{value},label);basis.append(opt)}
+  basis.value=t.basis==='closing'?'closing':'effective';basis.onchange=()=>{t.basis=basis.value;t.date='';update(t,true)};cell(tr,basis);
+  const date=el('input',{type:'date','aria-label':'Reminder date for '+t.name});date.value=followupDue(t);
+  date.onchange=()=>{t.date=date.value;update(t,true)};cell(tr,date);
+  const dueDate=followupDue(t),status=t.done?'Done':!dueDate?'Pending':dueDate<current?'Overdue':'Pending';
+  cell(tr,el('span',{className:'v3-followup-status'},status));
+  const alert=t.done?'Completed':!dueDate?'No date':dueDate<current?'Overdue':dueDate===current?'Due Today':dueDate===next?'Tomorrow':'Scheduled';
+  cell(tr,el('span',{className:'v3-followup-alert '+(alert==='Overdue'?'late':alert==='Due Today'?'today':alert==='Tomorrow'?'tomorrow':'')},alert));
+  const notes=el('textarea',{'aria-label':'Notes for '+t.name,rows:'2',placeholder:'Notes'});notes.value=t.notes||'';
+  notes.onchange=()=>{t.notes=notes.value;update(t)};cell(tr,notes);
+  const check=el('input',{type:'checkbox','aria-label':'Done / reopen '+t.name});check.checked=!!t.done;
+  check.onchange=()=>{t.done=check.checked;update(t,true)};cell(tr,check);
+  for(const control of [name,days,basis,date,notes])control.disabled=!!t.done;
+  root.append(tr);
+ });
+ renderDashboard();
+}
 $('addFollowup').onclick=()=>{followups.push({id:Math.max(0,...followups.map(t=>t.id))+1,name:'New follow-up task',offset:0,basis:'effective',date:'',notes:'',done:false});saveFollowups();renderFollowups()};
 render();renderFollowups()})();
