@@ -238,5 +238,13 @@ loadButton.onclick=()=>{
 };
 const firstSetup=$('contract-input');firstSetup?.parentElement?.insertBefore(setup,firstSetup);
 window.addEventListener('focus',refreshSetupSources);
+for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
+ const bar=$(target)?.querySelector('.v3-actions');if(!bar)continue;
+ const selectAll=el('button',{type:'button'},'Select All');const clearAll=el('button',{type:'button'},'Clear All Tasks');
+ for(const b of [selectAll,clearAll])b.style.cssText='border:1px solid #b7cbd5;border-radius:8px;background:#fff;color:#214c65;padding:9px 12px;font-weight:700;cursor:pointer';
+ selectAll.onclick=()=>{if(type==='contract'){state.tasks.forEach(t=>selected.add(t.id));render()}else{followups.forEach(t=>t.selected=true);saveFollowups();renderFollowups()}};
+ clearAll.onclick=()=>{if(!confirm('Clear every task from '+(type==='contract'?'Table 01':'Table 02')+'? Saved templates and personal lists will remain untouched.'))return;if(type==='contract'){state.tasks=[];selected.clear();save();render()}else{followups=[];saveFollowups();renderFollowups()}};
+ bar.append(selectAll,clearAll);
+}
 const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();window.addEventListener('storage',e=>{if(e.key===personalKey)renderPersonalListLinks()});window.addEventListener('focus',renderPersonalListLinks);
 render();renderFollowups()})();
