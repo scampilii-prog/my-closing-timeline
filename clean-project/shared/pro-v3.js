@@ -82,18 +82,23 @@ const followupEmailButton=$('emailFollowupSelected');
 if(followupEmailButton)followupEmailButton.onclick=()=>{const chosen=followups.filter(t=>t.selected);if(!chosen.length)return;const subject='Follow-Up Instructions · My Closing Timeline';const body=['Hello,','','Please review and complete the following assigned follow-up tasks:','',...chosen.map((t,i)=>(i+1)+'. '+t.name+'\n   Due: '+(followupDue(t)||'Date to be confirmed')+'\n   Status: '+(t.done?'Completed':'Pending')+(t.notes?'\n   Instructions / Notes: '+t.notes:'')),'','Please confirm receipt and provide an update on completion.','','Thank you.'];window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body.join('\n'))};
 $('addFollowup').onclick=()=>{followups.push({id:Math.max(0,...followups.map(t=>t.id))+1,name:'New follow-up task',offset:0,basis:'effective',date:'',notes:'',done:false});saveFollowups();renderFollowups()};
 document.querySelectorAll('.v3-result-tools').forEach(toolbar=>{
- toolbar.addEventListener('click',async event=>{
-  const button=event.target.closest('button[data-action]');if(!button)return;
-  const contract=toolbar.dataset.report==='contract';
-  const title=contract?'Closing Timeline Summary':'Follow-Up Summary';
-  const items=contract?state.tasks.map((t,i)=>({number:i+1,name:t.name,date:due(t),done:t.done,notes:t.notes||''})):followups.map((t,i)=>({number:i+1,name:t.name,date:followupDue(t),done:t.done,notes:t.notes||''}));
-  const lines=[title,'MyClosingTimeline.com',contract?'Effective Date: '+(state.effective||'Not set'):'Follow-up tasks',contract?'Closing Date: '+(state.closing||'Not set'):'','',...items.map(t=>t.number+'. '+t.name+' | '+(t.date||'No date')+' | '+(t.done?'Done':'Pending')+(t.notes?' | '+t.notes:''))];
-  const report=lines.join('\n');
-  const action=button.dataset.action;
-  if(action==='email'){location.href='mailto:?subject='+encodeURIComponent(title)+'&body='+encodeURIComponent(report);return}
-  if(action==='copy'){try{await navigator.clipboard.writeText(report);button.textContent='Copied';setTimeout(()=>button.textContent='Copy',1600)}catch{alert('Clipboard unavailable in this browser.')}return}
-  if(action==='save'){const blob=new Blob([report],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=contract?'closing-timeline-summary.txt':'follow-up-summary.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1500);return}
-  if(action==='print'){const popup=window.open('','_blank');if(!popup){alert('Allow pop-ups to print this report.');return}const safe=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));popup.document.write('<!doctype html><title>'+safe(title)+'</title><style>body{font:15px Arial;max-width:900px;margin:36px auto;line-height:1.5}pre{white-space:pre-wrap;font:14px Arial}</style><h1>'+safe(title)+'</h1><pre>'+safe(report)+'</pre>');popup.document.close();popup.focus();popup.print()}
+ const contract=toolbar.dataset.report==='contract';
+ const emailButton=toolbar.querySelector('[data-action="email-selected"]');
+ const formattedButton=toolbar.querySelector('[data-action="formatted"]');
+ const sync=()=>{const hasSelection=contract?selected.size>0:followups.some(t=>t.selected);emailButton.disabled=!hasSelection;formattedButton.disabled=!hasSelection};
+ toolbar.addEventListener('click',event=>{
+  const button=event.target.closest('button[data-action]');if(!button||button.disabled)return;
+  if(contract){$(button.dataset.action==='email-selected'?'email':'copy').click();return}
+  if(button.dataset.action==='email-selected'){$('emailFollowupSelected').click();return}
+  const chosen=followups.filter(t=>t.selected);
+  const report=['FOLLOW-UP TASKS · MY CLOSING TIMELINE','',...chosen.map((t,i)=>(i+1)+'. '+t.name+' | '+(followupDue(t)||'No date')+' | '+(t.done?'Done':'Pending')+(t.notes?' | '+t.notes:''))].join('\n');
+  const popup=window.open('','_blank');
+  if(!popup){alert('Please allow pop-ups to view the formatted table.');return}
+  const safe=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const rows=chosen.map((t,i)=>'<tr><td>'+(i+1)+'</td><td>'+safe(t.name)+'</td><td>'+safe(followupDue(t)||'No date')+'</td><td>'+(t.done?'Done':'Pending')+'</td><td>'+safe(t.notes||'')+'</td></tr>').join('');
+  popup.document.write('<!doctype html><html><head><title>Follow-Up Selected Tasks</title><style>body{font:14px Arial;max-width:950px;margin:35px auto;color:#173953}h1{color:#176e50}table{width:100%;border-collapse:collapse}th{background:#176e50;color:white}td,th{padding:12px;border:1px solid #bfd6ca;text-align:left}tr:nth-child(even){background:#f0f8f3}button{padding:10px 18px;margin:15px 8px 15px 0;cursor:pointer}@media print{button{display:none}}</style></head><body><h1>Follow-Up Tasks · Selected</h1><button onclick="navigator.clipboard.write([new ClipboardItem({\'text/html\':new Blob([document.querySelector(\'table\').outerHTML],{type:\'text/html\'})})]).then(()=>alert(\'Formatted table copied\')).catch(()=>alert(\'Select the table and copy manually\'))">Copy Formatted Table</button><button onclick="print()">Print / PDF</button><table><thead><tr><th>#</th><th>Task</th><th>Due Date</th><th>Status</th><th>Notes</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>');
+  popup.document.close();
  });
+ setInterval(sync,500);sync();
 });
 render();renderFollowups()})();
