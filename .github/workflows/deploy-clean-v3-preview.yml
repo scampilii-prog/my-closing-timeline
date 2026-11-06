@@ -1,0 +1,40 @@
+name: Deploy CLEAN V3 isolated preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy-clean-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout isolated CLEAN branch
+        uses: actions/checkout@v4
+        with:
+          ref: clean-rebuild-20261103
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate isolated target and credentials
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_PREVIEW_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_PREVIEW_ACCOUNT_ID }}
+          CF_PREVIEW_SUBDOMAIN: ${{ secrets.CF_PREVIEW_SUBDOMAIN }}
+        run: |
+          node -e "const c=require('./clean-project/wrangler-preview.json');if(c.name!=='mct-clean-preview-20261103'||c.assets.directory!=='./')process.exit(1)"
+          if [ -z "$CF_API_TOKEN" ] || [ -z "$CF_ACCOUNT_ID" ] || [ -z "$CF_PREVIEW_SUBDOMAIN" ]; then
+            echo "::error::Missing isolated preview secrets; deployment stopped."
+            exit 1
+          fi
+      - name: Deploy isolated Worker (never production)
+        working-directory: clean-project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PREVIEW_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_PREVIEW_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 deploy --config wrangler-preview.json
+      - name: Verify published isolated preview
+        env:
+          MCT_PREVIEW_URL: https://mct-clean-preview-20261103.${{ secrets.CF_PREVIEW_SUBDOMAIN }}.workers.dev
+        run: |
+          sleep 8
+          node clean-project/verify-preview.cjs
