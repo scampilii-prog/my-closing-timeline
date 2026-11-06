@@ -86,15 +86,25 @@ document.querySelectorAll('.v3-result-tools').forEach(toolbar=>{
  toolbar.addEventListener('click',event=>{
   const button=event.target.closest('button[data-action]');if(!button||button.disabled)return;
   if(contract){$(button.dataset.action==='email-selected'?'email':'copy').click();return}
-  if(button.dataset.action==='email-selected'){$('emailFollowupSelected').click();return}
-  const chosen=followups.filter(t=>t.selected);
-  const report=['FOLLOW-UP TASKS · MY CLOSING TIMELINE','',...chosen.map((t,i)=>(i+1)+'. '+t.name+' | '+(followupDue(t)||'No date')+' | '+(t.done?'Done':'Pending')+(t.notes?' | '+t.notes:''))].join('\n');
-  const popup=window.open('','_blank');
-  if(!popup){alert('Please allow pop-ups to view the formatted table.');return}
-  const safe=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const rows=chosen.map((t,i)=>'<tr><td>'+(i+1)+'</td><td>'+safe(t.name)+'</td><td>'+safe(followupDue(t)||'No date')+'</td><td>'+(t.done?'Done':'Pending')+'</td><td>'+safe(t.notes||'')+'</td></tr>').join('');
-  popup.document.write('<!doctype html><html><head><title>Follow-Up Selected Tasks</title><style>body{font:14px Arial;max-width:950px;margin:35px auto;color:#173953}h1{color:#176e50}table{width:100%;border-collapse:collapse}th{background:#176e50;color:white}td,th{padding:12px;border:1px solid #bfd6ca;text-align:left}tr:nth-child(even){background:#f0f8f3}button{padding:10px 18px;margin:15px 8px 15px 0;cursor:pointer}@media print{button{display:none}}</style></head><body><h1>Follow-Up Tasks · Selected</h1><button onclick="navigator.clipboard.write([new ClipboardItem({\'text/html\':new Blob([document.querySelector(\'table\').outerHTML],{type:\'text/html\'})})]).then(()=>alert(\'Formatted table copied\')).catch(()=>alert(\'Select the table and copy manually\'))">Copy Formatted Table</button><button onclick="print()">Print / PDF</button><table><thead><tr><th>#</th><th>Task</th><th>Due Date</th><th>Status</th><th>Notes</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>');
-  popup.document.close();
+  if(button.dataset.action==='email-selected'){
+   const chosen=followups.filter(t=>t.selected);
+   renderRecipients();updateRecipientContext();
+   $('emailSelectedCount').textContent='Selected Follow-Up Tasks: '+chosen.length;
+   $('emailDates').textContent='Effective Date: '+(state.effective||'Not set')+' · Closing Date: '+(state.closing||'Not set');
+   $('emailPreviewPanel').hidden=true;$('emailTemplateEditor').hidden=true;$('newRecipient').hidden=true;$('emailError').textContent='';
+   $('emailPreview').textContent=['MY CLOSING TIMELINE · FOLLOW-UP TASKS','',...chosen.map((t,i)=>(i+1)+'. '+t.name+' | '+(followupDue(t)||'No date'))].join('\n');
+   $('emailDialog').showModal();return;
+  }
+  const chosen=followups.filter(t=>t.selected).sort((a,b)=>(followupDue(a)||'9999').localeCompare(followupDue(b)||'9999'));
+  const wrap=$('copyReport');wrap.replaceChildren();
+  const heading=el('h2',{},'Follow-Up Summary · Selected Tasks');heading.style.color='#176e50';wrap.append(heading);
+  const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;font:14px Arial';
+  const head=el('thead');const tr=el('tr');
+  for(const title of ['#','Task / Reminder','Due Date','Status','Notes']){const th=el('th',{},title);th.style.cssText='padding:12px;background:#176e50;color:white;text-align:left';tr.append(th)}
+  head.append(tr);table.append(head);const body=el('tbody');
+  chosen.forEach((t,i)=>{const row=el('tr');[String(i+1),t.name,followupDue(t)||'No date',t.done?'Done':'Pending',t.notes||''].forEach(value=>{const td=el('td',{},value);td.style.cssText='border:1px solid #c6d9d0;padding:10px';row.append(td)});body.append(row)});
+  table.append(body);wrap.append(table);$('copyFeedback').textContent='Follow-up tasks ready to copy or print.';$('copyDialog').showModal();
+
  });
  setInterval(sync,500);sync();
 });
