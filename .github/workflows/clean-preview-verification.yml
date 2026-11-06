@@ -6,10 +6,11 @@ on:
     paths:
       - 'clean-project/real-estate-pro-v3.html'
       - 'clean-project/shared/pro-v3.css'
+      - 'clean-project/shared/pro-v3.js'
       - 'clean-project/verify-preview.cjs'
       - '.github/workflows/clean-preview-verification.yml'
 jobs:
-  verify-preview:
+  verify-source:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -18,4 +19,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node clean-project/verify-preview.cjs
+      - name: Verify six links and current source assets (no deployment)
+        run: node clean-project/verify-preview.cjs --source-only
+  verify-deployed-preview:
+    if: github.event_name == 'workflow_dispatch'
+    needs: verify-source
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check isolated preview URL
+        env:
+          CF_PREVIEW_SUBDOMAIN: ${{ secrets.CF_PREVIEW_SUBDOMAIN }}
+        run: |
+          if [ -z "$CF_PREVIEW_SUBDOMAIN" ]; then
+            echo "::error::CF_PREVIEW_SUBDOMAIN missing. Cannot verify deployment."
+            exit 1
+          fi
+      - name: Verify deployed isolated preview (read-only)
+        env:
+          MCT_PREVIEW_URL: https://mct-clean-preview-20261103.${{ secrets.CF_PREVIEW_SUBDOMAIN }}.workers.dev
+        run: node clean-project/verify-preview.cjs
