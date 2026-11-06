@@ -16,8 +16,7 @@ function renderDashboard(){
  const available=tasks.filter(t=>t.date).length+(state.effective?1:0)+(state.closing?1:0);
  closing.append(el('p',{className:'v3-dashboard-lead'},available+' of '+(tasks.length+2)+' dates entered · '+(state.effective?'Review deadlines against your contract.':'Enter the effective date above to calculate deadlines.')));
  if(!state.effective){closing.replaceChildren(el('p',{className:'v3-dashboard-lead'},'Awaiting Effective Date · Select tasks in Table 01 to prepare a report.'))}else{closing.replaceChildren(el('p',{className:'v3-dashboard-lead'},'Selected contract tasks · '+tasks.filter((t,i)=>selected.has(state.tasks[i].id)).length));tasks.filter((t,i)=>selected.has(state.tasks[i].id)&&t.date).forEach(t=>line(closing,t,'SELECTED'));}
- const follow=$('followupSummary');follow.replaceChildren();follow.append(el('p',{className:'v3-dashboard-lead'},ft.length+' follow-up tasks · '+ft.filter(t=>t.done).length+' completed'));
- ft.filter(t=>!t.done).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')).slice(0,8).forEach(t=>line(follow,t));
+ const follow=$('followupSummary');follow.replaceChildren();const selectedFollowups=ft.filter((t,i)=>followups[i].selected&&t.date);follow.append(el('p',{className:'v3-dashboard-lead'},!state.effective?'Awaiting Effective Date · Select tasks in Table 02 to prepare a report.':selectedFollowups.length+' selected follow-up tasks'));if(state.effective)selectedFollowups.sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>line(follow,t));
  const progress=$('progressSummary');progress.replaceChildren();
  const stats=el('div',{className:'v3-dashboard-stats'});for(const [label,n] of [['Total Tasks',all.length],['Open',open.length],['Done',completed]]){const box=el('div',{className:'v3-stat'});box.append(el('span',{},label),el('strong',{},String(n)));stats.append(box)}progress.append(stats);
  const pct=all.length?Math.round(100*completed/all.length):0;
