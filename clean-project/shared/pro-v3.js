@@ -26,16 +26,16 @@ function renderDashboard(){
  progress.append(el('p',{className:'v3-dashboard-lead'},pct+'% completed · '+completed+' of '+all.length+' tasks'));
  const track=el('div',{className:'v3-progress-track'}),fill=el('div',{className:'v3-progress-fill'});fill.style.width=pct+'%';track.append(fill);progress.append(track);
  progress.append(el('p',{className:'v3-summary-empty'},'Progress updates when a contract or follow-up task is marked Done.'));
- const near=$('todaySummary');near.replaceChildren();const stats2=stats.cloneNode(true);near.append(stats2);
+ const near=$('todaySummary');near.replaceChildren();const todayLocal=iso(new Date()),tomorrowLocal=iso(addDays(todayLocal,1,false));const stats2=stats.cloneNode(true);near.append(stats2);
  for(const [label,filter,cl,empty] of [
- ['Pending',t=>t.date&&t.date<today,'v3-pending','No overdue tasks.'],
- ['Due Today',t=>t.date===today,'v3-today','No tasks scheduled for today.'],
- ['Tomorrow',t=>t.date===tomorrow,'v3-tomorrow','No tasks scheduled for tomorrow.']
+ ['Pending',t=>t.date&&t.date<todayLocal,'v3-pending','No overdue tasks.'],
+ ['Due Today',t=>t.date===todayLocal,'v3-today','No tasks scheduled for today.'],
+ ['Tomorrow',t=>t.date===tomorrowLocal,'v3-tomorrow','No tasks scheduled for tomorrow.']
  ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
 }
 function renderFollowups(){
  const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';
- const current=iso(new Date()),next=iso(new Date(Date.now()+86400000));
+ const current=iso(new Date());const next=iso(addDays(current,1,false));
  const cell=(row,node)=>{const td=el('td');td.append(node);row.append(td);return td};
  const update=(task,rerender=false)=>{saveFollowups();if(rerender)renderFollowups();else renderDashboard()};
  followups.forEach((t,i)=>{
