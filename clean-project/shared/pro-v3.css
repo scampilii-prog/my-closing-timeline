@@ -580,3 +580,24 @@ html{scroll-behavior:smooth}
 #emailDialog .v3-email-column:first-child .v3-email-panel:nth-child(2) .v3-panel-title{background:#176c56!important;color:white!important}
 #emailDialog #addRecipient,#emailDialog #addEmailType{background:#f8d77e!important;color:#523a12!important;border:2px solid #fff2c5!important;font-weight:900!important;min-height:34px!important;min-width:65px!important}
 #emailDialog #addRecipient:hover,#emailDialog #addEmailType:hover{background:#ffe6a5!important}
+
+/* Email composer: quiet professional hierarchy, two balanced columns. */
+#emailDialog{border:1px solid #b8cdd7!important;border-radius:15px!important;box-shadow:0 22px 65px #092b3c42!important}
+#emailDialog .v3-dialog-top{background:#183b55!important;border-bottom:2px solid #c8a56e!important;padding:13px 20px!important}
+#emailDialog .v3-dialog-top h2{font-size:19px!important;letter-spacing:-.015em!important}
+#emailDialog .v3-email-grid{gap:13px!important;padding:5px 18px 10px!important}
+#emailDialog .v3-email-column{gap:10px!important}
+#emailDialog .v3-email-panel{border:1px solid #d4e0e5!important;border-radius:10px!important;padding:11px!important;background:#fff!important;box-shadow:none!important}
+#emailDialog .v3-email-column:first-child .v3-email-panel:first-child .v3-panel-title{background:#e8f1f7!important;color:#194f70!important;border-left:4px solid #4284aa!important}
+#emailDialog .v3-email-column:first-child .v3-email-panel:nth-child(2) .v3-panel-title{background:#e8f4ef!important;color:#176248!important;border-left:4px solid #4a9e7b!important}
+#emailDialog .v3-panel-title{margin:-11px -11px 10px!important;padding:8px 11px!important;border-radius:9px 9px 0 0!important;min-height:38px!important}
+#emailDialog .v3-panel-title strong{font-size:13px!important;font-weight:800!important}
+#emailDialog #addRecipient{background:#fff!important;color:#205d80!important;border:1px solid #80b1cb!important;box-shadow:none!important;border-radius:7px!important;min-width:64px!important;min-height:30px!important;font-size:12px!important}
+#emailDialog #addEmailType{background:#fff!important;color:#1c6d50!important;border:1px solid #84bba2!important;box-shadow:none!important;border-radius:7px!important;min-width:64px!important;min-height:30px!important;font-size:12px!important}
+#emailDialog #addRecipient:hover{background:#d9edf8!important}
+#emailDialog #addEmailType:hover{background:#d9f0e3!important}
+#emailDialog .v3-compose-panel{border-color:#c6d9e4!important;background:#fbfdff!important}
+#emailDialog .v3-email-summary{border:1px solid #d8e3e9!important;background:#f6fafc!important;border-radius:8px!important;box-shadow:none!important}
+#emailDialog .v3-preview-actions .v3-preview-toggle{background:#f3f8fb!important;color:#245a76!important;border:1px solid #a9c7d7!important;box-shadow:none!important}
+#emailDialog .v3-dialog-footer{border-top:1px solid #dce7ec!important;background:#fff!important}
+#emailDialog #openMail{background:#087f73!important;color:#fff!important;border-radius:8px!important;font-weight:800!important;box-shadow:none!important}
