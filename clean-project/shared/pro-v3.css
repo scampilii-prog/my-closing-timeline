@@ -208,3 +208,15 @@
 .v3-followup-frame .v3-followup-table .v3-days-control input{width:26px!important;min-width:26px!important;flex:0 0 26px}
 .v3-followup-frame .v3-followup-table .v3-done{font-size:10px;gap:3px}
 .v3-followup-frame .v3-followup-table .v3-done input{width:15px;height:15px}
+
+/* Final eleven-column alignment: override legacy ten-column minimum widths. */
+.v3-followup-frame .v3-followup-table th,.v3-followup-frame .v3-followup-table td{box-sizing:border-box;min-width:0!important;overflow:hidden}
+.v3-followup-frame .v3-followup-table td:nth-child(3) input[type=text],
+.v3-followup-frame .v3-followup-table td:nth-child(5) select,
+.v3-followup-frame .v3-followup-table td:nth-child(6) input[type=date],
+.v3-followup-frame .v3-followup-table td:nth-child(9) textarea{display:block;box-sizing:border-box;width:100%!important;min-width:0!important;max-width:100%!important}
+.v3-followup-frame .v3-followup-table td:nth-child(5) select{font-size:10px;padding:6px 2px}
+.v3-followup-frame .v3-followup-table td:nth-child(6) input[type=date]{font-size:10px;padding:6px 1px}
+.v3-followup-frame .v3-followup-table td:nth-child(9){text-align:left}
+.v3-followup-frame .v3-followup-table td:nth-child(10) button{border:0;background:transparent;color:inherit;padding:0}
+.v3-followup-frame .v3-followup-table td:nth-child(11) button.remove{color:#a34c38;border:1px solid #e7b7a9;background:#fff8f5;border-radius:6px}
