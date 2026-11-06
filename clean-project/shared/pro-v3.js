@@ -49,7 +49,7 @@ function renderFollowups(){
  const cell=(row,node)=>{const td=el('td');td.append(node);row.append(td);return td};
  const update=(task,rerender=false)=>{saveFollowups();if(rerender)renderFollowups();else renderDashboard()};
  followups.forEach((t,i)=>{
-  const tr=el('tr',{id:'followup-task-'+(i+1),className:t.done?'done':''});
+  const tr=el('tr',{id:'followup-task-'+(i+1),className:t.done?'done':followupDue(t)&&followupDue(t)<current?'v3-row-overdue':followupDue(t)===current?'v3-row-today':followupDue(t)===next?'v3-row-tomorrow':''});
   const selectedFollowup=el('input',{type:'checkbox','aria-label':'Select follow-up '+t.name});selectedFollowup.checked=!!t.selected;selectedFollowup.onchange=()=>{t.selected=selectedFollowup.checked;saveFollowups();updateFollowupSelection()};cell(tr,selectedFollowup);
   cell(tr,el('strong',{},String(i+1)));
   const name=el('input',{type:'text','aria-label':'Follow-up task '+(i+1)});name.value=t.name;name.title=t.name;
