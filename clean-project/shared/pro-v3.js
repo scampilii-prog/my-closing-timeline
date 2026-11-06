@@ -43,60 +43,6 @@ function renderDashboard(){
  ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
 }
 // Explicit, user-initiated email draft for Step 1 results; never sends automatically.
-function prepareContractSummaryEmail(){
- const lines=['CLOSING TIMELINE SUMMARY','',
-  'Effective Date: '+(state.effective||'Not set'),
-  'Closing Date: '+(state.closing||'Not set'),'',
-  ...state.tasks.map((t,i)=>String(i+1)+'. '+t.name+' | Due: '+(due(t)||'Not set')+' | '+(t.done?'Done':'Pending')),
-  '', 'Planning assistance only. Verify all deadlines against the signed contract.'];
- const subject='Closing Timeline Summary';
- const href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
- window.location.href=href;
-}
-const contractSummaryHeading=document.querySelector('#contract-summary .v3-summary-title');
-if(contractSummaryHeading){
- const emailButton=el('button',{type:'button',className:'v3-summary-email','aria-label':'Prepare email with Closing Timeline Summary'},'View & Email Summary');
- emailButton.addEventListener('click',prepareContractSummaryEmail);
- contractSummaryHeading.after(emailButton);
-}
-
-function prepareOtherSummaryEmail(kind){
- const today=iso(new Date()),tomorrow=iso(addDays(today,1,false));
- const contracts=state.tasks.map((t,i)=>({name:t.name,date:due(t),done:!!t.done,kind:'Contract',number:i+1}));
- const follow=followups.map((t,i)=>({name:t.name,date:followupDue(t),done:!!t.done,kind:'Follow-Up',number:i+1}));
- const all=[...contracts,...follow];
- const format=t=>t.kind+' #'+t.number+' · '+t.name+' | Due: '+(t.date||'Not set')+' | '+(t.done?'Done':'Pending');
- let subject,lines;
- if(kind==='followup'){
-  subject='Follow-Up Summary';
-  lines=['FOLLOW-UP SUMMARY','',follow.length+' tasks · '+follow.filter(t=>t.done).length+' completed','',...follow.map(format)];
- }else if(kind==='progress'){
-  subject='Closing Progress & Activity';
-  const done=all.filter(t=>t.done).length;
-  lines=['CLOSING PROGRESS & ACTIVITY','',
-   'Total: '+all.length+' | Open: '+(all.length-done)+' | Done: '+done,
-   'Contract: '+contracts.filter(t=>t.done).length+' of '+contracts.length+' done',
-   'Follow-Up: '+follow.filter(t=>t.done).length+' of '+follow.length+' done'];
- }else{
-  subject='Today & Tomorrow';
-  const open=all.filter(t=>!t.done&&t.date);
-  const sections=[['Overdue',t=>t.date<today],['Due Today',t=>t.date===today],['Tomorrow',t=>t.date===tomorrow]];
-  lines=['TODAY & TOMORROW',''];
-  for(const [heading,test] of sections){
-   const matches=open.filter(test);
-   lines.push(heading+' ('+matches.length+')',...(matches.length?matches.map(format):['None']),'');
-  }
- }
- lines.push('','Planning assistance only. Verify deadlines against the signed contract.');
- window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
-}
-for(const [id,kind] of [['followup-summary','followup'],['closing-progress','progress'],['today-tomorrow','today']]){
- const heading=document.querySelector('#'+id+' .v3-summary-title');
- if(!heading)continue;
- const button=el('button',{type:'button',className:'v3-summary-email','aria-label':'Prepare email with '+id.replaceAll('-',' ')},'View & Email Summary');
- button.addEventListener('click',()=>prepareOtherSummaryEmail(kind));
- heading.after(button);
-}
 function renderFollowups(){
  refreshCalendar();const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';
  const current=iso(new Date());const next=iso(addDays(current,1,false));
@@ -104,7 +50,7 @@ function renderFollowups(){
  const update=(task,rerender=false)=>{saveFollowups();if(rerender)renderFollowups();else renderDashboard()};
  followups.forEach((t,i)=>{
   const tr=el('tr',{className:t.done?'done':''});
-  const selectedFollowup=el('input',{type:'checkbox','aria-label':'Select follow-up '+t.name});selectedFollowup.checked=!!t.selected;selectedFollowup.onchange=()=>{t.selected=selectedFollowup.checked;saveFollowups()};cell(tr,selectedFollowup);
+  const selectedFollowup=el('input',{type:'checkbox','aria-label':'Select follow-up '+t.name});selectedFollowup.checked=!!t.selected;selectedFollowup.onchange=()=>{t.selected=selectedFollowup.checked;saveFollowups();updateFollowupSelection()};cell(tr,selectedFollowup);
   cell(tr,el('strong',{},String(i+1)));
   const name=el('input',{type:'text','aria-label':'Follow-up task '+(i+1)});name.value=t.name;name.title=t.name;
   name.onchange=()=>{t.name=name.value;name.title=t.name;update(t)};cell(tr,name);
@@ -128,7 +74,11 @@ function renderFollowups(){
   for(const control of [name,days,basis,date,notes])control.disabled=!!t.done;
   root.append(tr);
  });
+ updateFollowupSelection();
  renderDashboard();
 }
+function updateFollowupSelection(){const selected=followups.filter(t=>t.selected);const button=$('emailFollowupSelected');const count=$('followupSelectedCount');if(button)button.disabled=!selected.length;if(count)count.textContent=selected.length+' selected';}
+const followupEmailButton=$('emailFollowupSelected');
+if(followupEmailButton)followupEmailButton.onclick=()=>{const chosen=followups.filter(t=>t.selected);if(!chosen.length)return;const subject='Follow-Up Instructions · My Closing Timeline';const body=['Hello,','','Please review and complete the following assigned follow-up tasks:','',...chosen.map((t,i)=>(i+1)+'. '+t.name+'\n   Due: '+(followupDue(t)||'Date to be confirmed')+'\n   Status: '+(t.done?'Completed':'Pending')+(t.notes?'\n   Instructions / Notes: '+t.notes:'')),'','Please confirm receipt and provide an update on completion.','','Thank you.'];window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body.join('\n'))};
 $('addFollowup').onclick=()=>{followups.push({id:Math.max(0,...followups.map(t=>t.id))+1,name:'New follow-up task',offset:0,basis:'effective',date:'',notes:'',done:false});saveFollowups();renderFollowups()};
 render();renderFollowups()})();
