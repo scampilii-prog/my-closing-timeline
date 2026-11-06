@@ -59,6 +59,44 @@ if(contractSummaryHeading){
  emailButton.addEventListener('click',prepareContractSummaryEmail);
  contractSummaryHeading.after(emailButton);
 }
+
+function prepareOtherSummaryEmail(kind){
+ const today=iso(new Date()),tomorrow=iso(addDays(today,1,false));
+ const contracts=state.tasks.map((t,i)=>({name:t.name,date:due(t),done:!!t.done,kind:'Contract',number:i+1}));
+ const follow=followups.map((t,i)=>({name:t.name,date:followupDue(t),done:!!t.done,kind:'Follow-Up',number:i+1}));
+ const all=[...contracts,...follow];
+ const format=t=>t.kind+' #'+t.number+' · '+t.name+' | Due: '+(t.date||'Not set')+' | '+(t.done?'Done':'Pending');
+ let subject,lines;
+ if(kind==='followup'){
+  subject='Follow-Up Summary';
+  lines=['FOLLOW-UP SUMMARY','',follow.length+' tasks · '+follow.filter(t=>t.done).length+' completed','',...follow.map(format)];
+ }else if(kind==='progress'){
+  subject='Closing Progress & Activity';
+  const done=all.filter(t=>t.done).length;
+  lines=['CLOSING PROGRESS & ACTIVITY','',
+   'Total: '+all.length+' | Open: '+(all.length-done)+' | Done: '+done,
+   'Contract: '+contracts.filter(t=>t.done).length+' of '+contracts.length+' done',
+   'Follow-Up: '+follow.filter(t=>t.done).length+' of '+follow.length+' done'];
+ }else{
+  subject='Today & Tomorrow';
+  const open=all.filter(t=>!t.done&&t.date);
+  const sections=[['Overdue',t=>t.date<today],['Due Today',t=>t.date===today],['Tomorrow',t=>t.date===tomorrow]];
+  lines=['TODAY & TOMORROW',''];
+  for(const [heading,test] of sections){
+   const matches=open.filter(test);
+   lines.push(heading+' ('+matches.length+')',...(matches.length?matches.map(format):['None']),'');
+  }
+ }
+ lines.push('','Planning assistance only. Verify deadlines against the signed contract.');
+ window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
+}
+for(const [id,kind] of [['followup-summary','followup'],['closing-progress','progress'],['today-tomorrow','today']]){
+ const heading=document.querySelector('#'+id+' .v3-summary-title');
+ if(!heading)continue;
+ const button=el('button',{type:'button',className:'v3-summary-email','aria-label':'Prepare email with '+id.replaceAll('-',' ')},'View & Email Summary');
+ button.addEventListener('click',()=>prepareOtherSummaryEmail(kind));
+ heading.after(button);
+}
 function renderFollowups(){
  refreshCalendar();const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';
  const current=iso(new Date());const next=iso(addDays(current,1,false));
