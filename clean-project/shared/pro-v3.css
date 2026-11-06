@@ -270,3 +270,12 @@ html{scroll-behavior:smooth}
 
 .v3-summary-card>.v3-summary-email{display:block;margin:12px 16px 4px auto;background:#e5f2fb;color:#164f76;border:1px solid #8bbbd9;font-weight:800}
 .v3-summary-card>.v3-summary-email:hover,.v3-summary-card>.v3-summary-email:focus-visible{background:#cce7f8;outline:2px solid #397eae;outline-offset:2px}
+
+/* Consistent readable typography for both editable task tables. */
+#contract-input table,#followup-input table{font-family:Manrope,Arial,sans-serif;font-size:13px;line-height:1.4}
+#contract-input table th,#followup-input table th{font-family:inherit;font-size:12px;font-weight:800;line-height:1.35}
+#contract-input table td,#followup-input table td{font-family:inherit;font-size:13px;line-height:1.4}
+#contract-input table td input:not([type=checkbox]),#followup-input table td input:not([type=checkbox]),
+#contract-input table td select,#followup-input table td select,
+#contract-input table td button,#followup-input table td button{font-family:Manrope,Arial,sans-serif;font-size:12px;line-height:1.35}
+#contract-input table td input[type=text],#followup-input table td input[type=text]{font-weight:600}
