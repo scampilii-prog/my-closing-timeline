@@ -111,9 +111,9 @@ function showSelectedFormattedReport(){
   const heading=el('h2',{},'Follow-Up Summary');heading.style.cssText='margin:0;padding:24px;background:#155844;color:#fff;font-size:25px';wrap.append(heading);
   const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;font:14px Arial';
   const head=el('thead'),tr=el('tr');
-  for(const title of ['#','Task / Reminder','Due Date','Status','Notes']){const th=el('th',{},title);th.style.cssText='padding:10px;background:#176e50;color:#fff;text-align:left';tr.append(th)}
+  for(const title of ['#','FOLLOW-UP TASK','DAYS','DUE DATE']){const th=el('th',{},title);th.style.cssText='padding:10px;background:#176e50;color:#fff;text-align:left';tr.append(th)}
   head.append(tr);table.append(head);const body=el('tbody');
-  chosen.forEach((t,i)=>{const row=el('tr');[String(i+1),t.name,followupDue(t)||'No date',t.done?'Done':'Pending',t.notes||''].forEach(value=>{const td=el('td',{},value);td.style.cssText='border:1px solid #c6d9d0;padding:9px';row.append(td)});body.append(row)});
+  chosen.forEach((t,i)=>{const row=el('tr');[String(i+1),t.name,String(t.offset||0),followupDue(t)?formatDate(followupDue(t)):'Not set'].forEach(value=>{const td=el('td',{},value);td.style.cssText='border:1px solid #c6d9d0;padding:9px';row.append(td)});body.append(row)});
   table.append(body);wrap.append(table);
  }
  $('copyTitle').textContent=resultMode==='followup'?'Follow-Up Summary':'Closing Timeline Summary';
