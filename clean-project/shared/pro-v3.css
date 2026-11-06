@@ -607,3 +607,8 @@ html{scroll-behavior:smooth}
 #emailDialog .v3-email-table-choice label{display:inline-flex;align-items:center;gap:6px;font-weight:750;cursor:pointer}
 #emailDialog .v3-email-table-choice input{accent-color:#187b69;width:16px;height:16px}
 #emailDialog #emailTableHint{color:#627d8c;font-size:11px;flex-basis:100%}
+
+/* Header information is not interactive: distinguish it from View Summary. */
+#contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:4px 12px!important;color:#f4faff!important;font-size:17px!important;font-weight:750!important;cursor:default!important}
+#contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{background:transparent!important;border:0!important;border-left:1px solid #ffffff55!important;border-radius:0!important;box-shadow:none!important;padding:4px 0 4px 18px!important;color:#d9f4e7!important;font-size:17px!important;font-weight:750!important;cursor:default!important}
+#contract-input>.v3-head .v3-remaining.v3-past,#followup-input>.v3-head .v3-remaining.v3-past{background:transparent!important;color:#ffe0d9!important}
