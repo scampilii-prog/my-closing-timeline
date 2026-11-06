@@ -279,3 +279,19 @@ html{scroll-behavior:smooth}
 #contract-input table td select,#followup-input table td select,
 #contract-input table td button,#followup-input table td button{font-family:Manrope,Arial,sans-serif;font-size:12px;line-height:1.35}
 #contract-input table td input[type=text],#followup-input table td input[type=text]{font-weight:600}
+
+/* Table ownership colors: blue Contract / green Follow-Up, including the actual grid. */
+#contract-input .v3-scroll,#contract-input .v3-table-wrap{background:#f1f7fc}
+#followup-input .v3-scroll,#followup-input .v3-table-wrap{background:#f0f8f3}
+#contract-input table thead th{background:#cfe5f5;border-bottom:2px solid #83b5d8;color:#174e75}
+#followup-input table thead th{background:#d2ecdd;border-bottom:2px solid #83bc9c;color:#195e43}
+#contract-input table tbody tr{background:#f5faff}
+#contract-input table tbody tr:nth-child(even){background:#eaf4fc}
+#followup-input table tbody tr{background:#f4fbf6}
+#followup-input table tbody tr:nth-child(even){background:#e7f5eb}
+#contract-input table tbody tr.done{background:#dcebf5}
+#followup-input table tbody tr.done{background:#d9eee1}
+#contract-input table tbody td{border-bottom-color:#c8ddeb}
+#followup-input table tbody td{border-bottom-color:#c7e2d0}
+#contract-input table td.sel,#contract-input table th.sel{background:#d5eafa}
+#followup-input table td.sel,#followup-input table th.sel{background:#d4ecdd}
