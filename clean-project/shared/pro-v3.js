@@ -42,6 +42,23 @@ function renderDashboard(){
  ['Tomorrow',t=>t.date===tomorrowLocal,'v3-tomorrow','No tasks scheduled for tomorrow.']
  ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.slice(0,10).forEach(t=>{const item=el('p');item.textContent=t.name+' · '+t.kind;group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
 }
+// Explicit, user-initiated email draft for Step 1 results; never sends automatically.
+function prepareContractSummaryEmail(){
+ const lines=['CLOSING TIMELINE SUMMARY','',
+  'Effective Date: '+(state.effective||'Not set'),
+  'Closing Date: '+(state.closing||'Not set'),'',
+  ...state.tasks.map((t,i)=>String(i+1)+'. '+t.name+' | Due: '+(due(t)||'Not set')+' | '+(t.done?'Done':'Pending')),
+  '', 'Planning assistance only. Verify all deadlines against the signed contract.'];
+ const subject='Closing Timeline Summary';
+ const href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\\n'));
+ window.location.href=href;
+}
+const contractSummaryHeading=document.querySelector('#contract-summary .v3-summary-title');
+if(contractSummaryHeading){
+ const emailButton=el('button',{type:'button',className:'v3-summary-email','aria-label':'Prepare email with Closing Timeline Summary'},'View & Email Summary');
+ emailButton.addEventListener('click',prepareContractSummaryEmail);
+ contractSummaryHeading.after(emailButton);
+}
 function renderFollowups(){
  refreshCalendar();const root=$('followupRows');root.replaceChildren();$('followupTotal').textContent=followups.length+' tasks';
  const current=iso(new Date());const next=iso(addDays(current,1,false));
