@@ -407,3 +407,17 @@ html{scroll-behavior:smooth}
 #contract-input tbody tr.done td,#followup-input tbody tr.done td{background:#e5f3ea!important}
 #todaySummary .v3-near-panel{padding:10px!important;margin-bottom:9px!important}
 #todaySummary .v3-near-heading{margin-bottom:0!important}
+
+/* Align the two lower dashboard cards with concise horizontal content. */
+#todaySummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-content:start}
+#todaySummary>.v3-near-intro{grid-column:1/-1;margin:0 0 2px!important;padding:8px 10px!important;font-size:12px!important}
+#todaySummary>.v3-near-panel{min-width:0;margin:0!important;padding:5px!important}
+#todaySummary .v3-near-heading{display:flex;flex-direction:column;gap:8px;justify-content:center;min-height:94px;padding:12px 5px!important;text-align:center;font-size:15px!important}
+#todaySummary .v3-near-heading span{font-size:22px!important}
+#closing-progress .v3-dashboard-stats{margin-bottom:8px}
+#closing-progress .v3-stat{padding:7px 4px}
+#closing-progress .v3-dashboard-lead{margin:7px 0!important}
+#closing-progress .v3-progress-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;align-items:center}
+#closing-progress .v3-progress-breakdown-row{margin:3px 0}
+#closing-progress .v3-progress-mini{margin:0 0 5px!important}
+@media(max-width:640px){#todaySummary{gap:5px}#todaySummary .v3-near-heading{font-size:12px!important;min-height:76px}#todaySummary .v3-near-heading span{font-size:19px!important}}
