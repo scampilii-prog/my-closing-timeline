@@ -109,7 +109,7 @@ function showSelectedFormattedReport(){
   const wrap=$('copyReport');wrap.replaceChildren();
   wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:2px solid #9cbdaa;border-radius:14px;overflow:hidden;padding:0;box-sizing:border-box';
   const heading=el('h2',{},'Follow-Up Summary');heading.style.cssText='margin:0;padding:24px;background:#155844;color:#fff;font-size:25px';wrap.append(heading);
-  const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;font:14px Arial';
+  const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;table-layout:fixed;font:13px Arial';
   const head=el('thead'),tr=el('tr');
   for(const title of ['#','FOLLOW-UP TASK','DAYS','DUE DATE']){const th=el('th',{},title);th.style.cssText='padding:10px;background:#176e50;color:#fff;text-align:left';tr.append(th)}
   head.append(tr);table.append(head);const body=el('tbody');
