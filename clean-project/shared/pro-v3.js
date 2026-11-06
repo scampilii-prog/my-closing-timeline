@@ -51,7 +51,7 @@ function renderFollowups(){
   for(const [symbol,delta] of [['▲',1],['▼',-1]]){const btn=el('button',{type:'button','aria-label':delta>0?'Increase days':'Decrease days'},symbol);btn.onclick=()=>changeDays((Number(t.offset)||0)+delta);arrows.append(btn)}
   daysWrap.append(days,arrows);cell(tr,daysWrap);
   const remove=el('button',{type:'button',className:'remove'},'Delete');
-  remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};cell(tr,remove);
+  remove.onclick=()=>{followups=followups.filter(x=>x.id!==t.id);saveFollowups();renderFollowups()};
   const basis=el('select',{'aria-label':'Date basis for '+t.name});
   for(const [value,label] of [['effective','After Effective Date'],['closing','Before Closing Date']]){const opt=el('option',{value},label);basis.append(opt)}
   basis.value=t.basis==='closing'?'closing':'effective';basis.onchange=()=>{t.basis=basis.value;t.date='';update(t,true)};cell(tr,basis);
@@ -64,7 +64,7 @@ function renderFollowups(){
   const notes=el('textarea',{'aria-label':'Notes for '+t.name,rows:'2',placeholder:'Notes'});notes.value=t.notes||'';
   notes.onchange=()=>{t.notes=notes.value;update(t)};cell(tr,notes);
   const check=el('input',{type:'checkbox','aria-label':'Done / reopen '+t.name});check.checked=!!t.done;
-  check.onchange=()=>{t.done=check.checked;update(t,true)};cell(tr,check);
+  check.onchange=()=>{t.done=check.checked;update(t,true)};cell(tr,check);cell(tr,remove);
   for(const control of [name,days,basis,date,notes])control.disabled=!!t.done;
   root.append(tr);
  });
