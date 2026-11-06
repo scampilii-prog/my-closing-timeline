@@ -25,7 +25,16 @@ function renderDashboard(){
  const pct=all.length?Math.round(100*completed/all.length):0;
  progress.append(el('p',{className:'v3-dashboard-lead'},pct+'% completed · '+completed+' of '+all.length+' tasks'));
  const track=el('div',{className:'v3-progress-track'}),fill=el('div',{className:'v3-progress-fill'});fill.style.width=pct+'%';track.append(fill);progress.append(track);
- progress.append(el('p',{className:'v3-summary-empty'},'Progress updates when a contract or follow-up task is marked Done.'));
+ const breakdown=el('div',{className:'v3-progress-breakdown'});
+ for(const [label,items] of [['Contract Tasks',tasks],['Follow-Up Tasks',ft]]){
+  const doneCount=items.filter(t=>t.done).length;
+  const row=el('div',{className:'v3-progress-breakdown-row'});
+  row.append(el('strong',{},label),el('span',{},doneCount+' / '+items.length+' done'));
+  const bar=el('div',{className:'v3-progress-track v3-progress-mini'}),barFill=el('div',{className:'v3-progress-fill'});
+  barFill.style.width=(items.length?Math.round(100*doneCount/items.length):0)+'%';bar.append(barFill);
+  breakdown.append(row,bar);
+ }
+ progress.append(breakdown);
  const near=$('todaySummary');near.replaceChildren();const todayLocal=iso(new Date()),tomorrowLocal=iso(addDays(todayLocal,1,false));const stats2=stats.cloneNode(true);near.append(stats2);
  for(const [label,filter,cl,empty] of [
  ['Pending',t=>t.date&&t.date<todayLocal,'v3-pending','No overdue tasks.'],
