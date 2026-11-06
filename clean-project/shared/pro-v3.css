@@ -601,3 +601,9 @@ html{scroll-behavior:smooth}
 #emailDialog .v3-preview-actions .v3-preview-toggle{background:#f3f8fb!important;color:#245a76!important;border:1px solid #a9c7d7!important;box-shadow:none!important}
 #emailDialog .v3-dialog-footer{border-top:1px solid #dce7ec!important;background:#fff!important}
 #emailDialog #openMail{background:#087f73!important;color:#fff!important;border-radius:8px!important;font-weight:800!important;box-shadow:none!important}
+
+#emailDialog .v3-email-table-choice{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:0 18px 8px;padding:10px 13px;background:#f5f9fb;border:1px solid #cbdce5;border-radius:9px;color:#1b4c67;font-size:12px}
+#emailDialog .v3-email-table-choice strong{font-size:13px;margin-right:8px}
+#emailDialog .v3-email-table-choice label{display:inline-flex;align-items:center;gap:6px;font-weight:750;cursor:pointer}
+#emailDialog .v3-email-table-choice input{accent-color:#187b69;width:16px;height:16px}
+#emailDialog #emailTableHint{color:#627d8c;font-size:11px;flex-basis:100%}
