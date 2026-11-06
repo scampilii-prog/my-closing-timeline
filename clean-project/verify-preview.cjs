@@ -31,6 +31,10 @@ async function check(){
   }
   assert.ok(served.includes('shared/pro-v3.js?v='+jsVersion),'STALE DEPLOYMENT: preview HTML does not reference current JavaScript version '+jsVersion);
   assert.ok(served.includes('shared/pro-v3.css?v='+cssVersion),'STALE DEPLOYMENT: preview HTML does not reference current CSS version '+cssVersion);
+  const script=await fetch(base+'/shared/pro-v3.js?deploy_check='+Date.now(),{signal:controller.signal});
+  assert.equal(script.status,200,'Preview JavaScript must be accessible');
+  const js=await script.text();
+  assert.ok(js.includes('name.title=t.name'),'STALE DEPLOYMENT: task-name tooltip code is missing');
   const asset=await fetch(base+'/shared/pro-v3.css?deploy_check='+Date.now(),{signal:controller.signal});
   assert.equal(asset.status,200,'Preview CSS must be accessible');
   const css=await asset.text();
