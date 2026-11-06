@@ -187,7 +187,7 @@ function openPersonalList(type){
  const source=type==='contract'?state.tasks.filter(t=>selected.has(t.id)).map(t=>({name:t.name,date:due(t),done:t.done})):followups.filter(t=>t.selected).map(t=>({name:t.name,date:followupDue(t),done:t.done}));
  if(!source.length&&!confirm('No tasks selected. Create an empty task list?'))return;
  const id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
- const item={id,type,name:name.trim(),recipient,effective:state.effective,closing:state.closing,tasks:source.map((t,i)=>({...t,id:id+'-'+i,selected:false}))};
+ const item={id,type,name:name.trim(),recipient,recipientEmail:'',effective:state.effective,closing:state.closing,tasks:source.map((t,i)=>({...t,id:id+'-'+i,selected:false}))};
  const all=personalLists();all[id]=item;localStorage.setItem(personalKey,JSON.stringify(all));
  renderPersonalListLinks();
  window.open('personal-task-workspace.html?id='+encodeURIComponent(id),'_blank','noopener');
@@ -208,5 +208,5 @@ for(const [target,type] of [['contract-input','contract'],['followup-input','fol
  del.onclick=()=>{if(type==='contract'){const count=selected.size;if(!count)return alert('Select tasks first.');if(!confirm('Delete '+count+' selected contract tasks?'))return;state.tasks=state.tasks.filter(t=>!selected.has(t.id));selected.clear();save();render()}else{const count=followups.filter(t=>t.selected).length;if(!count)return alert('Select follow-up tasks first.');if(!confirm('Delete '+count+' selected follow-up tasks?'))return;followups=followups.filter(t=>!t.selected);saveFollowups();renderFollowups()}};
  toolbar.append(del);
 }
-const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();
+const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();window.addEventListener('storage',e=>{if(e.key===personalKey)renderPersonalListLinks()});window.addEventListener('focus',renderPersonalListLinks);
 render();renderFollowups()})();
