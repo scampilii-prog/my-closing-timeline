@@ -494,3 +494,19 @@ html{scroll-behavior:smooth}
 #contract-input .v3-date-tool-buttons button{border:1px solid #bdcbd3!important;background:#fff!important;color:#536a77!important;box-shadow:none!important;font-size:12px!important}
 #contract-input .v3-date-tool-buttons button:hover:not(:disabled){background:#edf4f7!important;color:#214e68!important;border-color:#7ba6bd!important}
 #contract-input .v3-date-tools .v3-plan-hint{font-size:11px!important;color:#947044!important}
+
+/* Clean structural layout: one date group, one action group, one utility strip. */
+#contract-input .v3-dates{display:grid!important;grid-template-columns:minmax(0,1.8fr) minmax(245px,.7fr)!important;gap:16px!important;align-items:stretch!important;padding:18px 20px 12px!important}
+#contract-input .v3-date-primary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 125px;align-items:stretch;gap:12px;padding:12px;border:1px solid #c8dce6;border-radius:13px;background:#fff}
+#contract-input .v3-date-primary>label{display:flex;flex-direction:column;justify-content:center;gap:8px;min-width:0;margin:0!important;padding:10px 12px!important;border-radius:9px!important;box-shadow:none!important;font-size:13px!important}
+#contract-input .v3-date-primary>label input{min-height:44px!important;height:44px!important;font-size:16px!important;padding:5px 9px!important}
+#contract-input .v3-date-primary .v3-day-counter{height:auto!important;min-height:100px!important;align-self:stretch!important;justify-content:center!important;padding:8px!important}
+#contract-input .v3-date-primary .v3-day-counter span{white-space:normal!important;text-align:center!important;font-size:11px!important}
+#contract-input .v3-counting-group{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;gap:9px!important;padding:12px!important;background:#f0f6f8!important;border:1px solid #c8dce6!important;border-radius:13px!important;min-width:0!important}
+#contract-input .v3-counting-group label{width:100%!important;min-width:0!important;font-size:12px!important}
+#contract-input .v3-counting-group select{height:42px!important;font-size:14px!important}
+#contract-input #startClosing{height:44px!important;min-height:44px!important;width:100%!important}
+#contract-input .v3-date-tools{grid-column:1/-1!important;padding:10px 0 0!important;min-height:45px!important}
+#contract-input .v3-date-tool-buttons button{min-height:34px!important;padding:7px 12px!important}
+@media(max-width:900px){#contract-input .v3-dates{grid-template-columns:1fr!important}#contract-input .v3-counting-group{flex-direction:row!important;align-items:end!important}#contract-input .v3-counting-group label{flex:1}#contract-input #startClosing{width:auto!important;min-width:155px!important}}
+@media(max-width:590px){#contract-input .v3-date-primary{grid-template-columns:1fr!important}#contract-input .v3-date-primary .v3-day-counter{min-height:58px!important}#contract-input .v3-counting-group{flex-direction:column!important}#contract-input #startClosing{width:100%!important}}
