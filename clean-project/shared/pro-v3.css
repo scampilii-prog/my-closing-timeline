@@ -435,3 +435,9 @@ html{scroll-behavior:smooth}
 /* Match the original two selected-task controls in both result cards. */
 .v3-result-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 .v3-result-tools button:disabled{opacity:.45;cursor:not-allowed;background:#edf2f5!important;color:#66869a!important}
+
+/* Table 02 controls mirror Table 01 but remain independent. */
+.v3-followup-reset-actions{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.v3-followup-reset-actions button{background:#f2faf5;color:#20664a;border:1px solid #a3d2b6;border-radius:8px;padding:9px 12px;font:700 12px Manrope,Arial,sans-serif;cursor:pointer}
+.v3-followup-reset-actions button:hover{background:#dff2e7}
+@media(max-width:650px){.v3-followup-reset-actions{margin-left:0;width:100%}.v3-followup-reset-actions button{flex:1}}
