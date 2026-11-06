@@ -208,5 +208,35 @@ for(const [target,type] of [['contract-input','contract'],['followup-input','fol
  del.onclick=()=>{if(type==='contract'){const count=selected.size;if(!count)return alert('Select tasks first.');if(!confirm('Delete '+count+' selected contract tasks?'))return;state.tasks=state.tasks.filter(t=>!selected.has(t.id));selected.clear();save();render()}else{const count=followups.filter(t=>t.selected).length;if(!count)return alert('Select follow-up tasks first.');if(!confirm('Delete '+count+' selected follow-up tasks?'))return;followups=followups.filter(t=>!t.selected);saveFollowups();renderFollowups()}};
  toolbar.append(del);
 }
+/* Guided setup: choose original, saved or blank; customize existing tables, then create recipient page. */
+const setup=el('section',{id:'templateSetup'});setup.style.cssText='background:#fff;border:1px solid #cadde6;border-radius:14px;padding:20px;margin:18px 0;display:grid;gap:12px';
+setup.append(el('h2',{},'1 · Choose Your Template'));
+setup.append(el('p',{},'Start with the original tasks, a saved reusable template, or a blank list. Customize in Table 01 or 02 below, then create a dedicated task page. Original templates are always preserved.'));
+const setupRow=el('div');setupRow.style.cssText='display:flex;gap:10px;flex-wrap:wrap;align-items:end';
+const typeLabel=el('label',{},'Table');typeLabel.style.cssText='display:grid;gap:6px;font-weight:700';const typeSelect=el('select',{id:'setupTableType'});for(const [v,label] of [['contract','Table 01 · Contract Tasks'],['followup','Table 02 · Follow-Up Tasks']])typeSelect.append(el('option',{value:v},label));typeLabel.append(typeSelect);setupRow.append(typeLabel);
+const sourceLabel=el('label',{},'Starting point');sourceLabel.style.cssText='display:grid;gap:6px;font-weight:700';const sourceSelect=el('select',{id:'setupSource'});sourceLabel.append(sourceSelect);setupRow.append(sourceLabel);
+const loadButton=el('button',{type:'button'},'2 · Load into Table');loadButton.style.cssText='padding:10px 14px;border:1px solid #1c647b;border-radius:9px;background:#1c647b;color:#fff;font-weight:750;cursor:pointer';setupRow.append(loadButton);setup.append(setupRow);
+const setupHint=el('p',{},'Your current tasks are kept until you explicitly choose to replace them.');setupHint.style.cssText='font-size:13px;color:#527083';setup.append(setupHint);
+const templateStorageKey='mct-v3-reusable-task-templates';
+const getSavedTemplates=()=>{try{return Object.values(JSON.parse(localStorage.getItem(templateStorageKey)||'{}'))}catch{return []}};
+function refreshSetupSources(){const prev=sourceSelect.value;sourceSelect.replaceChildren();sourceSelect.append(el('option',{value:'original'},'Original Template'),el('option',{value:'blank'},'Start Blank'));getSavedTemplates().filter(t=>t.type===typeSelect.value).sort((a,b)=>a.name.localeCompare(b.name)).forEach(t=>sourceSelect.append(el('option',{value:'saved:'+t.id},'Saved · '+t.name)));if([...sourceSelect.options].some(o=>o.value===prev))sourceSelect.value=prev}
+typeSelect.onchange=refreshSetupSources;refreshSetupSources();
+loadButton.onclick=()=>{
+ const type=typeSelect.value,source=sourceSelect.value;
+ if(!confirm('Replace the current '+(type==='contract'?'Table 01':'Table 02')+' working tasks? Save any work you want to reuse before continuing. Original templates and previously saved lists will not change.'))return;
+ if(type==='contract'){
+   if(source==='original'){state.tasks=fresh().tasks;state.next=7}
+   else if(source==='blank')state.tasks=[];
+   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;state.tasks=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',days:Number.isFinite(x.daysFromEffective)?Math.max(0,x.daysFromEffective):0,basis:'effective',notes:'',done:false}));state.next=state.tasks.length+1}
+   selected.clear();save();render();$('contract-input')?.scrollIntoView({behavior:'smooth',block:'start'});
+ }else{
+   if(source==='original')followups=defaultFollowups();
+   else if(source==='blank')followups=[];
+   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;followups=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',offset:Number.isFinite(x.daysFromEffective)?Math.abs(x.daysFromEffective):0,basis:Number(x.daysFromEffective)<0?'closing':'effective',date:'',notes:'',done:false,selected:false}))}
+   saveFollowups();renderFollowups();$('followup-input')?.scrollIntoView({behavior:'smooth',block:'start'});
+ }
+};
+const firstSetup=$('contract-input');firstSetup?.parentElement?.insertBefore(setup,firstSetup);
+window.addEventListener('focus',refreshSetupSources);
 const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();window.addEventListener('storage',e=>{if(e.key===personalKey)renderPersonalListLinks()});window.addEventListener('focus',renderPersonalListLinks);
 render();renderFollowups()})();
