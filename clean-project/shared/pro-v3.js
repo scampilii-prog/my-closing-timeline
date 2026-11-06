@@ -66,7 +66,7 @@ function renderFollowups(){
   cell(tr,el('span',{className:'v3-followup-status'},status));
   const alert=t.done?'Completed':!dueDate?'No date':dueDate<current?'Overdue':dueDate===current?'Due Today':dueDate===next?'Tomorrow':'Scheduled';
   cell(tr,el('span',{className:'v3-followup-alert '+(alert==='Overdue'?'late':alert==='Due Today'?'today':alert==='Tomorrow'?'tomorrow':'')},alert));
-  const notes=el('input',{type:'text','aria-label':'Notes for '+t.name,placeholder:'Notes'});notes.value=t.notes||'';
+  const notes=el('input',{type:'text','aria-label':'Notes for '+t.name});notes.value=t.notes||'';
   notes.onchange=()=>{t.notes=notes.value;update(t)};cell(tr,notes);
   const check=el('input',{type:'checkbox','aria-label':'Done / reopen '+t.name});check.checked=!!t.done;
   check.onchange=()=>{t.done=check.checked;update(t,true)};const doneWrap=el('div',{className:'v3-done'});doneWrap.append(check,el('span',{},t.done?'Reopen':'Done'));cell(tr,doneWrap);cell(tr,remove);
