@@ -14,6 +14,10 @@ for(const id of sectionIds){
  assert.ok(html.includes('id="'+id+'"'),'Missing section anchor: '+id);
  assert.ok(html.includes('href="#'+id+'"'),'Missing navigation link: '+id);
 }
+if(process.argv.includes('--source-only')){
+ console.log('PASS: source HTML has six matching navigation anchors and versioned assets; deployment not checked');
+ process.exit(0);
+}
 async function check(){
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);
  try{
