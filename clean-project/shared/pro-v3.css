@@ -234,3 +234,16 @@ html{scroll-behavior:smooth}
 #followup-summary .v3-summary-title{background:#eaf7ef}
 #closing-progress .v3-summary-title,#today-tomorrow .v3-summary-title{background:#fff4de}
 @media(max-width:700px){.v3-section-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Three clearly related navigation groups, with two direct links each. */
+.v3-section-groups{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.v3-section-groups .v3-nav-group{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:11px;border:1px solid #bfd7e6;background:#f3f9fd}
+.v3-section-groups .v3-nav-group>strong{font-size:11px;letter-spacing:.045em;color:#245e81;margin-bottom:2px}
+.v3-section-groups .v3-nav-group a{min-height:32px;padding:7px 9px;justify-content:flex-start;text-align:left;font-size:11px;background:#fff;border:1px solid #d2e1ea;color:#225d81}
+.v3-section-groups .v3-nav-followup{background:#f0faf4;border-color:#a7d4bc}
+.v3-section-groups .v3-nav-followup>strong,.v3-section-groups .v3-nav-followup a{color:#1c634a}
+.v3-section-groups .v3-nav-followup a{background:#fff;border-color:#c5e3d2}
+.v3-section-groups .v3-nav-overview{background:#fff9ee;border-color:#e9d09b}
+.v3-section-groups .v3-nav-overview>strong,.v3-section-groups .v3-nav-overview a{color:#825c21}
+.v3-section-groups .v3-nav-overview a{background:#fff;border-color:#efdfbd}
+@media(max-width:700px){.v3-section-groups{grid-template-columns:1fr}}
