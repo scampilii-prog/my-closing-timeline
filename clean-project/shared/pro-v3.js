@@ -247,4 +247,37 @@ for(const [target,type] of [['contract-input','contract'],['followup-input','fol
  bar.append(selectAll,clearAll);
 }
 const savedPanel=el('section',{id:'personalListPanel'});savedPanel.style.cssText='background:#f8fbfc;border:1px solid #c9dde4;border-radius:13px;padding:18px;margin:20px 0';savedPanel.append(el('h2',{},'My Saved Task Pages'));savedPanel.append(el('p',{},'Create a dedicated page for an agent, employee, open house or another activity. Your original templates remain unchanged.'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);const first=$('contract-input');first?.parentElement?.insertBefore(savedPanel,first);renderPersonalListLinks();window.addEventListener('storage',e=>{if(e.key===personalKey)renderPersonalListLinks()});window.addEventListener('focus',renderPersonalListLinks);
+/* Group the existing working controls by intent without cloning/replacing buttons. */
+function organizeTaskControls(rootId,followup){
+ const root=$(rootId),bar=root?.querySelector('.v3-actions');if(!bar)return;
+ const heading=el('div',{className:'v3-control-heading'},'TASK WORKSPACE · '+(followup?'FOLLOW-UP':'CONTRACT'));
+ const groups=[
+  {name:'01 · BUILD & ORGANIZE',cls:'v3-control-build',ids:followup?['addFollowup']:['add','sort']},
+  {name:'02 · SELECT & MANAGE',cls:'v3-control-manage',ids:followup?['followupSelectedCount']:['selectedCount','selectHeader']},
+  {name:'03 · SHARE & REPORT',cls:'v3-control-share',ids:followup?['emailFollowupSelected','viewFollowupFormatted']:['email','copy']},
+  {name:'04 · PERSONAL WORKSPACE',cls:'v3-control-personal',ids:[]}
+ ];
+ const controls=[...bar.children];const assigned=new Set();
+ const findByText=t=>controls.find(x=>x.tagName==='BUTTON'&&x.textContent.trim()===t);
+ const extras={
+  'v3-control-build':[findByText('Sort by Date')],
+  'v3-control-manage':[findByText('Select All'),findByText('Delete Selected'),findByText('Clear All Tasks')],
+  'v3-control-personal':[findByText('Create Personal Task Page ↗')]
+ };
+ const frame=el('div',{className:'v3-control-grid'});
+ for(const g of groups){
+  const panel=el('section',{className:'v3-control-panel '+g.cls});panel.append(el('div',{className:'v3-control-label'},g.name));
+  const body=el('div',{className:'v3-control-buttons'});
+  for(const id of g.ids){const node=$(id);if(node&&node.parentElement===bar&&id!=='selectHeader'){body.append(node);assigned.add(node)}}
+  for(const node of extras[g.cls]||[]){if(node&&node.parentElement===bar&&!assigned.has(node)){body.append(node);assigned.add(node)}}
+  if(g.cls==='v3-control-manage'){const hint=bar.querySelector('.v3-selection-hint');if(hint){body.append(hint);assigned.add(hint)}}
+  panel.append(body);frame.append(panel);
+ }
+ const remaining=controls.filter(node=>!assigned.has(node));
+ const misc=el('div',{className:'v3-control-secondary'});
+ for(const node of remaining)misc.append(node);
+ bar.append(heading,frame,misc);bar.classList.add('v3-actions-organized');
+}
+organizeTaskControls('contract-input',false);
+organizeTaskControls('followup-input',true);
 render();renderFollowups()})();
