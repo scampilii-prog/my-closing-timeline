@@ -280,6 +280,18 @@ html{scroll-behavior:smooth}
 #contract-input table td button,#followup-input table td button{font-family:Manrope,Arial,sans-serif;font-size:12px;line-height:1.35}
 #contract-input table td input[type=text],#followup-input table td input[type=text]{font-weight:600}
 
+/* STEP 2 typography follows STEP 1, not its former compact 10px rules. */
+#followup-input.v3-followup-frame table.v3-followup-table{font-family:Manrope,Arial,sans-serif;font-size:13px;line-height:1.4}
+#followup-input.v3-followup-frame table.v3-followup-table thead th{font-family:inherit;font-size:12px;font-weight:800;line-height:1.35}
+#followup-input.v3-followup-frame table.v3-followup-table tbody td{font-family:inherit;font-size:13px;line-height:1.4}
+#followup-input.v3-followup-frame table.v3-followup-table tbody td input:not([type=checkbox]),
+#followup-input.v3-followup-frame table.v3-followup-table tbody td select,
+#followup-input.v3-followup-frame table.v3-followup-table tbody td textarea,
+#followup-input.v3-followup-frame table.v3-followup-table tbody td button{font-family:Manrope,Arial,sans-serif;font-size:12px;line-height:1.35}
+#followup-input.v3-followup-frame table.v3-followup-table .v3-followup-status,
+#followup-input.v3-followup-frame table.v3-followup-table .v3-followup-alert,
+#followup-input.v3-followup-frame table.v3-followup-table .v3-done{font-size:11px}
+
 /* Unified task grid backgrounds; Step 1 and Step 2 share exactly the same palette.
    Only the section headings retain blue/green identity. */
 #contract-input .v3-scroll,#followup-input .v3-scroll{background:#f5faff}
