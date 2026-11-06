@@ -367,3 +367,10 @@ html{scroll-behavior:smooth}
 .v3-dashboard .v3-result-context{margin:12px 16px 0;padding:10px 12px;border-radius:8px;font:700 12px/1.5 Manrope,Arial,sans-serif}
 .v3-dashboard .v3-context-contract{background:#e6f2fb;color:#174f76;border-left:4px solid #185b89}
 .v3-dashboard .v3-context-followup{background:#e5f5ea;color:#226744;border-left:4px solid #23734d}
+
+/* Clear, legible relationship labels and separate purposes for the two gold cards. */
+.v3-dashboard #contract-summary .v3-summary-heading-text small,
+.v3-dashboard #followup-summary .v3-summary-heading-text small{font-size:13px!important;line-height:1.35;font-weight:900!important;letter-spacing:.035em;opacity:1!important}
+.v3-dashboard #closing-progress .v3-summary-heading-text small,
+.v3-dashboard #today-tomorrow .v3-summary-heading-text small{font-size:12px!important;line-height:1.35;opacity:1!important}
+.v3-dashboard .v3-near-intro{margin:0 0 13px;padding:10px 12px;background:#fff7e8;border-left:4px solid #b47d24;border-radius:6px;color:#78551f;font-size:12px}
