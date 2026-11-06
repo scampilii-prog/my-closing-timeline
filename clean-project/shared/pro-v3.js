@@ -232,7 +232,7 @@ loadButton.onclick=()=>{
  }else{
    if(source==='original')followups=defaultFollowups();
    else if(source==='blank')followups=[];
-   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;followups=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',offset:Number.isFinite(x.daysFromEffective)?Math.abs(x.daysFromEffective):0,basis:Number(x.daysFromEffective)<0?'closing':'effective',date:'',notes:'',done:false,selected:false}))}
+   else {const t=getSavedTemplates().find(x=>'saved:'+x.id===source);if(!t)return;followups=t.tasks.map((x,i)=>({id:i+1,name:x.name||'New task',offset:Number.isFinite(x.daysFromEffective)&&x.daysFromEffective>=0?x.daysFromEffective:0,basis:'effective',date:'',notes:'',done:false,selected:false}))}
    saveFollowups();renderFollowups();$('followup-input')?.scrollIntoView({behavior:'smooth',block:'start'});
  }
 };
