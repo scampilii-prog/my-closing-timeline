@@ -564,3 +564,14 @@ html{scroll-behavior:smooth}
 #contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:#e5f1f9!important;color:#164f74!important;border:1px solid #a8cde2!important;font-weight:850!important;font-size:16px!important}
 #contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{background:#e0f3e9!important;color:#145e42!important;border:1px solid #9fd0b7!important;font-weight:850!important;font-size:16px!important}
 #contract-input>.v3-head .v3-remaining.v3-past,#followup-input>.v3-head .v3-remaining.v3-past{background:#fff0e9!important;color:#a34731!important;border-color:#e7b4a6!important}
+
+/* Email composer: save actions become unmistakable while editing. */
+.v3-dialog .v3-save-primary{background:#dcefe6!important;border:1px solid #75b79b!important;color:#175c45!important;font-weight:850!important;border-radius:7px!important;transition:background .15s,box-shadow .15s!important}
+.v3-dialog .v3-save-primary.v3-save-active{background:#08795c!important;border-color:#06664d!important;color:#fff!important;box-shadow:0 2px 7px rgba(6,102,77,.2)!important}
+.v3-dialog .v3-save-primary.v3-save-active:hover{background:#06644d!important}
+.v3-dialog .v3-save-primary:focus-visible{outline:3px solid #e9bb70!important;outline-offset:2px!important}
+.v3-preview-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.v3-preview-actions .v3-preview-toggle{margin:0!important;min-height:35px!important}
+.v3-preview-actions .v3-preview-formatted{background:#e6f3f9!important;border:1px solid #8ebbd3!important;color:#165879!important;font-weight:800!important}
+#followup-input #viewFollowupFormatted{background:#e7f4ec!important;border:1px solid #8fc4a5!important;color:#176447!important;font-weight:800!important}
+#followup-input #viewFollowupFormatted:disabled{opacity:.45!important}
