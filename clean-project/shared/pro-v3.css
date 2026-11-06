@@ -543,3 +543,19 @@ html{scroll-behavior:smooth}
 #contract-input #restore{background:#fff2e4!important;border:1.5px solid #d9a16c!important;color:#95501d!important;font-weight:800!important}
 #contract-input #restore:hover{background:#ffe1c5!important;border-color:#bf783c!important}
 #contract-input #clearDates:focus-visible,#contract-input #restore:focus-visible{outline:3px solid #203f58!important;outline-offset:2px!important}
+
+/* Refined editorial header: one horizontal baseline, understated actions. */
+#contract-input>.v3-head,#followup-input>.v3-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:22px!important;padding:19px 26px!important;min-height:0!important}
+#contract-input>.v3-head>div:first-child,#followup-input>.v3-head>div:first-child{min-width:0;flex:1}
+#contract-input>.v3-head h1,#followup-input>.v3-head h1{font-size:clamp(24px,2.1vw,34px)!important;line-height:1.15!important;margin:5px 0!important}
+#contract-input>.v3-head p,#followup-input>.v3-head p{font-size:12px!important;line-height:1.4!important;margin:4px 0 0!important;max-width:650px!important;color:#d6e8f2!important}
+#contract-input>.v3-head .v3-pair-note,#followup-input>.v3-head .v3-pair-note{font-size:11px!important;letter-spacing:.02em!important;font-weight:700!important}
+#contract-input>.v3-head .v3-head-stats,#followup-input>.v3-head .v3-head-stats{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;flex-wrap:nowrap!important;flex-shrink:0!important}
+#contract-input .v3-head-result-link,#followup-input .v3-head-result-link{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;min-width:145px!important;min-height:58px!important;padding:9px 15px!important;border:1px solid #a9cfdf!important;border-radius:9px!important;background:#e8f4fa!important;box-shadow:none!important;transform:none!important;color:#175070!important}
+#contract-input .v3-head-result-link .v3-link-kicker,#followup-input .v3-head-result-link .v3-link-kicker{font-size:10px!important;color:#52788d!important;font-weight:800!important}
+#contract-input .v3-head-result-link strong,#followup-input .v3-head-result-link strong{font-size:16px!important;color:#164d6e!important;white-space:nowrap!important}
+#contract-input .v3-head-result-link:hover,#followup-input .v3-head-result-link:hover{background:#d2eaf5!important;border-color:#77b3d1!important;box-shadow:0 2px 6px #092d4220!important;transform:none!important}
+#contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter,#contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:39px!important;padding:8px 12px!important;border:1px solid #ffffff35!important;border-radius:8px!important;box-shadow:none!important;font-size:14px!important;font-weight:750!important;white-space:nowrap!important}
+#contract-input>.v3-head .v3-counter,#followup-input>.v3-head .v3-counter{background:#ffffff19!important;color:#f5faff!important}
+#contract-input>.v3-head .v3-remaining,#followup-input>.v3-head .v3-remaining{background:#ffffff19!important;color:#e2f3e9!important}
+@media(max-width:1050px){#contract-input>.v3-head,#followup-input>.v3-head{flex-wrap:wrap!important}#contract-input>.v3-head .v3-head-stats,#followup-input>.v3-head .v3-head-stats{justify-content:flex-start!important;flex-wrap:wrap!important}}
