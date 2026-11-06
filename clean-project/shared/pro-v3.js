@@ -101,22 +101,30 @@ function renderFollowups(){
  updateFollowupSelection();
  renderDashboard();
 }
+function buildFollowupFormatted(){
+ const chosen=followups.filter(t=>t.selected).sort((a,b)=>(followupDue(a)||'9999').localeCompare(followupDue(b)||'9999'));
+ const wrap=$('copyReport');wrap.replaceChildren();
+ wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:1px solid #b4cbbb;border-radius:14px;overflow:hidden;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;color:#102f4b';
+ const head=el('div');head.style.cssText='display:flex;align-items:center;gap:18px;padding:25px 22px;background:#10543e;color:#fff;min-height:112px';
+ const icon=el('span',{},'☑');icon.style.cssText='display:inline-flex;align-items:center;justify-content:center;width:68px;height:68px;flex:none;background:#008f69;border-radius:15px;color:#fff;font-size:45px;font-weight:700';
+ const title=el('div');title.style.cssText='font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.2;color:#fff';
+ title.append(el('span',{},'Follow-Up '));const gold=el('em',{},'Summary');gold.style.cssText='font-family:Georgia,serif;color:#e9bd70;font-weight:700';title.append(gold);head.append(icon,title);wrap.append(head);
+ const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;table-layout:fixed;font-family:Arial,Helvetica,sans-serif;font-size:clamp(11px,1.7vw,16px)';
+ const colgroup=el('colgroup');for(const width of ['9%','58%','11%','22%']){const col=el('col');col.style.width=width;colgroup.append(col)}table.append(colgroup);
+ const thead=el('thead'),hr=el('tr');
+ ['#','FOLLOW-UP TASK','DAYS','DUE DATE'].forEach((label,i)=>{const th=el('th',{},label);th.style.cssText='padding:15px '+(i===1?'14px':'5px')+';text-align:'+(i===1?'left':'center')+';color:#18533d;background:#fafbf8;font-weight:800;border:1px solid #d9e2da;font-size:clamp(10px,1.4vw,14px)';hr.append(th)});
+ thead.append(hr);table.append(thead);const tbody=el('tbody');
+ chosen.forEach((t,i)=>{const tr=el('tr');const vals=[String(i+1),t.name,String(t.offset||0),followupDue(t)?formatDate(followupDue(t)):'Not set'];vals.forEach((value,j)=>{const td=el('td');td.style.cssText='padding:16px '+(j===1?'14px':'5px')+';background:'+(i%2?'#fff':'#eaf3e9')+';border:1px solid #d8e2db;color:#102f4b;font-weight:700;text-align:'+(j===1?'left':'center')+';overflow-wrap:anywhere;vertical-align:middle';if(j===0){const circle=el('span',{},value);circle.style.cssText='display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:2px solid #5d9873;border-radius:50%;background:#fff;color:#17523c;font-weight:800';td.append(circle)}else td.textContent=value;tr.append(td)});tbody.append(tr)});
+ table.append(tbody);wrap.append(table);
+ const note=el('p',{},'Follow-up tasks help keep the closing on track.');note.style.cssText='padding:14px 18px;margin:0;color:#526779;font-size:13px;font-style:italic';wrap.append(note);
+}
 function showSelectedFormattedReport(){
- const selectedContract=$('emailDialog').open?$('emailIncludeContract').checked:resultMode==='contract';
- const selectedFollowup=$('emailDialog').open?$('emailIncludeFollowup').checked:resultMode==='followup';
- if(selectedContract){buildReport()}else if(selectedFollowup){
-  const chosen=followups.filter(t=>t.selected).sort((a,b)=>(followupDue(a)||'9999').localeCompare(followupDue(b)||'9999'));
-  const wrap=$('copyReport');wrap.replaceChildren();
-  wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:2px solid #9cbdaa;border-radius:14px;overflow:hidden;padding:0;box-sizing:border-box';
-  const heading=el('h2',{},'Follow-Up Summary');heading.style.cssText='margin:0;padding:24px;background:#155844;color:#fff;font-size:25px';wrap.append(heading);
-  const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;table-layout:fixed;font:13px Arial';
-  const head=el('thead'),tr=el('tr');
-  for(const title of ['#','FOLLOW-UP TASK','DAYS','DUE DATE']){const th=el('th',{},title);th.style.cssText='padding:13px 10px;background:#f6faf7;color:#236348;text-align:left;border-bottom:1px solid #dce8df';tr.append(th)}
-  head.append(tr);table.append(head);const body=el('tbody');
-  chosen.forEach((t,i)=>{const row=el('tr');[String(i+1),t.name,String(t.offset||0),followupDue(t)?formatDate(followupDue(t)):'Not set'].forEach(value=>{const td=el('td',{},value);td.style.cssText='border:1px solid #c6d9d0;padding:9px';row.append(td)});body.append(row)});
-  table.append(body);wrap.append(table);
- }
- $('copyTitle').textContent=resultMode==='followup'?'Follow-Up Summary':'Closing Timeline Summary';
+ const contract=$('emailDialog').open?$('emailIncludeContract').checked:resultMode==='contract';
+ const followup=$('emailDialog').open?$('emailIncludeFollowup').checked:resultMode==='followup';
+ if(!contract&&!followup)return;
+ if(contract)buildReport();
+ if(followup){if(contract){const first=$('copyReport').cloneNode(true);buildFollowupFormatted();const second=$('copyReport').cloneNode(true);const container=$('copyReport');container.replaceChildren(first,second);container.style.cssText='display:flex;flex-direction:column;gap:16px;width:100%;max-width:850px;border:0;background:transparent;padding:0;overflow:visible'}else buildFollowupFormatted()}
+ $('copyTitle').textContent=contract&&followup?'Closing & Follow-Up Summaries':followup?'Follow-Up Summary':'Closing Timeline Summary';
  $('copyFeedback').textContent='Review and copy the selected tasks.';
  $('copyDialog').showModal();
 }
