@@ -247,3 +247,17 @@ html{scroll-behavior:smooth}
 .v3-section-groups .v3-nav-overview>strong,.v3-section-groups .v3-nav-overview a{color:#825c21}
 .v3-section-groups .v3-nav-overview a{background:#fff;border-color:#efdfbd}
 @media(max-width:700px){.v3-section-groups{grid-template-columns:1fr}}
+
+/* CLEAN V3: unmistakable parent/result color identity, without altering table behavior. */
+#contract-input{border-color:#9fc4dc}
+#contract-input>.v3-head{background:#edf6fc;border-bottom:2px solid #86b8d7}
+#contract-input>.v3-head small{color:#286b94}
+#followup-input{border-color:#99cbb0}
+#followup-input>.v3-head{background:#edf8f1;border-bottom:2px solid #80b89b}
+#followup-input>.v3-head small{color:#2c7854}
+#contract-summary{border-color:#9fc4dc}
+#followup-summary{border-color:#99cbb0}
+#closing-progress,#today-tomorrow{border-color:#e2c58c}
+.v3-section-groups .v3-nav-contract{border-top:4px solid #7caecf}
+.v3-section-groups .v3-nav-followup{border-top:4px solid #79b593}
+.v3-section-groups .v3-nav-overview{border-top:4px solid #d9b46d}
