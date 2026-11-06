@@ -50,7 +50,7 @@ function prepareContractSummaryEmail(){
   ...state.tasks.map((t,i)=>String(i+1)+'. '+t.name+' | Due: '+(due(t)||'Not set')+' | '+(t.done?'Done':'Pending')),
   '', 'Planning assistance only. Verify all deadlines against the signed contract.'];
  const subject='Closing Timeline Summary';
- const href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\\n'));
+ const href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
  window.location.href=href;
 }
 const contractSummaryHeading=document.querySelector('#contract-summary .v3-summary-title');
