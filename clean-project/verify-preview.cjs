@@ -2,6 +2,11 @@
 // It never publishes anything or touches production.
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
+const crypto=require('node:crypto');
+const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
+const localJs=fs.readFileSync(__dirname+'/shared/pro-v3.js','utf8');
+const localCss=fs.readFileSync(__dirname+'/shared/pro-v3.css','utf8');
+assert.ok(localJs.includes('name.title=t.name'),'Source JavaScript missing task-name tooltips');
 const base=process.env.MCT_PREVIEW_URL||'https://plain-mouse-a4cc.scampilii.workers.dev';
 const html=fs.readFileSync(__dirname+'/real-estate-pro-v3.html','utf8');
 assert.match(html,/>View Formatted Table<\/button>/,'Expected approved V3 button in repository');
@@ -15,7 +20,7 @@ for(const id of sectionIds){
  assert.ok(html.includes('href="#'+id+'"'),'Missing navigation link: '+id);
 }
 if(process.argv.includes('--source-only')){
- console.log('PASS: source HTML has six matching navigation anchors and versioned assets; deployment not checked');
+ console.log('PASS: source HTML, navigation and task tooltip JavaScript validated; deployment not checked');
  process.exit(0);
 }
 async function check(){
@@ -26,6 +31,7 @@ async function check(){
   const served=await response.text();
   assert.match(served,/>View Formatted Table<\/button>/,'STALE DEPLOYMENT: preview lacks approved button');
   assert.ok(served.includes('v3-section-groups'),'STALE DEPLOYMENT: preview lacks grouped navigation');
+  assert.equal(digest(served),digest(html),'STALE DEPLOYMENT: published HTML differs from current branch');
   for(const id of sectionIds){
    assert.ok(served.includes('id="'+id+'"'),'STALE DEPLOYMENT: missing section '+id);
   }
@@ -34,10 +40,11 @@ async function check(){
   const script=await fetch(base+'/shared/pro-v3.js?deploy_check='+Date.now(),{signal:controller.signal});
   assert.equal(script.status,200,'Preview JavaScript must be accessible');
   const js=await script.text();
-  assert.ok(js.includes('name.title=t.name'),'STALE DEPLOYMENT: task-name tooltip code is missing');
+  assert.equal(digest(js),digest(localJs),'STALE DEPLOYMENT: published JavaScript differs from current branch');
   const asset=await fetch(base+'/shared/pro-v3.css?deploy_check='+Date.now(),{signal:controller.signal});
   assert.equal(asset.status,200,'Preview CSS must be accessible');
   const css=await asset.text();
+  assert.equal(digest(css),digest(localCss),'STALE DEPLOYMENT: published CSS differs from current branch');
   assert.match(css,/max-width:1140px;margin:24px auto;padding:0/,'STALE DEPLOYMENT: preview CSS does not match approved width');
   assert.doesNotMatch(css,/margin-left:-124px/,'STALE DEPLOYMENT: old logo offset is still served');
   console.log('PASS: isolated preview HTML and CSS contain current V3 updates');
