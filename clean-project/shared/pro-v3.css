@@ -295,3 +295,14 @@ html{scroll-behavior:smooth}
 #followup-input table tbody td{border-bottom-color:#c7e2d0}
 #contract-input table td.sel,#contract-input table th.sel{background:#d5eafa}
 #followup-input table td.sel,#followup-input table th.sel{background:#d4ecdd}
+
+/* Specificity corrections for the legacy follow-up table selectors. */
+#followup-input.v3-followup-frame table.v3-followup-table thead th{background:#d2ecdd;color:#195e43;border-bottom-color:#83bc9c;font-size:12px}
+#followup-input.v3-followup-frame table.v3-followup-table tbody tr:nth-child(even){background:#e7f5eb}
+#followup-input.v3-followup-frame table.v3-followup-table tbody tr.done{background:#d9eee1}
+#followup-input.v3-followup-frame table.v3-followup-table tbody td{font-size:13px}
+#followup-input.v3-followup-frame table.v3-followup-table td input[type=text],
+#followup-input.v3-followup-frame table.v3-followup-table td input[type=date],
+#followup-input.v3-followup-frame table.v3-followup-table td select,
+#followup-input.v3-followup-frame table.v3-followup-table td textarea{font-size:12px}
+#followup-input.v3-followup-frame table.v3-followup-table td:nth-child(1){background:#d4ecdd}
