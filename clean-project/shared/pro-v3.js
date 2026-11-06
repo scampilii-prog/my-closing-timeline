@@ -40,7 +40,7 @@ function renderDashboard(){
  ['Overdue',t=>t.date&&t.date<todayLocal,'v3-pending','No overdue tasks.'],
  ['Due Today',t=>t.date===todayLocal,'v3-today','No tasks scheduled for today.'],
  ['Tomorrow',t=>t.date===tomorrowLocal,'v3-tomorrow','No tasks scheduled for tomorrow.']
- ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);if(matches.length){matches.sort((a,b)=>(a.kind===b.kind?0:a.kind==='Contract'?-1:1));matches.forEach(t=>{const item=el('a',{className:'v3-near-task v3-near-task-link',href:'#'+(t.kind==='Contract'?'contract-task-':'followup-task-')+t.number});const label=t.kind==='Contract'?'TABLE 01':'TABLE 02';item.append(el('span',{className:'v3-near-task-id '+(t.kind==='Contract'?'v3-near-contract':'v3-near-followup')},label+' · #'+t.number));item.append(el('span',{className:'v3-near-task-name'},t.name));group.append(item)})}else group.append(el('p',{},empty));near.append(group)}
+ ]){const matches=open.filter(filter).sort((a,b)=>a.date.localeCompare(b.date));const group=el('section',{className:'v3-near-panel '+cl});const heading=el('div',{className:'v3-near-heading'});heading.append(el('strong',{},label),el('span',{},String(matches.length)));group.append(heading);near.append(group)}
 }
 // Explicit, user-initiated email draft for Step 1 results; never sends automatically.
 function renderFollowups(){
