@@ -393,3 +393,10 @@ html{scroll-behavior:smooth}
 #contract-input .v3-dates label:has(#effective) input{border-color:#4b91c2!important;background:#fff!important}
 #contract-input .v3-dates label:has(#closing) input{border-color:#409d81!important;background:#fff!important}
 #contract-input .v3-dates label:has(#closing) input:focus{border-color:#177b60!important;outline-color:#a9e0d0!important}
+
+/* Actionable, compact Today & Tomorrow entries. */
+.v3-near-task-link{display:flex;text-decoration:none!important;align-items:center;padding:6px 7px;border-radius:7px;cursor:pointer}
+.v3-near-task-link:hover,.v3-near-task-link:focus-visible{background:#edf5fa;outline:2px solid #9ec4db;outline-offset:1px}
+.v3-near-task-link .v3-near-task-name{color:#244c60;text-decoration:none}
+#contract-input tr:target,#followup-input tr:target{outline:3px solid #e3a744;outline-offset:-3px;background:#fff3d8!important}
+#contract-input tr,#followup-input tr{scroll-margin-top:225px}
