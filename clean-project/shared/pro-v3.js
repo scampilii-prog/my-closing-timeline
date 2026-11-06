@@ -85,9 +85,41 @@ function renderFollowups(){
  updateFollowupSelection();
  renderDashboard();
 }
-function updateFollowupSelection(){const selected=followups.filter(t=>t.selected);const button=$('emailFollowupSelected');const count=$('followupSelectedCount');if(button)button.disabled=!selected.length;if(count)count.textContent=selected.length+' selected';}
+function showSelectedFormattedReport(){
+ if(resultMode==='contract'){buildReport()}else{
+  const chosen=followups.filter(t=>t.selected).sort((a,b)=>(followupDue(a)||'9999').localeCompare(followupDue(b)||'9999'));
+  const wrap=$('copyReport');wrap.replaceChildren();
+  wrap.style.cssText='width:100%;max-width:850px;background:#fff;border:1px solid #a9d2bd;border-radius:10px;padding:14px;box-sizing:border-box';
+  const heading=el('h2',{},'Follow-Up Summary · Selected Tasks');heading.style.color='#176e50';wrap.append(heading);
+  const table=el('table');table.style.cssText='width:100%;border-collapse:collapse;font:14px Arial';
+  const head=el('thead'),tr=el('tr');
+  for(const title of ['#','Task / Reminder','Due Date','Status','Notes']){const th=el('th',{},title);th.style.cssText='padding:10px;background:#176e50;color:#fff;text-align:left';tr.append(th)}
+  head.append(tr);table.append(head);const body=el('tbody');
+  chosen.forEach((t,i)=>{const row=el('tr');[String(i+1),t.name,followupDue(t)||'No date',t.done?'Done':'Pending',t.notes||''].forEach(value=>{const td=el('td',{},value);td.style.cssText='border:1px solid #c6d9d0;padding:9px';row.append(td)});body.append(row)});
+  table.append(body);wrap.append(table);
+ }
+ $('copyTitle').textContent=resultMode==='followup'?'Follow-Up Summary':'Closing Timeline Summary';
+ $('copyFeedback').textContent='Review and copy the selected tasks.';
+ $('copyDialog').showModal();
+}
+function updateFollowupSelection(){const selected=followups.filter(t=>t.selected);const button=$('emailFollowupSelected');const count=$('followupSelectedCount');if(button)button.disabled=!selected.length;const formatted=$('viewFollowupFormatted');if(formatted)formatted.disabled=!selected.length;if(count)count.textContent=selected.length+' selected';}
 const followupEmailButton=$('emailFollowupSelected');
-if(followupEmailButton)followupEmailButton.onclick=()=>{const chosen=followups.filter(t=>t.selected);if(!chosen.length)return;const subject='Follow-Up Instructions · My Closing Timeline';const body=['Hello,','','Please review and complete the following assigned follow-up tasks:','',...chosen.map((t,i)=>(i+1)+'. '+t.name+'\n   Due: '+(followupDue(t)||'Date to be confirmed')+'\n   Status: '+(t.done?'Completed':'Pending')+(t.notes?'\n   Instructions / Notes: '+t.notes:'')),'','Please confirm receipt and provide an update on completion.','','Thank you.'];window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body.join('\n'))};
+if(followupEmailButton)followupEmailButton.onclick=()=>{
+ const chosen=followups.filter(t=>t.selected);
+ if(!chosen.length)return;
+ resultMode='followup';
+ renderRecipients();updateRecipientContext();
+ $('emailTitle').textContent='Send Selected Follow-Up Tasks';
+ $('emailSelectedCount').textContent='Selected Follow-Up Tasks: '+chosen.length;
+ $('emailDates').textContent='Effective Date: '+(state.effective||'Not set')+' · Closing Date: '+(state.closing||'Not set');
+ $('emailSubject').value='Follow-Up Instructions · My Closing Timeline';
+ $('emailMessage').value='Please review the selected follow-up tasks and confirm their status.';
+ $('emailPreview').textContent=selectText();
+ $('emailPreviewPanel').hidden=true;$('newRecipient').hidden=true;$('emailTemplateEditor').hidden=true;$('emailError').textContent='';
+ $('emailDialog').showModal();
+};
+$('viewFollowupFormatted').onclick=()=>{if(!followups.some(t=>t.selected))return;resultMode='followup';showSelectedFormattedReport()};
+
 $('addFollowup').onclick=()=>{const task={id:Math.max(0,...followups.map(t=>t.id))+1,name:'New follow-up task',offset:0,basis:'effective',date:'',notes:'',done:false};followups.unshift(task);saveFollowups();renderFollowups();const row=$('followupRows').firstElementChild;row?.scrollIntoView({block:'nearest'});row?.querySelector('input[aria-label^="Follow-up task"]')?.focus()};
 document.querySelectorAll('.v3-result-tools').forEach(toolbar=>{
  const contract=toolbar.dataset.report==='contract';
