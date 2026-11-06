@@ -15,9 +15,7 @@ function renderDashboard(){
  const closing=$('closingSummary');closing.replaceChildren();
  const available=tasks.filter(t=>t.date).length+(state.effective?1:0)+(state.closing?1:0);
  closing.append(el('p',{className:'v3-dashboard-lead'},available+' of '+(tasks.length+2)+' dates entered · '+(state.effective?'Review deadlines against your contract.':'Enter the effective date above to calculate deadlines.')));
- line(closing,{name:'Effective date',date:state.effective,done:false},'KEY DATE');
- tasks.forEach(t=>line(closing,t,'After Acceptance'));
- line(closing,{name:'Closing date',date:state.closing,done:false},'KEY DATE');
+ if(!state.effective){closing.replaceChildren(el('p',{className:'v3-dashboard-lead'},'Awaiting Effective Date · Select tasks in Table 01 to prepare a report.'))}else{closing.replaceChildren(el('p',{className:'v3-dashboard-lead'},'Selected contract tasks · '+tasks.filter((t,i)=>selected.has(state.tasks[i].id)).length));tasks.filter((t,i)=>selected.has(state.tasks[i].id)&&t.date).forEach(t=>line(closing,t,'SELECTED'));}
  const follow=$('followupSummary');follow.replaceChildren();follow.append(el('p',{className:'v3-dashboard-lead'},ft.length+' follow-up tasks · '+ft.filter(t=>t.done).length+' completed'));
  ft.filter(t=>!t.done).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')).slice(0,8).forEach(t=>line(follow,t));
  const progress=$('progressSummary');progress.replaceChildren();
