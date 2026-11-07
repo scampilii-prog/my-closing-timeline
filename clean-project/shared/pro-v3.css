@@ -693,3 +693,10 @@ html{scroll-behavior:smooth}
 
 /* Keep all four action-card titles on one line at standard desktop width. */
 @media(min-width:1051px){.v3-control-panel .v3-control-label{font-size:13px!important;letter-spacing:.35px!important;white-space:nowrap}}
+
+/* Unified framed workspace; existing four cards remain independent controls. */
+#contract-input .v3-actions-organized,#followup-input .v3-actions-organized{margin:14px 18px 16px!important;padding:0 17px 17px!important;border:2px solid #adc8d9!important;border-radius:16px!important;background:#f8fbfd!important;box-shadow:0 4px 14px #173e5410!important;overflow:hidden}
+.v3-actions-organized .v3-control-heading{margin:0 -17px 17px!important;padding:13px 18px!important;background:#e3edf4!important;border-bottom:1px solid #b9cedd;color:#244f69!important;font-size:13px!important;font-weight:900!important;letter-spacing:1px!important}
+.v3-actions-organized .v3-control-grid{gap:12px!important}
+.v3-actions-organized .v3-control-panel{box-shadow:0 2px 7px #173e540b!important}
+@media(max-width:640px){#contract-input .v3-actions-organized,#followup-input .v3-actions-organized{margin:10px!important;padding:0 11px 12px!important}.v3-actions-organized .v3-control-heading{margin:0 -11px 12px!important;padding:12px!important}}
