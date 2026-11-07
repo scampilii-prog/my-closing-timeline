@@ -690,3 +690,6 @@ html{scroll-behavior:smooth}
 .v3-control-share .v3-control-label{background:#194e7b}
 .v3-control-personal .v3-control-label{background:#926016}
 @media(max-width:640px){.v3-control-panel .v3-control-label{margin:-15px -15px 17px;padding:13px 15px}}
+
+/* Keep all four action-card titles on one line at standard desktop width. */
+@media(min-width:1051px){.v3-control-panel .v3-control-label{font-size:13px!important;letter-spacing:.35px!important;white-space:nowrap}}
