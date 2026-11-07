@@ -149,6 +149,7 @@ function timelinePicture(){
  ctx.beginPath();ctx.moveTo(119,25);ctx.lineTo(119,83);ctx.stroke();
  ctx.fillStyle='#fefefe';ctx.font='600 40px Georgia,serif';ctx.fillText(labels[0],149,69);
  const titleWidth=ctx.measureText(labels[0]).width;ctx.fillStyle='#e4c68e';ctx.font='italic 37px Georgia,serif';ctx.fillText(labels[1],Math.min(915,166+titleWidth),69);
+ ctx.fillStyle='#e4c68e';ctx.font='600 15px Arial';ctx.textAlign='right';ctx.fillText('MyClosingTimeline.com',W-38,95);ctx.textAlign='left';
  ctx.fillStyle='#9d7f4a';ctx.font='700 18px Arial';ctx.fillText('#',66,154);ctx.fillText(labels[2],labelX,154);
  ctx.textAlign='center';ctx.fillText(labels[3],daysX,154);ctx.textAlign='right';ctx.fillText(labels[4],dateX,154);ctx.textAlign='left';
  let y=176;
@@ -206,7 +207,7 @@ function senderContactText(){
 }
 function timelineEmailTable(){
  const items=collect();
- const head=['BUYER CLOSING TIMELINE — CONTRACT MILESTONES','', 'No.  Task / Milestone  |  Days  |  Due date','────────────────────────────────────────'];
+ const head=['MyClosingTimeline.com','BUYER CLOSING TIMELINE — CONTRACT MILESTONES','', 'No.  Task / Milestone  |  Days  |  Due date','────────────────────────────────────────'];
  const rowsText=items.map((r,i)=>{
   const due=r.date?timelineShortDate(r.date):'To be confirmed';
   const days=r.days!==''&&r.days!=null?String(r.days):'—';
@@ -242,6 +243,7 @@ function openInMail(){
  const body=[
   ...closingMailIntro,
   '',
+  'MyClosingTimeline.com',
   '================ CLOSING TIMELINE SUMMARY ================',
   '',
   '>>> PASTE YOUR COPIED CLOSING TIMELINE TABLE HERE <<<',
