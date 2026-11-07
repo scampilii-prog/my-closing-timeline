@@ -682,3 +682,11 @@ html{scroll-behavior:smooth}
 .v3-control-personal .v3-control-buttons button{background:#a96e1e!important;border-color:#a96e1e!important;color:#fff!important;box-shadow:0 3px 9px #a96e1e22}
 .v3-control-panel .v3-selection-hint{margin-top:7px;color:#536f80;font-size:11px!important}
 @media(max-width:640px){.v3-control-panel{padding:15px}}
+
+/* Stronger action-card headings: colored title ribbons with high contrast. */
+.v3-control-panel .v3-control-label{display:block;margin:-17px -17px 20px;padding:14px 17px 13px;font-size:14px!important;line-height:1.3!important;font-weight:900!important;letter-spacing:.85px!important;border-radius:12px 12px 0 0;color:#fff!important;text-shadow:0 1px 1px #00000016}
+.v3-control-build .v3-control-label{background:#176e50}
+.v3-control-manage .v3-control-label{background:#286d99}
+.v3-control-share .v3-control-label{background:#194e7b}
+.v3-control-personal .v3-control-label{background:#926016}
+@media(max-width:640px){.v3-control-panel .v3-control-label{margin:-15px -15px 17px;padding:13px 15px}}
