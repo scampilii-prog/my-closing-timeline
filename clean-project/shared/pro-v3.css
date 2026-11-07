@@ -660,3 +660,25 @@ html{scroll-behavior:smooth}
 .v3-saved-pages summary{cursor:pointer;color:#2c6380;font-size:12px;font-weight:800}
 .v3-saved-pages #personalSavedLists{margin-top:10px}
 @media(max-width:650px){.v3-library-controls label,.v3-library-controls select,.v3-library-controls button,.v3-library-save button{width:100%}.v3-template-library{padding:14px}}
+
+/* V3 workspace action cards: clear hierarchy without changing any button behavior. */
+.v3-control-grid{gap:15px}
+.v3-control-panel{border-width:2px;border-radius:16px;padding:17px 17px 19px;box-shadow:0 5px 16px #173e5410;position:relative}
+.v3-control-label{font-size:12px;font-weight:900;letter-spacing:.85px;line-height:1.4;margin-bottom:17px}
+.v3-control-buttons{gap:10px;align-items:flex-start}
+.v3-control-buttons button{min-height:44px;padding:10px 13px;font-size:13px;font-weight:800;transition:box-shadow .15s ease,border-color .15s ease}
+.v3-control-buttons button:focus-visible{outline:3px solid #173e54;outline-offset:3px}
+.v3-control-build{background:#f0faf5;border-color:#94ccb1;border-top:7px solid #238663}
+.v3-control-build .v3-control-label{color:#17654c}
+.v3-control-build button:first-child{background:#207e5d!important;color:#fff!important;border-color:#207e5d!important;box-shadow:0 3px 9px #17654c24}
+.v3-control-manage{background:#f2f8fc;border-color:#aacbdf;border-top:7px solid #3d83b1}
+.v3-control-manage .v3-control-label{color:#265f85}
+.v3-control-manage .v3-selected-pill{background:#d6f0ed!important;color:#0b665a!important;border:1px solid #7ebfb7!important;font-size:13px!important}
+.v3-control-share{background:#edf5fd;border-color:#9ec3e3;border-top:7px solid #1f6096}
+.v3-control-share .v3-control-label{color:#194e7b}
+.v3-control-share .v3-control-buttons button:first-child{background:#205e93!important;border-color:#205e93!important;color:#fff!important;box-shadow:0 3px 9px #205e9322}
+.v3-control-personal{background:#fff8e8;border-color:#e5c583;border-top:7px solid #c58b2b}
+.v3-control-personal .v3-control-label{color:#805618}
+.v3-control-personal .v3-control-buttons button{background:#a96e1e!important;border-color:#a96e1e!important;color:#fff!important;box-shadow:0 3px 9px #a96e1e22}
+.v3-control-panel .v3-selection-hint{margin-top:7px;color:#536f80;font-size:11px!important}
+@media(max-width:640px){.v3-control-panel{padding:15px}}
