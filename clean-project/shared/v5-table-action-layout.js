@@ -36,25 +36,20 @@
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
     }
-    let manager=section.querySelector('.v5-compact-manager');
-    if(!manager){
-      manager=document.createElement('div');
-      manager.className='v5-compact-manager';
-      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div>';
-      const old=section.querySelector('.v3-actions');
-      if(old)old.insertAdjacentElement('beforebegin',manager);
-    }
-    const toolsArea=manager.querySelector('.v5-manager-tools .v5-manager-buttons');
+    // Put the useful controls directly above the table, without an empty manager panel.
     const selectArea=section.querySelector('.v5-library-top-actions .v5-inline-selection-actions');
+    const tools=section.querySelector('.v5-library-top-actions');
     for(const id of ['clearDates','restore','sort']){
       const el=document.getElementById(id);
-      if(el&&el.parentElement!==toolsArea)toolsArea.appendChild(el);
+      if(el&&tools&&el.parentElement!==tools)tools.appendChild(el);
     }
+    const obsoleteManager=section.querySelector('.v5-compact-manager');
+    if(obsoleteManager)obsoleteManager.remove();
     for(const id of ['selectedCount']){
       const el=document.getElementById(id);
       if(el&&el.parentElement!==selectArea)selectArea.appendChild(el);
     }
-    let selectAll=manager.querySelector('#v5SelectAll');
+    let selectAll=section.querySelector('#v5SelectAll');
     if(!selectAll){
       selectAll=document.createElement('button');
       selectAll.id='v5SelectAll';
@@ -79,6 +74,8 @@
     if(deleteSelected&&selectArea&&deleteSelected.parentElement!==selectArea)selectArea.appendChild(deleteSelected);
 const actions=section.querySelector('.v3-actions');
     if(actions){
+      const hint=actions.querySelector('.v3-selection-hint');
+      if(hint)hint.hidden=true;
       for(const el of Array.from(actions.querySelectorAll('button'))){
         if(/clear all tasks/i.test(el.textContent))el.hidden=true;
       }
