@@ -66,3 +66,27 @@
 #contract-summary .rc-row .rc-days-value{font-size:13px!important;font-weight:800;color:#9a7132;background:#fff9ed;border:1px solid #ebdbbc;border-radius:7px;padding:7px 2px}
 #contract-summary .rc-row .rc-due-value{font-size:13px!important;font-weight:800;color:#173e57;background:#edf5fa;border:1px solid #c9dfe9;border-radius:7px;padding:7px 3px}
 #contract-summary .rc-empty{margin:12px 20px;padding:20px;text-align:center;background:#f4f8fa;border:1px dashed #c5d8e2;border-radius:9px;color:#47677a;font-weight:700}
+
+/* Result 02: same navy/gold recipient concept as Result 01. */
+#followup-summary .v3-summary-title,#followup-summary .v3-result-context,#followup-summary .v3-back-link,#followup-summary .v3-summary-actions{display:none!important}
+#followup-summary #fuComposer{padding:0;border:1px solid #d2dce1;border-radius:17px;overflow:hidden;background:white;box-shadow:none}
+#fuComposer .rc-title{background:#193d52;color:#fff;padding:22px 24px 18px}
+#fuComposer .rc-title-top{color:#d8e5eb;letter-spacing:1.4px;font-size:11px;font-weight:700}
+#fuComposer .rc-title h3{color:white;font-size:25px;margin:8px 0}
+#fuComposer .rc-title h3 em{color:#e6b35e;font-family:Georgia,serif}
+#fuComposer .rc-recipient,#fuComposer>label,#fuComposer .rc-head,#fuComposer #fuRows,#fuComposer .rc-actions,#fuComposer>p,#fuComposer>details{margin-left:20px;margin-right:20px}
+#fuComposer .rc-recipient{margin-top:18px;margin-bottom:12px}
+#fuComposer .rc-head,#fuComposer .rc-row{display:grid;grid-template-columns:minmax(155px,1.7fr) 60px 112px minmax(140px,1.3fr) minmax(135px,1fr) 60px;gap:10px;align-items:center}
+#fuComposer .rc-head{padding:12px 9px;background:#eef3f6;color:#26475b;font-size:11px;font-weight:800;border-bottom:2px solid #c7d6df}
+#fuComposer .rc-head>span:nth-child(2),#fuComposer .rc-head>span:nth-child(3){text-align:center}
+#fuComposer .rc-row{padding:13px 9px;border-bottom:1px solid #dce6eb}
+#fuComposer .rc-row:nth-child(even){background:#f4f8fa}
+#fuComposer .rc-row .rc-days-value,#fuComposer .rc-row .rc-due-value{text-align:center;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;padding:7px 2px;border-radius:7px}
+#fuComposer .rc-days-value{color:#9a7132;background:#fff9ed;border:1px solid #ebdbbc}
+#fuComposer .rc-due-value{color:#173e57;background:#edf5fa;border:1px solid #c9dfe9}
+#fuComposer .rc-row select{border-radius:20px}
+#fuComposer .rc-row input[type=checkbox]{width:21px;height:21px;justify-self:center;accent-color:#087f8c}
+#fuComposer .rc-empty{padding:20px;text-align:center;border:1px dashed #c5d8e2;border-radius:9px;background:#f4f8fa;color:#47677a}
+#fuComposer .rc-actions{margin-top:15px}
+#fuComposer>details{margin-bottom:16px}
+@media(max-width:950px){#fuComposer .rc-head{display:none}#fuComposer .rc-row{grid-template-columns:1fr 1fr}#fuComposer .rc-row>strong,#fuComposer .rc-row select,#fuComposer .rc-row input:not([type=checkbox]){grid-column:1/-1}}
