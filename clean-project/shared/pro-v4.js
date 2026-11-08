@@ -40,5 +40,17 @@
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 
-/* Keep task-table toolbars focused on editing; put email/preview actions in their linked Summary. */
-(function(){function arrange(){for(const config of [{step:'contract-input',summary:'contract-summary',ids:['email','copy','v4CopyForEmail']},{step:'followup-input',summary:'followup-summary',ids:['emailFollowupSelected','viewFollowupFormatted']}]){const step=document.getElementById(config.step),summary=document.getElementById(config.summary);if(!step||!summary)continue;const actions=summary.querySelector('.rc-actions')||summary.querySelector('.v3-result-tools');if(!actions)continue;let group=summary.querySelector('.v5-summary-quick-actions');if(!group){group=document.createElement('div');group.className='v5-summary-quick-actions';group.setAttribute('aria-label','Email and formatted table actions');actions.insertAdjacentElement('afterend',group)}for(const id of config.ids){const button=document.getElementById(id);if(button){group.appendChild(button);button.classList.add('v5-summary-action')}}const old=summary.querySelector('.v3-result-tools');if(old&&old!==actions)old.hidden=true;const duplicate=summary.querySelectorAll('.v3-result-tools button');duplicate.forEach(button=>button.hidden=true)} }if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(arrange,0));else setTimeout(arrange,0)})();
+/* Keep one coherent set of actions in each recipient composer; no duplicate toolbar. */
+(function(){
+ function clean(){
+  for(const summaryId of ['contract-summary','followup-summary']){
+   const summary=document.getElementById(summaryId);if(!summary)return;
+   summary.querySelectorAll('.v5-summary-quick-actions').forEach(group=>group.remove());
+   summary.querySelectorAll('.v3-result-tools').forEach(group=>group.hidden=true);
+  }
+  for(const id of ['email','copy','v4CopyForEmail','emailFollowupSelected','viewFollowupFormatted']){
+   const button=document.getElementById(id);if(button)button.hidden=true;
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(clean,0));else setTimeout(clean,0);
+})();
