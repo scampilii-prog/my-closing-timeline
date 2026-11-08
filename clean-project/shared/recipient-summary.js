@@ -8,7 +8,7 @@ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 function state(){try{return JSON.parse(localStorage.getItem(key)||'{}')}catch{return {}}}
 function date(iso){if(!iso)return 'Not set';const [y,m,d]=iso.split('-');return m+'/'+d+'/'+y}
 function add(iso,n,business){if(!iso)return '';let d=new Date(iso+'T12:00:00');if(!Number.isFinite(d.getTime()))return '';const dir=n<0?-1:1;for(let i=0;i<Math.abs(n);){d.setDate(d.getDate()+dir);if(!business||![0,6].includes(d.getDay()))i++}return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
-function rows(){const s=state(),trs=[...document.querySelectorAll('#rows tr')];return trs.map((tr,i)=>{const t=s.tasks?.[i];if(!t)return null;const check=tr.querySelector('td.sel input[type=checkbox]');return {...t,selected:!!check?.checked,due:add(s[t.basis],Number(t.days)||0,s.counting==='business')}}).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'))}
+function rows(){const s=state(),trs=[...document.querySelectorAll('#rows tr')];return trs.map((tr,i)=>{const t=s.tasks?.[i];if(!t)return null;const check=tr.querySelector('td.sel input[type=checkbox]');return {...t,selected:!!check?.checked,due:add(s[t.basis],Number(t.days)||0,s.counting==='business')}}).filter(Boolean).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'))}
 
 function contacts(){try{const v=JSON.parse(localStorage.getItem('mct-clean-v3-recipients-demo')||'[]');return Array.isArray(v)?v.filter(x=>x&&x.name&&x.email):[]}catch{return []}}
 function recipientKey(){return ($('rcRecipient')?.value||'default').trim().toLowerCase()}
