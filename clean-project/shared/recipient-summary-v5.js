@@ -29,20 +29,8 @@ function tableHTML(){
  return '<table cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:1100px;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif"><colgroup><col style="width:8%"><col style="width:39%"><col style="width:10%"><col style="width:18%"><col style="width:25%"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:24px 20px;text-align:left;color:white;font-family:Arial,sans-serif;font-size:28px;font-weight:700;line-height:1.3"><span style="display:inline-block;background:#008b99;color:white;border-radius:12px;padding:5px 12px;margin-right:14px">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,serif;font-style:italic">Summary</span></th></tr><tr><th style="'+head+'text-align:center">#</th><th style="'+head+'">TASK / MILESTONE</th><th style="'+head+'text-align:center">DAYS</th><th style="'+head+'text-align:center">DUE DATE</th><th style="'+head+'">PURPOSE / INSTRUCTION</th></tr></thead><tbody>'+milestone('Effective date','0',s.effective,'#e7f1fa')+taskRows+milestone('Closing date','—',s.closing,'#faeef0')+'</tbody></table><p style="font-family:Arial,sans-serif;color:#687e8b;font-size:13px;font-style:italic;margin:16px 0">Dates and deadlines must follow the signed contract.</p>';
 }
 
-function copyHTML(){
- const s=state();const tasks=selected().map(t=>({name:t.name,days:t.days,due:t.due,setting:setting(t)}));const effective=s.effective,closing=s.closing;
- const navy='#193d52',gold='#c99b50',line='#dbe3e9',ink='#193d52';
- const escHtml=escape;
- const base='border:1px solid '+line+';padding:11px 10px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;font-weight:700;color:'+ink+';vertical-align:middle;';
- const circle=(n)=>'<span style="display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+ink+';font-size:13px;font-weight:700">'+n+'</span>';
- const cell=(v,extra='',width=0)=>'<td'+(width?' width="'+width+'"':'')+' style="'+base+'font-size:13px!important;'+(width?'width:'+width+'px;min-width:'+width+'px;':'')+extra+'">'+v+'</td>';
- const row=(n,name,days,due,purpose,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),'text-align:center;',48)+cell(name,'overflow-wrap:break-word;word-break:normal;',300)+cell(days,'text-align:center;white-space:nowrap;',58)+cell(due,'text-align:center;white-space:nowrap;',104)+cell(purpose,'overflow-wrap:break-word;word-break:normal;',250)+'</tr>';
- const ed=row('–','Effective date','0',escHtml(date(effective)),'','#e7f1fa');
- const cd=row('–','Closing date','—',escHtml(date(closing)),'','#faeef0');
- const entries=tasks.map((t,i)=>{const p=t.setting;const instruction=p.purpose==='Custom Instruction'?(p.note||'Custom Instruction'):p.purpose+(p.note?' — '+p.note:'');return row(i+1,escHtml(t.name),escHtml(String(t.days)),escHtml(date(t.due)),escHtml(instruction),i%2?'#f7f9fa':'#ffffff')}).join('');
- const head=(text,width,align='left')=>'<th width="'+width+'" style="width:'+width+'px;min-width:'+width+'px;border:1px solid '+line+';background:#ffffff;color:#aa7b35;font:700 12px/1.25 Arial,Helvetica,sans-serif;padding:12px 9px;text-align:'+align+'">'+text+'</th>';
- return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" style="width:760px;border-collapse:collapse;table-layout:fixed;font-family:Arial,Helvetica,sans-serif"><thead><tr><th colspan="5" style="background:'+navy+';padding:24px 20px;border-left:4px solid '+gold+';text-align:left;color:white;font:700 23px/1.35 Arial,Helvetica,sans-serif"><span style="display:inline-block;background:#008b99;border-radius:9px;padding:5px 10px;margin-right:12px;color:white">☑</span> '+'Closing Timeline'+' <span style="font:italic 700 25px Georgia,serif;color:#e6b35e">Summary</span></th></tr><tr>'+head('#',48,'center')+head('TASK / MILESTONE',300)+head('DAYS',58,'center')+head('DUE DATE',104,'center')+head('PURPOSE / INSTRUCTION',250)+'</tr></thead><tbody>'+ed+entries+cd+'</tbody></table><p style="font:italic 12px Arial,Helvetica,sans-serif;color:#687e8b;margin:12px 0">Dates and deadlines must follow the signed contract.</p>';
-}
+// The email clipboard uses exactly the same HTML as the approved on-page preview.
+function copyHTML(){return tableHTML()}
 function emailHTML(){
  const s=state(),tasks=selected();
  const navy='#193d52',gold='#b68a47',line='#d8e0e5';
