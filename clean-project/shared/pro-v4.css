@@ -28,3 +28,22 @@
 .v4-wrap .v4-overview-dashboard{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin-top:20px}
 .v4-wrap .v4-overview-dashboard:before{content:'STEP 3 · CLOSING OVERVIEW';grid-column:1/-1;font-size:17px;font-weight:900;color:#204b66;padding:10px 0}
 @media(max-width:700px){.v4-wrap .v3-control-grid,.v4-wrap .v4-overview-dashboard{grid-template-columns:1fr!important}.v4-integrated-result{padding:12px}}
+
+/* V4 usability correction: compact toolbar at the table, no oversized cards. */
+.v4-wrap .v3-actions-organized{border:0!important;box-shadow:none!important;background:transparent!important;padding:0!important;margin:10px 12px!important}
+.v4-wrap .v3-control-heading{display:none!important}
+.v4-wrap .v3-control-grid{display:flex!important;flex-wrap:wrap!important;align-items:stretch!important;gap:8px!important}
+.v4-wrap .v3-control-panel{flex:0 1 auto!important;min-height:0!important;width:auto!important;box-shadow:none!important;border:1px solid #cbdce5!important;background:#f7fafc!important;padding:8px!important;border-radius:9px!important}
+.v4-wrap .v3-control-panel .v3-control-label{display:none!important}
+.v4-wrap .v3-control-panel .v3-control-buttons{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+.v4-wrap .v3-control-panel button{width:auto!important;min-width:0!important;min-height:32px!important;padding:6px 10px!important;font-size:12px!important;border-radius:7px!important}
+.v4-wrap .v3-control-personal{background:#fff!important;border-color:#d9e3e8!important;flex:0 1 auto!important}
+.v4-wrap .v3-control-personal button{background:#fff!important;color:#36566c!important;border:1px solid #cbdce5!important;font-weight:700!important;box-shadow:none!important}
+.v4-wrap .v3-control-personal button:hover{background:#eef5f8!important}
+.v4-wrap .v3-control-build{background:#eef8f3!important}
+.v4-wrap .v3-control-manage{background:#f1f7fa!important}
+.v4-wrap .v3-control-share{background:#f4f8fc!important}
+.v4-integrated-result .v3-summary-card{padding:14px!important}
+.v4-integrated-result .v3-summary-title{margin-bottom:8px!important}
+.v4-integrated-result .v3-summary-card [hidden]{display:none!important}
+@media(max-width:700px){.v4-wrap .v3-control-grid{display:flex!important;flex-direction:column!important}.v4-wrap .v3-control-panel{width:100%!important}}
