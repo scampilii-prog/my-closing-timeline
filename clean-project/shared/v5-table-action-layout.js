@@ -31,7 +31,7 @@
       if(!tools){
         tools=document.createElement('div');
         tools.className='v5-library-top-actions';
-        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>Check Select to include tasks in your saved table. Later, use Send to choose what goes in the email.</span>';
+        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>1. SELECT: mark tasks to save in your named table. 2. SAVE TABLE: keep that selection for future use. 3. SEND: choose which saved tasks the recipient will receive.</span>';
         taskTable.insertAdjacentElement('beforebegin',tools);
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
