@@ -124,3 +124,17 @@
 #fuComposer>label{display:block;margin-top:10px!important;margin-bottom:18px!important}
 #fuComposer>label textarea{display:block;width:100%;min-height:78px;resize:vertical;border:1px solid #bfd1da;border-radius:8px;padding:11px}
 @media(max-width:650px){#fuComposer .rc-recipient{grid-template-columns:1fr!important}#fuComposer .rc-recipient>label:nth-child(3){grid-column:auto;grid-row:auto}}
+
+/* Result 01: match the approved green Result 02 card's geometry, keep navy identity. */
+.v4-integrated-result #contract-summary{border:2px solid #b7d4e5!important;border-radius:22px!important;background:#fff!important;padding:24px!important;overflow:hidden}
+.v4-integrated-result #contract-summary>.v3-summary-title{display:flex!important;align-items:center!important;gap:20px!important;background:#193d52!important;border:0!important;border-radius:0!important;padding:26px 30px!important;margin:0!important;min-height:145px!important}
+.v4-integrated-result #contract-summary>.v3-summary-title *{color:#fff!important;opacity:1!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-icon{display:flex!important;background:#07899b!important;border-radius:16px!important;min-width:74px!important;min-height:74px!important;align-items:center!important;justify-content:center!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text{display:flex!important;flex-direction:column!important;gap:7px!important}
+.v4-integrated-result #contract-summary>.v3-summary-title small{color:#fff!important;font-size:14px!important;letter-spacing:1px!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:31px!important;font-weight:800!important}
+.v4-integrated-result #contract-summary>.v3-result-context{display:block!important;background:#e7f2f9!important;color:#214d67!important;border-left:6px solid #28779b!important;border-radius:13px!important;padding:19px 22px!important;margin:24px 24px 18px!important;font-size:16px!important;font-weight:700!important}
+.v4-integrated-result #contract-summary>.v3-back-link,.v4-integrated-result #contract-summary>#contractSummary,.v4-integrated-result #contract-summary>.v3-result-tools{display:none!important}
+.v4-integrated-result #contract-summary #recipientComposer{margin:0 0 6px!important;border:0!important;border-radius:0!important}
+.v4-integrated-result #contract-summary #recipientComposer>.rc-title{display:none!important}
+@media(max-width:650px){.v4-integrated-result #contract-summary{padding:12px!important}.v4-integrated-result #contract-summary>.v3-summary-title{padding:18px!important;min-height:0!important}.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:23px!important}.v4-integrated-result #contract-summary>.v3-result-context{margin:16px 8px!important}}
