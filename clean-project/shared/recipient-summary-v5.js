@@ -25,15 +25,16 @@ function copyHTML(){
  const font='font-family:Arial,Helvetica,sans-serif;';
  const base=font+'font-size:15px;line-height:1.35;font-weight:700;color:'+navy+';vertical-align:middle;';
  const circ=n=>'<span style="display:inline-block;width:27px;height:27px;line-height:27px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+navy+';'+font+'font-size:14px;font-weight:700;">'+n+'</span>';
- const td=(v,w,extra='')=>'<td width="'+w+'" style="width:'+w+'%;border:1px solid '+line+';padding:13px 12px;'+base+extra+'">'+v+'</td>';
+ const px={8:61,59:448,11:84,22:167};
+ const td=(v,w,extra='')=>'<td width="'+px[w]+'" style="width:'+px[w]+'px;border:1px solid '+line+';padding:13px 12px;'+base+extra+'">'+v+'</td>';
  const row=(n,name,days,due,bg)=>'<tr bgcolor="'+bg+'" style="background-color:'+bg+';">'+td(circ(n),8,'text-align:center;')+td(name,59,'text-align:left;overflow-wrap:break-word;word-break:normal;')+td(days,11,'text-align:center;white-space:nowrap;')+td(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
- const th=(v,w,a)=>'<th width="'+w+'" style="width:'+w+'%;border:1px solid '+line+';padding:14px 12px;background:#fff;color:#a47b3e;'+font+'font-size:13px;font-weight:700;text-align:'+a+';">'+v+'</th>';
+ const th=(v,w,a)=>'<th width="'+px[w]+'" style="width:'+px[w]+'px;border:1px solid '+line+';padding:14px 12px;background:#fff;color:#a47b3e;'+font+'font-size:13px;font-weight:700;text-align:'+a+';">'+v+'</th>';
  const tasks=items.map((t,i)=>row(i+1,escape(t.name),escape(String(t.days)),escape(date(t.due)),i%2?'#f9fbfc':'#ffffff')).join('');
  const days=s.effective&&s.closing?Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000):'—';
- // Single email-safe table: all widths use actual percentages (not bare numbers).
+ // Single email-safe table: all cells use explicit pixel widths in both HTML attributes and inline CSS for email paste.
  // The footer is in the same table, so copying it cannot detach it from the report.
  return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" align="center" style="width:760px;max-width:100%;table-layout:fixed;border-collapse:collapse;background-color:#fff;'+font+'">'
- +'<colgroup><col width="8%" style="width:8%"><col width="59%" style="width:59%"><col width="11%" style="width:11%"><col width="22%" style="width:22%"></colgroup>'
+
  +'<thead><tr><th colspan="4" bgcolor="'+navy+'" style="background-color:'+navy+';padding:25px 22px;text-align:left;color:white;'+font+'font-size:27px;line-height:1.35;font-weight:700;">'
  +'<span style="display:inline-block;background-color:#008b99;border-radius:9px;padding:9px 12px;margin-right:16px;color:white;font-size:24px;">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,Times New Roman,serif;font-size:29px;font-style:italic;font-weight:700;">Summary</span></th></tr>'
  +'<tr>'+th('#',8,'center')+th('TASK / MILESTONE',59,'left')+th('DAYS',11,'center')+th('DUE DATE',22,'center')+'</tr></thead>'
