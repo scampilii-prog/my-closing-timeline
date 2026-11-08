@@ -168,3 +168,13 @@
 .mct-contact-dialog button{padding:10px 16px;border-radius:8px;border:1px solid #b7d1dc;background:#f3f8fa;color:#193d52;font-weight:750;cursor:pointer}
 .mct-contact-dialog button[type=submit]{background:#193d52;color:#fff}
 #mctContactError{color:#a83232}
+
+/* Result 02: same seven-column selection/send workflow as Result 01. */
+@media(min-width:951px){#fuComposer .rc-head,#fuComposer .rc-row{grid-template-columns:34px minmax(150px,1.7fr) 60px 112px minmax(140px,1.3fr) minmax(135px,1fr) 60px!important}}
+#fuComposer .rc-head>span:first-child{text-align:center}
+#fuComposer .rc-row>input[type=checkbox]:first-child{width:21px;height:21px;justify-self:center;accent-color:#078b98;cursor:pointer}
+#fuComposer .rc-head>span:nth-child(3),#fuComposer .rc-head>span:nth-child(4){text-align:center}
+#fuComposer .rc-row>strong{min-width:0;overflow-wrap:anywhere}
+#recipientComposer .rc-recipient>label:first-child,#fuComposer .rc-recipient>label:first-child{font-size:0!important}
+#recipientComposer .rc-recipient>label:first-child>.mct-contact-toolbar,#fuComposer .rc-recipient>label:first-child>.mct-contact-toolbar{font-size:12px!important}
+@media(max-width:950px){#fuComposer .rc-row>input[type=checkbox]:first-child{justify-self:start}}
