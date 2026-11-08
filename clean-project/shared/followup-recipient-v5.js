@@ -11,13 +11,7 @@ const tasks=()=>{const s=read(contract)||{};return (read(source)||[]).filter(t=>
 const recipient=()=>($('fuRecipient')?.value||'').trim().toLowerCase();
 const setting=t=>{const k=recipient()+':'+t.id;return prefs[k]||(prefs[k]={send:true,purpose:'Action Required',note:''})};
 const chosen=()=>tasks().filter(t=>setting(t).send);
-function html(){const s=read(contract)||{},navy='#193d52',line='#d8e0e5',gold='#b68a47';
-const td='border:1px solid '+line+';padding:13px 11px;font:700 15px Arial;color:'+navy+';vertical-align:middle;';
-const middle='text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;';
-const milestone=(name,days,d,bg)=>'<tr style="background:'+bg+'"><td style="'+td+'text-align:center;color:'+gold+'">—</td><td style="'+td+'">'+name+'</td><td style="'+td+middle+'">'+days+'</td><td style="'+td+middle+'">'+date(d)+'</td><td style="'+td+'"></td></tr>';
-const rows=chosen().map((t,i)=>{const p=setting(t);return '<tr style="background:'+(i%2?'#f7f9fa':'#fff')+'"><td style="'+td+'text-align:center;color:'+gold+'">'+(i+1)+'</td><td style="'+td+'">'+esc(t.name)+'</td><td style="'+td+middle+'">'+esc(t.offset||0)+'</td><td style="'+td+middle+'">'+esc(date(t.due))+'</td><td style="'+td+'">'+esc(p.purpose)+(p.note?' — '+esc(p.note):'')+'</td></tr>'}).join('');
-const th='border:1px solid '+line+';padding:12px 9px;color:#a77b3b;background:#fff;font:800 13px Arial;text-align:left;';
-return '<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;table-layout:fixed;max-width:1100px"><colgroup><col style="width:8%"><col style="width:39%"><col style="width:10%"><col style="width:18%"><col style="width:25%"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:24px 20px;color:white;text-align:left;font:700 27px Arial"><span style="display:inline-block;background:#008b99;border-radius:10px;padding:6px 12px;margin-right:14px">☑</span> Follow-Up <em style="font:italic 700 29px Georgia;color:#e6b35e">Summary</em></th></tr><tr><th style="'+th+'text-align:center">#</th><th style="'+th+'">TASK / MILESTONE</th><th style="'+th+'text-align:center">DAYS</th><th style="'+th+'text-align:center">DUE DATE</th><th style="'+th+'">PURPOSE / INSTRUCTION</th></tr></thead><tbody>'+milestone('Effective date','0',s.effective,'#e7f1fa')+rows+milestone('Closing date','—',s.closing,'#faeef0')+'</tbody></table><p style="font:italic 13px Arial;color:#687e8b;margin:14px 0">Dates and deadlines must follow the signed contract.</p>'}
+function html(){return copyHTML();}
 function copyHTML(){
  const s=read(contract)||{},items=chosen().map(t=>({name:t.name,days:t.offset||0,due:t.due})),fmt=date,escapeText=esc;
  // Approved four-column email layout: no instruction column.
