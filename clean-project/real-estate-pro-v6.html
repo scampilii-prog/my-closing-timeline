@@ -17,7 +17,7 @@ let state=read(storageKey,{effective:'',closing:'',counting:'calendar',tasks:fre
 let templates=read(templatesKey,{}),lastDeleted=null,noticeTimer;
 const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(state));$('saveNotice').textContent='✓ Saved in this browser';clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('saveNotice').textContent='',3500)}catch(e){$('saveNotice').textContent='Could not save — check browser storage'}};
 const parse=s=>s?new Date(s+'T12:00:00'):null,fmt=d=>d?d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'):'';
-const offset=(base,n)=>{let d=parse(base);if(!d||!Number.isFinite(+d))return '';let sign=n<0?-1:1;for(let i=0;i<Math.abs(n);){d.setDate(d.getDate()+sign);if(state.counting==='calendar'||(d.getDay()!==0&&d.getDay()!==6))i++}return fmt(d)};
+const offset=(base,n)=>{let d=parse(base);if(!d||!Number.isFinite(+d))return '';n=Number(n);if(!Number.isInteger(n)||Math.abs(n)>365)return '';const sign=n<0?-1:1;for(let i=0;i<Math.abs(n);){d.setDate(d.getDate()+sign);if(state.counting==='calendar'||(d.getDay()!==0&&d.getDay()!==6))i++}return fmt(d)};
 const difference=(base,target)=>{let a=parse(base),b=parse(target);if(!a||!b)return null;let sign=a<=b?1:-1,n=0,steps=0;while(fmt(a)!==fmt(b)&&steps++<800){a.setDate(a.getDate()+sign);if(state.counting==='calendar'||(a.getDay()!==0&&a.getDay()!==6))n+=sign}return steps>=800?null:n};
 const due=t=>offset(state[t.basis],Number(t.days)||0),base=t=>state[t.basis],today=()=>fmt(new Date());
 const alertFor=t=>{if(t.done)return ['Completed','muted'];const d=due(t);if(!d)return ['Set dates','muted'];const now=today();if(d<now)return ['Overdue','overdue'];if(d===now)return ['Due today','today'];const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);if(d===fmt(tomorrow))return ['Tomorrow','tomorrow'];return ['Scheduled','muted']};
@@ -31,16 +31,16 @@ const name=el('input',{type:'text','aria-label':'Task name'});name.value=t.name;
 const days=el('input',{type:'number',min:'-365',max:'365','aria-label':'Days for '+t.name});days.value=t.days;cell(tr,days);
 const basis=el('select',{'aria-label':'Date Basis'});[['effective','After Effective Date'],['closing','From Closing Date']].forEach(([v,label])=>basis.append(el('option',{value:v},label)));basis.value=t.basis;basis.onchange=()=>{t.basis=basis.value;save();render();markReorder()};cell(tr,basis);
 const date=el('input',{type:'date','aria-label':'Due Date for '+t.name});date.value=due(t);date.title='Click anywhere to choose a date';cell(tr,date);
-const commitDays=()=>{if(days.value==='')return;t.days=Math.max(-365,Math.min(365,Number(days.value)||0));date.value=due(t);save();updateSummary();updateAlert();markReorder()};
-const commitDate=()=>{const n=difference(base(t),date.value);if(n===null){date.value=due(t);return}t.days=n;days.value=n;save();updateSummary();updateAlert();markReorder()};
+const commitDays=()=>{if(days.value==='')return;const proposed=Number(days.value);if(!Number.isInteger(proposed)){days.setCustomValidity('Enter a whole number of days');days.reportValidity();return}days.setCustomValidity('');t.days=Math.max(-365,Math.min(365,proposed));date.value=due(t);save();updateSummary();updateAlert();markReorder()};
+const commitDate=()=>{if(!base(t)){date.value='';$('saveNotice').textContent='Set the Effective or Closing Date first';return}const n=difference(base(t),date.value);if(n===null){date.value=due(t);$('saveNotice').textContent='Choose a valid Due Date';return}t.days=n;days.value=n;save();updateSummary();updateAlert();markReorder()};
 days.oninput=commitDays;days.onchange=commitDays;date.oninput=commitDate;date.onchange=commitDate;
-date.addEventListener('click',()=>{try{date.showPicker?.()}catch{}});
+/* V6 uses one custom hover calendar; do not launch the native picker too. */
 const al=el('span',{className:'alert'});function updateAlert(){const [label,cls]=alertFor(t);al.textContent=label;al.className='alert '+cls;tr.classList.toggle('task-overdue',cls==='overdue');tr.classList.toggle('task-today',cls==='today');tr.classList.toggle('task-tomorrow',cls==='tomorrow')}updateAlert();cell(tr,al);
 const notes=el('input',{type:'text','aria-label':'Notes'});notes.value=t.notes||'';notes.onchange=()=>{t.notes=notes.value;save()};cell(tr,notes);
 const done=el('input',{type:'checkbox','aria-label':'Mark task done or reopen'});done.checked=!!t.done;done.onchange=()=>{t.done=done.checked;save();updateSummary();updateAlert()};const wrap=el('div',{className:'check'});wrap.append(done);cell(tr,wrap);
 const del=el('button',{type:'button',className:'danger'},'Delete');del.onclick=()=>{if(!confirm('Delete only this task?'))return;lastDeleted={task:{...t},index:i};state.tasks.splice(i,1);save();render();$('undoBar').classList.add('visible')};cell(tr,del);fragment.append(tr)});
 $('taskRows').replaceChildren(fragment);updateSummary()}
-$('effective').onchange=e=>{state.effective=e.target.value;save();render()};$('closing').onchange=e=>{state.closing=e.target.value;save();render()};$('counting').onchange=e=>{state.counting=e.target.value;save();render()};
+$('effective').onchange=e=>{state.effective=e.target.value;save();render();markReorder()};$('closing').onchange=e=>{state.closing=e.target.value;save();render();markReorder()};$('counting').onchange=e=>{state.counting=e.target.value;save();render();markReorder()};
 $('start').onclick=()=>{if(!state.effective||!state.closing){alert('Set Effective Date and Closing Date first.');return}save();$('result').scrollIntoView({behavior:'smooth'})};
 $('resetDates').onclick=()=>{if(!confirm('Clear both contract dates? Tasks will remain.'))return;state.effective='';state.closing='';save();render()};
 $('addTask').onclick=()=>{state.tasks.push({id:state.next++,name:'New custom task',days:0,basis:'effective',notes:'',done:false,selected:false});save();render()};
@@ -89,10 +89,10 @@ function render(){
  const grid=document.createElement('div');grid.className='cal-grid';
  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(v=>{const el=document.createElement('span');el.textContent=v;grid.append(el)});
  for(let i=0;i<first;i++)grid.append(document.createElement('span'));
- for(let day=1;day<=count;day++){const b=document.createElement('button');b.type='button';b.textContent=day;const value=format(y,m,day);if(value===active.value)b.className='selected';b.onclick=()=>{const input=active;input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));close()};grid.append(b)}
+ for(let day=1;day<=count;day++){const b=document.createElement('button');b.type='button';b.textContent=day;const value=format(y,m,day);if(value===active.value)b.className='selected';b.onclick=()=>{const input=active;input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));close()};grid.append(b)}
  calendar.append(grid);
  const foot=document.createElement('div');foot.className='cal-foot';
- const today=document.createElement('button');today.type='button';today.textContent='Today';today.onclick=()=>{const now=new Date(),input=active;input.value=format(now.getFullYear(),now.getMonth(),now.getDate());input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));close()};
+ const today=document.createElement('button');today.type='button';today.textContent='Today';today.onclick=()=>{const now=new Date(),input=active;input.value=format(now.getFullYear(),now.getMonth(),now.getDate());input.dispatchEvent(new Event('change',{bubbles:true}));close()};
  const dismiss=document.createElement('button');dismiss.type='button';dismiss.textContent='Close';dismiss.onclick=close;foot.append(today,dismiss);calendar.append(foot)
 }
 function open(input){clearTimeout(closeTimer);if(active===input&&!calendar.hidden)return;active=input;const d=input.value?new Date(input.value+'T12:00:00'):new Date();month=new Date(d.getFullYear(),d.getMonth(),1);render();calendar.hidden=false;const rect=input.getBoundingClientRect();let top=rect.bottom+5;if(top+330>innerHeight)top=Math.max(5,rect.top-330);calendar.style.top=top+'px';calendar.style.left=Math.max(5,Math.min(rect.left,innerWidth-285))+'px'}
