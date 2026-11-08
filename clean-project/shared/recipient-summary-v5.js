@@ -21,29 +21,23 @@ function tableHTML(){return copyHTML();}
 
 // The email clipboard uses exactly the same HTML as the approved on-page preview.
 function copyHTML(){
- const s=state(),items=selected().map(t=>({name:t.name,days:t.days,due:t.due})),fmt=date,escapeText=escape;
- // Approved four-column email layout: no instruction column.
- const navy='#193d52',line='#dbe3e9',gold='#c7a15f';
- const td='border:1px solid '+line+';padding:13px 10px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;line-height:1.4;color:'+navy+';vertical-align:middle;';
- const circle=n=>'<span style="display:inline-block;border:2px solid '+gold+';border-radius:50%;width:27px;height:27px;line-height:27px;text-align:center;font-size:14px;color:'+navy+'">'+n+'</span>';
- const cell=(value,width,extra='')=>'<td width="'+width+'" style="'+td+'width:'+width+'%;'+extra+'">'+value+'</td>';
- const row=(n,name,days,due,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),8,'text-align:center;')+cell(name,59)+cell(days,11,'text-align:center;white-space:nowrap;')+cell(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
- const rows=items.map((t,i)=>row(i+1,escapeText(t.name),escapeText(String(t.days)),escapeText(fmt(t.due)),i%2?'#f8fafb':'#ffffff')).join('');
- const head=(label,width,align)=>'<th width="'+width+'" style="width:'+width+'%;padding:14px 10px;border:1px solid '+line+';background:#ffffff;color:#a77b3b;font:700 13px Arial,Helvetica,sans-serif;text-align:'+align+'">'+label+'</th>';
- return '<table role="presentation" width="760" cellspacing="0" cellpadding="0" border="0" style="width:760px;max-width:760px;border-collapse:collapse;table-layout:fixed;font-family:Arial,Helvetica,sans-serif"><thead><tr><th colspan="4" style="background:'+navy+';padding:28px 22px;text-align:left;color:#fff;font:700 27px Arial,Helvetica,sans-serif"><span style="display:inline-block;background:#008b99;border-radius:12px;padding:10px 13px;margin-right:16px;color:#fff">☑</span> Closing Timeline <span style="color:#e6b35e;font:italic 700 30px Georgia,serif">Summary</span></th></tr><tr>'+head('#',8,'center')+head('TASK / MILESTONE',59,'left')+head('DAYS',11,'center')+head('DUE DATE',22,'center')+'</tr></thead><tbody>'+row('–','Effective date','0',escapeText(fmt(s.effective)),'#e7f1fa')+rows+row('–','Closing date',escapeText(String(s.effective&&s.closing?Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000):'—')),escapeText(fmt(s.closing)),'#faeef0')+'</tbody></table><p style="font:italic 13px Arial,Helvetica,sans-serif;color:#687e8b;margin:14px 0">Dates and deadlines must follow the signed contract.</p>';
+ const s=state(),items=selected(),navy='#193d52',gold='#c5a164',line='#dce4e8';
+ const font='font-family:Arial,Helvetica,sans-serif;';
+ const cell='border:1px solid '+line+';padding:13px 12px;'+font+'font-size:15px;line-height:1.4;font-weight:700;color:'+navy+';vertical-align:middle;';
+ const circ=n=>'<span style="display:inline-block;width:29px;height:29px;line-height:29px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+navy+';'+font+'font-size:14px;font-weight:700;">'+n+'</span>';
+ const td=(value,width,extra='')=>'<td width="'+width+'" style="width:'+width+'%;'+cell+extra+'">'+value+'</td>';
+ const row=(n,name,days,due,bg)=>'<tr bgcolor="'+bg+'" style="background-color:'+bg+';">'+td(circ(n),8,'text-align:center;')+td(name,59,'text-align:left;')+td(days,11,'text-align:center;white-space:nowrap;')+td(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
+ const th=(label,width,align)=>'<th width="'+width+'" style="width:'+width+'%;border:1px solid '+line+';padding:14px 12px;background-color:#fff;color:#a47b3e;'+font+'font-size:13px;line-height:1.3;font-weight:700;text-align:'+align+';">'+label+'</th>';
+ const tasks=items.map((t,i)=>row(i+1,escape(t.name),escape(String(t.days)),escape(date(t.due)),i%2?'#f8fafb':'#ffffff')).join('');
+ const days=s.effective&&s.closing?Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000):'—';
+ // Fixed email-safe 4-column table: explicit widths on every cell, no fifth column or colgroup.
+ return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" align="center" style="width:760px;border-collapse:collapse;'+font+'background-color:#fff;">'
+ +'<thead><tr><th colspan="4" bgcolor="'+navy+'" style="background-color:'+navy+';padding:29px 22px;text-align:left;color:white;'+font+'font-size:26px;line-height:1.35;font-weight:700;">'
+ +'<span style="display:inline-block;background-color:#008b99;border-radius:10px;padding:10px 12px;margin-right:16px;color:white;font-size:25px;">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,Times New Roman,serif;font-size:29px;font-style:italic;font-weight:700;">Summary</span></th></tr>'
+ +'<tr>'+th('#',8,'center')+th('TASK / MILESTONE',59,'left')+th('DAYS',11,'center')+th('DUE DATE',22,'center')+'</tr></thead>'
+ +'<tbody>'+row('–','Effective date','0',escape(date(s.effective)),'#e7f1fa')+tasks+row('–','Closing date',escape(String(days)),escape(date(s.closing)),'#faeef0')+'</tbody></table>'
+ +'<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" style="width:760px;border-collapse:collapse;"><tr><td style="padding:16px 8px;color:#687e8b;'+font+'font-size:13px;font-style:italic;">Dates and deadlines must follow the signed contract.</td></tr></table>';
 }
-function emailHTML(){
- const s=state(),tasks=selected();
- const navy='#193d52',gold='#b68a47',line='#d8e0e5';
- const cell='padding:9px 8px;border:1px solid '+line+';font-family:Arial,sans-serif;font-size:12px;line-height:1.35;font-weight:700;word-break:break-word;overflow-wrap:anywhere;color:'+navy+';vertical-align:middle;';
- const number='text-align:center;color:'+gold+';font-size:13px;';
- const dateCell='text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;';
- const milestone=(label,days,iso,bg)=>'<tr style="background:'+bg+'"><td style="'+cell+number+'">—</td><td style="'+cell+'">'+label+'</td><td style="'+cell+dateCell+'">'+days+'</td><td style="'+cell+dateCell+'">'+escape(date(iso))+'</td><td style="'+cell+'"></td></tr>';
- const taskRows=tasks.map((t,i)=>{const p=setting(t),instruction=p.purpose==='Custom Instruction'?(p.note||'Custom instruction'):p.purpose+(p.note?' — '+p.note:'');return '<tr style="background:'+(i%2?'#f7f9fa':'#fff')+'"><td style="'+cell+number+'">'+(i+1)+'</td><td style="'+cell+'overflow-wrap:break-word">'+escape(t.name)+'</td><td style="'+cell+dateCell+'">'+escape(t.days)+'</td><td style="'+cell+dateCell+'">'+escape(date(t.due))+'</td><td style="'+cell+'overflow-wrap:break-word">'+escape(instruction)+'</td></tr>'}).join('');
- const head='padding:10px 7px;border:1px solid '+line+';background:#fff;color:#a77b3b;font-family:Arial,sans-serif;font-size:11px;line-height:1.3;font-weight:800;text-align:left;';
- return '<table cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:760px;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif"><colgroup><col style="width:7%"><col style="width:37%"><col style="width:9%"><col style="width:19%"><col style="width:28%"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:16px 14px;text-align:left;color:white;font-family:Arial,sans-serif;font-size:21px;font-weight:700;line-height:1.3"><span style="display:inline-block;background:#008b99;color:white;border-radius:12px;padding:4px 8px;margin-right:9px">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,serif;font-style:italic">Summary</span></th></tr><tr><th style="'+head+'text-align:center">#</th><th style="'+head+'">TASK / MILESTONE</th><th style="'+head+'text-align:center">DAYS</th><th style="'+head+'text-align:center">DUE DATE</th><th style="'+head+'">PURPOSE / INSTRUCTION</th></tr></thead><tbody>'+milestone('Effective date','0',s.effective,'#e7f1fa')+taskRows+milestone('Closing date','—',s.closing,'#faeef0')+'</tbody></table><p style="font-family:Arial,sans-serif;color:#687e8b;font-size:13px;font-style:italic;margin:16px 0">Dates and deadlines must follow the signed contract.</p>';
-}
-
 
 function plain(){return ['Closing Timeline Summary',...selected().map(t=>{const p=setting(t);return t.name+' | '+date(t.due)+' | '+p.purpose+(p.note?' — '+p.note:'')}),'Verify dates against the signed contract.'].join('\n')}
 async function copy(){if(!selected().length)return;try{if(navigator.clipboard?.write&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([copyHTML()],{type:'text/html'}),'text/plain':new Blob([plain()],{type:'text/plain'})})]);$('rcStatus').hidden=false;$('rcStatus').textContent='Formatted table copied. Paste into your email.';return}}catch{}try{await navigator.clipboard.writeText(plain());$('rcStatus').hidden=false;$('rcStatus').textContent='Text table copied (formatted clipboard unavailable).'}catch{$('rcStatus').hidden=false;$('rcStatus').textContent='Clipboard blocked. Select and copy the preview manually.'}}
