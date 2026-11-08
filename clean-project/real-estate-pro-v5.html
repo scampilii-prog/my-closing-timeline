@@ -193,4 +193,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   b.onclick=()=>{if(!confirm('Restore the six original tasks? Current task changes will be replaced, but closing dates remain.'))return;const key='mct-clean-v3-step1-demo',names=[['1st Deposit',3],['2nd Deposit',5],['Loan Application',5],['Condo Application',5],['Property Inspection deadline w/right to cancel',7],['LOAN APPROVAL - Notify seller if NO LOAN APPROVAL',30]];try{const s=JSON.parse(localStorage.getItem(key)||'{}');s.tasks=names.map((x,i)=>({id:i+1,name:x[0],days:x[1],basis:'effective',notes:'',done:false}));s.next=7;localStorage.setItem(key,JSON.stringify(s));location.reload()}catch(e){alert('Unable to restore tasks')}};target.append(b);
  }
 });
+</script><style id="v5-toolbar-contradiction-fix">
+#contract-input .v3-actions{display:flex!important;position:static!important;visibility:visible!important;gap:8px!important;flex-wrap:wrap!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;min-height:0!important}
+#contract-input .v3-actions>*:not(#sort){display:none!important}
+#contract-input .v3-actions #sort{display:inline-flex!important;visibility:visible!important;opacity:1!important;position:static!important;width:auto!important;height:auto!important;min-height:34px!important;padding:8px 14px!important;background:#195d78!important;color:#fff!important;border:0!important;border-radius:7px!important;font-weight:800!important;cursor:pointer!important}
+#contract-input .v5-toolbar-edit #sort{display:inline-flex!important;visibility:visible!important;opacity:1!important}
+</style><script>
+document.addEventListener('DOMContentLoaded',function(){
+ const section=document.getElementById('contract-input');
+ const target=section?.querySelector('.v5-toolbar-edit .v5-toolbar-buttons');
+ const sort=document.getElementById('sort');
+ if(!sort||!section)return;
+ if(target)target.appendChild(sort);
+ sort.hidden=false;
+ sort.style.setProperty('display','inline-flex','important');
+ sort.style.setProperty('visibility','visible','important');
+ sort.style.setProperty('opacity','1','important');
+ sort.textContent='Apply & Reorder';
+ const obs=new MutationObserver(()=>{if(sort.textContent==='Sort by Date'||sort.textContent==='Apply Changes')sort.textContent='Apply & Reorder'});
+ obs.observe(sort,{childList:true});
+});
 </script></body></html>
