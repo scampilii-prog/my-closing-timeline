@@ -203,3 +203,29 @@
 #recipientComposer .rc-actions>strong,#fuComposer .rc-actions>strong{margin-right:auto!important;white-space:nowrap!important}
 #recipientComposer .rc-preview-heading,#fuComposer .rc-preview-heading{margin-top:34px!important;margin-bottom:18px!important;clear:both!important}
 #fuComposer>details{margin-top:34px!important;clear:both!important}
+
+
+/* V5: matching, task-adjacent action groups in both input tables. */
+.v4-wrap #contract-input .v3-actions-organized,
+.v4-wrap #followup-input .v3-actions-organized{margin:12px 14px 8px!important;padding:12px!important}
+.v4-wrap #contract-input .v3-control-grid,
+.v4-wrap #followup-input .v3-control-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.v4-wrap #contract-input .v3-control-panel,
+.v4-wrap #followup-input .v3-control-panel{min-width:0!important}
+.v4-wrap #contract-input .v3-control-buttons,
+.v4-wrap #followup-input .v3-control-buttons{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important}
+.v4-wrap #contract-input .v3-control-build button,
+.v4-wrap #followup-input .v3-control-build button{background:#e8f3f8!important;color:#17435b!important;border:1px solid #b9d5e2!important}
+.v4-wrap #contract-input #add,
+.v4-wrap #followup-input #addFollowup{background:#147a60!important;color:#fff!important;border-color:#147a60!important}
+.v4-wrap #contract-input #restore,
+.v4-wrap #followup-input #restoreFollowups{background:#fff8e9!important;color:#805b20!important;border-color:#e9d0a0!important}
+.v4-wrap #contract-input #email,
+.v4-wrap #contract-input #copy,
+.v4-wrap #followup-input #emailFollowupSelected,
+.v4-wrap #followup-input #viewFollowupFormatted{background:#193d52!important;color:#fff!important;border:1px solid #193d52!important}
+.v4-wrap #contract-input .v3-control-share button:disabled,
+.v4-wrap #followup-input .v3-control-share button:disabled{background:#9eacb5!important;border-color:#9eacb5!important;opacity:.75!important}
+.v4-wrap .v3-date-tool-buttons:empty,
+.v4-wrap .v3-followup-reset-actions:empty{display:none!important}
+@media(max-width:750px){.v4-wrap #contract-input .v3-control-grid,.v4-wrap #followup-input .v3-control-grid{grid-template-columns:1fr!important}}
