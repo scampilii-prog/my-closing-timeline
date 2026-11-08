@@ -36,6 +36,33 @@
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
     }
+    let manager=section.querySelector('.v5-compact-manager');
+    if(!manager){
+      manager=document.createElement('div');
+      manager.className='v5-compact-manager';
+      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div><div class="v5-manager-group v5-manager-select"><strong>Manage Tasks</strong><small>Select tasks to include in your report</small><div class="v5-manager-buttons"></div></div>';
+      const old=section.querySelector('.v3-actions');
+      if(old)old.insertAdjacentElement('beforebegin',manager);
+    }
+    const toolsArea=manager.querySelector('.v5-manager-tools .v5-manager-buttons');
+    const selectArea=manager.querySelector('.v5-manager-select .v5-manager-buttons');
+    for(const id of ['clearDates','restore','sort']){
+      const el=document.getElementById(id);
+      if(el&&el.parentElement!==toolsArea)toolsArea.appendChild(el);
+    }
+    for(const id of ['selectedCount','selectHeader']){
+      const el=document.getElementById(id);
+      if(el&&id==='selectedCount'&&el.parentElement!==selectArea)selectArea.appendChild(el);
+    }
+    const actions=section.querySelector('.v3-actions');
+    if(actions){
+      for(const el of Array.from(actions.querySelectorAll('button'))){
+        if(/clear all tasks/i.test(el.textContent))el.hidden=true;
+      }
+    }
+    for(const el of Array.from(section.querySelectorAll('a,button'))){
+      if(/create personal task page/i.test(el.textContent))el.hidden=true;
+    }
     add.hidden=false;
     return !!(lib&&save&&load&&del&&taskTable);
   }
