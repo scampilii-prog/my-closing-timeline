@@ -36,7 +36,7 @@ function copyHTML(){
  const base='border:1px solid '+line+';padding:11px 10px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35;font-weight:700;color:'+ink+';vertical-align:middle;';
  const circle=(n)=>'<span style="display:inline-block;width:25px;height:25px;line-height:25px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+ink+';font-size:13px;font-weight:700">'+n+'</span>';
  const cell=(v,extra='')=>'<td style="'+base+extra+'">'+v+'</td>';
- const row=(n,name,days,due,purpose,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),'text-align:center;width:48px;')+cell(name,'width:300px;overflow-wrap:anywhere;word-break:break-word;')+cell(days,'width:58px;text-align:center;white-space:nowrap;')+cell(due,'width:104px;text-align:center;white-space:nowrap;')+cell(purpose,'width:190px;overflow-wrap:anywhere;word-break:break-word;')+'</tr>';
+ const row=(n,name,days,due,purpose,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),'text-align:center;width:48px;')+cell(name,'width:300px;overflow-wrap:anywhere;word-break:break-word;')+cell(days,'width:58px;text-align:center;white-space:nowrap;')+cell(due,'width:104px;text-align:center;white-space:nowrap;')+cell(purpose,'width:250px;overflow-wrap:anywhere;word-break:break-word;')+'</tr>';
  const ed=row('–','Effective date','0',escHtml(date(effective)),'','#e7f1fa');
  const cd=row('–','Closing date','—',escHtml(date(closing)),'','#faeef0');
  const entries=tasks.map((t,i)=>{const p=t.setting;const instruction=p.purpose==='Custom Instruction'?(p.note||'Custom Instruction'):p.purpose+(p.note?' — '+p.note:'');return row(i+1,escHtml(t.name),escHtml(String(t.days)),escHtml(date(t.due)),escHtml(instruction),i%2?'#f7f9fa':'#ffffff')}).join('');
