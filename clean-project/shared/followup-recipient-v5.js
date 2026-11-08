@@ -19,36 +19,16 @@ const rows=chosen().map((t,i)=>{const p=setting(t);return '<tr style="background
 const th='border:1px solid '+line+';padding:12px 9px;color:#a77b3b;background:#fff;font:800 13px Arial;text-align:left;';
 return '<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;table-layout:fixed;max-width:1100px"><colgroup><col style="width:8%"><col style="width:39%"><col style="width:10%"><col style="width:18%"><col style="width:25%"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:24px 20px;color:white;text-align:left;font:700 27px Arial"><span style="display:inline-block;background:#008b99;border-radius:10px;padding:6px 12px;margin-right:14px">☑</span> Follow-Up <em style="font:italic 700 29px Georgia;color:#e6b35e">Summary</em></th></tr><tr><th style="'+th+'text-align:center">#</th><th style="'+th+'">TASK / MILESTONE</th><th style="'+th+'text-align:center">DAYS</th><th style="'+th+'text-align:center">DUE DATE</th><th style="'+th+'">PURPOSE / INSTRUCTION</th></tr></thead><tbody>'+milestone('Effective date','0',s.effective,'#e7f1fa')+rows+milestone('Closing date','—',s.closing,'#faeef0')+'</tbody></table><p style="font:italic 13px Arial;color:#687e8b;margin:14px 0">Dates and deadlines must follow the signed contract.</p>'}
 function copyHTML(){
- // Derive the email from the visible preview, never from a separate design.
- const holder=document.createElement('div');
- holder.innerHTML=html();
- const table=holder.querySelector('table');
- if(!table)return holder.innerHTML;
- const widths=[7,43,9,17,24];
- table.setAttribute('width','760');
- table.style.width='760px';
- table.style.maxWidth='760px';
- table.style.tableLayout='fixed';
- table.style.borderCollapse='collapse';
- table.querySelector('colgroup')?.remove();
- table.querySelectorAll('tr').forEach(tr=>{
-  const cells=Array.from(tr.children);
-  if(cells.length!==5)return;
-  cells.forEach((cell,i)=>{
-   cell.setAttribute('width',widths[i]+'%');
-   cell.style.width=widths[i]+'%';
-   cell.style.boxSizing='border-box';
-   cell.style.padding='11px '+(i===1||i===4?'10px':'5px');
-   cell.style.fontFamily='Arial,Helvetica,sans-serif';
-   cell.style.fontSize='13px';
-   cell.style.lineHeight='1.4';
-   cell.style.verticalAlign='middle';
-   cell.style.overflowWrap='break-word';
-   if(i===0||i===2||i===3)cell.style.textAlign='center';
-   if(i===2||i===3)cell.style.whiteSpace='nowrap';
-  });
- });
- return holder.innerHTML;
+ const s=read(contract)||{},items=chosen().map(t=>({name:t.name,days:t.offset||0,due:t.due})),fmt=date,escapeText=esc;
+ // Approved four-column email layout: no instruction column.
+ const navy='#193d52',line='#dbe3e9',gold='#c7a15f';
+ const td='border:1px solid '+line+';padding:13px 10px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;line-height:1.4;color:'+navy+';vertical-align:middle;';
+ const circle=n=>'<span style="display:inline-block;border:2px solid '+gold+';border-radius:50%;width:27px;height:27px;line-height:27px;text-align:center;font-size:14px;color:'+navy+'">'+n+'</span>';
+ const cell=(value,width,extra='')=>'<td width="'+width+'" style="'+td+'width:'+width+'%;'+extra+'">'+value+'</td>';
+ const row=(n,name,days,due,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),8,'text-align:center;')+cell(name,59)+cell(days,11,'text-align:center;white-space:nowrap;')+cell(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
+ const rows=items.map((t,i)=>row(i+1,escapeText(t.name),escapeText(String(t.days)),escapeText(fmt(t.due)),i%2?'#f8fafb':'#ffffff')).join('');
+ const head=(label,width,align)=>'<th width="'+width+'" style="width:'+width+'%;padding:14px 10px;border:1px solid '+line+';background:#ffffff;color:#a77b3b;font:700 13px Arial,Helvetica,sans-serif;text-align:'+align+'">'+label+'</th>';
+ return '<table role="presentation" width="760" cellspacing="0" cellpadding="0" border="0" style="width:760px;max-width:760px;border-collapse:collapse;table-layout:fixed;font-family:Arial,Helvetica,sans-serif"><thead><tr><th colspan="4" style="background:'+navy+';padding:28px 22px;text-align:left;color:#fff;font:700 27px Arial,Helvetica,sans-serif"><span style="display:inline-block;background:#008b99;border-radius:12px;padding:10px 13px;margin-right:16px;color:#fff">☑</span> Follow-Up <span style="color:#e6b35e;font:italic 700 30px Georgia,serif">Summary</span></th></tr><tr>'+head('#',8,'center')+head('TASK / MILESTONE',59,'left')+head('DAYS',11,'center')+head('DUE DATE',22,'center')+'</tr></thead><tbody>'+row('–','Effective date','0',escapeText(fmt(s.effective)),'#e7f1fa')+rows+row('–','Closing date',escapeText(String(s.effective&&s.closing?Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000):'—')),escapeText(fmt(s.closing)),'#faeef0')+'</tbody></table><p style="font:italic 13px Arial,Helvetica,sans-serif;color:#687e8b;margin:14px 0">Dates and deadlines must follow the signed contract.</p>';
 }
 function emailHTML(){const s=read(contract)||{},navy='#193d52',line='#d8e0e5',gold='#b68a47';
 const td='border:1px solid '+line+';padding:9px 8px;font:700 12px/1.35 Arial;word-break:break-word;overflow-wrap:anywhere;color:'+navy+';vertical-align:middle;';
