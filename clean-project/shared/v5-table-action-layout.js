@@ -31,7 +31,7 @@
       if(!tools){
         tools=document.createElement('div');
         tools.className='v5-library-top-actions';
-        tools.innerHTML='<strong>My Saved Tables</strong><span>Save, open or delete a named table</span>';
+        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>Only checked tasks marked SEND are saved. Unchecked tasks stay available.</span>';
         taskTable.insertAdjacentElement('beforebegin',tools);
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
@@ -83,6 +83,27 @@
     for(const el of Array.from(section.querySelectorAll('a,button'))){
       if(/create personal task page/i.test(el.textContent))el.hidden=true;
     }
+    const descriptions={
+      add:'Add a new task to customize this table.',
+      clearDates:'Clear dates without deleting task names.',
+      restore:'Restore the original suggested tasks.',
+      sort:'Arrange tasks by their due dates.',
+      v5SelectAll:'Select all available tasks without deleting or changing their names.',
+      rcSaveDraft:'Save only selected tasks marked SEND under the name entered below. Other tasks remain available.',
+      rcLoadTable:'Open the named table selected in My Saved Tables.',
+      rcDeleteTable:'Permanently delete the selected saved table after confirmation.',
+      v5NameSaveTable:'Go to the name and purpose fields to save this selection.',
+      rcCopy:'Preview the formatted table before copying it.',
+      rcPrepare:'Prepare an email with the selected tasks and recipient.'
+    };
+    for(const [id,description] of Object.entries(descriptions)){
+      const el=document.getElementById(id);
+      if(el){el.title=description;el.setAttribute('aria-description',description);}
+    }
+    const savedSelect=document.getElementById('rcLibraryList');
+    if(savedSelect)savedSelect.title='Choose the saved table to open or delete.';
+    const libraryName=document.getElementById('rcTableName');
+    if(libraryName)libraryName.title='Give this table a memorable name, such as Buyer Agent — Deadlines.';
     add.hidden=false;
     return !!(lib&&save&&load&&del&&taskTable);
   }
