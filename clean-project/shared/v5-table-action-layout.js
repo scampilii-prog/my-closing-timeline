@@ -31,7 +31,7 @@
       if(!tools){
         tools=document.createElement('div');
         tools.className='v5-library-top-actions';
-        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>Only checked tasks marked SEND are saved. Unchecked tasks stay available.</span>';
+        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>Check Select to include tasks in your saved table. Later, use Send to choose what goes in the email.</span>';
         taskTable.insertAdjacentElement('beforebegin',tools);
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
@@ -40,7 +40,7 @@
     if(!manager){
       manager=document.createElement('div');
       manager.className='v5-compact-manager';
-      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div><div class="v5-manager-group v5-manager-select"><strong>Manage Tasks</strong><small>Select tasks to include in your report</small><div class="v5-manager-buttons"></div></div>';
+      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div><div class="v5-manager-group v5-manager-select"><strong>Manage Tasks</strong><small>Check tasks to include in your saved table</small><div class="v5-manager-buttons"></div></div>';
       const old=section.querySelector('.v3-actions');
       if(old)old.insertAdjacentElement('beforebegin',manager);
     }
@@ -89,7 +89,7 @@
       restore:'Restore the original suggested tasks.',
       sort:'Arrange tasks by their due dates.',
       v5SelectAll:'Select all available tasks without deleting or changing their names.',
-      rcSaveDraft:'Save only selected tasks marked SEND under the name entered below. Other tasks remain available.',
+      rcSaveDraft:'Save the selected tasks under your chosen table name. Unselected tasks remain available.',
       rcLoadTable:'Open the named table selected in My Saved Tables.',
       rcDeleteTable:'Permanently delete the selected saved table after confirmation.',
       v5NameSaveTable:'Go to the name and purpose fields to save this selection.',
@@ -104,6 +104,12 @@
     if(savedSelect)savedSelect.title='Choose the saved table to open or delete.';
     const libraryName=document.getElementById('rcTableName');
     if(libraryName)libraryName.title='Give this table a memorable name, such as Buyer Agent — Deadlines.';
+    const selectionHeader=document.getElementById('selectHeader');
+    if(selectionHeader){
+      const cell=selectionHeader.closest('th');
+      if(cell){cell.style.setProperty('min-width','94px');cell.style.setProperty('width','94px');cell.style.setProperty('white-space','normal');cell.title='Check the tasks to include in your saved table.';}
+      selectionHeader.title='Select all tasks for your saved table.';
+    }
     add.hidden=false;
     return !!(lib&&save&&load&&del&&taskTable);
   }
