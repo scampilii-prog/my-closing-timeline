@@ -240,36 +240,48 @@ for(const [target,type] of [['contract-input','contract'],['followup-input','fol
  bar.append(selectAll,clearAll);
 }
 const savedPanel=el('details',{id:'personalListPanel',className:'v3-saved-pages'});savedPanel.append(el('summary',{},'My Saved Task Pages · Open existing recipient pages'));const savedLinks=el('div',{id:'personalSavedLists'});savedPanel.append(savedLinks);templateLibrary.append(savedPanel);renderPersonalListLinks();window.addEventListener('storage',e=>{if(e.key===personalKey)renderPersonalListLinks()});window.addEventListener('focus',renderPersonalListLinks);
-/* Group the existing working controls by intent without cloning/replacing buttons. */
+/* Keep both task workspaces consistent. Move existing controls; never clone them. */
 function organizeTaskControls(rootId,followup){
  const root=$(rootId),bar=root?.querySelector('.v3-actions');if(!bar)return;
- const heading=el('div',{className:'v3-control-heading'},'TASK WORKSPACE · '+(followup?'FOLLOW-UP':'CONTRACT'));
+ const controls=[...bar.children];
  const groups=[
-  {name:'01 · BUILD & ORGANIZE',cls:'v3-control-build',ids:followup?['addFollowup']:['add','sort']},
-  {name:'02 · SELECT & MANAGE',cls:'v3-control-manage',ids:followup?['followupSelectedCount']:['selectedCount','selectHeader']},
-  {name:'03 · SHARE & REPORT',cls:'v3-control-share',ids:followup?['emailFollowupSelected','viewFollowupFormatted']:['email','copy']},
-  {name:'04 · PERSONAL WORKSPACE',cls:'v3-control-personal',ids:[]}
+  {name:'01 · TASKS & DATES',cls:'v3-control-build',ids:followup?['addFollowup','clearFollowupDates','restoreFollowups']:['add','clearDates','restore','sort']},
+  {name:'02 · SELECT & MANAGE',cls:'v3-control-manage',ids:followup?['followupSelectedCount']:['selectedCount']},
+  {name:'03 · EMAIL & PREVIEW',cls:'v3-control-share',ids:followup?['emailFollowupSelected','viewFollowupFormatted']:['email','copy']},
+  {name:'04 · PERSONAL TASKS',cls:'v3-control-personal',ids:[]}
  ];
- const controls=[...bar.children];const assigned=new Set();
+ const frame=el('div',{className:'v3-control-grid'});
+ const assigned=new Set();
  const findByText=t=>controls.find(x=>x.tagName==='BUTTON'&&x.textContent.trim()===t);
  const extras={
-  'v3-control-build':[findByText('Sort by Date')],
+  'v3-control-build':[],
   'v3-control-manage':[findByText('Select All'),findByText('Delete Selected'),findByText('Clear All Tasks')],
   'v3-control-personal':[findByText('Create Personal Task Page ↗')]
  };
- const frame=el('div',{className:'v3-control-grid'});
  for(const g of groups){
-  const panel=el('section',{className:'v3-control-panel '+g.cls});panel.append(el('div',{className:'v3-control-label'},g.name));
+  const panel=el('section',{className:'v3-control-panel '+g.cls});
+  panel.append(el('div',{className:'v3-control-label'},g.name));
   const body=el('div',{className:'v3-control-buttons'});
-  for(const id of g.ids){const node=$(id);if(node&&node.parentElement===bar&&id!=='selectHeader'){body.append(node);assigned.add(node)}}
-  for(const node of extras[g.cls]||[]){if(node&&node.parentElement===bar&&!assigned.has(node)){body.append(node);assigned.add(node)}}
-  if(g.cls==='v3-control-manage'){const hint=bar.querySelector('.v3-selection-hint');if(hint){body.append(hint);assigned.add(hint)}}
+  for(const id of g.ids){
+   const node=$(id);
+   if(node && root.contains(node) && id!=='selectHeader'){
+    body.append(node);assigned.add(node);
+   }
+  }
+  for(const node of extras[g.cls]||[]){
+   if(node && !assigned.has(node)){body.append(node);assigned.add(node)}
+  }
+  if(g.cls==='v3-control-manage'){
+   const hint=bar.querySelector('.v3-selection-hint');
+   if(hint){body.append(hint);assigned.add(hint)}
+  }
   panel.append(body);frame.append(panel);
  }
- const remaining=controls.filter(node=>!assigned.has(node));
+ const remaining=controls.filter(node=>!assigned.has(node) && node.isConnected && node.parentElement===bar);
  const misc=el('div',{className:'v3-control-secondary'});
  for(const node of remaining)misc.append(node);
- bar.append(heading,frame,misc);bar.classList.add('v3-actions-organized');
+ bar.replaceChildren(el('div',{className:'v3-control-heading'},'TASK CONTROLS · '+(followup?'FOLLOW-UP':'CONTRACT')),frame,misc);
+ bar.classList.add('v3-actions-organized');
 }
 organizeTaskControls('contract-input',false);
 organizeTaskControls('followup-input',true);
