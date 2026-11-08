@@ -189,3 +189,6 @@
 #fuComposer .rc-head,#fuComposer #fuRows{min-width:690px!important}
 #fuComposer{overflow-x:auto!important}
 @media(max-width:950px){#fuComposer .rc-head{display:grid!important}#fuComposer .rc-row{grid-template-columns:30px minmax(145px,1.65fr) 54px 104px minmax(125px,1.2fr) minmax(105px,1fr) 52px!important}}
+
+/* Result 01 title matches approved preview: gold Georgia italic Summary. */
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span .mct-gold-summary{color:#e6b35e!important;font-family:Georgia,'Times New Roman',serif!important;font-style:italic!important;font-weight:700!important;letter-spacing:-.4px!important}
