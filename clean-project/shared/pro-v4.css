@@ -16,3 +16,15 @@
 .v4-wrap #contract-input,.v4-wrap #followup-input{border-radius:14px;overflow:clip}
 @media(max-width:1050px){.v4-wrap .v3-control-panel .v3-control-label{white-space:normal!important}}
 @media(max-width:700px){.v4-wrap .v3-actions-organized{margin:9px!important}.v4-wrap .v3-control-grid{grid-template-columns:1fr!important}}
+
+/* V4 integrated summaries: each result belongs to its own step. */
+.v4-wrap .v3-control-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+.v4-wrap .v3-control-panel{min-width:0!important}
+.v4-integrated-result{padding:16px 20px 22px;background:#f6f9fc;border-top:2px solid #bfd6e4}
+.v4-integrated-result:before{content:'AUTOMATIC RESULT · LINKED TO THIS STEP';display:block;color:#315c76;font-size:11px;font-weight:900;letter-spacing:.8px;margin-bottom:12px}
+.v4-integrated-result .v3-summary-card{width:100%!important;max-width:none!important;margin:0!important}
+.v4-integrated-result .v3-summary-card button[hidden],.v4-integrated-result .v3-summary-card a[hidden]{display:none!important}
+.v4-wrap .v3-results-intro[hidden]{display:none!important}
+.v4-wrap .v4-overview-dashboard{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin-top:20px}
+.v4-wrap .v4-overview-dashboard:before{content:'STEP 3 · CLOSING OVERVIEW';grid-column:1/-1;font-size:17px;font-weight:900;color:#204b66;padding:10px 0}
+@media(max-width:700px){.v4-wrap .v3-control-grid,.v4-wrap .v4-overview-dashboard{grid-template-columns:1fr!important}.v4-integrated-result{padding:12px}}
