@@ -30,9 +30,10 @@
   if(bar&&!document.getElementById('v4CopyForEmail')){
    const copy=document.createElement('button');copy.type='button';copy.id='v4CopyForEmail';copy.textContent='Copy Table for Email';copy.title='Select tasks first, then open the formatted report to copy it';
    bar.append(copy);
-   const sync=()=>{copy.disabled=!!document.getElementById('copy')?.disabled;copy.title=copy.disabled?'Select contract tasks first':'Open formatted report and use Copy Formatted Table'};
+   const sync=()=>{const recipientCopy=document.getElementById('rcCopy');copy.disabled=recipientCopy?recipientCopy.disabled:!!document.getElementById('copy')?.disabled;copy.title=copy.disabled?'Select contract tasks and mark at least one Send checkbox':'Copy the formatted recipient table'};
    sync();document.getElementById('rows')?.addEventListener('change',()=>setTimeout(sync,0));
    document.getElementById('selectHeader')?.addEventListener('click',()=>setTimeout(sync,0));
+   document.getElementById('rcRows')?.addEventListener('change',()=>setTimeout(sync,0));
    copy.onclick=()=>{if(copy.disabled)return;const recipientCopy=document.getElementById('rcCopy');if(recipientCopy&&!recipientCopy.disabled){recipientCopy.click();return;}document.getElementById('contract-summary')?.scrollIntoView({behavior:'smooth',block:'start'});};
   }
  }
