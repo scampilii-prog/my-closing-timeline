@@ -62,8 +62,14 @@
       selectAll.textContent='Select All';
       selectAll.addEventListener('click',function(){
         const header=document.getElementById('selectHeader');
-        if(header&&!header.disabled){header.click();return;}
-        const boxes=Array.from(document.querySelectorAll('#rows input[type="checkbox"]')).filter(x=>!x.disabled);
+        if(header&&!header.disabled){
+          if(header.type==='checkbox'){
+            if(!header.checked)header.click();
+            else header.dispatchEvent(new Event('change',{bubbles:true}));
+          }else header.click();
+          return;
+        }
+        const boxes=Array.from(section.querySelectorAll('.v3-scroll tbody input[type="checkbox"]')).filter(x=>!x.disabled);
         for(const box of boxes)if(!box.checked)box.click();
       });
       selectArea.appendChild(selectAll);
