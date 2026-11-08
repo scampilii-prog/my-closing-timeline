@@ -229,3 +229,25 @@
 .v4-wrap .v3-date-tool-buttons:empty,
 .v4-wrap .v3-followup-reset-actions:empty{display:none!important}
 @media(max-width:750px){.v4-wrap #contract-input .v3-control-grid,.v4-wrap #followup-input .v3-control-grid{grid-template-columns:1fr!important}}
+
+/* V5 refinement: clear separation, balanced button groups and no empty control boxes. */
+.v4-wrap #contract-input .v3-control-grid,
+.v4-wrap #followup-input .v3-control-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+.v4-wrap #contract-input .v3-control-panel,
+.v4-wrap #followup-input .v3-control-panel{padding:14px 16px!important;min-height:unset!important}
+.v4-wrap #contract-input .v3-control-share,
+.v4-wrap #followup-input .v3-control-share{display:none!important}
+.v4-wrap #contract-input .v3-control-personal,
+.v4-wrap #followup-input .v3-control-personal{grid-column:1/-1!important}
+.v4-wrap #contract-input .v3-control-personal:has(.v3-control-buttons:empty),
+.v4-wrap #followup-input .v3-control-personal:has(.v3-control-buttons:empty){display:none!important}
+.v4-wrap #contract-input .v3-control-grid>div:empty,
+.v4-wrap #followup-input .v3-control-grid>div:empty{display:none!important}
+.v4-wrap .v5-summary-quick-actions{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:12px!important;margin:22px 0 26px!important;padding:18px 0 0!important;border-top:1px solid #dce8ed!important}
+.v4-wrap .v5-summary-quick-actions button{flex:0 1 auto!important;min-width:175px!important;min-height:46px!important;margin:0!important;padding:11px 18px!important;border-radius:10px!important;white-space:normal!important;line-height:1.3!important}
+.v4-wrap .v5-summary-quick-actions button+button{margin-left:0!important}
+.v4-wrap #recipientComposer .rc-actions,
+.v4-wrap #fuComposer .rc-actions{gap:12px!important;row-gap:16px!important}
+.v4-wrap #recipientComposer .rc-actions>strong,
+.v4-wrap #fuComposer .rc-actions>strong{flex:1 1 100%!important;margin:0 0 4px!important}
+@media(max-width:700px){.v4-wrap .v5-summary-quick-actions button{flex:1 1 100%!important}.v4-wrap #contract-input .v3-control-grid,.v4-wrap #followup-input .v3-control-grid{grid-template-columns:1fr!important}}
