@@ -142,6 +142,32 @@ const actions=section.querySelector('.v3-actions');
       if(cell){cell.style.setProperty('min-width','60px');cell.style.setProperty('width','60px');cell.style.setProperty('white-space','normal');cell.title='Check the tasks to include in your saved table.';}
       selectionHeader.title='Select all tasks for your saved table.';
     }
+    // One compact, clearly separated toolbar: edit tasks first, save named tables second.
+    if(tools && !tools.dataset.organizedV6){
+      tools.dataset.organizedV6='yes';
+      tools.classList.add('v5-organized-library-toolbar');
+      const editGroup=document.createElement('div');
+      editGroup.className='v5-toolbar-group v5-toolbar-edit';
+      const saveGroup=document.createElement('div');
+      saveGroup.className='v5-toolbar-group v5-toolbar-save';
+      const editTitle=document.createElement('strong');editTitle.textContent='1 · Manage Tasks';
+      const saveTitle=document.createElement('strong');saveTitle.textContent='2 · My Saved Tables';
+      const editButtons=document.createElement('div');editButtons.className='v5-toolbar-buttons';
+      const saveButtons=document.createElement('div');saveButtons.className='v5-toolbar-buttons';
+      editGroup.append(editTitle,editButtons);
+      saveGroup.append(saveTitle,saveButtons);
+      tools.replaceChildren(editGroup,saveGroup);
+      const move=(id,target)=>{const el=document.getElementById(id);if(el){el.hidden=false;target.append(el)}};
+      move('v5SelectAll',editButtons);
+      if(deleteSelected){deleteSelected.hidden=false;editButtons.append(deleteSelected)}
+      for(const id of ['sort','clearDates','restore'])move(id,editButtons);
+      for(const id of ['rcSaveDraft','rcLoadTable','rcDeleteTable'])move(id,saveButtons);
+      const count=document.getElementById('selectedCount');
+      if(count){const c=document.createElement('div');c.className='v5-toolbar-count';c.append(count);editGroup.append(c)}
+      const helper=document.createElement('small');helper.textContent='Select tasks to include. Save your selection with a name; load it whenever needed.';
+      saveGroup.append(helper);
+      for(const e of section.querySelectorAll('.v3-selection-hint'))e.hidden=true;
+    }
     add.hidden=false;
     return !!(lib&&save&&load&&del&&taskTable);
   }
