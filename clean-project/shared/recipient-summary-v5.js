@@ -48,8 +48,8 @@ function reportPng(){
  const measure=document.createElement('canvas').getContext('2d');
  measure.font='bold 15px Arial';
  const wrap=(text,max)=>{const words=String(text).split(/\s+/),out=[];let line='';for(const word of words){const next=line?line+' '+word:word;if(measure.measureText(next).width>max&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out.length?out:['']};
- const data=[{name:'Effective date',days:'0',due:date(s.effective),kind:'effective'},...tasks.map(t=>({name:t.name,days:String(t.days),due:date(t.due),kind:'task'})),{name:'Closing date',days:s.effective&&s.closing?String(Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000)):'—',due:date(s.closing),kind:'closing'}];
- const heights=data.map(r=>Math.max(51,wrap(r.name,418).length*21+24));const h=102+44+heights.reduce((a,b)=>a+b,0)+49;
+ const data=[{name:'Effective date',days:'0',due:date(s.effective),kind:'effective'},...tasks.map(t=>({name:t.name,days:String(t.days),due:date(t.due),purpose:setting(t).purpose||'',note:setting(t).note||'',kind:'task'})),{name:'Closing date',days:s.effective&&s.closing?String(Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000)):'—',due:date(s.closing),kind:'closing'}];
+ const heights=data.map(r=>{const title=wrap(r.name,418).length*21;measure.font='13px Arial';const purpose=r.kind==='task'&&r.purpose?wrap('Purpose: '+r.purpose,418).length*18:0;const note=r.kind==='task'&&r.note?wrap('Note: '+r.note,418).length*18:0;measure.font='bold 15px Arial';return Math.max(51,title+purpose+note+25+(purpose||note?8:0))});const h=102+44+heights.reduce((a,b)=>a+b,0)+49;
  const outputWidth=620,ratio=outputWidth/w;const canvas=document.createElement('canvas');canvas.width=outputWidth*scale;canvas.height=Math.ceil(h*ratio*scale);const ctx=canvas.getContext('2d');ctx.scale(scale*ratio,scale*ratio);
  ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.fillStyle=navy;ctx.fillRect(0,0,w,102);
  ctx.fillStyle='#008b99';ctx.beginPath();ctx.roundRect(22,25,54,52,9);ctx.fill();
@@ -63,7 +63,7 @@ function reportPng(){
  data.forEach((r,i)=>{const rh=heights[i];ctx.fillStyle=r.kind==='effective'?'#e7f1fa':r.kind==='closing'?'#faeef0':i%2?'#fff':'#f9fbfc';ctx.fillRect(0,y,w,rh);
  ctx.strokeStyle='#dce4e8';ctx.beginPath();ctx.moveTo(0,y+rh-.5);ctx.lineTo(w,y+rh-.5);ctx.stroke();
  ctx.strokeStyle='#c5a164';ctx.lineWidth=2;ctx.beginPath();ctx.arc(30,y+rh/2,14,0,Math.PI*2);ctx.stroke();ctx.fillStyle=navy;ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.fillText(r.kind==='task'?String(++taskN):'–',30,y+rh/2+5);
- ctx.font='bold 15px Arial';ctx.textAlign='left';const lines=wrap(r.name,418),top=y+(rh-(lines.length-1)*21)/2+5;lines.forEach((t,j)=>ctx.fillText(t,73,top+j*21));
+ ctx.font='bold 15px Arial';ctx.textAlign='left';const lines=wrap(r.name,418);let detail=[];if(r.kind==='task'){ctx.font='13px Arial';if(r.purpose)detail.push(...wrap('Purpose: '+r.purpose,418));if(r.note)detail.push(...wrap('Note: '+r.note,418))}const total=lines.length*21+detail.length*18+(detail.length?7:0);let top=y+(rh-total)/2+15;ctx.font='bold 15px Arial';ctx.fillStyle=navy;lines.forEach(t=>{ctx.fillText(t,73,top);top+=21});if(detail.length){top+=7;ctx.font='13px Arial';ctx.fillStyle='#557082';detail.forEach(t=>{ctx.fillText(t,73,top);top+=18})}
  ctx.textAlign='center';ctx.fillText(r.days,(x[2]+x[3])/2,y+rh/2+5);ctx.fillText(r.due,(x[3]+x[4])/2,y+rh/2+5);y+=rh});
  ctx.strokeStyle='#dce4e8';ctx.lineWidth=1;for(const xx of x){ctx.beginPath();ctx.moveTo(xx,102);ctx.lineTo(xx,y);ctx.stroke()}
  ctx.fillStyle='#687e8b';ctx.textAlign='left';ctx.font='italic 13px Arial';ctx.fillText('Dates and deadlines must follow the signed contract.',12,y+29);
