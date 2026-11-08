@@ -10,7 +10,7 @@
     if(!bar){
       bar=document.createElement('div');
       bar.className='v5-task-edit-actions';
-      bar.innerHTML='<span class="v5-task-caption">Customize the tasks above: edit names or days directly, remove unwanted rows, or add a new task. Then name and save this table for future use.</span><button type="button" id="v5NameSaveTable">Name &amp; Save This Table ↓</button>';
+      bar.innerHTML='<strong class="v5-task-title" style="flex:1 1 100%;font-size:18px;color:#193d52">Create Your Own Tasks &amp; Tables</strong><span class="v5-task-caption">Customize tasks, create reusable tables, and save each one with a name and purpose for future use.</span><button type="button" id="v5NameSaveTable">Name &amp; Save This Table ↓</button>';
       foot.insertAdjacentElement('afterend',bar);
       bar.querySelector('#v5NameSaveTable').addEventListener('click',function(){
         const lib=document.getElementById('rcTableLibrary');
