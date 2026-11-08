@@ -30,10 +30,18 @@ function tableHTML(){
 }
 
 function copyHTML(){
- // Use exactly the approved preview markup, with an email-friendly fixed-width wrapper.
- // Email clients may still override fonts; this prevents a separate design from diverging.
- const original=tableHTML();
- return '<div style="width:760px;max-width:100%;margin:0;padding:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.35;color:#193d52">'+original.replace('width="100%"','width="760"').replace('style="width:100%;max-width:1100px;','style="width:760px;max-width:760px;').replace('style="border-collapse:collapse;table-layout:fixed;max-width:1100px"','style="width:760px;max-width:760px;border-collapse:collapse;table-layout:fixed"')+'</div>';
+ const s=state();const tasks=selected().map(t=>({name:t.name,days:t.days,due:t.due,setting:setting(t)}));const effective=s.effective,closing=s.closing;
+ const navy='#193d52',gold='#c99b50',line='#dbe3e9',ink='#193d52';
+ const escHtml=escape;
+ const base='border:1px solid '+line+';padding:11px 10px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35;font-weight:700;color:'+ink+';vertical-align:middle;';
+ const circle=(n)=>'<span style="display:inline-block;width:25px;height:25px;line-height:25px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+ink+';font-size:13px;font-weight:700">'+n+'</span>';
+ const cell=(v,extra='')=>'<td style="'+base+extra+'">'+v+'</td>';
+ const row=(n,name,days,due,purpose,bg)=>'<tr style="background-color:'+bg+'">'+cell(circle(n),'text-align:center;width:48px;')+cell(name,'width:300px;overflow-wrap:anywhere;word-break:break-word;')+cell(days,'width:58px;text-align:center;white-space:nowrap;')+cell(due,'width:104px;text-align:center;white-space:nowrap;')+cell(purpose,'width:190px;overflow-wrap:anywhere;word-break:break-word;')+'</tr>';
+ const ed=row('–','Effective date','0',escHtml(date(effective)),'','#e7f1fa');
+ const cd=row('–','Closing date','—',escHtml(date(closing)),'','#faeef0');
+ const entries=tasks.map((t,i)=>{const p=t.setting;const instruction=p.purpose==='Custom Instruction'?(p.note||'Custom Instruction'):p.purpose+(p.note?' — '+p.note:'');return row(i+1,escHtml(t.name),escHtml(String(t.days)),escHtml(date(t.due)),escHtml(instruction),i%2?'#f7f9fa':'#ffffff')}).join('');
+ const head=(text,width,align='left')=>'<th width="'+width+'" style="border:1px solid '+line+';background:#ffffff;color:#aa7b35;font:700 12px/1.25 Arial,Helvetica,sans-serif;padding:12px 9px;text-align:'+align+'">'+text+'</th>';
+ return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" style="width:760px;border-collapse:collapse;table-layout:fixed;font-family:Arial,Helvetica,sans-serif"><colgroup><col width="48"><col width="300"><col width="58"><col width="104"><col width="250"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:18px 20px;border-left:4px solid '+gold+';text-align:left;color:white;font:700 23px/1.35 Arial,Helvetica,sans-serif"><span style="display:inline-block;background:#008b99;border-radius:9px;padding:5px 10px;margin-right:12px;color:white">☑</span> '+'Closing Timeline'+' <span style="font:italic 700 25px Georgia,serif;color:#e6b35e">Summary</span></th></tr><tr>'+head('#',48,'center')+head('TASK / MILESTONE',300)+head('DAYS',58,'center')+head('DUE DATE',104,'center')+head('PURPOSE / INSTRUCTION',250)+'</tr></thead><tbody>'+ed+entries+cd+'</tbody></table><p style="font:italic 12px Arial,Helvetica,sans-serif;color:#687e8b;margin:12px 0">Dates and deadlines must follow the signed contract.</p>';
 }
 function emailHTML(){
  const s=state(),tasks=selected();
