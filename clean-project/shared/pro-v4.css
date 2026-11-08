@@ -194,3 +194,6 @@
 .v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span .mct-gold-summary{color:#e6b35e!important;font-family:Georgia,'Times New Roman',serif!important;font-style:italic!important;font-weight:700!important;letter-spacing:-.4px!important}
 
 #followup-summary>.v3-summary-title .v3-summary-heading-text>span .mct-gold-summary{color:#e6b35e!important;font-family:Georgia,'Times New Roman',serif!important;font-style:italic!important;font-weight:700!important;letter-spacing:-.4px!important}
+
+/* V5: Result 01 header uses the same blue family as Table 01; preserve gold italic Summary. */
+.v4-wrap .v4-integrated-result #contract-summary>.v3-summary-title{background:#1d5d89!important}
