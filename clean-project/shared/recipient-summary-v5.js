@@ -30,7 +30,38 @@ function tableHTML(){
 }
 
 // The email clipboard uses exactly the same HTML as the approved on-page preview.
-function copyHTML(){return tableHTML()}
+function copyHTML(){
+ // Derive the email from the visible preview, never from a separate design.
+ const holder=document.createElement('div');
+ holder.innerHTML=tableHTML();
+ const table=holder.querySelector('table');
+ if(!table)return holder.innerHTML;
+ const widths=[7,43,9,17,24];
+ table.setAttribute('width','760');
+ table.style.width='760px';
+ table.style.maxWidth='760px';
+ table.style.tableLayout='fixed';
+ table.style.borderCollapse='collapse';
+ table.querySelector('colgroup')?.remove();
+ table.querySelectorAll('tr').forEach(tr=>{
+  const cells=Array.from(tr.children);
+  if(cells.length!==5)return;
+  cells.forEach((cell,i)=>{
+   cell.setAttribute('width',widths[i]+'%');
+   cell.style.width=widths[i]+'%';
+   cell.style.boxSizing='border-box';
+   cell.style.padding='11px '+(i===1||i===4?'10px':'5px');
+   cell.style.fontFamily='Arial,Helvetica,sans-serif';
+   cell.style.fontSize='13px';
+   cell.style.lineHeight='1.4';
+   cell.style.verticalAlign='middle';
+   cell.style.overflowWrap='break-word';
+   if(i===0||i===2||i===3)cell.style.textAlign='center';
+   if(i===2||i===3)cell.style.whiteSpace='nowrap';
+  });
+ });
+ return holder.innerHTML;
+}
 function emailHTML(){
  const s=state(),tasks=selected();
  const navy='#193d52',gold='#b68a47',line='#d8e0e5';
