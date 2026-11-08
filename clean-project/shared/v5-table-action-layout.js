@@ -21,6 +21,21 @@
       });
     }
     if(add.parentElement!==bar)bar.insertBefore(add,bar.querySelector('#v5NameSaveTable'));
+    const lib=document.getElementById('rcTableLibrary');
+    const save=document.getElementById('rcSaveDraft');
+    const load=document.getElementById('rcLoadTable');
+    const del=document.getElementById('rcDeleteTable');
+    const taskTable=section.querySelector('.v3-scroll');
+    if(lib&&save&&load&&del&&taskTable){
+      let tools=section.querySelector('.v5-library-top-actions');
+      if(!tools){
+        tools=document.createElement('div');
+        tools.className='v5-library-top-actions';
+        tools.innerHTML='<strong>My Saved Tables</strong><span>Save, open or delete a named table</span>';
+        taskTable.insertAdjacentElement('beforebegin',tools);
+      }
+      for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
+    }
     add.hidden=false;
     return true;
   }
