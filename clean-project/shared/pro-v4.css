@@ -107,3 +107,11 @@
 #followup-summary #fuComposer .rc-actions button{background:#193d52!important;color:#fff!important;border-radius:10px!important}
 #followup-summary #fuComposer .rc-actions button:disabled{opacity:.5!important}
 @media(max-width:650px){#followup-summary{padding:12px!important}#followup-summary .v3-summary-title{padding:18px!important}#followup-summary .v3-summary-title .v3-summary-heading-text>span{font-size:23px!important}#followup-summary .v3-result-context{margin:16px 8px!important}}
+
+/* Keep the preview notice beside the toggle, not above the email preview. */
+#recipientComposer .rc-preview-heading,#fuComposer .rc-preview-heading{position:relative;margin:12px 20px 18px;min-height:28px}
+#recipientComposer .rc-preview-heading>details,#fuComposer .rc-preview-heading>details{width:100%;margin:0!important}
+#recipientComposer .rc-preview-heading>details>summary,#fuComposer .rc-preview-heading>details>summary{display:list-item;width:max-content;max-width:50%;font-weight:800;color:#193d52;cursor:pointer;padding:3px 0}
+#recipientComposer .rc-preview-heading>p,#fuComposer .rc-preview-heading>p{position:absolute;top:0;right:0;margin:2px 0!important;font-size:11px!important;color:#547185;text-align:right;max-width:52%}
+#recipientComposer .rc-preview-heading>details[open]>div,#fuComposer .rc-preview-heading>details[open]>div{margin-top:14px;width:100%;overflow-x:auto}
+@media(max-width:640px){#recipientComposer .rc-preview-heading>p,#fuComposer .rc-preview-heading>p{position:static;text-align:left;max-width:100%;margin-top:6px!important}#recipientComposer .rc-preview-heading>details>summary,#fuComposer .rc-preview-heading>details>summary{max-width:100%}}
