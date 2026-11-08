@@ -25,16 +25,16 @@ function libraryStatus(msg){const e=$('rcStatus');if(e){e.hidden=false;e.textCon
 function renderLibrary(){const list=$('rcLibraryList');if(!list)return;const entries=library();list.replaceChildren();for(const item of entries){const option=document.createElement('option');option.value=item.id;option.textContent=item.name+' · '+item.tasks.length+' tasks'+(item.role?' · '+item.role:'');list.append(option)}if(!entries.length){const option=document.createElement('option');option.value='';option.textContent='No saved tables yet';list.append(option)}}
 function saveNamedTable(){
  const name=$('rcTableName').value.trim(),role=$('rcTableRole').value.trim();if(!name){libraryStatus('Enter a table name before saving.');$('rcTableName').focus();return}
- const tasks=selected().map(t=>{const p=setting(t);return {id:t.id,name:t.name,purpose:p.purpose,note:p.note,send:true}});
+ const tasks=rows().filter(t=>t.selected).map(t=>{const p=setting(t);return {id:t.id,name:t.name,days:t.days,basis:t.basis,purpose:p.purpose,note:p.note,send:p.send!==false}});
  if(!tasks.length){libraryStatus('Select at least one task to save this table.');return}
  const entries=library(),old=entries.findIndex(x=>x.name.toLowerCase()===name.toLowerCase());if(old>=0&&!window.confirm('Replace the saved table named '+name+'?'))return;
  const item={id:old>=0?entries[old].id:'table-'+Date.now(),name,role,recipient:$('rcRecipient').value.trim(),subject:$('rcSubject').value,body:$('rcBody').value,tasks,updated:new Date().toISOString()};
- if(old>=0)entries[old]=item;else entries.push(item);saveLibrary(entries);renderLibrary();$('rcLibraryList').value=item.id;libraryStatus('Saved "'+name+'" in My Table Library on this browser. Dates will be recalculated from the current closing.')}
+ if(old>=0)entries[old]=item;else entries.push(item);saveLibrary(entries);renderLibrary();$('rcLibraryList').value=item.id;libraryStatus('Saved "'+name+'" in this browser. Only checked Select tasks are saved; Send is chosen separately for each email. Dates use the current closing.')}
 function loadNamedTable(){
  const item=library().find(x=>x.id===$('rcLibraryList').value);if(!item){libraryStatus('Choose a saved table.');return}
  $('rcTableName').value=item.name;$('rcTableRole').value=item.role||'';$('rcRecipient').value=item.recipient||'';prefs._recipient=$('rcRecipient').value;save();$('rcSubject').value=item.subject||'Closing Timeline Summary';$('rcBody').value=item.body||'';saveDraft();
  const source=[...document.querySelectorAll('#rows tr')],s=state(),ids=new Set(item.tasks.map(t=>String(t.id)));let matched=0;
- source.forEach((tr,i)=>{const task=s.tasks?.[i],cb=tr.querySelector('td.sel input[type=checkbox]');if(!task||!cb)return;const included=ids.has(String(task.id));if(cb.checked!==included){cb.checked=included;cb.dispatchEvent(new Event('change',{bubbles:true}))}if(included)matched++});
+ source.forEach((tr,i)=>{const task=s.tasks?.[i],cb=tr.querySelector('td.sel input[type=checkbox]');if(!task||!cb)return;const included=ids.has(String(task.id)) && item.tasks.some(saved=>String(saved.id)===String(task.id)&&saved.name===task.name);if(cb.checked!==included){cb.checked=included;cb.dispatchEvent(new Event('change',{bubbles:true}))}if(included)matched++});
  for(const task of item.tasks){const actual=s.tasks?.find(t=>String(t.id)===String(task.id));if(!actual)continue;const p=setting(actual);p.purpose=task.purpose||'Action Required';p.note=task.note||'';p.send=task.send!==false}save();render();libraryStatus('Loaded "'+item.name+'": '+matched+' of '+item.tasks.length+' tasks matched this closing. Review current dates before emailing.')}
 function deleteNamedTable(){const id=$('rcLibraryList').value,item=library().find(x=>x.id===id);if(!item)return;if(!window.confirm('Delete saved table "'+item.name+'"?'))return;saveLibrary(library().filter(x=>x.id!==id));renderLibrary();libraryStatus('Saved table deleted.')}
 
