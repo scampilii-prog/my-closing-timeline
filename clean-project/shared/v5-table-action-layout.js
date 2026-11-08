@@ -63,15 +63,8 @@
       selectAll.type='button';
       selectAll.textContent='Select All';
       selectAll.addEventListener('click',function(){
-        const header=document.getElementById('selectHeader');
-        if(header&&!header.disabled){
-          if(header.type==='checkbox'){
-            if(!header.checked)header.click();
-            else header.dispatchEvent(new Event('change',{bubbles:true}));
-          }else header.click();
-          return;
-        }
-        const boxes=Array.from(section.querySelectorAll('.v3-scroll tbody input[type="checkbox"]')).filter(x=>!x.disabled);
+        // The header's original click handler DESELECTS tasks; use row checkboxes instead.
+        const boxes=Array.from(section.querySelectorAll('.v3-scroll tbody tr td.sel input[type="checkbox"]')).filter(x=>!x.disabled);
         for(const box of boxes)if(!box.checked)box.click();
       });
       if(selectArea)selectArea.appendChild(selectAll);
@@ -117,7 +110,7 @@ const actions=section.querySelector('.v3-actions');
     const selectionHeader=document.getElementById('selectHeader');
     if(selectionHeader){
       const cell=selectionHeader.closest('th');
-      if(cell){cell.style.setProperty('min-width','94px');cell.style.setProperty('width','94px');cell.style.setProperty('white-space','normal');cell.title='Check the tasks to include in your saved table.';}
+      if(cell){cell.style.setProperty('min-width','60px');cell.style.setProperty('width','60px');cell.style.setProperty('white-space','normal');cell.title='Check the tasks to include in your saved table.';}
       selectionHeader.title='Select all tasks for your saved table.';
     }
     add.hidden=false;
