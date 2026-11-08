@@ -153,3 +153,18 @@
 #followup-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:27px!important;line-height:1.2!important}
 .v4-integrated-result #contract-summary,.v4-wrap #followup-summary{padding:14px!important;border-radius:17px!important}
 @media(max-width:650px){.v4-integrated-result #contract-summary>.v3-summary-title,#followup-summary>.v3-summary-title{padding:16px!important}.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span,#followup-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:22px!important}}
+
+/* In-place shared contact creation for both email summaries. */
+.mct-contact-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px;font-size:12px;font-weight:750;color:#193d52}
+.mct-add-contact{border:1px solid #90bdc8!important;background:#e9f5f7!important;color:#116879!important;border-radius:7px!important;padding:5px 10px!important;font-size:12px!important;font-weight:800!important;min-height:28px!important;cursor:pointer}
+.mct-add-contact:hover{background:#d8eff3!important}
+.mct-contact-dialog{border:1px solid #b7d1dc;border-radius:16px;padding:24px;width:min(440px,calc(100vw - 32px));color:#193d52;background:#fff;box-shadow:0 18px 65px #0e2f4450}
+.mct-contact-dialog::backdrop{background:#0c2c3e88}
+.mct-contact-dialog h3{margin:0 0 8px;font-size:23px;color:#193d52}
+.mct-contact-dialog p{font-size:13px;color:#526f7e;line-height:1.5}
+.mct-contact-dialog label{display:block;font-weight:750;font-size:13px;margin:13px 0}
+.mct-contact-dialog input{display:block;width:100%;box-sizing:border-box;padding:11px;margin-top:5px;border:1px solid #bdd0db;border-radius:8px;font:inherit}
+.mct-contact-dialog .mct-contact-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.mct-contact-dialog button{padding:10px 16px;border-radius:8px;border:1px solid #b7d1dc;background:#f3f8fa;color:#193d52;font-weight:750;cursor:pointer}
+.mct-contact-dialog button[type=submit]{background:#193d52;color:#fff}
+#mctContactError{color:#a83232}
