@@ -138,3 +138,18 @@
 .v4-integrated-result #contract-summary #recipientComposer{margin:0 0 6px!important;border:0!important;border-radius:0!important}
 .v4-integrated-result #contract-summary #recipientComposer>.rc-title{display:none!important}
 @media(max-width:650px){.v4-integrated-result #contract-summary{padding:12px!important}.v4-integrated-result #contract-summary>.v3-summary-title{padding:18px!important;min-height:0!important}.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:23px!important}.v4-integrated-result #contract-summary>.v3-result-context{margin:16px 8px!important}}
+
+/* Approved compact result headers: visually subordinate to Step headings. */
+.v4-integrated-result #contract-summary>.v3-summary-title{min-height:0!important;padding:22px 26px!important;border-radius:15px 15px 0 0!important;gap:0!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-icon{display:none!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text{gap:5px!important}
+.v4-integrated-result #contract-summary>.v3-summary-title small{font-size:12px!important;letter-spacing:1.4px!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:27px!important;line-height:1.2!important;font-weight:750!important}
+.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span::first-letter{color:#fff}
+#followup-summary>.v3-summary-title{min-height:0!important;padding:20px 26px!important;gap:15px!important;border-radius:15px 15px 0 0!important}
+#followup-summary>.v3-summary-title .v3-summary-icon{min-width:50px!important;min-height:50px!important;width:50px!important;height:50px!important;border-radius:11px!important}
+#followup-summary>.v3-summary-title .v3-summary-heading-text{gap:4px!important}
+#followup-summary>.v3-summary-title small{font-size:12px!important;letter-spacing:1.3px!important}
+#followup-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:27px!important;line-height:1.2!important}
+.v4-integrated-result #contract-summary,.v4-wrap #followup-summary{padding:14px!important;border-radius:17px!important}
+@media(max-width:650px){.v4-integrated-result #contract-summary>.v3-summary-title,#followup-summary>.v3-summary-title{padding:16px!important}.v4-integrated-result #contract-summary>.v3-summary-title .v3-summary-heading-text>span,#followup-summary>.v3-summary-title .v3-summary-heading-text>span{font-size:22px!important}}
