@@ -42,8 +42,45 @@ function copyHTML(){
  +'<tfoot><tr><td colspan="4" style="border:0;padding:17px 12px 5px;color:#687e8b;'+font+'font-size:13px;font-style:italic;font-weight:400;">Dates and deadlines must follow the signed contract.</td></tr></tfoot></table>';
 }
 
+// One canvas renderer powers BOTH the visible preview and the clipboard PNG.
+function reportPng(){
+ const s=state(),tasks=selected(),w=760,scale=2,x=[0,61,509,593,760],navy='#193d52';
+ const measure=document.createElement('canvas').getContext('2d');
+ measure.font='bold 15px Arial';
+ const wrap=(text,max)=>{const words=String(text).split(/\s+/),out=[];let line='';for(const word of words){const next=line?line+' '+word:word;if(measure.measureText(next).width>max&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out.length?out:['']};
+ const data=[{name:'Effective date',days:'0',due:date(s.effective),kind:'effective'},...tasks.map(t=>({name:t.name,days:String(t.days),due:date(t.due),kind:'task'})),{name:'Closing date',days:s.effective&&s.closing?String(Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000)):'—',due:date(s.closing),kind:'closing'}];
+ const heights=data.map(r=>Math.max(51,wrap(r.name,418).length*21+24));const h=102+44+heights.reduce((a,b)=>a+b,0)+49;
+ const canvas=document.createElement('canvas');canvas.width=w*scale;canvas.height=h*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);
+ ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.fillStyle=navy;ctx.fillRect(0,0,w,102);
+ ctx.fillStyle='#008b99';ctx.beginPath();ctx.roundRect(22,25,54,52,9);ctx.fill();
+ ctx.fillStyle='#fff';ctx.font='bold 30px Arial';ctx.textAlign='center';ctx.fillText('✓',49,61);
+ ctx.textAlign='left';ctx.font='bold 27px Arial';ctx.fillText('Closing Timeline',95,62);
+ ctx.fillStyle='#e6b35e';ctx.font='bold italic 29px Georgia';ctx.fillText('Summary',323,62);
+ ctx.fillStyle='#fff';ctx.fillRect(0,102,w,44);ctx.strokeStyle='#dce4e8';ctx.lineWidth=1;
+ ctx.fillStyle='#a47b3e';ctx.font='bold 13px Arial';const heads=['#','TASK / MILESTONE','DAYS','DUE DATE'];
+ heads.forEach((t,i)=>{ctx.textAlign=i===1?'left':'center';ctx.fillText(t,i===1?x[1]+12:(x[i]+x[i+1])/2,130)});
+ let y=146,taskN=0;
+ data.forEach((r,i)=>{const rh=heights[i];ctx.fillStyle=r.kind==='effective'?'#e7f1fa':r.kind==='closing'?'#faeef0':i%2?'#fff':'#f9fbfc';ctx.fillRect(0,y,w,rh);
+ ctx.strokeStyle='#dce4e8';ctx.beginPath();ctx.moveTo(0,y+rh-.5);ctx.lineTo(w,y+rh-.5);ctx.stroke();
+ ctx.strokeStyle='#c5a164';ctx.lineWidth=2;ctx.beginPath();ctx.arc(30,y+rh/2,14,0,Math.PI*2);ctx.stroke();ctx.fillStyle=navy;ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.fillText(r.kind==='task'?String(++taskN):'–',30,y+rh/2+5);
+ ctx.font='bold 15px Arial';ctx.textAlign='left';const lines=wrap(r.name,418),top=y+(rh-(lines.length-1)*21)/2+5;lines.forEach((t,j)=>ctx.fillText(t,73,top+j*21));
+ ctx.textAlign='center';ctx.fillText(r.days,(x[2]+x[3])/2,y+rh/2+5);ctx.fillText(r.due,(x[3]+x[4])/2,y+rh/2+5);y+=rh});
+ ctx.strokeStyle='#dce4e8';ctx.lineWidth=1;for(const xx of x){ctx.beginPath();ctx.moveTo(xx,102);ctx.lineTo(xx,y);ctx.stroke()}
+ ctx.fillStyle='#687e8b';ctx.textAlign='left';ctx.font='italic 13px Arial';ctx.fillText('Dates and deadlines must follow the signed contract.',12,y+29);
+ return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG unavailable')),'image/png'));
+}
+async function copyImage(statusId){
+ const status=$(statusId);if(!selected().length){if(status)status.textContent='Select at least one task to send.';return}
+ try{const blob=await reportPng();await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);if(status){status.hidden=false;status.textContent='Table copied as an image. Paste into your email.'}}
+ catch{if(status){status.hidden=false;status.textContent='Image clipboard unavailable in this browser. Use the HTML preview instead.'}}
+}
+async function showReportImage(){
+ const report=$('copyReport');if(!report)return;
+ try{const blob=await reportPng(),url=URL.createObjectURL(blob),img=document.createElement('img');img.src=url;img.alt='Closing Timeline Summary';img.style.cssText='display:block;width:100%;height:auto';img.onload=()=>URL.revokeObjectURL(url);report.replaceChildren(img)}
+ catch{report.innerHTML=tableHTML()}
+}
 function plain(){return ['Closing Timeline Summary',...selected().map(t=>{const p=setting(t);return t.name+' | '+date(t.due)+' | '+p.purpose+(p.note?' — '+p.note:'')}),'Verify dates against the signed contract.'].join('\n')}
-async function copy(){if(!selected().length)return;try{if(navigator.clipboard?.write&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([copyHTML()],{type:'text/html'}),'text/plain':new Blob([plain()],{type:'text/plain'})})]);$('rcStatus').hidden=false;$('rcStatus').textContent='Formatted table copied. Paste into your email.';return}}catch{}try{await navigator.clipboard.writeText(plain());$('rcStatus').hidden=false;$('rcStatus').textContent='Text table copied (formatted clipboard unavailable).'}catch{$('rcStatus').hidden=false;$('rcStatus').textContent='Clipboard blocked. Select and copy the preview manually.'}}
+async function copy(){await copyImage('rcStatus')}
 function refreshPreview(){const d=document.querySelector('#recipientComposer details');if(d?.open)$('rcPreview').innerHTML=tableHTML()}
 function render(){const host=$('rcRows');if(!host)return;const tasks=rows().filter(t=>t.selected);host.replaceChildren();for(const t of tasks){const p=setting(t),line=document.createElement('div');line.className='rc-row';const choose=document.createElement('input');choose.type='checkbox';choose.checked=t.selected;choose.setAttribute('aria-label','Select task '+t.name);choose.onchange=()=>{const s=state(),index=s.tasks.findIndex(x=>x.id===t.id),tr=document.querySelectorAll('#rows tr')[index],cb=tr?.querySelector('td.sel input[type=checkbox]');if(cb){cb.checked=choose.checked;cb.dispatchEvent(new Event('change',{bubbles:true}))}render()};const title=document.createElement('div');title.innerHTML='<strong>'+escape(t.name)+'</strong>';const days=document.createElement('span');days.className='rc-days-value';days.textContent=String(t.days);const dueDate=document.createElement('span');dueDate.className='rc-due-value';dueDate.textContent=date(t.due);const select=document.createElement('select');select.setAttribute('aria-label','Purpose for '+t.name);for(const name of purposes){const o=document.createElement('option');o.value=name;o.textContent=name;select.append(o)}select.value=p.purpose;select.onchange=()=>{p.purpose=select.value;save();render()};const note=document.createElement('input');note.placeholder='Optional instruction';note.value=p.note;note.setAttribute('aria-label','Recipient note for '+t.name);note.oninput=()=>{p.note=note.value;save();refreshPreview()};const send=document.createElement('input');send.type='checkbox';send.checked=p.send;send.disabled=!t.selected;send.setAttribute('aria-label','Send '+t.name);send.onchange=()=>{p.send=send.checked;save();render()};line.append(choose,title,days,dueDate,select,note,send);host.append(line)}if(!tasks.length){const empty=document.createElement('p');empty.className='rc-empty';empty.textContent='Select tasks in Step 1 to display them here.';host.append(empty)}$('rcCount').textContent=tasks.filter(t=>t.selected).length+' selected · '+selected().length+' to send';$('rcCopy').disabled=!selected().length;$('rcPrepare').disabled=!selected().length;refreshPreview()}
 function init(){const summary=$('contract-summary');if(!summary||$('recipientComposer'))return;const box=document.createElement('section');box.id='recipientComposer';box.className='rc-composer';box.innerHTML='<div class="rc-title"><div class="rc-title-top">RESULT 01 · LINKED TO TABLE 01</div><h3>Closing Timeline <em>Summary</em></h3><p>Selected contract tasks · Choose instructions and mark the tasks to send.</p></div><div class="rc-recipient"><label>Saved contact <select id="rcSavedContact"><option value="">Choose saved contact…</option></select></label><label>Recipient email <input type="email" id="rcRecipient" placeholder="name@example.com"></label><label>Email subject <input id="rcSubject" value="Closing Timeline Summary"></label></div><label>Email message <textarea id="rcBody" rows="3">Please review the selected closing milestones and instructions below.</textarea></label><div class="rc-head"><span>✓</span><span>TASK / MILESTONE</span><span>DAYS</span><span>DUE DATE</span><span>PURPOSE / INSTRUCTION</span><span>NOTE</span><span>SEND ✓</span></div><div id="rcRows"></div><div class="rc-actions"><strong id="rcCount"></strong><button type="button" id="rcSaveDraft">Save Draft</button><button type="button" id="rcCopy">Copy Formatted Table</button><button type="button" id="rcPrepare">Open Email Draft</button></div><div class="rc-preview-heading"><details><summary>Preview formatted table</summary><div id="rcPreview"></div></details></div><p id="rcStatus" role="status" class="rc-feedback" hidden></p>';summary.append(box);
@@ -59,16 +96,12 @@ let pending=false;const observer=new MutationObserver(()=>{if(pending)return;pen
 function openApprovedReport(){
  if(!selected().length){if($('rcStatus')){$('rcStatus').hidden=false;$('rcStatus').textContent='Select at least one Step 1 task and enable Send.';}return}
  const dialog=$('copyDialog'),report=$('copyReport');if(!dialog||!report)return;
- report.innerHTML=tableHTML();report.style.cssText='width:100%;max-width:1100px;background:#fff;overflow:auto;border:0';
+ showReportImage();report.style.cssText='width:100%;max-width:1100px;background:#fff;overflow:auto;border:0';
  const feedback=$('copyFeedback');if(feedback)feedback.textContent='Approved Closing Timeline Summary · Selected tasks only.';
  const slider=$('reportSize'),value=$('reportSizeValue');if(slider)slider.value='100';if(value)value.textContent='100%';
  if(!dialog.open)dialog.showModal();
 }
-async function copyApprovedReport(){
- if(!selected().length)return;
- try{await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([tableHTML()],{type:'text/html'}),'text/plain':new Blob([plain()],{type:'text/plain'})})]);$('copyFeedback').textContent='Approved formatted table copied. Paste into your email.'}
- catch{try{await navigator.clipboard.writeText(plain());$('copyFeedback').textContent='Plain text copied; formatted clipboard unavailable.'}catch{$('copyFeedback').textContent='Clipboard unavailable; please copy the preview manually.'}}
-}
+async function copyApprovedReport(){await copyImage('copyFeedback')}
 document.addEventListener('click',e=>{
  const trigger=e.target.closest?.('#copy,#copyFormatted');if(!trigger)return;
  e.preventDefault();e.stopImmediatePropagation();
