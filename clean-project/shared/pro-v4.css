@@ -115,3 +115,12 @@
 #recipientComposer .rc-preview-heading>p,#fuComposer .rc-preview-heading>p{position:absolute;top:0;right:0;margin:2px 0!important;font-size:11px!important;color:#547185;text-align:right;max-width:52%}
 #recipientComposer .rc-preview-heading>details[open]>div,#fuComposer .rc-preview-heading>details[open]>div{margin-top:14px;width:100%;overflow-x:auto}
 @media(max-width:640px){#recipientComposer .rc-preview-heading>p,#fuComposer .rc-preview-heading>p{position:static;text-align:left;max-width:100%;margin-top:6px!important}#recipientComposer .rc-preview-heading>details>summary,#fuComposer .rc-preview-heading>details>summary{max-width:100%}}
+
+/* Result 02 mirrors Result 01's contact, subject and message field placement. */
+#fuComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px 16px!important;align-items:end;margin-top:18px!important}
+#fuComposer .rc-recipient>label:nth-child(3){grid-column:1;grid-row:2}
+#fuComposer .rc-recipient>label{display:block;min-width:0}
+#fuComposer .rc-recipient input,#fuComposer .rc-recipient select{width:100%;min-width:0;height:44px;border:1px solid #bfd1da;border-radius:8px;background:#fff;color:#193d52;font-weight:600}
+#fuComposer>label{display:block;margin-top:10px!important;margin-bottom:18px!important}
+#fuComposer>label textarea{display:block;width:100%;min-height:78px;resize:vertical;border:1px solid #bfd1da;border-radius:8px;padding:11px}
+@media(max-width:650px){#fuComposer .rc-recipient{grid-template-columns:1fr!important}#fuComposer .rc-recipient>label:nth-child(3){grid-column:auto;grid-row:auto}}
