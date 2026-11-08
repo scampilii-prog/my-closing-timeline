@@ -42,5 +42,24 @@ $('rcCopy').onclick=copy;
 $('rcPrepare').onclick=()=>{const email=$('rcRecipient').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$('rcStatus').textContent='Enter a valid recipient email first.';return}saveDraft();const body=$('rcBody').value+'\n\n'+plain();window.location.href='mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent($('rcSubject').value)+'&body='+encodeURIComponent(body);$('rcStatus').textContent='Email draft opened. Use Copy Formatted Table to paste the styled table.'};
 box.querySelector('details').addEventListener('toggle',e=>{if(e.target.open)$('rcPreview').innerHTML=tableHTML()});
 let pending=false;const observer=new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;render()})});const source=$('rows');if(source)observer.observe(source,{childList:true});source?.addEventListener('change',()=>setTimeout(render,0));for(const id of ['effective','closing','counting'])$(id)?.addEventListener('change',()=>setTimeout(render,0));render()}
+/* V4: one approved report for the legacy preview and recipient email. */
+function openApprovedReport(){
+ if(!selected().length){$('rcStatus')&&($('rcStatus').textContent='Select at least one Step 1 task and enable Send.');return}
+ const dialog=$('copyDialog'),report=$('copyReport');if(!dialog||!report)return;
+ report.innerHTML=tableHTML();report.style.cssText='width:100%;max-width:1100px;background:#fff;overflow:auto;border:0';
+ const feedback=$('copyFeedback');if(feedback)feedback.textContent='Approved Closing Timeline Summary · Selected tasks only.';
+ const slider=$('reportSize'),value=$('reportSizeValue');if(slider)slider.value='100';if(value)value.textContent='100%';
+ if(!dialog.open)dialog.showModal();
+}
+async function copyApprovedReport(){
+ if(!selected().length)return;
+ try{await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([tableHTML()],{type:'text/html'}),'text/plain':new Blob([plain()],{type:'text/plain'})})]);$('copyFeedback').textContent='Approved formatted table copied. Paste into your email.'}
+ catch{try{await navigator.clipboard.writeText(plain());$('copyFeedback').textContent='Plain text copied; formatted clipboard unavailable.'}catch{$('copyFeedback').textContent='Clipboard unavailable; please copy the preview manually.'}}
+}
+document.addEventListener('click',e=>{
+ const trigger=e.target.closest?.('#copy,#copyFormatted');if(!trigger)return;
+ e.preventDefault();e.stopImmediatePropagation();
+ if(trigger.id==='copy')openApprovedReport();else copyApprovedReport();
+},true);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
