@@ -49,9 +49,13 @@
 @media(max-width:700px){.v4-wrap .v3-control-grid{display:flex!important;flex-direction:column!important}.v4-wrap .v3-control-panel{width:100%!important}}
 
 /* Accessible summary heading and repair controls. */
-.v4-integrated-result .v3-summary-title,.v4-integrated-result .v3-summary-title *{color:#fff!important;opacity:1!important}
-.v4-integrated-result .v3-summary-title small{color:#e5f4ff!important}
+.v4-integrated-result .v3-summary-title,.v4-integrated-result .v3-summary-title *{color:#173e57!important;opacity:1!important}
+.v4-integrated-result .v3-summary-title small{color:#42647b!important}
 .v4-wrap #v4EditDates{background:#e7f4fa!important;color:#165578!important;border:1px solid #8cb9d0!important;font-weight:800!important}
 .v4-wrap #v4ResetDates{background:#fff7f2!important;color:#9b4b31!important;border:1px solid #e8baa6!important}
 .v4-wrap #v4CopyForEmail{background:#e5f2fc!important;color:#154d79!important;border:1px solid #8ab6d4!important;font-weight:800!important}
 .v4-wrap #v4CopyForEmail:disabled{opacity:.45!important}
+
+/* Ensure the summary remains readable on pale backgrounds and selected actions are visible. */
+.v4-integrated-result .v3-summary-title{background:#e7f2f9!important;border:1px solid #b7d4e5!important;border-radius:9px!important;padding:12px 14px!important}
+.v4-wrap .v3-control-buttons button:focus-visible,.v4-wrap .v3-date-tool-buttons button:focus-visible{outline:3px solid #2878a7!important;outline-offset:2px!important}
