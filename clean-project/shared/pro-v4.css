@@ -178,3 +178,14 @@
 #recipientComposer .rc-recipient>label:first-child,#fuComposer .rc-recipient>label:first-child{font-size:0!important}
 #recipientComposer .rc-recipient>label:first-child>.mct-contact-toolbar,#fuComposer .rc-recipient>label:first-child>.mct-contact-toolbar{font-size:12px!important}
 @media(max-width:950px){#fuComposer .rc-row>input[type=checkbox]:first-child{justify-self:start}}
+
+/* Fix 2026-11-08: Follow-Up seven cells must match seven headings at EVERY viewport. */
+#fuComposer .rc-head,#fuComposer .rc-row{display:grid!important;grid-template-columns:30px minmax(145px,1.65fr) 54px 104px minmax(125px,1.2fr) minmax(105px,1fr) 52px!important;gap:8px!important;align-items:center!important;box-sizing:border-box!important}
+#fuComposer .rc-head{display:grid!important}
+#fuComposer .rc-row>strong,#fuComposer .rc-row select,#fuComposer .rc-row input:not([type=checkbox]){grid-column:auto!important;grid-row:auto!important;min-width:0!important;width:100%!important;box-sizing:border-box!important}
+#fuComposer .rc-row>input[type=checkbox]{grid-column:auto!important;grid-row:auto!important;justify-self:center!important}
+#fuComposer .rc-head>span:nth-child(1),#fuComposer .rc-head>span:nth-child(3),#fuComposer .rc-head>span:nth-child(4),#fuComposer .rc-head>span:nth-child(7){text-align:center!important}
+#fuComposer .rc-row>strong{overflow-wrap:normal!important;word-break:normal!important;line-height:1.3!important}
+#fuComposer .rc-head,#fuComposer #fuRows{min-width:690px!important}
+#fuComposer{overflow-x:auto!important}
+@media(max-width:950px){#fuComposer .rc-head{display:grid!important}#fuComposer .rc-row{grid-template-columns:30px minmax(145px,1.65fr) 54px 104px minmax(125px,1.2fr) minmax(105px,1fr) 52px!important}}
