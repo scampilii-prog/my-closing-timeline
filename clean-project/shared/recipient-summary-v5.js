@@ -23,20 +23,22 @@ function tableHTML(){return copyHTML();}
 function copyHTML(){
  const s=state(),items=selected(),navy='#193d52',gold='#c5a164',line='#dce4e8';
  const font='font-family:Arial,Helvetica,sans-serif;';
- const cell='border:1px solid '+line+';padding:13px 12px;'+font+'font-size:15px;line-height:1.4;font-weight:700;color:'+navy+';vertical-align:middle;';
- const circ=n=>'<span style="display:inline-block;width:29px;height:29px;line-height:29px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+navy+';'+font+'font-size:14px;font-weight:700;">'+n+'</span>';
- const td=(value,width,extra='')=>'<td width="'+width+'" style="width:'+width+'%;'+cell+extra+'">'+value+'</td>';
- const row=(n,name,days,due,bg)=>'<tr bgcolor="'+bg+'" style="background-color:'+bg+';">'+td(circ(n),8,'text-align:center;')+td(name,59,'text-align:left;')+td(days,11,'text-align:center;white-space:nowrap;')+td(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
- const th=(label,width,align)=>'<th width="'+width+'" style="width:'+width+'%;border:1px solid '+line+';padding:14px 12px;background-color:#fff;color:#a47b3e;'+font+'font-size:13px;line-height:1.3;font-weight:700;text-align:'+align+';">'+label+'</th>';
- const tasks=items.map((t,i)=>row(i+1,escape(t.name),escape(String(t.days)),escape(date(t.due)),i%2?'#f8fafb':'#ffffff')).join('');
+ const base=font+'font-size:15px;line-height:1.35;font-weight:700;color:'+navy+';vertical-align:middle;';
+ const circ=n=>'<span style="display:inline-block;width:27px;height:27px;line-height:27px;text-align:center;border:2px solid '+gold+';border-radius:50%;color:'+navy+';'+font+'font-size:14px;font-weight:700;">'+n+'</span>';
+ const td=(v,w,extra='')=>'<td width="'+w+'" style="width:'+w+'%;border:1px solid '+line+';padding:13px 12px;'+base+extra+'">'+v+'</td>';
+ const row=(n,name,days,due,bg)=>'<tr bgcolor="'+bg+'" style="background-color:'+bg+';">'+td(circ(n),8,'text-align:center;')+td(name,59,'text-align:left;overflow-wrap:break-word;word-break:normal;')+td(days,11,'text-align:center;white-space:nowrap;')+td(due,22,'text-align:center;white-space:nowrap;')+'</tr>';
+ const th=(v,w,a)=>'<th width="'+w+'" style="width:'+w+'%;border:1px solid '+line+';padding:14px 12px;background:#fff;color:#a47b3e;'+font+'font-size:13px;font-weight:700;text-align:'+a+';">'+v+'</th>';
+ const tasks=items.map((t,i)=>row(i+1,escape(t.name),escape(String(t.days)),escape(date(t.due)),i%2?'#f9fbfc':'#ffffff')).join('');
  const days=s.effective&&s.closing?Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000):'—';
- // Fixed email-safe 4-column table: explicit widths on every cell, no fifth column or colgroup.
- return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" align="center" style="width:760px;border-collapse:collapse;'+font+'background-color:#fff;">'
- +'<thead><tr><th colspan="4" bgcolor="'+navy+'" style="background-color:'+navy+';padding:29px 22px;text-align:left;color:white;'+font+'font-size:26px;line-height:1.35;font-weight:700;">'
- +'<span style="display:inline-block;background-color:#008b99;border-radius:10px;padding:10px 12px;margin-right:16px;color:white;font-size:25px;">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,Times New Roman,serif;font-size:29px;font-style:italic;font-weight:700;">Summary</span></th></tr>'
+ // Single email-safe table: all widths use actual percentages (not bare numbers).
+ // The footer is in the same table, so copying it cannot detach it from the report.
+ return '<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" align="center" style="width:760px;max-width:100%;table-layout:fixed;border-collapse:collapse;background-color:#fff;'+font+'">'
+ +'<colgroup><col width="8%" style="width:8%"><col width="59%" style="width:59%"><col width="11%" style="width:11%"><col width="22%" style="width:22%"></colgroup>'
+ +'<thead><tr><th colspan="4" bgcolor="'+navy+'" style="background-color:'+navy+';padding:25px 22px;text-align:left;color:white;'+font+'font-size:27px;line-height:1.35;font-weight:700;">'
+ +'<span style="display:inline-block;background-color:#008b99;border-radius:9px;padding:9px 12px;margin-right:16px;color:white;font-size:24px;">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,Times New Roman,serif;font-size:29px;font-style:italic;font-weight:700;">Summary</span></th></tr>'
  +'<tr>'+th('#',8,'center')+th('TASK / MILESTONE',59,'left')+th('DAYS',11,'center')+th('DUE DATE',22,'center')+'</tr></thead>'
- +'<tbody>'+row('–','Effective date','0',escape(date(s.effective)),'#e7f1fa')+tasks+row('–','Closing date',escape(String(days)),escape(date(s.closing)),'#faeef0')+'</tbody></table>'
- +'<table role="presentation" width="760" cellpadding="0" cellspacing="0" border="0" style="width:760px;border-collapse:collapse;"><tr><td style="padding:16px 8px;color:#687e8b;'+font+'font-size:13px;font-style:italic;">Dates and deadlines must follow the signed contract.</td></tr></table>';
+ +'<tbody>'+row('–','Effective date','0',escape(date(s.effective)),'#e7f1fa')+tasks+row('–','Closing date',escape(String(days)),escape(date(s.closing)),'#faeef0')+'</tbody>'
+ +'<tfoot><tr><td colspan="4" style="border:0;padding:17px 12px 5px;color:#687e8b;'+font+'font-size:13px;font-style:italic;font-weight:400;">Dates and deadlines must follow the signed contract.</td></tr></tfoot></table>';
 }
 
 function plain(){return ['Closing Timeline Summary',...selected().map(t=>{const p=setting(t);return t.name+' | '+date(t.due)+' | '+p.purpose+(p.note?' — '+p.note:'')}),'Verify dates against the signed contract.'].join('\n')}
