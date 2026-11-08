@@ -44,7 +44,7 @@ box.querySelector('details').addEventListener('toggle',e=>{if(e.target.open)$('r
 let pending=false;const observer=new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;render()})});const source=$('rows');if(source)observer.observe(source,{childList:true});source?.addEventListener('change',()=>setTimeout(render,0));for(const id of ['effective','closing','counting'])$(id)?.addEventListener('change',()=>setTimeout(render,0));render()}
 /* V4: one approved report for the legacy preview and recipient email. */
 function openApprovedReport(){
- if(!selected().length){$('rcStatus')&&($('rcStatus').hidden=false;$('rcStatus').textContent='Select at least one Step 1 task and enable Send.');return}
+ if(!selected().length){if($('rcStatus')){$('rcStatus').hidden=false;$('rcStatus').textContent='Select at least one Step 1 task and enable Send.';}return}
  const dialog=$('copyDialog'),report=$('copyReport');if(!dialog||!report)return;
  report.innerHTML=tableHTML();report.style.cssText='width:100%;max-width:1100px;background:#fff;overflow:auto;border:0';
  const feedback=$('copyFeedback');if(feedback)feedback.textContent='Approved Closing Timeline Summary · Selected tasks only.';
