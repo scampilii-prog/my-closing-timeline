@@ -31,7 +31,7 @@
       if(!tools){
         tools=document.createElement('div');
         tools.className='v5-library-top-actions';
-        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>1. SELECT: mark tasks to save in your named table. 2. SAVE TABLE: keep that selection for future use. 3. SEND: choose which saved tasks the recipient will receive.</span>';
+        tools.innerHTML='<strong>Create &amp; Save Your Tables</strong><span>Select tasks below, then save your named table for future use.</span><div class="v5-inline-selection-actions"></div>';
         taskTable.insertAdjacentElement('beforebegin',tools);
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
@@ -40,12 +40,12 @@
     if(!manager){
       manager=document.createElement('div');
       manager.className='v5-compact-manager';
-      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div><div class="v5-manager-group v5-manager-select"><strong>Manage Tasks</strong><small>Check tasks to include in your saved table</small><div class="v5-manager-buttons"></div></div>';
+      manager.innerHTML='<div class="v5-manager-group v5-manager-tools"><strong>Table Tools</strong><small>Adjust or restore your tasks</small><div class="v5-manager-buttons"></div></div>';
       const old=section.querySelector('.v3-actions');
       if(old)old.insertAdjacentElement('beforebegin',manager);
     }
     const toolsArea=manager.querySelector('.v5-manager-tools .v5-manager-buttons');
-    const selectArea=manager.querySelector('.v5-manager-select .v5-manager-buttons');
+    const selectArea=section.querySelector('.v5-library-top-actions .v5-inline-selection-actions');
     for(const id of ['clearDates','restore','sort']){
       const el=document.getElementById(id);
       if(el&&el.parentElement!==toolsArea)toolsArea.appendChild(el);
@@ -72,9 +72,12 @@
         const boxes=Array.from(section.querySelectorAll('.v3-scroll tbody input[type="checkbox"]')).filter(x=>!x.disabled);
         for(const box of boxes)if(!box.checked)box.click();
       });
-      selectArea.appendChild(selectAll);
+      if(selectArea)selectArea.appendChild(selectAll);
     }
-    const actions=section.querySelector('.v3-actions');
+        // Keep selection and deletion controls together in the table-library toolbar.
+    const deleteSelected=Array.from(section.querySelectorAll('button')).find(el=>/delete selected/i.test(el.textContent));
+    if(deleteSelected&&selectArea&&deleteSelected.parentElement!==selectArea)selectArea.appendChild(deleteSelected);
+const actions=section.querySelector('.v3-actions');
     if(actions){
       for(const el of Array.from(actions.querySelectorAll('button'))){
         if(/clear all tasks/i.test(el.textContent))el.hidden=true;
