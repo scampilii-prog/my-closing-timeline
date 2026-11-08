@@ -161,6 +161,12 @@ const actions=section.querySelector('.v3-actions');
       move('v5SelectAll',editButtons);
       if(deleteSelected){deleteSelected.hidden=false;editButtons.append(deleteSelected)}
       for(const id of ['sort','clearDates','restore'])move(id,editButtons);
+      // Always provide an obvious recovery action even when older CSS hides legacy buttons.
+      const originalRestore=document.getElementById('restore');
+      if(originalRestore){originalRestore.hidden=false;originalRestore.style.setProperty('display','inline-flex','important');originalRestore.style.setProperty('visibility','visible','important');originalRestore.textContent='Restore Original Tasks';}
+      const originalSort=document.getElementById('sort');if(originalSort){originalSort.hidden=false;originalSort.style.setProperty('display','inline-flex','important')}
+      const originalClear=document.getElementById('clearDates');if(originalClear){originalClear.hidden=false;originalClear.style.setProperty('display','inline-flex','important')}
+      const selectButton=document.getElementById('v5SelectAll');if(selectButton){selectButton.hidden=false;selectButton.style.setProperty('display','inline-flex','important')}
       for(const id of ['rcSaveDraft','rcLoadTable','rcDeleteTable'])move(id,saveButtons);
       const count=document.getElementById('selectedCount');
       if(count){const c=document.createElement('div');c.className='v5-toolbar-count';c.append(count);editGroup.append(c)}
