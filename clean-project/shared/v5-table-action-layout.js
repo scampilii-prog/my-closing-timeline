@@ -36,6 +36,35 @@
       }
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
     }
+    // Compact date actions: a normal-sized Start Closing button at the left.
+    const dateTools=section.querySelector('.v3-date-tools');
+    const start=document.getElementById('startClosing');
+    const extension=document.getElementById('extensionInfo');
+    if(dateTools&&start){
+      if(dateTools.firstElementChild!==start)dateTools.prepend(start);
+      if(extension&&extension.parentElement!==dateTools)start.insertAdjacentElement('afterend',extension);
+      const planHint=dateTools.querySelector('.v3-plan-hint');
+      if(planHint)planHint.remove();
+    }
+    // Place the selection guidance in the actual table toolbar, not a separate panel.
+    const guidance=section.querySelector('.v3-selection-hint');
+    const toolbar=section.querySelector('.v5-library-top-actions');
+    if(guidance&&toolbar){
+      guidance.hidden=false;
+      guidance.textContent='Select the tasks you want to save or send by email.';
+      guidance.classList.add('v5-inline-guidance');
+      if(guidance.parentElement!==toolbar)toolbar.appendChild(guidance);
+    }
+    // Remove the old empty selection/control frame, while preserving live controls.
+    const manager=section.querySelector('.v5-compact-manager');
+    if(manager){
+      const target=section.querySelector('.v5-library-top-actions');
+      for(const button of Array.from(manager.querySelectorAll('button'))){
+        if(button.id==='v5SelectAll'||button.id==='selectHeader')continue;
+        if(target&&button.id&&['sort','restore','clearDates'].includes(button.id))target.appendChild(button);
+      }
+      manager.remove();
+    }
     // Put the useful controls directly above the table, without an empty manager panel.
     const selectArea=section.querySelector('.v5-library-top-actions .v5-inline-selection-actions');
     const tools=section.querySelector('.v5-library-top-actions');
@@ -78,7 +107,7 @@
 const actions=section.querySelector('.v3-actions');
     if(actions){
       const hint=actions.querySelector('.v3-selection-hint');
-      if(hint)hint.hidden=true;
+      if(hint&&hint.parentElement===actions)hint.hidden=true;
       for(const el of Array.from(actions.querySelectorAll('button'))){
         if(/clear all tasks/i.test(el.textContent))el.hidden=true;
       }
