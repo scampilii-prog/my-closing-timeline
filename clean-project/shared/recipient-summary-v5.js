@@ -17,17 +17,7 @@ function saveDraft(){prefs[draftKey()]={subject:$('rcSubject').value,body:$('rcB
 function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=d.subject||'Closing Timeline Summary';$('rcBody').value=d.body||'Please review the selected closing milestones and instructions below.'}
 function setting(t){const k=recipientKey()+':'+t.id;return prefs[k]||(prefs[k]={send:true,purpose:'Action Required',note:''})}
 function selected(){return rows().filter(t=>t.selected&&setting(t).send)}
-function tableHTML(){
- const s=state(),tasks=selected();
- const navy='#193d52',gold='#b68a47',line='#d8e0e5';
- const cell='padding:14px 12px;border:1px solid '+line+';font-family:Arial,sans-serif;font-size:16px;font-weight:700;color:'+navy+';vertical-align:middle;';
- const number='text-align:center;color:'+gold+';font-size:18px;';
- const dateCell='text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;';
- const milestone=(label,days,iso,bg)=>'<tr style="background:'+bg+'"><td style="'+cell+number+'">—</td><td style="'+cell+'">'+label+'</td><td style="'+cell+dateCell+'">'+days+'</td><td style="'+cell+dateCell+'">'+escape(date(iso))+'</td><td style="'+cell+'"></td></tr>';
- const taskRows=tasks.map((t,i)=>{const p=setting(t),instruction=p.purpose==='Custom Instruction'?(p.note||'Custom instruction'):p.purpose+(p.note?' — '+p.note:'');return '<tr style="background:'+(i%2?'#f7f9fa':'#fff')+'"><td style="'+cell+number+'">'+(i+1)+'</td><td style="'+cell+'overflow-wrap:break-word">'+escape(t.name)+'</td><td style="'+cell+dateCell+'">'+escape(t.days)+'</td><td style="'+cell+dateCell+'">'+escape(date(t.due))+'</td><td style="'+cell+'overflow-wrap:break-word">'+escape(instruction)+'</td></tr>'}).join('');
- const head='padding:13px 12px;border:1px solid '+line+';background:#fff;color:#a77b3b;font-family:Arial,sans-serif;font-size:14px;font-weight:800;text-align:left;';
- return '<table cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:1100px;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif"><colgroup><col style="width:8%"><col style="width:39%"><col style="width:10%"><col style="width:18%"><col style="width:25%"></colgroup><thead><tr><th colspan="5" style="background:'+navy+';padding:24px 20px;text-align:left;color:white;font-family:Arial,sans-serif;font-size:28px;font-weight:700;line-height:1.3"><span style="display:inline-block;background:#008b99;color:white;border-radius:12px;padding:5px 12px;margin-right:14px">☑</span> Closing Timeline <span style="color:#e6b35e;font-family:Georgia,serif;font-style:italic">Summary</span></th></tr><tr><th style="'+head+'text-align:center">#</th><th style="'+head+'">TASK / MILESTONE</th><th style="'+head+'text-align:center">DAYS</th><th style="'+head+'text-align:center">DUE DATE</th><th style="'+head+'">PURPOSE / INSTRUCTION</th></tr></thead><tbody>'+milestone('Effective date','0',s.effective,'#e7f1fa')+taskRows+milestone('Closing date','—',s.closing,'#faeef0')+'</tbody></table><p style="font-family:Arial,sans-serif;color:#687e8b;font-size:13px;font-style:italic;margin:16px 0">Dates and deadlines must follow the signed contract.</p>';
-}
+function tableHTML(){return copyHTML();}
 
 // The email clipboard uses exactly the same HTML as the approved on-page preview.
 function copyHTML(){
