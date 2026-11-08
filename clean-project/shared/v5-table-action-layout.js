@@ -50,9 +50,23 @@
       const el=document.getElementById(id);
       if(el&&el.parentElement!==toolsArea)toolsArea.appendChild(el);
     }
-    for(const id of ['selectedCount','selectHeader']){
+    for(const id of ['selectedCount']){
       const el=document.getElementById(id);
-      if(el&&id==='selectedCount'&&el.parentElement!==selectArea)selectArea.appendChild(el);
+      if(el&&el.parentElement!==selectArea)selectArea.appendChild(el);
+    }
+    let selectAll=manager.querySelector('#v5SelectAll');
+    if(!selectAll){
+      selectAll=document.createElement('button');
+      selectAll.id='v5SelectAll';
+      selectAll.type='button';
+      selectAll.textContent='Select All';
+      selectAll.addEventListener('click',function(){
+        const header=document.getElementById('selectHeader');
+        if(header&&!header.disabled){header.click();return;}
+        const boxes=Array.from(document.querySelectorAll('#rows input[type="checkbox"]')).filter(x=>!x.disabled);
+        for(const box of boxes)if(!box.checked)box.click();
+      });
+      selectArea.appendChild(selectAll);
     }
     const actions=section.querySelector('.v3-actions');
     if(actions){
