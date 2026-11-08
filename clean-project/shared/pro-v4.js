@@ -33,7 +33,7 @@
    const sync=()=>{copy.disabled=!!document.getElementById('copy')?.disabled;copy.title=copy.disabled?'Select contract tasks first':'Open formatted report and use Copy Formatted Table'};
    sync();document.getElementById('rows')?.addEventListener('change',()=>setTimeout(sync,0));
    document.getElementById('selectHeader')?.addEventListener('click',()=>setTimeout(sync,0));
-   copy.onclick=()=>{if(copy.disabled)return;document.getElementById('copy')?.click();};
+   copy.onclick=()=>{if(copy.disabled)return;const recipientCopy=document.getElementById('rcCopy');if(recipientCopy&&!recipientCopy.disabled){recipientCopy.click();return;}document.getElementById('contract-summary')?.scrollIntoView({behavior:'smooth',block:'start'});};
   }
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
