@@ -50,7 +50,7 @@ function reportPng(){
  const wrap=(text,max)=>{const words=String(text).split(/\s+/),out=[];let line='';for(const word of words){const next=line?line+' '+word:word;if(measure.measureText(next).width>max&&line){out.push(line);line=word}else line=next}if(line)out.push(line);return out.length?out:['']};
  const data=[{name:'Effective date',days:'0',due:date(s.effective),kind:'effective'},...tasks.map(t=>({name:t.name,days:String(t.days),due:date(t.due),kind:'task'})),{name:'Closing date',days:s.effective&&s.closing?String(Math.round((new Date(s.closing+'T12:00:00')-new Date(s.effective+'T12:00:00'))/86400000)):'—',due:date(s.closing),kind:'closing'}];
  const heights=data.map(r=>Math.max(51,wrap(r.name,418).length*21+24));const h=102+44+heights.reduce((a,b)=>a+b,0)+49;
- const canvas=document.createElement('canvas');canvas.width=w*scale;canvas.height=h*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);
+ const outputWidth=620,ratio=outputWidth/w;const canvas=document.createElement('canvas');canvas.width=outputWidth*scale;canvas.height=Math.ceil(h*ratio*scale);const ctx=canvas.getContext('2d');ctx.scale(scale*ratio,scale*ratio);
  ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.fillStyle=navy;ctx.fillRect(0,0,w,102);
  ctx.fillStyle='#008b99';ctx.beginPath();ctx.roundRect(22,25,54,52,9);ctx.fill();
  ctx.fillStyle='#fff';ctx.font='bold 30px Arial';ctx.textAlign='center';ctx.fillText('✓',49,61);
