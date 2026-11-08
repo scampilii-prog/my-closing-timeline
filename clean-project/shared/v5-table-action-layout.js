@@ -37,7 +37,7 @@
       for(const btn of [save,load,del])if(btn.parentElement!==tools)tools.append(btn);
     }
     add.hidden=false;
-    return true;
+    return !!(lib&&save&&load&&del&&taskTable);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);
   else setup();
