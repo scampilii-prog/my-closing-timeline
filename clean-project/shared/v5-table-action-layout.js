@@ -43,13 +43,20 @@
       const el=document.getElementById(id);
       if(el&&tools&&el.parentElement!==tools)tools.appendChild(el);
     }
+    // Old manager can contain dynamically created buttons: move them before removing it.
     const obsoleteManager=section.querySelector('.v5-compact-manager');
-    if(obsoleteManager)obsoleteManager.remove();
+    if(obsoleteManager){
+      for(const el of Array.from(obsoleteManager.querySelectorAll('button'))){
+        if(['clearDates','restore','sort'].includes(el.id)&&tools)tools.appendChild(el);
+      }
+      obsoleteManager.remove();
+    }
     for(const id of ['selectedCount']){
       const el=document.getElementById(id);
       if(el&&el.parentElement!==selectArea)selectArea.appendChild(el);
     }
     let selectAll=section.querySelector('#v5SelectAll');
+    if(selectAll&&selectArea&&selectAll.parentElement!==selectArea)selectArea.appendChild(selectAll);
     if(!selectAll){
       selectAll=document.createElement('button');
       selectAll.id='v5SelectAll';
@@ -72,6 +79,9 @@
         // Keep selection and deletion controls together in the table-library toolbar.
     const deleteSelected=Array.from(section.querySelectorAll('button')).find(el=>/delete selected/i.test(el.textContent));
     if(deleteSelected&&selectArea&&deleteSelected.parentElement!==selectArea)selectArea.appendChild(deleteSelected);
+    // Remove duplicate Select All controls produced by older layout handlers.
+    const duplicates=Array.from(section.querySelectorAll('button')).filter(el=>el!==selectAll&&/^select all$/i.test(el.textContent.trim())&&el.id!=='selectHeader');
+    for(const duplicate of duplicates)duplicate.hidden=true;
 const actions=section.querySelector('.v3-actions');
     if(actions){
       const hint=actions.querySelector('.v3-selection-hint');
