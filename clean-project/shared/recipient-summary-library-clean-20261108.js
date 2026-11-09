@@ -33,7 +33,7 @@ function saveNamedTable(){
  if(old>=0)entries[old]=item;else entries.push(item);saveLibrary(entries);renderLibrary();$('rcLibraryList').value=item.id;libraryStatus('Saved "'+name+'" in this browser. Only checked Select tasks are saved; Send is chosen separately for each email. Dates use the current closing.')}
 function loadNamedTable(){
  const item=library().find(x=>x.id===$('rcLibraryList').value);if(!item){libraryStatus('Choose a saved table.');return}
- $('rcTableName').value=item.name;$('rcTableRole').value=item.role||'';$('rcRecipient').value=item.recipient||'';prefs._recipient=$('rcRecipient').value;save();const matchIndex=contacts().findIndex(c=>c.email.toLowerCase()===(item.recipient||'').toLowerCase());if($('rcSavedContact'))$('rcSavedContact').value=matchIndex>=0?String(matchIndex):'';$('rcSubject').value=item.subject||'Closing Timeline Summary';$('rcBody').value=item.body||'';saveDraft();
+ $('rcTableName').value=item.name;$('rcTableRole').value=item.role||'';$('rcRecipient').value=item.recipient||'';prefs._recipient=$('rcRecipient').value;save();const match=contacts().find(c=>c.email.toLowerCase()===(item.recipient||'').toLowerCase());if($('rcSavedContact'))$('rcSavedContact').value=match?match.email:'';$('rcSubject').value=item.subject||'Closing Timeline Summary';$('rcBody').value=item.body||'';saveDraft();
  const source=[...document.querySelectorAll('#rows tr')],s=state(),ids=new Set(item.tasks.map(t=>String(t.id)));let matched=0;
  source.forEach((tr)=>{const task=s.tasks?.find(t=>String(t.id)===tr.getAttribute('data-task-id')),cb=tr.querySelector('td.sel input[type=checkbox]');if(!task||!cb)return;const included=ids.has(String(task.id)) && item.tasks.some(saved=>String(saved.id)===String(task.id)&&saved.name===task.name);if(cb.checked!==included){cb.checked=included;cb.dispatchEvent(new Event('change',{bubbles:true}))}if(included)matched++});
  for(const task of item.tasks){const actual=s.tasks?.find(t=>String(t.id)===String(task.id));if(!actual)continue;const p=setting(actual);p.purpose=task.purpose||'Action Required';p.note=task.note||'';p.send=task.send!==false}save();render();libraryStatus('Loaded "'+item.name+'": '+matched+' of '+item.tasks.length+' tasks matched this closing. Review current dates before emailing.')}
@@ -178,12 +178,14 @@ const refreshSavedContacts=()=>{
 };
 refreshSavedContacts();
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
-saved.onchange=()=>{
-  const contact=contacts().find(c=>c.email===saved.value);
+const selectSavedContact=()=>{
+  const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
   recipientInput.value=contact?contact.email:'';
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
+saved.addEventListener('change',selectSavedContact);
+saved.addEventListener('input',selectSavedContact);
 // Only a deliberately selected saved contact may populate the recipient.
 const syncChosenContact=()=>{
   if(!saved.value)return;
