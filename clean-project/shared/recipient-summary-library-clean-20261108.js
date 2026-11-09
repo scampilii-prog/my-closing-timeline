@@ -128,21 +128,26 @@ function init(){const summary=$('contract-summary');if(!summary||$('recipientCom
 const compactStyle=document.createElement('style');
 compactStyle.id='rc-compact-recipient-layout';
 compactStyle.textContent=`
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1.05fr) minmax(0,1.15fr)!important;gap:10px!important;align-items:end!important;margin-bottom:8px!important}
-#recipientComposer .rc-recipient>label{min-width:0!important;width:100%!important;margin:0!important}
-#recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
-
-#recipientComposer .rc-recipient>label:has(#rcRecipient){display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-end!important;gap:5px!important}
-#recipientComposer .rc-recipient-label-header{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:30px!important;font-weight:750!important;color:#173e54!important}
-#recipientComposer .rc-recipient-label-header .rc-change-email{font-size:12px!important;line-height:18px!important;padding:5px 10px!important;white-space:nowrap!important}
-#recipientComposer #rcRecipient{height:34px!important;min-height:34px!important;margin:0!important}
-/* Keep the saved-contact selector as compact and readable as the other fields. */
-#recipientComposer #rcSavedContact{height:34px!important;min-height:34px!important;padding:5px 30px 5px 10px!important;border-radius:5px!important;border:1px solid #bfd4df!important;background-color:#fff!important;color:#173e54!important;font-size:13px!important;font-weight:500!important;line-height:20px!important;opacity:1!important;appearance:auto!important;-webkit-appearance:menulist!important}
-#recipientComposer #rcSavedContact:focus{outline:2px solid #1578ad!important;outline-offset:1px!important}
-\n#recipientComposer .rc-email-option-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 8px}\n#recipientComposer .rc-email-option-row label{font-size:12px;font-weight:700;color:#19475c;display:flex;align-items:center;gap:7px}\n#recipientComposer .rc-email-option-row select{width:auto;max-width:100%;min-height:32px;padding:5px 9px;border:1px solid #c2d6e1;border-radius:5px;background:#fff;color:#19475c}\n#recipientComposer .rc-change-email{border:1px solid #b7d6df;background:#f3fafb;color:#155c71;padding:6px 10px;border-radius:5px;font-weight:750;cursor:pointer}\n#recipientComposer #rcRecipient[readonly]{background:#f2f7f9;color:#173e54}\n#recipientComposer .rc-recipient+label{display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;margin:0 0 12px!important}
-#recipientComposer #rcBody{width:100%!important;min-height:40px!important;height:44px!important;max-height:140px!important;resize:vertical!important;box-sizing:border-box!important;margin:0!important}
-@media(max-width:760px){#recipientComposer .rc-recipient{grid-template-columns:repeat(2,minmax(0,1fr))!important}#recipientComposer .rc-recipient>label:last-child{grid-column:1/-1}#recipientComposer .rc-recipient+label{grid-template-columns:1fr!important;gap:4px!important}}
-@media(max-width:480px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}#recipientComposer .rc-recipient>label:last-child{grid-column:auto}}
+#recipientComposer{--rc-ink:#193f54;--rc-line:#c5dce7;--rc-soft:#f3f8fa}
+#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:end!important;margin:18px 0 0!important}
+#recipientComposer .rc-recipient>label{min-width:0!important;width:100%!important;margin:0!important;display:flex!important;flex-direction:column!important;gap:8px!important;color:var(--rc-ink)!important;font-weight:750!important}
+#recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{width:100%!important;max-width:100%!important;box-sizing:border-box!important;height:42px!important;min-height:42px!important;margin:0!important;padding:9px 12px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;background:#fff!important;color:var(--rc-ink)!important;font-size:14px!important}
+#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
+#recipientComposer .rc-recipient-label-header{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:34px!important;gap:12px!important;font-weight:750!important}
+#recipientComposer .rc-recipient-label-header .rc-change-email{font-size:12px!important;padding:7px 11px!important;white-space:nowrap!important}
+#recipientComposer #rcSavedContact{appearance:auto!important;-webkit-appearance:menulist!important}
+#recipientComposer #rcRecipient[readonly]{background:#f5f9fb!important}
+#recipientComposer .rc-change-email{border:1px solid #9bc9d4;background:#eaf7f8;color:#126176;padding:7px 11px;border-radius:6px;font-weight:750;cursor:pointer}
+#recipientComposer .rc-email-option-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:18px!important;margin:18px 0!important;padding:16px!important;border:1px solid #d6e6ee!important;border-radius:9px!important;background:#f7fbfd!important}
+#recipientComposer .rc-email-option-row label{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;font-size:13px!important;font-weight:750!important;color:var(--rc-ink)!important;min-width:0!important}
+#recipientComposer .rc-email-option-row select{width:100%!important;max-width:100%!important;min-height:42px!important;padding:8px 11px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;background:#fff!important;color:var(--rc-ink)!important}
+#recipientComposer .rc-recipient+label{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;margin:20px 0 16px!important;font-weight:750!important;color:var(--rc-ink)!important}
+#recipientComposer #rcBody{width:100%!important;min-height:86px!important;height:94px!important;max-height:240px!important;resize:vertical!important;box-sizing:border-box!important;margin:0!important;padding:12px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;line-height:1.5!important}
+#recipientComposer .rc-head{margin-top:22px!important}
+#recipientComposer .rc-actions{margin-top:18px!important}
+#recipientComposer .rc-section-label{margin-top:22px!important}
+#recipientComposer .rc-recipient>label:has(#rcSubject){padding-top:16px!important;border-top:1px solid #e1edf2!important}
+@media(max-width:760px){#recipientComposer .rc-recipient,#recipientComposer .rc-email-option-row{grid-template-columns:1fr!important;gap:14px!important}#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:auto!important}}
 `;
 document.head.append(compactStyle);const saveButton=$('rcSaveDraft');const libraryActions=$('rcDeleteTable')?.parentElement;if(saveButton&&libraryActions)libraryActions.prepend(saveButton);const tableLibrary=$('rcTableLibrary');if(tableLibrary){const previewHeading=box.querySelector('.rc-preview-heading');if(previewHeading)previewHeading.insertAdjacentElement('afterend',tableLibrary);tableLibrary.style.setProperty('display','block','important');tableLibrary.hidden=false;const status=$('rcStatus');if(status)box.append(status);const summaryCard=$('contract-summary');if(summaryCard){summaryCard.hidden=false;summaryCard.removeAttribute('aria-hidden');summaryCard.style.removeProperty('display');}}
 // Place the saved-table picker and its existing Load action side by side.
