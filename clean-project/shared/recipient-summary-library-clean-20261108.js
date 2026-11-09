@@ -206,41 +206,14 @@ const chooseButton=$('rcChooseRole');if(chooseButton){chooseButton.textContent='
 const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProperty('width','auto','important');savedDelete.style.setProperty('white-space','nowrap','important');savedDelete.textContent='Delete Table'}
 const saved=$('rcSavedContact');
 const recipientInput=$('rcRecipient');
-const refreshSavedContacts=()=>{
-  const current=saved.value;
-  const all=contacts();
-  saved.replaceChildren(new Option('Choose saved contact…',''));
-  all.forEach(contact=>{let name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const email=String(contact.email||'').trim();if(email&&name.toLowerCase().endsWith(email.toLowerCase()))name=name.slice(0,-email.length).replace(/[·•\s]+$/g,'').trim();if(role){const suffix='· '+role;if(name.toLowerCase().endsWith(suffix.toLowerCase()))name=name.slice(0,-suffix.length).trim();}if(role&&!name.toLowerCase().includes(role.toLowerCase()))name+=' — '+role;saved.add(new Option(name,email));});
-  const match=all.find(c=>c.email.toLowerCase()===String(current||prefs._recipient||'').toLowerCase());
-  saved.value=match?match.email:'';
-  if(match && !recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
-  else if(!match && !recipientInput.dataset.manualOverride){recipientInput.value='';recipientInput.readOnly=false;}
-};
-const syncChosenContact=()=>{
-  const match=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
-  if(!match)return;
-  delete recipientInput.dataset.manualOverride;
-  recipientInput.value=match.email;recipientInput.readOnly=true;
-  prefs._recipient=recipientInput.value;
-  save();loadDraft();
-};
-const selectSavedContact=()=>{
-  delete recipientInput.dataset.manualOverride;
-  const match=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
-  recipientInput.value=match?match.email:'';
-  recipientInput.readOnly=!!match;
-  prefs._recipient=recipientInput.value;
-  save();loadDraft();render();
-};
+const cleanContactName=(contact)=>{let name=String(contact.name||'').trim(),role=String(contact.role||'').trim(),email=String(contact.email||'').trim();if(email)name=name.replace(new RegExp('\\s*[·•-]\\s*'+email.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\$&')+'\\s*$','i'),'').trim();if(role){const escaped=role.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\$&');name=name.replace(new RegExp('\\s*[·•]\\s*'+escaped+'\\s*$','i'),'').trim()}return name||role||'Saved contact'};
+const refreshSavedContacts=()=>{const previous=saved.value||prefs._recipient||'';const all=contacts();saved.replaceChildren(new Option('Choose saved contact…',''));for(const c of all)saved.add(new Option(cleanContactName(c),String(c.email).trim()));const found=all.find(c=>String(c.email).toLowerCase()===String(previous).toLowerCase());saved.value=found?found.email:'';if(found&&!recipientInput.dataset.manualOverride){recipientInput.value=found.email;recipientInput.readOnly=true}else if(!found&&!recipientInput.dataset.manualOverride){recipientInput.value='';recipientInput.readOnly=false}};
+const selectSavedContact=()=>{const c=contacts().find(c=>String(c.email).toLowerCase()===saved.value.toLowerCase());delete recipientInput.dataset.manualOverride;recipientInput.value=c?String(c.email).trim():'';recipientInput.readOnly=!!c;prefs._recipient=recipientInput.value;save();loadDraft();render()};
 refreshSavedContacts();
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
 saved.addEventListener('change',selectSavedContact);
 saved.addEventListener('input',selectSavedContact);
-saved.addEventListener('click',()=>{if(saved.value)selectSavedContact()});
-// Chrome/Safari can restore select values after initialization.
-window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
-saved.addEventListener('focus',syncChosenContact);
-saved.addEventListener('blur',syncChosenContact);
+window.addEventListener('pageshow',()=>{refreshSavedContacts();if(saved.value)selectSavedContact()});
 recipientInput.addEventListener('change',()=>{
   prefs._recipient=recipientInput.value.trim();save();loadDraft();
 });
