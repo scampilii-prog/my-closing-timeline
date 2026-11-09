@@ -269,19 +269,19 @@ contactRowStyle.id='rc-contact-row-final';
 contactRowStyle.textContent=`
 #recipientComposer .rc-recipient{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
 #recipientComposer .rc-recipient>.rc-field-cell{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
-#recipientComposer .rc-field-heading{display:block!important;font-size:20px!important;font-weight:800!important;line-height:1.4!important;color:#173e54!important}
+#recipientComposer .rc-field-heading{display:block!important;font-size:18px!important;font-weight:800!important;line-height:1.4!important;color:#173e54!important}
 #recipientComposer .rc-field-line{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
 #recipientComposer .rc-field-line>select,#recipientComposer .rc-field-line>input{flex:1 1 auto!important;min-width:0!important;width:1px!important;height:46px!important;margin:0!important;font-size:16px!important;border-radius:7px!important}
 #recipientComposer .rc-field-line>button{flex:0 0 auto!important;position:static!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;padding:8px 12px!important;margin:0!important;font-size:15px!important;font-weight:750!important;border-radius:7px!important;white-space:nowrap!important}
 #recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
-@media(max-width:950px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
+@media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
 `;
 document.head.append(contactRowStyle);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
-const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
+const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template (optional)';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
 subjectPresets.forEach(name=>subjectChoice.add(new Option(name,name)));subjectLabel.append(subjectChoice);
-const messageLabel=document.createElement('label');messageLabel.textContent='Message template';
+const messageLabel=document.createElement('label');messageLabel.textContent='Message template (optional)';
 const messageChoice=document.createElement('select');messageChoice.id='rcMessagePreset';
 Object.keys(messagePresets).forEach(name=>messageChoice.add(new Option(name,name)));messageLabel.append(messageChoice);
 choices.append(subjectLabel,messageLabel);
