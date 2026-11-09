@@ -18,7 +18,7 @@ const defaultBody='Please review the selected closing milestones and instruction
 const subjectPresets=['Closing Timeline Summary','Congratulations on Our Agreement | Closing Timeline & Next Steps','Important Closing Deadlines','Action Required — Closing Timeline','Custom subject…'];
 const messagePresets={
  'Closing Timeline Summary':defaultBody,
- 'Congratulations — Realtor':'Hello,\\n\\nCongratulations on reaching an agreement! Thank you for your professionalism and cooperation. As we move toward closing, I have prepared the Closing Timeline Summary below to keep us coordinated on important dates and next steps.\\n\\n[PASTE YOUR FORMATTED CLOSING TIMELINE TABLE HERE]\\n\\nPlease review all deadlines against the fully executed contract and any addenda. I look forward to a smooth and successful closing.\\n\\nBest regards,',
+ 'Congratulations — Realtor':'Hello,\n\nCongratulations on reaching an agreement! Thank you for your professionalism and cooperation. As we move toward closing, I have prepared the Closing Timeline Summary below to keep us coordinated on important dates and next steps.\n\n[PASTE YOUR FORMATTED CLOSING TIMELINE TABLE HERE]\n\nPlease review all deadlines against the fully executed contract and any addenda. I look forward to a smooth and successful closing.\n\nBest regards,',
  'Important Closing Deadlines':'Please review the selected closing deadlines and let me know if any date or action needs clarification.',
  'Action Required':'Please review the tasks and deadlines below and confirm the required next steps.',
  'Custom message…':''
@@ -226,11 +226,10 @@ saved.addEventListener('keyup',syncChosenContact);
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 const recipientLabel=recipientInput.closest('label');
 const emailButton=document.createElement('button');emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
-emailButton.title='Edit this email without changing the saved contact';
+emailButton.title='Edit the recipient email without changing the saved contact';
 recipientLabel.append(emailButton);
 recipientInput.readOnly=!!saved.value;
 emailButton.addEventListener('click',()=>{recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
-const originalSelectSavedContact=selectSavedContact;
 saved.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value});
 recipientInput.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value && recipientInput.value===saved.value;});
 const choices=document.createElement('div');choices.className='rc-email-option-row';
