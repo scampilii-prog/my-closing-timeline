@@ -117,6 +117,23 @@ if(savedTablesField&&loadTableAction){
  const row=document.createElement('div');row.className='rc-saved-table-row';
  savedTablesField.parentNode.insertBefore(row,savedTablesField);
  row.append(savedTablesField,loadTableAction);
+ // Keep both controls aligned even when legacy CSS overrides the grid.
+ row.style.setProperty('display','flex','important');
+ row.style.setProperty('align-items','flex-end','important');
+ row.style.setProperty('gap','10px','important');
+ row.style.setProperty('width','100%','important');
+ row.style.setProperty('max-width','680px','important');
+ row.style.setProperty('min-width','0','important');
+ savedTablesField.style.setProperty('flex','1 1 0','important');
+ savedTablesField.style.setProperty('min-width','0','important');
+ savedTablesField.style.setProperty('margin','0','important');
+ const picker=$('rcLibraryList');
+ if(picker){picker.style.setProperty('width','100%','important');picker.style.setProperty('min-width','0','important');picker.style.setProperty('text-overflow','ellipsis','important');}
+ loadTableAction.style.setProperty('flex','0 0 auto','important');
+ loadTableAction.style.setProperty('width','auto','important');
+ loadTableAction.style.setProperty('min-width','118px','important');
+ loadTableAction.style.setProperty('height','40px','important');
+ loadTableAction.style.setProperty('margin','0','important');
  const counter=document.createElement('span');counter.id='rcLibraryCount';counter.className='rc-library-count';counter.setAttribute('aria-live','polite');
  savedTablesField.querySelector('span')?.append(' ',counter);
 }
