@@ -210,7 +210,7 @@ const refreshSavedContacts=()=>{
   const current=saved.value;
   const all=contacts();
   saved.replaceChildren(new Option('Choose saved contact…',''));
-  all.forEach(contact=>{const name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const label=role&&!name.toLowerCase().includes(role.toLowerCase())?name+' — '+role:name;saved.add(new Option(label,contact.email));});
+  all.forEach(contact=>{let name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const email=String(contact.email||'').trim();if(email&&name.toLowerCase().endsWith(email.toLowerCase()))name=name.slice(0,-email.length).replace(/[·•\s]+$/g,'').trim();if(role&&name.toLowerCase().endsWith(('· '+role).toLowerCase()))name=name.slice(0,-('· '+role).length).trim();if(role&&!name.toLowerCase().includes(role.toLowerCase()))name+=' — '+role;saved.add(new Option(name,email));});
   const match=all.find(c=>c.email.toLowerCase()===String(current||prefs._recipient||'').toLowerCase());
   saved.value=match?match.email:'';
   if(match && !recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
