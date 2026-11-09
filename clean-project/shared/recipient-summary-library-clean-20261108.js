@@ -210,7 +210,7 @@ const refreshSavedContacts=()=>{
   const current=saved.value;
   const all=contacts();
   saved.replaceChildren(new Option('Choose saved contact…',''));
-  all.forEach(contact=>saved.add(new Option(contact.name,contact.email)));
+  all.forEach(contact=>{const name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const label=role&&!name.toLowerCase().includes(role.toLowerCase())?name+' — '+role:name;saved.add(new Option(label,contact.email));});
   const match=all.find(c=>c.email.toLowerCase()===String(current||prefs._recipient||'').toLowerCase());
   saved.value=match?match.email:'';
   if(match && !recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
@@ -219,7 +219,8 @@ const refreshSavedContacts=()=>{
 const syncChosenContact=()=>{
   const match=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
   if(!match)return;
-  if(!recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
+  delete recipientInput.dataset.manualOverride;
+  recipientInput.value=match.email;recipientInput.readOnly=true;
   prefs._recipient=recipientInput.value;
   save();loadDraft();
 };
