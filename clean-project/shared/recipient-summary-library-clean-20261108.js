@@ -312,6 +312,9 @@ const clearDraftButton=document.createElement('button');clearDraftButton.type='b
 emailDetails.after(clearDraftButton);
 clearDraftButton.onclick=()=>{if(!confirm('Clear the saved email subject and message for this recipient?'))return;$('rcSubject').value='';$('rcBody').value='';$('rcBody').dispatchEvent(new Event('input',{bubbles:true}));};
 
+// Prevent browser form restoration of old email text on reload/back navigation.
+for(const id of ['rcSubject','rcBody']){const field=$(id);if(field){field.setAttribute('autocomplete','off');field.defaultValue='';field.value=''}}
+window.addEventListener('pageshow',()=>{for(const id of ['rcSubject','rcBody']){const field=$(id);if(field){field.value='';field.dispatchEvent(new Event('change',{bubbles:false}))}}});
 const expandableMessage=$('rcBody');
 if(expandableMessage){
  const fitMessage=()=>{expandableMessage.style.setProperty('height','auto','important');expandableMessage.style.setProperty('max-height','none','important');expandableMessage.style.setProperty('height',Math.max(44,expandableMessage.scrollHeight+2)+'px','important')};
