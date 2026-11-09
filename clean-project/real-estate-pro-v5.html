@@ -74,7 +74,14 @@
 #contract-input .v3-scroll thead th:nth-child(8),
 #followup-input .v3-scroll thead th:nth-child(8){font-weight:900!important;color:#704600!important}
 #today-tomorrow :is(strong,b,em){font-weight:850}
-</style><style id="v5-start-closing-placement">.v4-wrap .v3-date-tools{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:12px!important}.v4-wrap .v3-date-tools #startClosing{margin-left:auto!important;order:2!important;min-width:170px!important;padding:12px 20px!important}.v4-wrap .v3-date-tools .v3-plan-hint{order:3!important;flex-basis:100%!important;text-align:right!important}.v4-wrap .v3-date-tools .v3-date-tool-buttons{order:1!important}@media(max-width:700px){.v4-wrap .v3-date-tools #startClosing{margin-left:0!important}.v4-wrap .v3-date-tools .v3-plan-hint{text-align:left!important}}</style><style id="v5-urgency-text-final">
+</style><style id="v5-start-closing-placement">
+/* One compact, readable row. This replaces the old full-width start bar. */
+#contract-input .v3-date-tools{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;flex-wrap:wrap!important;padding:12px 18px!important;min-height:0!important}
+#contract-input .v3-date-tools #startClosing{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;width:auto!important;max-width:230px!important;min-width:174px!important;min-height:44px!important;margin:0!important;padding:10px 24px!important;font-size:15px!important;line-height:1.3!important;border-radius:9px!important;order:0!important}
+#contract-input .v3-date-tools .v3-plan-hint{display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;flex:0 1 auto!important;flex-basis:auto!important;width:auto!important;min-width:0!important;gap:12px!important;margin:0!important;text-align:left!important;order:1!important;font-size:13px!important;line-height:1.4!important}
+#contract-input .v3-date-tools #extensionInfo{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:40px!important;padding:8px 14px!important;border:1px solid #c49b58!important;border-radius:8px!important;background:#fff8e9!important;color:#805719!important;font-size:13px!important;font-weight:800!important;text-decoration:none!important;cursor:pointer!important;white-space:normal!important}
+@media(max-width:700px){#contract-input .v3-date-tools{align-items:stretch!important}#contract-input .v3-date-tools #startClosing{max-width:100%!important}#contract-input .v3-date-tools .v3-plan-hint{flex-wrap:wrap!important}}
+</style><style id="v5-urgency-text-final">
 /* Target actual alert text, not only the containing cell. */
 #contract-input .v3-scroll tbody td:nth-child(8) .v3-alert,
 #followup-input .v3-scroll tbody td:nth-child(8) .v3-alert{font-weight:800!important;color:#34667b!important}
