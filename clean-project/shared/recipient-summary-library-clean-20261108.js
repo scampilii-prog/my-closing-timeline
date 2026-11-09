@@ -302,6 +302,16 @@ emailDetails.append(emailSummary,choices);
 const emailRow=document.createElement('div');emailRow.className='rc-email-compose-row';
 if(subjectField){fields.after(emailRow);emailRow.append(subjectField,messageField)}else{messageField.before(emailRow);emailRow.append(messageField)}
 emailRow.after(emailDetails);
+const expandableMessage=$('rcBody');
+if(expandableMessage){
+ const fitMessage=()=>{expandableMessage.style.setProperty('height','44px','important');expandableMessage.style.setProperty('max-height','none','important');expandableMessage.style.setProperty('height',Math.max(44,expandableMessage.scrollHeight+2)+'px','important')};
+ expandableMessage.style.setProperty('resize','vertical','important');
+ expandableMessage.style.setProperty('max-height','none','important');
+ expandableMessage.addEventListener('input',fitMessage);
+ expandableMessage.addEventListener('change',fitMessage);
+ requestAnimationFrame(fitMessage);
+}
+
 subjectChoice.addEventListener('change',()=>{if(subjectChoice.value==='Custom subject…'){$('rcSubject').focus();$('rcSubject').select();return}$('rcSubject').value=subjectChoice.value;saveDraft()});
 messageChoice.addEventListener('change',()=>{if(messageChoice.value==='Custom message…'){$('rcBody').focus();return}$('rcBody').value=messagePresets[messageChoice.value];saveDraft()});
 loadDraft();
