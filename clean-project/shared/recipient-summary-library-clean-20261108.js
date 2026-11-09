@@ -210,7 +210,7 @@ const refreshSavedContacts=()=>{
   const current=saved.value;
   const all=contacts();
   saved.replaceChildren(new Option('Choose saved contact…',''));
-  all.forEach(contact=>{let name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const email=String(contact.email||'').trim();if(email&&name.toLowerCase().endsWith(email.toLowerCase()))name=name.slice(0,-email.length).replace(/[·•\s]+$/g,'').trim();if(role&&name.toLowerCase().endsWith(('· '+role).toLowerCase()))name=name.slice(0,-('· '+role).length).trim();if(role&&!name.toLowerCase().includes(role.toLowerCase()))name+=' — '+role;saved.add(new Option(name,email));});
+  all.forEach(contact=>{let name=String(contact.name||'').trim();const role=String(contact.role||'').trim();const email=String(contact.email||'').trim();if(email&&name.toLowerCase().endsWith(email.toLowerCase()))name=name.slice(0,-email.length).replace(/[·•\s]+$/g,'').trim();if(role){const suffix='· '+role;if(name.toLowerCase().endsWith(suffix.toLowerCase()))name=name.slice(0,-suffix.length).trim();}if(role&&!name.toLowerCase().includes(role.toLowerCase()))name+=' — '+role;saved.add(new Option(name,email));});
   const match=all.find(c=>c.email.toLowerCase()===String(current||prefs._recipient||'').toLowerCase());
   saved.value=match?match.email:'';
   if(match && !recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
@@ -236,6 +236,7 @@ refreshSavedContacts();
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
 saved.addEventListener('change',selectSavedContact);
 saved.addEventListener('input',selectSavedContact);
+saved.addEventListener('click',()=>{if(saved.value)selectSavedContact()});
 // Chrome/Safari can restore select values after initialization.
 window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
 saved.addEventListener('focus',syncChosenContact);
