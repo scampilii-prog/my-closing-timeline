@@ -150,29 +150,14 @@ document.addEventListener('DOMContentLoaded',function(){
 <style id="v5-library-single-source">
 #contract-summary{display:none!important}
 #rcTableLibrary{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;max-height:none!important;height:auto!important;overflow:visible!important;width:100%!important;max-width:100%!important;margin:18px 0 22px!important;box-sizing:border-box!important;grid-column:1/-1!important}
-#rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important;padding:0 22px!important;margin:18px 0!important}
+#rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;align-items:start!important;padding:0 22px!important;margin:18px 0!important}
 #rcTableLibrary .rc-library-field{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important;width:100%!important;margin:0!important;padding:0!important}
 #rcTableLibrary .rc-library-field>span{display:block!important;color:#163e56!important;font-weight:800!important;font-size:15px!important;line-height:1.4!important;margin:0!important;padding:0!important}
-#rcTableLibrary .rc-save-choice-field,#rcTableLibrary .rc-library-field:last-child{grid-column:1/-1!important}
+#rcTableLibrary .rc-library-field{grid-column:1/-1!important}
 #rcTableLibrary .rc-library-field input,#rcTableLibrary .rc-library-field select,#rcTableLibrary .rc-role-picker{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;min-height:48px!important}
 #rcTableLibrary .rc-role-picker{display:flex!important;gap:8px!important;align-items:stretch!important}
-#rcTableLibrary .rc-role-picker input{flex:1 1 auto!important}
+#rcTableLibrary .rc-role-picker input{flex:1 1 auto!important;width:auto!important}
 #rcTableLibrary #rcChooseRole{display:inline-flex!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important;align-items:center!important}
 @media(max-width:760px){#rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
 </style>
-<script id="v5-library-one-owner">
-(function(){
-function place(){
-const library=document.getElementById('rcTableLibrary'),contract=document.getElementById('contract-input');
-if(!library||!contract)return;
-if(library.previousElementSibling!==contract)contract.insertAdjacentElement('afterend',library);
-library.hidden=false;library.removeAttribute('aria-hidden');
-const old=document.getElementById('contract-summary');if(old){old.hidden=true;old.style.setProperty('display','none','important')}
-const composer=document.getElementById('recipientComposer');if(composer)composer.style.setProperty('display','none','important');
-document.getElementById('v5-library-loading')?.remove();
-}
-document.addEventListener('DOMContentLoaded',place);window.addEventListener('load',place);
-const observer=new MutationObserver(()=>{const l=document.getElementById('rcTableLibrary'),c=document.getElementById('contract-input');if(l&&c&&l.previousElementSibling!==c)place()});
-observer.observe(document.documentElement,{subtree:true,childList:true});place();
-})();
-</script></body></html>
+</body></html>
