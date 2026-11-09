@@ -264,6 +264,9 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-template-details>summary{cursor:pointer!important;padding:9px 12px!important;font-size:13px!important;font-weight:750!important;color:#28546a!important}
 #recipientComposer .rc-template-details .rc-email-option-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:0!important;padding:12px!important;border:0!important;border-top:1px solid #d7e6ec!important;background:transparent!important}
 #recipientComposer .rc-template-details .rc-email-option-row label{font-size:13px!important;font-weight:750!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-heading,#recipientComposer .rc-email-compose-row>label{font-family:inherit!important;font-size:19px!important;font-weight:800!important;line-height:1.35!important;letter-spacing:0!important;color:#173e54!important}
+#recipientComposer .rc-email-compose-row #rcBody{height:44px!important;min-height:44px!important;max-height:44px!important;resize:none!important;overflow-y:auto!important;padding:9px 12px!important;font-family:inherit!important;font-size:15px!important;font-weight:500!important;line-height:24px!important}
+#recipientComposer .rc-email-compose-row #rcSubject{font-family:inherit!important;font-size:15px!important;font-weight:500!important}
 #recipientComposer .rc-head{margin-top:14px!important}
 @media(max-width:760px){#recipientComposer .rc-recipient-rebuilt,#recipientComposer .rc-email-compose-row,#recipientComposer .rc-template-details .rc-email-option-row{grid-template-columns:1fr!important}#recipientComposer .rc-section-label small{display:block!important;margin:4px 0 0!important}}
 `;document.head.append(visual);
