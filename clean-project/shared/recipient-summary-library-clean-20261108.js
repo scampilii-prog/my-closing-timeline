@@ -227,7 +227,7 @@ emailLabelHeader.append(emailButton);
 emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
 // Stable two-column controls: explicit DOM, no legacy label layout.
 const contactLabel=saved.closest('label');
-const addContactButton=contactLabel?.querySelector('.mct-add-contact')||document.querySelector('#recipientComposer .mct-add-contact');
+const addContactButton=document.createElement('button');addContactButton.type='button';addContactButton.className='mct-add-contact';addContactButton.textContent='+ Add Contact';
 function replaceField(label,input,button,title){
  if(!label||!input||!button)return;
  const cell=document.createElement('div');cell.className='rc-field-cell';
@@ -238,7 +238,7 @@ function replaceField(label,input,button,title){
  return cell;
 }
 replaceField(contactLabel,saved,addContactButton,'Saved contact');
-if(!addContactButton)console.warn('Contact manager button missing; check initialization order');
+
 replaceField(recipientLabel,recipientInput,emailButton,'Recipient email');
 // One consolidated visual structure; preserve original functional input IDs and handlers.
 const guide=box.querySelector('.rc-section-label');
