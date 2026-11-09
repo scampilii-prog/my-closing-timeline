@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementByI
 @media(max-width:720px){#contract-summary #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
 </style>
 <style id="v5-approved-library-only-final">
-#contract-summary>#recipientComposer{display:block!important}
+#contract-summary>#recipientComposer{display:none!important}
 #contract-summary>#rcTableLibrary{display:block!important;visibility:visible!important;position:relative!important;opacity:1!important}
 #contract-summary>.v3-summary-title,#contract-summary>.v3-result-context,#contract-summary>.v3-back-link,#contract-summary>#closingSummary,#contract-summary>.v3-result-tools{display:none!important}
 #contract-summary #rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;padding:0 18px!important}
@@ -333,7 +333,7 @@ function place(){
 }
 document.addEventListener('DOMContentLoaded',place);
 window.addEventListener('load',place);
-const watch=new MutationObserver(()=>{if(document.getElementById('rcTableLibrary')?.parentElement!==document.getElementById('contract-summary'))place()});
+const watch=new MutationObserver(()=>{const lib=document.getElementById('rcTableLibrary');const target=document.getElementById('contract-summary');if(lib&&target&&lib.parentElement!==target)place()});
 watch.observe(document.documentElement,{subtree:true,childList:true});
 place();
 })();
