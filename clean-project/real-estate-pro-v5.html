@@ -319,35 +319,32 @@ document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementByI
 #contract-summary #rcTableLibrary .rc-library-field>span{font-size:15px!important;font-weight:850!important;line-height:1.4!important}
 @media(max-width:720px){#contract-summary #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
 </style>
-<script id="v5-library-placement-robust">
+<style id="v5-library-single-source">
+#contract-summary{display:none!important}
+#rcTableLibrary{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;max-height:none!important;height:auto!important;overflow:visible!important;width:100%!important;max-width:100%!important;margin:18px 0 22px!important;box-sizing:border-box!important;grid-column:1/-1!important}
+#rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important;padding:0 22px!important;margin:18px 0!important}
+#rcTableLibrary .rc-library-field{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important;width:100%!important;margin:0!important;padding:0!important}
+#rcTableLibrary .rc-library-field>span{display:block!important;color:#163e56!important;font-weight:800!important;font-size:15px!important;line-height:1.4!important;margin:0!important;padding:0!important}
+#rcTableLibrary .rc-save-choice-field,#rcTableLibrary .rc-library-field:last-child{grid-column:1/-1!important}
+#rcTableLibrary .rc-library-field input,#rcTableLibrary .rc-library-field select,#rcTableLibrary .rc-role-picker{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;min-height:48px!important}
+#rcTableLibrary .rc-role-picker{display:flex!important;gap:8px!important;align-items:stretch!important}
+#rcTableLibrary .rc-role-picker input{flex:1 1 auto!important}
+#rcTableLibrary #rcChooseRole{display:inline-flex!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important;align-items:center!important}
+@media(max-width:760px){#rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
+</style>
+<script id="v5-library-one-owner">
 (function(){
 function place(){
- const library=document.getElementById('rcTableLibrary'),target=document.getElementById('contract-input');
- if(!library||!target)return;
- if(library.parentElement!==target)target.appendChild(library);
- const composer=document.getElementById('recipientComposer');
- if(composer)composer.style.display=library?'none':'';
- const loading=document.getElementById('v5-library-loading');if(loading)loading.remove();
- const choose=document.getElementById('rcChooseRole');
- if(choose){choose.hidden=false;choose.style.setProperty('display','inline-flex','important');choose.style.setProperty('visibility','visible','important');}
+const library=document.getElementById('rcTableLibrary'),contract=document.getElementById('contract-input');
+if(!library||!contract)return;
+if(library.previousElementSibling!==contract)contract.insertAdjacentElement('afterend',library);
+library.hidden=false;library.removeAttribute('aria-hidden');
+const old=document.getElementById('contract-summary');if(old){old.hidden=true;old.style.setProperty('display','none','important')}
+const composer=document.getElementById('recipientComposer');if(composer)composer.style.setProperty('display','none','important');
+document.getElementById('v5-library-loading')?.remove();
 }
-document.addEventListener('DOMContentLoaded',place);
-window.addEventListener('load',place);
-const watch=new MutationObserver(()=>{const lib=document.getElementById('rcTableLibrary');const target=document.getElementById('contract-input');if(lib&&target&&lib.parentElement!==target)place()});
-watch.observe(document.documentElement,{subtree:true,childList:true});
-place();
+document.addEventListener('DOMContentLoaded',place);window.addEventListener('load',place);
+const observer=new MutationObserver(()=>{const l=document.getElementById('rcTableLibrary'),c=document.getElementById('contract-input');if(l&&c&&l.previousElementSibling!==c)place()});
+observer.observe(document.documentElement,{subtree:true,childList:true});place();
 })();
-</script><style id="v5-approved-library-location-20261108">
-#contract-summary{display:block!important;grid-column:1/-1!important}
-#contract-summary>.v3-summary-title,#contract-summary>.v3-result-context,#contract-summary>.v3-back-link,#contract-summary>#closingSummary,#contract-summary>.v3-result-tools,#contract-summary>#recipientComposer{display:none!important}
-#contract-summary #rcTableLibrary{display:block!important;visibility:visible!important;opacity:1!important;position:static!important;margin:0!important;width:100%!important}
-#contract-summary #rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;padding:0 20px!important}
-#contract-summary #rcTableLibrary .rc-library-field{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:0!important}
-#contract-summary #rcTableLibrary .rc-library-field>span{display:block!important;margin-bottom:8px!important;font-weight:800!important;font-size:15px!important;color:#173c55!important}
-#contract-summary #rcTableLibrary .rc-save-choice-field,#contract-summary #rcTableLibrary .rc-library-field:last-child{grid-column:1/-1!important}
-#contract-summary #rcTableLibrary .rc-role-picker{display:flex!important;width:100%!important;gap:8px!important}
-#contract-summary #rcTableLibrary .rc-role-picker input{flex:1!important;min-width:0!important}
-#contract-summary #rcTableLibrary #rcChooseRole{display:inline-flex!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important}
-#contract-summary #rcTableLibrary .rc-library-field :is(input,select){height:48px!important}
-@media(max-width:720px){#contract-summary #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
-</style><style id="v5-library-distinct-final">#contract-summary{display:none!important}#contract-input #rcTableLibrary{display:block!important;visibility:visible!important;width:100%!important;margin:18px 0!important}#contract-input #rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;padding:0 18px!important}#contract-input #rcTableLibrary .rc-library-field{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important}#contract-input #rcTableLibrary .rc-library-field>span{font-weight:800!important;font-size:15px!important}#contract-input #rcTableLibrary .rc-save-choice-field,#contract-input #rcTableLibrary .rc-library-field:last-child{grid-column:1/-1!important}#contract-input #rcTableLibrary .rc-role-picker{display:flex!important;gap:8px!important}#contract-input #rcTableLibrary .rc-role-picker input{flex:1!important;min-width:0!important}@media(max-width:720px){#contract-input #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}</style></body></html>
+</script></body></html>
