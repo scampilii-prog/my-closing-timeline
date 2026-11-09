@@ -220,4 +220,25 @@ document.addEventListener('DOMContentLoaded',function(){
  section.addEventListener('pointerover',function(e){const input=e.target.closest?.('input[type="date"]');if(input&&!input.contains(e.relatedTarget))openPicker(input)});
  section.addEventListener('pointerdown',function(e){const input=e.target.closest?.('input[type="date"]');if(input)openPicker(input)});
 });
+</script><style id="v5-visible-apply-and-basis-width">
+#contract-input .v3-scroll table{min-width:1100px!important}
+#contract-input .v3-scroll table th:nth-child(5),#contract-input .v3-scroll table td:nth-child(5){width:15%!important;min-width:155px!important}
+#contract-input .v3-scroll table td:nth-child(5) select{width:100%!important;min-width:145px!important;max-width:none!important}
+#v5-visible-apply{display:inline-flex!important;align-items:center!important;justify-content:center!important;background:#175b79!important;color:white!important;border:0!important;border-radius:7px!important;padding:9px 13px!important;font-weight:800!important;cursor:pointer!important;min-height:35px!important}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const section=document.getElementById('contract-input');
+ if(!section||document.getElementById('v5-visible-apply'))return;
+ const restore=section.querySelector('#restore')||section.querySelector('.v5-restore-fallback');
+ const group=restore?.parentElement||section.querySelector('.v5-toolbar-edit .v5-toolbar-buttons');
+ if(!group)return;
+ const button=document.createElement('button');
+ button.id='v5-visible-apply';button.type='button';button.textContent='✓ Apply & Reorder';
+ button.addEventListener('click',()=>{
+   const original=document.getElementById('sort');
+   if(original){original.click()}else{alert('Sorting control unavailable. Your changes remain saved.')}
+ });
+ group.appendChild(button);
+});
 </script></body></html>
