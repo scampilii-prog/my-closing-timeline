@@ -429,4 +429,52 @@ document.addEventListener('DOMContentLoaded',function(){
 #rcTableLibrary .rc-library-form>*{min-width:0!important}
 #rcTableLibrary #rcLibraryList{width:100%!important;min-width:0!important;max-width:100%!important}
 </style>
+
+<style id="v5-progressive-result-layout">
+#contract-summary .rc-section-label{font-size:15px!important;font-weight:800!important;letter-spacing:.025em!important;text-align:left!important}
+#contract-summary .rc-preview-heading{margin:8px 0!important}
+#contract-summary .rc-preview-heading summary{cursor:pointer;padding:10px 12px;border:1px solid #c9dce6;border-radius:8px;background:#f4f9fb;font-weight:700;text-align:left}
+#contract-summary .rc-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;flex-wrap:wrap!important;margin:10px 0!important}
+#contract-summary .rc-actions button{width:auto!important;min-width:0!important;padding:9px 13px!important}
+#contract-summary #rcTableLibrary{padding:12px!important;margin:10px 0!important}
+#contract-summary #rcTableLibrary .rc-library-accordion>summary{cursor:pointer;list-style:revert;display:list-item;padding:11px 12px;color:#183e52;font-size:14px;font-weight:750;background:#edf5f8;border:1px solid #c4dce8;border-radius:8px}
+#contract-summary #rcTableLibrary .rc-library-accordion[open]>summary{margin-bottom:12px}
+#contract-summary #rcTableLibrary .rc-library-form{align-items:end!important}
+#contract-summary #rcTableLibrary .rc-saved-table-row{max-width:740px!important}
+#contract-summary #rcTableLibrary .rc-saved-table-row button{padding:9px 10px!important;min-width:0!important;white-space:nowrap}
+#contract-summary .rc-head{text-align:left!important}
+#contract-summary .rc-head span:nth-child(2),#contract-summary .rc-head span:nth-child(5),#contract-summary .rc-head span:nth-child(6){justify-content:flex-start!important;text-align:left!important}
+@media(max-width:700px){#contract-summary #rcTableLibrary .rc-saved-table-row{flex-wrap:wrap!important}#contract-summary #rcTableLibrary .rc-saved-table-row label{flex-basis:100%!important}}
+</style>
+<script id="v5-progressive-result-script">
+(function(){
+function organize(){
+ const library=document.getElementById('rcTableLibrary');
+ if(!library||library.querySelector('.rc-library-accordion'))return !!library;
+ const heading=library.querySelector('.rc-section-label');
+ if(!heading)return false;
+ const accordion=document.createElement('details');accordion.className='rc-library-accordion';
+ const summary=document.createElement('summary');summary.textContent='Manage saved tables and recipients';
+ accordion.append(summary);
+ while(heading.nextSibling)accordion.append(heading.nextSibling);
+ library.append(accordion);
+ const label=heading.querySelector('small');
+ if(label)label.textContent='Save or reuse task selections when needed';
+ const actions=library.querySelector('.rc-saved-table-row');
+ if(actions){const del=document.getElementById('rcDeleteTable');if(del&&del.parentElement!==actions)actions.append(del)}
+ const saved=document.getElementById('rcLibraryList');
+ if(saved)saved.addEventListener('focus',()=>{accordion.open=true});
+ const contact=document.getElementById('v5-professionals');
+ if(contact&&!contact.querySelector('.v5-contacts-accordion')){
+  const title=contact.querySelector('h2');
+  const d=document.createElement('details');d.className='v5-contacts-accordion';
+  const sm=document.createElement('summary');sm.textContent='Professional contacts · Add, choose or manage';sm.style.cssText='cursor:pointer;padding:10px 12px;font-weight:750';
+  d.append(sm);while(title?.nextSibling)d.append(title.nextSibling);contact.append(d);
+ }
+ return true;
+}
+function start(){if(organize())return;const observer=new MutationObserver(()=>{if(organize())observer.disconnect()});observer.observe(document.body,{subtree:true,childList:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
 </body></html>
