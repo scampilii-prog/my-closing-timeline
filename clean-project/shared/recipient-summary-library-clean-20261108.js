@@ -204,32 +204,52 @@ $('rcChooseRole').onclick=openRole;$('rcTableRole').onclick=openRole;roleOption.
 $('rcRoleConfirm').onclick=()=>{const custom=$('rcRoleCustom').value.trim();const role=custom||(roleOption.value==='Other / Custom Role'?'':roleOption.value);if(!role){$('rcRoleCustom').focus();return}$('rcTableRole').value=role;if(custom&&!roleNames.includes(custom)&&!customRoles.includes(custom)){customRoles.push(custom);try{localStorage.setItem(roleStorageKey,JSON.stringify(customRoles))}catch(e){}const option=document.createElement('option');option.value=custom;option.textContent=custom;roleOption.append(option)}roleDialog.close()};
 const chooseButton=$('rcChooseRole');if(chooseButton){chooseButton.textContent='Choose ▾';chooseButton.style.setProperty('width','88px','important');chooseButton.style.setProperty('min-width','88px','important');chooseButton.style.setProperty('padding','9px 8px','important')}
 const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProperty('width','auto','important');savedDelete.style.setProperty('white-space','nowrap','important');savedDelete.textContent='Delete Table'}
-const saved=$('rcSavedContact');
-const recipientInput=$('rcRecipient');
-const cleanContactName=(contact)=>{let name=String(contact.name||'').trim(),role=String(contact.role||'').trim(),email=String(contact.email||'').trim();if(email)name=name.replace(new RegExp('\\s*[·•-]\\s*'+email.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\$&')+'\\s*$','i'),'').trim();if(role){const escaped=role.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\$&');name=name.replace(new RegExp('\\s*[·•]\\s*'+escaped+'\\s*$','i'),'').trim()}return name||role||'Saved contact'};
-const refreshSavedContacts=()=>{const previous=saved.value||prefs._recipient||'';const all=contacts();saved.replaceChildren(new Option('Choose saved contact…',''));for(const c of all)saved.add(new Option(cleanContactName(c),String(c.email).trim()));const found=all.find(c=>String(c.email).toLowerCase()===String(previous).toLowerCase());saved.value=found?found.email:'';if(found&&!recipientInput.dataset.manualOverride){recipientInput.value=found.email;recipientInput.readOnly=true}else if(!found&&!recipientInput.dataset.manualOverride){recipientInput.value='';recipientInput.readOnly=false}};
-const selectSavedContact=()=>{const c=contacts().find(c=>String(c.email).toLowerCase()===saved.value.toLowerCase());delete recipientInput.dataset.manualOverride;recipientInput.value=c?String(c.email).trim():'';recipientInput.readOnly=!!c;prefs._recipient=recipientInput.value;save();loadDraft();render()};
-refreshSavedContacts();
+// Rebuilt contact selector: independent controls, one source of truth.
+const oldSaved=$('rcSavedContact'),oldRecipient=$('rcRecipient');
+const saved=oldSaved.cloneNode(false),recipientInput=oldRecipient.cloneNode(false);
+saved.replaceChildren(new Option('Choose saved contact…',''));
+recipientInput.placeholder='Select a contact or enter an email…';
+oldSaved.replaceWith(saved);oldRecipient.replaceWith(recipientInput);
+const simpleName=c=>{
+ let name=String(c.name||'').trim(),role=String(c.role||'').trim(),email=String(c.email||'').trim();
+ if(email&&name.toLowerCase().endsWith(email.toLowerCase()))name=name.slice(0,-email.length).replace(/[\\s·•-]+$/g,'').trim();
+ if(role&&name.toLowerCase().endsWith(role.toLowerCase()))name=name.slice(0,-role.length).replace(/[\\s·•-]+$/g,'').trim();
+ return name||role||email;
+};
+const refreshSavedContacts=()=>{
+ const prior=saved.value||prefs._recipient||'';
+ const list=contacts();
+ saved.replaceChildren(new Option('Choose saved contact…',''));
+ for(const c of list)saved.add(new Option(simpleName(c),String(c.email).trim()));
+ const match=list.find(c=>String(c.email).toLowerCase()===String(prior).toLowerCase());
+ saved.value=match?String(match.email):'';
+ if(match&&!recipientInput.dataset.manualOverride){recipientInput.value=String(match.email);recipientInput.readOnly=true}
+ else if(!match&&!recipientInput.dataset.manualOverride){recipientInput.value='';recipientInput.readOnly=false}
+};
+const chooseContact=()=>{
+ const c=contacts().find(c=>String(c.email).toLowerCase()===String(saved.value).toLowerCase());
+ delete recipientInput.dataset.manualOverride;
+ recipientInput.value=c?String(c.email).trim():'';
+ recipientInput.readOnly=!!c;
+ prefs._recipient=recipientInput.value;
+ save();loadDraft();render();
+};
+saved.addEventListener('change',chooseContact);
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
-saved.addEventListener('change',selectSavedContact);
-saved.addEventListener('input',selectSavedContact);
-window.addEventListener('pageshow',()=>{refreshSavedContacts();if(saved.value)selectSavedContact()});
-recipientInput.addEventListener('change',()=>{
-  prefs._recipient=recipientInput.value.trim();save();loadDraft();
-});
+refreshSavedContacts();
+window.addEventListener('pageshow',()=>refreshSavedContacts());
+recipientInput.addEventListener('change',()=>{prefs._recipient=recipientInput.value.trim();save();loadDraft()});
 const recipientLabel=recipientInput.closest('label');
-const emailButton=document.createElement('button');emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
-emailButton.title='Use a different email for this message without changing the saved contact';
+const emailButton=document.createElement('button');
+emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
+emailButton.title='Edit this recipient email without changing the saved contact';
 const emailLabelText=[...recipientLabel.childNodes].find(n=>n.nodeType===3&&n.textContent.includes('Recipient email'));
 const emailLabelHeader=document.createElement('span');emailLabelHeader.className='rc-recipient-label-header';
 emailLabelHeader.textContent='Recipient email';
 if(emailLabelText)emailLabelText.remove();
 recipientLabel.insertBefore(emailLabelHeader,recipientInput);
 emailLabelHeader.append(emailButton);
-emailButton.addEventListener('click',()=>{
-  recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;
-  recipientInput.focus();recipientInput.select();
-});
+emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
