@@ -250,30 +250,31 @@ if(emailLabelText)emailLabelText.remove();
 recipientLabel.insertBefore(emailLabelHeader,recipientInput);
 emailLabelHeader.append(emailButton);
 emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
-const contactRowStyle=document.createElement('style');contactRowStyle.id='rc-contact-row-final';contactRowStyle.textContent=`
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:start!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:36px 44px!important;column-gap:10px!important;row-gap:7px!important;align-items:center!important;min-width:0!important;margin:0!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:1/-1!important;grid-row:2!important;width:100%!important;height:44px!important;min-height:44px!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:2!important;grid-row:1!important;justify-self:end!important;margin:0!important}
-#recipientComposer .rc-recipient>label:has(#rcRecipient)>.rc-recipient-label-header{display:contents!important}
-#recipientComposer .rc-recipient .rc-change-email{grid-column:2!important;grid-row:1!important;justify-self:end!important;margin:0!important}
+// Rebuild the two controls structurally instead of stacking CSS overrides.
+const contactLabel=saved.closest('label');
+const addContactButton=contactLabel?.querySelector('.rc-add-contact')||document.querySelector('#recipientComposer .rc-add-contact');
+const contactHeading=document.createElement('span');contactHeading.className='rc-field-title';contactHeading.textContent='Saved contact';
+if(contactLabel){
+ [...contactLabel.childNodes].filter(n=>n.nodeType===3&&n.textContent.trim()).forEach(n=>n.remove());
+ contactLabel.prepend(contactHeading);
+ contactLabel.append(saved);
+ if(addContactButton)contactLabel.append(addContactButton);
+}
+emailLabelHeader.textContent='Recipient email';
+recipientLabel.append(recipientInput,emailButton);
+const contactRowStyle=document.createElement('style');
+contactRowStyle.id='rc-contact-row-final';
+contactRowStyle.textContent=`
+#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:center!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:max-content minmax(0,1fr) max-content!important;grid-template-rows:44px!important;gap:10px!important;align-items:center!important;min-width:0!important;margin:0!important}
+#recipientComposer .rc-recipient .rc-field-title,#recipientComposer .rc-recipient .rc-recipient-label-header{display:block!important;grid-column:1!important;grid-row:1!important;white-space:nowrap!important}
+#recipientComposer .rc-recipient #rcSavedContact,#recipientComposer .rc-recipient #rcRecipient{grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;height:44px!important}
+#recipientComposer .rc-recipient .rc-add-contact,#recipientComposer .rc-recipient .rc-change-email{grid-column:3!important;grid-row:1!important;justify-self:end!important;margin:0!important;white-space:nowrap!important}
 #recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
-@media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
-
-/* Correct order: title, selection, action; title, automatic email, action. */
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{order:3!important;grid-column:3!important;grid-row:1!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact{order:2!important;grid-column:2!important;grid-row:1!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact){grid-template-columns:max-content minmax(0,1fr) max-content!important}
-/* Compact desktop: title, field and action together on one horizontal line. */
-#recipientComposer .rc-recipient{gap:16px!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:max-content minmax(0,1fr) max-content!important;grid-template-rows:44px!important;column-gap:10px!important;row-gap:0!important;align-items:center!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:2!important;grid-row:1!important;min-width:0!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:3!important;grid-row:1!important}
-#recipientComposer .rc-recipient .rc-change-email{grid-column:3!important;grid-row:1!important}
-#recipientComposer .rc-recipient>label:has(#rcRecipient)>.rc-recipient-label-header{display:contents!important}
-@media(max-width:1100px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){grid-template-columns:125px minmax(0,1fr) auto!important}}
-@media(max-width:550px){#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){grid-template-columns:1fr auto!important;grid-template-rows:30px 44px!important}#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:1/-1!important;grid-row:2!important}#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact,#recipientComposer .rc-recipient .rc-change-email{grid-column:2!important;grid-row:1!important}}
-`;document.head.append(contactRowStyle);
+@media(max-width:1050px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
+@media(max-width:580px){#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){grid-template-columns:1fr auto!important;grid-template-rows:30px 44px!important}#recipientComposer .rc-recipient .rc-field-title,#recipientComposer .rc-recipient .rc-recipient-label-header{grid-column:1!important;grid-row:1!important}#recipientComposer .rc-recipient #rcSavedContact,#recipientComposer .rc-recipient #rcRecipient{grid-column:1/-1!important;grid-row:2!important}#recipientComposer .rc-recipient .rc-add-contact,#recipientComposer .rc-recipient .rc-change-email{grid-column:2!important;grid-row:1!important}}
+`;
+document.head.append(contactRowStyle);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
