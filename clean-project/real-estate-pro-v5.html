@@ -479,6 +479,11 @@ function organize(){
  const library=document.getElementById('rcTableLibrary');
  if(!library||library.querySelector('.rc-library-accordion'))return !!library;
  const prepareHeading=document.querySelector('#contract-summary .rc-section-label');if(prepareHeading&&!prepareHeading.dataset.refined){prepareHeading.dataset.refined='yes';prepareHeading.innerHTML='01 · PREPARE RECIPIENT &amp; MESSAGE <small>Choose who receives the selected tasks</small>';}
+ const composer=document.getElementById('recipientComposer');
+ if(composer&&!composer.querySelector('.v5-recipient-quick-guide')){
+  const firstHeading=composer.querySelector('.rc-section-label');
+  if(firstHeading){const guide=document.createElement('div');guide.className='v5-recipient-quick-guide';guide.setAttribute('aria-label','How to prepare and share selected tasks');guide.innerHTML='<div class="v5-guide-steps"><span><b>1</b> Select tasks</span><span class="v5-guide-arrow" aria-hidden="true">→</span><span><b>2</b> Choose recipient</span><span class="v5-guide-arrow" aria-hidden="true">→</span><span><b>3</b> Review &amp; share</span></div><p>Selected tasks appear below automatically. Add instructions if needed, then preview the table or prepare an email.</p>';firstHeading.before(guide)}
+ }
  const previewHeading=Array.from(document.querySelectorAll('#contract-summary .rc-section-label')).find(el=>el.textContent.includes('03 · PREVIEW'));if(previewHeading&&!previewHeading.dataset.refined){previewHeading.dataset.refined='yes';previewHeading.innerHTML='02 · REVIEW &amp; SHARE <small>Review selected tasks, then open a formatted table or email draft</small>';}
  const inlinePreview=document.querySelector('#contract-summary .rc-preview-heading summary');if(inlinePreview)inlinePreview.textContent='▸ Show / hide inline table preview';
  const heading=library.querySelector('.rc-section-label');
@@ -507,4 +512,14 @@ function start(){if(organize())return;const observer=new MutationObserver(()=>{i
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
 </script>
+
+<style id="v5-recipient-guide-style">
+#recipientComposer .v5-recipient-quick-guide{margin:4px 0 16px;padding:12px 15px;border:1px solid #c2dce7;border-left:4px solid #168579;border-radius:10px;background:#f3fafb;color:#234c61}
+#recipientComposer .v5-guide-steps{display:flex;align-items:center;gap:11px;flex-wrap:wrap;font-size:13px;font-weight:750}
+#recipientComposer .v5-guide-steps span:not(.v5-guide-arrow){display:inline-flex;align-items:center;gap:7px}
+#recipientComposer .v5-guide-steps b{display:inline-grid;place-items:center;background:#205e77;color:white;width:23px;height:23px;border-radius:50%;font-size:12px}
+#recipientComposer .v5-guide-arrow{color:#168579;font-size:17px}
+#recipientComposer .v5-recipient-quick-guide p{margin:7px 0 0;font-size:12px;line-height:1.5;color:#527082}
+@media(max-width:580px){#recipientComposer .v5-guide-steps{gap:7px;font-size:12px}#recipientComposer .v5-guide-arrow{display:none}}
+</style>
 </body></html>
