@@ -322,9 +322,9 @@ document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementByI
 <script id="v5-library-placement-robust">
 (function(){
 function place(){
- const library=document.getElementById('rcTableLibrary'),target=document.getElementById('contract-summary');
+ const library=document.getElementById('rcTableLibrary'),target=document.getElementById('contract-input');
  if(!library||!target)return;
- if(library.parentElement!==target)target.insertBefore(library,target.firstChild);
+ if(library.parentElement!==target)target.appendChild(library);
  const composer=document.getElementById('recipientComposer');
  if(composer)composer.style.display=library?'none':'';
  const loading=document.getElementById('v5-library-loading');if(loading)loading.remove();
@@ -333,7 +333,7 @@ function place(){
 }
 document.addEventListener('DOMContentLoaded',place);
 window.addEventListener('load',place);
-const watch=new MutationObserver(()=>{const lib=document.getElementById('rcTableLibrary');const target=document.getElementById('contract-summary');if(lib&&target&&lib.parentElement!==target)place()});
+const watch=new MutationObserver(()=>{const lib=document.getElementById('rcTableLibrary');const target=document.getElementById('contract-input');if(lib&&target&&lib.parentElement!==target)place()});
 watch.observe(document.documentElement,{subtree:true,childList:true});
 place();
 })();
@@ -350,4 +350,4 @@ place();
 #contract-summary #rcTableLibrary #rcChooseRole{display:inline-flex!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important}
 #contract-summary #rcTableLibrary .rc-library-field :is(input,select){height:48px!important}
 @media(max-width:720px){#contract-summary #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}
-</style></body></html>
+</style><style id="v5-library-distinct-final">#contract-summary{display:none!important}#contract-input #rcTableLibrary{display:block!important;visibility:visible!important;width:100%!important;margin:18px 0!important}#contract-input #rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;padding:0 18px!important}#contract-input #rcTableLibrary .rc-library-field{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important}#contract-input #rcTableLibrary .rc-library-field>span{font-weight:800!important;font-size:15px!important}#contract-input #rcTableLibrary .rc-save-choice-field,#contract-input #rcTableLibrary .rc-library-field:last-child{grid-column:1/-1!important}#contract-input #rcTableLibrary .rc-role-picker{display:flex!important;gap:8px!important}#contract-input #rcTableLibrary .rc-role-picker input{flex:1!important;min-width:0!important}@media(max-width:720px){#contract-input #rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}}</style></body></html>
