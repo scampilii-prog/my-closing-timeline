@@ -267,21 +267,19 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-email-compose-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)!important;gap:16px!important;align-items:start!important;margin:0 0 12px!important}
 #recipientComposer .rc-email-compose-row>label{display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;font-size:16px!important;font-weight:800!important;color:#173e54!important}
 #recipientComposer .rc-email-compose-row #rcSubject{height:44px!important;min-height:44px!important;box-sizing:border-box!important;width:100%!important;font-size:15px!important}
-#recipientComposer .rc-email-compose-row #rcBody{height:64px!important;min-height:64px!important;box-sizing:border-box!important;width:100%!important;font-size:14px!important;line-height:1.45!important}
 #recipientComposer .rc-template-details{border:1px solid #d7e6ec!important;border-radius:7px!important;margin:8px 0 12px!important;padding:0!important;background:#f7fbfc!important}
 #recipientComposer .rc-template-details>summary{cursor:pointer!important;padding:9px 12px!important;font-size:13px!important;font-weight:750!important;color:#28546a!important}
 #recipientComposer .rc-template-details .rc-email-option-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:0!important;padding:12px!important;border:0!important;border-top:1px solid #d7e6ec!important;background:transparent!important}
 #recipientComposer .rc-template-details .rc-email-option-row label{font-size:13px!important;font-weight:750!important}
 #recipientComposer .rc-recipient-rebuilt .rc-field-heading,#recipientComposer .rc-email-compose-row>label{font-family:inherit!important;font-size:19px!important;font-weight:800!important;line-height:1.35!important;letter-spacing:0!important;color:#173e54!important}
-#recipientComposer .rc-email-compose-row #rcBody{height:44px!important;min-height:44px!important;max-height:none!important;resize:vertical!important;overflow-y:auto!important;padding:9px 12px!important;font-family:inherit!important;font-size:15px!important;font-weight:500!important;line-height:24px!important}
 #recipientComposer .rc-email-compose-row #rcSubject{font-family:inherit!important;font-size:15px!important;font-weight:500!important}
 #recipientComposer .rc-email-compose-row{align-items:stretch!important}
-#recipientComposer .rc-email-compose-row>label{display:grid!important;grid-template-rows:26px minmax(44px,auto)!important;align-content:start!important;gap:8px!important;line-height:26px!important}
-#recipientComposer .rc-email-compose-row #rcSubject,#recipientComposer .rc-email-compose-row #rcBody{display:block!important;box-sizing:border-box!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:none!important;margin:0!important;padding:9px 16px!important;border:1px solid #bfd4e0!important;border-radius:7px!important;background:#fff!important;color:#173e54!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:24px!important;letter-spacing:normal!important;box-shadow:none!important}
-#recipientComposer .rc-email-compose-row #rcBody{resize:vertical!important;overflow:auto!important}
-#recipientComposer .rc-email-compose-row #rcBody{max-height:none!important;min-height:44px!important;resize:vertical!important;overflow-y:auto!important}
 #recipientComposer .rc-head{margin-top:14px!important}
 @media(max-width:760px){#recipientComposer .rc-recipient-rebuilt,#recipientComposer .rc-email-compose-row,#recipientComposer .rc-template-details .rc-email-option-row{grid-template-columns:1fr!important}#recipientComposer .rc-section-label small{display:block!important;margin:4px 0 0!important}}
+
+#recipientComposer .rc-email-compose-row>label{display:flex!important;flex-direction:column!important;gap:8px!important;align-self:start!important;font-size:19px!important;font-weight:800!important;line-height:26px!important}
+#recipientComposer .rc-email-compose-row #rcSubject,#recipientComposer .rc-email-compose-row #rcBody{box-sizing:border-box!important;width:100%!important;min-height:44px!important;margin:0!important;padding:9px 12px!important;border:1px solid #bfd4e0!important;border-radius:7px!important;background:#fff!important;color:#173e54!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:24px!important;box-shadow:none!important}
+#recipientComposer .rc-email-compose-row #rcBody{height:auto!important;max-height:none!important;resize:vertical!important;overflow-y:hidden!important;white-space:pre-wrap!important}
 `;document.head.append(visual);
 // Set the actual controls' layout directly, avoiding old high-specificity CSS rules.
 const lock=(el,properties)=>{if(!el)return;for(const [key,value] of Object.entries(properties))el.style.setProperty(key,value,'important')};
