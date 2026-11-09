@@ -125,48 +125,23 @@ function init(){const summary=$('contract-summary');if(!summary||$('recipientCom
 <label class="rc-library-field"><span>My Saved Tables</span><select id="rcLibraryList"></select></label></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button type="button" id="rcLoadTable">Load Table</button><button type="button" id="rcDeleteTable">Delete Saved Table</button></div></section><div class="rc-section-label">03 · PREVIEW &amp; SEND <small>Check selected tasks and prepare the email</small></div><div class="rc-actions"><strong id="rcCount"></strong><button type="button" id="rcSaveDraft">Save Table</button><button type="button" id="rcCopy">View Formatted Table</button><button type="button" id="rcPrepare">Open Email Draft</button></div><div class="rc-preview-heading"><details><summary>Preview formatted table</summary><div id="rcPreview"></div></details></div><p id="rcStatus" role="status" class="rc-feedback" hidden></p>`;summary.append(box);$('v5-library-loading')?.remove();
 // Compact recipient composer: one row for contact, email and subject; one row for the message.
 // Keep original field IDs, event listeners and saved-contact controls intact.
+// Single baseline for the composer. Contact layout is defined once below.
 const compactStyle=document.createElement('style');
 compactStyle.id='rc-compact-recipient-layout';
 compactStyle.textContent=`
 #recipientComposer{--rc-ink:#193f54;--rc-line:#c5dce7;--rc-soft:#f3f8fa}
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:end!important;margin:12px 0!important}
-#recipientComposer .rc-recipient>label{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:34px 42px!important;column-gap:10px!important;row-gap:5px!important;align-items:center!important}
-#recipientComposer .rc-recipient>label>select,#recipientComposer .rc-recipient>label>input{grid-column:1/-1!important;grid-row:2!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject){display:flex!important;grid-column:1/-1!important}
-#recipientComposer .rc-recipient-label-header{display:contents!important}
-#recipientComposer .rc-recipient-label-header .rc-change-email{grid-column:2!important;grid-row:1!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact){position:relative!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:2!important}
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:end!important;margin:18px 0 0!important}
-#recipientComposer .rc-recipient>label{min-width:0!important;width:100%!important;margin:0!important;display:flex!important;flex-direction:column!important;gap:8px!important;color:var(--rc-ink)!important;font-weight:750!important}
-#recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{width:100%!important;max-width:100%!important;box-sizing:border-box!important;height:42px!important;min-height:42px!important;margin:0!important;padding:9px 12px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;background:#fff!important;color:var(--rc-ink)!important;font-size:14px!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
-#recipientComposer .rc-recipient-label-header{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:34px!important;gap:12px!important;font-weight:750!important}
-#recipientComposer .rc-recipient-label-header .rc-change-email{font-size:12px!important;padding:7px 11px!important;white-space:nowrap!important}
-#recipientComposer #rcSavedContact{appearance:auto!important;-webkit-appearance:menulist!important}
-#recipientComposer #rcRecipient[readonly]{background:#f5f9fb!important}
-#recipientComposer .rc-change-email{border:1px solid #9bc9d4;background:#eaf7f8;color:#126176;padding:7px 11px;border-radius:6px;font-weight:750;cursor:pointer}
-#recipientComposer .rc-email-option-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:18px!important;margin:18px 0!important;padding:16px!important;border:1px solid #d6e6ee!important;border-radius:9px!important;background:#f7fbfd!important}
-#recipientComposer .rc-email-option-row label{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;font-size:13px!important;font-weight:750!important;color:var(--rc-ink)!important;min-width:0!important}
-#recipientComposer .rc-email-option-row select{width:100%!important;max-width:100%!important;min-height:42px!important;padding:8px 11px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;background:#fff!important;color:var(--rc-ink)!important}
-#recipientComposer .rc-recipient+label{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;margin:20px 0 16px!important;font-weight:750!important;color:var(--rc-ink)!important}
-#recipientComposer #rcBody{width:100%!important;min-height:86px!important;height:94px!important;max-height:240px!important;resize:vertical!important;box-sizing:border-box!important;margin:0!important;padding:12px!important;border:1px solid var(--rc-line)!important;border-radius:7px!important;line-height:1.5!important}
-#recipientComposer .rc-head{margin-top:22px!important}
-#recipientComposer .rc-actions{margin-top:18px!important}
-#recipientComposer .rc-section-label{margin-top:22px!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject){padding-top:16px!important;border-top:1px solid #e1edf2!important}
-@media(max-width:760px){#recipientComposer .rc-recipient,#recipientComposer .rc-email-option-row{grid-template-columns:1fr!important;gap:14px!important}#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:auto!important}}
-
-/* Final recipient layout: single aligned row; no competing grid/flex rules. */
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:start!important;margin:16px 0!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:34px 42px!important;gap:6px 8px!important;align-items:center!important;min-width:0!important;margin:0!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:1/-1!important;grid-row:2!important;min-width:0!important;width:100%!important;height:42px!important}
-#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:2!important;grid-row:1!important;margin:0!important}
-#recipientComposer .rc-recipient-label-header{display:contents!important}
-#recipientComposer .rc-recipient-label-header .rc-change-email{grid-column:2!important;grid-row:1!important;margin:0!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject)>#rcSubject{width:100%!important}
-@media(max-width:620px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
+#recipientComposer .rc-recipient{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start;margin:18px 0 22px}
+#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1;display:flex;flex-direction:column;gap:9px;padding-top:16px;border-top:1px solid #e1edf2}
+#recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{box-sizing:border-box;min-width:0;border:1px solid var(--rc-line);border-radius:8px;background:#fff;color:var(--rc-ink)}
+#recipientComposer #rcRecipient[readonly]{background:#f4f8fa}
+#recipientComposer .rc-email-option-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:18px 0;padding:16px;border:1px solid #d6e6ee;border-radius:9px;background:#f7fbfd}
+#recipientComposer .rc-email-option-row label{display:flex;flex-direction:column;gap:8px;font-weight:750}
+#recipientComposer .rc-email-option-row select{width:100%;min-height:42px;padding:8px 11px}
+#recipientComposer .rc-recipient+label{display:flex;flex-direction:column;gap:9px;margin:20px 0 16px;font-weight:750}
+#recipientComposer #rcBody{width:100%;min-height:94px;box-sizing:border-box;padding:12px;line-height:1.5;resize:vertical}
+#recipientComposer .rc-head{margin-top:22px}
+#recipientComposer .rc-section-label{margin-top:22px}
+@media(max-width:650px){#recipientComposer .rc-recipient,#recipientComposer .rc-email-option-row{grid-template-columns:1fr}}
 `;
 document.head.append(compactStyle);const saveButton=$('rcSaveDraft');const libraryActions=$('rcDeleteTable')?.parentElement;if(saveButton&&libraryActions)libraryActions.prepend(saveButton);const tableLibrary=$('rcTableLibrary');if(tableLibrary){const previewHeading=box.querySelector('.rc-preview-heading');if(previewHeading)previewHeading.insertAdjacentElement('afterend',tableLibrary);tableLibrary.style.setProperty('display','block','important');tableLibrary.hidden=false;const status=$('rcStatus');if(status)box.append(status);const summaryCard=$('contract-summary');if(summaryCard){summaryCard.hidden=false;summaryCard.removeAttribute('aria-hidden');summaryCard.style.removeProperty('display');}}
 // Place the saved-table picker and its existing Load action side by side.
@@ -264,17 +239,17 @@ function replaceField(label,input,button,title){
 }
 replaceField(contactLabel,saved,addContactButton,'Saved contact');
 replaceField(recipientLabel,recipientInput,emailButton,'Recipient email');
+// One authoritative layout for both recipient fields; no later overrides.
 const contactRowStyle=document.createElement('style');
 contactRowStyle.id='rc-contact-row-final';
 contactRowStyle.textContent=`
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
-#recipientComposer .rc-recipient>.rc-field-cell{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
-#recipientComposer .rc-field-heading{display:block!important;font-size:18px!important;font-weight:800!important;line-height:1.4!important;color:#173e54!important}
-#recipientComposer .rc-field-line{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
-#recipientComposer .rc-field-line>select,#recipientComposer .rc-field-line>input{flex:1 1 auto!important;min-width:0!important;width:1px!important;height:46px!important;margin:0!important;font-size:16px!important;border-radius:7px!important}
-#recipientComposer .rc-field-line>button{flex:0 0 auto!important;position:static!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;padding:8px 12px!important;margin:0!important;font-size:15px!important;font-weight:750!important;border-radius:7px!important;white-space:nowrap!important}
-#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
-@media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
+#recipientComposer .rc-recipient>.rc-field-cell{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;border:1px solid #d6e7ee;border-radius:10px;background:#f9fcfd}
+#recipientComposer .rc-field-heading{display:block;font-size:19px;font-weight:800;line-height:1.3;color:#173e54}
+#recipientComposer .rc-field-line{display:flex;align-items:stretch;gap:10px;min-width:0}
+#recipientComposer .rc-field-line>select,#recipientComposer .rc-field-line>input{flex:1 1 0;min-width:0;width:1px;height:46px;padding:9px 12px;margin:0;font-size:16px;font-weight:650;border:1px solid #bfd6e2;border-radius:8px}
+#recipientComposer .rc-field-line>button{flex:0 0 auto;position:static;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:9px 14px;margin:0;font-size:15px;font-weight:750;border:1px solid #9cc8d4;border-radius:8px;background:#e8f5f7;color:#15546b;white-space:nowrap;cursor:pointer}
+#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1}
+@media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr}}
 `;
 document.head.append(contactRowStyle);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
