@@ -248,7 +248,7 @@ emailButton.addEventListener('click',()=>{recipientInput.readOnly=false;recipien
 saved.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value});
 recipientInput.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value && recipientInput.value===saved.value;});
 const choices=document.createElement('div');choices.className='rc-email-option-row';
-const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template';
+const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
 subjectPresets.forEach(name=>subjectChoice.add(new Option(name,name)));subjectLabel.append(subjectChoice);
 const messageLabel=document.createElement('label');messageLabel.textContent='Message template';
