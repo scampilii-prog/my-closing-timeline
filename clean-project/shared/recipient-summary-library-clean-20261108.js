@@ -173,8 +173,10 @@ const refreshSavedContacts=()=>{
     const opt=new Option(contact.name+' · '+contact.role+' · '+contact.email,contact.email);
     saved.append(opt);
   });
-  const matched=all.find(c=>c.email.toLowerCase()===currentEmail);
+  const selectedEmail=(saved.value||'').trim().toLowerCase();
+  const matched=all.find(c=>c.email.toLowerCase()===(currentEmail||selectedEmail));
   saved.value=matched?matched.email:'';
+  if(matched && !currentEmail){recipientInput.value=matched.email;prefs._recipient=matched.email;save();loadDraft();}
 };
 refreshSavedContacts();
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
@@ -197,13 +199,17 @@ const syncChosenContact=()=>{
     save();loadDraft();render();
   }
 };
-recipientInput.value='';
-prefs._recipient='';
+// Preserve a previously chosen contact across reloads and browser form restoration.
+const remembered=contacts().find(c=>c.email.toLowerCase()===String(prefs._recipient||'').toLowerCase());
+if(remembered){saved.value=remembered.email;recipientInput.value=remembered.email;}
+else {recipientInput.value='';prefs._recipient='';}
 save();loadDraft();
 // Browsers may restore a dropdown selection after scripts initialize.
 saved.addEventListener('focus',syncChosenContact);
 saved.addEventListener('click',syncChosenContact);
 window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
+saved.addEventListener('blur',syncChosenContact);
+saved.addEventListener('keyup',syncChosenContact);
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
 $('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=false;$('rcTableRole').disabled=false};$('rcSaveChoice').onchange();
