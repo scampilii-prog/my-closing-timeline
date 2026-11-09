@@ -24,7 +24,7 @@ const messagePresets={
  'Custom message…':''
 };
 function saveDraft(){prefs[draftKey()]={subject:$('rcSubject').value,body:$('rcBody').value};save()}
-function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=d.subject||defaultSubject;$('rcBody').value=d.body||defaultBody;
+function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=(d.subject??defaultSubject);$('rcBody').value=(d.body??defaultBody);
  const subjectChoice=$('rcSubjectPreset');if(subjectChoice)subjectChoice.value=subjectPresets.includes($('rcSubject').value)?$('rcSubject').value:'Custom subject…';
  const messageChoice=$('rcMessagePreset');if(messageChoice)messageChoice.value=Object.keys(messagePresets).find(k=>messagePresets[k]===$('rcBody').value)||'Custom message…';
 }
@@ -265,11 +265,11 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-template-details .rc-email-option-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:0!important;padding:12px!important;border:0!important;border-top:1px solid #d7e6ec!important;background:transparent!important}
 #recipientComposer .rc-template-details .rc-email-option-row label{font-size:13px!important;font-weight:750!important}
 #recipientComposer .rc-recipient-rebuilt .rc-field-heading,#recipientComposer .rc-email-compose-row>label{font-family:inherit!important;font-size:19px!important;font-weight:800!important;line-height:1.35!important;letter-spacing:0!important;color:#173e54!important}
-#recipientComposer .rc-email-compose-row #rcBody{height:44px!important;min-height:44px!important;max-height:44px!important;resize:none!important;overflow-y:auto!important;padding:9px 12px!important;font-family:inherit!important;font-size:15px!important;font-weight:500!important;line-height:24px!important}
+#recipientComposer .rc-email-compose-row #rcBody{height:44px!important;min-height:44px!important;max-height:none!important;resize:vertical!important;overflow-y:auto!important;padding:9px 12px!important;font-family:inherit!important;font-size:15px!important;font-weight:500!important;line-height:24px!important}
 #recipientComposer .rc-email-compose-row #rcSubject{font-family:inherit!important;font-size:15px!important;font-weight:500!important}
 #recipientComposer .rc-email-compose-row{align-items:stretch!important}
-#recipientComposer .rc-email-compose-row>label{display:grid!important;grid-template-rows:26px 44px!important;align-content:start!important;gap:8px!important;line-height:26px!important}
-#recipientComposer .rc-email-compose-row #rcSubject,#recipientComposer .rc-email-compose-row #rcBody{display:block!important;box-sizing:border-box!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:44px!important;margin:0!important;padding:9px 16px!important;border:1px solid #bfd4e0!important;border-radius:7px!important;background:#fff!important;color:#173e54!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:24px!important;letter-spacing:normal!important;box-shadow:none!important}
+#recipientComposer .rc-email-compose-row>label{display:grid!important;grid-template-rows:26px minmax(44px,auto)!important;align-content:start!important;gap:8px!important;line-height:26px!important}
+#recipientComposer .rc-email-compose-row #rcSubject,#recipientComposer .rc-email-compose-row #rcBody{display:block!important;box-sizing:border-box!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:none!important;margin:0!important;padding:9px 16px!important;border:1px solid #bfd4e0!important;border-radius:7px!important;background:#fff!important;color:#173e54!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:24px!important;letter-spacing:normal!important;box-shadow:none!important}
 #recipientComposer .rc-email-compose-row #rcBody{resize:vertical!important;overflow:auto!important}
 #recipientComposer .rc-email-compose-row #rcBody{max-height:none!important;min-height:44px!important;resize:vertical!important;overflow-y:auto!important}
 #recipientComposer .rc-head{margin-top:14px!important}
@@ -302,9 +302,13 @@ emailDetails.append(emailSummary,choices);
 const emailRow=document.createElement('div');emailRow.className='rc-email-compose-row';
 if(subjectField){fields.after(emailRow);emailRow.append(subjectField,messageField)}else{messageField.before(emailRow);emailRow.append(messageField)}
 emailRow.after(emailDetails);
+const clearDraftButton=document.createElement('button');clearDraftButton.type='button';clearDraftButton.textContent='Clear Email';clearDraftButton.title='Clear the subject and message for the selected recipient';clearDraftButton.style.cssText='display:inline-block;align-self:start;margin:0 0 10px;padding:6px 12px;border:1px solid #c8dce5;border-radius:6px;background:#fff;color:#24546b;font-size:13px;font-weight:700;cursor:pointer';
+emailDetails.after(clearDraftButton);
+clearDraftButton.onclick=()=>{if(!confirm('Clear the saved email subject and message for this recipient?'))return;$('rcSubject').value='';$('rcBody').value='';saveDraft();$('rcBody').dispatchEvent(new Event('input',{bubbles:true}));};
+
 const expandableMessage=$('rcBody');
 if(expandableMessage){
- const fitMessage=()=>{expandableMessage.style.setProperty('height','44px','important');expandableMessage.style.setProperty('max-height','none','important');expandableMessage.style.setProperty('height',Math.max(44,expandableMessage.scrollHeight+2)+'px','important')};
+ const fitMessage=()=>{expandableMessage.style.setProperty('height','auto','important');expandableMessage.style.setProperty('max-height','none','important');expandableMessage.style.setProperty('height',Math.max(44,expandableMessage.scrollHeight+2)+'px','important')};
  expandableMessage.style.setProperty('resize','vertical','important');
  expandableMessage.style.setProperty('max-height','none','important');
  expandableMessage.addEventListener('input',fitMessage);
