@@ -270,4 +270,17 @@ document.addEventListener('DOMContentLoaded',()=>{
  const group=heading?.closest('.v5-toolbar-group')?.querySelector('.v5-toolbar-buttons');
  if(group&&sort&&sort.parentElement!==group)group.appendChild(sort);
 });
-</script></body></html>
+</script><style id="v5-days-apply-visible-compact">
+/* Keep approved table widths. Show Apply INSIDE the Days heading, not over Date Basis. */
+#contract-input .v3-scroll thead th:nth-child(4){position:relative!important;padding:4px 2px!important;text-align:center!important;vertical-align:middle!important;white-space:normal!important}
+#contract-input .v3-scroll thead th:nth-child(5){padding-left:4px!important}
+#contract-input .v3-scroll thead th:nth-child(4) #v5-header-apply{
+display:block!important;position:static!important;transform:none!important;inset:auto!important;
+box-sizing:border-box!important;width:100%!important;max-width:48px!important;min-width:0!important;
+height:20px!important;min-height:20px!important;margin:3px auto 0!important;padding:1px 2px!important;
+font:700 9px/1.1 Manrope,Arial,sans-serif!important;white-space:nowrap!important;
+background:#195d78!important;color:#fff!important;border:0!important;border-radius:4px!important;
+box-shadow:none!important;cursor:pointer!important
+}
+#contract-input .v3-scroll thead th:nth-child(4) #v5-header-apply:hover{background:#0d435e!important}
+</style></body></html>
