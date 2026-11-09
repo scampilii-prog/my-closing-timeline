@@ -156,6 +156,17 @@ compactStyle.textContent=`
 #recipientComposer .rc-section-label{margin-top:22px!important}
 #recipientComposer .rc-recipient>label:has(#rcSubject){padding-top:16px!important;border-top:1px solid #e1edf2!important}
 @media(max-width:760px){#recipientComposer .rc-recipient,#recipientComposer .rc-email-option-row{grid-template-columns:1fr!important;gap:14px!important}#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:auto!important}}
+
+/* Final recipient layout: single aligned row; no competing grid/flex rules. */
+#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:start!important;margin:16px 0!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:34px 42px!important;gap:6px 8px!important;align-items:center!important;min-width:0!important;margin:0!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:1/-1!important;grid-row:2!important;min-width:0!important;width:100%!important;height:42px!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:2!important;grid-row:1!important;margin:0!important}
+#recipientComposer .rc-recipient-label-header{display:contents!important}
+#recipientComposer .rc-recipient-label-header .rc-change-email{grid-column:2!important;grid-row:1!important;margin:0!important}
+#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important}
+#recipientComposer .rc-recipient>label:has(#rcSubject)>#rcSubject{width:100%!important}
+@media(max-width:620px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
 `;
 document.head.append(compactStyle);const saveButton=$('rcSaveDraft');const libraryActions=$('rcDeleteTable')?.parentElement;if(saveButton&&libraryActions)libraryActions.prepend(saveButton);const tableLibrary=$('rcTableLibrary');if(tableLibrary){const previewHeading=box.querySelector('.rc-preview-heading');if(previewHeading)previewHeading.insertAdjacentElement('afterend',tableLibrary);tableLibrary.style.setProperty('display','block','important');tableLibrary.hidden=false;const status=$('rcStatus');if(status)box.append(status);const summaryCard=$('contract-summary');if(summaryCard){summaryCard.hidden=false;summaryCard.removeAttribute('aria-hidden');summaryCard.style.removeProperty('display');}}
 // Place the saved-table picker and its existing Load action side by side.
@@ -196,78 +207,54 @@ const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProper
 const saved=$('rcSavedContact');
 const recipientInput=$('rcRecipient');
 const refreshSavedContacts=()=>{
-  // Preserve the selected contact BEFORE rebuilding the options.
-  const selectedBefore=(saved.value||'').trim().toLowerCase();
-  const recipientBefore=(recipientInput.value||'').trim().toLowerCase();
-  const rememberedEmail=String(prefs._recipient||'').trim().toLowerCase();
+  const current=saved.value;
   const all=contacts();
   saved.replaceChildren(new Option('Choose saved contact…',''));
   all.forEach(contact=>saved.add(new Option(contact.name,contact.email)));
-  const matched=all.find(c=>c.email.toLowerCase()===(selectedBefore||recipientBefore||rememberedEmail));
-  saved.value=matched?matched.email:'';
-  if(matched && (!recipientBefore || recipientBefore===matched.email.toLowerCase())){
-    recipientInput.value=matched.email;
-    prefs._recipient=matched.email;
-    save();loadDraft();
-  }
-  recipientInput.readOnly=!!matched && recipientInput.value===matched.email;
+  const match=all.find(c=>c.email.toLowerCase()===String(current||prefs._recipient||'').toLowerCase());
+  saved.value=match?match.email:'';
+  if(match && !recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
+  else if(!match && !recipientInput.dataset.manualOverride){recipientInput.value='';recipientInput.readOnly=false;}
 };
-refreshSavedContacts();
-document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
+const syncChosenContact=()=>{
+  const match=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
+  if(!match)return;
+  if(!recipientInput.dataset.manualOverride){recipientInput.value=match.email;recipientInput.readOnly=true;}
+  prefs._recipient=recipientInput.value;
+  save();loadDraft();
+};
 const selectSavedContact=()=>{
-  const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
   delete recipientInput.dataset.manualOverride;
-  recipientInput.value=contact?contact.email:'';
-  recipientInput.readOnly=!!contact;
+  const match=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
+  recipientInput.value=match?match.email:'';
+  recipientInput.readOnly=!!match;
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
+refreshSavedContacts();
+document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
 saved.addEventListener('change',selectSavedContact);
 saved.addEventListener('input',selectSavedContact);
-saved.addEventListener('keyup',selectSavedContact);
-// Only a deliberately selected saved contact may populate the recipient.
-const syncChosenContact=()=>{
-  if(!saved.value)return;
-  const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
-  if(!contact)return;
-  if(recipientInput.value!==contact.email){
-    recipientInput.value=contact.email;
-    prefs._recipient=contact.email;
-    save();loadDraft();render();
-  }
-};
-// Preserve a previously chosen contact across reloads and browser form restoration.
-const remembered=contacts().find(c=>c.email.toLowerCase()===String(prefs._recipient||'').toLowerCase());
-if(remembered){saved.value=remembered.email;recipientInput.value=remembered.email;}
-else {recipientInput.value='';prefs._recipient='';}
-save();loadDraft();
-// Browsers may restore a dropdown selection after scripts initialize.
-saved.addEventListener('focus',syncChosenContact);
-saved.addEventListener('click',syncChosenContact);
+// Chrome/Safari can restore select values after initialization.
 window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
+saved.addEventListener('focus',syncChosenContact);
 saved.addEventListener('blur',syncChosenContact);
-saved.addEventListener('keyup',syncChosenContact);
-$('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
+recipientInput.addEventListener('change',()=>{
+  prefs._recipient=recipientInput.value.trim();save();loadDraft();
+});
 const recipientLabel=recipientInput.closest('label');
 const emailButton=document.createElement('button');emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
-emailButton.title='Edit the recipient email without changing the saved contact';
-// Align both field labels, with the edit action beside the recipient label.
+emailButton.title='Use a different email for this message without changing the saved contact';
 const emailLabelText=[...recipientLabel.childNodes].find(n=>n.nodeType===3&&n.textContent.includes('Recipient email'));
 const emailLabelHeader=document.createElement('span');emailLabelHeader.className='rc-recipient-label-header';
 emailLabelHeader.textContent='Recipient email';
 if(emailLabelText)emailLabelText.remove();
 recipientLabel.insertBefore(emailLabelHeader,recipientInput);
 emailLabelHeader.append(emailButton);
-recipientInput.readOnly=!!saved.value;
-// Keep recipient in sync even when the browser restores a selected option.
-const reconcileRecipient=()=>{if(!saved.value)return;const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());if(contact && !recipientInput.dataset.manualOverride && recipientInput.value!==contact.email){recipientInput.value=contact.email;prefs._recipient=contact.email;save();loadDraft();}};
-saved.addEventListener('pointerup',()=>queueMicrotask(reconcileRecipient));
-saved.addEventListener('change',()=>{delete recipientInput.dataset.manualOverride;reconcileRecipient()});
-window.addEventListener('pageshow',reconcileRecipient);
-reconcileRecipient();
-emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
-saved.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value});
-recipientInput.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value && recipientInput.value===saved.value;});
+emailButton.addEventListener('click',()=>{
+  recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;
+  recipientInput.focus();recipientInput.select();
+});
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
