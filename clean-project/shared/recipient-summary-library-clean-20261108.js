@@ -266,6 +266,18 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-head{margin-top:14px!important}
 @media(max-width:760px){#recipientComposer .rc-recipient-rebuilt,#recipientComposer .rc-email-compose-row,#recipientComposer .rc-template-details .rc-email-option-row{grid-template-columns:1fr!important}#recipientComposer .rc-section-label small{display:block!important;margin:4px 0 0!important}}
 `;document.head.append(visual);
+// Set the actual controls' layout directly, avoiding old high-specificity CSS rules.
+const lock=(el,properties)=>{if(!el)return;for(const [key,value] of Object.entries(properties))el.style.setProperty(key,value,'important')};
+lock(fields,{'display':'grid','grid-template-columns':'repeat(2,minmax(0,1fr))','gap':'14px','align-items':'end','margin':'10px 0 16px','padding':'0','width':'100%'});
+for(const cell of fields?.querySelectorAll('.rc-field-cell')||[]){
+ lock(cell,{'display':'flex','flex-direction':'column','gap':'7px','padding':'0','margin':'0','border':'0','background':'transparent','min-width':'0'});
+ const line=cell.querySelector('.rc-field-line');
+ lock(line,{'display':'flex','align-items':'center','gap':'8px','width':'100%','min-width':'0'});
+ const input=line?.querySelector('input,select'),button=line?.querySelector('button');
+ lock(input,{'flex':'1 1 0','min-width':'0','width':'100%','height':'43px','margin':'0'});
+ lock(button,{'flex':'0 0 auto','height':'43px','min-height':'43px','margin':'0','white-space':'nowrap'});
+}
+
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template (optional)';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
