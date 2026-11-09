@@ -220,34 +220,28 @@ document.addEventListener('DOMContentLoaded',function(){
  section.addEventListener('pointerover',function(e){const input=e.target.closest?.('input[type="date"]');if(input&&!input.contains(e.relatedTarget))openPicker(input)});
  section.addEventListener('pointerdown',function(e){const input=e.target.closest?.('input[type="date"]');if(input)openPicker(input)});
 });
-</script><style id="v5-date-basis-no-overlap">
-#contract-input .v3-scroll{overflow-x:auto!important}
-#contract-input .v3-scroll table{min-width:1320px!important;table-layout:fixed!important}
-#contract-input .v3-scroll table th:nth-child(5),#contract-input .v3-scroll table td:nth-child(5){width:195px!important;min-width:195px!important;max-width:195px!important}
-#contract-input .v3-scroll table td:nth-child(5) select{display:block!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important;font-size:12px!important;padding:6px 20px 6px 7px!important}
-#contract-input .v3-scroll table th:nth-child(6),#contract-input .v3-scroll table td:nth-child(6){min-width:135px!important;width:135px!important}
-#contract-input .v3-scroll table td:nth-child(6) input{max-width:100%!important;min-width:0!important;width:100%!important}
-#contract-input #sort{background:#175b79!important;color:#fff!important;border-radius:7px!important;padding:9px 13px!important;min-height:35px!important;font-weight:800!important}
+</script><style id="v5-compact-apply-header">
+/* Preserve approved table geometry; compact apply control sits at the Days / Date Basis boundary. */
+#contract-input .v3-scroll thead th:nth-child(4){position:relative!important;overflow:visible!important}
+#contract-input #v5-header-apply{position:absolute!important;top:50%!important;left:100%!important;transform:translate(-50%,-50%)!important;z-index:5!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;width:auto!important;min-width:0!important;max-width:none!important;padding:5px 7px!important;min-height:24px!important;font:700 10px Manrope,Arial,sans-serif!important;border:1px solid #b6d7e5!important;border-radius:6px!important;background:#f7fbfd!important;color:#195776!important;box-shadow:0 1px 3px #16394e20!important;cursor:pointer!important}
+#contract-input #v5-header-apply:hover{background:#e0f2f8!important}
+#contract-input .v3-scroll thead th:nth-child(4){padding-right:8px!important}
+#contract-input .v3-scroll thead th:nth-child(5){padding-left:38px!important}
 </style>
-<script id="v5-place-apply">
+<script id="v5-header-apply-script">
 document.addEventListener('DOMContentLoaded',()=>{
- const section=document.getElementById('contract-input'),sort=document.getElementById('sort');
- if(!section||!sort)return;
- let busy=false;
- function place(){
-   if(busy)return;
-   const headings=[...section.querySelectorAll('strong,h3,h4,div,span')].filter(e=>e.children.length===0&&/Manage Tasks/i.test(e.textContent||''));
-   const heading=headings.find(e=>/Manage Tasks/i.test(e.textContent||''));
-   const panel=heading?.closest('.v5-toolbar-edit,.v5-toolbar-group,.v5-manage-panel')||heading?.parentElement?.parentElement;
-   const buttons=panel?.querySelector('.v5-toolbar-buttons')||panel?.querySelector('button')?.parentElement;
-   if(!buttons||buttons===sort.parentElement)return;
-   busy=true;buttons.appendChild(sort);sort.textContent='✓ Apply & Reorder';sort.hidden=false;
-   sort.style.setProperty('display','inline-flex','important');
-   busy=false;
- }
- place();
- const observer=new MutationObserver(()=>place());
- observer.observe(section,{childList:true,subtree:true});
- setTimeout(()=>observer.disconnect(),12000);
+ const section=document.getElementById('contract-input');
+ if(!section)return;
+ const th=section.querySelector('.v3-scroll thead th:nth-child(4)');
+ if(!th||document.getElementById('v5-header-apply'))return;
+ const button=document.createElement('button');
+ button.type='button';button.id='v5-header-apply';button.textContent='✓ Apply';
+ button.title='Save changes and reorder tasks by Due Date';
+ button.addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const sort=document.getElementById('sort');
+  if(sort)sort.click();else alert('Sort control unavailable. Changes are still saved.');
+ });
+ th.appendChild(button);
 });
 </script></body></html>
