@@ -250,31 +250,29 @@ if(emailLabelText)emailLabelText.remove();
 recipientLabel.insertBefore(emailLabelHeader,recipientInput);
 emailLabelHeader.append(emailButton);
 emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
-// Rebuild contact and email as real field rows; remove old competing layout rules.
+// Stable two-column controls: explicit DOM, no legacy label layout.
 const contactLabel=saved.closest('label');
 const addContactButton=contactLabel?.querySelector('.rc-add-contact')||document.querySelector('#recipientComposer .rc-add-contact');
-function buildRecipientField(label,input,button,title){
-  if(!label||!input||!button)return;
-  const heading=document.createElement('span');heading.className='rc-compact-title';heading.textContent=title;
-  const field=document.createElement('div');field.className='rc-compact-field';
-  const action=document.createElement('div');action.className='rc-compact-action';
-  [...label.childNodes].forEach(n=>{if(n!==input&&n!==button)n.remove()});
-  label.append(heading,field,action);
-  field.append(input);action.append(button);
-  label.classList.add('rc-compact-recipient');
+function replaceField(label,input,button,title){
+ if(!label||!input||!button)return;
+ const cell=document.createElement('div');cell.className='rc-field-cell';
+ const heading=document.createElement('strong');heading.className='rc-field-heading';heading.textContent=title;
+ const line=document.createElement('div');line.className='rc-field-line';
+ line.append(input,button);cell.append(heading,line);
+ label.replaceWith(cell);
+ return cell;
 }
-buildRecipientField(contactLabel,saved,addContactButton,'Saved contact');
-buildRecipientField(recipientLabel,recipientInput,emailButton,'Recipient email');
+replaceField(contactLabel,saved,addContactButton,'Saved contact');
+replaceField(recipientLabel,recipientInput,emailButton,'Recipient email');
 const contactRowStyle=document.createElement('style');
 contactRowStyle.id='rc-contact-row-final';
 contactRowStyle.textContent=`
-#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:20px!important;align-items:start!important}
-#recipientComposer .rc-recipient>label.rc-compact-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) max-content!important;grid-template-rows:34px 48px!important;column-gap:12px!important;row-gap:8px!important;align-items:center!important;min-width:0!important;margin:0!important}
-#recipientComposer .rc-compact-recipient .rc-compact-title{grid-column:1/-1!important;grid-row:1!important;display:block!important;font-size:19px!important;line-height:1.3!important;font-weight:800!important;color:#163f54!important;white-space:nowrap!important}
-#recipientComposer .rc-compact-recipient .rc-compact-field{grid-column:1!important;grid-row:2!important;min-width:0!important}
-#recipientComposer .rc-compact-recipient .rc-compact-action{grid-column:2!important;grid-row:2!important;min-width:0!important}
-#recipientComposer .rc-compact-recipient .rc-compact-field>select,#recipientComposer .rc-compact-recipient .rc-compact-field>input{width:100%!important;min-width:0!important;height:48px!important;margin:0!important;font-size:16px!important;border-radius:7px!important}
-#recipientComposer .rc-compact-recipient .rc-compact-action>button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:46px!important;margin:0!important;padding:8px 13px!important;font-size:15px!important;font-weight:750!important;white-space:nowrap!important;border-radius:7px!important}
+#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
+#recipientComposer .rc-recipient>.rc-field-cell{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
+#recipientComposer .rc-field-heading{display:block!important;font-size:20px!important;font-weight:800!important;line-height:1.4!important;color:#173e54!important}
+#recipientComposer .rc-field-line{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+#recipientComposer .rc-field-line>select,#recipientComposer .rc-field-line>input{flex:1 1 auto!important;min-width:0!important;width:1px!important;height:46px!important;margin:0!important;font-size:16px!important;border-radius:7px!important}
+#recipientComposer .rc-field-line>button{flex:0 0 auto!important;position:static!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;padding:8px 12px!important;margin:0!important;font-size:15px!important;font-weight:750!important;border-radius:7px!important;white-space:nowrap!important}
 #recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
 @media(max-width:950px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
 `;
