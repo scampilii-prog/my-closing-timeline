@@ -118,6 +118,10 @@ compactStyle.textContent=`
 #recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1.05fr) minmax(0,1.15fr)!important;gap:10px!important;align-items:end!important;margin-bottom:8px!important}
 #recipientComposer .rc-recipient>label{min-width:0!important;width:100%!important;margin:0!important}
 #recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+
+/* Keep the saved-contact selector as compact and readable as the other fields. */
+#recipientComposer #rcSavedContact{height:34px!important;min-height:34px!important;padding:5px 30px 5px 10px!important;border-radius:5px!important;border:1px solid #bfd4df!important;background-color:#fff!important;color:#173e54!important;font-size:13px!important;font-weight:500!important;line-height:20px!important;opacity:1!important;appearance:auto!important;-webkit-appearance:menulist!important}
+#recipientComposer #rcSavedContact:focus{outline:2px solid #1578ad!important;outline-offset:1px!important}
 #recipientComposer .rc-recipient+label{display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;margin:0 0 12px!important}
 #recipientComposer #rcBody{width:100%!important;min-height:40px!important;height:44px!important;max-height:140px!important;resize:vertical!important;box-sizing:border-box!important;margin:0!important}
 @media(max-width:760px){#recipientComposer .rc-recipient{grid-template-columns:repeat(2,minmax(0,1fr))!important}#recipientComposer .rc-recipient>label:last-child{grid-column:1/-1}#recipientComposer .rc-recipient+label{grid-template-columns:1fr!important;gap:4px!important}}
@@ -180,9 +184,14 @@ saved.onchange=()=>{
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
-recipientInput.value='';
-prefs._recipient='';
-saved.value='';
+// Restore the last chosen contact. With exactly one saved contact, select it automatically.
+const availableContacts=contacts();
+const previousRecipient=String(prefs._recipient||'').trim();
+const previousContact=availableContacts.find(c=>c.email.toLowerCase()===previousRecipient.toLowerCase());
+const initialContact=previousContact||(availableContacts.length===1?availableContacts[0]:null);
+recipientInput.value=initialContact?initialContact.email:'';
+saved.value=initialContact?initialContact.email:'';
+prefs._recipient=recipientInput.value;
 save();loadDraft();
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
