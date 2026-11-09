@@ -169,4 +169,12 @@ document.addEventListener('DOMContentLoaded',function(){
 #contract-input .v3-scroll.v3-scroll-fixed:has(> table.v5-contract-matched-table){max-height:480px!important;overflow-y:auto!important;overflow-x:auto!important;position:relative!important;overscroll-behavior:contain}
 #contract-input .v3-scroll.v3-scroll-fixed > table.v5-contract-matched-table thead th{position:sticky!important;top:0!important;z-index:3!important;background:#e0eff5!important;box-shadow:0 1px 0 #a9cddd}
 #contract-input .v3-scroll.v3-scroll-fixed > table.v5-contract-matched-table thead th:first-child{z-index:4!important}
+</style><style id="v5-contract-toolbar-polish">
+/* Keep all existing actions, with two balanced panels and a separate personal-task row. */
+#contract-input .v3-actions.v5-contract-followup-actions{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important;padding:12px!important}
+#contract-input .v5-contract-followup-actions>.v5-contract-action-group{display:flex!important;flex-wrap:wrap!important;align-content:center!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;min-width:0!important;margin:0!important;padding:14px!important}
+#contract-input .v5-contract-followup-actions>.v5-contract-action-group:nth-child(2) .v3-selection-hint{flex-basis:100%!important;order:1!important;margin:0!important}
+#contract-input .v5-contract-followup-actions>.v5-contract-action-group:nth-child(2) #email,#contract-input .v5-contract-followup-actions>.v5-contract-action-group:nth-child(2) #copy{order:2!important}
+#contract-input .v5-contract-followup-actions>.v5-contract-personal-action{grid-column:1/-1!important;margin:0!important;padding:10px 14px!important;display:flex!important;align-items:center!important}
+@media(max-width:850px){#contract-input .v3-actions.v5-contract-followup-actions{grid-template-columns:minmax(0,1fr)!important}#contract-input .v5-contract-followup-actions>.v5-contract-personal-action{grid-column:1!important}}
 </style></body></html>
