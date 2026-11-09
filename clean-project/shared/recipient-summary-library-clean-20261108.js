@@ -132,6 +132,10 @@ compactStyle.textContent=`
 #recipientComposer .rc-recipient>label{min-width:0!important;width:100%!important;margin:0!important}
 #recipientComposer .rc-recipient input,#recipientComposer .rc-recipient select{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
 
+#recipientComposer .rc-recipient>label:has(#rcRecipient){display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-end!important;gap:5px!important}
+#recipientComposer .rc-recipient-label-header{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:30px!important;font-weight:750!important;color:#173e54!important}
+#recipientComposer .rc-recipient-label-header .rc-change-email{font-size:12px!important;line-height:18px!important;padding:5px 10px!important;white-space:nowrap!important}
+#recipientComposer #rcRecipient{height:34px!important;min-height:34px!important;margin:0!important}
 /* Keep the saved-contact selector as compact and readable as the other fields. */
 #recipientComposer #rcSavedContact{height:34px!important;min-height:34px!important;padding:5px 30px 5px 10px!important;border-radius:5px!important;border:1px solid #bfd4df!important;background-color:#fff!important;color:#173e54!important;font-size:13px!important;font-weight:500!important;line-height:20px!important;opacity:1!important;appearance:auto!important;-webkit-appearance:menulist!important}
 #recipientComposer #rcSavedContact:focus{outline:2px solid #1578ad!important;outline-offset:1px!important}
@@ -227,7 +231,13 @@ $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSa
 const recipientLabel=recipientInput.closest('label');
 const emailButton=document.createElement('button');emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
 emailButton.title='Edit the recipient email without changing the saved contact';
-recipientLabel.append(emailButton);
+// Align both field labels, with the edit action beside the recipient label.
+const emailLabelText=[...recipientLabel.childNodes].find(n=>n.nodeType===3&&n.textContent.includes('Recipient email'));
+const emailLabelHeader=document.createElement('span');emailLabelHeader.className='rc-recipient-label-header';
+emailLabelHeader.textContent='Recipient email';
+if(emailLabelText)emailLabelText.remove();
+recipientLabel.insertBefore(emailLabelHeader,recipientInput);
+emailLabelHeader.append(emailButton);
 recipientInput.readOnly=!!saved.value;
 emailButton.addEventListener('click',()=>{recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
 saved.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value});
