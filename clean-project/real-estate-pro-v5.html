@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded',function(){
 #contract-input table.v5-contract-matched-table th:first-child .v5-select-all-head{display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;box-sizing:border-box!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:7px!important;padding:0!important;margin:0!important;text-align:center!important}
 #contract-input table.v5-contract-matched-table th:first-child .v5-select-all-head span{width:100%!important;text-align:center!important}
 #contract-input table.v5-contract-matched-table tr > :first-child input[type="checkbox"]{display:block!important;width:18px!important;height:18px!important;margin:0 auto!important;float:none!important;position:static!important;left:auto!important;right:auto!important;transform:none!important}
-#contract-input .v3-scroll.v3-scroll-fixed:has(> table.v5-contract-matched-table){max-height:480px!important;overflow-y:auto!important;overflow-x:auto!important;position:relative!important;overscroll-behavior:contain}
+
 #contract-input .v3-scroll.v3-scroll-fixed > table.v5-contract-matched-table thead th{position:sticky!important;top:0!important;z-index:3!important;background:#e0eff5!important;box-shadow:0 1px 0 #a9cddd}
 #contract-input .v3-scroll.v3-scroll-fixed > table.v5-contract-matched-table thead th:first-child{z-index:4!important}
 </style><style id="v5-contract-toolbar-polish">
@@ -329,24 +329,19 @@ document.addEventListener('DOMContentLoaded',function(){
 #contract-input .v5-contract-followup-actions>.v5-contract-action-group:nth-child(2) #email,#contract-input .v5-contract-followup-actions>.v5-contract-action-group:nth-child(2) #copy{order:2!important}
 #contract-input .v5-contract-followup-actions>.v5-contract-personal-action{grid-column:1/-1!important;margin:0!important;padding:10px 14px!important;display:flex!important;align-items:center!important}
 @media(max-width:850px){#contract-input .v3-actions.v5-contract-followup-actions{grid-template-columns:minmax(0,1fr)!important}#contract-input .v5-contract-followup-actions>.v5-contract-personal-action{grid-column:1!important}}
-</style><style id="v5-contract-inside-scroll-frame">
-/* TABLE 01: visually bounded inside frame; scrolling happens inside the table, never across the entire page. */
+</style><style id="v5-contract-natural-page-scroll">
+/* Let the browser page scroll naturally through every contract task. */
 #contract-input .v3-scroll.v3-scroll-fixed:has(>table.v5-contract-matched-table){
  display:block!important;position:relative!important;box-sizing:border-box!important;
- height:440px!important;max-height:440px!important;min-height:0!important;
- overflow-y:auto!important;overflow-x:auto!important;overscroll-behavior:contain!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;overscroll-behavior:auto!important;
  margin:14px 18px 18px!important;border:2px solid #93bfd2!important;
  border-radius:12px!important;background:#fff!important;
  box-shadow:0 0 0 5px #edf6fa,0 3px 10px rgba(24,69,91,.09)!important;
- scrollbar-width:thin!important;scrollbar-color:#8cb7ca #edf5f8!important;
 }
-#contract-input .v3-scroll.v3-scroll-fixed>table.v5-contract-matched-table{margin:0!important;border-collapse:separate!important;border-spacing:0!important;min-width:1080px!important}
-#contract-input .v3-scroll.v3-scroll-fixed>table.v5-contract-matched-table thead th{
- position:sticky!important;top:0!important;z-index:5!important;
- background:#dfedf3!important;box-shadow:0 2px 0 #a8c9d8!important;
-}
-#contract-input .v3-scroll.v3-scroll-fixed>table.v5-contract-matched-table thead th:first-child{z-index:6!important}
-@media(max-width:700px){#contract-input .v3-scroll.v3-scroll-fixed:has(>table.v5-contract-matched-table){height:370px!important;max-height:370px!important;margin:12px 9px 16px!important}}
+#contract-input .v3-scroll.v3-scroll-fixed>table.v5-contract-matched-table{margin:0!important;border-collapse:separate!important;border-spacing:0!important;min-width:0!important;width:100%!important}
+#contract-input .v3-scroll.v3-scroll-fixed>table.v5-contract-matched-table thead th{position:relative!important;top:auto!important;background:#dfedf3!important;box-shadow:0 2px 0 #a8c9d8!important}
+@media(max-width:700px){#contract-input .v3-scroll.v3-scroll-fixed:has(>table.v5-contract-matched-table){height:auto!important;max-height:none!important;margin:12px 9px 16px!important}}
 </style><style id="v5-professionals-style">
 .v5-professionals{margin:18px 0;padding:22px;border:1px solid #b3d2e0;border-radius:13px;background:#fff;box-shadow:0 2px 8px #163f5812;color:#193d52}
 .v5-professionals h2{margin:0 0 5px;color:#205b78;font-size:20px}.v5-professionals p{margin:0 0 15px;color:#597183;font-size:13px}
