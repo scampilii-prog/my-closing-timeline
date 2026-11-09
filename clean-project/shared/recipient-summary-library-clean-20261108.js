@@ -116,13 +116,13 @@ const loadTableAction=$('rcLoadTable');
 if(savedTablesField&&loadTableAction){
  const row=document.createElement('div');row.className='rc-saved-table-row';
  savedTablesField.parentNode.insertBefore(row,savedTablesField);
- row.append(savedTablesField,loadTableAction);
+ row.append(savedTablesField,loadTableAction);const deleteAction=$('rcDeleteTable');if(deleteAction)row.append(deleteAction);
  // Keep both controls aligned even when legacy CSS overrides the grid.
  row.style.setProperty('display','flex','important');
  row.style.setProperty('align-items','flex-end','important');
  row.style.setProperty('gap','10px','important');
  row.style.setProperty('width','100%','important');
- row.style.setProperty('max-width','680px','important');
+ row.style.setProperty('max-width','820px','important');
  row.style.setProperty('min-width','0','important');
  savedTablesField.style.setProperty('flex','1 1 0','important');
  savedTablesField.style.setProperty('min-width','0','important');
@@ -141,12 +141,14 @@ const roleNames=['Buyer Agent','Seller Agent','Listing Agent','Selling Agent','B
 const roleDialog=document.createElement('dialog');roleDialog.id='rcRoleDialog';roleDialog.setAttribute('aria-label','Choose real estate role');roleDialog.style.cssText='border:1px solid #b5d4e3;border-radius:14px;padding:22px;width:min(500px,92vw);max-height:80vh;box-shadow:0 12px 45px #15354b44;color:#183e54;background:white';roleDialog.innerHTML='<form method="dialog" style="display:grid;gap:12px"><strong style="font-size:19px">Who is this table prepared for?</strong><label>Real estate role<select id="rcRoleOption" style="width:100%;padding:10px;border:1px solid #b6d2e0;border-radius:7px"></select></label><label>Or enter a new role<input id="rcRoleCustom" placeholder="Custom role" style="width:100%;padding:10px;border:1px solid #b6d2e0;border-radius:7px"></label><div style="display:flex;justify-content:flex-end;gap:9px"><button type="button" id="rcRoleCancel">Cancel</button><button type="button" id="rcRoleConfirm" style="background:#087b68;color:white">Use this role</button></div></form>';document.body.append(roleDialog);
 const roleOption=$('rcRoleOption');const roleStorageKey='mct_clean_v5_custom_roles';let customRoles=[];try{customRoles=JSON.parse(localStorage.getItem(roleStorageKey))||[]}catch(e){}if(!Array.isArray(customRoles))customRoles=[];for(const name of [...roleNames,...customRoles.filter(x=>!roleNames.includes(x))]){const o=document.createElement('option');o.value=name;o.textContent=name;roleOption.append(o)};
 const openRole=()=>{roleOption.value=roleNames.includes($('rcTableRole').value)?$('rcTableRole').value:'Other / Custom Role';$('rcRoleCustom').value=roleOption.value==='Other / Custom Role'?$('rcTableRole').value:'';roleDialog.showModal()};
-$('rcChooseRole').onclick=openRole;$('rcTableRole').onclick=openRole;$('rcRoleCancel').onclick=()=>roleDialog.close();
+$('rcChooseRole').onclick=openRole;$('rcTableRole').onclick=openRole;roleOption.onchange=()=>{if(roleOption.value==='Other / Custom Role'){$('rcRoleCustom').placeholder='Enter the professional role or name';$('rcRoleCustom').focus()}};$('rcRoleCancel').onclick=()=>roleDialog.close();
 $('rcRoleConfirm').onclick=()=>{const custom=$('rcRoleCustom').value.trim();const role=custom||(roleOption.value==='Other / Custom Role'?'':roleOption.value);if(!role){$('rcRoleCustom').focus();return}$('rcTableRole').value=role;if(custom&&!roleNames.includes(custom)&&!customRoles.includes(custom)){customRoles.push(custom);try{localStorage.setItem(roleStorageKey,JSON.stringify(customRoles))}catch(e){}const option=document.createElement('option');option.value=custom;option.textContent=custom;roleOption.append(option)}roleDialog.close()};
+const chooseButton=$('rcChooseRole');if(chooseButton){chooseButton.textContent='Choose ▾';chooseButton.style.setProperty('width','88px','important');chooseButton.style.setProperty('min-width','88px','important');chooseButton.style.setProperty('padding','9px 8px','important')}
+const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProperty('width','auto','important');savedDelete.style.setProperty('white-space','nowrap','important');savedDelete.textContent='Delete Table'}
 const saved=$('rcSavedContact');const refreshSavedContacts=()=>{const previous=saved.value;const previousEmail=contacts()[Number(previous)]?.email;saved.replaceChildren(new Option('Choose saved contact…',''));contacts().forEach((contact,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=contact.name+' · '+contact.role+' · '+contact.email;saved.append(opt)});if(previousEmail){const idx=contacts().findIndex(c=>c.email===previousEmail);if(idx>=0)saved.value=String(idx)}};refreshSavedContacts();document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);saved.onchange=()=>{const contact=contacts()[Number(saved.value)];if(!contact||saved.value==='')return;$('rcRecipient').value=contact.email;prefs._recipient=contact.email;save();loadDraft();render()};$('rcRecipient').value=prefs._recipient||'';loadDraft();
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
-$('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=!yes;$('rcTableRole').disabled=!yes};$('rcSaveChoice').onchange();
+$('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=false;$('rcTableRole').disabled=false};$('rcSaveChoice').onchange();
 $('rcSaveDraft').onclick=saveNamedTable;$('rcLoadTable').onclick=loadNamedTable;$('rcDeleteTable').onclick=deleteNamedTable;renderLibrary();
 $('rcCopy').onclick=openApprovedReport;
 $('rcPrepare').onclick=()=>{const email=$('rcRecipient').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$('rcStatus').hidden=false;$('rcStatus').textContent='Enter a valid recipient email first.';return}saveDraft();const body=$('rcBody').value+'\n\n'+plain();window.location.href='mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent($('rcSubject').value)+'&body='+encodeURIComponent(body);$('rcStatus').hidden=false;$('rcStatus').textContent='Email draft opened. Use Copy Formatted Table to paste the styled table.'};
