@@ -395,4 +395,24 @@ document.addEventListener('DOMContentLoaded',function(){
 #rcTableLibrary .rc-role-picker #rcChooseRole{white-space:nowrap!important}
 @media(max-width:680px){#rcTableLibrary .rc-library-form{grid-template-columns:1fr!important}#rcTableLibrary .rc-library-form>.rc-saved-table-row{grid-column:1!important;max-width:100%!important}}
 </style>
+<style id="v5-recipient-table-refined-header">
+/* Recipient task table: refined single-line headings with readable grouping. */
+#contract-summary .rc-head{
+ background:#1d5068!important;color:#fff!important;
+ border:1px solid #2b647b!important;border-bottom:3px solid #d3a75b!important;
+ border-radius:8px 8px 0 0!important;
+ font-size:11px!important;font-weight:750!important;
+ letter-spacing:.025em!important;line-height:1.25!important;
+ padding:12px 9px!important;min-height:49px!important;
+ text-transform:none!important;box-shadow:0 2px 4px rgba(17,50,69,.08)!important;
+}
+#contract-summary .rc-head>span{display:flex!important;align-items:center!important;min-width:0!important;white-space:normal!important;overflow-wrap:normal!important}
+#contract-summary .rc-head>span:nth-child(1),#contract-summary .rc-head>span:nth-child(3),#contract-summary .rc-head>span:nth-child(4),#contract-summary .rc-head>span:nth-child(7){justify-content:center!important;text-align:center!important}
+#contract-summary .rc-head>span:nth-child(5){color:#f3d49c!important}
+#contract-summary .rc-head>span:nth-child(7){color:#b8e8dc!important}
+#contract-summary .rc-row{border-left:1px solid #d5e3e9!important;border-right:1px solid #d5e3e9!important}
+#contract-summary .rc-row:last-child{border-bottom:1px solid #d5e3e9!important;border-radius:0 0 8px 8px!important}
+#contract-summary .rc-row:nth-child(even){background:#f5f9fb!important}
+@media(max-width:850px){#contract-summary .rc-head{font-size:10px!important;padding:10px 5px!important}}
+</style>
 </body></html>
