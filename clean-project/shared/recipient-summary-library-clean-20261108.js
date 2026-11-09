@@ -23,10 +23,15 @@ const messagePresets={
  'Action Required':'Please review the tasks and deadlines below and confirm the required next steps.',
  'Custom message…':''
 };
-function saveDraft(){prefs[draftKey()]={subject:$('rcSubject').value,body:$('rcBody').value};save()}
-function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=(d.subject??defaultSubject);$('rcBody').value=(d.body??defaultBody);
- const subjectChoice=$('rcSubjectPreset');if(subjectChoice)subjectChoice.value=subjectPresets.includes($('rcSubject').value)?$('rcSubject').value:'Custom subject…';
- const messageChoice=$('rcMessagePreset');if(messageChoice)messageChoice.value=Object.keys(messagePresets).find(k=>messagePresets[k]===$('rcBody').value)||'Custom message…';
+// Email compose fields are temporary: refreshing or changing recipient starts blank.
+// Keep saved contacts, tasks, dates, and table-library data untouched.
+function saveDraft(){} 
+function loadDraft(){
+ const subject=$('rcSubject'),body=$('rcBody');
+ if(subject)subject.value='';
+ if(body){body.value='';body.style.removeProperty('height')}
+ const subjectChoice=$('rcSubjectPreset');if(subjectChoice)subjectChoice.value='Custom subject…';
+ const messageChoice=$('rcMessagePreset');if(messageChoice)messageChoice.value='Custom message…';
 }
 function setting(t){const k=recipientKey()+':'+t.id;return prefs[k]||(prefs[k]={send:true,purpose:'Action Required',note:''})}
 function selected(){return rows().filter(t=>t.selected&&setting(t).send)}
@@ -241,6 +246,9 @@ replaceField(contactLabel,saved,addContactButton,'Saved contact');
 
 replaceField(recipientLabel,recipientInput,emailButton,'Recipient email');
 // One consolidated visual structure; preserve original functional input IDs and handlers.
+// Remove legacy auto-saved email drafts, but preserve all other preferences.
+for(const k of Object.keys(prefs))if(k.startsWith('draft:'))delete prefs[k];
+save();
 const guide=box.querySelector('.rc-section-label');
 if(guide)guide.innerHTML='01 · PREPARE RECIPIENT &amp; MESSAGE <small>Choose a saved contact or add a new recipient.</small>';
 const fields=box.querySelector('.rc-recipient');if(fields)fields.classList.add('rc-recipient-rebuilt');
@@ -304,7 +312,7 @@ if(subjectField){fields.after(emailRow);emailRow.append(subjectField,messageFiel
 emailRow.after(emailDetails);
 const clearDraftButton=document.createElement('button');clearDraftButton.type='button';clearDraftButton.textContent='Clear Email';clearDraftButton.title='Clear the subject and message for the selected recipient';clearDraftButton.style.cssText='display:inline-block;align-self:start;margin:0 0 10px;padding:6px 12px;border:1px solid #c8dce5;border-radius:6px;background:#fff;color:#24546b;font-size:13px;font-weight:700;cursor:pointer';
 emailDetails.after(clearDraftButton);
-clearDraftButton.onclick=()=>{if(!confirm('Clear the saved email subject and message for this recipient?'))return;$('rcSubject').value='';$('rcBody').value='';saveDraft();$('rcBody').dispatchEvent(new Event('input',{bubbles:true}));};
+clearDraftButton.onclick=()=>{if(!confirm('Clear the saved email subject and message for this recipient?'))return;$('rcSubject').value='';$('rcBody').value='';$('rcBody').dispatchEvent(new Event('input',{bubbles:true}));};
 
 const expandableMessage=$('rcBody');
 if(expandableMessage){
