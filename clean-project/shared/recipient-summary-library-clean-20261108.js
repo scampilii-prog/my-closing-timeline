@@ -252,6 +252,39 @@ contactRowStyle.textContent=`
 @media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr}}
 `;
 document.head.append(contactRowStyle);
+// Rebuild the visual structure without replacing functional inputs or saved data.
+const composerGuide=box.querySelector('.rc-section-label');
+if(composerGuide){composerGuide.innerHTML='01 · PREPARE RECIPIENT &amp; MESSAGE <small>Choose a contact, review the email, and prepare your selected tasks.</small>';}
+const fields=box.querySelector('.rc-recipient');
+if(fields){
+ fields.classList.add('rc-recipient-rebuilt');
+ const subjectField=fields.querySelector('label:has(#rcSubject)');
+ if(subjectField){subjectField.classList.add('rc-subject-rebuilt');}
+}
+const bodyField=$('rcBody')?.closest('label');
+if(bodyField)bodyField.classList.add('rc-message-rebuilt');
+const visual=document.createElement('style');
+visual.id='rc-rebuild-v5-authoritative';
+visual.textContent=`
+#recipientComposer .rc-section-label{font-size:21px!important;line-height:1.45!important;font-weight:850!important;letter-spacing:.01em!important;color:#153f55!important;margin:22px 0 16px!important}
+#recipientComposer .rc-section-label small{display:block!important;font-size:13px!important;line-height:1.6!important;font-weight:500!important;color:#557284!important;margin-top:3px!important}
+#recipientComposer .rc-recipient-rebuilt{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:14px 20px!important;align-items:stretch!important;margin:14px 0 18px!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-field-cell{display:flex!important;flex-direction:column!important;gap:10px!important;padding:16px!important;background:#f8fbfd!important;border:1px solid #d6e5ec!important;border-radius:10px!important;min-width:0!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-heading{display:block!important;font-size:18px!important;font-weight:800!important;color:#153f55!important;line-height:1.4!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line{display:flex!important;gap:9px!important;align-items:center!important;min-width:0!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line>select,#recipientComposer .rc-recipient-rebuilt .rc-field-line>input{flex:1 1 auto!important;width:1px!important;min-width:0!important;height:45px!important;font-size:15px!important;margin:0!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line>button{flex:0 0 auto!important;height:45px!important;min-height:45px!important;padding:8px 12px!important;font-size:14px!important;white-space:nowrap!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-subject-rebuilt{grid-column:1/-1!important;display:flex!important;flex-direction:column!important;gap:9px!important;padding:17px 0 0!important;margin:3px 0 0!important;border-top:1px solid #d9e8ee!important;font-size:18px!important;font-weight:800!important;color:#153f55!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-subject-rebuilt>input{width:100%!important;min-height:45px!important;font-size:16px!important}
+#recipientComposer .rc-email-option-row{margin:14px 0 18px!important;gap:16px!important;padding:15px!important}
+#recipientComposer .rc-email-option-row label{font-size:16px!important;font-weight:750!important;color:#153f55!important}
+#recipientComposer .rc-message-rebuilt{display:flex!important;flex-direction:column!important;gap:10px!important;margin:18px 0!important;font-size:18px!important;font-weight:800!important;color:#153f55!important}
+#recipientComposer .rc-message-rebuilt textarea{font-size:15px!important;line-height:1.55!important;font-weight:500!important}
+#recipientComposer .rc-head{margin-top:22px!important}
+@media(max-width:750px){#recipientComposer .rc-recipient-rebuilt{grid-template-columns:1fr!important}}
+`;
+document.head.append(visual);
+
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template (optional)';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
