@@ -244,4 +244,30 @@ document.addEventListener('DOMContentLoaded',()=>{
  });
  th.appendChild(button);
 });
+</script><style id="v5-approved-layout-and-today-colors">
+/* Screenshot-approved: spacious single task table with all columns, balanced toolbar. */
+#contract-input .v3-scroll{overflow-x:auto!important}
+#contract-input .v3-scroll table{min-width:1080px!important;width:100%!important;table-layout:fixed!important}
+#contract-input .v3-scroll th:nth-child(5),#contract-input .v3-scroll td:nth-child(5){width:13%!important}
+#contract-input .v3-scroll td:nth-child(5) select{display:block!important;max-width:100%!important;width:100%!important;min-width:0!important;font-size:11px!important}
+#contract-input .v3-scroll td:nth-child(6) input{max-width:100%!important;min-width:0!important}
+#contract-input .v3-scroll th:nth-child(4){position:static!important}
+#contract-input .v3-scroll #v5-header-apply{display:none!important}
+#today-tomorrow{--tt-red:#a62c32;--tt-amber:#986000;--tt-green:#146c50}
+#today-tomorrow :is(h2,h3,h4){color:#173e59!important}
+#today-tomorrow :is(.overdue,.late,.past-due,.v3-overdue,[data-urgency="overdue"]){color:var(--tt-red)!important;font-weight:800!important}
+#today-tomorrow :is(.today,.due-today,.v3-today,[data-urgency="today"]){color:var(--tt-amber)!important;font-weight:800!important}
+#today-tomorrow :is(.tomorrow,.due-tomorrow,.v3-tomorrow,[data-urgency="tomorrow"]){color:var(--tt-green)!important;font-weight:800!important}
+</style>
+<script id="v5-approved-toolbar-controls">
+document.addEventListener('DOMContentLoaded',()=>{
+ const section=document.getElementById('contract-input');
+ if(!section)return;
+ const sort=document.getElementById('sort');
+ const toolbar=section.querySelector('.v5-toolbar-edit .v5-toolbar-buttons');
+ if(sort&&toolbar){toolbar.appendChild(sort);sort.textContent='Apply & Reorder';sort.hidden=false;sort.style.setProperty('display','inline-flex','important')}
+ const heading=[...section.querySelectorAll('strong,h3,h4')].find(e=>/Manage Tasks/i.test(e.textContent||''));
+ const group=heading?.closest('.v5-toolbar-group')?.querySelector('.v5-toolbar-buttons');
+ if(group&&sort&&sort.parentElement!==group)group.appendChild(sort);
+});
 </script></body></html>
