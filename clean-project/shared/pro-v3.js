@@ -238,7 +238,7 @@ saveButton.onclick=()=>{const name=templateName.value.trim();if(!name)return ale
 const firstLibrary=$('contract-input');firstLibrary?.parentElement?.insertBefore(templateLibrary,firstLibrary);
 window.addEventListener('focus',refreshLibrary);
 for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
- const bar=$(target)?.querySelector('.v3-actions');if(!bar)continue;
+ const bar=$(target)?.querySelector('.v3-actions');if(!bar || type==='contract')continue;
  const selectAll=el('button',{type:'button'},'Select All');const clearAll=el('button',{type:'button'},'Clear All Tasks');
  for(const b of [selectAll,clearAll])b.style.cssText='border:1px solid #b7cbd5;border-radius:8px;background:#fff;color:#214c65;padding:9px 12px;font-weight:700;cursor:pointer';
  selectAll.onclick=()=>{if(type==='contract'){state.tasks.forEach(t=>selected.add(t.id));render()}else{followups.forEach(t=>t.selected=true);saveFollowups();renderFollowups()}};
@@ -289,6 +289,6 @@ function organizeTaskControls(rootId,followup){
  bar.replaceChildren(el('div',{className:'v3-control-heading'},'TASK CONTROLS · '+(followup?'FOLLOW-UP':'CONTRACT')),frame,misc);
  bar.classList.add('v3-actions-organized');
 }
-organizeTaskControls('contract-input',false);
+/* Table 01 uses its authored toolbar: never move its controls. */
 organizeTaskControls('followup-input',true);
 render();renderFollowups()})();
