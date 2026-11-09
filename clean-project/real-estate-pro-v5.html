@@ -522,4 +522,32 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #recipientComposer .v5-recipient-quick-guide p{margin:7px 0 0;font-size:12px;line-height:1.5;color:#527082}
 @media(max-width:580px){#recipientComposer .v5-guide-steps{gap:7px;font-size:12px}#recipientComposer .v5-guide-arrow{display:none}}
 </style>
+
+<style id="v5-contact-role-dropdown-css">
+.v5-role-choice{display:block;width:100%;box-sizing:border-box;min-height:35px;border:1px solid #c6d9e3;border-radius:7px;background:#fff;color:#183e52;padding:7px 10px;font:inherit;margin-top:3px}
+.v5-role-custom{display:block;width:100%;box-sizing:border-box;margin-top:7px!important}
+</style>
+<script id="v5-contact-role-dropdown">
+(()=>{'use strict';
+const roles=['Buyer Agent','Seller Agent','Listing Agent','Real Estate Broker','Broker Associate','Transaction Coordinator','Title Agent','Title Company','Closing Agent','Closing Company','Escrow Officer','Escrow Agent','Real Estate Attorney','Mortgage Loan Officer','Mortgage Broker','Mortgage Lender','Loan Processor','Underwriter','Appraiser','Home Inspector','Insurance Agent','Property Manager','Condominium Association Manager','HOA Manager','HOA Representative','Association Attorney','Surveyor','General Contractor','Builder','Developer','Architect','Engineer','Home Warranty Representative','Pest Inspector','Roof Inspector','Insurance Adjuster','Notary Public','Closing Coordinator','Real Estate Assistant','Buyer','Seller','Landlord','Tenant','Investor','Other — specify'];
+function upgrade(){
+ document.querySelectorAll('input[placeholder]').forEach(input=>{
+  if(input.dataset.v5RoleEnhanced)return;
+  const hint=(input.getAttribute('placeholder')||'').toLowerCase();
+  if(!hint.includes('buyer, seller, title company'))return;
+  input.dataset.v5RoleEnhanced='yes';
+  const select=document.createElement('select');select.className='v5-role-choice';select.setAttribute('aria-label','Role / relationship');
+  const blank=document.createElement('option');blank.value='';blank.textContent='Choose a professional role…';select.append(blank);
+  roles.forEach(role=>{const option=document.createElement('option');option.value=role;option.textContent=role;select.append(option)});
+  const custom=document.createElement('input');custom.className='v5-role-custom';custom.placeholder='Enter a custom role';custom.setAttribute('aria-label','Custom role');custom.hidden=true;
+  const sync=()=>{const value=select.value==='Other — specify'?custom.value.trim():select.value;input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}))};
+  select.addEventListener('change',()=>{custom.hidden=select.value!=='Other — specify';if(!custom.hidden)custom.focus();sync()});custom.addEventListener('input',sync);
+  const original=input.value.trim();input.style.display='none';input.insertAdjacentElement('afterend',select);select.insertAdjacentElement('afterend',custom);
+  if(original){if(roles.includes(original)){select.value=original}else{select.value='Other — specify';custom.hidden=false;custom.value=original}}
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',upgrade);else upgrade();
+new MutationObserver(upgrade).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body></html>
