@@ -188,23 +188,28 @@ const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProper
 const saved=$('rcSavedContact');
 const recipientInput=$('rcRecipient');
 const refreshSavedContacts=()=>{
-  const currentEmail=(recipientInput.value||'').trim().toLowerCase();
+  // Preserve the selected contact BEFORE rebuilding the options.
+  const selectedBefore=(saved.value||'').trim().toLowerCase();
+  const recipientBefore=(recipientInput.value||'').trim().toLowerCase();
+  const rememberedEmail=String(prefs._recipient||'').trim().toLowerCase();
   const all=contacts();
   saved.replaceChildren(new Option('Choose saved contact…',''));
-  all.forEach(contact=>{
-    const opt=new Option(contact.name+' · '+contact.role+' · '+contact.email,contact.email);
-    saved.append(opt);
-  });
-  const selectedEmail=(saved.value||'').trim().toLowerCase();
-  const matched=all.find(c=>c.email.toLowerCase()===(currentEmail||selectedEmail));
+  all.forEach(contact=>saved.add(new Option(contact.name+' · '+contact.role+' · '+contact.email,contact.email)));
+  const matched=all.find(c=>c.email.toLowerCase()===(selectedBefore||recipientBefore||rememberedEmail));
   saved.value=matched?matched.email:'';
-  if(matched && !currentEmail){recipientInput.value=matched.email;prefs._recipient=matched.email;save();loadDraft();}
+  if(matched && !recipientBefore){
+    recipientInput.value=matched.email;
+    prefs._recipient=matched.email;
+    save();loadDraft();
+  }
+  recipientInput.readOnly=!!matched && recipientInput.value===matched.email;
 };
 refreshSavedContacts();
 document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
 const selectSavedContact=()=>{
   const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
   recipientInput.value=contact?contact.email:'';
+  recipientInput.readOnly=!!contact;
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
