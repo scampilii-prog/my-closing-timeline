@@ -159,8 +159,32 @@ $('rcChooseRole').onclick=openRole;$('rcTableRole').onclick=openRole;roleOption.
 $('rcRoleConfirm').onclick=()=>{const custom=$('rcRoleCustom').value.trim();const role=custom||(roleOption.value==='Other / Custom Role'?'':roleOption.value);if(!role){$('rcRoleCustom').focus();return}$('rcTableRole').value=role;if(custom&&!roleNames.includes(custom)&&!customRoles.includes(custom)){customRoles.push(custom);try{localStorage.setItem(roleStorageKey,JSON.stringify(customRoles))}catch(e){}const option=document.createElement('option');option.value=custom;option.textContent=custom;roleOption.append(option)}roleDialog.close()};
 const chooseButton=$('rcChooseRole');if(chooseButton){chooseButton.textContent='Choose ▾';chooseButton.style.setProperty('width','88px','important');chooseButton.style.setProperty('min-width','88px','important');chooseButton.style.setProperty('padding','9px 8px','important')}
 const savedDelete=$('rcDeleteTable');if(savedDelete){savedDelete.style.setProperty('width','auto','important');savedDelete.style.setProperty('white-space','nowrap','important');savedDelete.textContent='Delete Table'}
-const saved=$('rcSavedContact');const refreshSavedContacts=()=>{const previous=saved.value;const previousEmail=contacts()[Number(previous)]?.email;saved.replaceChildren(new Option('Choose saved contact…',''));contacts().forEach((contact,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=contact.name+' · '+contact.role+' · '+contact.email;saved.append(opt)});if(previousEmail){const idx=contacts().findIndex(c=>c.email===previousEmail);if(idx>=0)saved.value=String(idx)}};refreshSavedContacts();document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);saved.onchange=()=>{const contact=saved.value===''?null:contacts()[Number(saved.value)];if(!contact){$('rcRecipient').value='';prefs._recipient='';save();render();return}$('rcRecipient').value=contact.email;prefs._recipient=contact.email;save();loadDraft();render()};$('rcRecipient').value='';prefs._recipient='';save();loadDraft();
-$('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;save();loadDraft();render()};
+const saved=$('rcSavedContact');
+const recipientInput=$('rcRecipient');
+const refreshSavedContacts=()=>{
+  const currentEmail=(recipientInput.value||'').trim().toLowerCase();
+  const all=contacts();
+  saved.replaceChildren(new Option('Choose saved contact…',''));
+  all.forEach(contact=>{
+    const opt=new Option(contact.name+' · '+contact.role+' · '+contact.email,contact.email);
+    saved.append(opt);
+  });
+  const matched=all.find(c=>c.email.toLowerCase()===currentEmail);
+  saved.value=matched?matched.email:'';
+};
+refreshSavedContacts();
+document.addEventListener('mct:v5-contacts-updated',refreshSavedContacts);
+saved.onchange=()=>{
+  const contact=contacts().find(c=>c.email===saved.value);
+  recipientInput.value=contact?contact.email:'';
+  prefs._recipient=recipientInput.value;
+  save();loadDraft();render();
+};
+recipientInput.value='';
+prefs._recipient='';
+saved.value='';
+save();loadDraft();
+$('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
 $('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=false;$('rcTableRole').disabled=false};$('rcSaveChoice').onchange();
 $('rcSaveDraft').onclick=saveNamedTable;$('rcLoadTable').onclick=loadNamedTable;$('rcDeleteTable').onclick=deleteNamedTable;renderLibrary();
