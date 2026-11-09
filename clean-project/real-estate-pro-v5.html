@@ -323,16 +323,17 @@ document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementByI
 (function(){
 function place(){
  const library=document.getElementById('rcTableLibrary'),target=document.getElementById('contract-summary');
- if(!library||!target)return false;
+ if(!library||!target)return;
  if(library.parentElement!==target)target.insertBefore(library,target.firstChild);
  const composer=document.getElementById('recipientComposer');
  if(composer)composer.style.display='none';
- return true;
+ const choose=document.getElementById('rcChooseRole');
+ if(choose){choose.hidden=false;choose.style.setProperty('display','inline-flex','important');choose.style.setProperty('visibility','visible','important');}
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);
-else place();
+document.addEventListener('DOMContentLoaded',place);
 window.addEventListener('load',place);
-const observer=new MutationObserver(()=>{if(place())observer.disconnect()});
-observer.observe(document.documentElement,{subtree:true,childList:true});
+const watch=new MutationObserver(()=>{if(document.getElementById('rcTableLibrary')?.parentElement!==document.getElementById('contract-summary'))place()});
+watch.observe(document.documentElement,{subtree:true,childList:true});
+place();
 })();
 </script></body></html>
