@@ -280,6 +280,23 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-message-rebuilt{margin:10px 0!important;gap:6px!important;font-size:15px!important}
 #recipientComposer #rcBody{min-height:62px!important;padding:9px!important}
 #recipientComposer .rc-head{margin-top:12px!important}
+
+/* Compact two-row workflow: recipient controls, then email content. */
+#recipientComposer .rc-recipient-rebuilt{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:end!important;gap:12px!important;margin:8px 0 14px!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-field-cell{padding:0!important;background:transparent!important;border:0!important;gap:6px!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-heading{font-size:16px!important;font-weight:800!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line{gap:8px!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line>button{font-size:13px!important}
+#recipientComposer .rc-email-compose-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)!important;gap:14px!important;align-items:start!important;margin:10px 0!important}
+#recipientComposer .rc-email-compose-row>label{display:flex!important;flex-direction:column!important;gap:6px!important;margin:0!important;padding:0!important;border:0!important;font-size:16px!important;font-weight:800!important}
+#recipientComposer .rc-email-compose-row #rcSubject{height:40px!important;min-height:40px!important;box-sizing:border-box!important;width:100%!important}
+#recipientComposer .rc-email-compose-row #rcBody{height:68px!important;min-height:68px!important;box-sizing:border-box!important;width:100%!important}
+#recipientComposer .rc-template-details{border:1px solid #d7e6ec!important;border-radius:7px!important;margin:7px 0 12px!important;padding:0!important;background:#f7fbfc!important}
+#recipientComposer .rc-template-details>summary{cursor:pointer!important;padding:9px 12px!important;font-size:13px!important;font-weight:700!important;color:#28546a!important}
+#recipientComposer .rc-template-details .rc-email-option-row{margin:0!important;border:0!important;border-top:1px solid #d7e6ec!important;border-radius:0!important;background:transparent!important;padding:10px!important;gap:12px!important}
+#recipientComposer .rc-section-label{font-size:20px!important;margin:10px 0 12px!important}
+#recipientComposer .rc-head{margin-top:14px!important}
+@media(max-width:720px){#recipientComposer .rc-email-compose-row,#recipientComposer .rc-recipient-rebuilt{grid-template-columns:1fr!important}}
 `;document.head.append(visual);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template (optional)';
@@ -289,7 +306,13 @@ const messageLabel=document.createElement('label');messageLabel.textContent='Mes
 const messageChoice=document.createElement('select');messageChoice.id='rcMessagePreset';
 Object.keys(messagePresets).forEach(name=>messageChoice.add(new Option(name,name)));messageLabel.append(messageChoice);
 choices.append(subjectLabel,messageLabel);
-$('rcBody').closest('label').before(choices);
+const messageField=$('rcBody').closest('label');
+const emailDetails=document.createElement('details');emailDetails.className='rc-template-details';
+const emailSummary=document.createElement('summary');emailSummary.textContent='Use a saved subject or message template (optional)';
+emailDetails.append(emailSummary,choices);
+const emailRow=document.createElement('div');emailRow.className='rc-email-compose-row';
+if(subjectField){fields.after(emailRow);emailRow.append(subjectField,messageField)}else{messageField.before(emailRow);emailRow.append(messageField)}
+emailRow.after(emailDetails);
 subjectChoice.addEventListener('change',()=>{if(subjectChoice.value==='Custom subject…'){$('rcSubject').focus();$('rcSubject').select();return}$('rcSubject').value=subjectChoice.value;saveDraft()});
 messageChoice.addEventListener('change',()=>{if(messageChoice.value==='Custom message…'){$('rcBody').focus();return}$('rcBody').value=messagePresets[messageChoice.value];saveDraft()});
 loadDraft();
