@@ -22,14 +22,14 @@ const libraryKey='mct-clean-v5-table-library';
 function library(){try{const v=JSON.parse(localStorage.getItem(libraryKey)||'[]');return Array.isArray(v)?v:[]}catch{return []}}
 function saveLibrary(v){localStorage.setItem(libraryKey,JSON.stringify(v))}
 function libraryStatus(msg){const e=$('rcStatus');if(e){e.hidden=false;e.textContent=msg}}
-function renderLibrary(){const list=$('rcLibraryList');if(!list)return;const entries=library();list.replaceChildren();for(const item of entries){const option=document.createElement('option');option.value=item.id;option.textContent=item.name+' · '+item.tasks.length+' tasks'+(item.role?' · '+item.role:'');list.append(option)}if(!entries.length){const option=document.createElement('option');option.value='';option.textContent='No saved tables yet';list.append(option)}}
+function renderLibrary(){const list=$('rcLibraryList');if(!list)return;const entries=library();list.replaceChildren();for(const item of entries){const option=document.createElement('option');option.value=item.id;option.textContent=item.name+' · '+item.tasks.length+' tasks'+(item.role?' · '+item.role:'')+(item.recipientName?' · '+item.recipientName:item.recipient?' · '+item.recipient:'');list.append(option)}if(!entries.length){const option=document.createElement('option');option.value='';option.textContent='No saved tables yet';list.append(option)}}
 function saveNamedTable(){
  if($('rcSaveChoice')?.value!=='yes'){libraryStatus('Choose Yes to save this table, or continue without saving.');return}
  const name=$('rcTableName').value.trim(),role=$('rcTableRole').value.trim();if(!name){libraryStatus('Enter a table name before saving.');$('rcTableName').focus();return}if(!role){libraryStatus('Specify who this table is prepared for before saving.');$('rcTableRole').focus();return}
  const tasks=rows().filter(t=>t.selected).map(t=>{const p=setting(t);return {id:t.id,name:t.name,days:t.days,basis:t.basis,purpose:p.purpose,note:p.note,send:p.send!==false}});
  if(!tasks.length){libraryStatus('Select at least one task to save this table.');return}
  const entries=library(),old=entries.findIndex(x=>x.name.toLowerCase()===name.toLowerCase());if(old>=0&&!window.confirm('Replace the saved table named '+name+'?'))return;
- const item={id:old>=0?entries[old].id:'table-'+Date.now(),name,role,recipient:$('rcRecipient').value.trim(),subject:$('rcSubject').value,body:$('rcBody').value,tasks,updated:new Date().toISOString()};
+ const recipient=$('rcRecipient').value.trim();const item={id:old>=0?entries[old].id:'table-'+Date.now(),name,role,recipient,recipientName:contacts().find(c=>c.email.toLowerCase()===recipient.toLowerCase())?.name||'',subject:$('rcSubject').value,body:$('rcBody').value,tasks,updated:new Date().toISOString()};
  if(old>=0)entries[old]=item;else entries.push(item);saveLibrary(entries);renderLibrary();$('rcLibraryList').value=item.id;libraryStatus('Saved "'+name+'" in this browser. Only checked Select tasks are saved; Send is chosen separately for each email. Dates use the current closing.')}
 function loadNamedTable(){
  const item=library().find(x=>x.id===$('rcLibraryList').value);if(!item){libraryStatus('Choose a saved table.');return}
