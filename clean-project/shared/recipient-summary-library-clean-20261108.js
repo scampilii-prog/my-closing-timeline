@@ -245,8 +245,7 @@ if(guide)guide.innerHTML='01 · PREPARE RECIPIENT &amp; MESSAGE <small>Choose a 
 const fields=box.querySelector('.rc-recipient');if(fields)fields.classList.add('rc-recipient-rebuilt');
 const subjectField=$('rcSubject')?.closest('label');if(subjectField)subjectField.classList.add('rc-subject-rebuilt');
 const bodyField=$('rcBody')?.closest('label');if(bodyField)bodyField.classList.add('rc-message-rebuilt');
-const emailSection=document.createElement('div');emailSection.className='rc-section-divider';emailSection.innerHTML='<strong>02 · EMAIL DETAILS</strong><span>Choose a template or edit your subject and message.</span>';if(subjectField)subjectField.before(emailSection);
-const taskSection=document.createElement('div');taskSection.className='rc-section-divider';taskSection.innerHTML='<strong>03 · TASKS TO SHARE</strong><span>Review deadlines, instructions and the items to send.</span>';box.querySelector('.rc-head')?.before(taskSection);
+// No extra headings or banners: keep the recipient, subject, message and task table together.
 const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritative';visual.textContent=`
 #recipientComposer .rc-section-label{font-size:22px!important;font-weight:850!important;line-height:1.35!important;color:#173e54!important;margin:24px 0 18px!important}
 #recipientComposer .rc-section-label small{display:block!important;font-size:13px!important;font-weight:500!important;color:#567384!important;margin-top:6px!important}
@@ -267,6 +266,20 @@ const visual=document.createElement('style');visual.id='rc-rebuild-v5-authoritat
 #recipientComposer .rc-message-rebuilt textarea{font-size:15px!important;line-height:1.55!important;font-weight:500!important}
 #recipientComposer .rc-head{margin-top:10px!important}
 @media(max-width:750px){#recipientComposer .rc-recipient-rebuilt{grid-template-columns:1fr!important}}
+
+#recipientComposer .rc-section-label{margin:12px 0 10px!important;font-size:19px!important}
+#recipientComposer .rc-section-label small{display:inline!important;margin-left:8px!important;font-size:12px!important}
+#recipientComposer .rc-recipient-rebuilt{margin:8px 0 12px!important;gap:12px!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-field-cell{padding:10px 12px!important;gap:6px!important;background:#fff!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-heading{font-size:16px!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line>select,#recipientComposer .rc-recipient-rebuilt .rc-field-line>input{height:39px!important;font-size:14px!important}
+#recipientComposer .rc-recipient-rebuilt .rc-field-line>button{min-height:39px!important;padding:6px 10px!important}
+#recipientComposer .rc-recipient-rebuilt>.rc-subject-rebuilt{margin:0!important;padding:0!important;font-size:15px!important}
+#recipientComposer .rc-email-option-row{padding:9px 12px!important;margin:10px 0!important}
+#recipientComposer .rc-email-option-row select{min-height:36px!important}
+#recipientComposer .rc-message-rebuilt{margin:10px 0!important;gap:6px!important;font-size:15px!important}
+#recipientComposer #rcBody{min-height:62px!important;padding:9px!important}
+#recipientComposer .rc-head{margin-top:12px!important}
 `;document.head.append(visual);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template (optional)';
