@@ -70,4 +70,4 @@ $('copy').onclick=async()=>{try{const blob=new Blob([summaryHtml()],{type:'text/
 $('email').onclick=()=>{const subject=encodeURIComponent('Closing Timeline Summary'),body=encodeURIComponent(state.tasks.map((t,i)=>(i+1)+'. '+t.name+' | '+t.days+' days | '+(due(t)||'Set dates')).join('\n'));location.href='mailto:?subject='+subject+'&body='+body};
 refreshTemplates();render();
 })();
-</script><div id="v6-build-stamp" style="position:fixed;bottom:6px;right:10px;background:#fff;color:#536879;font:11px Arial;padding:4px 7px;border:1px solid #d5e0e8;border-radius:5px;z-index:9999">V6 · Build 20261108-1930</div></body></html>
+</script><button type="button" id="v6-reload" onclick="window.location.href=window.location.pathname+'?reload='+Date.now()" style="position:fixed;bottom:35px;right:10px;background:#185a7a;color:white;border:0;border-radius:6px;padding:9px 12px;font:600 13px Arial;cursor:pointer;z-index:9999">↻ Reload V6</button><div id="v6-build-stamp" style="position:fixed;bottom:6px;right:10px;background:#fff;color:#536879;font:11px Arial;padding:4px 7px;border:1px solid #d5e0e8;border-radius:5px;z-index:9999">V6 · Build 20261108-1930</div></body></html>
