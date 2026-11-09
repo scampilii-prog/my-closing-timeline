@@ -494,6 +494,13 @@ document.addEventListener('DOMContentLoaded',function(){
 #contract-summary #recipientComposer .rc-recipient>.rc-field-cell .rc-field-heading{font-size:17px!important}
 #contract-summary #recipientComposer .rc-section-label:first-of-type{font-size:19px!important;font-weight:850!important}
 #contract-summary #recipientComposer .rc-section-label:first-of-type small{font-size:12px!important;font-weight:500!important}
+/* Correct actual DOM: dynamic composer headings are direct strong elements. */
+#contract-summary section#recipientComposer .rc-section-label:not(#rcTableLibrary .rc-section-label){font-size:21px!important;font-weight:900!important;line-height:1.5!important;color:#143e55!important}
+#contract-summary section#recipientComposer .rc-section-label small{font-size:13px!important;font-weight:550!important;color:#557384!important}
+#contract-summary section#recipientComposer .rc-recipient .rc-field-cell>strong.rc-field-heading{font-size:19px!important;font-weight:850!important;line-height:1.4!important;color:#123e55!important}
+#contract-summary section#recipientComposer .rc-recipient>label:has(#rcSubject){font-size:18px!important;font-weight:850!important;color:#123e55!important}
+#contract-summary section#recipientComposer .rc-email-option-row>label{font-size:17px!important;font-weight:850!important;color:#123e55!important}
+#contract-summary section#recipientComposer label:has(>#rcBody){font-size:18px!important;font-weight:850!important;color:#123e55!important}
 </style>
 <script id="v5-progressive-result-script">
 (function(){
