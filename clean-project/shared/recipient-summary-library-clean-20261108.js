@@ -13,8 +13,21 @@ function rows(){const s=state(),trs=[...document.querySelectorAll('#rows tr')];r
 function contacts(){const all=[];for(const key of ['mct-clean-v3-recipients-demo','mct-v5-professionals-v1']){try{const v=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(v))for(const c of v){if(c&&c.name&&c.email&&!all.some(x=>x.email.toLowerCase()===String(c.email).toLowerCase()))all.push(c)}}catch{}}return all}
 function recipientKey(){return ($('rcRecipient')?.value||'default').trim().toLowerCase()}
 function draftKey(){return 'draft:'+recipientKey()}
+const defaultSubject='Closing Timeline Summary';
+const defaultBody='Please review the selected closing milestones and instructions below.';
+const subjectPresets=['Closing Timeline Summary','Congratulations on Our Agreement | Closing Timeline & Next Steps','Important Closing Deadlines','Action Required — Closing Timeline','Custom subject…'];
+const messagePresets={
+ 'Closing Timeline Summary':defaultBody,
+ 'Congratulations — Realtor':'Hello,\\n\\nCongratulations on reaching an agreement! Thank you for your professionalism and cooperation. As we move toward closing, I have prepared the Closing Timeline Summary below to keep us coordinated on important dates and next steps.\\n\\n[PASTE YOUR FORMATTED CLOSING TIMELINE TABLE HERE]\\n\\nPlease review all deadlines against the fully executed contract and any addenda. I look forward to a smooth and successful closing.\\n\\nBest regards,',
+ 'Important Closing Deadlines':'Please review the selected closing deadlines and let me know if any date or action needs clarification.',
+ 'Action Required':'Please review the tasks and deadlines below and confirm the required next steps.',
+ 'Custom message…':''
+};
 function saveDraft(){prefs[draftKey()]={subject:$('rcSubject').value,body:$('rcBody').value};save()}
-function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=d.subject||'Closing Timeline Summary';$('rcBody').value=d.body||'Please review the selected closing milestones and instructions below.'}
+function loadDraft(){const d=prefs[draftKey()]||{};$('rcSubject').value=d.subject||defaultSubject;$('rcBody').value=d.body||defaultBody;
+ const subjectChoice=$('rcSubjectPreset');if(subjectChoice)subjectChoice.value=subjectPresets.includes($('rcSubject').value)?$('rcSubject').value:'Custom subject…';
+ const messageChoice=$('rcMessagePreset');if(messageChoice)messageChoice.value=Object.keys(messagePresets).find(k=>messagePresets[k]===$('rcBody').value)||'Custom message…';
+}
 function setting(t){const k=recipientKey()+':'+t.id;return prefs[k]||(prefs[k]={send:true,purpose:'Action Required',note:''})}
 function selected(){return rows().filter(t=>t.selected&&setting(t).send)}
 
@@ -122,7 +135,7 @@ compactStyle.textContent=`
 /* Keep the saved-contact selector as compact and readable as the other fields. */
 #recipientComposer #rcSavedContact{height:34px!important;min-height:34px!important;padding:5px 30px 5px 10px!important;border-radius:5px!important;border:1px solid #bfd4df!important;background-color:#fff!important;color:#173e54!important;font-size:13px!important;font-weight:500!important;line-height:20px!important;opacity:1!important;appearance:auto!important;-webkit-appearance:menulist!important}
 #recipientComposer #rcSavedContact:focus{outline:2px solid #1578ad!important;outline-offset:1px!important}
-#recipientComposer .rc-recipient+label{display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;margin:0 0 12px!important}
+\n#recipientComposer .rc-email-option-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 8px}\n#recipientComposer .rc-email-option-row label{font-size:12px;font-weight:700;color:#19475c;display:flex;align-items:center;gap:7px}\n#recipientComposer .rc-email-option-row select{width:auto;max-width:100%;min-height:32px;padding:5px 9px;border:1px solid #c2d6e1;border-radius:5px;background:#fff;color:#19475c}\n#recipientComposer .rc-change-email{border:1px solid #b7d6df;background:#f3fafb;color:#155c71;padding:6px 10px;border-radius:5px;font-weight:750;cursor:pointer}\n#recipientComposer #rcRecipient[readonly]{background:#f2f7f9;color:#173e54}\n#recipientComposer .rc-recipient+label{display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;margin:0 0 12px!important}
 #recipientComposer #rcBody{width:100%!important;min-height:40px!important;height:44px!important;max-height:140px!important;resize:vertical!important;box-sizing:border-box!important;margin:0!important}
 @media(max-width:760px){#recipientComposer .rc-recipient{grid-template-columns:repeat(2,minmax(0,1fr))!important}#recipientComposer .rc-recipient>label:last-child{grid-column:1/-1}#recipientComposer .rc-recipient+label{grid-template-columns:1fr!important;gap:4px!important}}
 @media(max-width:480px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}#recipientComposer .rc-recipient>label:last-child{grid-column:auto}}
@@ -211,6 +224,29 @@ window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
 saved.addEventListener('blur',syncChosenContact);
 saved.addEventListener('keyup',syncChosenContact);
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
+const recipientLabel=recipientInput.closest('label');
+const emailButton=document.createElement('button');emailButton.type='button';emailButton.className='rc-change-email';emailButton.textContent='Change Email';
+emailButton.title='Edit this email without changing the saved contact';
+recipientLabel.append(emailButton);
+recipientInput.readOnly=!!saved.value;
+emailButton.addEventListener('click',()=>{recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
+const originalSelectSavedContact=selectSavedContact;
+saved.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value});
+recipientInput.addEventListener('change',()=>{recipientInput.readOnly=!!saved.value && recipientInput.value===saved.value;});
+const choices=document.createElement('div');choices.className='rc-email-option-row';
+const subjectLabel=document.createElement('label');subjectLabel.textContent='Subject template';
+const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
+subjectPresets.forEach(name=>subjectChoice.add(new Option(name,name)));subjectLabel.append(subjectChoice);
+const messageLabel=document.createElement('label');messageLabel.textContent='Message template';
+const messageChoice=document.createElement('select');messageChoice.id='rcMessagePreset';
+Object.keys(messagePresets).forEach(name=>messageChoice.add(new Option(name,name)));messageLabel.append(messageChoice);
+choices.append(subjectLabel,messageLabel);
+$('rcBody').closest('label').before(choices);
+subjectChoice.addEventListener('change',()=>{if(subjectChoice.value==='Custom subject…'){$('rcSubject').focus();$('rcSubject').select();return}$('rcSubject').value=subjectChoice.value;saveDraft()});
+messageChoice.addEventListener('change',()=>{if(messageChoice.value==='Custom message…'){$('rcBody').focus();return}$('rcBody').value=messagePresets[messageChoice.value];saveDraft()});
+loadDraft();
+$('rcSubject').addEventListener('input',()=>{subjectChoice.value=subjectPresets.includes($('rcSubject').value)?$('rcSubject').value:'Custom subject…'});
+$('rcBody').addEventListener('input',()=>{messageChoice.value='Custom message…'});
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
 $('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=false;$('rcTableRole').disabled=false};$('rcSaveChoice').onchange();
 $('rcSaveDraft').onclick=saveNamedTable;$('rcLoadTable').onclick=loadNamedTable;$('rcDeleteTable').onclick=deleteNamedTable;renderLibrary();
