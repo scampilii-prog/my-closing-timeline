@@ -250,6 +250,16 @@ if(emailLabelText)emailLabelText.remove();
 recipientLabel.insertBefore(emailLabelHeader,recipientInput);
 emailLabelHeader.append(emailButton);
 emailButton.addEventListener('click',()=>{recipientInput.dataset.manualOverride='yes';recipientInput.readOnly=false;recipientInput.focus();recipientInput.select()});
+const contactRowStyle=document.createElement('style');contactRowStyle.id='rc-contact-row-final';contactRowStyle.textContent=`
+#recipientComposer .rc-recipient{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:start!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:36px 44px!important;column-gap:10px!important;row-gap:7px!important;align-items:center!important;min-width:0!important;margin:0!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact,#recipientComposer .rc-recipient>label:has(#rcRecipient)>#rcRecipient{grid-column:1/-1!important;grid-row:2!important;width:100%!important;height:44px!important;min-height:44px!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{grid-column:2!important;grid-row:1!important;justify-self:end!important;margin:0!important}
+#recipientComposer .rc-recipient>label:has(#rcRecipient)>.rc-recipient-label-header{display:contents!important}
+#recipientComposer .rc-recipient .rc-change-email{grid-column:2!important;grid-row:1!important;justify-self:end!important;margin:0!important}
+#recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
+@media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
+`;document.head.append(contactRowStyle);
 const choices=document.createElement('div');choices.className='rc-email-option-row';
 const subjectLabel=document.createElement('label');subjectLabel.textContent='Choose a saved subject';
 const subjectChoice=document.createElement('select');subjectChoice.id='rcSubjectPreset';
