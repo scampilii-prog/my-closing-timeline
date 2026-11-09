@@ -415,4 +415,18 @@ document.addEventListener('DOMContentLoaded',function(){
 #contract-summary .rc-row:nth-child(even){background:#f5f9fb!important}
 @media(max-width:850px){#contract-summary .rc-head{font-size:10px!important;padding:10px 5px!important}}
 </style>
+
+<style id="v5-library-final-unified-layout">
+/* V5 is the canonical workspace. Compact library controls without changing their functionality. */
+@media(min-width:900px){
+#rcTableLibrary .rc-library-form{display:grid!important;grid-template-columns:minmax(155px,.8fr) minmax(260px,1.65fr) minmax(230px,1.2fr)!important;gap:12px!important;align-items:end!important}
+#rcTableLibrary .rc-library-form>label:nth-child(1),#rcTableLibrary .rc-library-form>label:nth-child(2),#rcTableLibrary .rc-library-form>label:nth-child(3){grid-column:auto!important}
+#rcTableLibrary .rc-library-form>label:nth-child(4){grid-column:1/-1!important}
+#rcTableLibrary .rc-library-form input,#rcTableLibrary .rc-library-form select{min-width:0!important;width:100%!important}
+#rcTableLibrary .rc-library-saved-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end!important;gap:12px!important}
+}
+#rcTableLibrary .rc-library-form,#rcTableLibrary .rc-library-saved-row{max-width:100%!important;box-sizing:border-box!important}
+#rcTableLibrary .rc-library-form>*{min-width:0!important}
+#rcTableLibrary #rcLibraryList{width:100%!important;min-width:0!important;max-width:100%!important}
+</style>
 </body></html>
