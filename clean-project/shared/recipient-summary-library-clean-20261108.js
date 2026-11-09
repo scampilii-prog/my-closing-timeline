@@ -184,11 +184,24 @@ saved.onchange=()=>{
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
-// Never prefill a recipient: explicit selection prevents sending to a stale address.
+// Only a deliberately selected saved contact may populate the recipient.
+const syncChosenContact=()=>{
+  if(!saved.value)return;
+  const contact=contacts().find(c=>c.email.toLowerCase()===saved.value.toLowerCase());
+  if(!contact)return;
+  if(recipientInput.value!==contact.email){
+    recipientInput.value=contact.email;
+    prefs._recipient=contact.email;
+    save();loadDraft();render();
+  }
+};
 recipientInput.value='';
-saved.value='';
 prefs._recipient='';
 save();loadDraft();
+// Browsers may restore a dropdown selection after scripts initialize.
+saved.addEventListener('focus',syncChosenContact);
+saved.addEventListener('click',syncChosenContact);
+window.addEventListener('pageshow',()=>setTimeout(syncChosenContact,0));
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
 $('rcSaveChoice').onchange=()=>{const yes=$('rcSaveChoice').value==='yes';$('rcSaveDraft').disabled=!yes;$('rcTableName').disabled=false;$('rcTableRole').disabled=false};$('rcSaveChoice').onchange();
