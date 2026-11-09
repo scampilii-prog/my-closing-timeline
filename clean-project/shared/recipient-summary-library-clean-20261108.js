@@ -260,6 +260,10 @@ const contactRowStyle=document.createElement('style');contactRowStyle.id='rc-con
 #recipientComposer .rc-recipient>label:has(#rcSubject){grid-column:1/-1!important}
 @media(max-width:650px){#recipientComposer .rc-recipient{grid-template-columns:1fr!important}}
 
+/* Correct order: title, selection, action; title, automatic email, action. */
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>.rc-add-contact{order:3!important;grid-column:3!important;grid-row:1!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact)>#rcSavedContact{order:2!important;grid-column:2!important;grid-row:1!important}
+#recipientComposer .rc-recipient>label:has(#rcSavedContact){grid-template-columns:max-content minmax(0,1fr) max-content!important}
 /* Compact desktop: title, field and action together on one horizontal line. */
 #recipientComposer .rc-recipient{gap:16px!important}
 #recipientComposer .rc-recipient>label:has(#rcSavedContact),#recipientComposer .rc-recipient>label:has(#rcRecipient){display:grid!important;grid-template-columns:max-content minmax(0,1fr) max-content!important;grid-template-rows:44px!important;column-gap:10px!important;row-gap:0!important;align-items:center!important}
