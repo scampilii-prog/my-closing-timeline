@@ -184,14 +184,10 @@ saved.onchange=()=>{
   prefs._recipient=recipientInput.value;
   save();loadDraft();render();
 };
-// Restore the last chosen contact. With exactly one saved contact, select it automatically.
-const availableContacts=contacts();
-const previousRecipient=String(prefs._recipient||'').trim();
-const previousContact=availableContacts.find(c=>c.email.toLowerCase()===previousRecipient.toLowerCase());
-const initialContact=previousContact||(availableContacts.length===1?availableContacts[0]:null);
-recipientInput.value=initialContact?initialContact.email:'';
-saved.value=initialContact?initialContact.email:'';
-prefs._recipient=recipientInput.value;
+// Never prefill a recipient: explicit selection prevents sending to a stale address.
+recipientInput.value='';
+saved.value='';
+prefs._recipient='';
 save();loadDraft();
 $('rcRecipient').onchange=()=>{prefs._recipient=$('rcRecipient').value;refreshSavedContacts();save();loadDraft();render()};
 for(const id of ['rcSubject','rcBody'])$(id).oninput=saveDraft;
