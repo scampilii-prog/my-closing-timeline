@@ -200,10 +200,10 @@ function renderPersonalListLinks(){
 }
 for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
  const root=$(target),toolbar=root?.querySelector('.v3-toolbar')||root?.querySelector('.v3-tools')||root?.querySelector('button[id="addFollowup"]')?.parentElement||root?.querySelector('button[id="add"]')?.parentElement;
- if(toolbar){const button=el('button',{type:'button'},'Create Personal Task Page ↗');button.style.cssText='background:#fff8e8;color:#77561c;border:1px solid #d4ad60;border-radius:8px;padding:9px 12px;font-weight:750;cursor:pointer';button.onclick=()=>openPersonalList(type);toolbar.append(button)}
+ if(toolbar && type==='followup'){const button=el('button',{type:'button'},'Create Personal Task Page ↗');button.style.cssText='background:#fff8e8;color:#77561c;border:1px solid #d4ad60;border-radius:8px;padding:9px 12px;font-weight:750;cursor:pointer';button.onclick=()=>openPersonalList(type);toolbar.append(button)}
 }
 for(const [target,type] of [['contract-input','contract'],['followup-input','followup']]){
- const root=$(target),toolbar=root?.querySelector('.v3-actions');if(!toolbar)continue;
+ const root=$(target),toolbar=root?.querySelector('.v3-actions');if(!toolbar || type==='contract')continue;
  const del=el('button',{type:'button'},'Delete Selected');del.style.cssText='border:1px solid #d6a5a5;background:#fff1f1;color:#9a3939;border-radius:8px;padding:9px 12px;font-weight:700';
  del.onclick=()=>{if(type==='contract'){const count=selected.size;if(!count)return alert('Select tasks first.');if(!confirm('Delete '+count+' selected contract tasks?'))return;state.tasks=state.tasks.filter(t=>!selected.has(t.id));selected.clear();save();render()}else{const count=followups.filter(t=>t.selected).length;if(!count)return alert('Select follow-up tasks first.');if(!confirm('Delete '+count+' selected follow-up tasks?'))return;followups=followups.filter(t=>!t.selected);saveFollowups();renderFollowups()}};
  toolbar.append(del);
