@@ -55,3 +55,11 @@ Status: product requirements approved in conversation on 2026-11-10; implementat
 5. Template editor versus saved active table, then Follow-Up Center and communications.
 6. Export/archival, reminders, accessibility/mobile, security/privacy and production acceptance tests.
 Do not state these features are live until built and tested.
+
+## Navigation simplification — approved 2026-11-10
+- Remove FREE as a separate product tier, feature-limited workspace and main navigation category. The registration itself is free; the first operation has a 21-day FULL-feature trial.
+- Remove separate FREE vs PRO copies of tables and duplicated promotional funnels from the new site architecture. Retire or redirect old routes only after testing; do not break existing links prematurely.
+- Proposed compact primary navigation: Home, Real Estate Timeline, My Project Timeline, Plans & Pricing, Help & Contact; authenticated: My Workspace, My Account. Register / Sign In remain available as appropriate.
+- Main CTA: Start Your 21-Day Full Access Trial. After verified registration, choose category and create the first operation.
+- One unified full-feature workspace and shared UI components, with domain-specific task templates. A paid entitlement per additional operation; no extra free trials.
+- This is a documented product decision, NOT a deployed website change. Keep V5 testing and freeze a tested baseline before migrating.
