@@ -119,3 +119,6 @@ This section supersedes earlier FREE-versus-PRO tier terminology: there is one f
 3. All access checks are enforced server-side; hiding a button alone is insufficient.
 4. Lawful data export/deletion requests remain possible independently of paid entitlement.
 5. Acceptance audit logs record terms/privacy versions and time; renewal receipts retain applicable terms.
+
+## Legal review timing — approved 2026-11-10
+The complete Privacy & Terms draft is **provisional**. Do not treat it as final or publish it solely because the draft exists. Revisit and reconcile the entire policy **after the product is functionally complete**, checking actual registration, 21-day trial, project entitlements, payment processing, expiry notices, read-only access, Communication Center sharing and lockout, data security, retention, privacy requests, and every implemented feature against its published description. Resolve discrepancies, confirm pricing and provider details, then perform legal review before public paid launch. Meanwhile prioritize functional completion and testing of Follow-Up Tasks and Communication Center.
