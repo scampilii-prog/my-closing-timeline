@@ -1,3 +1,5 @@
+> **ACTUALIZACIÓN 10 NOV 2026 — CLEAN BUILD V5 (prioridad):** leer primero [el handoff de diseño, funciones y pruebas locales](docs/CLEAN_BUILD_V5_HANDOFF_2026-11-10.md). Los ZIP V5 son prototipos locales, no despliegues de Cloudflare. Próximo test: Today & Tomorrow, pestañas Overdue/Today/Tomorrow y botón Show details/Hide details. Los planes comerciales antiguos del documento requieren reconciliación.
+
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
 
 ## WEBSITE 19 — MISMO ESTILO FREE PARA REAL ESTATE / OTHER PROJECTS + STEP 3 PREVIEW · OCT 29 2026
