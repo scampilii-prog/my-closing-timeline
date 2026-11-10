@@ -28,3 +28,27 @@ Privadas/pruebas: admin-gift-codes, admin-invitations, personal-sabatino, custom
 5. Probar FREE, PRO, enlaces, móvil, idiomas, recordatorios y sesiones seguras antes de anunciar disponibilidad.
 
 Nunca afirmar publicación visual ni compras operativas sin comprobarlas.
+
+## CLEAN BUILD #5 — registro de pruebas y pendientes (2026-11-09)
+
+**Fuente de trabajo:** Real Estate PRO V5 · Closing Workspace, probado localmente desde ZIP/HTML. No asumir que el último ZIP esté publicado en GitHub o Cloudflare. Conservar una copia maestra estable y los recursos con sus nombres exactos. No sustituir la V5 con ZIP antiguos ni añadir parches CSS/JS contradictorios.
+
+### Pruebas confirmadas por el usuario
+- Contactos: Add Contact abre formulario, permite guardar y recuperar el contacto al refrescar; Delete Contact confirmado en pruebas anteriores.
+- Change Email: recupera correo de contacto, permite cambiarlo y persiste después de refrescar y volver a seleccionar el contacto.
+- Email: campo de mensaje se expande automáticamente; asunto y mensaje personalizados permanecen al refrescar.
+- Plantillas: desplegable con flecha dorada, título destacado y Click to open / Click to close; las plantillas de asunto y mensaje rellenan sus campos y se conservan tras refrescar.
+- Clear Email: botón junto a Email subject, borra asunto y mensaje y mantiene ambos vacíos después de refrescar; no debe borrar contactos.
+- Las pruebas anteriores (hasta TEST 17) fueron aprobadas en la sesión de usuario. Evitar repetirlas todas innecesariamente, pero ejecutar pruebas de regresión antes de publicar.
+
+### Problemas abiertos — TEST 18, NO APROBADO
+1. **Transferencia de tareas:** en Contract Tasks & Deadlines se marcan las tareas 5 y 6, pero Prepare & Share muestra `0 selected · 0 to send` y tabla vacía. Corregir la conexión usando una única fuente de verdad para selección, persistencia, contador y filas de tabla de envío. Probar en navegador que aparecen tareas, Days y Due Date; no basta validar sintaxis JavaScript.
+2. **Fechas:** Effective Date y Closing Date quedan bloqueadas y no se pueden editar. Deben existir controles visibles, funcionales y coherentes para desbloquear/modificar fechas y **Clear Dates**, con confirmaciones apropiadas, preservando tareas y notas. Revisar comportamiento después de Start Closing, cálculo de plazos y guardado.
+3. Varias versiones ZIP etiquetadas como reparadas NO resolvieron los dos fallos anteriores. No declararlos solucionados ni enviar nuevas versiones sin prueba funcional.
+
+### Criterios de aceptación y disciplina
+- TEST 18 aprobado solo cuando el usuario seleccione 5 y 6 y ambas aparezcan en Prepare & Share con fechas y días correctos, y persistan o se sincronicen coherentemente tras refrescar.
+- Fechas aprobadas solo cuando puedan editarse/desbloquearse y borrarse realmente desde la interfaz, sin pérdida involuntaria de tareas ni errores de cálculo.
+- Mantener la estética V5, las tablas existentes, contactos, Change Email, plantillas, Clear Email y demás funciones aprobadas.
+- Trabajar sobre **una sola versión base** identificada, eliminar instrucciones duplicadas/conflictivas y registrar qué archivo y función se cambió. Diferenciar **archivo preparado**, **sintaxis validada**, **prueba en navegador aprobada** y **publicado**.
+- Evitar que el usuario tenga que descargar muchos ZIP o repetir pruebas aprobadas. No prometer publicación en Cloudflare si solo se modificó un archivo local.
