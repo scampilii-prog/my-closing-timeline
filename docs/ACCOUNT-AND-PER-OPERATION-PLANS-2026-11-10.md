@@ -102,3 +102,20 @@ This section supersedes earlier FREE-versus-PRO tier terminology: there is one f
 8. One operation's renewal never alters another's entitlement or task data.
 9. Shared contacts/templates remain account-scoped; messages and task selections remain operation-scoped.
 10. No public UI claims these rules are live until authentication, database, Stripe and tests are deployed.
+
+## Approved account-level Communication Center access policy — 2026-11-10
+- Registration gives one full-feature 21-day trial. The Communication Center's account-level professional contacts and reusable email templates persist as account data after trial expiration, subject to the published retention policy and lawful deletion requests.
+- An account has **active Communication Center functionality** whenever it has at least one currently entitled operation (trial or paid). All its shared contacts/templates then become available for any of its currently entitled operations, including a newly purchased Real Estate or Other Project operation.
+- With **no active operation**, the owner can authenticate, see their account, billing/renewal options and previously saved operations in read-only mode, but cannot browse, search, copy, export, edit or use the shared professional-contact directory or email-template library through the ordinary Communication Center UI. Existing project records remain viewable in read-only mode, with sensitive contact details redacted in normal project views where practicable. No sending new messages.
+- When the owner renews an operation or buys another, the Communication Center becomes available automatically with the same retained contacts and reusable templates. Do not charge an extra fee for reactivation.
+- This is a **feature-access restriction, not a claim of data ownership or confiscation**. Never block legally required privacy rights, account data-access/export/deletion requests, or records that law requires to be accessible. Do not promise to prevent copying information already viewed, downloaded, emailed, or remembered during active access.
+- Clearly disclose these rules **before trial registration** and at the point of purchase; require an explicit, logged acceptance of the applicable Terms of Use and acknowledgement of the Privacy Policy, with version and timestamp. Avoid bundling consent to marketing emails with acceptance of contractual terms.
+- Use a calm expired-state notice: "Your saved contacts and message templates are secure in your account. They will be available again when you activate or extend a project." Provide "View My Projects" and "Extend / Start a Project" actions.
+- Draft and publish product-specific Terms of Use and Privacy Policy at **myclosingtimeline.com**, with clear descriptions of eligibility, paid entitlements, feature suspension, data retention, third-party processors, privacy rights and security. The links https://floridacostiera.com/terms.html and https://floridacostiera.com/privacy.html are for a different website and should not be treated as automatically governing My Closing Timeline. Cross-site policy updates only if data is actually shared and the disclosures match.
+- Legal text should be reviewed for applicable jurisdiction, consumer-protection and privacy requirements before publication. No technical UI lock can prevent use of information already obtained.
+### Acceptance tests
+1. Trial expired, no paid operation: account and read-only projects visible; shared contact directory and template library inaccessible in UI and API.
+2. Buying or extending one operation unlocks the same stored contacts/templates across eligible operations, without restoring unrelated expired operations' edit rights.
+3. All access checks are enforced server-side; hiding a button alone is insufficient.
+4. Lawful data export/deletion requests remain possible independently of paid entitlement.
+5. Acceptance audit logs record terms/privacy versions and time; renewal receipts retain applicable terms.
