@@ -72,3 +72,33 @@ Do not state these features are live until built and tested.
 - Preserve original templates when creating variants, and keep them accessible read-only when a plan expires. Editing and preparing new messages require the appropriate active operation entitlement.
 - Mailto links alone cannot reliably transmit rich HTML email; support copy formatted HTML to clipboard for paste into the mail composer, or a future authenticated email integration with preview and explicit send confirmation. Do not claim rich formatting works via Open Email Draft without testing.
 - Preserve personal email signatures supplied by the operator or their mail client; never expose private recipient/contact information publicly.
+
+## Approved renewal and expiration policy — 2026-11-10
+This section supersedes earlier FREE-versus-PRO tier terminology: there is one full-feature product, with a one-time 21-day free trial for the first eligible operation. Trial is free, not a separate feature-limited plan. Account registration requires unique verified email (display names need not be unique). Each additional operation has its own purchased access term. The same account owns multiple independently entitled operations; account-level Communication Center shares contacts and reusable message templates only, while messages and tasks belong to their respective operation.
+
+### Reminders and access
+- Notify 7, 3 and 1 days before each operation's expiry; in-app and email subject to delivery preferences and consent requirements.
+- Avoid duplicate reminders and ensure reminders use the operation's local timezone and exact expiry timestamp.
+- At expiry, operation becomes read-only: owner can sign in, inspect and export existing records, but cannot edit, create tasks or prepare new outbound communications for that expired operation.
+- No automatic deletion solely for nonpayment; privacy-policy retention and account deletion rights still apply.
+
+### Continue the SAME operation
+- User opens an existing operation and chooses Continue Your Project / Extend Access.
+- Offer one-time, non-auto-renewing per-operation access terms: 2 months $40 (primary), 3 months $55 (proposed price accepted in conversation), 6 months $100, 12 months $180. Confirm final pricing and tax/legal details before production.
+- Paying to continue does NOT create another operation or consume a new-operation credit. Starting an additional operation is a separate purchase with its own access term and no second free trial.
+- Before expiry: add the purchased period to current paid-through timestamp (preserve remaining time). After expiry: new term begins at payment confirmation.
+- A payment only activates or extends after verified Stripe webhook confirmation; protect against duplicate events/idempotency and failed payments.
+- No automatic renewals unless separately and explicitly opted into. Canceling or failing to renew does not delete the operation.
+- Show a clear receipt, revised expiry and Open & Continue. Expose renewal anytime from My Account → My Projects.
+
+### Implementation acceptance tests
+1. First verified account receives exactly one 21-day full-feature operation trial.
+2. A second operation never receives a new trial.
+3. At 7/3/1 days, exactly one eligible reminder per stage and operation; suppress after renewal.
+4. Before expiry, early purchase extends from existing expiry without losing days.
+5. After expiry, purchase starts new term at confirmed payment.
+6. Failed/canceled/duplicate Stripe events never extend twice.
+7. Expired operations are read-only but remain visible and exportable.
+8. One operation's renewal never alters another's entitlement or task data.
+9. Shared contacts/templates remain account-scoped; messages and task selections remain operation-scoped.
+10. No public UI claims these rules are live until authentication, database, Stripe and tests are deployed.
