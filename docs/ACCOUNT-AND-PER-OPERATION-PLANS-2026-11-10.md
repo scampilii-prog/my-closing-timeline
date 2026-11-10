@@ -63,3 +63,12 @@ Do not state these features are live until built and tested.
 - Main CTA: Start Your 21-Day Full Access Trial. After verified registration, choose category and create the first operation.
 - One unified full-feature workspace and shared UI components, with domain-specific task templates. A paid entitlement per additional operation; no extra free trials.
 - This is a documented product decision, NOT a deployed website change. Keep V5 testing and freeze a tested baseline before migrating.
+
+## Email template studio — approved direction 2026-11-10
+- V5 test: Open Email Draft successfully populates recipient, subject, message, six selected tasks and the user's Mail signature, but current generated task content is plain text and visually inelegant. Treat functionality as visually verified, not as proof of email delivery.
+- Provide a private My Email Studio for each operator: create, name, edit, preview, save, duplicate, select and reuse many personalized email templates for different recipients and occasions.
+- Initial template styles: Professional Summary, Personal Message, Action Reminder, and operator-created custom templates. Templates may include customizable subject, greeting, body, optional branded table, sign-off and styling.
+- Reusable template content is separate from operation-specific live data. Merge recipient, selected tasks, days and due dates from the currently active saved task table at preview/send time; never reuse stale dates.
+- Preserve original templates when creating variants, and keep them accessible read-only when a plan expires. Editing and preparing new messages require the appropriate active operation entitlement.
+- Mailto links alone cannot reliably transmit rich HTML email; support copy formatted HTML to clipboard for paste into the mail composer, or a future authenticated email integration with preview and explicit send confirmation. Do not claim rich formatting works via Open Email Draft without testing.
+- Preserve personal email signatures supplied by the operator or their mail client; never expose private recipient/contact information publicly.
