@@ -100,3 +100,50 @@ Esta actualización **guarda instrucciones y decisiones en GitHub**, no sube el 
 ### Mensaje sugerido para el nuevo chat
 
 «Continuamos MY CLOSING TIMELINE — CLEAN BUILD #7. Lee docs/CHAT-CONTINUIDAD-CLEAN-BUILD-V120-2026-11-11.md, especialmente la actualización final V129. Usa la V129 aprobada como modelo exacto para Follow-Up Tasks, con seis tareas originales y biblioteca opcional de 40, sin permitir reiniciar la prueba gratuita por proyecto. No modifiques Contract Tasks».
+
+
+---
+
+## VISIÓN RECTORA DEL PRODUCTO — 12 NOV 2026 (instrucción expresa del fundador)
+
+**Esta sección prevalece como criterio de producto para todas las versiones y chats futuros.** El fundador solicita que se le advierta cuando una nueva idea o modificación contradiga esta visión, explicando el propósito de cualquier cambio relevante antes de implementarlo.
+
+### Misión
+
+My Closing Timeline debe evolucionar desde el caso inicial de Real Estate hacia una **plataforma universal, privada, sencilla, asequible y multilingüe** de tareas, fechas, recordatorios y proyectos para profesionales de cualquier sector y para personas particulares en Estados Unidos y el resto del mundo. **No exigir ser profesional para registrarse.** La facilidad de uso y la accesibilidad son prioridades mayores que añadir funciones por añadir.
+
+### Principios innegociables
+
+1. **Una cuenta por usuario, muchos proyectos y categorías.** La elección de una categoría o plantilla NO crea una cuenta distinta ni reinicia la prueba gratuita.
+2. **Registro mínimo:** nombre, apellido y email. No recopilar información privada de los clientes de nuestros usuarios. No pedir documentos, datos médicos, cuentas bancarias ni otros datos sensibles para utilizar plantillas. No afirmar «cero almacenamiento de datos» si se guardan cuentas, metadatos o tareas; distinguir registro de datos operativos. Diseñar privacidad desde el inicio, con medidas técnicas verificables y explicación honesta.
+3. **Experiencia universal de tres pasos:** (1) Create Your Free Account; (2) Choose Your Timeline / plantilla; (3) Start Your Timeline. Ofrecer Real Estate, Business/Projects, Services/Contractors, Personal/Home, con posibilidad de ampliar categorías y escoger una plantilla en blanco. El usuario debe poder cambiar y personalizar tareas sin complejidad.
+4. **Una interfaz común:** aprovechar la tabla **Contract Tasks V129 aprobada** como patrón visual y funcional; adaptar conjuntos de tareas y funciones por categoría, sin crear sitios desconectados o experiencias contradictorias.
+5. **Profesionales y particulares:** Real Estate (primer foco), salud (solo seguimiento operativo sin información clínica), limpieza, contratistas pequeños y grandes, administración del hogar, pagos, cobros y tareas diarias. Explorar opcionalmente presupuestos/facturas, evitando complejidad o manejo innecesario de datos sensibles.
+6. **Idiomas:** principales idiomas occidentales, con una arquitectura de traducción consistente; no prometer traducciones ni cobertura jurídica de todos los países antes de implementarlas y verificarlas.
+7. **Privacidad real:** preferir datos de clientes fuera de servidores propios. Si se necesita sincronización entre dispositivos, diseñar almacenamiento cifrado o alternativas controladas y explicar claramente qué se guarda, dónde y por cuánto tiempo. No prometer seguridad absoluta ni cumplimiento normativo sin validación.
+8. **Modelo comercial:** prueba completa de **21 días una sola vez por usuario**, no por proyecto o categoría; después, planes pagos por períodos definidos con inicio/fin y reglas claras de acceso y continuidad. Verificación del lado del servidor, no solo localStorage. Revisar y preservar tarifas vigentes al implementar; no inventar precios ni asumir que facturación está terminada.
+9. **Simplicidad por encima de complejidad:** cada control debe tener propósito y función real; eliminar duplicados, botones inertes y pasos innecesarios. No cambiar diseño aprobado sin razón funcional.
+10. **Gobierno de cambios:** ante instrucciones contradictorias con esta visión, **advertir al fundador y proponer alternativa coherente**. Explicar qué se añade, cambia o elimina y por qué. Mantener este documento actualizado para continuidad entre chats.
+
+### Arquitectura funcional sugerida, no implementada todavía
+
+- Selector inicial de tipo de Timeline con plantilla Real Estate, servicios, contratistas, empresa, hogar o Blank.
+- Plantillas reutilizables y personalizables; tareas predeterminadas + biblioteca opcional de 40, sin otorgar una nueva prueba por seleccionar o restaurar plantillas.
+- Opcionales por categoría: cotizaciones y facturas (sin almacenar datos sensibles de terceros), recordatorios, tareas recurrentes, seguimiento de cobros, impresión/PDF y exportación local.
+- Separación de identidad, derechos del plan, datos de proyectos y bibliotecas de tareas.
+- Acceso simple desde móvil y computadora, diseño accesible, idiomas centralizados.
+- No almacenar por defecto nombres ni datos identificables de clientes finales dentro de tareas/notas; establecer controles y advertencias de privacidad. Si se permite texto libre, reconocer que no es posible garantizar que nunca se introduzcan datos privados sin diseño y restricciones adicionales.
+
+### Prioridades inmediatas
+
+1. **Congelar V129 como referencia visual aprobada** de Contract Tasks.
+2. Reproducir su patrón en **Follow-Up Tasks** con las seis tareas originales y biblioteca seleccionable de 40, verificando funciones.
+3. Diseñar el selector de categoría de Timeline **al comienzo del recorrido de registro/entrada**, con una sola cuenta y prueba.
+4. Diseñar privacidad, persistencia, control de planes y seguridad reales antes de afirmar que el servicio está listo para usuarios de producción.
+5. Añadir módulos específicos (facturas, cobros, etc.) **solo después** de estabilizar la base universal.
+
+### Frase guía
+
+**Una persona. Una cuenta. Muchos proyectos. Total libertad para organizarse.** Una plataforma sencilla para cualquier persona, en cualquier actividad, con privacidad, idiomas y planes de duración clara.
+
+*Esta visión fue solicitada expresamente el 12 de noviembre de 2026 y debe revisarse antes de cualquier cambio importante.*
