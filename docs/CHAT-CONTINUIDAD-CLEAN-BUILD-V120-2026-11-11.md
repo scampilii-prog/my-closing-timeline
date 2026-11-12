@@ -147,3 +147,54 @@ My Closing Timeline debe evolucionar desde el caso inicial de Real Estate hacia 
 **Una persona. Una cuenta. Muchos proyectos. Total libertad para organizarse.** Una plataforma sencilla para cualquier persona, en cualquier actividad, con privacidad, idiomas y planes de duración clara.
 
 *Esta visión fue solicitada expresamente el 12 de noviembre de 2026 y debe revisarse antes de cualquier cambio importante.*
+
+
+---
+
+## DECISIÓN DE ARQUITECTURA — 12 NOV 2026, 08:42 AM (CUATRO EXPERIENCIAS, UNA CUENTA)
+
+**Solicitud expresa del fundador, respaldada por dos capturas:** la pantalla actual MY CLOSING / MY TASKS / Communication Center de Real Estate V129 y el esquema de elección de cuatro categorías. Quiere una entrada que permita elegir categoría y una página/espacio con identidad propia por cada categoría, sin crear cuentas separadas ni repetir planes. Debe quedar registrado como criterio rector para futuras modificaciones.
+
+### Decisión recomendada
+
+**Una plataforma y una sola cuenta/identidad, con cuatro experiencias especializadas, NO cuatro aplicaciones o bases de datos independientes.** En Home y onboarding, mostrar selector de cuatro categorías:
+
+1. **Real Estate**: Contract Tasks & Deadlines, Follow-Up Tasks, Communication Center y las seis tareas originales + biblioteca de 40.
+2. **Business & Projects**: proyectos, tareas, entregas, fechas, seguimiento.
+3. **Services & Contractors**: servicios, obras, limpieza, mantenimiento, presupuestos y eventual facturación.
+4. **Personal & Home**: tareas personales, mantenimiento doméstico, pagos, cobros y recordatorios.
+
+Cada espacio debe poder tener cabecera, iconos, ejemplos y plantillas relevantes para que el profesional o particular se identifique con él, pero **todos comparten componentes, lógica de tareas, accesibilidad, seguridad, cuentas, derechos del plan y estándares de diseño**. La V129 de Contract Tasks sigue siendo el patrón visual aprobado. No construir cuatro códigos duplicados.
+
+### Recorrido y derechos del plan
+
+- Home → Create/Sign In → Choose Your Timeline → Open Workspace; si el usuario ya tiene cuenta, permitir ir directamente a sus espacios.
+- La categoría elegida al registrarse es **preferencia inicial**, no un bloqueo de cuenta. Un Realtor puede abrir Real Estate y también Personal & Home desde su **misma cuenta y plan**.
+- **Una sola prueba de 21 días por usuario**, independiente del número de categorías y proyectos. No reactivar al crear nuevo espacio, elegir plantilla o reinstalar el navegador.
+- El plan pago debe tener inicio, vencimiento y derechos claramente definidos y verificables en servidor. **Antes de implementar acceso multiespacio, reconciliar con los precios vigentes por proyecto/cierre** para evitar prometer categorías/proyectos ilimitados si no están incluidos. Diseñar primero la política de derechos y después los controles de interfaz.
+
+### Privacidad: objetivo estricto y límites reales
+
+**El fundador quiere que el servicio recopile solo nombre, apellido y email como datos personales de registro y que nuestros servidores NO almacenen información confidencial de clientes finales.**
+
+- Diferenciar datos de cuenta, pagos, metadatos de planes y contenido de proyectos; no declarar literalmente «no almacenamos ninguna información» si existe cualquier dato persistido.
+- **Arquitectura inicial recomendada: local-first**, con contenido de tareas, notas, nombres de terceros y documentos almacenados en el dispositivo del usuario, no en los servidores propios. Explicar que los datos locales pueden perderse si se limpia el navegador/cambia el dispositivo; ofrecer exportación y copia de seguridad controlada por el usuario.
+- Para sincronización entre dispositivos, considerar **cifrado de extremo a extremo real** y claves gestionadas por el usuario, de modo que el servidor solo conserve ciphertext. No decir que existe cifrado E2EE hasta implementarlo, auditarlo y comprobar la recuperación de claves.
+- La plataforma no debe solicitar ni incentivar introducir datos sensibles (pacientes, historiales médicos, identificadores bancarios, documentos de terceros). Plantillas de salud limitadas a tareas operativas sin información clínica. Facturas/presupuestos opcionales y generados localmente, sin almacenar datos de destinatarios en servidores propios.
+- La privacidad no se garantiza solo mediante textos legales. Preparar política de privacidad, términos, retención/borrado, avisos de almacenamiento local y controles técnicos. Solicitar revisión legal especializada antes del lanzamiento, especialmente para salud, pagos, consumidores internacionales, GDPR y leyes estatales de privacidad. No afirmar cumplimiento HIPAA/GDPR ni ausencia de responsabilidad sin auditoría.
+- Servicios externos de autenticación/pagos pueden tratar datos adicionales; documentarlos con precisión y minimizar su alcance. Un usuario puede introducir información privada en campos libres, así que no prometer ausencia absoluta sin restricciones técnicas o políticas efectivas.
+- Si el producto usa navegador local como almacenamiento, no prometer sincronización automática o privacidad absoluta; prever dispositivos compartidos y cierre de sesión.
+
+### Secuencia de implementación
+
+1. **No alterar V129 aprobada**; primero replicar su tabla en Follow-Up Tasks y probar funciones.
+2. Diseñar una **pantalla de selección de categoría** en Home/onboarding, clara y breve.
+3. Construir cuatro espacios visualmente especializados usando componentes reutilizables; Real Estate primero, los otros con plantillas graduales.
+4. Diseñar acceso por plan, registro, expiración, almacenamiento local y protección de contenido antes de lanzamiento público.
+5. Facturación, cobros, tareas recurrentes, PDF y funciones específicas como módulos optativos, no como pasos obligatorios.
+
+### Compromiso de coherencia
+
+Cuando una petición futura introduzca cuentas duplicadas, cuatro aplicaciones aisladas, reactivación de prueba gratuita por categoría, almacenamiento innecesario de información de clientes o complejidad que perjudique la facilidad de uso, **advertir al fundador y explicar la alternativa coherente**. Registrar los cambios arquitectónicos en este documento.
+
+**Estado actual:** decisión documentada, **no implementada aún en el ZIP ni desplegada en el sitio**. Para modificar el HTML local se necesita la V129 u otra fuente de código accesible, no basta con capturas.
