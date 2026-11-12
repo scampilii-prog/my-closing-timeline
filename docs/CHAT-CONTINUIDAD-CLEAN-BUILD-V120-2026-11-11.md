@@ -57,3 +57,46 @@ Sin fechas definidas: no inventar vencimientos ni mostrar falsos Overdue. Puede 
 ## Nota sobre este archivo
 
 Esta nota documenta la conversación para continuar en un nuevo chat. No contiene toda la transcripción ni todos los archivos ZIP. Los ZIP locales del Mac no se subieron a este repositorio como parte de esta operación. El usuario puede adjuntar el ZIP aprobado cuando haga falta.
+
+
+---
+
+## ACTUALIZACIÓN FINAL — 11 NOV 2026, 10:16 PM (prioritaria sobre las notas anteriores)
+
+**V129 APROBADA VISUALMENTE por el usuario.** Última captura muestra la tabla de Contract Tasks elegante, seis filas, encabezados y casillas Done alineadas. El usuario dijo «Increíble... Esa misma tabla usemosla para Follow-Up Tasks mañana». **La nueva referencia visual es V129, no V118/V123.** Las versiones anteriores son solo respaldos y no deben desplazar la base aprobada.
+
+### Evolución V121–V129 y resultados
+
+- V121: Days proporcional y Task / Reminder ampliado; persistían dos botones Delete Selected.
+- V122: intento fallido de eliminar duplicación; usuario descartó porque aparecían dos botones, seis filas vacías y contador 11.
+- V123: se corrigió la duplicación de Delete Selected; seis tareas visibles, aceptada.
+- V124–V125: reajustes de ancho para Status, Alert, Action, Notes, Delete. Se detectó que Notes y Delete seguían recortados en algunas capturas.
+- V126: propuesta de cambiar botón ✓ Done por casilla independiente de Select; primera implementación seguía mostrando el botón recortado.
+- V127: se corrigió el renderizado en `Real Estate PRO V6 · Closing Workspace_files/pro-v3.js`, reemplazando el botón dinámico por `input[type=checkbox].mct-done-check`, conservando el cambio de estado de completado/reapertura y evento `mct:contract-done-changed`. Captura confirma casillas.
+- V128: columna Action reducida del 4 % al 3 % y Alert ampliada del 5 % al 6 %; Notes y Delete visibles y completos. Usuario confirmó éxito.
+- **V129: `MCT-V129-DONE-CENTRADO-VERTICALMENTE.zip`**: ajuste de alineación vertical de casillas Done dentro de cada fila (transform translateY(2px), sin cambiar anchuras). Captura final aceptada por el usuario. **No seguir retocando el diseño de Contract Tasks sin nueva solicitud.**
+
+### Funciones y límites de verificación
+
+Las capturas demuestran **apariencia**, no pruebas end-to-end. Sigue pendiente verificar en navegador: Select vs Done independientes; cambio de contador al completar/reabrir; Add Task; Delete Selected y Delete individual; Choose Template; Save My Table; Restore Current Table; cambios Days con Apply; cálculo de Due Date desde Effective Date y Closing Date; Alert; Notes; persistencia y separación por proyecto. No declarar estas pruebas completadas sin ejecutarlas. En captura V129 hay seis tareas; la sexta muestra Days = 31 (cambiada durante pruebas), mientras que **el valor predeterminado original es 30**.
+
+En la interfaz todavía se observa el aviso gris **«Extensions coming soon»**, que el usuario anteriormente preguntó para qué servía. Se intentó retirarlo en V122 pero se descartó la versión. Si se retoma su eliminación, hacerlo sin alterar la tabla aprobada.
+
+### OBJETIVO PARA MAÑANA: Follow-Up Tasks
+
+**Copiar la estructura visual y experiencia de Contract Tasks V129 a Follow-Up Tasks**, con la misma elegancia, anchuras proporcionadas, controles compactos, casillas independientes para Select y Done, Notes legible, Delete visible, contador de tareas, persistencia, fechas y alertas; adaptar las columnas al uso real de seguimiento.
+
+- **Seis Follow-Up Tasks iniciales**, según el usuario. **Recuperar sus nombres exactos de la plantilla existente/código o conversación original antes de reemplazarlos; no inventarlos.**
+- **Biblioteca opcional de 40 tareas** que el usuario pueda examinar y seleccionar para añadir a su tabla. No confundir con las seis tareas predeterminadas ni cargar las 40 automáticamente.
+- **Antifraude / no reutilización indebida del beneficio gratuito**: el usuario quiere evitar que alguien use la selección de plantillas, el guardado, la restauración, un nuevo proyecto o el cambio entre Real Estate y Project para reiniciar el período gratuito. Regla comercial vigente: **un solo registro gratuito por persona/email, 21 días de uso completo, una sola vez por usuario, no por operación**. Requiere validación de cuenta y estado de prueba **del lado del servidor**, no basta con JavaScript/localStorage. No declarar la protección implementada sin backend, pruebas y controles de identidad. No impedir legítimamente que el usuario use su biblioteca de 40 tareas dentro de un plan autorizado.
+- Conservar las secciones MY CLOSING / MY TASKS / Communication Center y el flujo 1→2→3.
+- **No tocar el diseño V129 de Contract Tasks** mientras se implementa Follow-Up Tasks. Trabajar sobre una copia, entregar ZIP nuevo verificado, y conservar V129.
+- El usuario quiere retomar mañana en nuevo chat sin repetir instrucciones; empezar leyendo este documento y pedir/usar el ZIP V129 si no está disponible en el nuevo contexto.
+
+### Estado de almacenamiento
+
+Esta actualización **guarda instrucciones y decisiones en GitHub**, no sube el ZIP V129 ni cambia el sitio desplegado. El ZIP fue generado en la conversación y se conserva en la computadora del usuario. Para editar sus fuentes en un chat futuro, necesitará adjuntarlo si no está disponible.
+
+### Mensaje sugerido para el nuevo chat
+
+«Continuamos MY CLOSING TIMELINE — CLEAN BUILD #7. Lee docs/CHAT-CONTINUIDAD-CLEAN-BUILD-V120-2026-11-11.md, especialmente la actualización final V129. Usa la V129 aprobada como modelo exacto para Follow-Up Tasks, con seis tareas originales y biblioteca opcional de 40, sin permitir reiniciar la prueba gratuita por proyecto. No modifiques Contract Tasks».
