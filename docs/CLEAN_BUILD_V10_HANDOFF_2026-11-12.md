@@ -1,3 +1,5 @@
+> **Auditoría PRO · versión 11 del ZIP.** Se repararon los enlaces de Terms of Use y Privacy Policy y se incorporaron borradores que describen la vista local, el almacenamiento, la copia, el correo y los recursos externos. Se sustituyó la promoción repetida de PRO por un aviso de vista local. Crear un proyecto lo deja seleccionado para abrirlo sin cambiar prematuramente el contexto de las tablas. El avance de las secciones usa almacenamiento por proyecto. Se verificaron en simulación los estados de dos proyectos locales y los enlaces del ZIP. La prueba completa en Chrome y la autorización de dos proyectos de una cuenta real siguen pendientes. Para el lanzamiento, resolver pagos, renovación, cancelación, reembolsos, acceso al vencer, retención, eliminación y canal de contacto antes de finalizar los textos públicos.
+
 # My Closing Timeline — continuidad del 12 de noviembre de 2026
 
 ## Punto de partida
