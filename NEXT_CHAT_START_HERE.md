@@ -1,3 +1,5 @@
+> **12 NOV 2026 — Punto de partida vigente:** leer primero el [handoff de Clean Build V10](docs/CLEAN_BUILD_V10_HANDOFF_2026-11-12.md). Resume el prototipo local aprobado, el flujo de las cuatro categorías, una cuenta con varios proyectos, la prueba única de 21 días, $20 por 60 días por proyecto y los recordatorios. Las tarifas de 90 días, 180 días y 1 año quedan pendientes. Las decisiones comerciales anteriores que entren en conflicto son históricas. Siguiente tarea: verificar Real Estate PRO en Chrome y probar el aislamiento de dos proyectos de la misma cuenta.
+
 > **ACTUALIZACIÓN 10 NOV 2026 — CLEAN BUILD V5 (prioridad):** leer primero [el handoff de diseño, funciones y pruebas locales](docs/CLEAN_BUILD_V5_HANDOFF_2026-11-10.md). Los ZIP V5 son prototipos locales, no despliegues de Cloudflare. Próximo test: Today & Tomorrow, pestañas Overdue/Today/Tomorrow y botón Show details/Hide details. Los planes comerciales antiguos del documento requieren reconciliación.
 
 # MY CLOSING TIMELINE — RESUMEN OPERATIVO PARA EL PRÓXIMO CHAT
