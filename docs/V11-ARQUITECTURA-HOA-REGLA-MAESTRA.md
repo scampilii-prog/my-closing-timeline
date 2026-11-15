@@ -36,3 +36,17 @@ La arquitectura funcionará como una comunidad HOA:
 - No afirmar que un cambio se propagará automáticamente si las páginas contienen copias en lugar de importaciones.
 
 **Analogía aprobada:** «Las áreas comunes se arreglan desde la oficina de la Association; cada casa arregla lo suyo internamente, sin afectar las áreas comunes ni otras casas».
+
+## Autoridad exclusiva de cada archivo y prohibición de órdenes cruzadas
+
+**Regla vinculante:** toda corrección, modificación, ampliación o eliminación debe realizarse únicamente en el archivo o componente que sea propietario de esa responsabilidad. Que un problema se observe desde una página no autoriza a corregirlo dentro de esa página si pertenece al MODELO.
+
+1. **Cambios de áreas comunes (HOA):** se editan exclusivamente en los componentes compartidos administrados por MODELO, nunca en `index.html`, ni en CSS/JS específicos de una categoría. Incluye agregar, quitar o cambiar header, footer, logo, idiomas, navegación, Lía, Back to top, tamaños/posiciones comunes y reglas visuales globales.
+2. **Cambios de una casa (página):** se editan exclusivamente en sus archivos propios; nunca se añaden instrucciones para esa página a MODELO ni a otras páginas.
+3. **Prohibido duplicar órdenes:** no crear parches CSS, JavaScript, copias de componentes ni documentos de instrucciones paralelos que contradigan la fuente única. Se corrige o sustituye la instrucción vigente en su ubicación legítima.
+4. **Diagnóstico previo:** antes de tocar código, identificar si el problema pertenece a HOA o a una página. Si el fallo se descubre en INDEX pero afecta al header común, se vuelve al componente compartido del MODELO para resolverlo.
+5. **Propagación controlada:** los cambios HOA se validan primero en MODELO y después en todas las páginas que importan ese componente. Los cambios internos se prueban en su página y se verifica que no afecten las demás.
+6. **Sin excepciones por conveniencia:** no introducir una modificación común dentro de una página para resolverla más rápido. Tampoco alterar el MODELO para solucionar una necesidad exclusivamente interior.
+7. **Historial separado:** conservar el registro de versiones previas fuera de las instrucciones activas; mantener un único documento maestro vigente, sin órdenes contradictorias.
+
+**Regla breve de aprobación:** «Cada modificación se realiza en la página o componente correcto, una sola vez. La casa no puede modificar la HOA; la HOA no modifica el interior de las casas».
