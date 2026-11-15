@@ -50,3 +50,22 @@ La arquitectura funcionará como una comunidad HOA:
 7. **Historial separado:** conservar el registro de versiones previas fuera de las instrucciones activas; mantener un único documento maestro vigente, sin órdenes contradictorias.
 
 **Regla breve de aprobación:** «Cada modificación se realiza en la página o componente correcto, una sola vez. La casa no puede modificar la HOA; la HOA no modifica el interior de las casas».
+
+## Nombres comerciales aprobados y rutas estables (15 noviembre 2026)
+
+Los cuatro públicos comerciales de V11 se presentarán con estos nombres exactos:
+
+| Categoría visible | Archivo propio |
+| --- | --- |
+| Real Estate & Closings | `real-estate.html` |
+| Business & Projects | `business-projects.html` |
+| Services & Contractors | `services-contractors.html` |
+| Personal & Home | `personal-home.html` |
+
+La portada general es `index.html` y conserva el diseño visual de cuatro fotografías aprobado en V11-33.
+
+**PRO** es la denominación de un nivel de acceso, herramientas o plan comercial; no forma parte obligatoria del nombre de una categoría. No reducir ni fusionar las cuatro categorías sin aprobación.
+
+**Propiedad de los cambios:** los textos de tarjetas, fotografías y contenido exclusivo de INDEX se modifican en sus archivos propios. Los nombres que aparecen en el menú, header o footer compartidos se actualizan exclusivamente en el componente HOA correspondiente. Los archivos de cada categoría administran sus propias herramientas internas.
+
+**Implementación pendiente:** esta decisión documental no significa que los nombres, rutas o traducciones ya estén aplicados o comprobados en el código. Antes de anunciarlo como funcional, verificar navegación, enlaces y consistencia de nombres en la interfaz.
