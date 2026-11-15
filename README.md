@@ -1,3 +1,5 @@
+> **DOCUMENTO VIGENTE V11 (15 NOV 2026):** [ARQUITECTURA MAESTRA V11](V11_ARQUITECTURA_MAESTRA.md). Es la única autoridad para la reconstrucción estructural V11. Los enlaces de continuidad inferiores son históricos y no deben imponer CSS, estructura ni flujos contradictorios. No se ha modificado el sitio publicado.
+
 # my-closing-timeline
 Real Estate Closing Timeline Manager
 
