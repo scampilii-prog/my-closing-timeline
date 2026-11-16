@@ -94,3 +94,11 @@ El visitante debe entender qué hacer, hacerlo sin complicaciones y confiar en e
 - Mantener separados estructura compartida, estilos de página y lógica de negocio.
 - No publicar cambios sin pruebas.
 - Registrar decisiones nuevas aquí, evitando instrucciones contradictorias.
+
+## 9. Continuidad de Real Estate PRO · 16 de noviembre de 2026
+
+Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/library?file_id=libfile_ae728b8f222c8191b2ff9feb8069a437&account_id=personal). Los ajustes siguientes están pendientes de implementación y prueba en ese ZIP.
+
+- **Communication Center:** al elegir **Table 01**, **Table 02** o **Both Tables** en **Table to send**, mover el resaltado amarillo a **Saved contact**. Mostrar «NEXT · Choose a saved contact or enter a recipient email.» La selección de una opción y la disponibilidad de tareas se validan por separado. Mantener bloqueado **Preview Email** hasta contar con tareas confirmadas para ese envío y los datos requeridos del destinatario. Verificar que el contador y la vista previa coincidan con las tareas elegidas para una tabla o ambas.
+- **Identidad de las tablas:** encabezado azul claro con título azul marino para **Table 01 · Contract Tasks & Deadlines** y texto «Track deadlines from the signed contract.» Encabezado verde salvia con título verde oscuro para **Table 02 · Follow-Up Tasks** y texto «Track calls, reminders, and follow-ups for this closing.» Mantener ancho, altura y tipografía iguales. Aplicar el color de cada tabla al borde de su **Summary** y conservar los colores de vencimiento en las filas.
+- **Prueba de regresión:** al abrir o refrescar la página, ambas tablas empiezan sin tareas seleccionadas. Al marcar la primera tarea, abrir el **Summary** de esa tabla y mostrar solamente las filas seleccionadas. Al desmarcar la última tarea, cerrar su **Summary**. Mantener el flujo **Contract Setup → Tasks & Deadlines → Communication Center** y aplicar los ajustes en el código interno de Real Estate PRO.
