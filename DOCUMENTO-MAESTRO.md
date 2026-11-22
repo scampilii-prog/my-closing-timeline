@@ -115,3 +115,30 @@ Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/libra
 - **Forma de trabajo solicitada:** el propietario no quiere mensajes de «sigue», ZIPs intermedios, jerga técnica ni explicaciones etapa por etapa. Realizar todas las tareas y pruebas posibles de forma autónoma dentro de la sesión; comunicar solo resultados sustanciales y una entrega final sencilla cuando realmente esté lista. No prometer trabajo en segundo plano entre conversaciones.
 - **Continuidad entre chats:** este DOCUMENTO-MAESTRO.md es el punto de entrada. Al comenzar un nuevo chat de desarrollo, consultar este archivo en GitHub y el código/ZIP más reciente verificable antes de actuar; no asumir que el último ZIP local está en GitHub. Actualizar esta sección con decisiones nuevas y estado verificado al terminar cada sesión importante, **cuando el usuario haya autorizado esa actualización**. Las conversaciones futuras no se sincronizan automáticamente con GitHub: requieren que el asistente conectado lea y escriba el documento en cada sesión.
 - No reemplazar decisiones previas silenciosamente. Si hay contradicción, registrar fecha y decisión vigente; mantener el historial y pedir aclaración solo cuando sea imprescindible.
+
+
+## 11. Continuidad V12 · Auditoría y Communication Center · 21 de noviembre de 2026
+
+**Última entrega local de prueba:** `MCT-V12-185-ORDEN-REAL-EMAIL.zip`. **Respaldo:** V12-184 y anteriores. La entrega ZIP local no implica que el código esté publicado ni sincronizado con GitHub; **no desplegar en Cloudflare sin autorización expresa**.
+
+### Avances de esta sesión
+- **V12-181:** ajuste visual de **Overdue** a terracota para diferenciarlo de **Full Table View**; se revisó la posición de este botón para que no cubra tareas al desplazarse. Comprobación visual final pendiente.
+- **V12-182:** corrección de confirmación al reemplazar plantillas; revisión de prueba antigua que exigía workspace para cargar plantillas personales, contradiciendo la regla vigente de **plantillas independientes del workspace**.
+- **V12-183:** confirmaciones personalizadas para eliminar contactos y protección frente a errores de guardado; mantener **Cancel** sin eliminar datos.
+- **V12-184:** primer intento de ordenar los resaltados del Communication Center. **La captura del usuario confirmó que no funcionó**: se iluminaba Saved contact antes que Table to send.
+- **V12-185:** se corrigió la lógica de entrada al paso Communication Center y se evitó avanzar al enfocar/abrir el selector sin cambiar la tabla. **El usuario confirmó «perfecto»** después de esta entrega. La comprobación formal de navegador de todas las variantes aún no está documentada.
+
+### Regla vigente de Communication Center
+1. Al entrar por **Send Email** o navegación, resaltar en **amarillo Table to send** primero, incluso si una tabla viene preseleccionada.
+2. El operador escoge **Table 01**, **Table 02** o **Both Tables**; al **cambiar efectivamente** la selección, trasladar el amarillo a **Saved contact**. No adelantar la guía solo por foco o apertura del desplegable.
+3. Permitir elegir contacto guardado o escribir correo del destinatario; completar **Role / Relationship** y demás campos requeridos; habilitar **Preview Email** solo cuando las validaciones se cumplan.
+4. Mantener selecciones, resúmenes, borradores y envío independientes por tabla; Both Tables solo cuando corresponde. No alterar el diseño aprobado ni los colores de los dos resúmenes.
+
+### Reglas de protección y pendientes
+- **Closing Timeline Summary:** encabezado ocre/marrón y filas crema/dorado; **Follow-Up Summary:** encabezado ciruela/burdeos y filas rosadas. **No cambiar sus colores ni apariencia aprobados.**
+- Conservar los estilos delicados de Table 01 y Table 02 y los indicadores Today/Tomorrow/Overdue.
+- Auditoría de código aún **incompleta**: revisar scripts superpuestos y órdenes contradictorias, confirmaciones antiguas de workspaces/contactos/plantillas, persistencia y recuperación, seguridad de borrado, pruebas de ambas bibliotecas y recorrido integral de cinco pasos en navegador.
+- No confundir validación de sintaxis e integridad ZIP con pruebas funcionales completas; registrar evidencia y pendientes.
+- **Una sola entrega ZIP por grupo coherente de cambios**, probar antes de entregar y hacer coincidir exactamente el nombre del ZIP y el de su carpeta interior; preservar versiones de respaldo.
+- Respetar privacidad: no solicitar, guardar ni publicar información personal de terceros o datos identificables de compañías en pruebas, proyectos, reseñas o feedback; usar datos ficticios/anonimizados.
+- Próxima sesión: partir del **ZIP V12-185 verificable** y este documento; revisar primero el comportamiento Table to send → Saved contact y luego continuar la auditoría sin rehacer lo aprobado.
