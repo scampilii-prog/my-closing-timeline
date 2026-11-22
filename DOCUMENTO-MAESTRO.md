@@ -246,3 +246,11 @@ Se inspeccionó directamente la carpeta local `MCT-V12-207-HOME-90-DIAS-UNIVERSA
 
 ### Actualización de prueba independiente · 22 de noviembre de 2026
 Se volvió a ejecutar directamente en la carpeta local V12-207 `python tests/v12_independent_email_e2e_test.py` con Chromium/Playwright. **Resultado: PASS**, con salida `PASS independent Table 01, Table 02, Both; separate drafts; confirmation; workspace isolation`. El test comprobó grupos independientes de Table 01 y Table 02, Both condicionado a confirmación, destinatarios y borradores separados, aislamiento de CASE B y recuperación del borrador de CASE A. El bloqueo por tiempo del lote anterior **no se reprodujo en esta ejecución aislada**. No demuestra envío real de email externo, despliegue ni seguridad de producción. Se mantiene Cloudflare para la integración final autorizada.
+
+
+## 16. Comprobaciones locales V12-208 · 22 de noviembre de 2026
+Se inspeccionó el ZIP y la carpeta local `MCT-V12-208-ACCOUNT-NAVIGATION-PREVIEW`. El cambio documentado en `CAMBIOS-V12-208.md` dirige Sign In y Register a `account-preview.html`, una página informativa sin formulario ni almacenamiento de credenciales; no se ha activado el registro real.
+
+**Pruebas ejecutadas directamente y aprobadas:** `v12_account_navigation_test.py` (sin enlaces de registro al sistema antiguo), `v12_home_trial_clarity_test.py` (90 días universales frente a Founding Members opcional), `v12_integrity_test.py` (IDs, dependencias y sintaxis JS), `v12_independent_email_e2e_test.py` (Table 01, Table 02, Both, borradores separados, confirmación y aislamiento), `v12_browser_interaction_test.py` (workspace, fechas, selección, confirmación, borrador y reapertura) y `v12_browser_layout_test.py` (Chromium 1440 px y 390 px, sin errores de página reportados).
+
+**Límites:** pruebas automatizadas locales, no validación de envío externo real, autenticación real, Cloudflare ni aceptación visual del propietario. No se modificó el sitio publicado. Continuar auditoría de páginas y flujos antes de entregar un ZIP nuevo; agrupar cambios funcionales.
