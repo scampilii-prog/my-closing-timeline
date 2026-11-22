@@ -185,3 +185,53 @@ Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/libra
 - Antes de ofrecer cobros, cerrar el modelo comercial y los términos de acceso, expiración, privacidad y no renovación.
 - Mantener la regla de **un ZIP por conjunto coherente de correcciones**, con carpeta interior del mismo nombre que el ZIP, sin borrar versiones previas.
 - La última versión local comunicada en esta secuencia es **V12-190**, pero no implica que esté publicada ni que haya superado pruebas funcionales integrales.
+
+
+## 14. Continuidad V12-201 a V12-206 · Registro seguro y orden de lanzamiento · 22 de noviembre de 2026
+
+**Decisión de trabajo del propietario:** registrar los pasos necesarios en GitHub y **terminar, auditar y probar primero la V12 local; reservar la conexión y publicación en Cloudflare para la etapa final**, sin dejar de preparar contratos de API, esquema de datos y pruebas desde ahora. No desplegar ni activar cobros sin autorización expresa.
+
+### Identidad y registro
+- Una sola cuenta de usuario para las cuatro categorías: **Real Estate & Closing, Business & Projects, Services & Contractors y Personal & Home**. Las categorías son actividades; **Pay Per Project, Two Categories y All Access** son modalidades de plan, sujetas a aprobación comercial.
+- Formulario inicial: **nombre completo y correo electrónico obligatorios; teléfono opcional**, presentado como ayuda para seguridad y recuperación. No exigir teléfono a todos por defecto ni usarlo para publicidad sin consentimiento.
+- Verificar posesión del email antes de habilitar la prueba. Normalizar email y establecer unicidad de cuenta en servidor/base de datos. Los enlaces de verificación deben expirar y ser de un solo uso. Inicio de sesión y recuperación seguros; mensajes que no revelen si un email existe.
+- Después del registro: **Choose Activities → Start Free Access → Choose a Plan**, con posibilidad de modificar actividades posteriormente. Evitar crear otra cuenta por cada actividad.
+- **Oferta vigente: 90 días gratuitos universales, una vez por cuenta, sin tarjeta, sin obligación de compra ni cobro automático**. Fecha de inicio, fin y concesión deben registrarse y validarse en servidor, con operación atómica para impedir doble concesión. Las reglas de acceso tras el vencimiento requieren definición y pruebas.
+- No prometer imposibilidad absoluta de múltiples cuentas de una misma persona: dos emails distintos pueden eludir la unicidad por email.
+
+### Prevención proporcional del abuso
+- Propuesta: **Cloudflare Turnstile** validado en servidor, límites de solicitudes por IP y por cuenta, protección de creación de cuentas y verificación de email, detección de patrones anómalos, bloqueo prudente de correos desechables y controles de recuperación.
+- **IP o huella de dispositivo no equivalen a identidad personal**: no bloquear automáticamente a familias, oficinas o redes compartidas; VPN, IP dinámica y cambios de navegador limitan su eficacia.
+- Solicitar verificación adicional por teléfono únicamente ante señales justificadas, con alternativa de revisión para usuarios legítimos. Minimizar registros técnicos, establecer retención limitada y reflejar el tratamiento en Privacy.
+- Los controles comerciales deben estar en **Cloudflare Workers + D1 o backend equivalente**, no en JavaScript del navegador ni solo en almacenamiento local. Revisar idempotencia, concurrencia, autorizaciones y auditoría.
+- **GitHub**: repositorio, control de versiones, revisión y pruebas; **Cloudflare**: ejecución del backend, Turnstile, datos, seguridad y publicación cuando se autorice. No almacenar secretos en GitHub.
+
+### Promociones
+- El propietario planteó **comprar un plan y recibir otro beneficio**. **Propuesta pendiente de aprobación:** crédito de acceso adicional limitado a otra actividad durante 30 días, una vez por cuenta, sin renovación automática. No anunciar, conceder ni combinar automáticamente hasta definir elegibilidad, límites y coste.
+- Mantener separado **BUY 5 CLOSINGS · GET 1 FREE** de cualquier nueva promoción. Revisar compatibilidad y evitar doble aplicación accidental.
+
+### Estado comunicado de las versiones locales
+- **V12-201:** nombre de página unificado como `studio.html`; actualizar enlaces y evitar presentar Studio como autorización administrativa.
+- **V12-202 y V12-203:** correcciones de pruebas de rutas con parámetros de caché y de interacción al crear un workspace; no equivalen a certificación integral.
+- **V12-204:** documentación de arquitectura de registro seguro y esquema SQL propuesto, **sin activar registro real**.
+- **V12-205:** pruebas locales de unicidad de email, una prueba por cuenta y cuatro categorías; **no demuestran unicidad por persona**.
+- **V12-206:** se comunicó eliminación de HTML administrativo público y preparación de ruta privada. **La seguridad de producción y autenticación de propietario aún no están verificadas**.
+- Estos ZIP fueron comunicados como entregas locales; **no asumir que sus cambios están en el repositorio GitHub ni en Cloudflare**. Para continuar, abrir el ZIP más reciente verificable y comparar su contenido con el repositorio.
+
+### Secuencia aprobada de finalización
+1. **Congelar la base V12 local verificable**; preservar ZIPs e historial; identificar versión y archivos exactos.
+2. **Auditoría integral de las páginas:** Home, cuatro categorías, Real Estate & Closing, Founding Members, Plans, Payment, Help & Contact, Privacy y Studio; navegación, enlaces, títulos, footer, adaptación móvil y accesibilidad. Conservar diseño aprobado.
+3. **Pruebas funcionales completas de Real Estate:** Contract Setup → dos tablas independientes y resúmenes → Communication Center, fechas, tareas, plantillas, contactos, borradores, selecciones, aislamiento de proyectos, errores y recuperación; usar datos ficticios.
+4. **Definir y probar el recorrido de cuenta en entorno local/simulado:** Create Account → Verify Email → Choose Activities → Free Trial → Choose Plan; estados, mensajes, caducidad y errores. Las simulaciones no se presentarán como servicio real.
+5. **Cerrar reglas comerciales y legales:** precios, límites, duración, promociones, acceso al terminar 90 días, avisos de vencimiento, privacidad, eliminación de datos, ausencia de renovación automática y términos de compra. No inventar precios ni ofertas.
+6. **Preparar backend sin activarlo:** migraciones D1, Workers/API, verificación Turnstile, sesiones y cookies seguras, verificación email, registro único de prueba, autorización por recurso, recuperación, límites y pruebas automatizadas. Mantener secretos fuera del código.
+7. **Probar seguridad y regresión en entorno aislado:** registros repetidos, emails distintos, sesiones caducadas, acceso entre cuentas, privilegios de Studio, endpoints administrativos, errores de pago, idempotencia, protección contra abuso y dispositivos móviles.
+8. **Solo al final, y con autorización:** configurar recursos Cloudflare, variables/secretos, dominios y correo; desplegar primero a staging; probar integralmente con cuentas ficticias. La integración real puede revelar problemas que deban corregirse antes del lanzamiento.
+9. **Pagos:** habilitar checkout externo únicamente tras aprobar planes/precios y verificar webhooks, conciliación, reintentos, cancelaciones y acceso concedido; nunca recopilar tarjetas en nuestro sitio.
+10. **Publicación final:** respaldo, checklist de aceptación, autorización expresa del propietario, despliegue controlado, monitoreo y plan de reversión.
+
+### Normas de entrega y comunicación
+- No enviar ZIP por cada ajuste pequeño: agrupar correcciones relacionadas, comprobarlas y entregar una versión coherente. **ZIP y carpeta interior con idéntico nombre**.
+- Al pedir revisión visual, indicar **el nombre exacto del HTML que abrir y qué comprobar**.
+- No afirmar que algo está implementado, probado en navegador, desplegado o protegido en producción sin evidencia específica. Distinguir **propuesta / código local / prueba local / staging / producción**.
+- No borrar historial ni cambiar el sitio publicado sin autorización; no guardar datos personales de terceros en pruebas o reseñas.
