@@ -254,3 +254,9 @@ Se inspeccionó el ZIP y la carpeta local `MCT-V12-208-ACCOUNT-NAVIGATION-PREVIE
 **Pruebas ejecutadas directamente y aprobadas:** `v12_account_navigation_test.py` (sin enlaces de registro al sistema antiguo), `v12_home_trial_clarity_test.py` (90 días universales frente a Founding Members opcional), `v12_integrity_test.py` (IDs, dependencias y sintaxis JS), `v12_independent_email_e2e_test.py` (Table 01, Table 02, Both, borradores separados, confirmación y aislamiento), `v12_browser_interaction_test.py` (workspace, fechas, selección, confirmación, borrador y reapertura) y `v12_browser_layout_test.py` (Chromium 1440 px y 390 px, sin errores de página reportados).
 
 **Límites:** pruebas automatizadas locales, no validación de envío externo real, autenticación real, Cloudflare ni aceptación visual del propietario. No se modificó el sitio publicado. Continuar auditoría de páginas y flujos antes de entregar un ZIP nuevo; agrupar cambios funcionales.
+
+
+## 17. V12-209 · Claridad de privacidad local · 22 de noviembre de 2026
+Partiendo de la carpeta local verificable V12-208 se creó `MCT-V12-209-PRIVACY-CLARITY.zip`, con carpeta interior del mismo nombre. Se amplió **`privacy.html`** para indicar expresamente que es una vista previa, que el registro y pagos no están activados, que algunas funciones pueden conservar datos en el almacenamiento local del navegador incluso tras refrescar/cerrar, que solo deben usarse datos ficticios y que la política final (retención, derechos, proveedores y controles) sigue pendiente. No se modificó producción.
+
+**Pruebas locales aprobadas:** `v12_privacy_preview_test.py`, `v12_integrity_test.py`, `v12_account_navigation_test.py`, `v12_home_trial_clarity_test.py` y verificación de integridad del ZIP. **No equivale a aprobación legal ni a pruebas de Cloudflare**. Revisar visualmente `privacy.html` antes de publicar; completar la política real según los servicios finalmente utilizados.
