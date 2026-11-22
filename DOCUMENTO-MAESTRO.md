@@ -156,3 +156,32 @@ Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/libra
 - **Implementación pendiente:** revisar todas las páginas, formularios, planes, FAQ, textos, pruebas, reglas de acceso, base de datos y automatizaciones para retirar referencias activas a 21 días y verificar coherencia de los 90 días. No cambiar producción ni activar registros/pagos sin autorización y pruebas.
 - **Privacidad:** reseñas y comentarios opcionales, privados por defecto, sin datos de terceros ni compañías; publicar testimonios únicamente con permiso explícito.
 - **Próxima prioridad:** definir exactamente qué acceso se mantiene tras los 90 días, qué planes de pago se ofrecerán, cómo se avisará del vencimiento y cómo se mide conversión/feedback. No inferir estas condiciones del esquema comercial anterior.
+
+
+## 13. Plans & Pricing · decisiones y revisión visual V12-187 a V12-190 · 22 de noviembre de 2026
+
+**Alcance:** página local `plans.html` y navegación informativa `payment.html`. Estas versiones ZIP son vistas previas locales, no evidencia de publicación en Cloudflare ni de pagos activos. Conservar intactos diseño y funciones aprobados de Real Estate & Closing.
+
+### Modelo comercial en evaluación
+- Mantener la **prueba inicial universal de 90 días**, nunca 21 días; registro sin tarjeta, sin cobros automáticos y sin obligación de contratar o renovar, condicionado a verificar que la implementación real cumpla estas promesas.
+- Presentar **tres maneras sencillas de continuar** tras el período gratuito: **Pay Per Project**, **Two Categories** (elegir cualesquiera dos de cuatro) y **All Access** (las cuatro).
+- Para **Pay Per Project**, sustituir el concepto complejo de «créditos» por **acceso a un proyecto concreto durante 30 o 90 días**, a elección del cliente, sin suscripción mensual. Definir después precio, alcance, proyectos simultáneos, continuidad e historial.
+- Para **Two Categories** y **All Access**, estudiar períodos prepagados de **1, 3, 6 y 12 meses**. Definir límites de proyectos, condiciones y precios antes de lanzar.
+- Las **cuatro categorías son tipos de trabajo, no planes ni períodos**: Real Estate & Closing; Business & Projects; Services & Contractors; Personal & Home. Explicar explícitamente esta distinción en la página, así como qué compra cada opción.
+- El usuario propuso evaluar precios normales y promociones introductorias, incluso descuentos importantes; **no anunciar precios de referencia ficticios ni descuentos no verificables**. Todos los precios, límites y promociones siguen pendientes de aprobación.
+- Cada opción debe llevar mediante un botón real a `payment.html` mostrando el plan, categorías y duración elegidos. **No activar checkout ni cobrar** antes de aprobar precios, condiciones, seguridad y pruebas.
+- Las cuatro fotografías de las categorías gustan al propietario: **conservarlas**. Las otras categorías pueden estar todavía en desarrollo: no prometer funciones no disponibles.
+
+### Diseño y claridad visual
+- **V12-187:** primera vista previa local de Plans & Pricing, con fotografías, tres ofertas, categorías, períodos, FAQ y enlaces informativos a Payment.
+- **V12-188:** reorganizar para distinguir claramente **categoría / tipo de plan / duración**; permitir elegir un proyecto por 30 o 90 días; resaltar con elegancia los **cuatro mensajes de confianza**: “No credit card to register”, “No automatic charges”, “No obligation to continue”, “Your privacy matters”. Deben ser visualmente destacados, equilibrados y **no parecer botones clicables si no lo son**.
+- Mostrar con claridad qué significan las cuatro categorías y por qué aparecen los cuatro períodos; evitar bloques repetidos o una estructura que confunda al visitante.
+- **V12-189:** se aumentó la fuente de las respuestas FAQ, pero el propietario comprobó en captura que quedó **demasiado grande y poco elegante**.
+- **V12-190 — preferencia visual vigente:** en “Questions Before You Choose?”, **preguntas a 15 px en negrita; respuestas a 14 px**, discretamente más pequeñas, con interlineado cómodo. Mantener una jerarquía limpia; no volver a agrandar las respuestas por encima de las preguntas. Este ajuste se comunicó como ZIP `MCT-V12-190-FAQ-TIPOGRAFIA-EQUILIBRADA.zip`; **la revisión visual final por el propietario sigue pendiente**.
+- Los botones flotantes Back to top / Ask Timeline, el encabezado, el pie y el diseño compartido deben permanecer consistentes.
+
+### Trabajo pendiente y control de versiones
+- Validar en navegador las selecciones y el paso a Payment, incluidos estados sin seleccionar, móviles y regreso a Plans; verificar coherencia entre contenido comercial y backend.
+- Antes de ofrecer cobros, cerrar el modelo comercial y los términos de acceso, expiración, privacidad y no renovación.
+- Mantener la regla de **un ZIP por conjunto coherente de correcciones**, con carpeta interior del mismo nombre que el ZIP, sin borrar versiones previas.
+- La última versión local comunicada en esta secuencia es **V12-190**, pero no implica que esté publicada ni que haya superado pruebas funcionales integrales.
