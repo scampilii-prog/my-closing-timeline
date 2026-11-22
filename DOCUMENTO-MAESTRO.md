@@ -235,3 +235,10 @@ Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/libra
 - Al pedir revisión visual, indicar **el nombre exacto del HTML que abrir y qué comprobar**.
 - No afirmar que algo está implementado, probado en navegador, desplegado o protegido en producción sin evidencia específica. Distinguir **propuesta / código local / prueba local / staging / producción**.
 - No borrar historial ni cambiar el sitio publicado sin autorización; no guardar datos personales de terceros en pruebas o reseñas.
+
+
+## 15. Verificación local parcial de V12-207 · 22 de noviembre de 2026
+
+Se inspeccionó directamente la carpeta local `MCT-V12-207-HOME-90-DIAS-UNIVERSALES` y se ejecutaron pruebas existentes, sin publicar ni modificar producción. **Resultado confirmado:** pasaron `v12_55_smoke_test.py`, `v12_admin_private_route_test.py`, `v12_browser_interaction_test.py`, `v12_browser_layout_test.py`, `v12_dom_contract_test.py`, `v12_draft_isolation_test.py`, `v12_email_guide_consistency_test.py`, `v12_guided_alignment_test.py`, `v12_home_trial_clarity_test.py`, `v12_integrity_test.py`, `v12_template_safety_test.py`, `v12_workflow_contract_test.py`, `v12_workspace_isolation_test.py` y `registro_d1_schema_test.py`. Son pruebas locales de código, DOM y navegador automatizado; no equivalen a aceptación del usuario ni a seguridad en producción.
+
+**Pendiente importante:** `v12_independent_email_e2e_test.py` no terminó dentro del límite de ejecución del lote y **no debe contarse como aprobada**; aislar el bloqueo y repetirla. También faltan las pruebas integrales del registro real y la conexión Cloudflare. No crear un ZIP nuevo únicamente por actualizar el estado de pruebas: continuar agrupando cambios funcionales.
