@@ -142,3 +142,17 @@ Base de prueba: [MCT-V11-152-TABLAS-SIN-SELECCION.zip](https://chatgpt.com/libra
 - **Una sola entrega ZIP por grupo coherente de cambios**, probar antes de entregar y hacer coincidir exactamente el nombre del ZIP y el de su carpeta interior; preservar versiones de respaldo.
 - Respetar privacidad: no solicitar, guardar ni publicar información personal de terceros o datos identificables de compañías en pruebas, proyectos, reseñas o feedback; usar datos ficticios/anonimizados.
 - Próxima sesión: partir del **ZIP V12-185 verificable** y este documento; revisar primero el comportamiento Table to send → Saved contact y luego continuar la auditoría sin rehacer lo aprobado.
+
+
+## 12. Decisión comercial vigente · 22 de noviembre de 2026 · Prueba gratuita universal de 90 días
+
+**Decisión expresa del propietario (sustituye la regla anterior de 21 días):**
+- **Eliminar completamente la prueba gratuita inicial de 21 días.** No anunciarla ni implementarla como oferta vigente.
+- **Todos los usuarios nuevos tendrán 3 meses (90 días) de acceso gratuito inicial.** No limitar esta duración solo a Founding Members. Evitar mensajes que presenten dos pruebas iniciales distintas.
+- **Registro gratuito sin tarjeta de crédito.** No solicitar ni almacenar datos de tarjetas en My Closing Timeline. Si un usuario decide contratar después, procesar el pago mediante un proveedor externo seguro, sin que el sitio recoja ni almacene directamente los datos completos de la tarjeta.
+- **Sin cargos automáticos ni obligación de comprar, continuar o renovar.** Finalizados los 90 días, el usuario decide expresamente si desea un plan de pago. No se cobra por inacción. No activar renovaciones automáticas sin una decisión posterior y autorización expresa; cualquier condición futura debe comunicarse antes de contratar.
+- Mensaje comercial recomendado: **“Try It Free for 90 Days. No Credit Card Required. No Obligation to Continue.”** Explicar de manera visible que después existen planes de pago opcionales y que no habrá cobros automáticos por finalizar la prueba.
+- **Founding Members:** mantenerlo como posible programa separado de participación temprana y feedback voluntario, pero **no** como única vía para obtener los 90 días. Sus beneficios especiales, extensiones o condiciones anteriores quedan **pendientes de revisión** para evitar contradicciones con la nueva prueba universal; no anunciar condiciones no confirmadas.
+- **Implementación pendiente:** revisar todas las páginas, formularios, planes, FAQ, textos, pruebas, reglas de acceso, base de datos y automatizaciones para retirar referencias activas a 21 días y verificar coherencia de los 90 días. No cambiar producción ni activar registros/pagos sin autorización y pruebas.
+- **Privacidad:** reseñas y comentarios opcionales, privados por defecto, sin datos de terceros ni compañías; publicar testimonios únicamente con permiso explícito.
+- **Próxima prioridad:** definir exactamente qué acceso se mantiene tras los 90 días, qué planes de pago se ofrecerán, cómo se avisará del vencimiento y cómo se mide conversión/feedback. No inferir estas condiciones del esquema comercial anterior.
