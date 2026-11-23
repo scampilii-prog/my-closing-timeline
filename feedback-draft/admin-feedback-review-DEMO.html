@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MCT Feedback Review — isolated demo</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#183449;background:#f3f6f9}*{box-sizing:border-box}main{max-width:820px;margin:38px auto;padding:0 16px}.panel{background:white;border:1px solid #d9e3eb;border-radius:15px;padding:25px;box-shadow:0 6px 20px #17324712}h1{margin:0 0 8px;font-size:25px}p{line-height:1.5;color:#465d70}label{display:block;font-weight:650;margin:18px 0 7px}textarea,select,input{font:inherit;border:1px solid #a9bcca;border-radius:8px;padding:11px;width:100%}textarea{min-height:130px;resize:vertical}button{background:#153d57;color:#fff;border:0;border-radius:8px;padding:12px 17px;font:inherit;font-weight:650;cursor:pointer;margin:16px 10px 0 0}button:disabled{opacity:.45;cursor:not-allowed}.small{font-size:13px}.pill{display:inline-block;padding:5px 10px;background:#e9f2f8;border-radius:30px;font-size:12px;font-weight:700}#status{font-weight:650;min-height:20px}#export-section[hidden]{display:none}
+</style></head><body><main><section class="panel"><span class="pill">ISOLATED ADMIN WORKFLOW DEMO · NO BACKEND</span><h1>Feedback Review</h1><p>Paste an anonymized report, review it and prepare a clear message for ChatGPT. This demonstration is not connected to Admin Studio and does not receive or store customer reports.</p>
+<label for="report">Paste feedback report</label><textarea id="report" maxlength="5000" placeholder="MCT FEEDBACK — USER-PREPARED (UNVERIFIED)&#10;Type: Problem&#10;Area: Real Estate & Closing&#10;Step: 02 My Tasks&#10;Description: ..."></textarea>
+<label for="priority">Priority</label><select id="priority"><option value="P2">P2 — Normal issue</option><option value="P0">P0 — Security, privacy or data loss</option><option value="P1">P1 — Core workflow blocked</option><option value="P3">P3 — Suggestion</option></select>
+<label for="state">Review state</label><select id="state"><option>New</option><option>Reviewing</option><option>Planned</option><option>Testing</option><option>Resolved</option><option>Closed</option></select>
+<label for="notes">Internal notes (no personal information)</label><textarea id="notes" maxlength="1000" placeholder="What should be checked? Which version?"></textarea>
+<p class="small">Do not paste customer names, email addresses, phone numbers, account details, passwords, tokens, documents or private project information. A basic warning cannot detect every sensitive detail. No ticket ID is generated and nothing is saved.</p>
+<button id="prepare" type="button">Prepare for ChatGPT</button><button id="clear" type="button">Clear all</button>
+<p id="status" role="status" aria-live="polite"></p>
+<div id="export-section" hidden><label for="export">Review before sharing</label><textarea id="export" readonly rows="11"></textarea><button id="copy" type="button">Copy for ChatGPT</button></div></section></main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const sensitive=/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b|\b(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b|\b(?:password|passcode|token|secret|social security)\s*[:=]/i;
+const reset=()=>{$('export-section').hidden=true;$('export').value='';};
+['report','notes','priority','state'].forEach(id=>$(id).addEventListener('input',reset));
+$('prepare').addEventListener('click',()=>{
+const raw=$('report').value.trim(),notes=$('notes').value.trim();
+reset();
+if(!raw){$('status').textContent='Paste an anonymized report first.';return;}
+if(sensitive.test(raw+' '+notes)){$('status').textContent='Possible sensitive information detected. Remove it before preparing the report.';return;}
+const out=['MCT FEEDBACK — FOR REVIEW (NOT A VERIFIED TICKET)','Report supplied by operator; original details unverified.','Priority: '+$('priority').value,'Review state: '+$('state').value,'','CUSTOMER REPORT (UNVERIFIED):',raw,'','INTERNAL NOTES:',notes||'None','', 'REQUEST TO CHATGPT: Inspect the relevant verified version, reproduce if possible, propose a minimal fix, run tests, document in GitHub, and do not deploy without authorization.'].join('\n');
+$('export').value=out;$('export-section').hidden=false;$('status').textContent='Prepared. Review the text before copying.';
+});
+$('copy').addEventListener('click',async()=>{
+const value=$('export').value;if(!value)return;
+try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(value);$('status').textContent='Copied. Paste it into your ChatGPT conversation.';}
+catch{$('export').focus();$('export').select();$('status').textContent='Automatic copy unavailable. Text selected; copy it manually.';}
+});
+$('clear').addEventListener('click',()=>{$('report').value='';$('notes').value='';$('priority').value='P2';$('state').value='New';reset();$('status').textContent='All fields cleared.';});
+})();
+</script></body></html>
