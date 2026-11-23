@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feedback & Improvements — MCT prototype</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#173247;background:#f4f7fa}*{box-sizing:border-box}main{max-width:760px;margin:40px auto;padding:0 18px}.panel{background:white;border:1px solid #dbe4eb;border-radius:16px;padding:28px;box-shadow:0 8px 25px #1232}h1{font-size:26px;margin:0 0 8px}p{line-height:1.5;color:#456}label{display:block;font-weight:650;margin-top:18px}select,textarea,input{width:100%;margin-top:7px;padding:12px;border:1px solid #a8bbc8;border-radius:9px;font:inherit}textarea{min-height:140px;resize:vertical}button{border:0;border-radius:9px;background:#143e5b;color:white;padding:12px 18px;font:inherit;font-weight:650;cursor:pointer;margin-top:18px}button:disabled{opacity:.5;cursor:not-allowed}.note{font-size:13px}.status{min-height:24px;font-weight:600}.pill{display:inline-block;border-radius:12px;background:#eaf3ed;padding:4px 9px;color:#20593c;font-size:12px;font-weight:700}fieldset{border:0;padding:0;margin:16px 0 0}legend{font-weight:650}fieldset label{display:inline-block;font-weight:400;margin:9px 15px 0 0}fieldset input{width:auto;margin:0 5px 0 0}
+</style><main><div class="panel"><span class="pill">LOCAL PROTOTYPE · NOT CONNECTED</span><h1>Feedback & Improvements</h1><p>Help us make My Closing Timeline easier and more reliable. This prototype prepares a privacy-safe report you can copy. It does not send or store information.</p>
+<form id="feedback">
+<fieldset><legend>What would you like to share?</legend><label><input type="radio" name="type" value="Problem" checked>Report a problem</label><label><input type="radio" name="type" value="Suggestion">Suggest an improvement</label><label><input type="radio" name="type" value="Experience">Share my experience</label></fieldset>
+<label for="area">Area</label><select id="area"><option>Real Estate & Closing</option><option>Business & Projects</option><option>Services & Contractors</option><option>Personal & Home</option><option>Registration & Account</option><option>Other</option></select>
+<label for="page">Page or step (optional)</label><select id="page"><option value="">Not sure</option><option>01 Contract Setup</option><option>02 My Tasks</option><option>03 Communication Center</option><option>Plans & Pricing</option><option>Other</option></select>
+<label for="details">What happened or what could be improved?</label><textarea id="details" maxlength="1500" required placeholder="Describe the issue without names, emails, addresses or private information."></textarea>
+<label for="expected">What did you expect? (optional)</label><textarea id="expected" maxlength="600" style="min-height:70px"></textarea>
+<p class="note">Do not include client or company names, addresses, email addresses, passwords, tokens, contract details or private documents. Reports are private by default. No public reviews are published without separate permission.</p>
+<button type="submit">Copy report</button><p id="status" class="status" role="status" aria-live="polite"></p></form></div></main>
+<script>
+document.querySelector('#feedback').addEventListener('submit',async e=>{
+ e.preventDefault();const form=e.currentTarget;const details=document.querySelector('#details').value.trim();const status=document.querySelector('#status');
+ if(!details){status.textContent='Please describe the issue or suggestion.';return;}
+ const risky=/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b|\b(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b|\b(?:password|passcode|token|secret|social security)\s*[:=]/i;
+ if(risky.test(details+' '+document.querySelector('#expected').value)){status.textContent='Please remove emails, phone numbers or credentials before copying.';return;}
+ const report=['MCT FEEDBACK — USER-PREPARED (UNVERIFIED)','Type: '+form.querySelector('input[name="type"]:checked').value,'Area: '+document.querySelector('#area').value,'Step: '+(document.querySelector('#page').value||'Unknown'),'Description: '+details,'Expected: '+(document.querySelector('#expected').value.trim()||'Not provided'),'Source: Prototype copy only; no submission or ticket created'].join('\n');
+ try{await navigator.clipboard.writeText(report);status.textContent='Copied. You can paste this into a message to the site owner.'}catch{status.textContent='Copy unavailable in this browser. Please select and copy your text manually.'}
+});
+</script></html>
