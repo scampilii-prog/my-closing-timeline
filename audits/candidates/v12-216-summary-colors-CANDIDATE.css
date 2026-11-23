@@ -1,3 +1,8 @@
+/* SUPERSEDED — DO NOT INTEGRATE. Static audit of the baseline ZIP found
+   pages/summary-only-v12-164.css already applies more-specific, separate
+   rules to #contract-summary and #follow-summary. This candidate's broad
+   rules would add an unnecessary competing CSS layer. See master §43.
+   Preserved below solely as historical draft. */
 /* V12-216 candidate only. NOT linked to production or baseline ZIP.
    Apply after existing CSS only after visual and functional regression tests. */
 #contract-section .re-summary-heading {
