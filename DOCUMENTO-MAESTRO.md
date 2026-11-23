@@ -3,6 +3,8 @@
 **Estado:** Plan rector aprobado. Documento de autoridad para la reconstrucción V11.  
 **Regla:** ninguna página interior puede modificar la estructura común.
 
+> **GUÍA DE VIGENCIA — 23/11/2026:** Este documento conserva el historial V1–V12. Las secciones antiguas son referencias históricas cuando una decisión posterior las sustituye. Para determinar qué implementar, consultar primero las decisiones vigentes de V12 y el registro de conflictos de la sección 37. Ninguna instrucción histórica autoriza cambiar producción. El código y el despliegue deben verificarse por separado.
+
 ## 1. Una sola fuente para toda la estructura
 
 `MODELO.html` es la referencia visual. Las instrucciones reales se centralizan en componentes compartidos. Las páginas HTML no heredan automáticamente los cambios de MODELO: comparten los mismos archivos de estructura.
@@ -345,3 +347,32 @@ Se creó en la rama `backup/v12-216-preparacion` un prototipo experimental `auth
 
 ## 36. Defensa adicional de caducidad dentro del trigger · 23 de noviembre de 2026
 Se revisó el prototipo `auth-draft/atomic-trial-trigger-PROTOTYPE.sql` y se detectó que la caducidad del token se validaba solo en la cláusula `WHERE` del llamador. **Riesgo:** otro llamador que omitiera esa condición podría consumir un token vencido. Se agregó una comprobación defensiva dentro del propio trigger (`NEW.expires_at <= NEW.consumed_at` provoca `RAISE(ABORT)`) en la rama `backup/v12-216-preparacion`, commit `67935dd9bfd35c99650b1af033ce42e20c56f887`. Se amplió `auth-draft/tests/test_atomic_trigger.py` para intentar consumir un token vencido omitiendo deliberadamente el filtro de caducidad, y exigir que cuenta, token y beneficios queden sin cambios (commit `82a01a30fdc6e6aaef4242517e79ae175e3b8c4e`). **Estado exacto:** código y prueba guardados en GitHub; esta nueva prueba aún no se ha ejecutado en este entorno y tampoco se ha probado en Cloudflare D1. Sigue prohibido conectar o desplegar el prototipo hasta validar el esquema real, los casos de error y concurrencia en un entorno D1 aislado.
+
+
+## 37. Auditoría de instrucciones históricas V1–V12 y reglas de precedencia · 23 de noviembre de 2026
+**Petición del propietario:** revisar las carpetas y versiones V1–V12, el trabajo histórico de GitHub y Cloudflare, identificar órdenes contradictorias, conservar lo funcional y organizar las reglas vigentes sin pedirle que haga limpieza manual. Este documento es el registro de decisiones; **no equivale por sí solo a una auditoría completa del código, de todas las carpetas locales o del despliegue Cloudflare**. En esta revisión se inspeccionó el documento maestro actual en GitHub y sus secciones iniciales y V12; **no se ha accedido a todas las carpetas V1–V12 ni a la configuración real de Cloudflare**, por lo que no se afirma que el código esté libre de conflictos.
+
+### Orden de autoridad para resolver contradicciones
+1. Instrucción explícita más reciente del propietario, siempre que no comprometa privacidad, seguridad o un requisito legal.
+2. Decisiones **vigentes y aprobadas** de V12 y las reglas permanentes de arquitectura, privacidad y flujo; una propuesta o prueba no sustituye una decisión aprobada.
+3. Código funcional **verificado** en la versión base más reciente, con evidencia de pruebas; no asumir que lo publicado, el ZIP y `main` son idénticos.
+4. V11/V10 y V1–V9 como **historial de referencia y recuperación**, no como órdenes para reintroducir componentes o comportamientos descartados.
+5. En caso de ambigüedad material, preservar el comportamiento actual y registrar el conflicto antes de cambiarlo; pedir aclaración solo cuando la decisión afecte alcance o dinero.
+
+### Conflictos históricos identificados en el propio documento
+- **Nombre de categoría:** «Real Estate PRO» en secciones V11 frente a **«Real Estate & Closing»**, nombre vigente desde sección 10. Mantener el antiguo solo en referencias históricas.
+- **Oferta gratuita:** esquemas anteriores de 21 días, 60 días o cierres gratuitos frente a **90 días universales** aprobados en sección 12. No mezclar ofertas antiguas en páginas, backend ni comunicaciones. La implementación real continúa pendiente.
+- **Planes/precios:** tarifas históricas frente a `Pay Per Project`, `Two Categories`, `All Access` **en evaluación**. No publicar ni cobrar precios o promociones no aprobados.
+- **Versión de partida:** secciones 9 y 11 señalan V11-152 o V12-185 como última referencia **en su fecha**, mientras que la sección 26 documenta V12-216 como respaldo local más reciente y la 27 confirma su ZIP en la rama `backup/v12-216-preparacion`. No volver automáticamente a versiones anteriores.
+- **Actualización de GitHub:** la sección 10 decía actualizar el documento «cuando el usuario haya autorizado esa actualización»; las secciones 29, 30 y 34 establecen **autorización permanente de registro inmediato**. Rige esta última, sin autorizar despliegues.
+- **ZIPs:** la regla antigua de entregar un ZIP por bloque coherente sigue siendo útil **solo cuando el propietario solicite una entrega**. La preferencia actual es no enviar respaldos, enlaces ni ZIP rutinarios.
+- **Arquitectura compartida:** `MODELO.html` y rutas V11 son una especificación de referencia, no prueba de que cada archivo o ruta exista idénticamente en V12 o en `main`. Inspeccionar antes de modificar.
+- **Registro D1:** pruebas SQLite y prototipos documentados en secciones 26–36 no equivalen a integración D1 ni autorización de producción. El bloqueo de atomicidad de las secciones 32–33 continúa hasta prueba real.
+
+### Protocolo de limpieza sin pérdida de información
+- **No borrar ni sobrescribir V1–V12 ni archivos históricos por mera antigüedad**; etiquetar como históricos y conservar copias recuperables.
+- Auditar por fases: inventario del árbol de GitHub y ramas; comparar estructura compartida y páginas con V12; revisar duplicación de CSS/JS, navegación, tareas, selección, persistencia y contratos de API; finalmente contrastar con Cloudflare **solo cuando haya acceso verificable**.
+- Mantener un único conjunto de reglas **vigentes** para diseño compartido, categorías, privacidad, flujo 01–02–03, registro, planes y despliegue; conservar las reglas reemplazadas como historial fechado.
+- Para cada conflicto de código: identificar archivo y regla antigua/nueva, comprobar efectos y pruebas de regresión antes de eliminar. No «limpiar» a ciegas código funcional.
+- **No modificar Cloudflare ni `main` sin autorización expresa para el cambio concreto.** El respaldo V12-216 en la rama de trabajo contiene un ZIP, no los 327 archivos sueltos en esa rama.
+- Registrar inmediatamente hallazgos y resultados en este documento y comunicar al propietario solo lo sustancial, sin enviar respaldos.
