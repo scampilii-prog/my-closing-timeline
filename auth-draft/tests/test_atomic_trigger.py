@@ -46,4 +46,17 @@ with tempfile.TemporaryDirectory() as tmp:
         conn.rollback()
     assert conn.execute("SELECT consumed_at FROM verification_tokens WHERE token_hash='hash2'").fetchone()[0] is None
     assert conn.execute("SELECT COUNT(*) FROM entitlements").fetchone()[0] == 1
-    print('PASS: concurrent same token; 90-day duration; second token rollback')
+    # Defense in depth: even a caller that forgets expiry in its WHERE clause
+    # must not be able to activate a trial through an expired token.
+    conn.execute("INSERT INTO accounts(id,full_name,email_normalized,status) VALUES ('b','Expired','expired@example.org','pending')")
+    conn.execute("INSERT INTO verification_tokens(token_hash,account_id,expires_at) VALUES ('expired','b','2026-11-22T00:00:00Z')")
+    conn.commit()
+    try:
+        conn.execute("UPDATE verification_tokens SET consumed_at='2026-11-23T15:00:00Z' WHERE token_hash='expired' AND consumed_at IS NULL")
+        raise AssertionError('expired token must be rejected by the trigger')
+    except sqlite3.IntegrityError:
+        conn.rollback()
+    assert conn.execute("SELECT status FROM accounts WHERE id='b'").fetchone()[0] == 'pending'
+    assert conn.execute("SELECT consumed_at FROM verification_tokens WHERE token_hash='expired'").fetchone()[0] is None
+    assert conn.execute("SELECT COUNT(*) FROM entitlements WHERE account_id='b'").fetchone()[0] == 0
+    print('PASS: concurrent same token; 90-day duration; second token rollback; expired-token defense')
