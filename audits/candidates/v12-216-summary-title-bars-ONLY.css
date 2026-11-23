@@ -1,0 +1,15 @@
+/* CANDIDATE ONLY — not linked or deployed. V12-216 guided page.
+   Append after all existing styles only after browser verification.
+   Scope exclusively to summary title bars; do not touch editor tables. */
+#contract-section #contract-summary.re-summary > .re-summary-heading {
+  background: #a87322 !important;
+  border-left: 5px solid #8e5a17 !important;
+}
+#follow-section #follow-summary.re-summary > .re-summary-heading {
+  background: #74384f !important;
+  border-left: 5px solid #58283b !important;
+}
+#contract-section #contract-summary.re-summary > .re-summary-heading h4,
+#follow-section #follow-summary.re-summary > .re-summary-heading h4 {
+  color: #fff !important;
+}
