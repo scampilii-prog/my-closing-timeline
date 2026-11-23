@@ -1,0 +1,38 @@
+/* V12-216 candidate only. NOT linked to production or baseline ZIP.
+   Apply after existing CSS only after visual and functional regression tests. */
+#contract-section .re-summary-heading {
+  background: #a87322 !important;
+  border: 1px solid #93621c !important;
+  border-radius: 7px !important;
+}
+#follow-section .re-summary-heading {
+  background: #74384f !important;
+  border: 1px solid #602a40 !important;
+  border-radius: 7px !important;
+}
+#contract-section .re-summary-heading h4,
+#follow-section .re-summary-heading h4 {
+  color: #fff !important;
+}
+#contract-section .re-summary table.re-summary-table th {
+  background: #f2dca8 !important;
+  color: #553c17 !important;
+  border-bottom: 2px solid #b58a39 !important;
+}
+#follow-section .re-summary table.re-summary-table th {
+  background: #edd6de !important;
+  color: #562b40 !important;
+  border-bottom: 2px solid #9e6b81 !important;
+}
+#contract-section .re-summary table.re-summary-table tbody td {
+  background: #fff9ec !important;
+}
+#follow-section .re-summary table.re-summary-table tbody td {
+  background: #fff4f7 !important;
+}
+#contract-section .re-summary table.re-summary-table tbody tr:nth-child(even) td {
+  background: #fffdf8 !important;
+}
+#follow-section .re-summary table.re-summary-table tbody tr:nth-child(even) td {
+  background: #fffafb !important;
+}
