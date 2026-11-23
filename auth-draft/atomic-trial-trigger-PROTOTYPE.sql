@@ -5,7 +5,8 @@ AFTER UPDATE OF consumed_at ON verification_tokens
 WHEN OLD.consumed_at IS NULL AND NEW.consumed_at IS NOT NULL
 BEGIN
   SELECT RAISE(ABORT, 'token or account ineligible')
-    WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE id=NEW.account_id AND status='pending')
+    WHERE NEW.expires_at <= NEW.consumed_at
+       OR NOT EXISTS (SELECT 1 FROM accounts WHERE id=NEW.account_id AND status='pending')
        OR EXISTS (SELECT 1 FROM entitlements WHERE account_id=NEW.account_id AND kind='intro_trial');
   UPDATE accounts SET status='active', email_verified_at=NEW.consumed_at
     WHERE id=NEW.account_id AND status='pending';
