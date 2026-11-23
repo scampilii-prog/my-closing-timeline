@@ -450,3 +450,29 @@ El propietario mostró una captura de `https://cincsystems.com/` y pidió examin
 **Ideas aplicables sin copiar diseño ni recopilar datos privados de terceros:** 1) demostraciones visuales breves de los flujos 01–02–03 y cuatro categorías, con ejemplos ficticios; 2) sección clara de «qué hace / qué facilita / qué controla el usuario»; 3) Ask Timeline contextual que explica el siguiente paso sin inventar ni ejecutar acciones sin confirmación; 4) centro de confianza con privacidad, retención, permisos, recuperación y estado real de las medidas implementadas; 5) recursos y ayuda por categoría; 6) revisión humana antes de comunicaciones y cambios sensibles. No presentar certificaciones, integraciones ni seguridad no obtenidas.
 
 **Pendiente:** continuar auditoría página por página, incluyendo formularios, navegación, accesibilidad, recursos técnicos expuestos y políticas; separar observaciones de recomendaciones y priorizar por coste/beneficio. No modificar Cloudflare, producción ni V12 basándose solo en esta referencia.
+
+
+## 47. Benchmark CINC por páginas y prioridades para MCT · 23/11/2026
+**Solicitud expresa:** profundizar en la referencia `cincsystems.com`, examinar páginas y seleccionar mejoras prácticas para My Closing Timeline. Investigación de contenido público; no implica acceso a sistemas internos, auditoría de ciberseguridad ni conocimiento verificable del stack completo.
+
+**Páginas contrastadas (fuentes públicas):**
+- `/`: propuesta de valor centrada en una plataforma, accesos claros a públicos distintos y CTA de demostración. MCT: portada con cuatro categorías y una demostración corta con datos ficticios.
+- `/community-intelligence`: caso narrado de incidencia, recepción, consolidación, revisión humana, seguimiento y resolución; asistente Cephai contextual, roles, trazabilidad. MCT: explicar visualmente el flujo 01 Setup → 02 Tasks → 03 Communication Center y mostrar por qué cada paso importa; no permitir que Ask Timeline actúe sin confirmación.
+- `/management-accounting`: pestañas por función, bloques «qué facilita», contexto histórico, aprobación y configuración de roles. MCT: ayuda específica junto a cada control, estado actual/siguiente paso, separación de privilegios Admin/usuario.
+- `/boards-residents`: experiencias diferentes según rol, solicitudes y decisiones con estado, historial y visibilidad autorizada; ejemplos interactivos de marca. MCT: vistas de ejemplo sin datos reales, historial privado y acceso limitado por usuario.
+- `/solutions/community`: comunicación, solicitudes, paneles, FAQ y explicación de casos prácticos. MCT: FAQ breve y contextual por categoría, ejemplos de notificaciones y estados.
+- `/about-us`: relato de misión y afirmaciones de seguridad y certificaciones de CINC. MCT: explicar prácticas realmente implementadas, evitar afirmaciones no verificadas sobre cifrado, SOC 2, auditorías o certificaciones.
+- Noticia del 10/09/2026 sobre Community Intelligence: CINC describe la unificación de datos, identidad, permisos y contexto como base de la IA. **Lección:** arquitectura limpia antes de añadir funciones inteligentes; evitar más capas JS/CSS improvisadas.
+
+**Tecnología observable frente a no demostrada:** las páginas públicas muestran una experiencia web con pestañas, demostraciones, formularios y componentes visuales; no permiten identificar con certeza base de datos, lenguaje de backend, hosting ni eficacia real de controles de seguridad. Las afirmaciones de CINC sobre SOC 2 Type II, Veracode y seguridad son suyas; no deben trasladarse a MCT como si fueran nuestras.
+
+**Plan priorizado, pendiente de implementación:**
+P0 — conservar trabajo V12 y cerrar autenticación/roles, expiración y atomicidad de prueba gratuita; auditar CSS/JS y flujos reales; no desplegar sin pruebas.
+P1 — guía visual de 3 pasos con estados claros, demostración ficticia sin registro, ayuda contextual en botones y validación antes de enviar correo.
+P2 — centro de confianza transparente: datos mínimos, protección, retención, borrado, límites y medidas comprobadas; preguntas frecuentes por categoría.
+P3 — Ask Timeline contextual y recursos avanzados solo tras permisos, pruebas y análisis de coste; no almacenar información de terceros.
+**No implementar** por imitación pagos comunitarios, banca, aplicaciones móviles, contabilidad o automatizaciones sensibles ajenas al alcance actual.
+
+**URLs de referencia verificadas:** https://cincsystems.com/ ; https://cincsystems.com/community-intelligence ; https://cincsystems.com/management-accounting ; https://cincsystems.com/boards-residents ; https://cincsystems.com/solutions/community ; https://cincsystems.com/about-us ; https://cincsystems.com/news/cinc-systems-introduces-community-intelligence-raising-the-standard-for-ai-in-community-management .
+
+**Estado:** investigación y priorización registradas, **sin cambios al código V12, rama principal ni Cloudflare**. Faltan pruebas de formularios, accesibilidad, privacidad y comportamiento real en navegador; no afirmar revisión exhaustiva de todas las páginas del dominio.
