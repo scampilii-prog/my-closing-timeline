@@ -389,3 +389,16 @@ Se revisó el prototipo `auth-draft/atomic-trial-trigger-PROTOTYPE.sql` y se det
 - El ZIP es un respaldo local y en la rama de preparación, **no prueba identidad con el árbol de `main` ni con Cloudflare**.
 
 **Siguiente auditoría prioritaria:** mapear los enlaces entre las 13 páginas, identificar los JS/CSS realmente cargados, comprobar si las variantes Real Estate comparten lógica y localizar reglas de acceso/plazos en código ejecutable. No borrar ni modificar versiones históricas; no desplegar.
+
+
+## 39. Auditoría estática de referencias y carga de recursos en V12-216 · 23 de noviembre de 2026
+Se examinó **directamente** el respaldo local `MCT-V12-216-REGISTRATION-FLOW-DRAFT.zip` con un script de solo lectura. Se analizaron los atributos literales `href` y `src` de sus 13 páginas HTML y se comprobó la existencia de los recursos relativos correspondientes dentro del mismo ZIP. **Resultado: cero rutas relativas faltantes detectadas** en ese alcance. No se evaluaron rutas construidas dinámicamente, enlaces externos, eventos JS, funcionamiento en navegador ni despliegue.
+
+**Hallazgo relevante:** la portada `index.html` enlaza explícitamente a **`real-estate-guided.html`**. Por ello esa página es el **destino local de navegación confirmado**, mientras `real-estate.html` existe como variante adicional cuyo uso en otras rutas debe investigarse antes de eliminar o fusionar.
+
+**Carga y complejidad verificadas:**
+- `real-estate.html`: **24 hojas CSS y 15 scripts externos**.
+- `real-estate-guided.html`: **37 hojas CSS y 34 scripts externos**.
+- Ambas comparten scripts de base como `pages/real-estate.js`, `pages/start-clean-v12-98.js`, `pages/table-summary-unified-v12-111.js` y `pages/table-library-v12-135.js`; la variante guided agrega numerosos ajustes por versión, entre ellos `pages/table-controls-v12-152.js` y `pages/template-clear-v12-175.js`.
+
+**Interpretación limitada:** esta acumulación de archivos y versiones es una señal de riesgo de reglas CSS/JS superpuestas, **no una demostración de conflictos ni permiso para borrar archivos**. La auditoría siguiente debe comparar selectores, funciones, listeners y efectos de cada capa; establecer una lista de recursos realmente necesarios; después probar en navegador las dos variantes y el recorrido completo 01–02–03. Priorizar la página `real-estate-guided.html` por ser el destino de la portada. No tocar `main` ni Cloudflare y no dar por concluida la revisión de V1–V12.
