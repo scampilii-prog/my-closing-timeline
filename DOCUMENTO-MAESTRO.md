@@ -376,3 +376,16 @@ Se revisó el prototipo `auth-draft/atomic-trial-trigger-PROTOTYPE.sql` y se det
 - Para cada conflicto de código: identificar archivo y regla antigua/nueva, comprobar efectos y pruebas de regresión antes de eliminar. No «limpiar» a ciegas código funcional.
 - **No modificar Cloudflare ni `main` sin autorización expresa para el cambio concreto.** El respaldo V12-216 en la rama de trabajo contiene un ZIP, no los 327 archivos sueltos en esa rama.
 - Registrar inmediatamente hallazgos y resultados en este documento y comunicar al propietario solo lo sustancial, sin enviar respaldos.
+
+
+## 38. Inventario verificable de V12-216 y primeras señales de deuda técnica · 23 de noviembre de 2026
+**Fuente examinada:** archivo local `MCT-V12-216-REGISTRATION-FLOW-DRAFT.zip`, no el despliegue Cloudflare. Se abrió el ZIP y se inspeccionó su índice y el texto de sus páginas HTML sin alterar los archivos. **Resultado verificable:** 327 entradas; 13 páginas HTML: `index.html`, `real-estate.html`, `real-estate-guided.html`, `business-projects.html`, `services-contractors.html`, `personal-home.html`, `plans.html`, `payment.html`, `founding-members.html`, `account-preview.html`, `studio.html`, `help-contact.html`, `privacy.html`. Incluye `auth-draft/registration-flow.mjs` y `auth-draft/security.mjs` como borradores aislados.
+
+**Hallazgos preliminares, sin calificarlos de errores funcionales aún:**
+- Existen dos páginas de Real Estate (`real-estate.html` y `real-estate-guided.html`); verificar cuál es la ruta vigente y si la otra es una variante deliberada antes de consolidar.
+- `account-preview.html` y `payment.html` contienen scripts inline; `studio.html` contiene estilos inline. Esto **no prueba un conflicto**, pero merece comprobar separación de responsabilidades y duplicaciones.
+- El barrido literal de los 13 HTML no encontró referencias a «21 days», «21 días» ni «21-day»; sí halló referencias a 90 días en varias páginas. **Este barrido no cubre JavaScript externo, CSS, textos dinámicos ni el sitio publicado**, y no demuestra que la oferta esté correctamente implementada.
+- En el entorno de trabajo se identificaron 28 archivos ZIP y múltiples versiones V12; su presencia local **no demuestra** que todas las versiones V1–V11 estén completas, disponibles o desplegadas.
+- El ZIP es un respaldo local y en la rama de preparación, **no prueba identidad con el árbol de `main` ni con Cloudflare**.
+
+**Siguiente auditoría prioritaria:** mapear los enlaces entre las 13 páginas, identificar los JS/CSS realmente cargados, comprobar si las variantes Real Estate comparten lógica y localizar reglas de acceso/plazos en código ejecutable. No borrar ni modificar versiones históricas; no desplegar.
