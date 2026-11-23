@@ -14,6 +14,8 @@
 <p class="note">Do not include client or company names, addresses, email addresses, passwords, tokens, contract details or private documents. Reports are private by default. No public reviews are published without separate permission.</p>
 <button type="submit">Copy report</button><div id="manual-copy" hidden><label for="report-output">Your report — review it before sharing</label><textarea id="report-output" readonly rows="9" aria-label="Report text to copy manually"></textarea></div><p id="status" class="status" role="status" aria-live="polite"></p></form></div></main>
 <script>
+const invalidateReport=()=>{const manual=document.querySelector('#manual-copy');const output=document.querySelector('#report-output');manual.hidden=true;output.value='';document.querySelector('#status').textContent='';};
+document.querySelectorAll('#feedback input,#feedback select,#feedback textarea').forEach(el=>el.addEventListener('input',invalidateReport));
 document.querySelector('#feedback').addEventListener('submit',async e=>{
  e.preventDefault();const form=e.currentTarget;const details=document.querySelector('#details').value.trim();const status=document.querySelector('#status');
  if(!details){status.textContent='Please describe the issue or suggestion.';return;}
