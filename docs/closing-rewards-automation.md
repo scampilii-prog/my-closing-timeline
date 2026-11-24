@@ -1,3 +1,7 @@
+> **SUPERSEDED / ARCHIVED — 2026-11-24.** The owner instructed that all previous promotions be removed from the active commercial roadmap. BUY 5 CLOSINGS · GET 1 FREE is **not an active or upcoming promotion** under the current model. This file is retained **only as historical technical documentation**; do not implement, schedule activation, promote, or describe it as Coming Soon. Current direction: one universal 90-day free access period per new verified account, no card or automatic charges; subsequent options Pay Per Project, Two Categories, All Access, with prices and additional promotions awaiting approval. Do not delete this history. Update or retire the automated Closing Rewards check so it does not repeatedly recommend activation of this obsolete promotion.
+
+---
+
 # Real Estate PRO — Automatic Closing Rewards (implementation requirement)
 
 Status: NOT ACTIVE. Do not claim rewards are automatically issued until server-side implementation and tests pass.
