@@ -637,3 +637,9 @@ Se generó `MCT-V12-222-DRAFT-SAVE-RELIABILITY.zip`, con **333 entradas**, `test
 
 ## 70. V12-223: cuatro acciones de tablas protegidas · 25/11/2026
 Se modificó el archivo `pages/real-estate.js` del ZIP completo V12-222 para corregir cuatro rutas que no comprobaban persistencia: **Delete Task**, **Apply/reorder tasks**, **Load Saved Table** y **Delete Saved Table**. Ahora construyen estados candidatos o conservan copia anterior, verifican `save()` o `write(T,...)`, revierten cambios en memoria ante error y solo entonces actualizan interfaz o muestran confirmación. El paquete de preparación `MCT-V12-223-TASK-ACTIONS-RELIABILITY.zip` tiene **334 entradas**, `testzip()=None`, `node --check` correcto, y `CAMBIOS-V12-223.md` precisa el alcance. **No se corrigieron todavía** Add Custom Task ni las ediciones individuales de nombre, días, fecha, estado o notas; siguen pendientes. Sin prueba de navegador ni despliegue. No confundir esta validación sintáctica con certificación funcional.
+
+
+## 71. V12-224: Add Custom Task protege el guardado · 25/11/2026
+Partiendo del ZIP completo V12-223 (334 entradas), se inspeccionó el controlador real `[data-add]` de `pages/real-estate.js`. Antes agregaba una tarea a `state[w]`, llamaba `save()` sin comprobarlo y mostraba la tarea incluso si no quedaba persistida. En V12-224 se prepara un arreglo candidato, se comprueba `save()` y, si falla, se restaura el arreglo anterior y se muestra un aviso. El cambio se aplica al mismo controlador utilizado por **Table 01 y Table 02**, sin alterar el flujo de selección.
+
+Paquete `MCT-V12-224-TASK-ADD-RELIABILITY.zip`: **335 entradas**, `testzip()=None`, nombre de carpeta raíz igual al ZIP, `node --check` correcto y changelog `CAMBIOS-V12-224.md`. Pruebas de interacción en navegador pendientes. **No se ha desplegado ni modificado producción**. Siguen pendientes las ediciones individuales de tareas, las pruebas de fechas y el envío de correos.
