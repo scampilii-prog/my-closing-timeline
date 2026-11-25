@@ -669,3 +669,7 @@ Paquete de preparación `MCT-V12-228-EMAIL-WIZARD-TRUTHFUL-STATUS.zip`, **339 en
 
 ## 76. V12-228: auditoría cruzada de guías de Communication Center (25/11/2026)
 La lectura directa de `pages/real-estate.js` del ZIP V12-228 detectó **otra guía secundaria** (distinta de la corregida en V12-228) que todavía asigna `draftSaved=true` al hacer clic en `email-save`, sin comprobar la confirmación del controlador principal. También asigna `emailOpened=true` tras pulsar `email-open`, lo que **no prueba** que la aplicación externa de correo se haya abierto. En consecuencia, la afirmación de que *todas* las guías reflejan éxito real sería incorrecta. El controlador principal y la guía más reciente sí contienen las comprobaciones documentadas en §75. Antes de entregar otra versión, corregir la guía secundaria, revisar estados derivados de `contact-save` y comprobar que no existan múltiples indicadores contradictorios. No hubo modificación de producción ni prueba de navegador.
+
+
+## 77. V12-229 — guías secundarias del Communication Center (25/11/2026)
+Se corrigió en `pages/real-estate.js` la guía secundaria que marcaba `contactSaved` y `draftSaved` por el clic, sin comprobar la confirmación del controlador principal. Ahora utiliza los mensajes de confirmación. Las guías tampoco afirman que `mailto:` abrió la aplicación externa: solo se solicitó la apertura. Paquete íntegro `MCT-V12-229-EMAIL-GUIDES-CONSISTENCY.zip`, 340 entradas, `testzip()=None`, `node --check` correcto. Sin prueba de navegador ni despliegue a producción.
